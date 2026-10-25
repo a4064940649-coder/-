@@ -1,0 +1,181 @@
+{
+ "外資淨未平倉變化": {
+  "H_minus_L_bps": 15.13,
+  "t_diff": 2.0,
+  "n_high": 674,
+  "within_same_day_return_tercile": {
+   "dn": {
+    "H_minus_L_bps": 59.07,
+    "t": 3.08,
+    "n": 478
+   },
+   "flat": {
+    "H_minus_L_bps": -5.51,
+    "t": -0.49,
+    "n": 405
+   },
+   "up": {
+    "H_minus_L_bps": -0.89,
+    "t": -0.07,
+    "n": 468
+   }
+  }
+ },
+ "外資20日淨流量": {
+  "H_minus_L_bps": 12.01,
+  "t_diff": 1.6,
+  "n_high": 670,
+  "within_same_day_return_tercile": {
+   "dn": {
+    "H_minus_L_bps": 24.69,
+    "t": 1.47,
+    "n": 440
+   },
+   "flat": {
+    "H_minus_L_bps": 22.99,
+    "t": 2.03,
+    "n": 460
+   },
+   "up": {
+    "H_minus_L_bps": -6.82,
+    "t": -0.56,
+    "n": 441
+   }
+  }
+ },
+ "strategies": {
+  "外資淨未平倉變化>0": {
+   "CAGR": 0.1639,
+   "vol": 0.1432,
+   "sharpe": 1.14,
+   "maxDD": -0.2247,
+   "n_days": 2437,
+   "time_in_market": 0.409,
+   "switches": 1084,
+   "2018-08~2021": {
+    "CAGR": 0.1801,
+    "vol": 0.1362,
+    "sharpe": 1.32,
+    "maxDD": -0.2247,
+    "n_days": 838
+   },
+   "2022~2026": {
+    "CAGR": 0.2197,
+    "vol": 0.1723,
+    "sharpe": 1.27,
+    "maxDD": -0.1246,
+    "n_days": 1152
+   }
+  },
+  "外資20日淨流量>0": {
+   "CAGR": 0.141,
+   "vol": 0.1226,
+   "sharpe": 1.15,
+   "maxDD": -0.2054,
+   "n_days": 2437,
+   "time_in_market": 0.373,
+   "switches": 299,
+   "2018-08~2021": {
+    "CAGR": 0.1825,
+    "vol": 0.1297,
+    "sharpe": 1.41,
+    "maxDD": -0.1691,
+    "n_days": 838
+   },
+   "2022~2026": {
+    "CAGR": 0.1622,
+    "vol": 0.1396,
+    "sharpe": 1.16,
+    "maxDD": -0.2054,
+    "n_days": 1152
+   }
+  },
+  "當日漲(動能)>0": {
+   "CAGR": 0.0702,
+   "vol": 0.1276,
+   "sharpe": 0.55,
+   "maxDD": -0.1945,
+   "n_days": 2437,
+   "time_in_market": 0.557,
+   "switches": 1240,
+   "2018-08~2021": {
+    "CAGR": 0.08,
+    "vol": 0.11,
+    "sharpe": 0.73,
+    "maxDD": -0.1653,
+    "n_days": 838
+   },
+   "2022~2026": {
+    "CAGR": 0.0674,
+    "vol": 0.1525,
+    "sharpe": 0.44,
+    "maxDD": -0.1945,
+    "n_days": 1152
+   }
+  },
+  "外資OI變化>0 且 當日漲": {
+   "CAGR": 0.0403,
+   "vol": 0.0971,
+   "sharpe": 0.42,
+   "maxDD": -0.1735,
+   "n_days": 2437,
+   "time_in_market": 0.269,
+   "switches": 894,
+   "2018-08~2021": {
+    "CAGR": 0.0481,
+    "vol": 0.0762,
+    "sharpe": 0.63,
+    "maxDD": -0.1324,
+    "n_days": 838
+   },
+   "2022~2026": {
+    "CAGR": 0.0481,
+    "vol": 0.1247,
+    "sharpe": 0.39,
+    "maxDD": -0.1735,
+    "n_days": 1152
+   }
+  },
+  "buy_and_hold_TX": {
+   "CAGR": 0.2404,
+   "vol": 0.2085,
+   "sharpe": 1.15,
+   "maxDD": -0.3086,
+   "n_days": 1990,
+   "2018-08~2021": {
+    "CAGR": 0.2304,
+    "vol": 0.1809,
+    "sharpe": 1.27,
+    "maxDD": -0.2875,
+    "n_days": 838
+   },
+   "2022~2026": {
+    "CAGR": 0.2476,
+    "vol": 0.2265,
+    "sharpe": 1.09,
+    "maxDD": -0.3086,
+    "n_days": 1152
+   }
+  },
+  "隔夜持有(同契約, 淨3點/日)": {
+   "CAGR": 0.1534,
+   "vol": 0.1463,
+   "sharpe": 1.05,
+   "maxDD": -0.2418,
+   "n_days": 2437
+  },
+  "buy_and_hold_TX_全期": {
+   "CAGR": 0.2236,
+   "vol": 0.1944,
+   "sharpe": 1.15,
+   "maxDD": -0.3086,
+   "n_days": 2437
+  }
+ },
+ "TAIEX_cash_same_period": {
+  "overnight_bps": 6.51,
+  "intraday_bps": 0.91,
+  "TX_overnight_bps": 8.34,
+  "TX_intraday_bps": 0.65
+ }
+}

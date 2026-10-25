@@ -1,0 +1,109 @@
+{
+  "name": "TAIEX",
+  "data": {
+    "rows": 6866,
+    "start": "1999-01-05",
+    "end": "2026-10-22",
+    "bad_ohlc_rows": 0,
+    "gaps_gt_10d": 20,
+    "moves_gt_12pct": 0
+  },
+  "overnight_vs_intraday": {
+    "overnight": {
+      "CAGR": 0.2853,
+      "vol": 0.1263,
+      "sharpe": 2.26,
+      "maxDD": -0.5072,
+      "years": 28.0
+    },
+    "intraday": {
+      "CAGR": -0.1647,
+      "vol": 0.1663,
+      "sharpe": -0.99,
+      "maxDD": -0.9959,
+      "years": 28.0
+    },
+    "close_to_close": {
+      "CAGR": 0.0745,
+      "vol": 0.2081,
+      "sharpe": 0.36,
+      "maxDD": -0.6622,
+      "years": 28.0
+    },
+    "overnight_mean_bps": 10.58,
+    "intraday_mean_bps": -6.78,
+    "overnight_t": 10.86,
+    "intraday_t": -5.29
+  },
+  "month_of_year_mean_bps": {
+    "1": 11.89,
+    "2": 10.99,
+    "3": 4.17,
+    "4": 6.02,
+    "5": 5.71,
+    "6": 1.21,
+    "7": -1.87,
+    "8": 0.63,
+    "9": -10.81,
+    "10": 1.05,
+    "11": 5.5,
+    "12": 13.68
+  },
+  "turn_of_month": {
+    "tom_mean_bps": 12.71,
+    "rest_mean_bps": 1.68,
+    "tom_t": 3.41,
+    "p_boot": 0.008,
+    "n_tom": 1331
+  },
+  "day_of_week_mean_bps": {
+    "0": -3.57,
+    "1": 4.19,
+    "2": 11.0,
+    "3": 1.33,
+    "4": 5.63,
+    "5": 9.71,
+    "6": 39.7
+  },
+  "lunar_new_year": {
+    "n_years": 28,
+    "pre5_mean_pct": 1.17,
+    "post5_mean_pct": 1.25,
+    "pre5_t": 2.29,
+    "pre5_p_boot_vs_random5d": 0.042,
+    "random5d_mean_pct": 0.19
+  },
+  "settlement_week": {
+    "settle_week_mean_bps": -1.6,
+    "other_mean_bps": 5.48,
+    "t_settle": -0.48,
+    "n_days": 1610
+  },
+  "trend_filter": {
+    "MA100": {
+      "CAGR": 0.0622,
+      "vol": 0.1371,
+      "sharpe": 0.45,
+      "maxDD": -0.3495,
+      "years": 28.0,
+      "switches": 291,
+      "time_in_market": 0.634
+    },
+    "MA200": {
+      "CAGR": 0.0598,
+      "vol": 0.1401,
+      "sharpe": 0.43,
+      "maxDD": -0.377,
+      "years": 28.0,
+      "switches": 215,
+      "time_in_market": 0.656
+    },
+    "buy_and_hold": {
+      "CAGR": 0.0745,
+      "vol": 0.2081,
+      "sharpe": 0.36,
+      "maxDD": -0.6622,
+      "years": 28.0
+    }
+  }
+}

@@ -1,0 +1,302 @@
+{
+ "rows": 2437,
+ "start": "2016-10-06",
+ "end": "2026-10-05",
+ "overnight_vs_intraday_TX": {
+  "overnight_mean_bps": 8.34,
+  "overnight_t": 4.41,
+  "overnight_ann": {
+   "CAGR": 0.2136,
+   "vol": 0.1462,
+   "maxDD": -0.234
+  },
+  "intraday_mean_bps": 0.65,
+  "intraday_t": 0.41,
+  "intraday_ann": {
+   "CAGR": 0.0083,
+   "vol": 0.1237,
+   "maxDD": -0.2495
+  },
+  "cc_mean_bps": 9.02,
+  "cc_ann": {
+   "CAGR": 0.2236,
+   "vol": 0.1944,
+   "maxDD": -0.3086
+  },
+  "by_period": {
+   "2016-10~2019": {
+    "n": 796,
+    "overnight_bps": 4.43,
+    "overnight_t": 2.31,
+    "intraday_bps": 1.0,
+    "intraday_t": 0.51
+   },
+   "2020~2022": {
+    "n": 735,
+    "overnight_bps": 7.13,
+    "overnight_t": 2.12,
+    "intraday_bps": -1.28,
+    "intraday_t": -0.39
+   },
+   "2023~2026": {
+    "n": 906,
+    "overnight_bps": 12.76,
+    "overnight_t": 3.23,
+    "intraday_bps": 1.9,
+    "intraday_t": 0.66
+   }
+  },
+  "overnight_net_of_cost_ann": {
+   "CAGR": 0.1534,
+   "vol": 0.1463,
+   "maxDD": -0.2418
+  },
+  "overnight_net_mean_bps": 6.26
+ },
+ "trend_filter_TX": {
+  "MA20": {
+   "CAGR": 0.152,
+   "vol": 0.1264,
+   "maxDD": -0.1823,
+   "switches": 255,
+   "time_in_market": 0.646
+  },
+  "MA50": {
+   "CAGR": 0.1367,
+   "vol": 0.1357,
+   "maxDD": -0.2781,
+   "switches": 161,
+   "time_in_market": 0.671
+  },
+  "MA100": {
+   "CAGR": 0.1449,
+   "vol": 0.148,
+   "maxDD": -0.2837,
+   "switches": 107,
+   "time_in_market": 0.71
+  },
+  "buy_and_hold_TX_cc": {
+   "CAGR": 0.2236,
+   "vol": 0.1944,
+   "maxDD": -0.3086
+  }
+ },
+ "institutional_signals_next_day": {
+  "外資及陸資|netOI_level": {
+   "low": {
+    "n": 676,
+    "next_day_bps": 8.39,
+    "t": 1.32
+   },
+   "mid": {
+    "n": 676,
+    "next_day_bps": 10.53,
+    "t": 2.34
+   },
+   "high": {
+    "n": 677,
+    "next_day_bps": 9.92,
+    "t": 2.39
+   },
+   "high_minus_low_bps": 1.53
+  },
+  "外資及陸資|netOI_change": {
+   "low": {
+    "n": 677,
+    "next_day_bps": 1.81,
+    "t": 0.39
+   },
+   "mid": {
+    "n": 677,
+    "next_day_bps": 9.98,
+    "t": 2.22
+   },
+   "high": {
+    "n": 674,
+    "next_day_bps": 16.93,
+    "t": 2.84
+   },
+   "high_minus_low_bps": 15.13
+  },
+  "外資及陸資|daily_net_flow": {
+   "low": {
+    "n": 677,
+    "next_day_bps": 4.11,
+    "t": 0.93
+   },
+   "mid": {
+    "n": 676,
+    "next_day_bps": 9.46,
+    "t": 1.94
+   },
+   "high": {
+    "n": 676,
+    "next_day_bps": 15.29,
+    "t": 2.6
+   },
+   "high_minus_low_bps": 11.18
+  },
+  "外資及陸資|flow_20d_sum": {
+   "low": {
+    "n": 671,
+    "next_day_bps": 4.36,
+    "t": 0.78
+   },
+   "mid": {
+    "n": 669,
+    "next_day_bps": 8.74,
+    "t": 1.86
+   },
+   "high": {
+    "n": 670,
+    "next_day_bps": 16.37,
+    "t": 3.24
+   },
+   "high_minus_low_bps": 12.01
+  },
+  "投信|netOI_level": {
+   "low": {
+    "n": 677,
+    "next_day_bps": 11.82,
+    "t": 2.67
+   },
+   "mid": {
+    "n": 676,
+    "next_day_bps": 1.55,
+    "t": 0.37
+   },
+   "high": {
+    "n": 676,
+    "next_day_bps": 15.48,
+    "t": 2.45
+   },
+   "high_minus_low_bps": 3.66
+  },
+  "投信|netOI_change": {
+   "low": {
+    "n": 678,
+    "next_day_bps": 8.52,
+    "t": 1.51
+   },
+   "mid": {
+    "n": 677,
+    "next_day_bps": 6.32,
+    "t": 1.42
+   },
+   "high": {
+    "n": 673,
+    "next_day_bps": 13.88,
+    "t": 2.71
+   },
+   "high_minus_low_bps": 5.36
+  },
+  "投信|daily_net_flow": {
+   "low": {
+    "n": 679,
+    "next_day_bps": 8.75,
+    "t": 1.55
+   },
+   "mid": {
+    "n": 676,
+    "next_day_bps": 6.47,
+    "t": 1.45
+   },
+   "high": {
+    "n": 674,
+    "next_day_bps": 13.65,
+    "t": 2.67
+   },
+   "high_minus_low_bps": 4.9
+  },
+  "投信|flow_20d_sum": {
+   "low": {
+    "n": 671,
+    "next_day_bps": 10.98,
+    "t": 2.2
+   },
+   "mid": {
+    "n": 669,
+    "next_day_bps": 7.65,
+    "t": 1.56
+   },
+   "high": {
+    "n": 670,
+    "next_day_bps": 10.82,
+    "t": 1.98
+   },
+   "high_minus_low_bps": -0.15
+  },
+  "自營商|netOI_level": {
+   "low": {
+    "n": 676,
+    "next_day_bps": 10.36,
+    "t": 2.24
+   },
+   "mid": {
+    "n": 676,
+    "next_day_bps": 7.75,
+    "t": 1.27
+   },
+   "high": {
+    "n": 677,
+    "next_day_bps": 10.74,
+    "t": 2.45
+   },
+   "high_minus_low_bps": 0.38
+  },
+  "自營商|netOI_change": {
+   "low": {
+    "n": 676,
+    "next_day_bps": 17.95,
+    "t": 3.66
+   },
+   "mid": {
+    "n": 676,
+    "next_day_bps": 8.14,
+    "t": 1.61
+   },
+   "high": {
+    "n": 676,
+    "next_day_bps": 2.6,
+    "t": 0.49
+   },
+   "high_minus_low_bps": -15.36
+  },
+  "自營商|daily_net_flow": {
+   "low": {
+    "n": 676,
+    "next_day_bps": 15.81,
+    "t": 3.16
+   },
+   "mid": {
+    "n": 676,
+    "next_day_bps": 6.62,
+    "t": 1.31
+   },
+   "high": {
+    "n": 677,
+    "next_day_bps": 6.43,
+    "t": 1.23
+   },
+   "high_minus_low_bps": -9.38
+  },
+  "自營商|flow_20d_sum": {
+   "low": {
+    "n": 670,
+    "next_day_bps": 15.73,
+    "t": 3.38
+   },
+   "mid": {
+    "n": 670,
+    "next_day_bps": 4.04,
+    "t": 0.83
+   },
+   "high": {
+    "n": 670,
+    "next_day_bps": 9.69,
+    "t": 1.68
+   },
+   "high_minus_low_bps": -6.05
+  }
+ }
+}
