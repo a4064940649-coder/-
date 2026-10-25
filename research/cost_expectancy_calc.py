@@ -59,6 +59,25 @@ def breakeven_winrate(rr: float, cost_in_R: float) -> float:
 def kelly(p: float, rr: float) -> float:
     return p - (1 - p) / rr
 
+
+def prob_losing_streak(n_trades: int, streak: int, loss_prob: float) -> float:
+    """在 n_trades 筆交易中，至少出現一次「連續 >= streak 筆虧損」的機率（馬可夫鏈精算）"""
+    states = [0.0] * streak
+    states[0] = 1.0
+    absorbed = 0.0
+    for _ in range(n_trades):
+        new = [0.0] * streak
+        for k, pr in enumerate(states):
+            if pr == 0.0:
+                continue
+            new[0] += pr * (1 - loss_prob)          # 獲利 → 連虧歸零
+            if k + 1 >= streak:
+                absorbed += pr * loss_prob          # 達到門檻
+            else:
+                new[k + 1] += pr * loss_prob
+        states = new
+    return absorbed
+
 def main():
     print("=" * 72)
     print("① 現股來回交易成本（佔成交金額 %）")
@@ -120,6 +139,14 @@ def main():
         k = kelly(p_, rr_)
         print(f"p={p_:.0%}, RR={rr_:.1f} → 全凱利 f*={k:+.1%}；實務建議 ≤ 1/4 凱利 = {max(k,0)/4:.1%} 每筆風險")
     print("公式：f* = p − (1−p)/RR")
+
+    print("\n" + "=" * 72)
+    print("⑥ 連續虧損機率（勝率 40% → 單筆虧損機率 60%；馬可夫鏈精算）")
+    print("=" * 72)
+    for n in (100, 250, 500):
+        row = " | ".join(f"連虧≥{k}: {prob_losing_streak(n, k, 0.6):.1%}" for k in (8, 10, 12))
+        print(f"{n:>3} 筆交易 | {row}")
+    print("解讀：一年 250 筆交易幾乎必然碰到連虧 8 筆，近半機率碰到連虧 10 筆；部位大小必須以此為前提。")
 
 if __name__ == "__main__":
     main()
