@@ -63,6 +63,7 @@ import argparse
 import json
 import logging
 import math
+import os
 import re
 import sys
 import time
@@ -1503,7 +1504,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 
 def config_from_args(a: argparse.Namespace) -> Config:
-    import os
     tickers = list(a.tickers)
     n_boot, n_shuffle = a.n_boot, a.n_shuffle
     if a.quick:
