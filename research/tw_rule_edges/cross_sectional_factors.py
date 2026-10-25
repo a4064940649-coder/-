@@ -12,6 +12,7 @@ import numpy as np, pandas as pd
 def load_one(p):
     df = pd.read_csv(p, header=None, names=['d', 'vol', 'val', 'o', 'h', 'l', 'c', 'chg', 'n'], dtype=str)
     df = df[~df['o'].isin(['---', '--'])]
+    df['exday'] = df['chg'].astype(str).str.strip().str.startswith('X')   # 除權息日（參考價調整）
     if df.empty: return None
     parts = df['d'].str.split('/', expand=True)
     if parts.shape[1] != 3: return None
@@ -21,7 +22,7 @@ def load_one(p):
         df[c] = pd.to_numeric(df[c].str.replace(',', ''), errors='coerce')
     df = df.dropna(subset=['date', 'c']).set_index('date').sort_index()
     df = df[~df.index.duplicated()]
-    return df[['c', 'h', 'l', 'val']]
+    return df[['c', 'h', 'l', 'val', 'exday']]
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--dir', required=True); ap.add_argument('--out', default='./output')
@@ -30,36 +31,43 @@ def main():
     a = ap.parse_args(); out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     files = sorted(glob.glob(os.path.join(a.dir, '*.csv')))
     if a.max_files: files = files[:a.max_files]
-    closes, highs, vals = {}, {}, {}
+    closes, highs, vals, exdays = {}, {}, {}, {}
     for p in files:
         code = Path(p).stem
         if not (code.isdigit() and len(code) == 4): continue   # 四碼普通股（含下市）
         try: df = load_one(p)
         except Exception: continue
         if df is None or len(df) < 300: continue
-        closes[code] = df['c']; highs[code] = df['h']; vals[code] = df['val']
+        closes[code] = df['c']; highs[code] = df['h']; vals[code] = df['val']; exdays[code] = df['exday']
     C = pd.DataFrame(closes).sort_index(); H = pd.DataFrame(highs).reindex(C.index); V = pd.DataFrame(vals).reindex(C.index)
-    C = C.loc[:a.end]; H = H.loc[:a.end]; V = V.loc[:a.end]
+    X = pd.DataFrame(exdays).reindex(C.index).fillna(False).astype(bool)
+    C = C.loc[:a.end]; H = H.loc[:a.end]; V = V.loc[:a.end]; X = X.loc[:a.end]
     print('universe files', len(closes), 'dates', C.index.min().date(), C.index.max().date(), 'shape', C.shape)
     R = C.pct_change()
     R = R.where(R.abs() < 0.30)   # 去除資料錯誤（台股日漲跌幅 ≤ 10%，±30% 為容錯）
+    R = R.mask(X, 0.0)             # 除權息日：未還原資料的參考價下跌不是真實虧損，近似設為 0（假設當日淨變動 ≈ 0）
+    # 以日報酬重建「近似還原」價格序列，供月報酬與訊號使用
+    Cadj = (1 + R.fillna(0)).cumprod() * C.bfill().iloc[0]
+    Cadj = Cadj.where(C.notna())
+    ex_share = float(X.values.mean())
+    print('ex-day share of stock-days', round(ex_share, 4))
     month_end = C.groupby([C.index.year, C.index.month]).apply(lambda x: x.index[-1]).values
     month_end = pd.DatetimeIndex(month_end); month_end = month_end[(month_end >= pd.Timestamp(a.start) - pd.Timedelta(days=400))]
     # 訊號（以月末資料計算，用於下個月）
-    logC = np.log(C)
     sig = {
-        'rev_1m': -(C / C.shift(21) - 1),                    # 1 月反轉：過去一月跌越多越好
-        'mom_12_1': C.shift(21) / C.shift(252) - 1,          # 12-1 動能
+        'rev_1m': -(Cadj / Cadj.shift(21) - 1),              # 1 月反轉：過去一月跌越多越好
+        'mom_12_1': Cadj.shift(21) / Cadj.shift(252) - 1,    # 12-1 動能
         'low_vol_60d': -R.rolling(60).std(),                 # 低波動
         'low_max_20d': -R.rolling(20).max(),                 # 低 MAX（避開樂透股）
         'liquidity_val_60d': V.rolling(60).mean(),           # 高成交值（流動性）
-        'near_52w_high': C / H.rolling(252).max(),           # 接近 52 週高點
+        'near_52w_high': Cadj / Cadj.rolling(252).max(),     # 接近 52 週高點（近似還原價）
         'price_level': C,                                    # 價格（高價 vs 低價股）
         'vol_shock_20_250': -(R.rolling(20).std() / R.rolling(250).std()),  # 近期波動相對低
     }
     # 月報酬矩陣（月末到月末）
-    Cm = C.reindex(month_end).ffill(limit=5)
-    Rm = Cm.pct_change().shift(-1)   # 下個月報酬，對齊訊號月末
+    Cm_adj = Cadj.reindex(month_end).ffill(limit=5)
+    Rm = Cm_adj.pct_change().shift(-1)   # 下個月報酬（近似還原），對齊訊號月末
+    Cm = C.reindex(month_end).ffill(limit=5)   # 原始價格供價格門檻
     Vm = V.rolling(60).mean().reindex(month_end)
     results = {}
     me = [d for d in month_end if d >= pd.Timestamp(a.start)]
