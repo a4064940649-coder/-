@@ -527,15 +527,44 @@ SMC 在外匯市場只能從 K 棒「推測」機構動向；台股交易所每�
 
 ## 附錄 C｜工具：成本試算器與可在本機執行的回測腳本
 
-> 本環境無法連線行情資料主機，因此**沒有在此產生任何實際回測數字**；以下工具請在你自己的電腦執行。
+> 本環境被網路政策封鎖所有行情資料主機（Yahoo、證交所、FinMind、Stooq 皆 403），因此**本報告沒有產生任何真實回測數字**。以下工具已在此環境以「合成隨機漫步資料」完成端到端煙霧測試（exit 0，3,710 筆合成交易，所有輸出檔皆產生），但**真實結果必須由你在自己的電腦上執行取得**。
 
 ### C-1 成本／期望值試算器 `research/cost_expectancy_calc.py`
 - 執行：`python3 research/cost_expectancy_calc.py`
-- 功能：現股／ETF／期貨來回成本、成本換算檔數、期望值與損益兩平勝率、凱利公式。參數（券商折扣、指數水位、期貨手續費）在檔案開頭 `PARAMS` 區修改。
-- 第③章所有表格由此產生。
+- 功能：現股／ETF／期貨來回成本、成本換算檔數、期望值與損益兩平勝率、凱利公式。參數（券商折扣、指數水位、期貨手續費）在檔案開頭 `PARAMS` 區修改。第③章所有表格由此產生。
 
-### C-2 SMC／SNR 機械化回測工具 `research/smc_ict_taiwan_backtest/`
-（內容依回測代理交付結果填寫；見該資料夾 README）
+### C-2 SMC／SNR 機械化日線回測工具 `research/smc_ict_taiwan_backtest/`
+檔案：`backtest_smc_taiwan.py`（約 1,580 行，單檔、argparse CLI、pandas 2.x/3.x）、`README.md`（繁中完整說明）、`requirements.txt`。
+
+**安裝與執行**
+```bash
+cd research/smc_ict_taiwan_backtest
+pip install -r requirements.txt
+python backtest_smc_taiwan.py --smoke-test              # 先確認程式能跑（合成資料，數字無意義）
+python backtest_smc_taiwan.py                           # 預設 yfinance：2330/2317/2454/2308/2382/2412/2881/2882/3711/2303/0050 + ^TWII，2015-01-01 至今，快取到 ./data/
+python backtest_smc_taiwan.py --source finmind --finmind-token 你的token
+python backtest_smc_taiwan.py --source csv --csv-dir ./my_csv   # 自備 date,open,high,low,close,volume
+python backtest_smc_taiwan.py --instrument futures --fut-comm 22 --slippage-ticks 1 --r1-entry next_open
+```
+
+**測的規則（皆為日線機械化代理，多空分開統計）**
+
+| 規則 | 定義 | 對應的 SMC／SNR 概念 |
+|---|---|---|
+| R1 掃流動性反轉 | 今日低點 < 昨日低點 且 收盤 > 昨日低點 → 收盤（或 `--r1-entry next_open` 次日開盤）進場；停損在掃過的極值外、目標 2R、最多持有 `--hold` 3 根 | Turtle Soup／掃前日低點 |
+| R2 FVG | 三根 K：high[t−2] < low[t] → (a) 統計 5/10/20 根內被觸及／回補的比率，並與「打亂順序的 K 棒」虛無分配比較；(b) 回到缺口近端掛限價進場、停損在遠端外、目標 2R | 公允價值缺口 |
+| R3 訂單塊 | 創 20 根新高前最後一根反向 K 棒 → 回到該區間掛限價進場、停損在區間外、目標 2R | Order Block |
+| R4a 支撐反彈 vs R4b 突破 | 收盤距 20 根滾動低點 0.5% 內且出現反轉 K → 次日開盤進場、停損在水位下、目標 2R；對照「收盤突破 20 根高點 → 次日開盤進場持有 N 根」 | 傳統 SNR 兩種用法 |
+| R5 基準 | 買進持有、無條件 N 根報酬、**隨機進場 bootstrap 1,000 次**（配對同商品、同方向、同進場時點與持有期）→ 單尾 p 值 `p_boot` | 判斷「有沒有優勢」的對照組 |
+| 磁鐵統計 | 次日觸及前日高／低點的頻率 vs 打亂 K 棒與布朗運動虛無分配（純描述） | 前日高低點是否真的是「磁鐵」 |
+
+**成本模式（每筆交易同時輸出四種）**：毛報酬；現股隔日／波段（6 折手續費 ＋ 0.3% 稅 ＝ 來回 0.471%）；現股當沖（＋0.15% 稅 ＝ 0.321%，日線資料下屬假設性對照）；期貨（0.002% 稅 ＋ 預設每口 NT$50 手續費，可用 `--fut-comm` 調整，本報告第③章估小台約 22）。另可設滑價（`--slippage-bps` 預設每邊 5 bp，或 `--slippage-ticks`）與現股放空借券費。
+
+**輸出（`./output/`）**：`results_summary.md`（總表）、`trades_all.csv`（每筆交易含停損／目標／出場原因、毛與三種淨報酬、R 倍數）、`metrics_long.csv`（規則 × 方向 × 商品／彙總 × 成本模式：筆數、勝率、平均與中位數報酬、期望值 R、獲利因子、Sharpe、最大回撤、t 值、p_boot）、`fvg_fill_rates.csv`、`level_magnet.csv`、`baselines_buy_and_hold.csv`、`cost_table.csv`、`data_quality.csv`、`run_config.json`。
+
+**怎麼判讀「有優勢」（本報告建議的門檻）**：同一規則同一方向 **n ≥ 100**、**expR_net > 0**、**p_boot < 0.10**、**PF_net > 1.2**，且在多數商品上方向一致；只要有一項不成立就視為「沒有可證明的優勢」。約 120 個「規則 × 方向 × 商品」組合同時檢定，**單一組合顯著很可能是多重比較的假陽性**。
+
+**已知限制**：(1) 日線代理不等於盤中裁量操作；(2) 同一根 K 同時觸及停損與目標時以停損優先（保守）；(3) R1 以收盤進場略偏樂觀，可用 `--r1-entry next_open`；(4) 現股放空未納入融券限制、期貨未納入保證金／基差／轉倉；(5) 預設費率需自行核對；(6) 真實資料來源（yfinance／FinMind）的調整方式與缺漏需看 `data_quality.csv`。
 
 ---
 
