@@ -15,11 +15,11 @@ TAX_DAYTRADE = 0.0015         # 現股當沖證交稅減半 0.15%（至 2027-12-
 TAX_ETF = 0.001               # ETF 證交稅 0.1%
 FUT_TAX = 0.00002             # 期貨交易稅：契約金額的 十萬分之二（單邊）
 DISCOUNTS = {"無折扣": 1.0, "6折": 0.6, "2.8折": 0.28}
-TAIEX_LEVEL = 28000           # 試算用指數水位（報告中會標示實際查證日期與點位）
+TAIEX_LEVEL = 46000           # 試算用指數水位：加權指數 2026-10-22 收盤 46,041（取整）
 FUT_SPECS = {                 # 名稱: (每點價值 NT$, 單邊手續費 NT$ 假設)
-    "大台 TX": (200, 80),
-    "小台 MTX": (50, 40),
-    "微台 TMF": (10, 20),
+    "大台 TX": (200, 45),     # 單邊手續費為券商常見報價區間中值（未查證官方；含期交所費 20）
+    "小台 MTX": (50, 22),     # 含期交所費 12.5
+    "微台 TMF": (10, 12),     # 含期交所費 8
 }
 SLIPPAGE_TICKS = 1            # 假設每趟各吃 1 檔滑價（進+出共 2 檔）
 
@@ -100,8 +100,9 @@ def main():
         ("現股當沖 6折, 停損 1%", stock_roundtrip(0.6, TAX_DAYTRADE), 0.01),
         ("現股當沖 2.8折, 停損 1%", stock_roundtrip(0.28, TAX_DAYTRADE), 0.01),
         ("現股波段 6折, 停損 5%", stock_roundtrip(0.6, TAX_STOCK), 0.05),
-        ("小台當沖, 停損 0.5% (≈140點)", futures_roundtrip_pct(50, 40, TAIEX_LEVEL), 0.005),
-        ("小台當沖, 停損 0.2% (≈56點)", futures_roundtrip_pct(50, 40, TAIEX_LEVEL), 0.002),
+        ("小台當沖, 停損 0.5% (≈230點)", futures_roundtrip_pct(50, 22, TAIEX_LEVEL), 0.005),
+        ("小台當沖, 停損 0.2% (≈92點)", futures_roundtrip_pct(50, 22, TAIEX_LEVEL), 0.002),
+        ("微台當沖, 停損 0.2% (≈92點)", futures_roundtrip_pct(10, 12, TAIEX_LEVEL), 0.002),
     ]
     p, rr = 0.40, 2.0
     print(f"假設：勝率 p={p:.0%}、盈虧比 RR={rr:.1f} → 毛期望值 = {p}×{rr} − {1-p:.1f}×1 = {p*rr-(1-p):+.2f} R/筆")
