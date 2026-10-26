@@ -81,15 +81,31 @@ def pick_portfolio(picks: dict, R: pd.DataFrame, rt_cost=0.005):
     g, n1, n2, to, prev = {}, {}, {}, [], None
     for t in R.index:
         p = picks.get(t)
-        if not p: continue
-        r = R.loc[t, p].dropna()
-        if len(r) == 0: continue
-        cur = set(r.index); tv = 1.0 if prev is None else len(cur - prev) / len(cur)
+        if p is None: continue
+        r = R.loc[t, p].dropna() if p else pd.Series(dtype=float)
+        if len(r) == 0:   # 空手（現金，報酬 0）
+            g[t] = n1[t] = n2[t] = 0.0; to.append(0.0); prev = set(); continue
+        cur = set(r.index); tv = 1.0 if not prev else len(cur - prev) / len(cur)
         to.append(tv); prev = cur
         g[t] = r.mean(); n1[t] = r.mean() - tv * rt_cost; n2[t] = r.mean() - tv * 0.01
     return {'gross': pd.Series(g, dtype=float), 'net': pd.Series(n1, dtype=float), 'net_1pct': pd.Series(n2, dtype=float),
-            'turnover': float(np.mean(to[1:])) if len(to) > 1 else float('nan'), 'n_names': float(np.mean([len(picks[t]) for t in g]))}
+            'turnover': float(np.mean(to[1:])) if len(to) > 1 else float('nan'), 'n_names': float(np.mean([len(picks[t]) for t in g])), 'cash_months': int(sum(len(picks[t]) == 0 for t in g))}
 
 
 def pool_ew(R, el):
     return R.where(el.reindex(R.index).fillna(False).astype(bool)).mean(axis=1)
+
+
+def topn_picks(score: pd.DataFrame, lock: pd.DataFrame, n=30, min_count=10, dates=None):
+    """score 越大越好（NaN = 不合格）。取前 n 檔；其中 t 收盤鎖漲停、且上期未持有者不能買，改由下一名遞補。
+    合格少於 min_count → 空手。回傳 t → 清單。"""
+    picks, prev = {}, set()
+    for t in (dates if dates is not None else score.index):
+        row = score.loc[t].dropna()
+        if len(row) < min_count:
+            picks[t] = []; prev = set(); continue
+        lk = lock.loc[t].reindex(row.index).fillna(False).astype(bool) if t in lock.index else pd.Series(False, index=row.index)
+        order = row.sort_values(ascending=False).index
+        sel = [c for c in order if (not lk[c]) or (c in prev)][:n]
+        picks[t] = sel; prev = set(sel)
+    return picks

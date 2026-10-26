@@ -47,14 +47,19 @@ def to_t(S):
 
 lock = locked_limit_up(C, H).reindex(me)
 el, v60m = eligibility(me, C, V, lag=1)
-el &= ~lock.fillna(False)
-U300 = top_liq(el, v60m, 300)
+lock = lock.fillna(False)
+U300 = top_liq(el, v60m, 300)      # 鎖漲停只限制「新買進」（topn_picks 處理）
 
 res = {}
 periods = {'IS_2010-01_2019-04': ('2010-01-01', '2019-04-30'), 'OOS_2019-05_2026-10': (OOS_START, OOS_END)}
 for name, S in sig_raw.items():
     sig = to_t(S)
-    rr = run_sort(sig, R, U300, nq=5, top_n=30, rt_cost=0.005, min_names=100)
+    rr = run_sort(sig, R, U300, nq=5, top_n=30, rt_cost=0.005, min_names=30)   # 五分位用
+    sdates = [t for t in R.index if sig.loc[t].where(U300.loc[t]).count() >= 100]   # 訊號尚未可得的早期月份不計入
+    pp = pick_portfolio(topn_picks(sig.where(U300), lock, 30, 30, sdates), R)
+    rr.update({'best_net': pp['net'], 'best_net_1pct': pp['net_1pct'], 'best_gross': pp['gross'], 'turnover': pp['turnover'], 'n_names': pp['n_names']})
+    pool = pool_ew(R, U300)
+    rr['universe'] = pool
     for pn, (a, b) in periods.items():
         o = {'turnover': round(rr['turnover'], 3), 'n_names': rr['n_names']}
         o['net_0.5pct'] = eval_monthly(rr['best_net'], me, B, rr['universe'], a, b)
@@ -64,7 +69,7 @@ for name, S in sig_raw.items():
         o['Q5_Q1_pct_m'] = round(float(sp.mean() * 100), 3); o['t_Q5_Q1'] = tstat(sp)
         o['quintile_CAGR'] = {f'Q{k}': ann(cut(rr[f'Q{k}'], a, b), me).get('CAGR') for k in range(1, 6)}
         res[f'{name}|{pn}'] = o
-        print(f"{name:12s} {pn:20s} to={o['turnover']:.2f} gross {o['gross'].get('CAGR')} | net.5 {fmt(o['net_0.5pct'])} | net1 CAGR {o['net_1pct']['strat'].get('CAGR')} | Q5-Q1 {o['Q5_Q1_pct_m']}%/m t={o['t_Q5_Q1']}")
+        print(f"{name:12s} {pn:20s} cash={pp['cash_months']} to={o['turnover']:.2f} gross {o['gross'].get('CAGR')} | net.5 {fmt(o['net_0.5pct'])} | net1 CAGR {o['net_1pct']['strat'].get('CAGR')} | Q5-Q1 {o['Q5_Q1_pct_m']}%/m t={o['t_Q5_Q1']}")
 
 is_key = max(sig_raw, key=lambda n: res[f'{n}|IS_2010-01_2019-04']['net_0.5pct']['t_vs_EW'])
 res['IS_selected'] = is_key

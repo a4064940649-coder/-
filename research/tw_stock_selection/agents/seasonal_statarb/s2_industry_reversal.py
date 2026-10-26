@@ -43,7 +43,7 @@ def signals(lag):
     indmean = r1e.T.groupby(g).transform('mean').T
     indcnt = r1e.notna().T.groupby(g).transform('sum').T
     rel = (r1 - indmean).where(el & (indcnt >= 5))
-    return rel, mom, el & ~lock, v60
+    return rel, mom, el, v60
 
 res = {}
 periods = {'IS_2005-01_2019-04': (IS_START, IS_END), 'OOS_2019-05_2026-10': (OOS_START, OOS_END)}
@@ -56,7 +56,8 @@ def record(name, port, pool, extra=None):
              'net_1pct': eval_monthly(port['net_1pct'], me, B, pool, a, b)}
         if extra: o.update(extra(a, b))
         res[f'{name}|{pn}'] = o
-        print(f"{name:22s} {pn:20s} n={o['n_names']} to={o['turnover']:.2f} gross {o['gross'].get('CAGR')} | net.5 {fmt(o['net_0.5pct'])} | net1 {o['net_1pct']['strat'].get('CAGR')}")
+        o['cash_months'] = port['cash_months']
+        print(f"{name:22s} {pn:20s} cash={port['cash_months']} n={o['n_names']} to={o['turnover']:.2f} gross {o['gross'].get('CAGR')} | net.5 {fmt(o['net_0.5pct'])} | net1 {o['net_1pct']['strat'].get('CAGR')}")
 
 for lag in (1, 0):
     rel, mom, el, v60 = signals(lag)
@@ -65,7 +66,8 @@ for lag in (1, 0):
     good = (mom > 0)
     def topk(mask, k=30):
         s = rel.where(mask & rel.notna())
-        return {t: list(s.loc[t].dropna().nsmallest(k).index) for t in R.index if s.loc[t].count() >= k}
+        # 合格不足 30 檔時有幾檔買幾檔；少於 10 檔則空手（現金）；鎖漲停只限制新買進
+        return topn_picks(-s, lock, k, 10, [t for t in R.index if U300.loc[t].any()])
     if lag == 1:
         rr = run_sort(-rel.where(U300 & good), R, U300 & good, nq=5, top_n=30, min_names=50)
         def q_extra(a, b, rr=rr):
@@ -74,15 +76,17 @@ for lag in (1, 0):
                     'quintile_CAGR': {f'Q{k}': ann(cut(rr[f'Q{k}'], a, b), me).get('CAGR') for k in range(1, 6)}}
         record('2a_top300_mom+_worst30', pick_portfolio(topk(U300 & good), R), pool300, q_extra)
         # 2b 產業中立
-        g = ind.reindex(cols); picks = {}
+        g = ind.reindex(cols); picks = {}; prev_t = None
         s = rel.where(U300 & good)
         for t in R.index:
             row = s.loc[t].dropna()
-            if len(row) < 30: continue
+            if not U300.loc[t].any(): continue
+            if len(row) < 10: picks[t] = []; continue
+            row = row[~lock.loc[t].reindex(row.index).fillna(False).astype(bool) | row.index.isin(picks.get(prev_t, []))] if prev_t is not None else row[~lock.loc[t].reindex(row.index).fillna(False).astype(bool)]
             cnt = U300.loc[t][U300.loc[t]].index.to_series().map(g).value_counts()
             okind = set(cnt[cnt >= 3].index)
             pk = row.groupby(g.reindex(row.index)).idxmin()
-            picks[t] = [c for i, c in pk.items() if i in okind]
+            picks[t] = [c for i, c in pk.items() if i in okind]; prev_t = t
         record('2b_top300_ind_neutral', pick_portfolio(picks, R), pool300)
         record('2c_all_elig_mom+_worst30', pick_portfolio(topk(el & good), R), poolall)
         rr2 = run_sort(-rel.where(U300), R, U300, nq=5, top_n=30, min_names=50)

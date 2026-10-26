@@ -92,6 +92,13 @@ def fit_predict(model, Xtr, ytr, Xte, feat_names, seed=0):
     elif model == 'lgbm_shallow':
         prm = dict(n_estimators=200, learning_rate=0.05, num_leaves=7, min_child_samples=500, subsample=0.7, subsample_freq=1,
                    colsample_bytree=0.7, reg_lambda=5.0)
+    elif model == 'lgbm_top20':   # 事後診斷：二元標籤「下月排名前 20%」，參數同 lgbm
+        prm = dict(n_estimators=400, learning_rate=0.03, num_leaves=31, min_child_samples=300, subsample=0.7, subsample_freq=1,
+                   colsample_bytree=0.7, reg_lambda=5.0)
+        m = lgb.LGBMClassifier(objective='binary', random_state=seed, n_jobs=4, verbose=-1, **prm)
+        m.fit(Xtr.values, (ytr.values > 0.3).astype(int))
+        imp = pd.Series(m.booster_.feature_importance('gain'), index=feat_names)
+        return m.predict_proba(Xte.values)[:, 1], imp / imp.sum()
     else:
         raise ValueError(model)
     m = lgb.LGBMRegressor(objective='regression', random_state=seed, n_jobs=4, verbose=-1, **prm)
@@ -123,6 +130,18 @@ def ic_series(score, R, elig):
         if ok.sum() < 50: continue
         out[t] = score.loc[t][ok].rank().corr(R.loc[t][ok].rank())
     return pd.Series(out, dtype=float)
+
+
+def quintiles(score, R, elig):
+    """每期依 score 分 5 組等權（毛報酬），回傳 DataFrame(Q1..Q5)。"""
+    out = {}
+    for t in score.index:
+        if t not in R.index: continue
+        ok = elig.loc[t].fillna(False).astype(bool) & R.loc[t].notna() & score.loc[t].notna()
+        if ok.sum() < 50: continue
+        q = pd.qcut(score.loc[t][ok].rank(method='first'), 5, labels=False)
+        out[t] = R.loc[t][ok].groupby(q).mean().rename(lambda k: f'Q{k+1}')
+    return pd.DataFrame(out).T
 
 
 def cut(x, a=None, b=None):
