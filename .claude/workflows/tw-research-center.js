@@ -19,9 +19,10 @@ const MAX_RECHECK = (args && args.max_rechecks) || 6
 const MAX_TOPICS = (args && args.max_topics) || 4
 const TEAMS = (args && args.teams) || ['short_term', 'events', 'ml', 'seasonal_statarb', 'industry', 'technical', 'institutions']
 const CORE = `中心目前採用的策略（主研究員已驗證，見 ${ROOT}/output/ 與 /home/user/-/台股個股選股規則實證研究報告.md）：
-(1) 52 週高點 × 月營收動能月度 30 檔（bt_final_rule.py；2021-03～2026-10 淨年化 49.0%、對 0050 t 2.02、對等權 t 4.12）
-(2) 處置股：處置第一天收盤買、最後一天收盤賣（bt_disposal_strategy.py、bt_disposal_robust.py、bt_disposal_tpex.py、bt_disposal_proxy_history.py；上市 2021～2026 平均 +4.4% t 6.75；上櫃 +6.6% t 5.0；2005～2021 規則重建 +3.4～3.9% t 2.8～2.9）
-(3) 積極配置 bt_aggressive.py（選股 10 檔 50%＋處置股 50%：年化 92.9%、月頻最大回撤 −24%）。使用者目標：打敗大盤，可接受大回撤。`
+（第 1 輪審查後版本，見 ${AG}/CENTER_REPORT_r1.md 與報告第 11 節）
+(1) 52 週高點 × 月營收動能月度選股，可成交版 M2（換股日收盤算訊號、隔日開盤買；agents/exec_rebuild/）：30 檔淨年化 47.3%、日頻最大回撤 −35%、對 0050 t 1.91、對等權 t 3.99；10 檔 57.5%、t 1.99；2024～25 對 0050 t −0.26～0.41
+(2) 處置股 10 槽固定金額、嚴格版（去重疊、進場 ret ≥ 9% 不買、跌停延後出場、成本 0.8%／1.2%）：2021～2026 真實名單每筆淨 +2.1～3.2%、t_month 2.7；但 2005～2021 規則重建淨 +0.35%、t_month −0.89（agents/disposal_bear_longhistory/），機制檢定不成立（agents/attention_disposal_mechanism/）→ 上限 20%、指數 < 200 日均線不進場
+(3) 建議配置（agents/exec_rebuild/run_alloc2.py，閒置持 0050）：選股 10 檔 80%＋處置 20% 年化 55.8%、日頻回撤 −33%、對 0050 t 2.29；0050 30%＋選股 30 檔 50%＋處置 20% 年化 41.4%、t 2.47。bt_aggressive.py 的 92.9% 與第三輪 40/40/20 的 54.2% 已作廢。使用者目標：打敗大盤，可接受大回撤。`
 
 const CLAIMS = {
   type: 'object',
