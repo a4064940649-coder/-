@@ -15,6 +15,8 @@ const ROOT = '/home/user/-/research/tw_stock_selection'
 const AG = ROOT + '/agents'
 const BRIEF = AG + '/BRIEF.md'
 const RUN = (args && args.round) ? String(args.round) : 'r1'
+const MAX_RECHECK = (args && args.max_rechecks) || 6
+const MAX_TOPICS = (args && args.max_topics) || 4
 const TEAMS = (args && args.teams) || ['short_term', 'events', 'ml', 'seasonal_statarb', 'industry', 'technical', 'institutions']
 const CORE = `中心目前採用的策略（主研究員已驗證，見 ${ROOT}/output/ 與 /home/user/-/台股個股選股規則實證研究報告.md）：
 (1) 52 週高點 × 月營收動能月度 30 檔（bt_final_rule.py；2021-03～2026-10 淨年化 49.0%、對 0050 t 2.02、對等權 t 4.12）
@@ -85,14 +87,14 @@ const reviewed = await pipeline(TEAMS,
   async (rev) => {
     const todo = rev.claims.filter(c => c.verdict !== 'holds' && c.recheck)
     if (!todo.length) return { ...rev, rechecks: [] }
-    const rechecks = await parallel(todo.slice(0, 6).map((c, i) => () => agent(
+    const rechecks = await parallel(todo.slice(0, MAX_RECHECK).map((c, i) => () => agent(
       `你是台股策略研究中心的重測員。研究組「${rev.team}」的結論受到質疑，請實際寫程式重跑確認，不接受口頭辯護。
 結論：${c.claim}
 質疑：${c.issues.join('；')}
 重跑方式：${c.recheck}
 資料與紀律見 ${BRIEF}。程式存到 ${AG}/${rev.team}/recheck_${RUN}_${i}.py（python3 -I 執行），結果寫在回傳的 evidence（數字＋檔案路徑）。`,
       { label: `重測:${rev.team}:${i}`, phase: '重測', schema: RECHECK })))
-    if (todo.length > 6) log(`${rev.team}：${todo.length} 條受質疑，只重測前 6 條，其餘列入下一輪`)
+    if (todo.length > MAX_RECHECK) log(`${rev.team}：${todo.length} 條受質疑，只重測前 ${MAX_RECHECK} 條，其餘列入下一輪`)
     return { ...rev, rechecks: rechecks.filter(Boolean) }
   })
 const dossier = JSON.stringify(reviewed.filter(Boolean), null, 1)
@@ -138,7 +140,9 @@ ${CORE}
 let newResearch = []
 if (args && args.run_new_research && agenda && agenda.topics.length) {
   phase('新研究')
-  newResearch = (await parallel(agenda.topics.map(t => () => agent(
+  const topics = agenda.topics.slice(0, MAX_TOPICS)
+  if (agenda.topics.length > MAX_TOPICS) log(`完整性審查員提出 ${agenda.topics.length} 題，本輪只執行前 ${MAX_TOPICS} 題`)
+  newResearch = (await parallel(topics.map(t => () => agent(
     `你是台股策略研究中心的研究員。先完整閱讀並遵守 ${BRIEF}。你的資料夾：${AG}/${t.folder}/
 假說：${t.hypothesis}
 事前固定的檢定設計：${t.design}
