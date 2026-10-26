@@ -119,13 +119,13 @@ const rebuttals = (await parallel(ROLES.map((r, i) => () => agent(
 // 4：彙整＋完整性審查
 phase('彙整')
 const report = await agent(
-  `你是台股策略研究中心的主研究員。請把本輪成果寫成 ${AG}/CENTER_REPORT_${RUN}.md（繁體中文、研究報告風格、條列、關鍵數字加粗），內容：
+  `你是台股策略研究中心的主研究員。請寫出本輪的中心報告（繁體中文、研究報告風格、條列、關鍵數字加粗），內容：
 1. 本輪結論一句話；2. 各組結論審查結果表（組別、結論、審查判定、重測結果）；3. 三位角色的提案與交叉回應摘要；4. 最終採用的配置（策略、權重、預期打折後的超額報酬與最大回撤、對 0050 t 值）；5. 淘汰清單與理由；6. 風險與反證。
 ${CORE}
 審查與重測紀錄：${dossier}
 角色提案：${JSON.stringify(views)}
 交叉回應：${JSON.stringify(rebuttals)}
-寫完後回傳檔案路徑與 5 行摘要。不要 git commit。`,
+子代理不能寫報告檔：請直接回傳完整 Markdown 全文，由主研究員存成 ${AG}/CENTER_REPORT_${RUN}.md。不要 git commit。`,
   { label: '主研究員報告', phase: '彙整' })
 const agenda = await agent(
   `你是台股策略研究中心的完整性審查員。問：還有什麼沒測？哪些主張只靠一個資料來源或一段期間？哪些現股可執行的台股制度或市場結構還沒研究（例如：處置股的變形、注意股門檻、借券、ETF 申購買回與成分股調整、現金增資、可轉債、除權息、財報、法說會、集保股權分散、融資融券）？
@@ -142,7 +142,7 @@ if (args && args.run_new_research && agenda && agenda.topics.length) {
     `你是台股策略研究中心的研究員。先完整閱讀並遵守 ${BRIEF}。你的資料夾：${AG}/${t.folder}/
 假說：${t.hypothesis}
 事前固定的檢定設計：${t.design}
-完成後寫 FINDINGS.md（結論：可用／不可用／待觀察，附數字表）與 results.json，回傳 5 行摘要。`,
+程式與 results.json 放在你的資料夾。子代理不能寫報告檔：請把完整 FINDINGS 全文（結論：可用／不可用／待觀察，附數字表）放在回傳內容，由主研究員存成 FINDINGS.md。`,
     { label: `新研究:${t.folder}`, phase: '新研究' })))).filter(Boolean)
 }
-return { round: RUN, reviewed, views, rebuttals, report, agenda, newResearch }
+return { round: RUN, reviewed, views, rebuttals, report, agenda, newResearch: newResearch.map((txt, i) => ({ folder: agenda.topics[i] && agenda.topics[i].folder, findings: txt })) }
