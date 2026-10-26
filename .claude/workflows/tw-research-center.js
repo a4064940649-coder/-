@@ -15,7 +15,7 @@ const ROOT = '/home/user/-/research/tw_stock_selection'
 const AG = ROOT + '/agents'
 const BRIEF = AG + '/BRIEF.md'
 const RUN = (args && args.round) ? String(args.round) : 'r1'
-const TEAMS = (args && args.teams) || ['short_term', 'events', 'ml', 'seasonal_statarb', 'institutions']
+const TEAMS = (args && args.teams) || ['short_term', 'events', 'ml', 'seasonal_statarb', 'industry', 'technical', 'institutions']
 const CORE = `中心目前採用的策略（主研究員已驗證，見 ${ROOT}/output/ 與 /home/user/-/台股個股選股規則實證研究報告.md）：
 (1) 52 週高點 × 月營收動能月度 30 檔（bt_final_rule.py；2021-03～2026-10 淨年化 49.0%、對 0050 t 2.02、對等權 t 4.12）
 (2) 處置股：處置第一天收盤買、最後一天收盤賣（bt_disposal_strategy.py、bt_disposal_robust.py、bt_disposal_tpex.py、bt_disposal_proxy_history.py；上市 2021～2026 平均 +4.4% t 6.75；上櫃 +6.6% t 5.0；2005～2021 規則重建 +3.4～3.9% t 2.8～2.9）
