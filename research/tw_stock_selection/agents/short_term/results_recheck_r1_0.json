@@ -1,0 +1,5944 @@
+{
+ "description": "重測 r1_0：跳空下跌 ≥3%／≥5% 開盤買的加總方式、事件數分桶、拿掉大事件日、成本制度與斷點比較。\n\n事前固定（不依結果調整）：\n  出場（保守，同 r2_gaps.py）：收盤賣；收盤跌停 → 隔日開盤賣、成本 0.5%。\n  加總方式：\n    D  每日等權 cohort（原程式）：先同日事件等權，再對事件日平均；t＝事件日序列 t。\n    T  每筆等權：所有事件平均；t 值按日期 cluster（CR1 小樣本修正 G/(G−1)）；另報中位數。\n  分桶：當日事件數（該窗口內、該規則）1、2–3、4–10、11–30、>30。\n  拿掉事件數最多的前 5／10／20 天後重算（T 與 D 都報）。\n  成本（兩套）：\n    base   ：原程式（當沖 0.23%，跌停改隔日開盤 0.5%）。\n    regime ：2014-01-06 前不能現股當沖 → 開盤買、隔日收盤賣、0.585%（0.1425%×2＋0.3%稅）；\n             2014-01-06～2017-04-27 當沖 0.38%（跌停隔日開盤 0.5%）；2017-04-28 起 0.23%（同 base）。\n  斷點：2014-01-06（現股當沖開放）、2015-06-01（10% 漲跌幅）、2017-04-28（當沖稅減半）。\n    各做「前 12 個月 vs 後 12 個月」與「相鄰整段」兩種前後比較，用毛報酬（保守出場）避免成本制度混入，\n    另列 regime 淨報酬；差異 t＝(後−前)/sqrt(se前²+se後²)，se 用日期 cluster（T）或日序列（D）。\n窗口同 stlib.WINDOWS：S0 2005-01～2015-05、S1 2015-06～2019-04、V_official（只用官方來源日）、V_all（含 src 3）。\n",
+ "rules": {
+  "gap_down_3": {
+   "S0_2005_2015": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 26121,
+       "n_days": 1962,
+       "mean_pct": 0.706,
+       "median_pct": 0.78,
+       "t_cluster": 3.2,
+       "t_naive": 26.52,
+       "se_cluster_pct": 0.2205,
+       "eff_n_design": 380.9
+      },
+      "per_day": {
+       "n_days": 1962,
+       "mean_pct": 0.437,
+       "t": 5.23,
+       "se_pct": 0.0836
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 26121,
+       "n_days": 1962,
+       "mean_pct": 1.007,
+       "median_pct": 1.042,
+       "t_cluster": 4.65,
+       "t_naive": 38.5,
+       "se_cluster_pct": 0.2164,
+       "eff_n_design": 381.8
+      },
+      "per_day": {
+       "n_days": 1962,
+       "mean_pct": 0.741,
+       "t": 9.04,
+       "se_pct": 0.0819
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 607,
+        "n_days": 607,
+        "mean_pct": 0.216,
+        "median_pct": 0.968,
+        "t_cluster": 1.1,
+        "t_naive": 1.1,
+        "se_cluster_pct": 0.1963,
+        "eff_n_design": 607.0
+       },
+       "per_day": {
+        "n_days": 607,
+        "mean_pct": 0.216,
+        "t": 1.1,
+        "se_pct": 0.1963
+       },
+       "share_of_trades": 0.023
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 1434,
+        "n_days": 604,
+        "mean_pct": 0.68,
+        "median_pct": 1.18,
+        "t_cluster": 4.94,
+        "t_naive": 5.39,
+        "se_cluster_pct": 0.1374,
+        "eff_n_design": 1205.7
+       },
+       "per_day": {
+        "n_days": 604,
+        "mean_pct": 0.704,
+        "t": 5.12,
+        "se_pct": 0.1374
+       },
+       "share_of_trades": 0.055
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 2754,
+        "n_days": 461,
+        "mean_pct": 0.243,
+        "median_pct": 0.918,
+        "t_cluster": 1.83,
+        "t_naive": 2.8,
+        "se_cluster_pct": 0.1327,
+        "eff_n_design": 1175.2
+       },
+       "per_day": {
+        "n_days": 461,
+        "mean_pct": 0.209,
+        "t": 1.66,
+        "se_pct": 0.1259
+       },
+       "share_of_trades": 0.105
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 2577,
+        "n_days": 147,
+        "mean_pct": 0.478,
+        "median_pct": 0.679,
+        "t_cluster": 2.02,
+        "t_naive": 5.66,
+        "se_cluster_pct": 0.2373,
+        "eff_n_design": 326.6
+       },
+       "per_day": {
+        "n_days": 147,
+        "mean_pct": 0.601,
+        "t": 2.79,
+        "se_pct": 0.2156
+       },
+       "share_of_trades": 0.099
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 18749,
+        "n_days": 143,
+        "mean_pct": 0.823,
+        "median_pct": 0.75,
+        "t_cluster": 2.69,
+        "t_naive": 26.81,
+        "se_cluster_pct": 0.3055,
+        "eff_n_design": 189.4
+       },
+       "per_day": {
+        "n_days": 143,
+        "mean_pct": 0.815,
+        "t": 3.16,
+        "se_pct": 0.2578
+       },
+       "share_of_trades": 0.718
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 24012,
+        "n_days": 1957,
+        "mean_pct": 0.72,
+        "median_pct": 0.834,
+        "t_cluster": 3.42,
+        "t_naive": 25.74,
+        "se_cluster_pct": 0.2101,
+        "eff_n_design": 424.9
+       },
+       "per_day": {
+        "n_days": 1957,
+        "mean_pct": 0.437,
+        "t": 5.22,
+        "se_pct": 0.0837
+       },
+       "dropped_trades": 2109
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 22342,
+        "n_days": 1952,
+        "mean_pct": 0.683,
+        "median_pct": 0.815,
+        "t_cluster": 3.22,
+        "t_naive": 23.22,
+        "se_cluster_pct": 0.2121,
+        "eff_n_design": 429.2
+       },
+       "per_day": {
+        "n_days": 1952,
+        "mean_pct": 0.435,
+        "t": 5.18,
+        "se_pct": 0.0839
+       },
+       "dropped_trades": 3779
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 19514,
+        "n_days": 1942,
+        "mean_pct": 0.584,
+        "median_pct": 0.755,
+        "t_cluster": 2.54,
+        "t_naive": 17.95,
+        "se_cluster_pct": 0.2299,
+        "eff_n_design": 391.6
+       },
+       "per_day": {
+        "n_days": 1942,
+        "mean_pct": 0.43,
+        "t": 5.1,
+        "se_pct": 0.0843
+       },
+       "dropped_trades": 6607
+      }
+     },
+     "top_days": [
+      {
+       "date": "2011-08-05",
+       "n": 487,
+       "mean_net_pct": -2.86
+      },
+      {
+       "date": "2011-08-09",
+       "n": 462,
+       "mean_net_pct": 5.3
+      },
+      {
+       "date": "2008-06-27",
+       "n": 394,
+       "mean_net_pct": 0.33
+      },
+      {
+       "date": "2010-05-21",
+       "n": 385,
+       "mean_net_pct": 0.06
+      },
+      {
+       "date": "2008-01-22",
+       "n": 381,
+       "mean_net_pct": -0.11
+      },
+      {
+       "date": "2010-05-07",
+       "n": 362,
+       "mean_net_pct": 4.12
+      },
+      {
+       "date": "2011-08-19",
+       "n": 339,
+       "mean_net_pct": -1.87
+      },
+      {
+       "date": "2010-06-07",
+       "n": 334,
+       "mean_net_pct": 0.98
+      },
+      {
+       "date": "2008-09-30",
+       "n": 321,
+       "mean_net_pct": 3.08
+      },
+      {
+       "date": "2011-09-23",
+       "n": 314,
+       "mean_net_pct": -0.48
+      },
+      {
+       "date": "2008-09-16",
+       "n": 313,
+       "mean_net_pct": 0.79
+      },
+      {
+       "date": "2010-02-05",
+       "n": 297,
+       "mean_net_pct": -1.86
+      }
+     ],
+     "top10_days_share_of_sum_net": 0.17
+    },
+    "regime_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 26115,
+       "n_days": 1962,
+       "mean_pct": 0.581,
+       "median_pct": 0.665,
+       "t_cluster": 1.72,
+       "t_naive": 17.3,
+       "se_cluster_pct": 0.3371,
+       "eff_n_design": 259.5
+      },
+      "per_day": {
+       "n_days": 1962,
+       "mean_pct": 0.378,
+       "t": 4.11,
+       "se_pct": 0.092
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 26115,
+       "n_days": 1962,
+       "mean_pct": 1.156,
+       "median_pct": 1.235,
+       "t_cluster": 3.43,
+       "t_naive": 34.42,
+       "se_cluster_pct": 0.3371,
+       "eff_n_design": 259.4
+      },
+      "per_day": {
+       "n_days": 1962,
+       "mean_pct": 0.942,
+       "t": 10.24,
+       "se_pct": 0.092
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 609,
+        "n_days": 609,
+        "mean_pct": 0.102,
+        "median_pct": 0.415,
+        "t_cluster": 0.5,
+        "t_naive": 0.5,
+        "se_cluster_pct": 0.2029,
+        "eff_n_design": 609.0
+       },
+       "per_day": {
+        "n_days": 609,
+        "mean_pct": 0.102,
+        "t": 0.5,
+        "se_pct": 0.2029
+       },
+       "share_of_trades": 0.023
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 1430,
+        "n_days": 602,
+        "mean_pct": 0.725,
+        "median_pct": 0.79,
+        "t_cluster": 4.77,
+        "t_naive": 5.35,
+        "se_cluster_pct": 0.1519,
+        "eff_n_design": 1136.2
+       },
+       "per_day": {
+        "n_days": 602,
+        "mean_pct": 0.725,
+        "t": 4.8,
+        "se_pct": 0.1513
+       },
+       "share_of_trades": 0.055
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 2754,
+        "n_days": 461,
+        "mean_pct": 0.211,
+        "median_pct": 0.577,
+        "t_cluster": 1.31,
+        "t_naive": 2.16,
+        "se_cluster_pct": 0.1617,
+        "eff_n_design": 1002.6
+       },
+       "per_day": {
+        "n_days": 461,
+        "mean_pct": 0.143,
+        "t": 0.94,
+        "se_pct": 0.1529
+       },
+       "share_of_trades": 0.105
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 2574,
+        "n_days": 147,
+        "mean_pct": 0.521,
+        "median_pct": 0.62,
+        "t_cluster": 1.56,
+        "t_naive": 4.84,
+        "se_cluster_pct": 0.3347,
+        "eff_n_design": 266.4
+       },
+       "per_day": {
+        "n_days": 147,
+        "mean_pct": 0.68,
+        "t": 2.32,
+        "se_pct": 0.2933
+       },
+       "share_of_trades": 0.099
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 18748,
+        "n_days": 143,
+        "mean_pct": 0.649,
+        "median_pct": 0.668,
+        "t_cluster": 1.39,
+        "t_naive": 16.13,
+        "se_cluster_pct": 0.4681,
+        "eff_n_design": 138.3
+       },
+       "per_day": {
+        "n_days": 143,
+        "mean_pct": 0.542,
+        "t": 1.68,
+        "se_pct": 0.3222
+       },
+       "share_of_trades": 0.718
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 24006,
+        "n_days": 1957,
+        "mean_pct": 0.676,
+        "median_pct": 0.777,
+        "t_cluster": 2.36,
+        "t_naive": 19.75,
+        "se_cluster_pct": 0.2862,
+        "eff_n_design": 343.4
+       },
+       "per_day": {
+        "n_days": 1957,
+        "mean_pct": 0.381,
+        "t": 4.14,
+        "se_pct": 0.0921
+       },
+       "dropped_trades": 2109
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 22336,
+        "n_days": 1952,
+        "mean_pct": 0.664,
+        "median_pct": 0.766,
+        "t_cluster": 2.47,
+        "t_naive": 18.8,
+        "se_cluster_pct": 0.2685,
+        "eff_n_design": 386.5
+       },
+       "per_day": {
+        "n_days": 1952,
+        "mean_pct": 0.38,
+        "t": 4.12,
+        "se_pct": 0.0922
+       },
+       "dropped_trades": 3779
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 19508,
+        "n_days": 1942,
+        "mean_pct": 0.582,
+        "median_pct": 0.673,
+        "t_cluster": 2.23,
+        "t_naive": 15.28,
+        "se_cluster_pct": 0.2613,
+        "eff_n_design": 414.0
+       },
+       "per_day": {
+        "n_days": 1942,
+        "mean_pct": 0.375,
+        "t": 4.06,
+        "se_pct": 0.0925
+       },
+       "dropped_trades": 6607
+      }
+     },
+     "top_days": [
+      {
+       "date": "2011-08-05",
+       "n": 487,
+       "mean_net_pct": -5.48
+      },
+      {
+       "date": "2011-08-09",
+       "n": 462,
+       "mean_net_pct": 9.02
+      },
+      {
+       "date": "2008-06-27",
+       "n": 394,
+       "mean_net_pct": -2.43
+      },
+      {
+       "date": "2010-05-21",
+       "n": 385,
+       "mean_net_pct": 0.99
+      },
+      {
+       "date": "2008-01-22",
+       "n": 381,
+       "mean_net_pct": -5.17
+      },
+      {
+       "date": "2010-05-07",
+       "n": 362,
+       "mean_net_pct": 6.45
+      },
+      {
+       "date": "2011-08-19",
+       "n": 339,
+       "mean_net_pct": -3.23
+      },
+      {
+       "date": "2010-06-07",
+       "n": 334,
+       "mean_net_pct": 1.42
+      },
+      {
+       "date": "2008-09-30",
+       "n": 321,
+       "mean_net_pct": 4.33
+      },
+      {
+       "date": "2011-09-23",
+       "n": 314,
+       "mean_net_pct": -5.42
+      },
+      {
+       "date": "2008-09-16",
+       "n": 313,
+       "mean_net_pct": -2.45
+      },
+      {
+       "date": "2010-02-05",
+       "n": 297,
+       "mean_net_pct": -4.39
+      }
+     ],
+     "top10_days_share_of_sum_net": 0.02
+    },
+    "S0_all_next_close_0.585": {
+     "per_trade": {
+      "n_trades": 26114,
+      "n_days": 1962,
+      "mean_pct": 0.6,
+      "median_pct": 0.655,
+      "t_cluster": 1.78,
+      "t_naive": 17.76,
+      "se_cluster_pct": 0.3378,
+      "eff_n_design": 261.4
+     },
+     "per_day": {
+      "n_days": 1962,
+      "mean_pct": 0.401,
+      "t": 4.35,
+      "se_pct": 0.092
+     }
+    },
+    "S0_all_next_close_1pct": {
+     "per_trade": {
+      "n_trades": 26114,
+      "n_days": 1962,
+      "mean_pct": 0.185,
+      "median_pct": 0.24,
+      "t_cluster": 0.55,
+      "t_naive": 5.48,
+      "se_cluster_pct": 0.3378,
+      "eff_n_design": 261.4
+     },
+     "per_day": {
+      "n_days": 1962,
+      "mean_pct": -0.014,
+      "t": -0.16,
+      "se_pct": 0.092
+     }
+    }
+   },
+   "S1_2015_2019": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 4329,
+       "n_days": 618,
+       "mean_pct": 0.454,
+       "median_pct": 0.581,
+       "t_cluster": 0.73,
+       "t_naive": 5.96,
+       "se_cluster_pct": 0.6237,
+       "eff_n_design": 64.4
+      },
+      "per_day": {
+       "n_days": 618,
+       "mean_pct": -0.454,
+       "t": -2.76,
+       "se_pct": 0.1644
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 4329,
+       "n_days": 618,
+       "mean_pct": 0.729,
+       "median_pct": 0.812,
+       "t_cluster": 1.19,
+       "t_naive": 9.7,
+       "se_cluster_pct": 0.6151,
+       "eff_n_design": 64.7
+      },
+      "per_day": {
+       "n_days": 618,
+       "mean_pct": -0.167,
+       "t": -1.03,
+       "se_pct": 0.162
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 224,
+        "n_days": 224,
+        "mean_pct": -0.533,
+        "median_pct": 0.066,
+        "t_cluster": -1.54,
+        "t_naive": -1.54,
+        "se_cluster_pct": 0.3457,
+        "eff_n_design": 224.0
+       },
+       "per_day": {
+        "n_days": 224,
+        "mean_pct": -0.533,
+        "t": -1.54,
+        "se_pct": 0.3457
+       },
+       "share_of_trades": 0.052
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 532,
+        "n_days": 228,
+        "mean_pct": -0.64,
+        "median_pct": -0.23,
+        "t_cluster": -2.75,
+        "t_naive": -3.0,
+        "se_cluster_pct": 0.2331,
+        "eff_n_design": 446.1
+       },
+       "per_day": {
+        "n_days": 228,
+        "mean_pct": -0.592,
+        "t": -2.47,
+        "se_pct": 0.2402
+       },
+       "share_of_trades": 0.123
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 653,
+        "n_days": 117,
+        "mean_pct": -0.397,
+        "median_pct": -0.23,
+        "t_cluster": -1.53,
+        "t_naive": -2.13,
+        "se_cluster_pct": 0.2598,
+        "eff_n_design": 334.7
+       },
+       "per_day": {
+        "n_days": 117,
+        "mean_pct": -0.584,
+        "t": -2.44,
+        "se_pct": 0.2399
+       },
+       "share_of_trades": 0.151
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 448,
+        "n_days": 28,
+        "mean_pct": 0.639,
+        "median_pct": 0.686,
+        "t_cluster": 1.34,
+        "t_naive": 3.05,
+        "se_cluster_pct": 0.4776,
+        "eff_n_design": 86.3
+       },
+       "per_day": {
+        "n_days": 28,
+        "mean_pct": 0.549,
+        "t": 1.08,
+        "se_pct": 0.5104
+       },
+       "share_of_trades": 0.103
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 2472,
+        "n_days": 21,
+        "mean_pct": 0.97,
+        "median_pct": 1.019,
+        "t_cluster": 0.87,
+        "t_naive": 9.47,
+        "se_cluster_pct": 1.1179,
+        "eff_n_design": 20.8
+       },
+       "per_day": {
+        "n_days": 21,
+        "mean_pct": 1.289,
+        "t": 1.61,
+        "se_pct": 0.7989
+       },
+       "share_of_trades": 0.571
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 3094,
+        "n_days": 613,
+        "mean_pct": 0.323,
+        "median_pct": 0.633,
+        "t_cluster": 0.64,
+        "t_naive": 3.62,
+        "se_cluster_pct": 0.5063,
+        "eff_n_design": 96.0
+       },
+       "per_day": {
+        "n_days": 613,
+        "mean_pct": -0.466,
+        "t": -2.82,
+        "se_pct": 0.1649
+       },
+       "dropped_trades": 1235
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 2426,
+        "n_days": 608,
+        "mean_pct": 0.331,
+        "median_pct": 0.415,
+        "t_cluster": 0.99,
+        "t_naive": 3.39,
+        "se_cluster_pct": 0.3349,
+        "eff_n_design": 206.3
+       },
+       "per_day": {
+        "n_days": 608,
+        "mean_pct": -0.477,
+        "t": -2.88,
+        "se_pct": 0.1655
+       },
+       "dropped_trades": 1903
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 1889,
+        "n_days": 598,
+        "mean_pct": -0.248,
+        "median_pct": -0.006,
+        "t_cluster": -1.46,
+        "t_naive": -2.26,
+        "se_cluster_pct": 0.1696,
+        "eff_n_design": 793.0
+       },
+       "per_day": {
+        "n_days": 598,
+        "mean_pct": -0.516,
+        "t": -3.09,
+        "se_pct": 0.1671
+       },
+       "dropped_trades": 2440
+      }
+     },
+     "top_days": [
+      {
+       "date": "2018-10-11",
+       "n": 344,
+       "mean_net_pct": -3.03
+      },
+      {
+       "date": "2018-02-09",
+       "n": 314,
+       "mean_net_pct": 3.85
+      },
+      {
+       "date": "2018-10-25",
+       "n": 203,
+       "mean_net_pct": -0.61
+      },
+      {
+       "date": "2015-08-25",
+       "n": 187,
+       "mean_net_pct": 7.72
+      },
+      {
+       "date": "2018-02-06",
+       "n": 187,
+       "mean_net_pct": -2.78
+      },
+      {
+       "date": "2015-08-24",
+       "n": 168,
+       "mean_net_pct": -6.74
+      },
+      {
+       "date": "2018-02-05",
+       "n": 151,
+       "mean_net_pct": 1.9
+      },
+      {
+       "date": "2018-03-23",
+       "n": 149,
+       "mean_net_pct": 1.63
+      },
+      {
+       "date": "2018-11-13",
+       "n": 105,
+       "mean_net_pct": 4.63
+      },
+      {
+       "date": "2015-07-09",
+       "n": 95,
+       "mean_net_pct": 3.31
+      },
+      {
+       "date": "2018-10-12",
+       "n": 95,
+       "mean_net_pct": 6.09
+      },
+      {
+       "date": "2016-01-18",
+       "n": 67,
+       "mean_net_pct": 6.72
+      }
+     ],
+     "top10_days_share_of_sum_net": 0.59
+    },
+    "regime_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 4329,
+       "n_days": 618,
+       "mean_pct": 0.406,
+       "median_pct": 0.533,
+       "t_cluster": 0.65,
+       "t_naive": 5.35,
+       "se_cluster_pct": 0.6212,
+       "eff_n_design": 64.5
+      },
+      "per_day": {
+       "n_days": 618,
+       "mean_pct": -0.506,
+       "t": -3.09,
+       "se_pct": 0.1638
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 4329,
+       "n_days": 618,
+       "mean_pct": 0.729,
+       "median_pct": 0.812,
+       "t_cluster": 1.19,
+       "t_naive": 9.7,
+       "se_cluster_pct": 0.6151,
+       "eff_n_design": 64.7
+      },
+      "per_day": {
+       "n_days": 618,
+       "mean_pct": -0.167,
+       "t": -1.03,
+       "se_pct": 0.162
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 224,
+        "n_days": 224,
+        "mean_pct": -0.583,
+        "median_pct": 0.001,
+        "t_cluster": -1.69,
+        "t_naive": -1.69,
+        "se_cluster_pct": 0.3449,
+        "eff_n_design": 224.0
+       },
+       "per_day": {
+        "n_days": 224,
+        "mean_pct": -0.583,
+        "t": -1.69,
+        "se_pct": 0.3449
+       },
+       "share_of_trades": 0.052
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 532,
+        "n_days": 228,
+        "mean_pct": -0.69,
+        "median_pct": -0.23,
+        "t_cluster": -2.98,
+        "t_naive": -3.24,
+        "se_cluster_pct": 0.2319,
+        "eff_n_design": 447.4
+       },
+       "per_day": {
+        "n_days": 228,
+        "mean_pct": -0.642,
+        "t": -2.69,
+        "se_pct": 0.239
+       },
+       "share_of_trades": 0.123
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 653,
+        "n_days": 117,
+        "mean_pct": -0.451,
+        "median_pct": -0.279,
+        "t_cluster": -1.75,
+        "t_naive": -2.43,
+        "se_cluster_pct": 0.2576,
+        "eff_n_design": 337.4
+       },
+       "per_day": {
+        "n_days": 117,
+        "mean_pct": -0.638,
+        "t": -2.67,
+        "se_pct": 0.2385
+       },
+       "share_of_trades": 0.151
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 448,
+        "n_days": 28,
+        "mean_pct": 0.567,
+        "median_pct": 0.549,
+        "t_cluster": 1.19,
+        "t_naive": 2.72,
+        "se_cluster_pct": 0.475,
+        "eff_n_design": 86.5
+       },
+       "per_day": {
+        "n_days": 28,
+        "mean_pct": 0.476,
+        "t": 0.94,
+        "se_pct": 0.507
+       },
+       "share_of_trades": 0.103
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 2472,
+        "n_days": 21,
+        "mean_pct": 0.928,
+        "median_pct": 0.995,
+        "t_cluster": 0.83,
+        "t_naive": 9.09,
+        "se_cluster_pct": 1.1128,
+        "eff_n_design": 20.8
+       },
+       "per_day": {
+        "n_days": 21,
+        "mean_pct": 1.224,
+        "t": 1.54,
+        "se_pct": 0.7959
+       },
+       "share_of_trades": 0.571
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 3094,
+        "n_days": 613,
+        "mean_pct": 0.265,
+        "median_pct": 0.567,
+        "t_cluster": 0.52,
+        "t_naive": 2.98,
+        "se_cluster_pct": 0.5078,
+        "eff_n_design": 94.9
+       },
+       "per_day": {
+        "n_days": 613,
+        "mean_pct": -0.518,
+        "t": -3.15,
+        "se_pct": 0.1643
+       },
+       "dropped_trades": 1235
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 2426,
+        "n_days": 608,
+        "mean_pct": 0.268,
+        "median_pct": 0.324,
+        "t_cluster": 0.8,
+        "t_naive": 2.75,
+        "se_cluster_pct": 0.3348,
+        "eff_n_design": 204.9
+       },
+       "per_day": {
+        "n_days": 608,
+        "mean_pct": -0.53,
+        "t": -3.21,
+        "se_pct": 0.165
+       },
+       "dropped_trades": 1903
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 1889,
+        "n_days": 598,
+        "mean_pct": -0.306,
+        "median_pct": -0.084,
+        "t_cluster": -1.81,
+        "t_naive": -2.79,
+        "se_cluster_pct": 0.1686,
+        "eff_n_design": 796.0
+       },
+       "per_day": {
+        "n_days": 598,
+        "mean_pct": -0.568,
+        "t": -3.41,
+        "se_pct": 0.1665
+       },
+       "dropped_trades": 2440
+      }
+     },
+     "top_days": [
+      {
+       "date": "2018-10-11",
+       "n": 344,
+       "mean_net_pct": -3.03
+      },
+      {
+       "date": "2018-02-09",
+       "n": 314,
+       "mean_net_pct": 3.85
+      },
+      {
+       "date": "2018-10-25",
+       "n": 203,
+       "mean_net_pct": -0.61
+      },
+      {
+       "date": "2015-08-25",
+       "n": 187,
+       "mean_net_pct": 7.57
+      },
+      {
+       "date": "2018-02-06",
+       "n": 187,
+       "mean_net_pct": -2.78
+      },
+      {
+       "date": "2015-08-24",
+       "n": 168,
+       "mean_net_pct": -6.82
+      },
+      {
+       "date": "2018-02-05",
+       "n": 151,
+       "mean_net_pct": 1.9
+      },
+      {
+       "date": "2018-03-23",
+       "n": 149,
+       "mean_net_pct": 1.63
+      },
+      {
+       "date": "2018-11-13",
+       "n": 105,
+       "mean_net_pct": 4.63
+      },
+      {
+       "date": "2015-07-09",
+       "n": 95,
+       "mean_net_pct": 3.16
+      },
+      {
+       "date": "2018-10-12",
+       "n": 95,
+       "mean_net_pct": 6.09
+      },
+      {
+       "date": "2016-01-18",
+       "n": 67,
+       "mean_net_pct": 6.57
+      }
+     ],
+     "top10_days_share_of_sum_net": 0.63
+    }
+   },
+   "V_official": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 13311,
+       "n_days": 1058,
+       "mean_pct": 0.569,
+       "median_pct": 0.709,
+       "t_cluster": 2.11,
+       "t_naive": 15.31,
+       "se_cluster_pct": 0.2694,
+       "eff_n_design": 253.2
+      },
+      "per_day": {
+       "n_days": 1058,
+       "mean_pct": -0.776,
+       "t": -6.7,
+       "se_pct": 0.1159
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 13311,
+       "n_days": 1058,
+       "mean_pct": 0.836,
+       "median_pct": 0.962,
+       "t_cluster": 3.14,
+       "t_naive": 22.72,
+       "se_cluster_pct": 0.2665,
+       "eff_n_design": 253.5
+      },
+      "per_day": {
+       "n_days": 1058,
+       "mean_pct": -0.493,
+       "t": -4.32,
+       "se_pct": 0.1142
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 295,
+        "n_days": 295,
+        "mean_pct": -1.014,
+        "median_pct": -0.253,
+        "t_cluster": -3.54,
+        "t_naive": -3.54,
+        "se_cluster_pct": 0.2868,
+        "eff_n_design": 295.0
+       },
+       "per_day": {
+        "n_days": 295,
+        "mean_pct": -1.014,
+        "t": -3.54,
+        "se_pct": 0.2868
+       },
+       "share_of_trades": 0.022
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 763,
+        "n_days": 326,
+        "mean_pct": -0.873,
+        "median_pct": -0.502,
+        "t_cluster": -4.46,
+        "t_naive": -4.68,
+        "se_cluster_pct": 0.1955,
+        "eff_n_design": 693.8
+       },
+       "per_day": {
+        "n_days": 326,
+        "mean_pct": -0.862,
+        "t": -4.33,
+        "se_pct": 0.1989
+       },
+       "share_of_trades": 0.057
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 1641,
+        "n_days": 284,
+        "mean_pct": -0.853,
+        "median_pct": -0.89,
+        "t_cluster": -4.94,
+        "t_naive": -7.01,
+        "se_cluster_pct": 0.1728,
+        "eff_n_design": 814.3
+       },
+       "per_day": {
+        "n_days": 284,
+        "mean_pct": -0.856,
+        "t": -5.17,
+        "se_pct": 0.1656
+       },
+       "share_of_trades": 0.123
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 1341,
+        "n_days": 83,
+        "mean_pct": -0.501,
+        "median_pct": -0.23,
+        "t_cluster": -1.54,
+        "t_naive": -3.88,
+        "se_cluster_pct": 0.3261,
+        "eff_n_design": 210.2
+       },
+       "per_day": {
+        "n_days": 83,
+        "mean_pct": -0.759,
+        "t": -2.33,
+        "se_pct": 0.3251
+       },
+       "share_of_trades": 0.101
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 9271,
+        "n_days": 70,
+        "mean_pct": 1.144,
+        "median_pct": 1.178,
+        "t_cluster": 3.21,
+        "t_naive": 28.64,
+        "se_cluster_pct": 0.3562,
+        "eff_n_design": 116.6
+       },
+       "per_day": {
+        "n_days": 70,
+        "mean_pct": 0.937,
+        "t": 2.8,
+        "se_pct": 0.3344
+       },
+       "share_of_trades": 0.696
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 10700,
+        "n_days": 1053,
+        "mean_pct": 0.337,
+        "median_pct": 0.54,
+        "t_cluster": 1.37,
+        "t_naive": 7.9,
+        "se_cluster_pct": 0.2465,
+        "eff_n_design": 321.7
+       },
+       "per_day": {
+        "n_days": 1053,
+        "mean_pct": -0.786,
+        "t": -6.76,
+        "se_pct": 0.1163
+       },
+       "dropped_trades": 2611
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 9194,
+        "n_days": 1048,
+        "mean_pct": 0.024,
+        "median_pct": 0.227,
+        "t_cluster": 0.1,
+        "t_naive": 0.51,
+        "se_cluster_pct": 0.2419,
+        "eff_n_design": 349.7
+       },
+       "per_day": {
+        "n_days": 1048,
+        "mean_pct": -0.8,
+        "t": -6.86,
+        "se_pct": 0.1166
+       },
+       "dropped_trades": 4117
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 7337,
+        "n_days": 1038,
+        "mean_pct": 0.021,
+        "median_pct": 0.255,
+        "t_cluster": 0.1,
+        "t_naive": 0.39,
+        "se_cluster_pct": 0.2159,
+        "eff_n_design": 465.2
+       },
+       "per_day": {
+        "n_days": 1038,
+        "mean_pct": -0.809,
+        "t": -6.89,
+        "se_pct": 0.1174
+       },
+       "dropped_trades": 5974
+      }
+     },
+     "top_days": [
+      {
+       "date": "2026-06-08",
+       "n": 626,
+       "mean_net_pct": 3.91
+      },
+      {
+       "date": "2021-05-17",
+       "n": 593,
+       "mean_net_pct": 0.88
+      },
+      {
+       "date": "2026-03-09",
+       "n": 545,
+       "mean_net_pct": 1.09
+      },
+      {
+       "date": "2020-03-13",
+       "n": 471,
+       "mean_net_pct": 2.44
+      },
+      {
+       "date": "2020-01-30",
+       "n": 376,
+       "mean_net_pct": -2.01
+      },
+      {
+       "date": "2020-03-17",
+       "n": 358,
+       "mean_net_pct": 1.15
+      },
+      {
+       "date": "2025-10-13",
+       "n": 308,
+       "mean_net_pct": 3.15
+      },
+      {
+       "date": "2020-03-23",
+       "n": 307,
+       "mean_net_pct": 1.0
+      },
+      {
+       "date": "2021-05-13",
+       "n": 304,
+       "mean_net_pct": 3.25
+      },
+      {
+       "date": "2020-06-12",
+       "n": 229,
+       "mean_net_pct": 3.11
+      },
+      {
+       "date": "2026-03-23",
+       "n": 223,
+       "mean_net_pct": 0.07
+      },
+      {
+       "date": "2026-07-28",
+       "n": 214,
+       "mean_net_pct": -3.12
+      }
+     ],
+     "top10_days_share_of_sum_net": 0.97
+    },
+    "regime_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 13311,
+       "n_days": 1058,
+       "mean_pct": 0.569,
+       "median_pct": 0.709,
+       "t_cluster": 2.11,
+       "t_naive": 15.31,
+       "se_cluster_pct": 0.2694,
+       "eff_n_design": 253.2
+      },
+      "per_day": {
+       "n_days": 1058,
+       "mean_pct": -0.776,
+       "t": -6.7,
+       "se_pct": 0.1159
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 13311,
+       "n_days": 1058,
+       "mean_pct": 0.836,
+       "median_pct": 0.962,
+       "t_cluster": 3.14,
+       "t_naive": 22.72,
+       "se_cluster_pct": 0.2665,
+       "eff_n_design": 253.5
+      },
+      "per_day": {
+       "n_days": 1058,
+       "mean_pct": -0.493,
+       "t": -4.32,
+       "se_pct": 0.1142
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 295,
+        "n_days": 295,
+        "mean_pct": -1.014,
+        "median_pct": -0.253,
+        "t_cluster": -3.54,
+        "t_naive": -3.54,
+        "se_cluster_pct": 0.2868,
+        "eff_n_design": 295.0
+       },
+       "per_day": {
+        "n_days": 295,
+        "mean_pct": -1.014,
+        "t": -3.54,
+        "se_pct": 0.2868
+       },
+       "share_of_trades": 0.022
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 763,
+        "n_days": 326,
+        "mean_pct": -0.873,
+        "median_pct": -0.502,
+        "t_cluster": -4.46,
+        "t_naive": -4.68,
+        "se_cluster_pct": 0.1955,
+        "eff_n_design": 693.8
+       },
+       "per_day": {
+        "n_days": 326,
+        "mean_pct": -0.862,
+        "t": -4.33,
+        "se_pct": 0.1989
+       },
+       "share_of_trades": 0.057
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 1641,
+        "n_days": 284,
+        "mean_pct": -0.853,
+        "median_pct": -0.89,
+        "t_cluster": -4.94,
+        "t_naive": -7.01,
+        "se_cluster_pct": 0.1728,
+        "eff_n_design": 814.3
+       },
+       "per_day": {
+        "n_days": 284,
+        "mean_pct": -0.856,
+        "t": -5.17,
+        "se_pct": 0.1656
+       },
+       "share_of_trades": 0.123
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 1341,
+        "n_days": 83,
+        "mean_pct": -0.501,
+        "median_pct": -0.23,
+        "t_cluster": -1.54,
+        "t_naive": -3.88,
+        "se_cluster_pct": 0.3261,
+        "eff_n_design": 210.2
+       },
+       "per_day": {
+        "n_days": 83,
+        "mean_pct": -0.759,
+        "t": -2.33,
+        "se_pct": 0.3251
+       },
+       "share_of_trades": 0.101
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 9271,
+        "n_days": 70,
+        "mean_pct": 1.144,
+        "median_pct": 1.178,
+        "t_cluster": 3.21,
+        "t_naive": 28.64,
+        "se_cluster_pct": 0.3562,
+        "eff_n_design": 116.6
+       },
+       "per_day": {
+        "n_days": 70,
+        "mean_pct": 0.937,
+        "t": 2.8,
+        "se_pct": 0.3344
+       },
+       "share_of_trades": 0.696
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 10700,
+        "n_days": 1053,
+        "mean_pct": 0.337,
+        "median_pct": 0.54,
+        "t_cluster": 1.37,
+        "t_naive": 7.9,
+        "se_cluster_pct": 0.2465,
+        "eff_n_design": 321.7
+       },
+       "per_day": {
+        "n_days": 1053,
+        "mean_pct": -0.786,
+        "t": -6.76,
+        "se_pct": 0.1163
+       },
+       "dropped_trades": 2611
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 9194,
+        "n_days": 1048,
+        "mean_pct": 0.024,
+        "median_pct": 0.227,
+        "t_cluster": 0.1,
+        "t_naive": 0.51,
+        "se_cluster_pct": 0.2419,
+        "eff_n_design": 349.7
+       },
+       "per_day": {
+        "n_days": 1048,
+        "mean_pct": -0.8,
+        "t": -6.86,
+        "se_pct": 0.1166
+       },
+       "dropped_trades": 4117
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 7337,
+        "n_days": 1038,
+        "mean_pct": 0.021,
+        "median_pct": 0.255,
+        "t_cluster": 0.1,
+        "t_naive": 0.39,
+        "se_cluster_pct": 0.2159,
+        "eff_n_design": 465.2
+       },
+       "per_day": {
+        "n_days": 1038,
+        "mean_pct": -0.809,
+        "t": -6.89,
+        "se_pct": 0.1174
+       },
+       "dropped_trades": 5974
+      }
+     },
+     "top_days": [
+      {
+       "date": "2026-06-08",
+       "n": 626,
+       "mean_net_pct": 3.91
+      },
+      {
+       "date": "2021-05-17",
+       "n": 593,
+       "mean_net_pct": 0.88
+      },
+      {
+       "date": "2026-03-09",
+       "n": 545,
+       "mean_net_pct": 1.09
+      },
+      {
+       "date": "2020-03-13",
+       "n": 471,
+       "mean_net_pct": 2.44
+      },
+      {
+       "date": "2020-01-30",
+       "n": 376,
+       "mean_net_pct": -2.01
+      },
+      {
+       "date": "2020-03-17",
+       "n": 358,
+       "mean_net_pct": 1.15
+      },
+      {
+       "date": "2025-10-13",
+       "n": 308,
+       "mean_net_pct": 3.15
+      },
+      {
+       "date": "2020-03-23",
+       "n": 307,
+       "mean_net_pct": 1.0
+      },
+      {
+       "date": "2021-05-13",
+       "n": 304,
+       "mean_net_pct": 3.25
+      },
+      {
+       "date": "2020-06-12",
+       "n": 229,
+       "mean_net_pct": 3.11
+      },
+      {
+       "date": "2026-03-23",
+       "n": 223,
+       "mean_net_pct": 0.07
+      },
+      {
+       "date": "2026-07-28",
+       "n": 214,
+       "mean_net_pct": -3.12
+      }
+     ],
+     "top10_days_share_of_sum_net": 0.97
+    }
+   },
+   "V_all": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 18572,
+       "n_days": 1370,
+       "mean_pct": 0.17,
+       "median_pct": 0.433,
+       "t_cluster": 0.43,
+       "t_naive": 4.98,
+       "se_cluster_pct": 0.3947,
+       "eff_n_design": 139.1
+      },
+      "per_day": {
+       "n_days": 1370,
+       "mean_pct": -0.668,
+       "t": -6.6,
+       "se_pct": 0.1013
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 18572,
+       "n_days": 1370,
+       "mean_pct": 0.452,
+       "median_pct": 0.683,
+       "t_cluster": 1.17,
+       "t_naive": 13.38,
+       "se_cluster_pct": 0.3878,
+       "eff_n_design": 140.9
+      },
+      "per_day": {
+       "n_days": 1370,
+       "mean_pct": -0.388,
+       "t": -3.88,
+       "se_pct": 0.0999
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 392,
+        "n_days": 392,
+        "mean_pct": -0.871,
+        "median_pct": -0.23,
+        "t_cluster": -3.45,
+        "t_naive": -3.45,
+        "se_cluster_pct": 0.2527,
+        "eff_n_design": 392.0
+       },
+       "per_day": {
+        "n_days": 392,
+        "mean_pct": -0.871,
+        "t": -3.45,
+        "se_pct": 0.2527
+       },
+       "share_of_trades": 0.021
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 951,
+        "n_days": 408,
+        "mean_pct": -0.762,
+        "median_pct": -0.417,
+        "t_cluster": -4.51,
+        "t_naive": -4.75,
+        "se_cluster_pct": 0.1688,
+        "eff_n_design": 859.6
+       },
+       "per_day": {
+        "n_days": 408,
+        "mean_pct": -0.719,
+        "t": -4.17,
+        "se_pct": 0.1723
+       },
+       "share_of_trades": 0.051
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 2151,
+        "n_days": 374,
+        "mean_pct": -0.725,
+        "median_pct": -0.726,
+        "t_cluster": -4.89,
+        "t_naive": -7.07,
+        "se_cluster_pct": 0.1483,
+        "eff_n_design": 1029.8
+       },
+       "per_day": {
+        "n_days": 374,
+        "mean_pct": -0.755,
+        "t": -5.4,
+        "se_pct": 0.1399
+       },
+       "share_of_trades": 0.116
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 1722,
+        "n_days": 107,
+        "mean_pct": -0.505,
+        "median_pct": -0.242,
+        "t_cluster": -1.8,
+        "t_naive": -4.56,
+        "se_cluster_pct": 0.2803,
+        "eff_n_design": 268.5
+       },
+       "per_day": {
+        "n_days": 107,
+        "mean_pct": -0.7,
+        "t": -2.6,
+        "se_pct": 0.2695
+       },
+       "share_of_trades": 0.093
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 13356,
+        "n_days": 89,
+        "mean_pct": 0.498,
+        "median_pct": 0.79,
+        "t_cluster": 0.9,
+        "t_naive": 12.6,
+        "se_cluster_pct": 0.5549,
+        "eff_n_design": 67.9
+       },
+       "per_day": {
+        "n_days": 89,
+        "mean_pct": 0.863,
+        "t": 2.81,
+        "se_pct": 0.3074
+       },
+       "share_of_trades": 0.719
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 15571,
+        "n_days": 1365,
+        "mean_pct": 0.408,
+        "median_pct": 0.484,
+        "t_cluster": 1.5,
+        "t_naive": 11.66,
+        "se_cluster_pct": 0.2727,
+        "eff_n_design": 256.7
+       },
+       "per_day": {
+        "n_days": 1365,
+        "mean_pct": -0.667,
+        "t": -6.58,
+        "se_pct": 0.1014
+       },
+       "dropped_trades": 3001
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 13506,
+        "n_days": 1360,
+        "mean_pct": 0.52,
+        "median_pct": 0.631,
+        "t_cluster": 1.94,
+        "t_naive": 13.56,
+        "se_cluster_pct": 0.2686,
+        "eff_n_design": 275.5
+       },
+       "per_day": {
+        "n_days": 1360,
+        "mean_pct": -0.667,
+        "t": -6.56,
+        "se_pct": 0.1017
+       },
+       "dropped_trades": 5066
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 10768,
+        "n_days": 1350,
+        "mean_pct": 0.154,
+        "median_pct": 0.362,
+        "t_cluster": 0.75,
+        "t_naive": 3.59,
+        "se_cluster_pct": 0.2054,
+        "eff_n_design": 468.0
+       },
+       "per_day": {
+        "n_days": 1350,
+        "mean_pct": -0.686,
+        "t": -6.71,
+        "se_pct": 0.1021
+       },
+       "dropped_trades": 7804
+      }
+     },
+     "top_days": [
+      {
+       "date": "2025-04-07",
+       "n": 672,
+       "mean_net_pct": -7.32
+      },
+      {
+       "date": "2026-06-08",
+       "n": 626,
+       "mean_net_pct": 3.91
+      },
+      {
+       "date": "2021-05-17",
+       "n": 593,
+       "mean_net_pct": 0.88
+      },
+      {
+       "date": "2025-04-08",
+       "n": 565,
+       "mean_net_pct": -3.28
+      },
+      {
+       "date": "2026-03-09",
+       "n": 545,
+       "mean_net_pct": 1.09
+      },
+      {
+       "date": "2024-09-04",
+       "n": 514,
+       "mean_net_pct": 0.07
+      },
+      {
+       "date": "2020-03-13",
+       "n": 471,
+       "mean_net_pct": 2.44
+      },
+      {
+       "date": "2020-01-30",
+       "n": 376,
+       "mean_net_pct": -2.01
+      },
+      {
+       "date": "2020-03-17",
+       "n": 358,
+       "mean_net_pct": 1.15
+      },
+      {
+       "date": "2024-08-05",
+       "n": 346,
+       "mean_net_pct": -4.35
+      },
+      {
+       "date": "2025-03-31",
+       "n": 319,
+       "mean_net_pct": -2.36
+      },
+      {
+       "date": "2025-04-09",
+       "n": 317,
+       "mean_net_pct": 5.43
+      }
+     ],
+     "top10_days_share_of_sum_net": -1.22
+    },
+    "regime_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 18572,
+       "n_days": 1370,
+       "mean_pct": 0.17,
+       "median_pct": 0.433,
+       "t_cluster": 0.43,
+       "t_naive": 4.98,
+       "se_cluster_pct": 0.3947,
+       "eff_n_design": 139.1
+      },
+      "per_day": {
+       "n_days": 1370,
+       "mean_pct": -0.668,
+       "t": -6.6,
+       "se_pct": 0.1013
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 18572,
+       "n_days": 1370,
+       "mean_pct": 0.452,
+       "median_pct": 0.683,
+       "t_cluster": 1.17,
+       "t_naive": 13.38,
+       "se_cluster_pct": 0.3878,
+       "eff_n_design": 140.9
+      },
+      "per_day": {
+       "n_days": 1370,
+       "mean_pct": -0.388,
+       "t": -3.88,
+       "se_pct": 0.0999
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 392,
+        "n_days": 392,
+        "mean_pct": -0.871,
+        "median_pct": -0.23,
+        "t_cluster": -3.45,
+        "t_naive": -3.45,
+        "se_cluster_pct": 0.2527,
+        "eff_n_design": 392.0
+       },
+       "per_day": {
+        "n_days": 392,
+        "mean_pct": -0.871,
+        "t": -3.45,
+        "se_pct": 0.2527
+       },
+       "share_of_trades": 0.021
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 951,
+        "n_days": 408,
+        "mean_pct": -0.762,
+        "median_pct": -0.417,
+        "t_cluster": -4.51,
+        "t_naive": -4.75,
+        "se_cluster_pct": 0.1688,
+        "eff_n_design": 859.6
+       },
+       "per_day": {
+        "n_days": 408,
+        "mean_pct": -0.719,
+        "t": -4.17,
+        "se_pct": 0.1723
+       },
+       "share_of_trades": 0.051
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 2151,
+        "n_days": 374,
+        "mean_pct": -0.725,
+        "median_pct": -0.726,
+        "t_cluster": -4.89,
+        "t_naive": -7.07,
+        "se_cluster_pct": 0.1483,
+        "eff_n_design": 1029.8
+       },
+       "per_day": {
+        "n_days": 374,
+        "mean_pct": -0.755,
+        "t": -5.4,
+        "se_pct": 0.1399
+       },
+       "share_of_trades": 0.116
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 1722,
+        "n_days": 107,
+        "mean_pct": -0.505,
+        "median_pct": -0.242,
+        "t_cluster": -1.8,
+        "t_naive": -4.56,
+        "se_cluster_pct": 0.2803,
+        "eff_n_design": 268.5
+       },
+       "per_day": {
+        "n_days": 107,
+        "mean_pct": -0.7,
+        "t": -2.6,
+        "se_pct": 0.2695
+       },
+       "share_of_trades": 0.093
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 13356,
+        "n_days": 89,
+        "mean_pct": 0.498,
+        "median_pct": 0.79,
+        "t_cluster": 0.9,
+        "t_naive": 12.6,
+        "se_cluster_pct": 0.5549,
+        "eff_n_design": 67.9
+       },
+       "per_day": {
+        "n_days": 89,
+        "mean_pct": 0.863,
+        "t": 2.81,
+        "se_pct": 0.3074
+       },
+       "share_of_trades": 0.719
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 15571,
+        "n_days": 1365,
+        "mean_pct": 0.408,
+        "median_pct": 0.484,
+        "t_cluster": 1.5,
+        "t_naive": 11.66,
+        "se_cluster_pct": 0.2727,
+        "eff_n_design": 256.7
+       },
+       "per_day": {
+        "n_days": 1365,
+        "mean_pct": -0.667,
+        "t": -6.58,
+        "se_pct": 0.1014
+       },
+       "dropped_trades": 3001
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 13506,
+        "n_days": 1360,
+        "mean_pct": 0.52,
+        "median_pct": 0.631,
+        "t_cluster": 1.94,
+        "t_naive": 13.56,
+        "se_cluster_pct": 0.2686,
+        "eff_n_design": 275.5
+       },
+       "per_day": {
+        "n_days": 1360,
+        "mean_pct": -0.667,
+        "t": -6.56,
+        "se_pct": 0.1017
+       },
+       "dropped_trades": 5066
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 10768,
+        "n_days": 1350,
+        "mean_pct": 0.154,
+        "median_pct": 0.362,
+        "t_cluster": 0.75,
+        "t_naive": 3.59,
+        "se_cluster_pct": 0.2054,
+        "eff_n_design": 468.0
+       },
+       "per_day": {
+        "n_days": 1350,
+        "mean_pct": -0.686,
+        "t": -6.71,
+        "se_pct": 0.1021
+       },
+       "dropped_trades": 7804
+      }
+     },
+     "top_days": [
+      {
+       "date": "2025-04-07",
+       "n": 672,
+       "mean_net_pct": -7.32
+      },
+      {
+       "date": "2026-06-08",
+       "n": 626,
+       "mean_net_pct": 3.91
+      },
+      {
+       "date": "2021-05-17",
+       "n": 593,
+       "mean_net_pct": 0.88
+      },
+      {
+       "date": "2025-04-08",
+       "n": 565,
+       "mean_net_pct": -3.28
+      },
+      {
+       "date": "2026-03-09",
+       "n": 545,
+       "mean_net_pct": 1.09
+      },
+      {
+       "date": "2024-09-04",
+       "n": 514,
+       "mean_net_pct": 0.07
+      },
+      {
+       "date": "2020-03-13",
+       "n": 471,
+       "mean_net_pct": 2.44
+      },
+      {
+       "date": "2020-01-30",
+       "n": 376,
+       "mean_net_pct": -2.01
+      },
+      {
+       "date": "2020-03-17",
+       "n": 358,
+       "mean_net_pct": 1.15
+      },
+      {
+       "date": "2024-08-05",
+       "n": 346,
+       "mean_net_pct": -4.35
+      },
+      {
+       "date": "2025-03-31",
+       "n": 319,
+       "mean_net_pct": -2.36
+      },
+      {
+       "date": "2025-04-09",
+       "n": 317,
+       "mean_net_pct": 5.43
+      }
+     ],
+     "top10_days_share_of_sum_net": -1.22
+    }
+   },
+   "src3_2024-02_2025-09": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 5258,
+       "n_days": 311,
+       "mean_pct": -0.838,
+       "median_pct": -0.23,
+       "t_cluster": -0.78,
+       "t_naive": -11.36,
+       "se_cluster_pct": 1.0792,
+       "eff_n_design": 24.6
+      },
+      "per_day": {
+       "n_days": 311,
+       "mean_pct": -0.298,
+       "t": -1.43,
+       "se_pct": 0.2079
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 5258,
+       "n_days": 311,
+       "mean_pct": -0.519,
+       "median_pct": 0.0,
+       "t_cluster": -0.49,
+       "t_naive": -7.12,
+       "se_cluster_pct": 1.0612,
+       "eff_n_design": 24.8
+      },
+      "per_day": {
+       "n_days": 311,
+       "mean_pct": -0.027,
+       "t": -0.13,
+       "se_pct": 0.2054
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 97,
+        "n_days": 97,
+        "mean_pct": -0.435,
+        "median_pct": 0.051,
+        "t_cluster": -0.82,
+        "t_naive": -0.82,
+        "se_cluster_pct": 0.5313,
+        "eff_n_design": 97.0
+       },
+       "per_day": {
+        "n_days": 97,
+        "mean_pct": -0.435,
+        "t": -0.82,
+        "se_pct": 0.5313
+       },
+       "share_of_trades": 0.018
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 185,
+        "n_days": 81,
+        "mean_pct": -0.29,
+        "median_pct": -0.23,
+        "t_cluster": -0.91,
+        "t_naive": -0.98,
+        "se_cluster_pct": 0.3206,
+        "eff_n_design": 158.9
+       },
+       "per_day": {
+        "n_days": 81,
+        "mean_pct": -0.132,
+        "t": -0.4,
+        "se_pct": 0.3287
+       },
+       "share_of_trades": 0.035
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 510,
+        "n_days": 90,
+        "mean_pct": -0.315,
+        "median_pct": -0.56,
+        "t_cluster": -1.12,
+        "t_naive": -1.72,
+        "se_cluster_pct": 0.2808,
+        "eff_n_design": 216.6
+       },
+       "per_day": {
+        "n_days": 90,
+        "mean_pct": -0.434,
+        "t": -1.71,
+        "se_pct": 0.2533
+       },
+       "share_of_trades": 0.097
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 381,
+        "n_days": 24,
+        "mean_pct": -0.519,
+        "median_pct": -0.468,
+        "t_cluster": -0.95,
+        "t_naive": -2.48,
+        "se_cluster_pct": 0.5479,
+        "eff_n_design": 55.6
+       },
+       "per_day": {
+        "n_days": 24,
+        "mean_pct": -0.496,
+        "t": -1.15,
+        "se_pct": 0.432
+       },
+       "share_of_trades": 0.072
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 4085,
+        "n_days": 19,
+        "mean_pct": -0.967,
+        "median_pct": -0.23,
+        "t_cluster": -0.69,
+        "t_naive": -10.98,
+        "se_cluster_pct": 1.4095,
+        "eff_n_design": 15.9
+       },
+       "per_day": {
+        "n_days": 19,
+        "mean_pct": 0.588,
+        "t": 0.77,
+        "se_pct": 0.7615
+       },
+       "share_of_trades": 0.777
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 2842,
+        "n_days": 306,
+        "mean_pct": 1.614,
+        "median_pct": 1.426,
+        "t_cluster": 2.4,
+        "t_naive": 19.61,
+        "se_cluster_pct": 0.671,
+        "eff_n_design": 42.8
+       },
+       "per_day": {
+        "n_days": 306,
+        "mean_pct": -0.247,
+        "t": -1.18,
+        "se_pct": 0.2092
+       },
+       "dropped_trades": 2416
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 1745,
+        "n_days": 301,
+        "mean_pct": 0.06,
+        "median_pct": 0.159,
+        "t_cluster": 0.22,
+        "t_naive": 0.63,
+        "se_cluster_pct": 0.2723,
+        "eff_n_design": 208.8
+       },
+       "per_day": {
+        "n_days": 301,
+        "mean_pct": -0.308,
+        "t": -1.46,
+        "se_pct": 0.2104
+       },
+       "dropped_trades": 3513
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 1143,
+        "n_days": 291,
+        "mean_pct": -0.257,
+        "median_pct": -0.23,
+        "t_cluster": -1.37,
+        "t_naive": -2.11,
+        "se_cluster_pct": 0.1878,
+        "eff_n_design": 483.0
+       },
+       "per_day": {
+        "n_days": 291,
+        "mean_pct": -0.339,
+        "t": -1.57,
+        "se_pct": 0.2157
+       },
+       "dropped_trades": 4115
+      }
+     },
+     "top_days": [
+      {
+       "date": "2025-04-07",
+       "n": 672,
+       "mean_net_pct": -7.32
+      },
+      {
+       "date": "2025-04-08",
+       "n": 565,
+       "mean_net_pct": -3.28
+      },
+      {
+       "date": "2024-09-04",
+       "n": 514,
+       "mean_net_pct": 0.07
+      },
+      {
+       "date": "2024-08-05",
+       "n": 346,
+       "mean_net_pct": -4.35
+      },
+      {
+       "date": "2025-03-31",
+       "n": 319,
+       "mean_net_pct": -2.36
+      },
+      {
+       "date": "2025-04-09",
+       "n": 317,
+       "mean_net_pct": 5.43
+      },
+      {
+       "date": "2025-04-11",
+       "n": 306,
+       "mean_net_pct": 6.02
+      },
+      {
+       "date": "2024-07-26",
+       "n": 193,
+       "mean_net_pct": 1.8
+      },
+      {
+       "date": "2024-09-09",
+       "n": 148,
+       "mean_net_pct": 3.02
+      },
+      {
+       "date": "2025-02-03",
+       "n": 133,
+       "mean_net_pct": 0.91
+      },
+      {
+       "date": "2025-03-11",
+       "n": 117,
+       "mean_net_pct": 0.9
+      },
+      {
+       "date": "2024-08-02",
+       "n": 109,
+       "mean_net_pct": -1.68
+      }
+     ],
+     "top10_days_share_of_sum_net": 1.02
+    }
+   },
+   "breakpoints": {
+    "2014-01-06_daytrade_open": {
+     "12m": {
+      "before": "2013-01-06~2014-01-05",
+      "after": "2014-01-06~2015-01-05",
+      "gross_per_trade_before": {
+       "n_trades": 548,
+       "n_days": 163,
+       "mean_pct": 1.124,
+       "median_pct": 1.257,
+       "t_cluster": 3.23,
+       "t_naive": 7.0,
+       "se_cluster_pct": 0.3473,
+       "eff_n_design": 117.2
+      },
+      "gross_per_trade_after": {
+       "n_trades": 1271,
+       "n_days": 192,
+       "mean_pct": 1.101,
+       "median_pct": 1.602,
+       "t_cluster": 1.87,
+       "t_naive": 9.77,
+       "se_cluster_pct": 0.5874,
+       "eff_n_design": 46.7
+      },
+      "diff_per_trade_pct": -0.023,
+      "t_diff_per_trade": -0.03,
+      "gross_per_day_before": {
+       "n_days": 163,
+       "mean_pct": 0.94,
+       "t": 3.07,
+       "se_pct": 0.3062
+      },
+      "gross_per_day_after": {
+       "n_days": 192,
+       "mean_pct": 0.188,
+       "t": 0.68,
+       "se_pct": 0.2751
+      },
+      "diff_per_day_pct": -0.752,
+      "t_diff_per_day": -1.83,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 548,
+        "n_days": 163,
+        "mean_pct": 0.775,
+        "median_pct": 0.739,
+        "t_cluster": 1.76,
+        "t_naive": 4.1,
+        "se_cluster_pct": 0.441,
+        "eff_n_design": 100.6
+       },
+       "per_day": {
+        "n_days": 163,
+        "mean_pct": 0.908,
+        "t": 2.72,
+        "se_pct": 0.3335
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 1271,
+        "n_days": 192,
+        "mean_pct": 0.693,
+        "median_pct": 1.222,
+        "t_cluster": 1.17,
+        "t_naive": 6.1,
+        "se_cluster_pct": 0.5935,
+        "eff_n_design": 46.6
+       },
+       "per_day": {
+        "n_days": 192,
+        "mean_pct": -0.232,
+        "t": -0.84,
+        "se_pct": 0.2776
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 353,
+        "n_days": 159,
+        "mean_pct": 0.855,
+        "median_pct": 1.089,
+        "t_cluster": 3.78,
+        "t_naive": 3.87,
+        "se_cluster_pct": 0.2264,
+        "eff_n_design": 335.7
+       },
+       "after": {
+        "n_trades": 510,
+        "n_days": 179,
+        "mean_pct": 0.015,
+        "median_pct": 0.506,
+        "t_cluster": 0.06,
+        "t_naive": 0.07,
+        "se_cluster_pct": 0.2542,
+        "eff_n_design": 321.3
+       },
+       "diff_pct": -0.84,
+       "t_diff": -2.47
+      }
+     },
+     "adjacent_segment": {
+      "before": "2005-01-01~2014-01-05",
+      "after": "2014-01-06~2015-05-31",
+      "gross_per_trade_before": {
+       "n_trades": 24633,
+       "n_days": 1714,
+       "mean_pct": 1.006,
+       "median_pct": 1.016,
+       "t_cluster": 4.42,
+       "t_naive": 37.22,
+       "se_cluster_pct": 0.2275,
+       "eff_n_design": 348.0
+      },
+      "gross_per_trade_after": {
+       "n_trades": 1488,
+       "n_days": 248,
+       "mean_pct": 1.024,
+       "median_pct": 1.524,
+       "t_cluster": 2.02,
+       "t_naive": 9.91,
+       "se_cluster_pct": 0.5072,
+       "eff_n_design": 61.7
+      },
+      "diff_per_trade_pct": 0.018,
+      "t_diff_per_trade": 0.03,
+      "gross_per_day_before": {
+       "n_days": 1714,
+       "mean_pct": 0.793,
+       "t": 9.04,
+       "se_pct": 0.0876
+      },
+      "gross_per_day_after": {
+       "n_days": 248,
+       "mean_pct": 0.381,
+       "t": 1.66,
+       "se_pct": 0.23
+      },
+      "diff_per_day_pct": -0.412,
+      "t_diff_per_day": -1.67,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 24627,
+        "n_days": 1714,
+        "mean_pct": 0.579,
+        "median_pct": 0.626,
+        "t_cluster": 1.63,
+        "t_naive": 16.51,
+        "se_cluster_pct": 0.3562,
+        "eff_n_design": 238.8
+       },
+       "per_day": {
+        "n_days": 1714,
+        "mean_pct": 0.438,
+        "t": 4.39,
+        "se_pct": 0.0998
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 1488,
+        "n_days": 248,
+        "mean_pct": 0.615,
+        "median_pct": 1.144,
+        "t_cluster": 1.2,
+        "t_naive": 5.9,
+        "se_cluster_pct": 0.5124,
+        "eff_n_design": 61.6
+       },
+       "per_day": {
+        "n_days": 248,
+        "mean_pct": -0.038,
+        "t": -0.16,
+        "se_pct": 0.2322
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 4129,
+        "n_days": 1441,
+        "mean_pct": 0.752,
+        "median_pct": 1.304,
+        "t_cluster": 7.88,
+        "t_naive": 10.54,
+        "se_cluster_pct": 0.0955,
+        "eff_n_design": 2307.3
+       },
+       "after": {
+        "n_trades": 666,
+        "n_days": 231,
+        "mean_pct": 0.193,
+        "median_pct": 0.637,
+        "t_cluster": 0.85,
+        "t_naive": 1.13,
+        "se_cluster_pct": 0.2271,
+        "eff_n_design": 378.7
+       },
+       "diff_pct": -0.559,
+       "t_diff": -2.27
+      }
+     }
+    },
+    "2015-06-01_limit10": {
+     "12m": {
+      "before": "2014-06-01~2015-05-31",
+      "after": "2015-06-01~2016-05-31",
+      "gross_per_trade_before": {
+       "n_trades": 1071,
+       "n_days": 180,
+       "mean_pct": 0.616,
+       "median_pct": 1.091,
+       "t_cluster": 1.03,
+       "t_naive": 4.97,
+       "se_cluster_pct": 0.6,
+       "eff_n_design": 45.8
+      },
+      "gross_per_trade_after": {
+       "n_trades": 1350,
+       "n_days": 162,
+       "mean_pct": 1.373,
+       "median_pct": 1.887,
+       "t_cluster": 0.99,
+       "t_naive": 8.58,
+       "se_cluster_pct": 1.3918,
+       "eff_n_design": 17.9
+      },
+      "diff_per_trade_pct": 0.757,
+      "t_diff_per_trade": 0.5,
+      "gross_per_day_before": {
+       "n_days": 180,
+       "mean_pct": 0.263,
+       "t": 1.02,
+       "se_pct": 0.2586
+      },
+      "gross_per_day_after": {
+       "n_days": 162,
+       "mean_pct": 0.253,
+       "t": 0.83,
+       "se_pct": 0.3058
+      },
+      "diff_per_day_pct": -0.01,
+      "t_diff_per_day": -0.02,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 1071,
+        "n_days": 180,
+        "mean_pct": 0.202,
+        "median_pct": 0.711,
+        "t_cluster": 0.33,
+        "t_naive": 1.62,
+        "se_cluster_pct": 0.6059,
+        "eff_n_design": 45.8
+       },
+       "per_day": {
+        "n_days": 180,
+        "mean_pct": -0.157,
+        "t": -0.6,
+        "se_pct": 0.2611
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 1350,
+        "n_days": 162,
+        "mean_pct": 0.976,
+        "median_pct": 1.507,
+        "t_cluster": 0.7,
+        "t_naive": 6.07,
+        "se_cluster_pct": 1.3974,
+        "eff_n_design": 17.9
+       },
+       "per_day": {
+        "n_days": 162,
+        "mean_pct": -0.147,
+        "t": -0.48,
+        "se_pct": 0.3078
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 511,
+        "n_days": 168,
+        "mean_pct": 0.092,
+        "median_pct": 0.513,
+        "t_cluster": 0.33,
+        "t_naive": 0.47,
+        "se_cluster_pct": 0.2757,
+        "eff_n_design": 261.2
+       },
+       "after": {
+        "n_trades": 389,
+        "n_days": 139,
+        "mean_pct": 0.348,
+        "median_pct": 0.668,
+        "t_cluster": 1.06,
+        "t_naive": 1.44,
+        "se_cluster_pct": 0.3283,
+        "eff_n_design": 209.5
+       },
+       "diff_pct": 0.256,
+       "t_diff": 0.6
+      }
+     },
+     "adjacent_segment": {
+      "before": "2014-01-06~2015-05-31",
+      "after": "2015-06-01~2017-04-27",
+      "gross_per_trade_before": {
+       "n_trades": 1488,
+       "n_days": 248,
+       "mean_pct": 1.024,
+       "median_pct": 1.524,
+       "t_cluster": 2.02,
+       "t_naive": 9.91,
+       "se_cluster_pct": 0.5072,
+       "eff_n_design": 61.7
+      },
+      "gross_per_trade_after": {
+       "n_trades": 1629,
+       "n_days": 266,
+       "mean_pct": 1.085,
+       "median_pct": 1.25,
+       "t_cluster": 0.94,
+       "t_naive": 7.79,
+       "se_cluster_pct": 1.1599,
+       "eff_n_design": 23.5
+      },
+      "diff_per_trade_pct": 0.061,
+      "t_diff_per_trade": 0.05,
+      "gross_per_day_before": {
+       "n_days": 248,
+       "mean_pct": 0.381,
+       "t": 1.66,
+       "se_pct": 0.23
+      },
+      "gross_per_day_after": {
+       "n_days": 266,
+       "mean_pct": -0.001,
+       "t": -0.0,
+       "se_pct": 0.229
+      },
+      "diff_per_day_pct": -0.382,
+      "t_diff_per_day": -1.18,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 1488,
+        "n_days": 248,
+        "mean_pct": 0.615,
+        "median_pct": 1.144,
+        "t_cluster": 1.2,
+        "t_naive": 5.9,
+        "se_cluster_pct": 0.5124,
+        "eff_n_design": 61.6
+       },
+       "per_day": {
+        "n_days": 248,
+        "mean_pct": -0.038,
+        "t": -0.16,
+        "se_pct": 0.2322
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 1629,
+        "n_days": 266,
+        "mean_pct": 0.687,
+        "median_pct": 0.87,
+        "t_cluster": 0.59,
+        "t_naive": 4.91,
+        "se_cluster_pct": 1.1645,
+        "eff_n_design": 23.5
+       },
+       "per_day": {
+        "n_days": 266,
+        "mean_pct": -0.404,
+        "t": -1.75,
+        "se_pct": 0.2306
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 666,
+        "n_days": 231,
+        "mean_pct": 0.193,
+        "median_pct": 0.637,
+        "t_cluster": 0.85,
+        "t_naive": 1.13,
+        "se_cluster_pct": 0.2271,
+        "eff_n_design": 378.7
+       },
+       "after": {
+        "n_trades": 594,
+        "n_days": 240,
+        "mean_pct": 0.132,
+        "median_pct": 0.407,
+        "t_cluster": 0.52,
+        "t_naive": 0.71,
+        "se_cluster_pct": 0.2539,
+        "eff_n_design": 321.9
+       },
+       "diff_pct": -0.061,
+       "t_diff": -0.18
+      }
+     }
+    },
+    "2017-04-28_tax_cut": {
+     "12m": {
+      "before": "2016-04-28~2017-04-27",
+      "after": "2017-04-28~2018-04-27",
+      "gross_per_trade_before": {
+       "n_trades": 347,
+       "n_days": 117,
+       "mean_pct": -0.209,
+       "median_pct": -0.303,
+       "t_cluster": -0.66,
+       "t_naive": -0.93,
+       "se_cluster_pct": 0.3154,
+       "eff_n_design": 177.2
+      },
+      "gross_per_trade_after": {
+       "n_trades": 1244,
+       "n_days": 174,
+       "mean_pct": 1.146,
+       "median_pct": 1.268,
+       "t_cluster": 1.22,
+       "t_naive": 9.7,
+       "se_cluster_pct": 0.9386,
+       "eff_n_design": 19.7
+      },
+      "diff_per_trade_pct": 1.355,
+      "t_diff_per_trade": 1.37,
+      "gross_per_day_before": {
+       "n_days": 117,
+       "mean_pct": -0.533,
+       "t": -1.6,
+       "se_pct": 0.3325
+      },
+      "gross_per_day_after": {
+       "n_days": 174,
+       "mean_pct": 0.072,
+       "t": 0.23,
+       "se_pct": 0.3197
+      },
+      "diff_per_day_pct": 0.605,
+      "t_diff_per_day": 1.31,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 347,
+        "n_days": 117,
+        "mean_pct": -0.612,
+        "median_pct": -0.683,
+        "t_cluster": -1.93,
+        "t_naive": -2.7,
+        "se_cluster_pct": 0.317,
+        "eff_n_design": 177.8
+       },
+       "per_day": {
+        "n_days": 117,
+        "mean_pct": -0.942,
+        "t": -2.81,
+        "se_pct": 0.335
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 1244,
+        "n_days": 174,
+        "mean_pct": 0.883,
+        "median_pct": 1.02,
+        "t_cluster": 0.93,
+        "t_naive": 7.4,
+        "se_cluster_pct": 0.9502,
+        "eff_n_design": 19.6
+       },
+       "per_day": {
+        "n_days": 174,
+        "mean_pct": -0.215,
+        "t": -0.66,
+        "se_pct": 0.3242
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 250,
+        "n_days": 112,
+        "mean_pct": -0.456,
+        "median_pct": -0.352,
+        "t_cluster": -1.24,
+        "t_naive": -1.66,
+        "se_cluster_pct": 0.3683,
+        "eff_n_design": 139.8
+       },
+       "after": {
+        "n_trades": 394,
+        "n_days": 167,
+        "mean_pct": -0.257,
+        "median_pct": 0.0,
+        "t_cluster": -0.89,
+        "t_naive": -1.04,
+        "se_cluster_pct": 0.2891,
+        "eff_n_design": 287.6
+       },
+       "diff_pct": 0.199,
+       "t_diff": 0.43
+      }
+     },
+     "adjacent_segment": {
+      "before": "2015-06-01~2017-04-27",
+      "after": "2017-04-28~2019-04-30",
+      "gross_per_trade_before": {
+       "n_trades": 1629,
+       "n_days": 266,
+       "mean_pct": 1.085,
+       "median_pct": 1.25,
+       "t_cluster": 0.94,
+       "t_naive": 7.79,
+       "se_cluster_pct": 1.1599,
+       "eff_n_design": 23.5
+      },
+      "gross_per_trade_after": {
+       "n_trades": 2700,
+       "n_days": 352,
+       "mean_pct": 0.514,
+       "median_pct": 0.581,
+       "t_cluster": 0.75,
+       "t_naive": 5.97,
+       "se_cluster_pct": 0.6881,
+       "eff_n_design": 42.4
+      },
+      "diff_per_trade_pct": -0.571,
+      "t_diff_per_trade": -0.42,
+      "gross_per_day_before": {
+       "n_days": 266,
+       "mean_pct": -0.001,
+       "t": -0.0,
+       "se_pct": 0.229
+      },
+      "gross_per_day_after": {
+       "n_days": 352,
+       "mean_pct": -0.293,
+       "t": -1.3,
+       "se_pct": 0.2257
+      },
+      "diff_per_day_pct": -0.292,
+      "t_diff_per_day": -0.91,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 1629,
+        "n_days": 266,
+        "mean_pct": 0.687,
+        "median_pct": 0.87,
+        "t_cluster": 0.59,
+        "t_naive": 4.91,
+        "se_cluster_pct": 1.1645,
+        "eff_n_design": 23.5
+       },
+       "per_day": {
+        "n_days": 266,
+        "mean_pct": -0.404,
+        "t": -1.75,
+        "se_pct": 0.2306
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 2700,
+        "n_days": 352,
+        "mean_pct": 0.236,
+        "median_pct": 0.333,
+        "t_cluster": 0.34,
+        "t_naive": 2.7,
+        "se_cluster_pct": 0.7013,
+        "eff_n_design": 41.8
+       },
+       "per_day": {
+        "n_days": 352,
+        "mean_pct": -0.583,
+        "t": -2.55,
+        "se_pct": 0.2289
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 594,
+        "n_days": 240,
+        "mean_pct": 0.132,
+        "median_pct": 0.407,
+        "t_cluster": 0.52,
+        "t_naive": 0.71,
+        "se_cluster_pct": 0.2539,
+        "eff_n_design": 321.9
+       },
+       "after": {
+        "n_trades": 815,
+        "n_days": 329,
+        "mean_pct": -0.484,
+        "median_pct": 0.0,
+        "t_cluster": -2.49,
+        "t_naive": -2.77,
+        "se_cluster_pct": 0.194,
+        "eff_n_design": 659.5
+       },
+       "diff_pct": -0.616,
+       "t_diff": -1.93
+      }
+     }
+    }
+   }
+  },
+  "gap_down_5": {
+   "S0_2005_2015": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 10713,
+       "n_days": 1444,
+       "mean_pct": 0.771,
+       "median_pct": 1.105,
+       "t_cluster": 2.06,
+       "t_naive": 15.84,
+       "se_cluster_pct": 0.3738,
+       "eff_n_design": 181.5
+      },
+      "per_day": {
+       "n_days": 1444,
+       "mean_pct": 0.212,
+       "t": 1.72,
+       "se_pct": 0.1231
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 10713,
+       "n_days": 1444,
+       "mean_pct": 1.12,
+       "median_pct": 1.389,
+       "t_cluster": 3.06,
+       "t_naive": 23.45,
+       "se_cluster_pct": 0.3666,
+       "eff_n_design": 181.8
+      },
+      "per_day": {
+       "n_days": 1444,
+       "mean_pct": 0.557,
+       "t": 4.62,
+       "se_pct": 0.1207
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 647,
+        "n_days": 647,
+        "mean_pct": 0.127,
+        "median_pct": 0.903,
+        "t_cluster": 0.58,
+        "t_naive": 0.58,
+        "se_cluster_pct": 0.2195,
+        "eff_n_design": 647.0
+       },
+       "per_day": {
+        "n_days": 647,
+        "mean_pct": 0.127,
+        "t": 0.58,
+        "se_pct": 0.2195
+       },
+       "share_of_trades": 0.06
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 1087,
+        "n_days": 472,
+        "mean_pct": 0.139,
+        "median_pct": 0.902,
+        "t_cluster": 0.77,
+        "t_naive": 0.84,
+        "se_cluster_pct": 0.1814,
+        "eff_n_design": 902.3
+       },
+       "per_day": {
+        "n_days": 472,
+        "mean_pct": 0.108,
+        "t": 0.6,
+        "se_pct": 0.182
+       },
+       "share_of_trades": 0.101
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 1138,
+        "n_days": 202,
+        "mean_pct": 0.308,
+        "median_pct": 0.77,
+        "t_cluster": 1.3,
+        "t_naive": 2.03,
+        "se_cluster_pct": 0.2358,
+        "eff_n_design": 470.9
+       },
+       "per_day": {
+        "n_days": 202,
+        "mean_pct": 0.235,
+        "t": 0.99,
+        "se_pct": 0.2368
+       },
+       "share_of_trades": 0.106
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 1242,
+        "n_days": 69,
+        "mean_pct": 0.908,
+        "median_pct": 1.506,
+        "t_cluster": 1.86,
+        "t_naive": 5.91,
+        "se_cluster_pct": 0.4886,
+        "eff_n_design": 122.5
+       },
+       "per_day": {
+        "n_days": 69,
+        "mean_pct": 0.946,
+        "t": 2.03,
+        "se_pct": 0.467
+       },
+       "share_of_trades": 0.116
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 6599,
+        "n_days": 54,
+        "mean_pct": 0.992,
+        "median_pct": 1.121,
+        "t_cluster": 1.65,
+        "t_naive": 16.8,
+        "se_cluster_pct": 0.6029,
+        "eff_n_design": 63.3
+       },
+       "per_day": {
+        "n_days": 54,
+        "mean_pct": 1.113,
+        "t": 2.29,
+        "se_pct": 0.4867
+       },
+       "share_of_trades": 0.616
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 8962,
+        "n_days": 1439,
+        "mean_pct": 0.701,
+        "median_pct": 1.139,
+        "t_cluster": 2.02,
+        "t_naive": 12.83,
+        "se_cluster_pct": 0.3469,
+        "eff_n_design": 222.6
+       },
+       "per_day": {
+        "n_days": 1439,
+        "mean_pct": 0.208,
+        "t": 1.69,
+        "se_pct": 0.1235
+       },
+       "dropped_trades": 1751
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 7843,
+        "n_days": 1434,
+        "mean_pct": 0.921,
+        "median_pct": 1.33,
+        "t_cluster": 2.73,
+        "t_naive": 15.62,
+        "se_cluster_pct": 0.3372,
+        "eff_n_design": 239.7
+       },
+       "per_day": {
+        "n_days": 1434,
+        "mean_pct": 0.212,
+        "t": 1.71,
+        "se_pct": 0.1238
+       },
+       "dropped_trades": 2870
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 6365,
+        "n_days": 1424,
+        "mean_pct": 0.522,
+        "median_pct": 1.121,
+        "t_cluster": 1.8,
+        "t_naive": 7.95,
+        "se_cluster_pct": 0.2902,
+        "eff_n_design": 326.2
+       },
+       "per_day": {
+        "n_days": 1424,
+        "mean_pct": 0.197,
+        "t": 1.58,
+        "se_pct": 0.1243
+       },
+       "dropped_trades": 4348
+      }
+     },
+     "top_days": [
+      {
+       "date": "2011-08-05",
+       "n": 446,
+       "mean_net_pct": -2.87
+      },
+      {
+       "date": "2011-08-09",
+       "n": 394,
+       "mean_net_pct": 5.28
+      },
+      {
+       "date": "2008-01-22",
+       "n": 327,
+       "mean_net_pct": 0.18
+      },
+      {
+       "date": "2008-09-30",
+       "n": 317,
+       "mean_net_pct": 3.08
+      },
+      {
+       "date": "2008-06-27",
+       "n": 267,
+       "mean_net_pct": 0.51
+      },
+      {
+       "date": "2008-09-16",
+       "n": 258,
+       "mean_net_pct": 0.93
+      },
+      {
+       "date": "2008-09-18",
+       "n": 242,
+       "mean_net_pct": 2.28
+      },
+      {
+       "date": "2008-10-27",
+       "n": 238,
+       "mean_net_pct": -4.43
+      },
+      {
+       "date": "2008-11-06",
+       "n": 205,
+       "mean_net_pct": -3.84
+      },
+      {
+       "date": "2010-05-21",
+       "n": 176,
+       "mean_net_pct": 0.66
+      },
+      {
+       "date": "2010-05-07",
+       "n": 170,
+       "mean_net_pct": 4.74
+      },
+      {
+       "date": "2008-11-07",
+       "n": 168,
+       "mean_net_pct": 8.32
+      }
+     ],
+     "top10_days_share_of_sum_net": 0.13
+    },
+    "regime_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 10708,
+       "n_days": 1443,
+       "mean_pct": 0.971,
+       "median_pct": 1.142,
+       "t_cluster": 1.73,
+       "t_naive": 16.72,
+       "se_cluster_pct": 0.5601,
+       "eff_n_design": 115.2
+      },
+      "per_day": {
+       "n_days": 1443,
+       "mean_pct": 0.392,
+       "t": 3.06,
+       "se_pct": 0.1282
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 10708,
+       "n_days": 1443,
+       "mean_pct": 1.548,
+       "median_pct": 1.72,
+       "t_cluster": 2.76,
+       "t_naive": 26.65,
+       "se_cluster_pct": 0.5601,
+       "eff_n_design": 115.1
+      },
+      "per_day": {
+       "n_days": 1443,
+       "mean_pct": 0.959,
+       "t": 7.48,
+       "se_pct": 0.1282
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 647,
+        "n_days": 647,
+        "mean_pct": 0.286,
+        "median_pct": 0.608,
+        "t_cluster": 1.29,
+        "t_naive": 1.29,
+        "se_cluster_pct": 0.2223,
+        "eff_n_design": 647.0
+       },
+       "per_day": {
+        "n_days": 647,
+        "mean_pct": 0.286,
+        "t": 1.29,
+        "se_pct": 0.2223
+       },
+       "share_of_trades": 0.06
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 1085,
+        "n_days": 471,
+        "mean_pct": 0.332,
+        "median_pct": 0.573,
+        "t_cluster": 1.72,
+        "t_naive": 1.93,
+        "se_cluster_pct": 0.1936,
+        "eff_n_design": 856.1
+       },
+       "per_day": {
+        "n_days": 471,
+        "mean_pct": 0.327,
+        "t": 1.69,
+        "se_pct": 0.1938
+       },
+       "share_of_trades": 0.101
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 1135,
+        "n_days": 202,
+        "mean_pct": 0.419,
+        "median_pct": 0.807,
+        "t_cluster": 1.5,
+        "t_naive": 2.49,
+        "se_cluster_pct": 0.2797,
+        "eff_n_design": 410.1
+       },
+       "per_day": {
+        "n_days": 202,
+        "mean_pct": 0.391,
+        "t": 1.44,
+        "se_pct": 0.271
+       },
+       "share_of_trades": 0.106
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 1242,
+        "n_days": 69,
+        "mean_pct": 1.047,
+        "median_pct": 1.409,
+        "t_cluster": 2.04,
+        "t_naive": 6.32,
+        "se_cluster_pct": 0.5128,
+        "eff_n_design": 129.6
+       },
+       "per_day": {
+        "n_days": 69,
+        "mean_pct": 1.196,
+        "t": 2.41,
+        "se_pct": 0.4959
+       },
+       "share_of_trades": 0.116
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 6599,
+        "n_days": 54,
+        "mean_pct": 1.224,
+        "median_pct": 1.379,
+        "t_cluster": 1.34,
+        "t_naive": 16.12,
+        "se_cluster_pct": 0.9106,
+        "eff_n_design": 45.9
+       },
+       "per_day": {
+        "n_days": 54,
+        "mean_pct": 1.221,
+        "t": 2.06,
+        "se_pct": 0.5933
+       },
+       "share_of_trades": 0.616
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 8957,
+        "n_days": 1438,
+        "mean_pct": 1.136,
+        "median_pct": 1.357,
+        "t_cluster": 3.0,
+        "t_naive": 18.63,
+        "se_cluster_pct": 0.3792,
+        "eff_n_design": 231.4
+       },
+       "per_day": {
+        "n_days": 1438,
+        "mean_pct": 0.393,
+        "t": 3.06,
+        "se_pct": 0.1284
+       },
+       "dropped_trades": 1751
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 7838,
+        "n_days": 1433,
+        "mean_pct": 1.038,
+        "median_pct": 1.241,
+        "t_cluster": 2.78,
+        "t_naive": 15.73,
+        "se_cluster_pct": 0.3735,
+        "eff_n_design": 244.7
+       },
+       "per_day": {
+        "n_days": 1433,
+        "mean_pct": 0.388,
+        "t": 3.02,
+        "se_pct": 0.1287
+       },
+       "dropped_trades": 2870
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 6360,
+        "n_days": 1423,
+        "mean_pct": 0.602,
+        "median_pct": 0.878,
+        "t_cluster": 1.98,
+        "t_naive": 8.48,
+        "se_cluster_pct": 0.3047,
+        "eff_n_design": 345.7
+       },
+       "per_day": {
+        "n_days": 1423,
+        "mean_pct": 0.371,
+        "t": 2.87,
+        "se_pct": 0.1292
+       },
+       "dropped_trades": 4348
+      }
+     },
+     "top_days": [
+      {
+       "date": "2011-08-05",
+       "n": 446,
+       "mean_net_pct": -5.4
+      },
+      {
+       "date": "2011-08-09",
+       "n": 394,
+       "mean_net_pct": 9.1
+      },
+      {
+       "date": "2008-01-22",
+       "n": 327,
+       "mean_net_pct": -5.06
+      },
+      {
+       "date": "2008-09-30",
+       "n": 317,
+       "mean_net_pct": 4.34
+      },
+      {
+       "date": "2008-06-27",
+       "n": 267,
+       "mean_net_pct": -2.52
+      },
+      {
+       "date": "2008-09-16",
+       "n": 258,
+       "mean_net_pct": -2.82
+      },
+      {
+       "date": "2008-09-18",
+       "n": 242,
+       "mean_net_pct": 6.8
+      },
+      {
+       "date": "2008-10-27",
+       "n": 238,
+       "mean_net_pct": 1.39
+      },
+      {
+       "date": "2008-11-06",
+       "n": 205,
+       "mean_net_pct": 2.72
+      },
+      {
+       "date": "2010-05-21",
+       "n": 176,
+       "mean_net_pct": 1.33
+      },
+      {
+       "date": "2010-05-07",
+       "n": 170,
+       "mean_net_pct": 7.5
+      },
+      {
+       "date": "2008-11-07",
+       "n": 168,
+       "mean_net_pct": 7.5
+      }
+     ],
+     "top10_days_share_of_sum_net": 0.22
+    },
+    "S0_all_next_close_0.585": {
+     "per_trade": {
+      "n_trades": 10708,
+      "n_days": 1443,
+      "mean_pct": 0.99,
+      "median_pct": 1.123,
+      "t_cluster": 1.77,
+      "t_naive": 17.02,
+      "se_cluster_pct": 0.5604,
+      "eff_n_design": 115.5
+     },
+     "per_day": {
+      "n_days": 1443,
+      "mean_pct": 0.434,
+      "t": 3.39,
+      "se_pct": 0.128
+     }
+    },
+    "S0_all_next_close_1pct": {
+     "per_trade": {
+      "n_trades": 10708,
+      "n_days": 1443,
+      "mean_pct": 0.575,
+      "median_pct": 0.708,
+      "t_cluster": 1.03,
+      "t_naive": 9.89,
+      "se_cluster_pct": 0.5604,
+      "eff_n_design": 115.5
+     },
+     "per_day": {
+      "n_days": 1443,
+      "mean_pct": 0.019,
+      "t": 0.15,
+      "se_pct": 0.128
+     }
+    }
+   },
+   "S1_2015_2019": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 1567,
+       "n_days": 405,
+       "mean_pct": 0.591,
+       "median_pct": 0.675,
+       "t_cluster": 0.57,
+       "t_naive": 3.88,
+       "se_cluster_pct": 1.0402,
+       "eff_n_design": 33.6
+      },
+      "per_day": {
+       "n_days": 405,
+       "mean_pct": -0.803,
+       "t": -2.92,
+       "se_pct": 0.2756
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 1567,
+       "n_days": 405,
+       "mean_pct": 0.909,
+       "median_pct": 0.909,
+       "t_cluster": 0.89,
+       "t_naive": 6.05,
+       "se_cluster_pct": 1.0217,
+       "eff_n_design": 33.8
+      },
+      "per_day": {
+       "n_days": 405,
+       "mean_pct": -0.465,
+       "t": -1.72,
+       "se_pct": 0.2711
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 249,
+        "n_days": 249,
+        "mean_pct": -0.977,
+        "median_pct": -0.5,
+        "t_cluster": -2.47,
+        "t_naive": -2.47,
+        "se_cluster_pct": 0.3951,
+        "eff_n_design": 249.0
+       },
+       "per_day": {
+        "n_days": 249,
+        "mean_pct": -0.977,
+        "t": -2.47,
+        "se_pct": 0.3951
+       },
+       "share_of_trades": 0.159
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 249,
+        "n_days": 108,
+        "mean_pct": -1.025,
+        "median_pct": -0.69,
+        "t_cluster": -2.58,
+        "t_naive": -2.79,
+        "se_cluster_pct": 0.3973,
+        "eff_n_design": 213.5
+       },
+       "per_day": {
+        "n_days": 108,
+        "mean_pct": -1.176,
+        "t": -2.89,
+        "se_pct": 0.4064
+       },
+       "share_of_trades": 0.159
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 177,
+        "n_days": 35,
+        "mean_pct": 0.444,
+        "median_pct": 0.521,
+        "t_cluster": 0.69,
+        "t_naive": 1.06,
+        "se_cluster_pct": 0.6417,
+        "eff_n_design": 75.8
+       },
+       "per_day": {
+        "n_days": 35,
+        "mean_pct": 0.421,
+        "t": 0.68,
+        "se_pct": 0.6225
+       },
+       "share_of_trades": 0.113
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 102,
+        "n_days": 5,
+        "mean_pct": 3.555,
+        "median_pct": 3.934,
+        "t_cluster": 4.38,
+        "t_naive": 8.7,
+        "se_cluster_pct": 0.812,
+        "eff_n_design": 25.8
+       },
+       "per_day": {
+        "n_days": 5,
+        "mean_pct": 3.669,
+        "t": 5.65,
+        "se_pct": 0.6498
+       },
+       "share_of_trades": 0.065
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 790,
+        "n_days": 8,
+        "mean_pct": 1.244,
+        "median_pct": 1.165,
+        "t_cluster": 0.56,
+        "t_naive": 5.74,
+        "se_cluster_pct": 2.2172,
+        "eff_n_design": 7.6
+       },
+       "per_day": {
+        "n_days": 8,
+        "mean_pct": 1.469,
+        "t": 0.79,
+        "se_pct": 1.8629
+       },
+       "share_of_trades": 0.504
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 899,
+        "n_days": 400,
+        "mean_pct": 0.335,
+        "median_pct": 0.582,
+        "t_cluster": 0.72,
+        "t_naive": 1.73,
+        "se_cluster_pct": 0.4628,
+        "eff_n_design": 156.9
+       },
+       "per_day": {
+        "n_days": 400,
+        "mean_pct": -0.822,
+        "t": -2.97,
+        "se_pct": 0.2772
+       },
+       "dropped_trades": 668
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 724,
+        "n_days": 395,
+        "mean_pct": -0.291,
+        "median_pct": 0.197,
+        "t_cluster": -0.92,
+        "t_naive": -1.31,
+        "se_cluster_pct": 0.3152,
+        "eff_n_design": 359.4
+       },
+       "per_day": {
+        "n_days": 395,
+        "mean_pct": -0.869,
+        "t": -3.11,
+        "se_pct": 0.2795
+       },
+       "dropped_trades": 843
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 628,
+        "n_days": 385,
+        "mean_pct": -0.775,
+        "median_pct": -0.377,
+        "t_cluster": -2.94,
+        "t_naive": -3.27,
+        "se_cluster_pct": 0.2634,
+        "eff_n_design": 510.5
+       },
+       "per_day": {
+        "n_days": 385,
+        "mean_pct": -0.946,
+        "t": -3.33,
+        "se_pct": 0.2843
+       },
+       "dropped_trades": 939
+      }
+     },
+     "top_days": [
+      {
+       "date": "2018-10-11",
+       "n": 258,
+       "mean_net_pct": -3.04
+      },
+      {
+       "date": "2018-02-09",
+       "n": 162,
+       "mean_net_pct": 4.98
+      },
+      {
+       "date": "2015-08-25",
+       "n": 120,
+       "mean_net_pct": 8.5
+      },
+      {
+       "date": "2018-10-25",
+       "n": 67,
+       "mean_net_pct": -0.07
+      },
+      {
+       "date": "2015-08-24",
+       "n": 61,
+       "mean_net_pct": -6.75
+      },
+      {
+       "date": "2018-10-12",
+       "n": 47,
+       "mean_net_pct": 7.1
+      },
+      {
+       "date": "2018-02-06",
+       "n": 41,
+       "mean_net_pct": -1.57
+      },
+      {
+       "date": "2018-03-23",
+       "n": 34,
+       "mean_net_pct": 2.61
+      },
+      {
+       "date": "2018-02-05",
+       "n": 29,
+       "mean_net_pct": 1.45
+      },
+      {
+       "date": "2018-11-13",
+       "n": 24,
+       "mean_net_pct": 4.64
+      },
+      {
+       "date": "2015-07-09",
+       "n": 20,
+       "mean_net_pct": 5.12
+      },
+      {
+       "date": "2015-07-28",
+       "n": 18,
+       "mean_net_pct": 4.04
+      }
+     ],
+     "top10_days_share_of_sum_net": 1.23
+    },
+    "regime_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 1567,
+       "n_days": 405,
+       "mean_pct": 0.554,
+       "median_pct": 0.618,
+       "t_cluster": 0.54,
+       "t_naive": 3.65,
+       "se_cluster_pct": 1.0336,
+       "eff_n_design": 33.8
+      },
+      "per_day": {
+       "n_days": 405,
+       "mean_pct": -0.844,
+       "t": -3.08,
+       "se_pct": 0.2745
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 1567,
+       "n_days": 405,
+       "mean_pct": 0.909,
+       "median_pct": 0.909,
+       "t_cluster": 0.89,
+       "t_naive": 6.05,
+       "se_cluster_pct": 1.0217,
+       "eff_n_design": 33.8
+      },
+      "per_day": {
+       "n_days": 405,
+       "mean_pct": -0.465,
+       "t": -1.72,
+       "se_pct": 0.2711
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 249,
+        "n_days": 249,
+        "mean_pct": -1.017,
+        "median_pct": -0.5,
+        "t_cluster": -2.58,
+        "t_naive": -2.58,
+        "se_cluster_pct": 0.3936,
+        "eff_n_design": 249.0
+       },
+       "per_day": {
+        "n_days": 249,
+        "mean_pct": -1.017,
+        "t": -2.58,
+        "se_pct": 0.3936
+       },
+       "share_of_trades": 0.159
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 249,
+        "n_days": 108,
+        "mean_pct": -1.061,
+        "median_pct": -0.729,
+        "t_cluster": -2.68,
+        "t_naive": -2.89,
+        "se_cluster_pct": 0.3954,
+        "eff_n_design": 214.1
+       },
+       "per_day": {
+        "n_days": 108,
+        "mean_pct": -1.21,
+        "t": -2.99,
+        "se_pct": 0.4047
+       },
+       "share_of_trades": 0.159
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 177,
+        "n_days": 35,
+        "mean_pct": 0.38,
+        "median_pct": 0.445,
+        "t_cluster": 0.6,
+        "t_naive": 0.91,
+        "se_cluster_pct": 0.636,
+        "eff_n_design": 76.3
+       },
+       "per_day": {
+        "n_days": 35,
+        "mean_pct": 0.359,
+        "t": 0.58,
+        "se_pct": 0.6175
+       },
+       "share_of_trades": 0.113
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 102,
+        "n_days": 5,
+        "mean_pct": 3.489,
+        "median_pct": 3.934,
+        "t_cluster": 4.4,
+        "t_naive": 8.59,
+        "se_cluster_pct": 0.793,
+        "eff_n_design": 26.8
+       },
+       "per_day": {
+        "n_days": 5,
+        "mean_pct": 3.588,
+        "t": 5.64,
+        "se_pct": 0.636
+       },
+       "share_of_trades": 0.065
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 790,
+        "n_days": 8,
+        "mean_pct": 1.217,
+        "median_pct": 1.165,
+        "t_cluster": 0.55,
+        "t_naive": 5.64,
+        "se_cluster_pct": 2.2034,
+        "eff_n_design": 7.6
+       },
+       "per_day": {
+        "n_days": 8,
+        "mean_pct": 1.444,
+        "t": 0.78,
+        "se_pct": 1.8574
+       },
+       "share_of_trades": 0.504
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 899,
+        "n_days": 400,
+        "mean_pct": 0.294,
+        "median_pct": 0.53,
+        "t_cluster": 0.63,
+        "t_naive": 1.52,
+        "se_cluster_pct": 0.4633,
+        "eff_n_design": 155.5
+       },
+       "per_day": {
+        "n_days": 400,
+        "mean_pct": -0.863,
+        "t": -3.13,
+        "se_pct": 0.2761
+       },
+       "dropped_trades": 668
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 724,
+        "n_days": 395,
+        "mean_pct": -0.342,
+        "median_pct": 0.097,
+        "t_cluster": -1.1,
+        "t_naive": -1.55,
+        "se_cluster_pct": 0.3118,
+        "eff_n_design": 363.7
+       },
+       "per_day": {
+        "n_days": 395,
+        "mean_pct": -0.91,
+        "t": -3.27,
+        "se_pct": 0.2783
+       },
+       "dropped_trades": 843
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 628,
+        "n_days": 385,
+        "mean_pct": -0.817,
+        "median_pct": -0.391,
+        "t_cluster": -3.12,
+        "t_naive": -3.46,
+        "se_cluster_pct": 0.2618,
+        "eff_n_design": 512.5
+       },
+       "per_day": {
+        "n_days": 385,
+        "mean_pct": -0.985,
+        "t": -3.48,
+        "se_pct": 0.2832
+       },
+       "dropped_trades": 939
+      }
+     },
+     "top_days": [
+      {
+       "date": "2018-10-11",
+       "n": 258,
+       "mean_net_pct": -3.04
+      },
+      {
+       "date": "2018-02-09",
+       "n": 162,
+       "mean_net_pct": 4.98
+      },
+      {
+       "date": "2015-08-25",
+       "n": 120,
+       "mean_net_pct": 8.35
+      },
+      {
+       "date": "2018-10-25",
+       "n": 67,
+       "mean_net_pct": -0.07
+      },
+      {
+       "date": "2015-08-24",
+       "n": 61,
+       "mean_net_pct": -6.81
+      },
+      {
+       "date": "2018-10-12",
+       "n": 47,
+       "mean_net_pct": 7.1
+      },
+      {
+       "date": "2018-02-06",
+       "n": 41,
+       "mean_net_pct": -1.57
+      },
+      {
+       "date": "2018-03-23",
+       "n": 34,
+       "mean_net_pct": 2.61
+      },
+      {
+       "date": "2018-02-05",
+       "n": 29,
+       "mean_net_pct": 1.45
+      },
+      {
+       "date": "2018-11-13",
+       "n": 24,
+       "mean_net_pct": 4.64
+      },
+      {
+       "date": "2015-07-09",
+       "n": 20,
+       "mean_net_pct": 4.98
+      },
+      {
+       "date": "2015-07-28",
+       "n": 18,
+       "mean_net_pct": 3.9
+      }
+     ],
+     "top10_days_share_of_sum_net": 1.29
+    }
+   },
+   "V_official": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 4966,
+       "n_days": 665,
+       "mean_pct": 1.143,
+       "median_pct": 1.274,
+       "t_cluster": 2.64,
+       "t_naive": 16.91,
+       "se_cluster_pct": 0.4326,
+       "eff_n_design": 121.3
+      },
+      "per_day": {
+       "n_days": 665,
+       "mean_pct": -1.033,
+       "t": -4.92,
+       "se_pct": 0.21
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 4966,
+       "n_days": 665,
+       "mean_pct": 1.443,
+       "median_pct": 1.538,
+       "t_cluster": 3.4,
+       "t_naive": 21.64,
+       "se_cluster_pct": 0.4243,
+       "eff_n_design": 122.7
+      },
+      "per_day": {
+       "n_days": 665,
+       "mean_pct": -0.699,
+       "t": -3.38,
+       "se_pct": 0.2068
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 333,
+        "n_days": 333,
+        "mean_pct": -1.2,
+        "median_pct": -0.674,
+        "t_cluster": -3.37,
+        "t_naive": -3.37,
+        "se_cluster_pct": 0.3559,
+        "eff_n_design": 333.0
+       },
+       "per_day": {
+        "n_days": 333,
+        "mean_pct": -1.2,
+        "t": -3.37,
+        "se_pct": 0.3559
+       },
+       "share_of_trades": 0.067
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 441,
+        "n_days": 190,
+        "mean_pct": -1.671,
+        "median_pct": -1.53,
+        "t_cluster": -5.62,
+        "t_naive": -6.13,
+        "se_cluster_pct": 0.2975,
+        "eff_n_design": 370.3
+       },
+       "per_day": {
+        "n_days": 190,
+        "mean_pct": -1.704,
+        "t": -5.86,
+        "se_pct": 0.2906
+       },
+       "share_of_trades": 0.089
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 535,
+        "n_days": 97,
+        "mean_pct": -0.101,
+        "median_pct": 0.073,
+        "t_cluster": -0.24,
+        "t_naive": -0.39,
+        "se_cluster_pct": 0.4184,
+        "eff_n_design": 208.3
+       },
+       "per_day": {
+        "n_days": 97,
+        "mean_pct": -0.243,
+        "t": -0.6,
+        "se_pct": 0.4069
+       },
+       "share_of_trades": 0.108
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 436,
+        "n_days": 25,
+        "mean_pct": 1.061,
+        "median_pct": 1.209,
+        "t_cluster": 1.48,
+        "t_naive": 4.57,
+        "se_cluster_pct": 0.7151,
+        "eff_n_design": 45.8
+       },
+       "per_day": {
+        "n_days": 25,
+        "mean_pct": 1.016,
+        "t": 1.41,
+        "se_pct": 0.7228
+       },
+       "share_of_trades": 0.088
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 3221,
+        "n_days": 20,
+        "mean_pct": 1.988,
+        "median_pct": 1.856,
+        "t_cluster": 3.51,
+        "t_naive": 29.81,
+        "se_cluster_pct": 0.5663,
+        "eff_n_design": 44.7
+       },
+       "per_day": {
+        "n_days": 20,
+        "mean_pct": 1.71,
+        "t": 2.55,
+        "se_pct": 0.67
+       },
+       "share_of_trades": 0.649
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 2968,
+        "n_days": 660,
+        "mean_pct": 0.53,
+        "median_pct": 0.74,
+        "t_cluster": 1.44,
+        "t_naive": 5.39,
+        "se_cluster_pct": 0.3676,
+        "eff_n_design": 212.6
+       },
+       "per_day": {
+        "n_days": 660,
+        "mean_pct": -1.054,
+        "t": -4.99,
+        "se_pct": 0.2113
+       },
+       "dropped_trades": 1998
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 2246,
+        "n_days": 655,
+        "mean_pct": -0.164,
+        "median_pct": -0.048,
+        "t_cluster": -0.49,
+        "t_naive": -1.36,
+        "se_cluster_pct": 0.3341,
+        "eff_n_design": 291.1
+       },
+       "per_day": {
+        "n_days": 655,
+        "mean_pct": -1.082,
+        "t": -5.09,
+        "se_pct": 0.2125
+       },
+       "dropped_trades": 2720
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 1745,
+        "n_days": 645,
+        "mean_pct": -0.417,
+        "median_pct": -0.23,
+        "t_cluster": -1.65,
+        "t_naive": -2.97,
+        "se_cluster_pct": 0.2533,
+        "eff_n_design": 536.3
+       },
+       "per_day": {
+        "n_days": 645,
+        "mean_pct": -1.118,
+        "t": -5.21,
+        "se_pct": 0.2147
+       },
+       "dropped_trades": 3221
+      }
+     },
+     "top_days": [
+      {
+       "date": "2026-06-08",
+       "n": 517,
+       "mean_net_pct": 4.3
+      },
+      {
+       "date": "2021-05-17",
+       "n": 473,
+       "mean_net_pct": 1.2
+      },
+      {
+       "date": "2020-03-13",
+       "n": 408,
+       "mean_net_pct": 2.74
+      },
+      {
+       "date": "2026-03-09",
+       "n": 343,
+       "mean_net_pct": 1.8
+      },
+      {
+       "date": "2020-01-30",
+       "n": 257,
+       "mean_net_pct": -1.63
+      },
+      {
+       "date": "2020-03-17",
+       "n": 195,
+       "mean_net_pct": 1.65
+      },
+      {
+       "date": "2021-05-13",
+       "n": 177,
+       "mean_net_pct": 3.45
+      },
+      {
+       "date": "2025-10-13",
+       "n": 137,
+       "mean_net_pct": 4.35
+      },
+      {
+       "date": "2020-03-23",
+       "n": 131,
+       "mean_net_pct": 1.83
+      },
+      {
+       "date": "2020-02-03",
+       "n": 82,
+       "mean_net_pct": 2.11
+      },
+      {
+       "date": "2026-07-28",
+       "n": 69,
+       "mean_net_pct": -3.7
+      },
+      {
+       "date": "2026-03-23",
+       "n": 64,
+       "mean_net_pct": 0.55
+      }
+     ],
+     "top10_days_share_of_sum_net": 1.06
+    },
+    "regime_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 4966,
+       "n_days": 665,
+       "mean_pct": 1.143,
+       "median_pct": 1.274,
+       "t_cluster": 2.64,
+       "t_naive": 16.91,
+       "se_cluster_pct": 0.4326,
+       "eff_n_design": 121.3
+      },
+      "per_day": {
+       "n_days": 665,
+       "mean_pct": -1.033,
+       "t": -4.92,
+       "se_pct": 0.21
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 4966,
+       "n_days": 665,
+       "mean_pct": 1.443,
+       "median_pct": 1.538,
+       "t_cluster": 3.4,
+       "t_naive": 21.64,
+       "se_cluster_pct": 0.4243,
+       "eff_n_design": 122.7
+      },
+      "per_day": {
+       "n_days": 665,
+       "mean_pct": -0.699,
+       "t": -3.38,
+       "se_pct": 0.2068
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 333,
+        "n_days": 333,
+        "mean_pct": -1.2,
+        "median_pct": -0.674,
+        "t_cluster": -3.37,
+        "t_naive": -3.37,
+        "se_cluster_pct": 0.3559,
+        "eff_n_design": 333.0
+       },
+       "per_day": {
+        "n_days": 333,
+        "mean_pct": -1.2,
+        "t": -3.37,
+        "se_pct": 0.3559
+       },
+       "share_of_trades": 0.067
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 441,
+        "n_days": 190,
+        "mean_pct": -1.671,
+        "median_pct": -1.53,
+        "t_cluster": -5.62,
+        "t_naive": -6.13,
+        "se_cluster_pct": 0.2975,
+        "eff_n_design": 370.3
+       },
+       "per_day": {
+        "n_days": 190,
+        "mean_pct": -1.704,
+        "t": -5.86,
+        "se_pct": 0.2906
+       },
+       "share_of_trades": 0.089
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 535,
+        "n_days": 97,
+        "mean_pct": -0.101,
+        "median_pct": 0.073,
+        "t_cluster": -0.24,
+        "t_naive": -0.39,
+        "se_cluster_pct": 0.4184,
+        "eff_n_design": 208.3
+       },
+       "per_day": {
+        "n_days": 97,
+        "mean_pct": -0.243,
+        "t": -0.6,
+        "se_pct": 0.4069
+       },
+       "share_of_trades": 0.108
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 436,
+        "n_days": 25,
+        "mean_pct": 1.061,
+        "median_pct": 1.209,
+        "t_cluster": 1.48,
+        "t_naive": 4.57,
+        "se_cluster_pct": 0.7151,
+        "eff_n_design": 45.8
+       },
+       "per_day": {
+        "n_days": 25,
+        "mean_pct": 1.016,
+        "t": 1.41,
+        "se_pct": 0.7228
+       },
+       "share_of_trades": 0.088
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 3221,
+        "n_days": 20,
+        "mean_pct": 1.988,
+        "median_pct": 1.856,
+        "t_cluster": 3.51,
+        "t_naive": 29.81,
+        "se_cluster_pct": 0.5663,
+        "eff_n_design": 44.7
+       },
+       "per_day": {
+        "n_days": 20,
+        "mean_pct": 1.71,
+        "t": 2.55,
+        "se_pct": 0.67
+       },
+       "share_of_trades": 0.649
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 2968,
+        "n_days": 660,
+        "mean_pct": 0.53,
+        "median_pct": 0.74,
+        "t_cluster": 1.44,
+        "t_naive": 5.39,
+        "se_cluster_pct": 0.3676,
+        "eff_n_design": 212.6
+       },
+       "per_day": {
+        "n_days": 660,
+        "mean_pct": -1.054,
+        "t": -4.99,
+        "se_pct": 0.2113
+       },
+       "dropped_trades": 1998
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 2246,
+        "n_days": 655,
+        "mean_pct": -0.164,
+        "median_pct": -0.048,
+        "t_cluster": -0.49,
+        "t_naive": -1.36,
+        "se_cluster_pct": 0.3341,
+        "eff_n_design": 291.1
+       },
+       "per_day": {
+        "n_days": 655,
+        "mean_pct": -1.082,
+        "t": -5.09,
+        "se_pct": 0.2125
+       },
+       "dropped_trades": 2720
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 1745,
+        "n_days": 645,
+        "mean_pct": -0.417,
+        "median_pct": -0.23,
+        "t_cluster": -1.65,
+        "t_naive": -2.97,
+        "se_cluster_pct": 0.2533,
+        "eff_n_design": 536.3
+       },
+       "per_day": {
+        "n_days": 645,
+        "mean_pct": -1.118,
+        "t": -5.21,
+        "se_pct": 0.2147
+       },
+       "dropped_trades": 3221
+      }
+     },
+     "top_days": [
+      {
+       "date": "2026-06-08",
+       "n": 517,
+       "mean_net_pct": 4.3
+      },
+      {
+       "date": "2021-05-17",
+       "n": 473,
+       "mean_net_pct": 1.2
+      },
+      {
+       "date": "2020-03-13",
+       "n": 408,
+       "mean_net_pct": 2.74
+      },
+      {
+       "date": "2026-03-09",
+       "n": 343,
+       "mean_net_pct": 1.8
+      },
+      {
+       "date": "2020-01-30",
+       "n": 257,
+       "mean_net_pct": -1.63
+      },
+      {
+       "date": "2020-03-17",
+       "n": 195,
+       "mean_net_pct": 1.65
+      },
+      {
+       "date": "2021-05-13",
+       "n": 177,
+       "mean_net_pct": 3.45
+      },
+      {
+       "date": "2025-10-13",
+       "n": 137,
+       "mean_net_pct": 4.35
+      },
+      {
+       "date": "2020-03-23",
+       "n": 131,
+       "mean_net_pct": 1.83
+      },
+      {
+       "date": "2020-02-03",
+       "n": 82,
+       "mean_net_pct": 2.11
+      },
+      {
+       "date": "2026-07-28",
+       "n": 69,
+       "mean_net_pct": -3.7
+      },
+      {
+       "date": "2026-03-23",
+       "n": 64,
+       "mean_net_pct": 0.55
+      }
+     ],
+     "top10_days_share_of_sum_net": 1.06
+    }
+   },
+   "V_all": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 7525,
+       "n_days": 847,
+       "mean_pct": 0.205,
+       "median_pct": 0.663,
+       "t_cluster": 0.24,
+       "t_naive": 3.19,
+       "se_cluster_pct": 0.8548,
+       "eff_n_design": 42.7
+      },
+      "per_day": {
+       "n_days": 847,
+       "mean_pct": -0.898,
+       "t": -4.98,
+       "se_pct": 0.1804
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 7525,
+       "n_days": 847,
+       "mean_pct": 0.533,
+       "median_pct": 0.929,
+       "t_cluster": 0.63,
+       "t_naive": 8.39,
+       "se_cluster_pct": 0.8409,
+       "eff_n_design": 43.0
+      },
+      "per_day": {
+       "n_days": 847,
+       "mean_pct": -0.567,
+       "t": -3.19,
+       "se_pct": 0.1777
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 418,
+        "n_days": 418,
+        "mean_pct": -1.061,
+        "median_pct": -0.572,
+        "t_cluster": -3.4,
+        "t_naive": -3.4,
+        "se_cluster_pct": 0.3118,
+        "eff_n_design": 418.0
+       },
+       "per_day": {
+        "n_days": 418,
+        "mean_pct": -1.061,
+        "t": -3.4,
+        "se_pct": 0.3118
+       },
+       "share_of_trades": 0.056
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 581,
+        "n_days": 248,
+        "mean_pct": -1.486,
+        "median_pct": -1.319,
+        "t_cluster": -6.13,
+        "t_naive": -6.57,
+        "se_cluster_pct": 0.2424,
+        "eff_n_design": 505.5
+       },
+       "per_day": {
+        "n_days": 248,
+        "mean_pct": -1.506,
+        "t": -6.3,
+        "se_pct": 0.2389
+       },
+       "share_of_trades": 0.077
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 680,
+        "n_days": 123,
+        "mean_pct": 0.113,
+        "median_pct": 0.243,
+        "t_cluster": 0.32,
+        "t_naive": 0.51,
+        "se_cluster_pct": 0.3502,
+        "eff_n_design": 268.7
+       },
+       "per_day": {
+        "n_days": 123,
+        "mean_pct": -0.04,
+        "t": -0.12,
+        "se_pct": 0.3403
+       },
+       "share_of_trades": 0.09
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 497,
+        "n_days": 29,
+        "mean_pct": 0.839,
+        "median_pct": 1.161,
+        "t_cluster": 1.23,
+        "t_naive": 3.82,
+        "se_cluster_pct": 0.6829,
+        "eff_n_design": 51.5
+       },
+       "per_day": {
+        "n_days": 29,
+        "mean_pct": 0.835,
+        "t": 1.24,
+        "se_pct": 0.6725
+       },
+       "share_of_trades": 0.066
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 5349,
+        "n_days": 29,
+        "mean_pct": 0.441,
+        "median_pct": 1.007,
+        "t_cluster": 0.36,
+        "t_naive": 5.83,
+        "se_cluster_pct": 1.2341,
+        "eff_n_design": 20.1
+       },
+       "per_day": {
+        "n_days": 29,
+        "mean_pct": 1.274,
+        "t": 1.9,
+        "se_pct": 0.6709
+       },
+       "share_of_trades": 0.711
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 4915,
+        "n_days": 842,
+        "mean_pct": 0.898,
+        "median_pct": 0.812,
+        "t_cluster": 1.95,
+        "t_naive": 12.32,
+        "se_cluster_pct": 0.4602,
+        "eff_n_design": 123.3
+       },
+       "per_day": {
+        "n_days": 842,
+        "mean_pct": -0.901,
+        "t": -4.97,
+        "se_pct": 0.1811
+       },
+       "dropped_trades": 2610
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 3686,
+        "n_days": 837,
+        "mean_pct": 0.551,
+        "median_pct": 0.6,
+        "t_cluster": 1.27,
+        "t_naive": 6.19,
+        "se_cluster_pct": 0.4323,
+        "eff_n_design": 156.3
+       },
+       "per_day": {
+        "n_days": 837,
+        "mean_pct": -0.918,
+        "t": -5.04,
+        "se_pct": 0.1819
+       },
+       "dropped_trades": 3839
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 2595,
+        "n_days": 827,
+        "mean_pct": 0.087,
+        "median_pct": 0.288,
+        "t_cluster": 0.33,
+        "t_naive": 0.79,
+        "se_cluster_pct": 0.259,
+        "eff_n_design": 461.9
+       },
+       "per_day": {
+        "n_days": 827,
+        "mean_pct": -0.937,
+        "t": -5.11,
+        "se_pct": 0.1835
+       },
+       "dropped_trades": 4930
+      }
+     },
+     "top_days": [
+      {
+       "date": "2025-04-07",
+       "n": 672,
+       "mean_net_pct": -7.32
+      },
+      {
+       "date": "2025-04-08",
+       "n": 540,
+       "mean_net_pct": -3.44
+      },
+      {
+       "date": "2026-06-08",
+       "n": 517,
+       "mean_net_pct": 4.3
+      },
+      {
+       "date": "2021-05-17",
+       "n": 473,
+       "mean_net_pct": 1.2
+      },
+      {
+       "date": "2020-03-13",
+       "n": 408,
+       "mean_net_pct": 2.74
+      },
+      {
+       "date": "2026-03-09",
+       "n": 343,
+       "mean_net_pct": 1.8
+      },
+      {
+       "date": "2020-01-30",
+       "n": 257,
+       "mean_net_pct": -1.63
+      },
+      {
+       "date": "2025-04-09",
+       "n": 240,
+       "mean_net_pct": 7.11
+      },
+      {
+       "date": "2020-03-17",
+       "n": 195,
+       "mean_net_pct": 1.65
+      },
+      {
+       "date": "2024-09-04",
+       "n": 194,
+       "mean_net_pct": 0.8
+      },
+      {
+       "date": "2021-05-13",
+       "n": 177,
+       "mean_net_pct": 3.45
+      },
+      {
+       "date": "2025-04-11",
+       "n": 165,
+       "mean_net_pct": 7.08
+      }
+     ],
+     "top10_days_share_of_sum_net": -0.32
+    },
+    "regime_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 7525,
+       "n_days": 847,
+       "mean_pct": 0.205,
+       "median_pct": 0.663,
+       "t_cluster": 0.24,
+       "t_naive": 3.19,
+       "se_cluster_pct": 0.8548,
+       "eff_n_design": 42.7
+      },
+      "per_day": {
+       "n_days": 847,
+       "mean_pct": -0.898,
+       "t": -4.98,
+       "se_pct": 0.1804
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 7525,
+       "n_days": 847,
+       "mean_pct": 0.533,
+       "median_pct": 0.929,
+       "t_cluster": 0.63,
+       "t_naive": 8.39,
+       "se_cluster_pct": 0.8409,
+       "eff_n_design": 43.0
+      },
+      "per_day": {
+       "n_days": 847,
+       "mean_pct": -0.567,
+       "t": -3.19,
+       "se_pct": 0.1777
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 418,
+        "n_days": 418,
+        "mean_pct": -1.061,
+        "median_pct": -0.572,
+        "t_cluster": -3.4,
+        "t_naive": -3.4,
+        "se_cluster_pct": 0.3118,
+        "eff_n_design": 418.0
+       },
+       "per_day": {
+        "n_days": 418,
+        "mean_pct": -1.061,
+        "t": -3.4,
+        "se_pct": 0.3118
+       },
+       "share_of_trades": 0.056
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 581,
+        "n_days": 248,
+        "mean_pct": -1.486,
+        "median_pct": -1.319,
+        "t_cluster": -6.13,
+        "t_naive": -6.57,
+        "se_cluster_pct": 0.2424,
+        "eff_n_design": 505.5
+       },
+       "per_day": {
+        "n_days": 248,
+        "mean_pct": -1.506,
+        "t": -6.3,
+        "se_pct": 0.2389
+       },
+       "share_of_trades": 0.077
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 680,
+        "n_days": 123,
+        "mean_pct": 0.113,
+        "median_pct": 0.243,
+        "t_cluster": 0.32,
+        "t_naive": 0.51,
+        "se_cluster_pct": 0.3502,
+        "eff_n_design": 268.7
+       },
+       "per_day": {
+        "n_days": 123,
+        "mean_pct": -0.04,
+        "t": -0.12,
+        "se_pct": 0.3403
+       },
+       "share_of_trades": 0.09
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 497,
+        "n_days": 29,
+        "mean_pct": 0.839,
+        "median_pct": 1.161,
+        "t_cluster": 1.23,
+        "t_naive": 3.82,
+        "se_cluster_pct": 0.6829,
+        "eff_n_design": 51.5
+       },
+       "per_day": {
+        "n_days": 29,
+        "mean_pct": 0.835,
+        "t": 1.24,
+        "se_pct": 0.6725
+       },
+       "share_of_trades": 0.066
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 5349,
+        "n_days": 29,
+        "mean_pct": 0.441,
+        "median_pct": 1.007,
+        "t_cluster": 0.36,
+        "t_naive": 5.83,
+        "se_cluster_pct": 1.2341,
+        "eff_n_design": 20.1
+       },
+       "per_day": {
+        "n_days": 29,
+        "mean_pct": 1.274,
+        "t": 1.9,
+        "se_pct": 0.6709
+       },
+       "share_of_trades": 0.711
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 4915,
+        "n_days": 842,
+        "mean_pct": 0.898,
+        "median_pct": 0.812,
+        "t_cluster": 1.95,
+        "t_naive": 12.32,
+        "se_cluster_pct": 0.4602,
+        "eff_n_design": 123.3
+       },
+       "per_day": {
+        "n_days": 842,
+        "mean_pct": -0.901,
+        "t": -4.97,
+        "se_pct": 0.1811
+       },
+       "dropped_trades": 2610
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 3686,
+        "n_days": 837,
+        "mean_pct": 0.551,
+        "median_pct": 0.6,
+        "t_cluster": 1.27,
+        "t_naive": 6.19,
+        "se_cluster_pct": 0.4323,
+        "eff_n_design": 156.3
+       },
+       "per_day": {
+        "n_days": 837,
+        "mean_pct": -0.918,
+        "t": -5.04,
+        "se_pct": 0.1819
+       },
+       "dropped_trades": 3839
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 2595,
+        "n_days": 827,
+        "mean_pct": 0.087,
+        "median_pct": 0.288,
+        "t_cluster": 0.33,
+        "t_naive": 0.79,
+        "se_cluster_pct": 0.259,
+        "eff_n_design": 461.9
+       },
+       "per_day": {
+        "n_days": 827,
+        "mean_pct": -0.937,
+        "t": -5.11,
+        "se_pct": 0.1835
+       },
+       "dropped_trades": 4930
+      }
+     },
+     "top_days": [
+      {
+       "date": "2025-04-07",
+       "n": 672,
+       "mean_net_pct": -7.32
+      },
+      {
+       "date": "2025-04-08",
+       "n": 540,
+       "mean_net_pct": -3.44
+      },
+      {
+       "date": "2026-06-08",
+       "n": 517,
+       "mean_net_pct": 4.3
+      },
+      {
+       "date": "2021-05-17",
+       "n": 473,
+       "mean_net_pct": 1.2
+      },
+      {
+       "date": "2020-03-13",
+       "n": 408,
+       "mean_net_pct": 2.74
+      },
+      {
+       "date": "2026-03-09",
+       "n": 343,
+       "mean_net_pct": 1.8
+      },
+      {
+       "date": "2020-01-30",
+       "n": 257,
+       "mean_net_pct": -1.63
+      },
+      {
+       "date": "2025-04-09",
+       "n": 240,
+       "mean_net_pct": 7.11
+      },
+      {
+       "date": "2020-03-17",
+       "n": 195,
+       "mean_net_pct": 1.65
+      },
+      {
+       "date": "2024-09-04",
+       "n": 194,
+       "mean_net_pct": 0.8
+      },
+      {
+       "date": "2021-05-13",
+       "n": 177,
+       "mean_net_pct": 3.45
+      },
+      {
+       "date": "2025-04-11",
+       "n": 165,
+       "mean_net_pct": 7.08
+      }
+     ],
+     "top10_days_share_of_sum_net": -0.32
+    }
+   },
+   "src3_2024-02_2025-09": {
+    "base_cost": {
+     "all": {
+      "per_trade": {
+       "n_trades": 2559,
+       "n_days": 182,
+       "mean_pct": -1.615,
+       "median_pct": -0.884,
+       "t_cluster": -0.87,
+       "t_naive": -12.49,
+       "se_cluster_pct": 1.8564,
+       "eff_n_design": 12.4
+      },
+      "per_day": {
+       "n_days": 182,
+       "mean_pct": -0.405,
+       "t": -1.19,
+       "se_pct": 0.3394
+      }
+     },
+     "gross": {
+      "per_trade": {
+       "n_trades": 2559,
+       "n_days": 182,
+       "mean_pct": -1.232,
+       "median_pct": -0.522,
+       "t_cluster": -0.67,
+       "t_naive": -9.64,
+       "se_cluster_pct": 1.8377,
+       "eff_n_design": 12.4
+      },
+      "per_day": {
+       "n_days": 182,
+       "mean_pct": -0.083,
+       "t": -0.25,
+       "se_pct": 0.334
+      }
+     },
+     "buckets": {
+      "1": {
+       "per_trade": {
+        "n_trades": 85,
+        "n_days": 85,
+        "mean_pct": -0.518,
+        "median_pct": -0.23,
+        "t_cluster": -0.81,
+        "t_naive": -0.81,
+        "se_cluster_pct": 0.6379,
+        "eff_n_design": 85.0
+       },
+       "per_day": {
+        "n_days": 85,
+        "mean_pct": -0.518,
+        "t": -0.81,
+        "se_pct": 0.6379
+       },
+       "share_of_trades": 0.033
+      },
+      "2-3": {
+       "per_trade": {
+        "n_trades": 140,
+        "n_days": 58,
+        "mean_pct": -0.903,
+        "median_pct": -0.922,
+        "t_cluster": -2.5,
+        "t_naive": -2.41,
+        "se_cluster_pct": 0.3606,
+        "eff_n_design": 151.6
+       },
+       "per_day": {
+        "n_days": 58,
+        "mean_pct": -0.858,
+        "t": -2.37,
+        "se_pct": 0.3617
+       },
+       "share_of_trades": 0.055
+      },
+      "4-10": {
+       "per_trade": {
+        "n_trades": 145,
+        "n_days": 26,
+        "mean_pct": 0.899,
+        "median_pct": 0.469,
+        "t_cluster": 1.64,
+        "t_naive": 2.46,
+        "se_cluster_pct": 0.5486,
+        "eff_n_design": 64.3
+       },
+       "per_day": {
+        "n_days": 26,
+        "mean_pct": 0.714,
+        "t": 1.37,
+        "se_pct": 0.5213
+       },
+       "share_of_trades": 0.057
+      },
+      "11-30": {
+       "per_trade": {
+        "n_trades": 61,
+        "n_days": 4,
+        "mean_pct": -0.746,
+        "median_pct": 0.151,
+        "t_cluster": -0.34,
+        "t_naive": -1.15,
+        "se_cluster_pct": 2.2094,
+        "eff_n_design": 5.2
+       },
+       "per_day": {
+        "n_days": 4,
+        "mean_pct": -0.3,
+        "t": -0.15,
+        "se_pct": 1.9959
+       },
+       "share_of_trades": 0.024
+      },
+      ">30": {
+       "per_trade": {
+        "n_trades": 2128,
+        "n_days": 9,
+        "mean_pct": -1.901,
+        "median_pct": -1.219,
+        "t_cluster": -0.83,
+        "t_naive": -12.92,
+        "se_cluster_pct": 2.2938,
+        "eff_n_design": 8.8
+       },
+       "per_day": {
+        "n_days": 9,
+        "mean_pct": 0.307,
+        "t": 0.19,
+        "se_pct": 1.5928
+       },
+       "share_of_trades": 0.832
+      }
+     },
+     "drop_top_days": {
+      "5": {
+       "per_trade": {
+        "n_trades": 748,
+        "n_days": 177,
+        "mean_pct": -0.518,
+        "median_pct": -0.623,
+        "t_cluster": -1.01,
+        "t_naive": -3.25,
+        "se_cluster_pct": 0.5124,
+        "eff_n_design": 72.5
+       },
+       "per_day": {
+        "n_days": 177,
+        "mean_pct": -0.44,
+        "t": -1.29,
+        "se_pct": 0.3411
+       },
+       "dropped_trades": 1811
+      },
+      "10": {
+       "per_trade": {
+        "n_trades": 412,
+        "n_days": 172,
+        "mean_pct": 0.056,
+        "median_pct": 0.061,
+        "t_cluster": 0.19,
+        "t_naive": 0.24,
+        "se_cluster_pct": 0.3049,
+        "eff_n_design": 245.0
+       },
+       "per_day": {
+        "n_days": 172,
+        "mean_pct": -0.411,
+        "t": -1.18,
+        "se_pct": 0.3488
+       },
+       "dropped_trades": 2147
+      },
+      "20": {
+       "per_trade": {
+        "n_trades": 314,
+        "n_days": 162,
+        "mean_pct": -0.336,
+        "median_pct": -0.23,
+        "t_cluster": -1.12,
+        "t_naive": -1.24,
+        "se_cluster_pct": 0.3006,
+        "eff_n_design": 255.4
+       },
+       "per_day": {
+        "n_days": 162,
+        "mean_pct": -0.509,
+        "t": -1.39,
+        "se_pct": 0.3659
+       },
+       "dropped_trades": 2245
+      }
+     },
+     "top_days": [
+      {
+       "date": "2025-04-07",
+       "n": 672,
+       "mean_net_pct": -7.32
+      },
+      {
+       "date": "2025-04-08",
+       "n": 540,
+       "mean_net_pct": -3.44
+      },
+      {
+       "date": "2025-04-09",
+       "n": 240,
+       "mean_net_pct": 7.11
+      },
+      {
+       "date": "2024-09-04",
+       "n": 194,
+       "mean_net_pct": 0.8
+      },
+      {
+       "date": "2025-04-11",
+       "n": 165,
+       "mean_net_pct": 7.08
+      },
+      {
+       "date": "2024-08-05",
+       "n": 131,
+       "mean_net_pct": -2.6
+      },
+      {
+       "date": "2025-03-31",
+       "n": 71,
+       "mean_net_pct": -1.96
+      },
+      {
+       "date": "2024-07-26",
+       "n": 58,
+       "mean_net_pct": 2.39
+      },
+      {
+       "date": "2025-02-03",
+       "n": 57,
+       "mean_net_pct": 0.7
+      },
+      {
+       "date": "2024-09-20",
+       "n": 19,
+       "mean_net_pct": -5.73
+      },
+      {
+       "date": "2024-08-02",
+       "n": 16,
+       "mean_net_pct": 0.3
+      },
+      {
+       "date": "2024-11-01",
+       "n": 14,
+       "mean_net_pct": 3.9
+      }
+     ],
+     "top10_days_share_of_sum_net": 1.01
+    }
+   },
+   "breakpoints": {
+    "2014-01-06_daytrade_open": {
+     "12m": {
+      "before": "2013-01-06~2014-01-05",
+      "after": "2014-01-06~2015-01-05",
+      "gross_per_trade_before": {
+       "n_trades": 211,
+       "n_days": 115,
+       "mean_pct": 1.195,
+       "median_pct": 1.495,
+       "t_cluster": 3.38,
+       "t_naive": 3.81,
+       "se_cluster_pct": 0.3536,
+       "eff_n_design": 166.2
+      },
+      "gross_per_trade_after": {
+       "n_trades": 496,
+       "n_days": 141,
+       "mean_pct": 0.561,
+       "median_pct": 1.305,
+       "t_cluster": 1.0,
+       "t_naive": 2.56,
+       "se_cluster_pct": 0.5628,
+       "eff_n_design": 75.3
+      },
+      "diff_per_trade_pct": -0.634,
+      "t_diff_per_trade": -0.95,
+      "gross_per_day_before": {
+       "n_days": 115,
+       "mean_pct": 1.153,
+       "t": 2.77,
+       "se_pct": 0.417
+      },
+      "gross_per_day_after": {
+       "n_days": 141,
+       "mean_pct": -0.358,
+       "t": -0.92,
+       "se_pct": 0.3894
+      },
+      "diff_per_day_pct": -1.511,
+      "t_diff_per_day": -2.65,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 211,
+        "n_days": 115,
+        "mean_pct": 1.003,
+        "median_pct": 0.846,
+        "t_cluster": 2.52,
+        "t_naive": 2.82,
+        "se_cluster_pct": 0.398,
+        "eff_n_design": 169.0
+       },
+       "per_day": {
+        "n_days": 115,
+        "mean_pct": 1.108,
+        "t": 2.44,
+        "se_pct": 0.4538
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 496,
+        "n_days": 141,
+        "mean_pct": 0.132,
+        "median_pct": 0.925,
+        "t_cluster": 0.23,
+        "t_naive": 0.6,
+        "se_cluster_pct": 0.5694,
+        "eff_n_design": 75.0
+       },
+       "per_day": {
+        "n_days": 141,
+        "mean_pct": -0.798,
+        "t": -2.03,
+        "se_pct": 0.393
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 178,
+        "n_days": 113,
+        "mean_pct": 1.068,
+        "median_pct": 1.433,
+        "t_cluster": 2.9,
+        "t_naive": 3.01,
+        "se_cluster_pct": 0.3688,
+        "eff_n_design": 164.9
+       },
+       "after": {
+        "n_trades": 285,
+        "n_days": 134,
+        "mean_pct": -0.505,
+        "median_pct": 0.326,
+        "t_cluster": -1.35,
+        "t_naive": -1.63,
+        "se_cluster_pct": 0.3741,
+        "eff_n_design": 195.6
+       },
+       "diff_pct": -1.573,
+       "t_diff": -2.99
+      }
+     },
+     "adjacent_segment": {
+      "before": "2005-01-01~2014-01-05",
+      "after": "2014-01-06~2015-05-31",
+      "gross_per_trade_before": {
+       "n_trades": 10125,
+       "n_days": 1261,
+       "mean_pct": 1.154,
+       "median_pct": 1.395,
+       "t_cluster": 2.98,
+       "t_naive": 23.45,
+       "se_cluster_pct": 0.3868,
+       "eff_n_design": 163.8
+      },
+      "gross_per_trade_after": {
+       "n_trades": 588,
+       "n_days": 183,
+       "mean_pct": 0.54,
+       "median_pct": 1.206,
+       "t_cluster": 1.12,
+       "t_naive": 2.75,
+       "se_cluster_pct": 0.4809,
+       "eff_n_design": 98.1
+      },
+      "diff_per_trade_pct": -0.614,
+      "t_diff_per_trade": -0.99,
+      "gross_per_day_before": {
+       "n_days": 1261,
+       "mean_pct": 0.646,
+       "t": 4.97,
+       "se_pct": 0.1299
+      },
+      "gross_per_day_after": {
+       "n_days": 183,
+       "mean_pct": -0.05,
+       "t": -0.16,
+       "se_pct": 0.3216
+      },
+      "diff_per_day_pct": -0.696,
+      "t_diff_per_day": -2.01,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 10120,
+        "n_days": 1260,
+        "mean_pct": 1.021,
+        "median_pct": 1.174,
+        "t_cluster": 1.73,
+        "t_naive": 16.93,
+        "se_cluster_pct": 0.5919,
+        "eff_n_design": 105.1
+       },
+       "per_day": {
+        "n_days": 1260,
+        "mean_pct": 0.52,
+        "t": 3.75,
+        "se_pct": 0.1387
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 588,
+        "n_days": 183,
+        "mean_pct": 0.11,
+        "median_pct": 0.776,
+        "t_cluster": 0.23,
+        "t_naive": 0.56,
+        "se_cluster_pct": 0.4866,
+        "eff_n_design": 97.7
+       },
+       "per_day": {
+        "n_days": 183,
+        "mean_pct": -0.488,
+        "t": -1.5,
+        "se_pct": 0.3248
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 2495,
+        "n_days": 1145,
+        "mean_pct": 0.674,
+        "median_pct": 1.195,
+        "t_cluster": 5.07,
+        "t_naive": 6.39,
+        "se_cluster_pct": 0.133,
+        "eff_n_design": 1570.0
+       },
+       "after": {
+        "n_trades": 377,
+        "n_days": 176,
+        "mean_pct": -0.277,
+        "median_pct": 0.35,
+        "t_cluster": -0.9,
+        "t_naive": -1.08,
+        "se_cluster_pct": 0.3079,
+        "eff_n_design": 262.3
+       },
+       "diff_pct": -0.951,
+       "t_diff": -2.84
+      }
+     }
+    },
+    "2015-06-01_limit10": {
+     "12m": {
+      "before": "2014-06-01~2015-05-31",
+      "after": "2015-06-01~2016-05-31",
+      "gross_per_trade_before": {
+       "n_trades": 441,
+       "n_days": 133,
+       "mean_pct": -0.037,
+       "median_pct": 0.364,
+       "t_cluster": -0.09,
+       "t_naive": -0.16,
+       "se_cluster_pct": 0.431,
+       "eff_n_design": 120.0
+      },
+      "gross_per_trade_after": {
+       "n_trades": 435,
+       "n_days": 109,
+       "mean_pct": 2.371,
+       "median_pct": 3.099,
+       "t_cluster": 1.09,
+       "t_naive": 7.1,
+       "se_cluster_pct": 2.1716,
+       "eff_n_design": 10.3
+      },
+      "diff_per_trade_pct": 2.408,
+      "t_diff_per_trade": 1.09,
+      "gross_per_day_before": {
+       "n_days": 133,
+       "mean_pct": -0.215,
+       "t": -0.6,
+       "se_pct": 0.3602
+      },
+      "gross_per_day_after": {
+       "n_days": 109,
+       "mean_pct": 0.23,
+       "t": 0.46,
+       "se_pct": 0.5024
+      },
+      "diff_per_day_pct": 0.445,
+      "t_diff_per_day": 0.72,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 441,
+        "n_days": 133,
+        "mean_pct": -0.474,
+        "median_pct": -0.018,
+        "t_cluster": -1.09,
+        "t_naive": -2.09,
+        "se_cluster_pct": 0.4359,
+        "eff_n_design": 119.7
+       },
+       "per_day": {
+        "n_days": 133,
+        "mean_pct": -0.655,
+        "t": -1.8,
+        "se_pct": 0.3639
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 435,
+        "n_days": 109,
+        "mean_pct": 1.963,
+        "median_pct": 2.719,
+        "t_cluster": 0.9,
+        "t_naive": 5.85,
+        "se_cluster_pct": 2.1818,
+        "eff_n_design": 10.3
+       },
+       "per_day": {
+        "n_days": 109,
+        "mean_pct": -0.187,
+        "t": -0.37,
+        "se_pct": 0.5062
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 293,
+        "n_days": 128,
+        "mean_pct": -0.535,
+        "median_pct": 0.16,
+        "t_cluster": -1.5,
+        "t_naive": -1.83,
+        "se_cluster_pct": 0.3567,
+        "eff_n_design": 195.7
+       },
+       "after": {
+        "n_trades": 205,
+        "n_days": 104,
+        "mean_pct": 0.728,
+        "median_pct": 0.942,
+        "t_cluster": 1.29,
+        "t_naive": 1.77,
+        "se_cluster_pct": 0.5625,
+        "eff_n_design": 109.1
+       },
+       "diff_pct": 1.263,
+       "t_diff": 1.9
+      }
+     },
+     "adjacent_segment": {
+      "before": "2014-01-06~2015-05-31",
+      "after": "2015-06-01~2017-04-27",
+      "gross_per_trade_before": {
+       "n_trades": 588,
+       "n_days": 183,
+       "mean_pct": 0.54,
+       "median_pct": 1.206,
+       "t_cluster": 1.12,
+       "t_naive": 2.75,
+       "se_cluster_pct": 0.4809,
+       "eff_n_design": 98.1
+      },
+      "gross_per_trade_after": {
+       "n_trades": 527,
+       "n_days": 168,
+       "mean_pct": 1.86,
+       "median_pct": 2.105,
+       "t_cluster": 1.0,
+       "t_naive": 6.36,
+       "se_cluster_pct": 1.8592,
+       "eff_n_design": 13.0
+      },
+      "diff_per_trade_pct": 1.32,
+      "t_diff_per_trade": 0.69,
+      "gross_per_day_before": {
+       "n_days": 183,
+       "mean_pct": -0.05,
+       "t": -0.16,
+       "se_pct": 0.3216
+      },
+      "gross_per_day_after": {
+       "n_days": 168,
+       "mean_pct": -0.004,
+       "t": -0.01,
+       "se_pct": 0.3882
+      },
+      "diff_per_day_pct": 0.046,
+      "t_diff_per_day": 0.09,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 588,
+        "n_days": 183,
+        "mean_pct": 0.11,
+        "median_pct": 0.776,
+        "t_cluster": 0.23,
+        "t_naive": 0.56,
+        "se_cluster_pct": 0.4866,
+        "eff_n_design": 97.7
+       },
+       "per_day": {
+        "n_days": 183,
+        "mean_pct": -0.488,
+        "t": -1.5,
+        "se_pct": 0.3248
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 527,
+        "n_days": 168,
+        "mean_pct": 1.448,
+        "median_pct": 1.725,
+        "t_cluster": 0.78,
+        "t_naive": 4.92,
+        "se_cluster_pct": 1.8679,
+        "eff_n_design": 13.1
+       },
+       "per_day": {
+        "n_days": 168,
+        "mean_pct": -0.425,
+        "t": -1.09,
+        "se_pct": 0.3912
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 377,
+        "n_days": 176,
+        "mean_pct": -0.277,
+        "median_pct": 0.35,
+        "t_cluster": -0.9,
+        "t_naive": -1.08,
+        "se_cluster_pct": 0.3079,
+        "eff_n_design": 262.3
+       },
+       "after": {
+        "n_trades": 297,
+        "n_days": 163,
+        "mean_pct": 0.33,
+        "median_pct": 0.585,
+        "t_cluster": 0.78,
+        "t_naive": 1.02,
+        "se_cluster_pct": 0.4211,
+        "eff_n_design": 174.4
+       },
+       "diff_pct": 0.607,
+       "t_diff": 1.16
+      }
+     }
+    },
+    "2017-04-28_tax_cut": {
+     "12m": {
+      "before": "2016-04-28~2017-04-27",
+      "after": "2017-04-28~2018-04-27",
+      "gross_per_trade_before": {
+       "n_trades": 118,
+       "n_days": 71,
+       "mean_pct": -0.467,
+       "median_pct": -0.831,
+       "t_cluster": -1.03,
+       "t_naive": -1.03,
+       "se_cluster_pct": 0.4523,
+       "eff_n_design": 118.9
+      },
+      "gross_per_trade_after": {
+       "n_trades": 432,
+       "n_days": 113,
+       "mean_pct": 2.087,
+       "median_pct": 2.632,
+       "t_cluster": 1.69,
+       "t_naive": 8.63,
+       "se_cluster_pct": 1.237,
+       "eff_n_design": 16.5
+      },
+      "diff_per_trade_pct": 2.554,
+      "t_diff_per_trade": 1.94,
+      "gross_per_day_before": {
+       "n_days": 71,
+       "mean_pct": -0.594,
+       "t": -1.05,
+       "se_pct": 0.5679
+      },
+      "gross_per_day_after": {
+       "n_days": 113,
+       "mean_pct": -0.434,
+       "t": -0.81,
+       "se_pct": 0.5395
+      },
+      "diff_per_day_pct": 0.16,
+      "t_diff_per_day": 0.2,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 118,
+        "n_days": 71,
+        "mean_pct": -0.892,
+        "median_pct": -1.255,
+        "t_cluster": -1.96,
+        "t_naive": -1.95,
+        "se_cluster_pct": 0.4562,
+        "eff_n_design": 118.8
+       },
+       "per_day": {
+        "n_days": 71,
+        "mean_pct": -1.024,
+        "t": -1.79,
+        "se_pct": 0.5726
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 432,
+        "n_days": 113,
+        "mean_pct": 1.801,
+        "median_pct": 2.359,
+        "t_cluster": 1.43,
+        "t_naive": 7.34,
+        "se_cluster_pct": 1.2577,
+        "eff_n_design": 16.4
+       },
+       "per_day": {
+        "n_days": 113,
+        "mean_pct": -0.78,
+        "t": -1.42,
+        "se_pct": 0.5479
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 118,
+        "n_days": 71,
+        "mean_pct": -0.467,
+        "median_pct": -0.831,
+        "t_cluster": -1.03,
+        "t_naive": -1.03,
+        "se_cluster_pct": 0.4523,
+        "eff_n_design": 118.9
+       },
+       "after": {
+        "n_trades": 166,
+        "n_days": 109,
+        "mean_pct": -0.228,
+        "median_pct": 0.185,
+        "t_cluster": -0.48,
+        "t_naive": -0.48,
+        "se_cluster_pct": 0.4753,
+        "eff_n_design": 164.4
+       },
+       "diff_pct": 0.239,
+       "t_diff": 0.36
+      }
+     },
+     "adjacent_segment": {
+      "before": "2015-06-01~2017-04-27",
+      "after": "2017-04-28~2019-04-30",
+      "gross_per_trade_before": {
+       "n_trades": 527,
+       "n_days": 168,
+       "mean_pct": 1.86,
+       "median_pct": 2.105,
+       "t_cluster": 1.0,
+       "t_naive": 6.36,
+       "se_cluster_pct": 1.8592,
+       "eff_n_design": 13.0
+      },
+      "gross_per_trade_after": {
+       "n_trades": 1040,
+       "n_days": 237,
+       "mean_pct": 0.427,
+       "median_pct": 0.454,
+       "t_cluster": 0.38,
+       "t_naive": 2.53,
+       "se_cluster_pct": 1.1273,
+       "eff_n_design": 23.4
+      },
+      "diff_per_trade_pct": -1.433,
+      "t_diff_per_trade": -0.66,
+      "gross_per_day_before": {
+       "n_days": 168,
+       "mean_pct": -0.004,
+       "t": -0.01,
+       "se_pct": 0.3882
+      },
+      "gross_per_day_after": {
+       "n_days": 237,
+       "mean_pct": -0.792,
+       "t": -2.13,
+       "se_pct": 0.372
+      },
+      "diff_per_day_pct": -0.788,
+      "t_diff_per_day": -1.47,
+      "regime_net_before": {
+       "per_trade": {
+        "n_trades": 527,
+        "n_days": 168,
+        "mean_pct": 1.448,
+        "median_pct": 1.725,
+        "t_cluster": 0.78,
+        "t_naive": 4.92,
+        "se_cluster_pct": 1.8679,
+        "eff_n_design": 13.1
+       },
+       "per_day": {
+        "n_days": 168,
+        "mean_pct": -0.425,
+        "t": -1.09,
+        "se_pct": 0.3912
+       }
+      },
+      "regime_net_after": {
+       "per_trade": {
+        "n_trades": 1040,
+        "n_days": 237,
+        "mean_pct": 0.1,
+        "median_pct": 0.2,
+        "t_cluster": 0.09,
+        "t_naive": 0.58,
+        "se_cluster_pct": 1.1534,
+        "eff_n_design": 23.1
+       },
+       "per_day": {
+        "n_days": 237,
+        "mean_pct": -1.141,
+        "t": -3.02,
+        "se_pct": 0.3778
+       }
+      },
+      "small_days_le10_gross_per_trade": {
+       "before": {
+        "n_trades": 297,
+        "n_days": 163,
+        "mean_pct": 0.33,
+        "median_pct": 0.585,
+        "t_cluster": 0.78,
+        "t_naive": 1.02,
+        "se_cluster_pct": 0.4211,
+        "eff_n_design": 174.4
+       },
+       "after": {
+        "n_trades": 378,
+        "n_days": 229,
+        "mean_pct": -0.775,
+        "median_pct": -0.199,
+        "t_cluster": -2.36,
+        "t_naive": -2.5,
+        "se_cluster_pct": 0.3286,
+        "eff_n_design": 335.5
+       },
+       "diff_pct": -1.105,
+       "t_diff": -2.07
+      }
+     }
+    }
+   }
+  }
+ },
+ "runtime_sec": 27.1
+}

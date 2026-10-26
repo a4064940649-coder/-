@@ -1,0 +1,996 @@
+{
+ "halfday_index_check": {
+  "halfday_vs_r_ew_daily_mean_diff_bp": 0.27044201564619774,
+  "abs_mean_diff_bp": 0.30183587109356114,
+  "corr": 0.9999933523229848
+ },
+ "rules": {
+  "T01_KD_golden_K<20": {
+   "S": {
+    "n": 42197,
+    "n_signal_months": 172,
+    "avg_hold_days_x_minus_e": 6.17,
+    "gap_mean_pct": 0.23805512808823076,
+    "gap_median_pct": 0.13245033112583293,
+    "EW_overnight_same_night_pct": 0.23027719931294774,
+    "gap_excess_vs_EW_overnight_pct": 0.007777928775282952,
+    "EW_overnight_exit_night_pct": 0.13244446143921745,
+    "EW_overnight_unconditional_daily_pct": 0.22855915879191183,
+    "note_benchmark_gap": "EW_match(OPEN) − EW_orig ≈ EW 出場夜隔夜 − EW 進場夜隔夜；原研究基準少算出場夜、多算進場夜",
+    "OPEN": {
+     "raw_gross_mean_pct": -0.22839086640212475,
+     "raw_gross_median_pct": -1.061007957559701,
+     "raw_gross_win_rate": 0.33978718866270113,
+     "xs_EW_orig_pct": -0.4279034379728182,
+     "xs_EW_orig_bp_per_day": -6.9353188652820075,
+     "xs_EW_orig_t_naive": -17.78,
+     "xs_EW_orig_t_month_cluster": -8.85,
+     "xs_EW_match_pct": -0.3494634862056892,
+     "xs_EW_match_bp_per_day": -5.663989801277297,
+     "xs_EW_match_t_naive": -14.96,
+     "xs_EW_match_t_month_cluster": -8.55,
+     "xs_EW_match_net_0.5pct": -0.8494634862056892
+    },
+    "CLOSE": {
+     "raw_gross_mean_pct": 0.0066570051155723856,
+     "raw_gross_median_pct": -0.9681881051175845,
+     "raw_gross_win_rate": 0.3522051330663317,
+     "xs_EW_orig_pct": -0.19285556645512103,
+     "xs_EW_orig_bp_per_day": -3.125739897410714,
+     "xs_EW_orig_t_naive": -8.01,
+     "xs_EW_orig_t_month_cluster": -4.36,
+     "xs_EW_match_pct": -0.3448393027238118,
+     "xs_EW_match_bp_per_day": -5.589042548947843,
+     "xs_EW_match_t_naive": -14.53,
+     "xs_EW_match_t_month_cluster": -7.8,
+     "xs_EW_match_net_0.5pct": -0.8448393027238118,
+     "xs_EW_match_bp_per_day_x_minus_t": -4.809529714868232
+    },
+    "yearly_xs_EW_match_pct": {
+     "2005": {
+      "OPEN": -0.34,
+      "CLOSE": -0.3,
+      "gap_xs": 0.05,
+      "n": 2472
+     },
+     "2006": {
+      "OPEN": -0.39,
+      "CLOSE": -0.37,
+      "gap_xs": 0.02,
+      "n": 2186
+     },
+     "2007": {
+      "OPEN": -0.18,
+      "CLOSE": -0.15,
+      "gap_xs": 0.03,
+      "n": 3238
+     },
+     "2008": {
+      "OPEN": 0.05,
+      "CLOSE": 0.12,
+      "gap_xs": 0.07,
+      "n": 3113
+     },
+     "2009": {
+      "OPEN": -0.8,
+      "CLOSE": -0.84,
+      "gap_xs": -0.04,
+      "n": 1641
+     },
+     "2010": {
+      "OPEN": -0.47,
+      "CLOSE": -0.44,
+      "gap_xs": 0.04,
+      "n": 3350
+     },
+     "2011": {
+      "OPEN": -0.4,
+      "CLOSE": -0.39,
+      "gap_xs": 0.01,
+      "n": 3779
+     },
+     "2012": {
+      "OPEN": -0.22,
+      "CLOSE": -0.19,
+      "gap_xs": 0.03,
+      "n": 2614
+     },
+     "2013": {
+      "OPEN": -0.58,
+      "CLOSE": -0.58,
+      "gap_xs": 0.0,
+      "n": 2669
+     },
+     "2014": {
+      "OPEN": -0.36,
+      "CLOSE": -0.38,
+      "gap_xs": -0.02,
+      "n": 3647
+     },
+     "2015": {
+      "OPEN": -0.31,
+      "CLOSE": -0.31,
+      "gap_xs": 0.0,
+      "n": 3361
+     },
+     "2016": {
+      "OPEN": -0.25,
+      "CLOSE": -0.27,
+      "gap_xs": -0.03,
+      "n": 2892
+     },
+     "2017": {
+      "OPEN": -0.5,
+      "CLOSE": -0.55,
+      "gap_xs": -0.04,
+      "n": 3025
+     },
+     "2018": {
+      "OPEN": -0.36,
+      "CLOSE": -0.38,
+      "gap_xs": -0.02,
+      "n": 3666
+     },
+     "2019": {
+      "OPEN": -0.38,
+      "CLOSE": -0.42,
+      "gap_xs": -0.04,
+      "n": 544
+     }
+    },
+    "orig_reported": {
+     "n": 42197,
+     "gross_excess_vs_EW_pct": -0.43,
+     "gross_excess_per_day_bp": -6.9,
+     "mean_gross_pct": -0.23
+    }
+   },
+   "V_all": {
+    "n": 31040,
+    "n_signal_months": 89,
+    "avg_hold_days_x_minus_e": 6.23,
+    "gap_mean_pct": 0.09535793507112841,
+    "gap_median_pct": 0.10416666666666075,
+    "EW_overnight_same_night_pct": 0.14094885520970513,
+    "gap_excess_vs_EW_overnight_pct": -0.04559092013857669,
+    "EW_overnight_exit_night_pct": 0.23450854865948909,
+    "EW_overnight_unconditional_daily_pct": 0.2573095646972899,
+    "note_benchmark_gap": "EW_match(OPEN) − EW_orig ≈ EW 出場夜隔夜 − EW 進場夜隔夜；原研究基準少算出場夜、多算進場夜",
+    "OPEN": {
+     "raw_gross_mean_pct": 0.5960929739847749,
+     "raw_gross_median_pct": -0.8810572687224516,
+     "raw_gross_win_rate": 0.37158505154639176,
+     "xs_EW_orig_pct": -0.15252282396861838,
+     "xs_EW_orig_bp_per_day": -2.4485564884515285,
+     "xs_EW_orig_t_naive": -4.43,
+     "xs_EW_orig_t_month_cluster": -3.47,
+     "xs_EW_match_pct": -0.27733233031811744,
+     "xs_EW_match_bp_per_day": -4.452211539156439,
+     "xs_EW_match_t_naive": -8.25,
+     "xs_EW_match_t_month_cluster": -4.89,
+     "xs_EW_match_net_0.5pct": -0.7773323303181175
+    },
+    "CLOSE": {
+     "raw_gross_mean_pct": 0.6834171002118774,
+     "raw_gross_median_pct": -0.8658008658008864,
+     "raw_gross_win_rate": 0.3756443298969072,
+     "xs_EW_orig_pct": -0.06519869774151602,
+     "xs_EW_orig_bp_per_day": -1.046680688435362,
+     "xs_EW_orig_t_naive": -1.89,
+     "xs_EW_orig_t_month_cluster": -1.36,
+     "xs_EW_match_pct": -0.3247286722234918,
+     "xs_EW_match_bp_per_day": -5.213098450909064,
+     "xs_EW_match_t_naive": -9.53,
+     "xs_EW_match_t_month_cluster": -5.37,
+     "xs_EW_match_net_0.5pct": -0.8247286722234917,
+     "xs_EW_match_bp_per_day_x_minus_t": -4.491970705517237
+    },
+    "yearly_xs_EW_match_pct": {
+     "2019": {
+      "OPEN": -0.32,
+      "CLOSE": -0.38,
+      "gap_xs": -0.06,
+      "n": 2015
+     },
+     "2020": {
+      "OPEN": -0.45,
+      "CLOSE": -0.45,
+      "gap_xs": -0.01,
+      "n": 2842
+     },
+     "2021": {
+      "OPEN": -0.55,
+      "CLOSE": -0.61,
+      "gap_xs": -0.05,
+      "n": 4389
+     },
+     "2022": {
+      "OPEN": -0.15,
+      "CLOSE": -0.2,
+      "gap_xs": -0.05,
+      "n": 4458
+     },
+     "2023": {
+      "OPEN": -0.04,
+      "CLOSE": -0.11,
+      "gap_xs": -0.07,
+      "n": 3637
+     },
+     "2024": {
+      "OPEN": -0.31,
+      "CLOSE": -0.38,
+      "gap_xs": -0.07,
+      "n": 4678
+     },
+     "2025": {
+      "OPEN": -0.25,
+      "CLOSE": -0.26,
+      "gap_xs": -0.01,
+      "n": 5250
+     },
+     "2026": {
+      "OPEN": -0.19,
+      "CLOSE": -0.25,
+      "gap_xs": -0.05,
+      "n": 3771
+     }
+    },
+    "orig_reported": {
+     "n": 31040,
+     "gross_excess_vs_EW_pct": -0.15,
+     "gross_excess_per_day_bp": -2.4,
+     "mean_gross_pct": 0.6
+    }
+   },
+   "V_off": {
+    "n": 22489,
+    "n_signal_months": 70,
+    "avg_hold_days_x_minus_e": 6.24,
+    "gap_mean_pct": 0.1674073248375174,
+    "gap_median_pct": 0.10857763300762269,
+    "EW_overnight_same_night_pct": 0.2148781730851408,
+    "gap_excess_vs_EW_overnight_pct": -0.04747084824762333,
+    "EW_overnight_exit_night_pct": 0.2864976593282184,
+    "EW_overnight_unconditional_daily_pct": 0.2704836811539218,
+    "note_benchmark_gap": "EW_match(OPEN) − EW_orig ≈ EW 出場夜隔夜 − EW 進場夜隔夜；原研究基準少算出場夜、多算進場夜",
+    "OPEN": {
+     "raw_gross_mean_pct": 0.774286111159854,
+     "raw_gross_median_pct": -0.8547008547008628,
+     "raw_gross_win_rate": 0.3762728445017564,
+     "xs_EW_orig_pct": -0.194696898580101,
+     "xs_EW_orig_bp_per_day": -3.11908373201682,
+     "xs_EW_orig_t_naive": -4.72,
+     "xs_EW_orig_t_month_cluster": -3.63,
+     "xs_EW_match_pct": -0.2938773159680331,
+     "xs_EW_match_bp_per_day": -4.707974097838776,
+     "xs_EW_match_t_naive": -7.28,
+     "xs_EW_match_t_month_cluster": -4.47,
+     "xs_EW_match_net_0.5pct": -0.7938773159680331
+    },
+    "CLOSE": {
+     "raw_gross_mean_pct": 0.9334664042369495,
+     "raw_gross_median_pct": -0.8347245409015103,
+     "raw_gross_win_rate": 0.3828983058384099,
+     "xs_EW_orig_pct": -0.03551660550300573,
+     "xs_EW_orig_bp_per_day": -0.568983210563614,
+     "xs_EW_orig_t_naive": -0.86,
+     "xs_EW_orig_t_month_cluster": -1.22,
+     "xs_EW_match_pct": -0.3424890033658207,
+     "xs_EW_match_bp_per_day": -5.486743171481447,
+     "xs_EW_match_t_naive": -8.35,
+     "xs_EW_match_t_month_cluster": -4.86,
+     "xs_EW_match_net_0.5pct": -0.8424890033658208,
+     "xs_EW_match_bp_per_day_x_minus_t": -4.729127389477332
+    },
+    "yearly_xs_EW_match_pct": {
+     "2019": {
+      "OPEN": -0.32,
+      "CLOSE": -0.38,
+      "gap_xs": -0.06,
+      "n": 2015
+     },
+     "2020": {
+      "OPEN": -0.45,
+      "CLOSE": -0.45,
+      "gap_xs": -0.01,
+      "n": 2842
+     },
+     "2021": {
+      "OPEN": -0.55,
+      "CLOSE": -0.61,
+      "gap_xs": -0.05,
+      "n": 4389
+     },
+     "2022": {
+      "OPEN": -0.15,
+      "CLOSE": -0.2,
+      "gap_xs": -0.05,
+      "n": 4458
+     },
+     "2023": {
+      "OPEN": -0.1,
+      "CLOSE": -0.18,
+      "gap_xs": -0.08,
+      "n": 3448
+     },
+     "2025": {
+      "OPEN": -0.35,
+      "CLOSE": -0.35,
+      "gap_xs": -0.0,
+      "n": 1566
+     },
+     "2026": {
+      "OPEN": -0.19,
+      "CLOSE": -0.25,
+      "gap_xs": -0.05,
+      "n": 3771
+     }
+    },
+    "orig_reported": {
+     "n": 22489,
+     "gross_excess_vs_EW_pct": -0.19,
+     "gross_excess_per_day_bp": -3.1,
+     "mean_gross_pct": 0.77
+    }
+   }
+  },
+  "T03_RSI<30_buy_>70_sell": {
+   "S": {
+    "n": 7138,
+    "n_signal_months": 165,
+    "avg_hold_days_x_minus_e": 110.1,
+    "gap_mean_pct": -0.23133880841965052,
+    "gap_median_pct": 0.0,
+    "EW_overnight_same_night_pct": 0.03552552704541195,
+    "gap_excess_vs_EW_overnight_pct": -0.26686433546506244,
+    "EW_overnight_exit_night_pct": 0.32593864528805244,
+    "EW_overnight_unconditional_daily_pct": 0.22855915879191183,
+    "note_benchmark_gap": "EW_match(OPEN) − EW_orig ≈ EW 出場夜隔夜 − EW 進場夜隔夜；原研究基準少算出場夜、多算進場夜",
+    "OPEN": {
+     "raw_gross_mean_pct": 1.8281806684208122,
+     "raw_gross_median_pct": 5.806451612903185,
+     "raw_gross_win_rate": 0.6309890725693471,
+     "xs_EW_orig_pct": -0.5679706012133843,
+     "xs_EW_orig_bp_per_day": -0.515884218802515,
+     "xs_EW_orig_t_naive": -2.74,
+     "xs_EW_orig_t_month_cluster": -3.29,
+     "xs_EW_match_pct": -1.194881359669528,
+     "xs_EW_match_bp_per_day": -1.0853034214762374,
+     "xs_EW_match_t_naive": -5.74,
+     "xs_EW_match_t_month_cluster": -3.97,
+     "xs_EW_match_net_0.5pct": -1.694881359669528
+    },
+    "CLOSE": {
+     "raw_gross_mean_pct": 1.5845330710868473,
+     "raw_gross_median_pct": 5.72237401763338,
+     "raw_gross_win_rate": 0.627766881479406,
+     "xs_EW_orig_pct": -0.8116181985473493,
+     "xs_EW_orig_bp_per_day": -0.7371878393512123,
+     "xs_EW_orig_t_naive": -3.94,
+     "xs_EW_orig_t_month_cluster": -3.73,
+     "xs_EW_match_pct": -1.4667182615841794,
+     "xs_EW_match_bp_per_day": -1.3322112147428988,
+     "xs_EW_match_t_naive": -7.06,
+     "xs_EW_match_t_month_cluster": -4.68,
+     "xs_EW_match_net_0.5pct": -1.9667182615841792,
+     "xs_EW_match_bp_per_day_x_minus_t": -1.3202197396981201
+    },
+    "yearly_xs_EW_match_pct": {
+     "2005": {
+      "OPEN": -3.43,
+      "CLOSE": -3.95,
+      "gap_xs": -0.47,
+      "n": 435
+     },
+     "2006": {
+      "OPEN": -3.1,
+      "CLOSE": -3.29,
+      "gap_xs": -0.19,
+      "n": 316
+     },
+     "2007": {
+      "OPEN": 0.79,
+      "CLOSE": 0.3,
+      "gap_xs": -0.49,
+      "n": 669
+     },
+     "2008": {
+      "OPEN": -0.71,
+      "CLOSE": -0.98,
+      "gap_xs": -0.32,
+      "n": 412
+     },
+     "2009": {
+      "OPEN": -3.27,
+      "CLOSE": -3.8,
+      "gap_xs": -0.48,
+      "n": 129
+     },
+     "2010": {
+      "OPEN": -1.3,
+      "CLOSE": -1.59,
+      "gap_xs": -0.28,
+      "n": 677
+     },
+     "2011": {
+      "OPEN": -0.34,
+      "CLOSE": -0.68,
+      "gap_xs": -0.36,
+      "n": 705
+     },
+     "2012": {
+      "OPEN": -1.32,
+      "CLOSE": -1.5,
+      "gap_xs": -0.18,
+      "n": 568
+     },
+     "2013": {
+      "OPEN": -1.71,
+      "CLOSE": -1.96,
+      "gap_xs": -0.24,
+      "n": 395
+     },
+     "2014": {
+      "OPEN": -1.4,
+      "CLOSE": -1.69,
+      "gap_xs": -0.29,
+      "n": 620
+     },
+     "2015": {
+      "OPEN": -0.93,
+      "CLOSE": -1.15,
+      "gap_xs": -0.21,
+      "n": 544
+     },
+     "2016": {
+      "OPEN": -0.65,
+      "CLOSE": -0.78,
+      "gap_xs": -0.09,
+      "n": 517
+     },
+     "2017": {
+      "OPEN": -1.93,
+      "CLOSE": -2.03,
+      "gap_xs": -0.1,
+      "n": 447
+     },
+     "2018": {
+      "OPEN": -1.17,
+      "CLOSE": -1.29,
+      "gap_xs": -0.11,
+      "n": 663
+     },
+     "2019": {
+      "OPEN": 0.65,
+      "CLOSE": 0.15,
+      "gap_xs": -0.49,
+      "n": 41
+     }
+    },
+    "orig_reported": {
+     "n": 7138,
+     "gross_excess_vs_EW_pct": -0.57,
+     "gross_excess_per_day_bp": -0.5,
+     "mean_gross_pct": 1.83
+    }
+   },
+   "V_all": {
+    "n": 4621,
+    "n_signal_months": 87,
+    "avg_hold_days_x_minus_e": 106.14,
+    "gap_mean_pct": -0.17655687100784148,
+    "gap_median_pct": 2.220446049250313e-14,
+    "EW_overnight_same_night_pct": -0.081464273933359,
+    "gap_excess_vs_EW_overnight_pct": -0.09509259707448244,
+    "EW_overnight_exit_night_pct": 0.28099863103201395,
+    "EW_overnight_unconditional_daily_pct": 0.2573095646972899,
+    "note_benchmark_gap": "EW_match(OPEN) − EW_orig ≈ EW 出場夜隔夜 − EW 進場夜隔夜；原研究基準少算出場夜、多算進場夜",
+    "OPEN": {
+     "raw_gross_mean_pct": 7.936088318517598,
+     "raw_gross_median_pct": 8.336314492408036,
+     "raw_gross_win_rate": 0.7171607877082883,
+     "xs_EW_orig_pct": -2.225431985696403,
+     "xs_EW_orig_bp_per_day": -2.0966305405846994,
+     "xs_EW_orig_t_naive": -6.85,
+     "xs_EW_orig_t_month_cluster": -4.45,
+     "xs_EW_match_pct": -3.0531806339813437,
+     "xs_EW_match_bp_per_day": -2.8764715364346913,
+     "xs_EW_match_t_naive": -9.32,
+     "xs_EW_match_t_month_cluster": -4.74,
+     "xs_EW_match_net_0.5pct": -3.553180633981343
+    },
+    "CLOSE": {
+     "raw_gross_mean_pct": 7.6672872510770445,
+     "raw_gross_median_pct": 8.329150706643883,
+     "raw_gross_win_rate": 0.7169443843323956,
+     "xs_EW_orig_pct": -2.494233053136958,
+     "xs_EW_orig_bp_per_day": -2.349874194383121,
+     "xs_EW_orig_t_naive": -7.75,
+     "xs_EW_orig_t_month_cluster": -4.34,
+     "xs_EW_match_pct": -3.164746376664842,
+     "xs_EW_match_bp_per_day": -2.981580182709513,
+     "xs_EW_match_t_naive": -9.71,
+     "xs_EW_match_t_month_cluster": -4.81,
+     "xs_EW_match_net_0.5pct": -3.6647463766648416,
+     "xs_EW_match_bp_per_day_x_minus_t": -2.95375220538674
+    },
+    "yearly_xs_EW_match_pct": {
+     "2019": {
+      "OPEN": -3.4,
+      "CLOSE": -3.55,
+      "gap_xs": -0.12,
+      "n": 335
+     },
+     "2020": {
+      "OPEN": -5.2,
+      "CLOSE": -5.43,
+      "gap_xs": -0.24,
+      "n": 607
+     },
+     "2021": {
+      "OPEN": 1.31,
+      "CLOSE": 1.08,
+      "gap_xs": -0.19,
+      "n": 635
+     },
+     "2022": {
+      "OPEN": -1.93,
+      "CLOSE": -2.01,
+      "gap_xs": -0.05,
+      "n": 724
+     },
+     "2023": {
+      "OPEN": -6.46,
+      "CLOSE": -6.73,
+      "gap_xs": -0.23,
+      "n": 442
+     },
+     "2024": {
+      "OPEN": -1.01,
+      "CLOSE": -1.11,
+      "gap_xs": -0.1,
+      "n": 702
+     },
+     "2025": {
+      "OPEN": -6.16,
+      "CLOSE": -5.92,
+      "gap_xs": 0.22,
+      "n": 756
+     },
+     "2026": {
+      "OPEN": -2.44,
+      "CLOSE": -2.73,
+      "gap_xs": -0.2,
+      "n": 420
+     }
+    },
+    "orig_reported": {
+     "n": 4621,
+     "gross_excess_vs_EW_pct": -2.23,
+     "gross_excess_per_day_bp": -2.1,
+     "mean_gross_pct": 7.94
+    }
+   },
+   "V_off": {
+    "n": 3182,
+    "n_signal_months": 67,
+    "avg_hold_days_x_minus_e": 93.66,
+    "gap_mean_pct": -0.06810922355003746,
+    "gap_median_pct": 2.220446049250313e-14,
+    "EW_overnight_same_night_pct": 0.09030826312263414,
+    "gap_excess_vs_EW_overnight_pct": -0.1584174866726716,
+    "EW_overnight_exit_night_pct": 0.2920893194257302,
+    "EW_overnight_unconditional_daily_pct": 0.2704836811539218,
+    "note_benchmark_gap": "EW_match(OPEN) − EW_orig ≈ EW 出場夜隔夜 − EW 進場夜隔夜；原研究基準少算出場夜、多算進場夜",
+    "OPEN": {
+     "raw_gross_mean_pct": 8.885568061933991,
+     "raw_gross_median_pct": 8.845042528664315,
+     "raw_gross_win_rate": 0.7438717787554997,
+     "xs_EW_orig_pct": -1.5307714921607396,
+     "xs_EW_orig_bp_per_day": -1.6343432442684493,
+     "xs_EW_orig_t_naive": -4.28,
+     "xs_EW_orig_t_month_cluster": -3.9,
+     "xs_EW_match_pct": -2.0934665549812204,
+     "xs_EW_match_bp_per_day": -2.23511016422576,
+     "xs_EW_match_t_naive": -5.82,
+     "xs_EW_match_t_month_cluster": -4.2,
+     "xs_EW_match_net_0.5pct": -2.5934665549812204
+    },
+    "CLOSE": {
+     "raw_gross_mean_pct": 8.767021628176183,
+     "raw_gross_median_pct": 8.819421532235205,
+     "raw_gross_win_rate": 0.7435575109993715,
+     "xs_EW_orig_pct": -1.6493179259185475,
+     "xs_EW_orig_bp_per_day": -1.7609105106020493,
+     "xs_EW_orig_t_naive": -4.63,
+     "xs_EW_orig_t_month_cluster": -3.78,
+     "xs_EW_match_pct": -2.2791277668295655,
+     "xs_EW_match_bp_per_day": -2.4333331837038195,
+     "xs_EW_match_t_naive": -6.33,
+     "xs_EW_match_t_month_cluster": -4.38,
+     "xs_EW_match_net_0.5pct": -2.779127766829566,
+     "xs_EW_match_bp_per_day_x_minus_t": -2.4076279074725786
+    },
+    "yearly_xs_EW_match_pct": {
+     "2019": {
+      "OPEN": -3.4,
+      "CLOSE": -3.55,
+      "gap_xs": -0.12,
+      "n": 335
+     },
+     "2020": {
+      "OPEN": -5.2,
+      "CLOSE": -5.43,
+      "gap_xs": -0.24,
+      "n": 607
+     },
+     "2021": {
+      "OPEN": 1.31,
+      "CLOSE": 1.08,
+      "gap_xs": -0.19,
+      "n": 635
+     },
+     "2022": {
+      "OPEN": -1.41,
+      "CLOSE": -1.48,
+      "gap_xs": -0.06,
+      "n": 718
+     },
+     "2023": {
+      "OPEN": 0.23,
+      "CLOSE": -0.09,
+      "gap_xs": -0.29,
+      "n": 292
+     },
+     "2025": {
+      "OPEN": -7.04,
+      "CLOSE": -6.97,
+      "gap_xs": 0.09,
+      "n": 175
+     },
+     "2026": {
+      "OPEN": -2.44,
+      "CLOSE": -2.73,
+      "gap_xs": -0.2,
+      "n": 420
+     }
+    },
+    "orig_reported": {
+     "n": 3182,
+     "gross_excess_vs_EW_pct": -1.53,
+     "gross_excess_per_day_bp": -1.6,
+     "mean_gross_pct": 8.89
+    }
+   }
+  },
+  "T05_BB_touch_lower": {
+   "S": {
+    "n": 26363,
+    "n_signal_months": 172,
+    "avg_hold_days_x_minus_e": 16.31,
+    "gap_mean_pct": -0.2032602167269192,
+    "gap_median_pct": 0.0,
+    "EW_overnight_same_night_pct": 0.032022458931633524,
+    "gap_excess_vs_EW_overnight_pct": -0.23528267565855274,
+    "EW_overnight_exit_night_pct": 0.25146821521608764,
+    "EW_overnight_unconditional_daily_pct": 0.22855915879191183,
+    "note_benchmark_gap": "EW_match(OPEN) − EW_orig ≈ EW 出場夜隔夜 − EW 進場夜隔夜；原研究基準少算出場夜、多算進場夜",
+    "OPEN": {
+     "raw_gross_mean_pct": -0.029897401473234244,
+     "raw_gross_median_pct": 1.7293997965411867,
+     "raw_gross_win_rate": 0.6240564427417213,
+     "xs_EW_orig_pct": 0.08813142904819543,
+     "xs_EW_orig_bp_per_day": 0.5404118464964485,
+     "xs_EW_orig_t_naive": 1.95,
+     "xs_EW_orig_t_month_cluster": -1.06,
+     "xs_EW_match_pct": -0.193019712281848,
+     "xs_EW_match_bp_per_day": -1.18357480697838,
+     "xs_EW_match_t_naive": -4.31,
+     "xs_EW_match_t_month_cluster": -3.38,
+     "xs_EW_match_net_0.5pct": -0.693019712281848
+    },
+    "CLOSE": {
+     "raw_gross_mean_pct": -0.23331152229802277,
+     "raw_gross_median_pct": 1.7467248908297206,
+     "raw_gross_win_rate": 0.6183287182794067,
+     "xs_EW_orig_pct": -0.11528269177659303,
+     "xs_EW_orig_bp_per_day": -0.7069002852319599,
+     "xs_EW_orig_t_naive": -2.56,
+     "xs_EW_orig_t_month_cluster": -2.42,
+     "xs_EW_match_pct": -0.42662123446211564,
+     "xs_EW_match_bp_per_day": -2.6159926323694056,
+     "xs_EW_match_t_naive": -9.47,
+     "xs_EW_match_t_month_cluster": -6.27,
+     "xs_EW_match_net_0.5pct": -0.9266212344621158,
+     "xs_EW_match_bp_per_day_x_minus_t": -2.4648507995083797
+    },
+    "yearly_xs_EW_match_pct": {
+     "2005": {
+      "OPEN": -0.1,
+      "CLOSE": -0.42,
+      "gap_xs": -0.32,
+      "n": 1476
+     },
+     "2006": {
+      "OPEN": 0.16,
+      "CLOSE": -0.11,
+      "gap_xs": -0.27,
+      "n": 1418
+     },
+     "2007": {
+      "OPEN": 0.06,
+      "CLOSE": -0.25,
+      "gap_xs": -0.32,
+      "n": 2156
+     },
+     "2008": {
+      "OPEN": -0.11,
+      "CLOSE": -0.52,
+      "gap_xs": -0.46,
+      "n": 1735
+     },
+     "2009": {
+      "OPEN": -0.37,
+      "CLOSE": -0.66,
+      "gap_xs": -0.27,
+      "n": 1120
+     },
+     "2010": {
+      "OPEN": 0.18,
+      "CLOSE": 0.05,
+      "gap_xs": -0.13,
+      "n": 2156
+     },
+     "2011": {
+      "OPEN": -0.46,
+      "CLOSE": -0.74,
+      "gap_xs": -0.29,
+      "n": 2574
+     },
+     "2012": {
+      "OPEN": -0.12,
+      "CLOSE": -0.33,
+      "gap_xs": -0.21,
+      "n": 1685
+     },
+     "2013": {
+      "OPEN": -0.3,
+      "CLOSE": -0.52,
+      "gap_xs": -0.22,
+      "n": 1700
+     },
+     "2014": {
+      "OPEN": -0.25,
+      "CLOSE": -0.48,
+      "gap_xs": -0.22,
+      "n": 2285
+     },
+     "2015": {
+      "OPEN": -0.62,
+      "CLOSE": -0.86,
+      "gap_xs": -0.23,
+      "n": 2106
+     },
+     "2016": {
+      "OPEN": 0.01,
+      "CLOSE": -0.12,
+      "gap_xs": -0.13,
+      "n": 1744
+     },
+     "2017": {
+      "OPEN": -0.33,
+      "CLOSE": -0.46,
+      "gap_xs": -0.13,
+      "n": 1829
+     },
+     "2018": {
+      "OPEN": -0.41,
+      "CLOSE": -0.54,
+      "gap_xs": -0.13,
+      "n": 2024
+     },
+     "2019": {
+      "OPEN": 0.27,
+      "CLOSE": 0.07,
+      "gap_xs": -0.19,
+      "n": 355
+     }
+    },
+    "orig_reported": {
+     "n": 26363,
+     "gross_excess_vs_EW_pct": 0.09,
+     "gross_excess_per_day_bp": 0.5,
+     "mean_gross_pct": -0.03
+    }
+   },
+   "V_all": {
+    "n": 18751,
+    "n_signal_months": 89,
+    "avg_hold_days_x_minus_e": 14.66,
+    "gap_mean_pct": 0.07211347304025763,
+    "gap_median_pct": 0.11627906976743319,
+    "EW_overnight_same_night_pct": 0.18227507638616086,
+    "gap_excess_vs_EW_overnight_pct": -0.11016160334590322,
+    "EW_overnight_exit_night_pct": 0.3049090540802864,
+    "EW_overnight_unconditional_daily_pct": 0.2573095646972899,
+    "note_benchmark_gap": "EW_match(OPEN) − EW_orig ≈ EW 出場夜隔夜 − EW 進場夜隔夜；原研究基準少算出場夜、多算進場夜",
+    "OPEN": {
+     "raw_gross_mean_pct": 0.9600253633941745,
+     "raw_gross_median_pct": 1.9230719854141043,
+     "raw_gross_win_rate": 0.6481254333102234,
+     "xs_EW_orig_pct": -0.15123998138702655,
+     "xs_EW_orig_bp_per_day": -1.0316868782698394,
+     "xs_EW_orig_t_naive": -2.85,
+     "xs_EW_orig_t_month_cluster": -1.87,
+     "xs_EW_match_pct": -0.33185895972936236,
+     "xs_EW_match_bp_per_day": -2.2637832340967963,
+     "xs_EW_match_t_naive": -6.36,
+     "xs_EW_match_t_month_cluster": -3.35,
+     "xs_EW_match_net_0.5pct": -0.8318589597293624
+    },
+    "CLOSE": {
+     "raw_gross_mean_pct": 1.027089634103469,
+     "raw_gross_median_pct": 2.0569620253164667,
+     "raw_gross_win_rate": 0.6520718894992267,
+     "xs_EW_orig_pct": -0.08417571067773226,
+     "xs_EW_orig_bp_per_day": -0.5742064722490386,
+     "xs_EW_orig_t_naive": -1.61,
+     "xs_EW_orig_t_month_cluster": -1.51,
+     "xs_EW_match_pct": -0.4449505264729565,
+     "xs_EW_match_bp_per_day": -3.0352398580814928,
+     "xs_EW_match_t_naive": -8.48,
+     "xs_EW_match_t_month_cluster": -4.21,
+     "xs_EW_match_net_0.5pct": -0.9449505264729565,
+     "xs_EW_match_bp_per_day_x_minus_t": -2.841412290219495
+    },
+    "yearly_xs_EW_match_pct": {
+     "2019": {
+      "OPEN": -0.38,
+      "CLOSE": -0.45,
+      "gap_xs": -0.06,
+      "n": 1153
+     },
+     "2020": {
+      "OPEN": -0.41,
+      "CLOSE": -0.61,
+      "gap_xs": -0.2,
+      "n": 2103
+     },
+     "2021": {
+      "OPEN": 0.09,
+      "CLOSE": -0.05,
+      "gap_xs": -0.13,
+      "n": 2488
+     },
+     "2022": {
+      "OPEN": -0.32,
+      "CLOSE": -0.45,
+      "gap_xs": -0.14,
+      "n": 2911
+     },
+     "2023": {
+      "OPEN": -0.65,
+      "CLOSE": -0.79,
+      "gap_xs": -0.13,
+      "n": 2051
+     },
+     "2024": {
+      "OPEN": -0.28,
+      "CLOSE": -0.39,
+      "gap_xs": -0.11,
+      "n": 2835
+     },
+     "2025": {
+      "OPEN": -0.16,
+      "CLOSE": -0.1,
+      "gap_xs": 0.05,
+      "n": 3061
+     },
+     "2026": {
+      "OPEN": -0.75,
+      "CLOSE": -0.95,
+      "gap_xs": -0.18,
+      "n": 2149
+     }
+    },
+    "orig_reported": {
+     "n": 18751,
+     "gross_excess_vs_EW_pct": -0.15,
+     "gross_excess_per_day_bp": -1.0,
+     "mean_gross_pct": 0.96
+    }
+   },
+   "V_off": {
+    "n": 13485,
+    "n_signal_months": 70,
+    "avg_hold_days_x_minus_e": 14.42,
+    "gap_mean_pct": 0.08723458171714646,
+    "gap_median_pct": 0.10384215991692258,
+    "EW_overnight_same_night_pct": 0.22738524722542272,
+    "gap_excess_vs_EW_overnight_pct": -0.14015066550827632,
+    "EW_overnight_exit_night_pct": 0.3041215166564733,
+    "EW_overnight_unconditional_daily_pct": 0.2704836811539218,
+    "note_benchmark_gap": "EW_match(OPEN) − EW_orig ≈ EW 出場夜隔夜 − EW 進場夜隔夜；原研究基準少算出場夜、多算進場夜",
+    "OPEN": {
+     "raw_gross_mean_pct": 1.0227990688260233,
+     "raw_gross_median_pct": 1.863354037267051,
+     "raw_gross_win_rate": 0.6504263997033741,
+     "xs_EW_orig_pct": -0.20298415703418515,
+     "xs_EW_orig_bp_per_day": -1.4076115178473654,
+     "xs_EW_orig_t_naive": -3.23,
+     "xs_EW_orig_t_month_cluster": -1.83,
+     "xs_EW_match_pct": -0.3328247436676492,
+     "xs_EW_match_bp_per_day": -2.3080025035268177,
+     "xs_EW_match_t_naive": -5.37,
+     "xs_EW_match_t_month_cluster": -2.36,
+     "xs_EW_match_net_0.5pct": -0.8328247436676492
+    },
+    "CLOSE": {
+     "raw_gross_mean_pct": 1.1052446008526924,
+     "raw_gross_median_pct": 1.9830028328611915,
+     "raw_gross_win_rate": 0.6531701890989989,
+     "xs_EW_orig_pct": -0.12053862500751594,
+     "xs_EW_orig_bp_per_day": -0.8358857133736258,
+     "xs_EW_orig_t_naive": -1.94,
+     "xs_EW_orig_t_month_cluster": -1.14,
+     "xs_EW_match_pct": -0.4774320957116554,
+     "xs_EW_match_bp_per_day": -3.3107949247514514,
+     "xs_EW_match_t_naive": -7.67,
+     "xs_EW_match_t_month_cluster": -3.29,
+     "xs_EW_match_net_0.5pct": -0.9774320957116553,
+     "xs_EW_match_bp_per_day_x_minus_t": -3.0960935875696327
+    },
+    "yearly_xs_EW_match_pct": {
+     "2019": {
+      "OPEN": -0.38,
+      "CLOSE": -0.45,
+      "gap_xs": -0.06,
+      "n": 1153
+     },
+     "2020": {
+      "OPEN": -0.41,
+      "CLOSE": -0.61,
+      "gap_xs": -0.2,
+      "n": 2103
+     },
+     "2021": {
+      "OPEN": 0.09,
+      "CLOSE": -0.05,
+      "gap_xs": -0.13,
+      "n": 2488
+     },
+     "2022": {
+      "OPEN": -0.32,
+      "CLOSE": -0.45,
+      "gap_xs": -0.14,
+      "n": 2911
+     },
+     "2023": {
+      "OPEN": -0.42,
+      "CLOSE": -0.55,
+      "gap_xs": -0.13,
+      "n": 1956
+     },
+     "2025": {
+      "OPEN": -0.05,
+      "CLOSE": -0.08,
+      "gap_xs": -0.03,
+      "n": 725
+     },
+     "2026": {
+      "OPEN": -0.75,
+      "CLOSE": -0.95,
+      "gap_xs": -0.18,
+      "n": 2149
+     }
+    },
+    "orig_reported": {
+     "n": 13485,
+     "gross_excess_vs_EW_pct": -0.2,
+     "gross_excess_per_day_bp": -1.4,
+     "mean_gross_pct": 1.02
+    }
+   }
+  }
+ }
+}

@@ -111,6 +111,27 @@ for kind, m, t in sig:
         def dd(x): eq = (1 + x).cumprod(); return round(float((eq / eq.cummax() - 1).min()), 4)
         timing[f'month{m}_{"only" if t > 0 else "avoid"}|{nm}'] = {'CAGR': cg(strat), 'MDD': dd(strat), '0050_CAGR': cg(s), '0050_MDD': dd(s),
                                                                   't_diff_in_OOS_month': res['0050'][nm]['months'][m]['t_vs_other']}
+# 農曆年擇時（重測 r1_0 補上：原本只處理 kind == 'month'，違反事前規則）
+# 只在 [年前最後收盤, 年後第 H 日收盤] 持有 0050、其餘現金 vs 全期持有 0050；日頻、現金 0。
+rd = e.pct_change()
+for kind, m, t in sig:
+    if not kind.startswith('LNY_post'): continue
+    H = int(kind.split('|')[0].replace('LNY_post', ''))
+    inpos = pd.Series(False, index=d); exits = []
+    for y, first in lny.items():
+        i0 = pos[first] - 1
+        if i0 + H >= len(d): continue
+        inpos.iloc[i0 + 1: i0 + H + 1] = True; exits.append(d[i0 + H])
+    for nm, (a, b) in [('IS', ('2005-01-01', '2019-04-30')), ('OOS', ('2019-05-01', '2026-10-31'))]:
+        rr = rd[(rd.index >= a) & (rd.index <= b)].dropna(); ip = inpos.reindex(rr.index)
+        def dstat(x):
+            eq = (1 + x).cumprod(); return round(float(eq.iloc[-1] ** (252 / len(x)) - 1), 4), round(float((eq / eq.cummax() - 1).min()), 4)
+        strat = rr.where(ip, 0.0) if t > 0 else rr.where(~ip, 0.0)
+        sc = strat.copy(); sc.loc[sc.index.isin(exits)] -= 0.005
+        (c1, m1), (c2, _), (cb, mb) = dstat(strat), dstat(sc), dstat(rr)
+        timing[f'LNY_post{H}_{"only" if t > 0 else "avoid"}|{nm}'] = {'CAGR': c1, 'MDD': m1, 'CAGR_cost0.5%': c2, '0050_CAGR': cb, '0050_MDD': mb,
+                                                                      'exposure': round(float(ip.mean()), 4),
+                                                                      'exposure_matched_CAGR': round(float((1 + rr.mean() * ip.mean()) ** 252 - 1), 4)}
 res['timing'] = timing
 
 def show(tag, tab):
