@@ -1,0 +1,137 @@
+{
+ "E1_exdiv_pre_10d": {
+  "label": "除息前 10 日（搶息）",
+  "n_events": 4417,
+  "n_dates": 724,
+  "mean_abnormal_pct": 0.491,
+  "mean_by_date_pct": 1.168,
+  "t_by_date": 5.37,
+  "hit_rate": 0.455,
+  "net_after_cost_pct": 0.668
+ },
+ "E1_exdiv_post_20d": {
+  "label": "除息前一日收盤→除息後 20 日（含息）",
+  "n_events": 4412,
+  "n_dates": 717,
+  "mean_abnormal_pct": -0.361,
+  "mean_by_date_pct": -0.574,
+  "t_by_date": -1.73,
+  "hit_rate": 0.412,
+  "net_after_cost_pct": -1.074
+ },
+ "E2_attention_next_1d": {
+  "label": "注意股公告收盤→後 1 日",
+  "n_events": 15569,
+  "n_dates": 1189,
+  "mean_abnormal_pct": -0.083,
+  "mean_by_date_pct": -0.077,
+  "t_by_date": -1.61,
+  "hit_rate": 0.43,
+  "net_after_cost_pct": -0.577
+ },
+ "E2_attention_next_5d": {
+  "label": "注意股公告收盤→後 5 日",
+  "n_events": 15556,
+  "n_dates": 1189,
+  "mean_abnormal_pct": 0.312,
+  "mean_by_date_pct": 0.441,
+  "t_by_date": 4.12,
+  "hit_rate": 0.44,
+  "net_after_cost_pct": -0.059
+ },
+ "E2_attention_next_20d": {
+  "label": "注意股公告收盤→後 20 日",
+  "n_events": 15337,
+  "n_dates": 1180,
+  "mean_abnormal_pct": 1.326,
+  "mean_by_date_pct": 1.393,
+  "t_by_date": 6.29,
+  "hit_rate": 0.427,
+  "net_after_cost_pct": 0.893
+ },
+ "E3_disposal_during": {
+  "label": "處置開始前一日→處置結束",
+  "n_events": 783,
+  "n_dates": 461,
+  "mean_abnormal_pct": 2.378,
+  "mean_by_date_pct": 2.671,
+  "t_by_date": 4.29,
+  "hit_rate": 0.515,
+  "net_after_cost_pct": 2.171
+ },
+ "E3_disposal_after_20d": {
+  "label": "處置結束→後 20 日",
+  "n_events": 759,
+  "n_dates": 446,
+  "mean_abnormal_pct": 1.454,
+  "mean_by_date_pct": 0.936,
+  "t_by_date": 0.9,
+  "hit_rate": 0.441,
+  "net_after_cost_pct": 0.436
+ },
+ "E4_trust_window_dressing_last10": {
+  "label": "投信前期買超前 1/5：季末最後 10 日",
+  "n_events": 3990,
+  "n_dates": 20,
+  "mean_abnormal_pct": -0.184,
+  "mean_by_date_pct": -0.172,
+  "t_by_date": -0.83,
+  "hit_rate": 0.405,
+  "net_after_cost_pct": -0.672
+ },
+ "E4_trust_window_dressing_next10": {
+  "label": "同一批：新季前 10 日",
+  "n_events": 3973,
+  "n_dates": 20,
+  "mean_abnormal_pct": 0.265,
+  "mean_by_date_pct": 0.449,
+  "t_by_date": 1.83,
+  "hit_rate": 0.453,
+  "net_after_cost_pct": -0.051
+ },
+ "E5_limit_up_next_open_raw": {
+  "label": "漲停收盤→隔日開盤（原始報酬）",
+  "n_events": 15958,
+  "n_dates": 2096,
+  "mean_abnormal_pct": 2.404,
+  "mean_by_date_pct": 2.044,
+  "t_by_date": 45.21,
+  "hit_rate": 0.739,
+  "net_after_cost_pct": 1.814
+ },
+ "E5_limit_up_next_close": {
+  "label": "漲停收盤→隔日收盤（異常）",
+  "n_events": 15958,
+  "n_dates": 2096,
+  "mean_abnormal_pct": 1.616,
+  "mean_by_date_pct": 1.404,
+  "t_by_date": 20.06,
+  "hit_rate": 0.567,
+  "net_after_cost_pct": 0.904
+ },
+ "E5_limit_up_next_5d": {
+  "label": "漲停收盤→5 日（異常）",
+  "n_events": 15949,
+  "n_dates": 2095,
+  "mean_abnormal_pct": 1.892,
+  "mean_by_date_pct": 1.531,
+  "t_by_date": 10.45,
+  "hit_rate": 0.484,
+  "net_after_cost_pct": 1.031
+ },
+ "E6_turn_of_month": {
+  "tom_days_mean_bp": 13.22,
+  "other_days_mean_bp": 4.71,
+  "t_diff": 1.89,
+  "share_of_days": 0.195,
+  "tom_only_CAGR": 0.0608,
+  "buy_hold_CAGR": 0.1454
+ },
+ "E6_pre_lunar_new_year_5d": {
+  "n_years": 28,
+  "mean_pct": 0.22,
+  "hit_rate": 0.57,
+  "t": 0.43,
+  "avg_5d_any_pct": 0.32
+ }
+}
