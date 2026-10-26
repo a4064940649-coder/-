@@ -63,18 +63,23 @@ def profile(net, uni, tov):
             'worst_rolling12_relative_to_0050_pct': round(float(rel12.min() * 100), 1), 'tracking_error_ann': round(float(ex.std() * np.sqrt(12)), 3),
             'yearly_net_pct': yearly(net, dates), 'yearly_0050_pct': yearly(b, dates)}
 
-res = {}
-net, uni, tov, picks = run(yoy3)
-res['FINAL_R5_with_disposal_filter'] = profile(net, uni, tov)
-b = B.reindex(net.index)
-for w in [0.3, 0.5, 0.7]:
-    bl = w * net + (1 - w) * b      # 每月再平衡的核心（0050）＋衛星（規則）
-    res[f'BLEND_{int(w*100)}pct_rule_{int((1-w)*100)}pct_0050'] = {'ann': ann(bl, dates), 'yearly': yearly(bl, dates)}
-n1, u1, t1, _ = run(yoy1); res['SENS_single_month_yoy'] = profile(n1, u1, t1)
-for w in [0.33, 0.67]:
-    nw, uw, tw, _ = run(yoy3, w52=w); res[f'SENS_weight_52w_{w}'] = profile(nw, uw, tw)
-for k in ['SENS_single_month_yoy', 'SENS_weight_52w_0.33', 'SENS_weight_52w_0.67']:
-    res[k] = {kk: res[k][kk] for kk in ['net', 'mean_excess_vs_0050_pct_m', 't_vs_0050', 't_vs_EW', 'turnover_per_rebalance']}
-last = max(picks); res['latest_picks'] = {'entry_date': str(last.date()), 'codes': picks[last]}
-(OUT / 'bt_final_rule.json').write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding='utf-8')
-print(json.dumps(res, ensure_ascii=False, indent=1)[:6000])
+def main():
+    res = {}
+    net, uni, tov, picks = run(yoy3)
+    res['FINAL_R5_with_disposal_filter'] = profile(net, uni, tov)
+    b = B.reindex(net.index)
+    for w in [0.3, 0.5, 0.7]:
+        bl = w * net + (1 - w) * b      # 每月再平衡的核心（0050）＋衛星（規則）
+        res[f'BLEND_{int(w*100)}pct_rule_{int((1-w)*100)}pct_0050'] = {'ann': ann(bl, dates), 'yearly': yearly(bl, dates)}
+    n1, u1, t1, _ = run(yoy1); res['SENS_single_month_yoy'] = profile(n1, u1, t1)
+    for w in [0.33, 0.67]:
+        nw, uw, tw, _ = run(yoy3, w52=w); res[f'SENS_weight_52w_{w}'] = profile(nw, uw, tw)
+    for k in ['SENS_single_month_yoy', 'SENS_weight_52w_0.33', 'SENS_weight_52w_0.67']:
+        res[k] = {kk: res[k][kk] for kk in ['net', 'mean_excess_vs_0050_pct_m', 't_vs_0050', 't_vs_EW', 'turnover_per_rebalance']}
+    last = max(picks); res['latest_picks'] = {'entry_date': str(last.date()), 'codes': picks[last]}
+    (OUT / 'bt_final_rule.json').write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding='utf-8')
+    print(json.dumps(res, ensure_ascii=False, indent=1)[:6000])
+
+
+if __name__ == '__main__':
+    main()
