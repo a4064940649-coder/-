@@ -309,7 +309,7 @@ res['diag_deciles_gross'] = dq
 print('deciles', {k: (v['decile_abn_vs_EW_pct_m (1=最高SURGE)'][1], v['t_D1'], v['t_D1_minus_D10']) for k, v in dq.items()}, flush=True)
 
 # ---- SURGE 分布健檢 ----
-sm = SC['S_main'].stack()
+sm = SC['S_main'].stack().dropna()
 res['diag_surge_distribution'] = {'n': int(len(sm)), 'quantiles': {str(q): round(float(sm.quantile(q)), 3) for q in (0.001, 0.01, 0.1, 0.5, 0.9, 0.99, 0.999)},
                                   'share_abs_gt_10': round(float((sm.abs() > 10).mean()), 5)}
 
@@ -319,7 +319,7 @@ r5['p'] = pd.PeriodIndex(r5['ym'], freq='M')
 REV5 = r5.pivot_table(index='p', columns='code', values='revenue', aggfunc='last').sort_index()
 REV5 = REV5.reindex(pd.period_range(REV5.index.min(), REV5.index.max(), freq='M')).reindex(columns=COLS)
 REV5 = REV5.where(REV5 > 0)
-both = REV.reindex(REV5.index).stack().to_frame('long').join(REV5.stack().to_frame('r5'), how='inner')
+both = REV.reindex(REV5.index).stack().to_frame('long').join(REV5.stack().to_frame('r5'), how='inner').dropna()   # 新版 pandas stack 不丟 NaN
 rel = (both.r5 / both.long - 1).abs()
 S5 = surge(mk_D(REV5))
 ov = []
