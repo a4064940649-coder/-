@@ -103,7 +103,11 @@ def load_prices(D, target, panel_dir=PANEL):
     out['ADJ'] = (1 + out['R'].fillna(0)).cumprod().where(out['C'].notna())
     out['cal'] = out['C'].index
     out['names'] = lst.set_index('code')['name']
+    out['ind'] = lst.set_index('code')['industry'] if 'industry' in lst.columns else pd.Series(dtype=str)
     return out
+
+
+FIN_IND = '金融保險業'
 
 
 def load_revenue(D):
@@ -156,7 +160,7 @@ def next_rebalance(cal, t):
 
 
 # ---------------- 選股 ----------------
-def score_on(data, YOY3, dsp, sd):
+def score_on(data, YOY3, dsp, sd, ex_fin=False):
     """換股日 sd 收盤的股池與分數（pd.DataFrame，依分數由高到低排序）。"""
     cal = data['cal']; i = cal.get_loc(sd); cols = data['C'].columns
     adj = data['ADJ'].iloc[i - W52 + 1:i + 1]
@@ -172,6 +176,7 @@ def score_on(data, YOY3, dsp, sd):
     for _, r in dsp[(dsp['start'] <= sd) & (dsp['end'] >= sd)].iterrows():
         if r['code'] in inD.index: inD[r['code']] = True
     el = t300 & y3.notna() & s52.notna() & ~inD
+    if ex_fin: el = el & ~pd.Series(cols.map(lambda c: data['ind'].get(c, '') == FIN_IND), index=cols)
     sc = 0.5 * s52.where(el).rank(pct=True) + 0.5 * y3.where(el).rank(pct=True)
     df = pd.DataFrame({'s52': s52, 'yoy3': y3, 'score': sc, 'close': px, 'v60': v60, 'el': el, 't300': t300, 'inD': inD})
     df.index.name = 'code'
@@ -216,6 +221,7 @@ def fmt_table(order, codes, data, price, price_day, alloc, dsp, extra=None):
         up = dsp[(dsp['code'] == code) & (dsp['start'] > price_day) & (dsp['start'] <= price_day + pd.Timedelta(days=7))]
         if len(up): note.append(f'{up["start"].min().date()} 起處置（需預收款券）')
         if extra and code in extra: note.append(extra[code])
+        if data['ind'].get(code, '') == FIN_IND: note.append('金融業：營收年增率意義有限、可能晚於換股日公告（見 agents/main_refine）')
         row = {'名次': int(order.index.get_loc(code)) + 1, '代號': code, '名稱': data['names'].get(code, ''),
                '52週高點比': f'{r["s52"]:.1%}', '營收3月年增': f'{r["yoy3"]:+.1f}%', '綜合分數': f'{r["score"]:.3f}', f'收盤{price_day:%m/%d}': f'{p:g}'}
         if alloc:
@@ -239,6 +245,7 @@ def main():
     ap.add_argument('--equity', type=float, help='主策略部位淨值（元），用來算建議股數')
     ap.add_argument('--held', default='', help='目前持股代號，逗號分隔，例如 2330,2317')
     ap.add_argument('--panel', default=str(PANEL), help='研究面板目錄（history 不足 52 週時拼接用）')
+    ap.add_argument('--ex-fin', action='store_true', help='排除金融保險業（金控營收年增率沒有經濟意義、常晚於換股日公告；回測原版未排除）')
     a = ap.parse_args()
     D = Path(a.data); n = a.n
     held = [c.strip() for c in a.held.replace('，', ',').split(',') if c.strip()]
@@ -266,7 +273,8 @@ def main():
         print(f'今天不是換股日。本月持股名單依最近一次換股日 {sd.date()} 的訊號（下表）；建議股數以 {t.date()} 收盤計算。')
     print(f'下一個換股日：{nxt.date()}' + ('（預估：該月第一個 ≥ 11 日的平日，未扣除國定假日）' if est else ''))
 
-    order, full, m, n_el = score_on(data, YOY3, dsp, sd)
+    order, full, m, n_el = score_on(data, YOY3, dsp, sd, a.ex_fin)
+    if a.ex_fin: print('已排除金融保險業（--ex-fin）')
     cnt = YOY.notna().sum(axis=1); med = cnt.loc[:m].iloc[-13:-1].median()
     c_m = int(YOY.loc[m].notna().sum()) if m in YOY.index else 0
     print(f'營收月份：{m - 2}～{m}（{m} 營收公告期限 {(m + 1).to_timestamp().replace(day=10).date()} 已過）；{m} 有營收的公司 {c_m} 家'

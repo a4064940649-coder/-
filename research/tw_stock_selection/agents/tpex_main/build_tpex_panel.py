@@ -66,7 +66,7 @@ def read_fm(path):
         df = pd.read_csv(path, dtype={'stock_id': str}, encoding='utf-8-sig')
     except Exception:
         return pd.DataFrame(columns=['o', 'h', 'c', 'val', 'x', 'chgv'], index=pd.DatetimeIndex([]))
-    if 'close' not in df.columns or len(df) == 0:
+    if not {'close', 'open', 'max', 'Trading_money', 'spread', 'Trading_Volume', 'date'} <= set(df.columns) or len(df) == 0:
         return pd.DataFrame(columns=['o', 'h', 'c', 'val', 'x', 'chgv'], index=pd.DatetimeIndex([]))
     df = df.rename(columns={'open': 'o', 'max': 'h', 'close': 'c', 'Trading_money': 'val', 'spread': 'chgv'})
     df['date'] = pd.to_datetime(df['date'], errors='coerce'); df['x'] = False
