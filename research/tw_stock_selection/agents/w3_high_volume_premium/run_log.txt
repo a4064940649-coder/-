@@ -1,0 +1,210 @@
+/home/user/-/research/tw_stock_selection/agents/w3_high_volume_premium/run.py:48: RuntimeWarning: Mean of empty slice
+  m = np.nanmean(np.where(np.isfinite(blk), blk, np.nan), axis=0) if True else None
+/home/user/-/research/tw_stock_selection/agents/w3_high_volume_premium/run.py:72: RuntimeWarning: Mean of empty slice
+  mu = np.nanmean(np.where(np.isfinite(W), W, np.nan), axis=0)
+main_GKM_weekly_20d {'cohorts': 1104, 'blocked': 740, 'empty': 0, 'n_names_mean': 67.2, 'pool_mean': 510.6, 'frac_of_pool': 0.1316, 'hold_days_mean': 19.22, 'hold_days_min': 3, 'hold_days_max': 20}
+  gross  select_2005-01_2019-04     CAGR 0.1030 DD -0.605 | EW 0.0740 t_EW 1.79 | 0050 0.0800 t_50 0.92
+  gross  valid_2019-05_2026-10      CAGR 0.2868 DD -0.403 | EW 0.1757 t_EW 2.41 | 0050 0.2827 t_50 0.09
+  gross  valid_ex_src3              CAGR 0.3526 DD -0.295 | EW 0.2096 t_EW 2.64 | 0050 0.2469 t_50 1.01
+  gross  y2024_2025                 CAGR 0.2070 DD -0.403 | EW 0.0687 t_EW 1.18 | 0050 0.4244 t_50 -0.87
+  gross  src3_2024-02-15_2025-09-23 CAGR 0.0910 DD -0.403 | EW 0.0704 t_EW 0.33 | 0050 0.4085 t_50 -1.37
+  normal select_2005-01_2019-04     CAGR 0.0272 DD -0.641 | EW 0.0740 t_EW -2.99 | 0050 0.0800 t_50 -1.21 | ev ab_net -0.589% t -4.03 n 40891
+  normal valid_2019-05_2026-10      CAGR 0.2033 DD -0.431 | EW 0.1757 t_EW 0.81 | 0050 0.2827 t_50 -0.77 | ev ab_net -0.225% t -0.13 n 33283
+  normal valid_ex_src3              CAGR 0.2634 DD -0.301 | EW 0.2096 t_EW 1.15 | 0050 0.2469 t_50 0.19 | ev ab_net -0.116% t 0.97 n 22360
+  normal y2024_2025                 CAGR 0.1332 DD -0.431 | EW 0.0687 t_EW 0.66 | 0050 0.4244 t_50 -1.23 | ev ab_net -0.245% t 0.13 n 11252
+  normal src3_2024-02-15_2025-09-23 CAGR 0.0243 DD -0.431 | EW 0.0704 t_EW -0.34 | 0050 0.4085 t_50 -1.71 | ev ab_net -0.45% t -2.12 n 10923
+  stress select_2005-01_2019-04     CAGR -0.0080 DD -0.658 | EW 0.0740 t_EW -5.32 | 0050 0.0800 t_50 -2.26 | ev ab_net -0.918% t -7.27 n 40891
+  stress valid_2019-05_2026-10      CAGR 0.1650 DD -0.445 | EW 0.1757 t_EW 0.02 | 0050 0.2827 t_50 -1.18 | ev ab_net -0.557% t -1.44 n 33283
+  stress valid_ex_src3              CAGR 0.2224 DD -0.308 | EW 0.2096 t_EW 0.43 | 0050 0.2469 t_50 -0.21 | ev ab_net -0.449% t -0.07 n 22360
+  stress y2024_2025                 CAGR 0.0988 DD -0.445 | EW 0.0687 t_EW 0.4 | 0050 0.4244 t_50 -1.4 | ev ab_net -0.574% t -0.37 n 11252
+  stress src3_2024-02-15_2025-09-23 CAGR -0.0067 DD -0.445 | EW 0.0704 t_EW -0.67 | 0050 0.4085 t_50 -1.88 | ev ab_net -0.778% t -2.9 n 10923
+d_low_volume_20d {'cohorts': 1104, 'blocked': 109, 'empty': 18, 'n_names_mean': 67.2, 'pool_mean': 510.6, 'frac_of_pool': 0.1315, 'hold_days_mean': 19.22, 'hold_days_min': 3, 'hold_days_max': 20}
+  gross  select_2005-01_2019-04     CAGR -0.0164 DD -0.648 | EW 0.0740 t_EW -3.96 | 0050 0.0800 t_50 -2.44
+  gross  valid_2019-05_2026-10      CAGR 0.0900 DD -0.329 | EW 0.1757 t_EW -2.64 | 0050 0.2827 t_50 -2.78
+  gross  valid_ex_src3              CAGR 0.1216 DD -0.329 | EW 0.2096 t_EW -2.26 | 0050 0.2469 t_50 -1.62
+  gross  y2024_2025                 CAGR -0.0098 DD -0.327 | EW 0.0687 t_EW -1.52 | 0050 0.4244 t_50 -3.24
+  gross  src3_2024-02-15_2025-09-23 CAGR -0.0083 DD -0.327 | EW 0.0704 t_EW -1.33 | 0050 0.4085 t_50 -2.91
+  normal select_2005-01_2019-04     CAGR -0.0819 DD -0.795 | EW 0.0740 t_EW -7.13 | 0050 0.0800 t_50 -4.47 | ev ab_net -1.096% t -14.3 n 43960
+  normal valid_2019-05_2026-10      CAGR 0.0203 DD -0.359 | EW 0.1757 t_EW -4.9 | 0050 0.2827 t_50 -3.87 | ev ab_net -1.037% t -7.63 n 30199
+  normal valid_ex_src3              CAGR 0.0474 DD -0.335 | EW 0.2096 t_EW -4.29 | 0050 0.2469 t_50 -2.61 | ev ab_net -1.126% t -6.86 n 22556
+  normal y2024_2025                 CAGR -0.0668 DD -0.359 | EW 0.0687 t_EW -2.65 | 0050 0.4244 t_50 -3.76 | ev ab_net -0.901% t -4.07 n 8948
+  normal src3_2024-02-15_2025-09-23 CAGR -0.0645 DD -0.359 | EW 0.0704 t_EW -2.3 | 0050 0.4085 t_50 -3.4 | ev ab_net -0.774% t -3.44 n 7643
+  stress select_2005-01_2019-04     CAGR -0.1125 DD -0.859 | EW 0.0740 t_EW -8.71 | 0050 0.0800 t_50 -5.47 | ev ab_net -1.421% t -18.25 n 43960
+  stress valid_2019-05_2026-10      CAGR -0.0118 DD -0.418 | EW 0.1757 t_EW -5.98 | 0050 0.2827 t_50 -4.39 | ev ab_net -1.364% t -9.61 n 30199
+  stress valid_ex_src3              CAGR 0.0134 DD -0.339 | EW 0.2096 t_EW -5.26 | 0050 0.2469 t_50 -3.08 | ev ab_net -1.454% t -8.62 n 22556
+  stress y2024_2025                 CAGR -0.0934 DD -0.374 | EW 0.0687 t_EW -3.18 | 0050 0.4244 t_50 -4.02 | ev ab_net -1.228% t -5.13 n 8948
+  stress src3_2024-02-15_2025-09-23 CAGR -0.0908 DD -0.374 | EW 0.0704 t_EW -2.75 | 0050 0.4085 t_50 -3.64 | ev ab_net -1.101% t -4.36 n 7643
+a_GKM_daily_20d {'cohorts': 5334, 'blocked': 2317, 'empty': 0, 'n_names_mean': 56.5, 'pool_mean': 519.9, 'frac_of_pool': 0.1087, 'hold_days_mean': 19.96, 'hold_days_min': 0, 'hold_days_max': 20}
+  gross  select_2005-01_2019-04     CAGR 0.0857 DD -0.569 | EW 0.0748 t_EW 0.79 | 0050 0.0771 t_50 0.51
+  gross  valid_2019-05_2026-10      CAGR 0.2004 DD -0.326 | EW 0.1700 t_EW 0.91 | 0050 0.2827 t_50 -0.98
+  gross  valid_ex_src3              CAGR 0.2113 DD -0.307 | EW 0.2018 t_EW 0.47 | 0050 0.2469 t_50 -0.46
+  gross  y2024_2025                 CAGR 0.1568 DD -0.326 | EW 0.0689 t_EW 0.83 | 0050 0.4244 t_50 -1.25
+  gross  src3_2024-02-15_2025-09-23 CAGR 0.1649 DD -0.326 | EW 0.0709 t_EW 0.78 | 0050 0.4085 t_50 -1.02
+  normal select_2005-01_2019-04     CAGR 0.0055 DD -0.612 | EW 0.0748 t_EW -6.82 | 0050 0.0771 t_50 -2.03 | ev ab_net -0.68% t -8.65 n 172877
+  normal valid_2019-05_2026-10      CAGR 0.1139 DD -0.361 | EW 0.1700 t_EW -1.39 | 0050 0.2827 t_50 -2.06 | ev ab_net -0.659% t -5.12 n 128645
+  normal valid_ex_src3              CAGR 0.1225 DD -0.314 | EW 0.2018 t_EW -3.33 | 0050 0.2469 t_50 -1.51 | ev ab_net -0.675% t -4.46 n 93344
+  normal y2024_2025                 CAGR 0.0776 DD -0.361 | EW 0.0689 t_EW 0.18 | 0050 0.4244 t_50 -1.7 | ev ab_net -0.556% t -1.99 n 39439
+  normal src3_2024-02-15_2025-09-23 CAGR 0.0861 DD -0.361 | EW 0.0709 t_EW 0.22 | 0050 0.4085 t_50 -1.41 | ev ab_net -0.618% t -2.06 n 35301
+  stress select_2005-01_2019-04     CAGR -0.0317 DD -0.681 | EW 0.0748 t_EW -10.48 | 0050 0.0771 t_50 -3.28 | ev ab_net -1.008% t -13.16 n 172877
+  stress valid_2019-05_2026-10      CAGR 0.0743 DD -0.378 | EW 0.1700 t_EW -2.52 | 0050 0.2827 t_50 -2.58 | ev ab_net -0.989% t -7.77 n 128645
+  stress valid_ex_src3              CAGR 0.0819 DD -0.333 | EW 0.2018 t_EW -5.19 | 0050 0.2469 t_50 -2.02 | ev ab_net -1.006% t -6.81 n 93344
+  stress y2024_2025                 CAGR 0.0409 DD -0.378 | EW 0.0689 t_EW -0.14 | 0050 0.4244 t_50 -1.91 | ev ab_net -0.884% t -3.28 n 39439
+  stress src3_2024-02-15_2025-09-23 CAGR 0.0496 DD -0.378 | EW 0.0709 t_EW -0.06 | 0050 0.4085 t_50 -1.61 | ev ab_net -0.944% t -3.24 n 35301
+b_AV_top10_1w {'cohorts': 1104, 'blocked': 660, 'empty': 0, 'n_names_mean': 50.5, 'pool_mean': 510.7, 'frac_of_pool': 0.0988, 'hold_days_mean': 4.83, 'hold_days_min': 3, 'hold_days_max': 9}
+  gross  select_2005-01_2019-04     CAGR 0.0798 DD -0.608 | EW 0.0787 t_EW 0.27 | 0050 0.0800 t_50 0.36
+  gross  valid_2019-05_2026-10      CAGR 0.2369 DD -0.466 | EW 0.1757 t_EW 1.44 | 0050 0.2827 t_50 -0.24
+  gross  valid_ex_src3              CAGR 0.3212 DD -0.308 | EW 0.2091 t_EW 1.87 | 0050 0.2469 t_50 0.74
+  gross  y2024_2025                 CAGR 0.0610 DD -0.466 | EW 0.0696 t_EW 0.06 | 0050 0.4244 t_50 -1.77
+  gross  src3_2024-02-15_2025-09-23 CAGR -0.0053 DD -0.466 | EW 0.0717 t_EW -0.8 | 0050 0.4085 t_50 -1.89
+  normal select_2005-01_2019-04     CAGR -0.0814 DD -0.862 | EW 0.0787 t_EW -6.02 | 0050 0.0800 t_50 -3.36 | ev ab_net -0.65% t -12.79 n 32361
+  normal valid_2019-05_2026-10      CAGR 0.0708 DD -0.517 | EW 0.1757 t_EW -1.45 | 0050 0.2827 t_50 -1.84 | ev ab_net -0.529% t -4.89 n 23354
+  normal valid_ex_src3              CAGR 0.1419 DD -0.420 | EW 0.2091 t_EW -0.56 | 0050 0.2469 t_50 -0.7 | ev ab_net -0.439% t -3.16 n 17253
+  normal y2024_2025                 CAGR -0.0772 DD -0.517 | EW 0.0696 t_EW -1.62 | 0050 0.4244 t_50 -2.61 | ev ab_net -0.634% t -3.86 n 6986
+  normal src3_2024-02-15_2025-09-23 CAGR -0.1343 DD -0.517 | EW 0.0717 t_EW -2.62 | 0050 0.4085 t_50 -2.66 | ev ab_net -0.784% t -4.79 n 6101
+  stress select_2005-01_2019-04     CAGR -0.1513 DD -0.943 | EW 0.0787 t_EW -9.02 | 0050 0.0800 t_50 -5.17 | ev ab_net -0.976% t -19.39 n 32361
+  stress valid_2019-05_2026-10      CAGR -0.0017 DD -0.601 | EW 0.1757 t_EW -2.87 | 0050 0.2827 t_50 -2.61 | ev ab_net -0.856% t -8.02 n 23354
+  stress valid_ex_src3              CAGR 0.0638 DD -0.468 | EW 0.2091 t_EW -1.76 | 0050 0.2469 t_50 -1.4 | ev ab_net -0.767% t -5.72 n 17253
+  stress y2024_2025                 CAGR -0.1380 DD -0.540 | EW 0.0696 t_EW -2.47 | 0050 0.4244 t_50 -3.02 | ev ab_net -0.96% t -5.83 n 6986
+  stress src3_2024-02-15_2025-09-23 CAGR -0.1910 DD -0.540 | EW 0.0717 t_EW -3.54 | 0050 0.4085 t_50 -3.04 | ev ab_net -1.109% t -6.75 n 6101
+b_AV_top10_5w {'cohorts': 1104, 'blocked': 660, 'empty': 0, 'n_names_mean': 50.5, 'pool_mean': 510.7, 'frac_of_pool': 0.0988, 'hold_days_mean': 24.09, 'hold_days_min': 3, 'hold_days_max': 30}
+  gross  select_2005-01_2019-04     CAGR 0.0747 DD -0.659 | EW 0.0750 t_EW 0.26 | 0050 0.0800 t_50 0.25
+  gross  valid_2019-05_2026-10      CAGR 0.2757 DD -0.437 | EW 0.1724 t_EW 2.22 | 0050 0.2827 t_50 0.11
+  gross  valid_ex_src3              CAGR 0.3612 DD -0.330 | EW 0.2061 t_EW 2.53 | 0050 0.2469 t_50 1.05
+  gross  y2024_2025                 CAGR 0.0956 DD -0.437 | EW 0.0664 t_EW 0.49 | 0050 0.4244 t_50 -1.62
+  gross  src3_2024-02-15_2025-09-23 CAGR 0.0293 DD -0.437 | EW 0.0674 t_EW -0.35 | 0050 0.4085 t_50 -1.77
+  normal select_2005-01_2019-04     CAGR 0.0239 DD -0.680 | EW 0.0750 t_EW -2.3 | 0050 0.0800 t_50 -0.99 | ev ab_net -0.627% t -3.38 n 32361
+  normal valid_2019-05_2026-10      CAGR 0.2201 DD -0.455 | EW 0.1724 t_EW 1.29 | 0050 0.2827 t_50 -0.38 | ev ab_net 0.3% t 1.03 n 23354
+  normal valid_ex_src3              CAGR 0.3014 DD -0.334 | EW 0.2061 t_EW 1.76 | 0050 0.2469 t_50 0.61 | ev ab_net 0.757% t 2.03 n 17253
+  normal y2024_2025                 CAGR 0.0493 DD -0.455 | EW 0.0664 t_EW -0.06 | 0050 0.4244 t_50 -1.89 | ev ab_net -0.153% t -0.31 n 6986
+  normal src3_2024-02-15_2025-09-23 CAGR -0.0142 DD -0.455 | EW 0.0674 t_EW -0.94 | 0050 0.4085 t_50 -2.02 | ev ab_net -0.992% t -2.04 n 6101
+  stress select_2005-01_2019-04     CAGR -0.0003 DD -0.690 | EW 0.0750 t_EW -3.56 | 0050 0.0800 t_50 -1.59 | ev ab_net -0.954% t -5.37 n 32361
+  stress valid_2019-05_2026-10      CAGR 0.1942 DD -0.463 | EW 0.1724 t_EW 0.85 | 0050 0.2827 t_50 -0.62 | ev ab_net -0.035% t 0.07 n 23354
+  stress valid_ex_src3              CAGR 0.2736 DD -0.337 | EW 0.2061 t_EW 1.38 | 0050 0.2469 t_50 0.4 | ev ab_net 0.419% t 1.2 n 17253
+  stress y2024_2025                 CAGR 0.0274 DD -0.463 | EW 0.0664 t_EW -0.32 | 0050 0.4244 t_50 -2.02 | ev ab_net -0.483% t -0.78 n 6986
+  stress src3_2024-02-15_2025-09-23 CAGR -0.0348 DD -0.463 | EW 0.0674 t_EW -1.24 | 0050 0.4085 t_50 -2.14 | ev ab_net -1.319% t -2.65 n 6101
+c_RVOL2_up_5d {'cohorts': 5334, 'blocked': 1387, 'empty': 5, 'n_names_mean': 30.2, 'pool_mean': 520.2, 'frac_of_pool': 0.058, 'hold_days_mean': 5.0, 'hold_days_min': 0, 'hold_days_max': 5}
+  gross  select_2005-01_2019-04     CAGR -0.0827 DD -0.820 | EW 0.0761 t_EW -6.97 | 0050 0.0771 t_50 -4.28
+  gross  valid_2019-05_2026-10      CAGR 0.0830 DD -0.411 | EW 0.1707 t_EW -2.41 | 0050 0.2827 t_50 -2.51
+  gross  valid_ex_src3              CAGR 0.1191 DD -0.325 | EW 0.2024 t_EW -2.03 | 0050 0.2469 t_50 -1.46
+  gross  y2024_2025                 CAGR -0.0428 DD -0.411 | EW 0.0692 t_EW -1.6 | 0050 0.4244 t_50 -2.92
+  gross  src3_2024-02-15_2025-09-23 CAGR -0.0285 DD -0.411 | EW 0.0717 t_EW -1.26 | 0050 0.4085 t_50 -2.52
+  normal select_2005-01_2019-04     CAGR -0.3286 DD -0.997 | EW 0.0761 t_EW -20.26 | 0050 0.0771 t_50 -13.15 | ev ab_net -0.943% t -21.27 n 93714
+  normal valid_2019-05_2026-10      CAGR -0.1983 DD -0.825 | EW 0.1707 t_EW -12.11 | 0050 0.2827 t_50 -6.84 | ev ab_net -0.797% t -12.63 n 67142
+  normal valid_ex_src3              CAGR -0.1763 DD -0.699 | EW 0.2024 t_EW -10.78 | 0050 0.2469 t_50 -5.38 | ev ab_net -0.777% t -11.31 n 48012
+  normal y2024_2025                 CAGR -0.2804 DD -0.533 | EW 0.0692 t_EW -6.14 | 0050 0.4244 t_50 -5.01 | ev ab_net -0.852% t -6.42 n 21272
+  normal src3_2024-02-15_2025-09-23 CAGR -0.2673 DD -0.527 | EW 0.0717 t_EW -5.28 | 0050 0.4085 t_50 -4.47 | ev ab_net -0.845% t -5.85 n 19130
+  stress select_2005-01_2019-04     CAGR -0.4236 DD -1.000 | EW 0.0761 t_EW -26.44 | 0050 0.0771 t_50 -17.43 | ev ab_net -1.268% t -28.76 n 93714
+  stress valid_2019-05_2026-10      CAGR -0.3076 DD -0.941 | EW 0.1707 t_EW -16.73 | 0050 0.2827 t_50 -8.92 | ev ab_net -1.123% t -17.66 n 67142
+  stress valid_ex_src3              CAGR -0.2905 DD -0.870 | EW 0.2024 t_EW -14.77 | 0050 0.2469 t_50 -7.24 | ev ab_net -1.103% t -15.92 n 48012
+  stress y2024_2025                 CAGR -0.3740 DD -0.634 | EW 0.0692 t_EW -8.4 | 0050 0.4244 t_50 -6.03 | ev ab_net -1.178% t -8.75 n 21272
+  stress src3_2024-02-15_2025-09-23 CAGR -0.3615 DD -0.603 | EW 0.0717 t_EW -7.26 | 0050 0.4085 t_50 -5.42 | ev ab_net -1.171% t -8.0 n 19130
+c_RVOL2_up_20d {'cohorts': 5334, 'blocked': 1387, 'empty': 5, 'n_names_mean': 30.2, 'pool_mean': 520.2, 'frac_of_pool': 0.058, 'hold_days_mean': 19.96, 'hold_days_min': 0, 'hold_days_max': 20}
+  gross  select_2005-01_2019-04     CAGR 0.0776 DD -0.578 | EW 0.0746 t_EW 0.06 | 0050 0.0771 t_50 0.26
+  gross  valid_2019-05_2026-10      CAGR 0.1850 DD -0.359 | EW 0.1699 t_EW 0.6 | 0050 0.2827 t_50 -1.18
+  gross  valid_ex_src3              CAGR 0.2075 DD -0.312 | EW 0.2021 t_EW 0.35 | 0050 0.2469 t_50 -0.47
+  gross  y2024_2025                 CAGR 0.1133 DD -0.359 | EW 0.0673 t_EW 0.57 | 0050 0.4244 t_50 -1.66
+  gross  src3_2024-02-15_2025-09-23 CAGR 0.1135 DD -0.359 | EW 0.0694 t_EW 0.49 | 0050 0.4085 t_50 -1.4
+  normal select_2005-01_2019-04     CAGR -0.0056 DD -0.621 | EW 0.0746 t_EW -6.65 | 0050 0.0771 t_50 -2.31 | ev ab_net -0.67% t -7.91 n 93714
+  normal valid_2019-05_2026-10      CAGR 0.0953 DD -0.394 | EW 0.1699 t_EW -2.0 | 0050 0.2827 t_50 -2.35 | ev ab_net -0.643% t -3.99 n 67142
+  normal valid_ex_src3              CAGR 0.1143 DD -0.320 | EW 0.2021 t_EW -2.92 | 0050 0.2469 t_50 -1.57 | ev ab_net -0.652% t -4.1 n 48012
+  normal y2024_2025                 CAGR 0.0333 DD -0.394 | EW 0.0673 t_EW -0.25 | 0050 0.4244 t_50 -2.17 | ev ab_net -0.576% t -1.12 n 21272
+  normal src3_2024-02-15_2025-09-23 CAGR 0.0347 DD -0.394 | EW 0.0694 t_EW -0.22 | 0050 0.4085 t_50 -1.85 | ev ab_net -0.62% t -1.02 n 19130
+  stress select_2005-01_2019-04     CAGR -0.0440 DD -0.723 | EW 0.0746 t_EW -9.89 | 0050 0.0771 t_50 -3.57 | ev ab_net -0.998% t -11.82 n 93714
+  stress valid_2019-05_2026-10      CAGR 0.0542 DD -0.455 | EW 0.1699 t_EW -3.28 | 0050 0.2827 t_50 -2.91 | ev ab_net -0.972% t -6.09 n 67142
+  stress valid_ex_src3              CAGR 0.0718 DD -0.344 | EW 0.2021 t_EW -4.52 | 0050 0.2469 t_50 -2.11 | ev ab_net -0.982% t -6.14 n 48012
+  stress y2024_2025                 CAGR -0.0037 DD -0.411 | EW 0.0673 t_EW -0.66 | 0050 0.4244 t_50 -2.42 | ev ab_net -0.903% t -2.0 n 21272
+  stress src3_2024-02-15_2025-09-23 CAGR -0.0018 DD -0.411 | EW 0.0694 t_EW -0.57 | 0050 0.4085 t_50 -2.08 | ev ab_net -0.947% t -1.79 n 19130
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_nanfunctions_impl.py:1215: RuntimeWarning: All-NaN slice encountered
+  return fnb._ureduce(a, func=_nanmedian, keepdims=keepdims,
+{
+ "select_2005-01_2019-04": {
+  "loser_T1": {
+   "high_ab_gross_pct": 0.092,
+   "low_ab_gross_pct": -0.628,
+   "mid_ab_gross_pct": 0.044,
+   "high_minus_low_pct": 0.761,
+   "t_month": 3.75,
+   "avg_n_high": 11.9,
+   "avg_n_low": 21.5
+  },
+  "mid_T2": {
+   "high_ab_gross_pct": 0.221,
+   "low_ab_gross_pct": -0.326,
+   "mid_ab_gross_pct": 0.134,
+   "high_minus_low_pct": 0.577,
+   "t_month": 2.79,
+   "avg_n_high": 9.8,
+   "avg_n_low": 29.0
+  },
+  "winner_T3": {
+   "high_ab_gross_pct": 0.201,
+   "low_ab_gross_pct": -0.631,
+   "mid_ab_gross_pct": 0.04,
+   "high_minus_low_pct": 0.922,
+   "t_month": 2.87,
+   "avg_n_high": 35.4,
+   "avg_n_low": 12.1
+  }
+ },
+ "valid_2019-05_2026-10": {
+  "loser_T1": {
+   "high_ab_gross_pct": 1.257,
+   "low_ab_gross_pct": -0.451,
+   "mid_ab_gross_pct": 0.022,
+   "high_minus_low_pct": 1.671,
+   "t_month": 2.99,
+   "avg_n_high": 21.5,
+   "avg_n_low": 28.2
+  },
+  "mid_T2": {
+   "high_ab_gross_pct": 0.246,
+   "low_ab_gross_pct": -0.548,
+   "mid_ab_gross_pct": -0.143,
+   "high_minus_low_pct": 0.808,
+   "t_month": 1.17,
+   "avg_n_high": 16.4,
+   "avg_n_low": 40.3
+  },
+  "winner_T3": {
+   "high_ab_gross_pct": 0.825,
+   "low_ab_gross_pct": -0.168,
+   "mid_ab_gross_pct": -0.003,
+   "high_minus_low_pct": 1.025,
+   "t_month": 2.47,
+   "avg_n_high": 52.0,
+   "avg_n_low": 16.0
+  }
+ },
+ "y2024_2025": {
+  "loser_T1": {
+   "high_ab_gross_pct": 3.222,
+   "low_ab_gross_pct": -0.414,
+   "mid_ab_gross_pct": -0.144,
+   "high_minus_low_pct": 3.946,
+   "t_month": 2.33,
+   "avg_n_high": 31.3,
+   "avg_n_low": 32.5
+  },
+  "mid_T2": {
+   "high_ab_gross_pct": 0.029,
+   "low_ab_gross_pct": -0.178,
+   "mid_ab_gross_pct": -0.142,
+   "high_minus_low_pct": 0.095,
+   "t_month": -0.35,
+   "avg_n_high": 27.3,
+   "avg_n_low": 51.0
+  },
+  "winner_T3": {
+   "high_ab_gross_pct": 1.192,
+   "low_ab_gross_pct": -0.1,
+   "mid_ab_gross_pct": -0.02,
+   "high_minus_low_pct": 1.437,
+   "t_month": 1.49,
+   "avg_n_high": 60.6,
+   "avg_n_low": 20.2
+  }
+ }
+}
+{'gross': {'select_2005-01_2019-04': {'mean_spread_pct_m': 0.963, 't_month': 3.94}, 'valid_2019-05_2026-10': {'mean_spread_pct_m': 1.513, 't_month': 2.91}, 'y2024_2025': {'mean_spread_pct_m': 1.916, 't_month': 1.5}}, 'normal': {'select_2005-01_2019-04': {'mean_spread_pct_m': 0.939, 't_month': 3.88}, 'valid_2019-05_2026-10': {'mean_spread_pct_m': 1.498, 't_month': 2.89}, 'y2024_2025': {'mean_spread_pct_m': 1.873, 't_month': 1.47}}}
+{'to_src3_2024-02-15': {'hi_frac_before': 0.1354, 'hi_frac_after': 0.2037, 'lo_frac_before': 0.1242, 'lo_frac_after': 0.0607, 'median_VW_ratio_after26_over_before26': 1.368}, 'to_official_2025-09-24': {'hi_frac_before': 0.262, 'hi_frac_after': 0.0483, 'lo_frac_before': 0.0945, 'lo_frac_after': 0.1083, 'median_VW_ratio_after26_over_before26': 0.458}, 'hi_frac_by_year': {2005: 0.1427, 2006: 0.1443, 2007: 0.1406, 2008: 0.085, 2009: 0.2349, 2010: 0.0927, 2011: 0.0817, 2012: 0.095, 2013: 0.1451, 2014: 0.1174, 2015: 0.1153, 2016: 0.1067, 2017: 0.1581, 2018: 0.114, 2019: 0.1324, 2020: 0.1907, 2021: 0.1374, 2022: 0.0981, 2023: 0.1548, 2024: 0.1493, 2025: 0.1608, 2026: 0.0899}, 'lo_frac_by_year': {2005: 0.1132, 2006: 0.1097, 2007: 0.1071, 2008: 0.1564, 2009: 0.0631, 2010: 0.1848, 2011: 0.1816, 2012: 0.1591, 2013: 0.1111, 2014: 0.1458, 2015: 0.1317, 2016: 0.1702, 2017: 0.0973, 2018: 0.1534, 2019: 0.1214, 2020: 0.0813, 2021: 0.1421, 2022: 0.1934, 2023: 0.1231, 2024: 0.1225, 2025: 0.1333, 2026: 0.0982}}
+done
