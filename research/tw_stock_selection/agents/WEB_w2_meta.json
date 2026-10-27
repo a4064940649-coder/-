@@ -1,0 +1,167 @@
+{
+ "reviews": [
+  {
+   "slug": "w1_ma_squeeze_breakout",
+   "review": {
+    "final": "不可用",
+    "issues": [
+     "Rule fidelity (the biggest caveat): the source pages could not be reached (DNS failure), so the rule was rebuilt from the task brief. The squeeze filter is also very loose. 43% of stock-days in the pool meet the 5%/20-day squeeze, and the median spread across the pool is 2.57%. The tighter 3%/10-day version still lets 31% through. What was really tested is close to 'a 3% red candle on 2x volume that breaks above all the averages near MA60'. Both squeeze versions fail, so the verdict stands, but the write-up should say that the 'squeeze' part filters very little.",
+     "Look-ahead bias: none found in the code. The signal uses only data up to day t's close, entry is at day t+1's open, the 5-day average volume excludes day t, and the dates are consistent with the pre-registration being written first (prereg 04:45, run.py 04:46, log 04:47, results 04:48). The spot check (1101, 2023-04-24) matches the program exactly (−4.298%).",
+     "Wording of 'already negative before costs': the primary spec's gross abnormal return is −0.41%/−0.39% (t −2.66/−2.94), but some variants are not significant before costs (S5_20_V3_B selection period t −0.85, S5_20_V3_A5 validation period t −1.0, S5_20_V2_B selection period t −1.24). The accurate wording is 'not positive before costs for any variant, and clearly negative after costs'.",
+     "t-value method: months are averaged separately, but 20-day holds overlap into the next month. I re-checked with Newey-West (lag 2): −7.15 for the selection period, −5.39 for validation and −3.53 for 2024–2025, essentially the same as reported. The portfolio's monthly excess-return t uses non-overlapping months, so it is clean.",
+     "Benchmark method: the same-pool equal-weight benchmark is rebalanced daily (open to open), which could inflate it. I rebuilt it as a buy-and-hold equal-weight pool over the same dates (pool fixed on signal day t, same entry and exit). Abnormal return is −1.02% (t −6.52) in selection and −1.06% (t −5.18) in validation, about 0.01–0.06 percentage points from the original. Against buy-and-hold, gross is −0.34%/−0.39%. Conclusion unchanged.",
+     "Entry timing: from the signal-day close to the next open the price gaps up 0.57% on average, which this strategy gives up. Even buying at the signal-day close (which the data cannot actually do) gives only +0.19%/+0.13% gross abnormal return per trade, far below the roughly 0.67% round-trip cost. Entry timing cannot save it.",
+     "Costs and price limits: stocks locked limit-down at the exit open are not modelled (the sale is assumed to fill), and only about 103 limit-up opens were dropped. Both errors make results look better, not worse, so they do not threaten a negative verdict. Results stay negative with zero costs and get worse under the stress-cost scenario.",
+     "Extreme events: returns are right-skewed, so the extremes actually help the strategy. Trimming the top and bottom 1% makes the abnormal return worse (−1.34%/−1.51%), and so does dropping the 50 best trades (−1.33%/−1.57%). The events span about 900 stocks, the 10 most frequent stocks are only about 3% of events, 76–77% of months are negative, and all 22 years from 2005 to 2026 are negative. Sample size and concentration are not problems.",
+     "Survivorship bias in 2019–2023 and src=3 approximate closes: survivorship should make results look better, not worse. The validation period with all src=3 events removed is still −1.12% (t −4.34). However, 2024–2025 sits almost entirely in the src=3 window, so the figures of −12.2% annualized and event t −3.35 depend on 13:20 approximate closes and approximate volume, and should only be treated as supporting evidence.",
+     "Minor: the 0050 comparison uses mismatched windows (0050 from the signal-day close to the close before exit, the stock from entry open to exit open). The data gap from 2024-01-02 to 2024-02-14 sits inside the rolling windows. Volume is approximated as traded value divided by the raw close. None of these is enough to reverse the result."
+    ],
+    "note": "I agree with the researcher's call: not usable (不可用). The pre-registered pass rule needs a positive net abnormal return against the same-pool equal-weight benchmark with t >= 2, plus an annualized return at least as high as 0050, in both the selection and validation periods. The primary spec fails both badly: −1.08% (t −6.95) and −1.07% (t −5.30), with portfolio annualized returns of −7.6% and −5.1%. I re-checked three things myself: the buy-and-hold benchmark, Newey-West t-values, and whether a few extreme trades or stocks drive the result. All three agree with the researcher. None of the known biases (survivorship, src=3, unmodelled limit-down exits) would push results down, so they cannot explain a negative result. The remaining caveats are not reasons to doubt the verdict: the squeeze filter is very loose, the rule could not be checked against its original sources, the 2024–2025 figures rest on approximate prices, and some variants are not significant before costs. They only call for clearer wording in the write-up. Verification script: /tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/rev_masq/chk.py. Event file read: /tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/w1_ma_squeeze_primary_events.csv.gz. No files in the research folder were changed."
+   }
+  },
+  {
+   "slug": "w1_rev_yoy_turnaround",
+   "review": {
+    "final": "不可用",
+    "issues": [
+     "[存活者偏誤，最致命] 只有 2006-05～2013-01 這一段沒有存活者偏誤（BRIEF 寫明：月營收檔 2013 年起只剩存活公司，價格面板 2019～2023 只有存活者）。版本 C 在這段扣主成本後年化只有 1.0%，0050 為 3.9%；對等權月窗 t 為 −1.13，未扣成本也只有 0.69；事件層級 t 為 −1.63。版本 C 所有正面證據都落在有偏誤的區段：2014～2019 對等權 t 2.69，2019～2023 年化 31.4%、0050 只有 14.7%。",
+     "[驗證期打贏 0050 只靠存活者段] 驗證期年化 33.9% 對 0050 的 28.3%，差距全部來自 2019～2023 只有存活者的價格面板。2024-01～2026-10 這段沒有價格面的存活者問題，C 扣成本後 38.2%，0050 為 54.5%，一年落後約 16 個百分點；2024～2025 為 21.4% 對 42.4%，對等權 t 也只有 1.78，不到 2。在比較乾淨的近期資料上，「年化 ≥ 0050」這個條件不成立。",
+     "[t 值口徑] 判定只看對同池等權的 t（3.21），打贏 0050 只比年化點估計，沒有做顯著性檢定；驗證期對 0050 的 t 只有 0.66。驗證期同池等權本身就落後 0050 約 11 個百分點（17.1% 對 28.3%），是偏弱的對手，打贏它很難說明能打贏大盤。",
+     "[多重檢定] 同時測了 A、B、C 三版本，各有持有 1 個月與 3 個月兩種，再取最好的；diag.py 看過結果後又加了 6 個變體。挑選期 t 1.13 低於 Bonferroni 門檻 2.4，results.json 的 multiple_testing_flag 為 True。挑選期扣成本後連 t ≥ 2 都沒有達到。",
+     "[規則本身沒有貢獻，事後拆解] diag 顯示，拿掉教學核心的「連 3 增」、只留「年增率 >20% 且站上季線」反而更好：挑選期對等權 t 2.01，C 只有 1.13。拿掉季線（C_noMA60），驗證期年化 27.5%，低於 0050 的 28.3%。也就是說，驗證期能通過要靠季線這個價格動能條件，「營收年增率連 3 增」本身沒有帶來超額。",
+     "[少數極端月份與事件] 驗證期剔除最好的 5 個月，對等權 t 從 3.21 降到 2.18；子段更脆弱：2019～2023 從 2.28 降到 0.99，2024～2026 從 2.24 降到 0.75。事件層級只有 42% 的事件贏過等權，平均值由右尾撐起；單月報酬 >100% 的事件有 10 筆，例如 2614 在 2021-06 漲 175%、3026 在 2026-05 漲 133%。",
+     "[前視偏誤，未量化] 長期營收檔沒有公告日，研究員假設 10 日前已公告。唯一能查的一期（營收 2026-09，訊號日 2026-10-12）：C 入選股中有公告日的 53 檔裡，2 檔（1795、2607）在 10-13 才公告，B 為 5／91，等於用了訊號日收盤時還拿不到的資料。歷史上晚公告的比例、10 月國慶與春節月份可能延後公告的情形，以及長期檔是否用修正後營收而非首次公告值，都沒有驗證。rev_hist 的公告日只涵蓋 2026-08 以後。",
+     "[成本、流動性、鎖漲跌停] 每月換手 0.77，主成本一年拖累約 6%。驗證期入選股 60 日均成交值第 10 百分位只有約 NT$1,800 萬，19% 低於 NT$3,000 萬，開盤成交只算 0.1% 滑價偏樂觀。壓力成本（來回 1%）下驗證期 29.7% 對 0050 28.3%，只多 1.4 個百分點；挑選期 t 0.05，乾淨段 t −2.03。模擬只在進場時擋開盤漲停，出場沒有處理跌停鎖死賣不掉的情形。",
+     "[src=3 近似收盤] 排除 Yahoo 近似價格段（2024-02-15～2025-09-23）後，驗證期仍有年化 40.6%、對等權 t 3.1，src=3 不是結果的主因。不過近似段的季線訊號與開盤成交價也都是近似值，無法完全排除影響。",
+     "[A、B 維持不可用] 未扣成本時 A、B 兩段都能通過（A 對等權 t 2.78／3.69），扣主成本後兩段都不過。超額全部被每月換手吃掉（A 換手 0.94、B 0.70），判定穩健。",
+     "[樣本] 挑選期有 13 個月入選不到 5 檔，其餘部位放 0050，1 個月入選 0 檔。挑選期 141 個月中，乾淨段只有 81 個月，而且表現為負。"
+    ],
+    "note": "照事前規則機械判，C 只通過驗證期，結果是「待觀察」。我自己用 nav.parquet 重算，驗證期月窗 t 3.21，與研究員一致，數字本身沒有算錯。\n\n我把判定往保守方向降為「不可用」，理由有四：\n1. 唯一沒有存活者偏誤的 2006～2013 段，C 扣成本後年化 1.0%，輸給 0050 的 3.9%，對等權 t −1.13，連未扣成本的 t 都只有 0.69。\n2. 驗證期打贏 0050 全部來自 2019～2023 只有存活者的價格面板。2024～2026 這段 C 為 38.2%，0050 為 54.5%，一年落後約 16 個百分點。\n3. 驗證期對 0050 的 t 只有 0.66，而且有多重檢定警示。\n4. diag 顯示教學核心的「連 3 增」沒有貢獻，報酬來自年增率 >20% 加季線動能。\n\nA、B 維持不可用。建議：如果要繼續研究，應改成「營收年增率 >20% 加價格動能」這個題目，另外事前登記，並補上歷年公告日的前視偏誤檢查；不應把它當成營收轉機股規則可用的證據。\n\n我寫的驗證程式在 /tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/rv/ 下的 a1.py、a2.py、a3.py。研究資料夾沒有改動。"
+   }
+  },
+  {
+   "slug": "w1_bull_alignment_rising",
+   "review": {
+    "final": "不可用",
+    "issues": [
+     "【重跑核對】run.py 修改時間（04:53:55）晚於 results.json（04:52:43），檔案也都沒進 git。我把 run.py 複製到 scratchpad，只改輸出路徑後完整重跑，SHORT/LONG × ALL/TOP30、日頻、因子重疊與判定的數字全部和 results.json 一致。check.py 抽查 2023-06-30 的 909 檔訊號，0 筆不符。結果確實出自現行程式，但 prereg 寫入（04:50:47）只比結果早 2 分鐘，又沒有版本紀錄，無法排除事前試跑過。不過判定是負面的，事後調參只會讓結果偏好看，所以不影響「不可用」。",
+     "【前視偏誤】沒發現實質問題。訊號在 d 日收盤判斷、d+1 開盤成交；日頻版在 t 日收盤出訊號、t+1 開盤進場，出場條件在 s 日收盤成立、s+1 開盤賣。adj 是往回還原，視窗內的相對大小只受已發生的除權息影響，判斷均線排列不會用到未來資訊。小瑕疵：monthly_events 的可成交條件用了 d+1 的收盤是否存在（L.ADJ_RAW[ex]），算輕微的同日前視，影響可忽略。",
+     "【扣成本前的優勢集中在少數極端事件】研究員寫「扣成本前挑選期對等權 t 2.65、有優勢」，太樂觀。挑選期毛超額最好的 5 個月有 4 個在 2008（6、9、10、11 月，2008-10 單月 +15.2%）。這幾個月符合條件的只有 0～9 檔，2008-09、2008-10 根本空手。拿掉最好的 5 個月，毛 t 從 2.65 掉到 1.75。所謂毛優勢主要是空頭時訊號自然消失、被動降低持股，不是選股能力。驗證期毛 t 只有 1.19，拿掉最好 5 個月剩 −0.16。",
+     "【成本與周轉】單邊周轉每次換股 0.818，買 0.1855%＋賣 0.4855%，挑選期毛年化 15.8% 扣完剩 8.4%，數字吻合。基準是不扣成本的同池等權，比較嚴格；改用扣成本的等權，淨 t 也只有 0.44（挑選期）和 −0.36（驗證期），還是遠低於 2，判定不變。壓力成本下挑選期年化剩 5.0%，驗證期 10.4%。",
+     "【鎖漲跌停】進場會排除開盤漲停（月換股排除 133 次），但出場沒處理開盤跌停賣不掉，下市股也用最後收盤價賣出，對策略偏樂觀。這只會讓真實結果更差，不支持翻案。",
+     "【2019～2023 存活者偏誤】面板在這段只有存活股，會墊高同池等權（真實情況要吃到下市股的虧損，順勢策略比較會避開），所以對等權的相對 t 可能被低估。但驗證期淨年化 14.0% 對 0050 的 28.3% 差 14 個百分點，台股上市每年下市家數很少，補不了這個差距。分段看：2019-05～2023-12 淨 t −0.98，2024 之後淨 t 0.13，兩段都不及格。",
+     "【src=3 近似收盤】把 2024-01～2025-09 月份剔除後，驗證期淨 t −0.52（69 個月），和含這段的 −0.53 幾乎一樣，結論不靠這段資料。日頻版剔除 src3 期間後每筆淨異常報酬 t −3.69，同樣顯著為負。",
+     "【樣本與 t 值口徑】挑選期 172 個月、驗證期 89 個月，日頻事件 6 萬多筆，樣本量足夠。t 值用簡單 iid 月 t，沒做 Newey-West。月超額按日曆月算，與 d+1 開盤換股差一個隔夜，影響很小。驗證期月超額標準差約 3%，要達到 t≥2 需要每月 +0.64%，檢定力偏低。但驗證期淨超額點估計本身就是負的（−0.17%/月），檢定力低也不會反過來支持可用。",
+     "【日頻版】平均只持有約 8.4 天，來回成本約 0.67%，毛異常報酬只有 +0.07%（挑選期，t 1.25）和 +0.35%（驗證期，t 2.37），扣成本後中位數約 −1.9% 到 −2.0%，勝率約 29%。結論穩固，而且沒算跌停賣不掉，真實情況只會更差。",
+     "【別事後換規格】LONG_ALL（MA20>60>120）毛 t 在挑選期 2.64、驗證期 2.72，淨 t 只有 1.00 和 1.46，驗證期淨年化 23.3% 也還低於 0050 的 28.3%。prereg 已規定其他變體只作穩健性參考、不得用來改判，不能事後改用 LONG 當主規格。若想做成「低周轉版的中長線多頭排列」，必須另立新題目、重新事前登記，並在新的樣本外資料驗證。"
+    ],
+    "note": "我同意研究員的判定「不可用」，而且理由比原報告更強。我在 scratchpad（/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/w1rev/）完整重跑了 run.py，所有數字和 results.json 一致；原研究資料夾的檔案都沒改。主規格 SHORT_ALL 扣成本後，對同池等權的 t 在挑選期 0.18、驗證期 −0.53；就算基準改成扣成本的等權，也只有 0.44 和 −0.36，兩段都遠低於 t≥2 的門檻，驗證期淨年化還比 0050 少 14 個百分點。要修正的是研究員那句「扣成本前有優勢」：這段優勢主要來自 2008 年空頭時訊號消失、被動空手或只持有個位數檔，拿掉最好的 5 個月，毛 t 從 2.65 降到 1.75，算不上可靠的選股能力。出場沒處理跌停賣不掉、下市股用最後收盤價賣出、2019～2023 存活者偏誤、src=3 近似收盤，這幾項我都檢查過，不是讓策略更差，就是補不了和 0050 的差距，判定都不會翻轉。LONG 版本比較接近及格，但依事前登記不能拿來改判，只能另立新題目研究。"
+   }
+  },
+  {
+   "slug": "w1_pe_river_low",
+   "review": {
+    "final": "不可用",
+    "issues": [
+     "前視偏誤：沒發現實質問題。PE 用 d 收盤算，交易在 d+1 開盤；EPS 推算用 close_raw/PE（不是還原價，比法正確）；出場中位數窗口是 m−24..m−1，沒有用到當月以後的資料。pe_5y 是否為逐日公告的 point-in-time 四季 EPS，程式內沒有獨立驗證，只能沿用研究員的說法。",
+     "挑選期只有 4 個月觀察值，其中 2023-12-01 那一筆因為價格面板缺 2024-01-02～2024-02-14，實際橫跨約 2.5～3 個月（我依月初重算是 −3.29%，是 4 筆中最大的負值）。t −2.98 以 n=4 算，沒有判斷力。PREREG 規定兩段都過才算可用，但挑選期本身不能當獨立樣本外證據。",
+     "驗證期對同池等權的負 t 主要來自少數極端月份：2026-04 −7.8%、2026-05 −4.6%（2026-07 是 +5.8%）。我改用日曆月初重算得 t −1.13，Newey-West(3) t −1.13；拿掉最差 2 個月後 t −0.19；2024～2025 子段 t −0.14。所以正確解讀是『和同池等權沒有差別、也沒有優勢』，不是『穩定輸等權』。判不可用的理由應寫成『沒有超額』，不要寫成『有害』。",
+     "對 0050 的比較受時期主導：2024～2026 年 0050 年化 54.5%，同池等權本身對 0050 的 t 也是 −3.07。任何非權值集中的策略都過不了『年化 ≥ 0050』這條，這條件在這段期間的鑑別力很低。不過這不改變結論，因為對等權也沒有優勢。",
+     "樣本太小：可測期約 3.1 年、每月 1 個觀察值（驗證期 31～32 筆）、只有上市股（上櫃從缺，偏離教學規則）。每月新進場檔數從 4 檔到 79 檔，起伏很大（例如 2024-03 只有 4 檔），組合集中度隨時間變動。",
+     "src=3 近似收盤：事件持有日中平均 42% 落在 src3 段（13:20 近似收盤）。EPS(m) 和 EPS(m−12) 用面板收盤除以官方收盤 PE 推算，src3 段會帶進誤差，可能讓『獲利沒衰退』這條在邊界案例翻轉。官方價格段（2025-09-24 起，約 12 個月）對等權 t −1.43，方向一致，但樣本更小。",
+     "存活者偏誤：面板 1,249 檔中，最後價格落在 2023-09～2026-09 的只有 10 檔，代表樣本期內下市的上市股可能大多沒收錄；24 個月 PE 都 > 0 的條件也會偏向存活股。這會讓策略和等權的絕對報酬都偏高，對相對比較影響較小；策略本來就沒有贏，所以不會因此翻案。",
+     "事後調整：2025-01、2025-02 的 EPS 修補是在第一次執行後才加的，有揭露，修補前結果也有保存。影響很小（驗證期對等權 t 從 −1.26 變 −1.29），不構成調參。不過記憶體與面板的固定剔除名單是事後挑選的；不剔除版結果差不多（t −1.33），可以排除這個疑慮。",
+     "規則參數偏離教學：教學常見的河流圖用 5 年（或更長）本益比區間，這裡受資料限制只用 24 個月百分位；第 20 百分位、中位數出場、最長持有 12 個月都是研究員自訂，只測一組。結論只適用於這個版本，不能推到河流圖下緣這個概念的所有版本。",
+     "成本與漲跌停：開盤跳空漲停的進場被擋下、不遞補，做法合理。我檢查 526 筆已出場交易，出場日開盤跳空跌停的有 0 筆，所以賣不掉的偏誤不存在。壓力成本（來回 1%）只讓年化降約 0.8 個百分點，成本不是主要問題；換股周轉每次約 18.5%。",
+     "事件層級：717 筆交易平均超額 −3.9%、勝率 38%，按月分群 t −1.82。但持有期重疊、而且 191 筆到期末還沒出場，這個 t 偏樂觀也不精確，只能當方向參考，方向和組合層級一致（偏負或接近零）。",
+     "風險面：驗證期波動 17.7%，低於等權的 21.0%，但最大回撤 −27.0% 和等權的 −30.3% 差不多，沒有足以支撐『防禦型』說法的證據。"
+    ],
+    "note": "我同意判定不可用，依 PREREG 的準則判定成立，也已經是保守的一方。理由是：兩段都沒有贏同池等權，也都輸 0050。主要疑慮有兩點：(1) 挑選期只有 4 個觀察值，其中 1 筆因面板缺漏橫跨約 3 個月，沒有判斷力；(2) 驗證期對等權的負 t 是由 2026-04 和 2026-05 兩個極端月份造成，拿掉之後 t 約 −0.2，2024～2025 年 t −0.14。所以這條規則在這個樣本裡大致等於同池等權，波動略低；它不是穩定的負報酬，而是沒有證據顯示有超額報酬。存活者偏誤、src3 近似收盤、事後 EPS 修補、剔除名單事後挑選這幾項，都會讓結果偏樂觀或增加雜訊，沒有一項能讓結論翻成可用。前視偏誤和跌停賣不掉的問題都沒有找到（跌停開盤出場 0 筆）。這個結論只適用於只測上市股、24 個月百分位的版本，不能推廣成整個本益比河流圖方法無效。我的驗證只讀取 /home/user/-/research/tw_stock_selection/agents/w1_pe_river_low/ 底下的 nav.parquet、events_ex_cyclical.csv.gz 和 results.json，以及 scratchpad 的 panel/ 價格面板，沒有修改任何檔案。"
+   }
+  },
+  {
+   "slug": "w1_kd_high_passivation",
+   "review": {
+    "final": "不可用",
+    "issues": [
+     "【不影響判定，但口徑誇大】事件層 t −16.1／−6.9 是扣成本後的淨值。成本是每筆約 0.67% 的常數，所以 t 主要在說「短抱 3.4 天付不起成本」，不是在說訊號本身很差。毛異常報酬（未扣成本）：挑選期 −0.45%（月 t −5.9），驗證期 +0.02%（月 t +0.18）。驗證期其實是零優勢，不是顯著負。結論應寫成「挑選期毛報酬顯著為負、驗證期毛報酬為零、扣成本後兩段都顯著為負」，不宜只拿 −16 當主要證據。",
+     "【日曆組合年化被加權方式放大】組合每天對在場部位等權。我把每筆部位每天的報酬加總，再除以總部位天數，挑選期毛報酬平均每天 −0.049%；組合口徑卻是每天 −0.103%。原因是只有 1～5 檔在場的日子（635 天，約占 18%）也是全額投入，而這些日子平均每天 −0.27%。所以 −47.4%、maxDD −99.99% 有一大塊來自集中持股加上全額扣成本，不能拿來描述規則本身的虧損幅度。不過改成每筆部位天數加權，年化仍約 −12%（未扣成本），遠低於 0050，判定方向不變。",
+     "【驗證期毛報酬靠尾端撐著】驗證期毛異常報酬 +0.02%：1% 縮尾後變 −0.10%（t −0.92），5% 縮尾後變 −0.38%（t −5.5），拿掉報酬最高的 1% 事件後變 −0.39%。毛報酬月均為正的月份只占 45%。也就是說，連「零優勢」都是少數大漲事件撐起來的。挑選期縮尾後更負（t −8 到 −13），很穩健。",
+     "【L9 用 min(開, 收) 近似，測的訊號跟教學有落差】我用 history.csv.gz 的真實最低價比對：近似版的 K 平均低 5.35 點，N=3 事件同日 Jaccard 只有 0.487，真實事件在 ±2 日內能對上的也只有 79%。所以 2005～2025 測到的事件約一半跟真實規則不同。真 low 補驗只有 2025-11～2026-10 一年（真 low −0.79%、t −2.98；近似 −0.86%），方向一致，但只靠一年證明近似無害，證據偏薄。",
+     "【src=3 收盤近似】2024-02-15～2025-09-23 的收盤是 13:20 近似，會影響 KD、MA5 出場判斷和組合的收盤報酬。研究員只在事件層剔除這段（淨 −0.69%、毛 −0.02%），結論不變。組合層（含 2024～2025 的 −19.8%）沒有剔除版，但那段的毛異常報酬也只有 +0.18%（t 1.33），救不回來。",
+     "【開盤漲停放棄買進】開盤漲幅 ≥ 漲停 −0.6% 的事件剔除了，共 275 筆，事後毛異常報酬平均 +1.98%。攤到約 2.7 萬筆事件只有約 +0.02%，影響可忽略。開盤不一定鎖死，這條規則略偏保守，但不改結論。",
+     "【出場跌停鎖死沒模擬】出場日開盤若跌停鎖死，實際可能賣不到、要更晚以更低價出場。目前假設照開盤成交，對策略有利，所以真實結果只會更差。",
+     "【2019～2023 只有存活者】這會讓驗證期偏樂觀，修正後只會更差，不構成翻案理由。",
+     "【前視偏誤】沒找到。我獨立重算 5 檔的 KD，跟 Kn 完全一致（最大差 0）。全部事件都是 e=t+1、x>e。MA5 出場用 s 日收盤、s+1 開盤賣。股池用 t 日盤後資料、t+1 才進場，同池等權基準用前一日股池、開盤對開盤，時間口徑一致。事件層的 0050 基準用的是 t 收盤到 x−1 收盤，跟開盤對開盤的口徑錯開，但只是參考。",
+     "【事後調參】PREREG 的 written_at 是 04:56:53，跟 prereg.py 的 mtime 一致；run.py 在 04:58:09 還有修改，無法證明是看結果前定稿。不過 12 個變體加 V2 全部報告，主版本也是負的，調參救不回來，風險低。唯一有一段過關的是 N10_C20 的挑選期（淨異常 +0.86%、t 2.82）。13 組裡有 1 組在一段過關，跟純機率相符，而且它驗證期 t −0.86、年化 11.8% 輸 0050 的 28.3%，不能拿來翻案。",
+     "【樣本數】不是問題。挑選期 15,479 筆／173 個月，驗證期 11,136 筆／89 個月，2024～2025 有 2,648 筆／23 個月。逐年的淨異常報酬 2004～2026 每一年都是負的（−0.38% 到 −1.82%），不是靠少數年份。",
+     "【附帶觀察，不是翻案】出場 A 天生會讓短抱部位集中在虧損端：持有 1～3 天的毛異常報酬約 −1.4% 到 −2.2%，持有 ≥ 8 天的約 +4% 到 +12%，這是「跌破 MA5 就停損」的機械效果。固定持有 20 日的變體毛異常報酬約 +0.55% 到 +1.5%，帶點動能味道，但扣成本後兩段都沒過，驗證期年化也都輸 0050，只能當之後研究的線索。"
+    ],
+    "note": "我同意不可用。我檢查了前視、成本與漲停、樣本數、極端事件、存活者、src=3、事後調參和 t 值口徑，沒有任何一項能把結果翻成可用：KD 計算與進出場時點經獨立重算都正確，沒有前視；樣本夠大，逐年都是負的；存活者偏誤和沒模擬的跌停出場都對策略有利，修正後只會更差。主要的毛病在呈現方式：(1) 淨 t −16 主要反映成本，驗證期毛異常報酬其實是 0（t 0.18），而且這個 0 還是少數大漲事件撐起來的；(2) 日曆組合在部位少的日子全額集中，把年化虧損放大到約兩倍，−47% 不能當成規則本身的虧損幅度；(3) L9 近似讓事件約一半跟真實規則不同，真 low 補驗只有一年，但方向一致。建議 FINDINGS 改用毛報酬與淨報酬並列的說法，並註明組合口徑會放大虧損。驗證程式放在 /tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/kdrev/（ev.py、v1.py、v2.py、v3.py）。另外，我 import run.py 時，Python 在研究資料夾、exec_rebuild 和 tw_stock_selection 底下各留了一個 __pycache__ 快取目錄，三個都是我這次建立的，已經刪除；研究員的檔案沒有改動。"
+   }
+  },
+  {
+   "slug": "w1_canslim_proxy",
+   "review": {
+    "final": "不可用",
+    "issues": [
+     "[重現] 我用 nav.parquet 重算主版本（滑價 0.1%）對同池等權的月窗 t：挑選期 −0.37（n=16）、驗證期 +0.37（n=31），和 results.json 及研究員報的數字一致。引擎對 exlib.sim_portfolio 的最大誤差是 0.0。判定邏輯照 PREREG 執行，數字本身沒有錯。",
+     "[只靠極端事件] 驗證期對等權的正超額全部來自 2026-04 這一個月（+33.1%）。那個月入選的 12 檔全部大漲 29%～106%，2486 漲 +106%。src 都是 4（官方價），所以是真實的電子股集體噴出，不是資料錯誤。拿掉這一個月，驗證期 t 從 +0.37 變成 −0.48；只看 2024-01～2025-12，t 是 −0.94，淨年化 −1.8%，同期等權 +7.2%。驗證期淨年化 18.0% 幾乎全靠 2026 年的 +65%；2024 加 2025 兩年累計 −3.5%，同期等權 +14.9%。",
+     "[代理定義有季度錯位，屬設計瑕疵] C 條件用 EPS_ttm(m)/EPS_ttm(m−3)。TWSE PE 的四季 EPS 只在季報期限（3/31、5/15、8/14、11/14）後才換。每年 3 月初的 PE 和 12 月初用的是同一組至 Q3 的 EPS，所以 3 月的 C 幾乎必然不成立。實際上 C 的通過數是 23（2023-03）、51（2024-03）、69（2025-03）、31（2026-03），平常約 150～440；3 月入選只剩 2～6 檔，持股非常集中。反過來，6 月比的是隔兩季的 EPS（Q1 對 Q3），C 比較容易過。所以 C 的意義隨月份不同，並不是真的「當季 vs 上季」。這不會讓結論變寬，但代理版沒有忠實代表 CAN SLIM 的 C。",
+     "[樣本太小、檢定力低] 挑選期只有 16 個換股月，其中 5 個月 M 不成立、全部現金（2022-09～2023-01），另外 2023-11 也空手，實際有持股約 10 個月。驗證期 31 個月。月度 t ≥ 2 在這個樣本下很難達到。所以「不可用」的意思是「沒證明有用」，不是「證明有害」。但所有敏感度版本，包括未扣成本、不停損、不看 M 和兩者都拿掉，兩段對等權的 t 都沒有到 2：最高是驗證期未扣成本、無停損無 M 的 1.48，挑選期最高 0.84。往保守判，維持不可用。",
+     "[存活者偏誤] 依 BRIEF，2019–2023 的價格面板只有存活者，挑選期 2022-09～2023-12 完全落在這段。同池等權不挑股、全拿，受益於『沒有下市輸家』可能更多。因此挑選期等權 21.0% 可能被墊高，策略對等權的落後可能被誇大。方向對策略略不利，但就算修正，也不太可能從 t −0.37 翻到 ≥ 2。",
+     "[src=3 近似收盤] 2024-02-15～2025-09-23 用 Yahoo 13:20 近似收盤，涵蓋驗證期大半。受影響的有三件事：EPS = 近似收盤 ÷ 官方 PE，約 1% 雜訊，靠近 5% 和 25% 門檻的股票可能翻轉；8% 停損以近似收盤觸發，可能誤觸或漏觸；N 和 L 的價格訊號也用近似價。研究員有報官方段（2025-09-24 起，12 個月）：主版本對等權 t 0.92、淨年化 62.6%，0050 是 79.2%，仍然沒有過門檻。",
+     "[缺漏月] 2024-01-02～2024-02-14 價格面板缺漏，2023-12 的持股一路抱到 2024-03-04，中間無法檢查停損。這一期在選股力診斷裡算成單一觀察值：入選股 +15.5%、超額 +10.8%、最大單檔 +87%，而且有 10 檔持股帶 flag 3/4/5 異常標記。挑選期的選股力（pick_power t 0.82）有一部分來自這個跨三個月的特殊觀察值。",
+     "[前視] 程式裡沒有發現實質前視：PE、法人、加權指數都用 d 收盤或盤後資料，d+1 開盤成交；N 和 L 的計算窗口含 d 但不含 d+1 以後。唯一的小前視是股池要求 d+1 有開盤價和收盤（排除隔天停牌的股票），但同池等權也用同一個股池，影響很小。",
+     "[成本與鎖漲停] 只擋了 d+1 開盤漲停的新買進，全期只擋下 1 次。已持有股在開盤漲停時仍被允許調權重、加碼買進，這偏樂觀。月度換股時開盤跌停的賣出沒有阻擋（停損賣出有處理跌停延後），也偏樂觀。停損用收盤價判斷，原教學是盤中跌 7～8% 就停，面板沒有 low 欄位無法照做。這些偏差都對策略有利，修正後只會更差。另外同池等權不扣成本、策略扣成本，這是 PREREG 寫明的保守設計。",
+     "[停損是最大拖累，注意事後調參] 主版本共觸發 249 次停損，平均出場報酬 −9.5%。停損資金留現金到下次換股日，有現金拖累。無停損的驗證期淨年化 34.4%（對等權 t 1.11），主版本只有 18.0%。研究員依 PREREG 只報告、不改判定，這是對的。若之後有人改推『無停損版』，就是看過結果才調參，而且無停損版在兩段也都沒過 t ≥ 2。",
+     "[t 值口徑] 月窗用 d 收盤到下一個 d 收盤，實際成交在 d+1 開盤，有一天的錯位。M 不成立的月份策略報酬記 0，等權照常滿倉，所以對等權的 t 混進了大盤擇時效果，不是純選股力。純選股診斷（不擇時、不停損、未扣成本）的驗證期 t 是 1.46，同樣主要靠 2026-04；2024～2025 只有 0.45。",
+     "[0050 門檻] 驗證期 0050 年化 54.5%（2026 年 +67%），台積電權重集中，這個門檻極難超越。但這不影響判定：就算只看『對等權 t ≥ 2』這一條，兩段也都沒過。",
+     "[上櫃從缺] 只測上市股。CAN SLIM 的典型標的有很多中小型成長股在上櫃，代理版的覆蓋不完整。這點已在 PREREG 註明，但結論不能推到上櫃。"
+    ],
+    "note": "我同意研究員的判定：不可用。我重算的 t 值與 results.json 一致，引擎比對誤差為 0，程式裡沒有發現實質前視。驗證期唯一的正超額（對等權 +0.56%/月）完全來自 2026-04 一個月的電子股集體大漲；拿掉這個月 t 變 −0.48，只看 2024～2025 是 −0.94，兩年淨報酬 −3.5%，同期等權 +14.9%。所有敏感度版本（未扣成本、無停損、無 M）兩段的 t 都沒有到 2。另外有一項設計瑕疵：C 條件在 3 月因 TWSE PE 的 EPS 換季時點而幾乎全部不成立，3 月只剩 2～6 檔。存活者偏誤、src=3 近似收盤、缺漏月跨期持有、以及鎖漲停和停損處理偏樂觀，這些不確定性多半對策略有利或方向不明，都不足以把結論翻成待觀察。資料夾：/home/user/-/research/tw_stock_selection/agents/w1_canslim_proxy/（run.py、results.json、nav.parquet、pick_power_monthly.csv），沒有修改任何檔案。"
+   }
+  },
+  {
+   "slug": "w1_turtle_donchian",
+   "review": {
+    "final": "不可用",
+    "issues": [
+     "Numbers reproduce. I recomputed CAGR from nav.parquet myself: S1 net was -19.65% in the selection period, +12.08% in the validation period and +6.17% for 2024-2025. The equal-weight pool (7.14%/16.76%/7.47%) and 0050 (7.67%/28.27%/42.44%) match the researcher's figures exactly. The t-value definition is a mean over non-overlapping monthly windows (each starting on the first trading day on or after the 11th) divided by the standard error with ddof=1, which is reasonable. Switching to calendar-month returns gives similar t values (S1 selection period vs equal weight -7.47, validation period -0.04), so the conclusion does not depend on which month boundaries are used.",
+     "No look-ahead bias that affects the verdict. The signal is decided on the close of day t and the trade fills at the adjusted open on t+1. N is taken from day t. The 60-day average traded value and the price-at-least-10 filter use only data up to t. The limit-up check uses the t+1 opening price, which is knowable at the open. Exits are checked on the close and sold at the next open. There are tiny leaks that do not change the result: OPOK at the entry day also requires that day's close to exist; the equal-weight pool requires the d+1 close to exist; and the sparse-day detection in mlib uses a centered rolling window. All three are negligible.",
+     "Simplification that hurts the strategy: N is the mean absolute close-to-close change, not true ATR, and exits compare against the lowest close rather than the lowest low. The median 2N stop is only about 2.7% of price for S1 and 2.8% for S2, tighter than the original rule. Stop exits are 51% of S1 trades and 66-68% of S2 trades, so whipsaws and turnover are inflated. The result should therefore be described as 'this approximation of the Turtle rules does not work', not as a decisive failure of standard Turtle trading. It does not change the verdict, though: even before costs the S1 selection period is -8.6% a year (t vs equal weight -3.92), S2 before costs in the selection period has t vs equal weight -0.50, and S2 before costs in the validation period has t of only 1.58, which is below the threshold of 2.",
+     "Every remaining bias makes the backtest look better than reality, so the true result is worse. Stocks locked limit-down are assumed to sell at the open. Delisted stocks are sold at their last adjusted close (10 cases). The 2019-2023 panel contains only surviving stocks. Even with all this help, the survivor-only part of the validation period (2019-05 to 2023-12) gives S1 net only +3.8% a year with t vs equal weight -1.01.",
+     "Costs are not the only problem, but they are a big part of it. S1 makes about 370-400 new entries a year across 20 slots, so a 0.67% round trip costs roughly 12-13% a year. That is why the S1 validation period goes from +25.8% before costs to +12.1% after. However, the selection period already loses to the equal-weight pool before any costs (t -3.92), so costs alone do not explain the failure.",
+     "The positive results depend entirely on a few extreme trades. S2 abnormal return in the validation period, net of costs, is +0.5% per trade (t 1.17). Removing trades that gained more than 100% and trades touching flag 3/4/5 turns it into -1.2% (t -7.14). One caveat: the trim only removes extreme winners (there are no trades losing more than 50%), so it is one-sided against the strategy. Even so, it shows the S2 upside comes from a small number of outliers.",
+     "src=3 approximate prices (about 9.6% of S1 entries) and the 2024-01-02 to 2024-02-14 data gap do not change the conclusion. Using only official-price days, S1 net is +17.0% vs 0050 at 24.7%, with t vs equal weight 0.04. During the data gap there are no trading days, so positions cannot exit and their returns are lumped together; the effect is small.",
+     "Post-hoc tuning risk is low but cannot be verified independently. The pre-registration timestamp is 2026-10-27T05:03:58, before results.json was written at 05:06, and run.py asserts the pre-registration is present and does not overwrite it. However, the pre-registration was never committed to git on its own before the results (prereg, program and results all first appear in commit 6fa3d13 at 05:07). Since the verdict is negative, this does not change the outcome.",
+     "The candidate-ordering check does not favor S1. In the selection period, the 10 random orderings average -14.0% (range -15.8% to -12.3%), better than the liquidity ordering's -19.7%. In the validation period they average +4.5% (range -3.1% to +12.6%), worse than +12.1%, and the best t vs equal weight across seeds is -0.19. Every seed fails.",
+     "Sample size is not a concern for the selection period: 172 months and about 33,000 S1 events. The 2024-2025 window has only 23 months and should be treated as reference only. Under the pre-registered rule, none of the four main variants (and neither of the two diagnostic pyramiding variants) passes in either period, even before costs. 'Not usable' is the correct verdict."
+    ],
+    "note": "Re-check result: I agree with 'not usable'. I reproduced the NAV, CAGR and t values from nav.parquet independently (verification script at /tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/v1.py) and found no look-ahead or cost bug that would flip the result. The real weakness is that N uses close-to-close moves instead of true ATR and exits use lowest closes, which makes the stop and channel exits tighter than the original rules. The report should say 'this approximation does not work'. Even so, S1 and S2 before costs, and with every random ordering, fail to pass in either period. The remaining biases (survivor-only stocks, limit-down not modelled, delisted stocks sold at last close) all flatter the strategy, so the real result would be worse. S2's positive validation-period numbers come only from a few trades that gained more than 100%. Files reviewed: /home/user/-/research/tw_stock_selection/agents/w1_turtle_donchian/run.py, prereg.py, check_slots.py, results.json, nav.parquet. No files were modified."
+   }
+  },
+  {
+   "slug": "w1_minervini_trend_template",
+   "review": {
+    "final": "不可用",
+    "issues": [
+     "【維持不可用】沒有一個問題能讓結論翻成可用：所有偏誤都只會讓績效看起來比實際好，而 PRIMARY 在兩段本來就都沒過。12 個變體也沒有任何一個在兩段同時過關。prereg 寫入時間是 05:05:10，早於 run.py 和 results（05:06～05:08）；PRIMARY 和判定規則都事前固定，看不出事後調參。",
+     "【驗證期 t 2.01 幾乎全部來自存活者面板】我驗證過：面板裡 2020～2023 年結束交易的股票是 0 檔（2019 年 33 檔，之後一路到 2024 年才再有）。2019-05～2023-12 只有存活者，這段對等權 t 2.51；2024-01～2026-10 是完整資料，對等權 t 只有 0.55，對 0050 t −1.97。驗證期唯一過關的『勝等權』那道門檻靠的是有存活者偏誤的那段，不能採信。",
+     "【t 值口徑踩在邊界】驗證期對等權 t 2.01 是普通 t（btlib.tstat，沒有做自相關修正）。改用 Newey-West（落後 3 期）只剩 1.87；壓力成本（買賣各 0.5%）下降到 1.61；拿掉最好的 3 個月剩 1.25。這個勝等權的結果不穩。",
+     "【挑選期靠少數極端月份】2008-09～2009-03 的月底入選股只有 1～2 檔（2033、1516），2008-10 對等權超額 +28.1%、2009-01 +20.3%、2008-11 +12.7%。拿掉最好的 3 個月，挑選期對等權月超額從 +0.109% 變成 −0.251%（t −0.77），Newey-West t 只有 0.21。研究員自己的事後診斷也承認集中度，但只剔除了整段 8 個月。實際上這個策略在空頭時退化成單一持股，不能算分散的選股規則。",
+     "【2024 以後的超額集中在單月】2024-01～2026-10 的平均超額主要來自 2026-04 一個月（+15.2%），拿掉前 3 個月後 t −0.60。2024～2025 年化 7.8%，0050 是 42.4%，差距很大。",
+     "【src=3 近似收盤】2024-02-15～2025-09-23 的收盤是 13:20 近似值，這段時間的月底訊號、MA、52 週高低和日 NAV 都受影響，2025-04 前後的極端日報酬也落在這段。不過這段策略本來就大輸 0050，誤差不會改變結論，只是這段數字的精確度打折。",
+     "【資料缺口】2024-01-02～2024-02-14 沒有資料：2023-12-29 的訊號延到 2024-02-15 開盤才成交，訊號舊了 6 週；rolling 均線跨過缺口，把它當成連續交易日；2024～2025 只有 23 個月。影響小，但要記為限制。",
+     "【成本與流動性偏樂觀】ALL 版平均持有約 74～103 檔等權，股池門檻只要 60 日均成交值 1,000 萬元，小型股在開盤用 0.1% 滑價成交偏樂觀。開盤漲停有處理（買不到就剔除或遞補，共 81 次），但賣出時碰到跌停鎖死沒有模擬，一律假設開盤賣得掉，空頭月份偏樂觀。",
+     "【下市處理】持有中停牌或下市的股票，用最後成交價無限期 ffill，到下次換股時以這個價格賣出。全額交割或下市前價格崩跌的那段損失可能被低估。2005～2018 有含下市股，但這個處理方式仍然偏樂觀。",
+     "【前視偏誤：沒看到實質問題】訊號用 d 日收盤，d+1 開盤成交；股池（V60、股價、flag）也是 d 日當天就知道的資料。adj 是用未來的還原因子回推，但條件都是比值，不受縮放影響；股價門檻用原始收盤。開盤漲停的判斷用 d+1 開盤價，這在開盤當下就知道，算合理。",
+     "【基準口徑】對等權的比較是策略扣成本、等權不扣成本，對策略比較嚴格，屬於保守設定。改用扣成本的等權，驗證期 t 只從 2.01 升到 2.15，結論不變。第一個月（2004-12-31 訊號）因為面板從 2004 年開始、上市需滿 260 日，股池是 0，2005-01 持有現金，影響很小。",
+     "【增量檢定支持不可用】挑選期比同檔數的 52 週高點組合每月少 0.56%（t −1.98）；Fama-MacBeth 在控制 12-1 動能和 52 週高點後，模板係數在挑選期和驗證期的 t 都只有約 1.9；對 RS 單因子和 12-1 動能都沒有顯著增量。這套規則的效果大致可以用 52 週高點和動能解釋。"
+    ],
+    "note": "我重新算過：用 /home/user/-/research/tw_stock_selection/agents/w1_minervini_trend_template/nav.parquet 和 results.json 重算月報酬差的 t、Newey-West 落後 3 期 t、剔除前 3 個月後的 t，以及分段 t，跟研究員報的數字一致（挑選期 0.28、驗證期 2.01）。研究員的判定成立，而且比他寫的更不利：驗證期勝等權只出現在有存活者偏誤的 2019～2023（t 2.51），完整資料的 2024 年以後 t 只有 0.55，對 0050 t −1.97；改用 Newey-West、壓力成本，或剔除極端月份後，t 都跌破 2。挑選期的超額集中在 2008～2009 只持有 1～2 檔的月份。沒有發現前視偏誤，也沒有事後調參的跡象。最終判定：不可用。"
+   }
+  }
+ ],
+ "combos": []
+}
