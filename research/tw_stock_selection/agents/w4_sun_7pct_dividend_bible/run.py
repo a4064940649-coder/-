@@ -112,6 +112,12 @@ res['estimator_validation'] = val
 
 # ---------------- 年度表 ----------------
 YEARS = np.arange(2004, 2027); YI = {y: k for k, y in enumerate(YEARS)}
+def year_tables_ev(e, col):
+    DY = np.zeros((len(YEARS), N)); PAID = np.zeros((len(YEARS), N), bool)
+    for (y, j), v in e.groupby(['year', 'j'])[col].sum().items():
+        DY[YI[y], j] = v; PAID[YI[y], j] = True
+    return DY, PAID, e
+
 def year_tables(col, drop_gt=None):
     e = EV if drop_gt is None else EV[~(EV['yld_E1'] > drop_gt)]
     DY = np.zeros((len(YEARS), N)); PAID = np.zeros((len(YEARS), N), bool)
@@ -137,8 +143,9 @@ for t in range(len(IDX)):
     _age = np.where(np.isfinite(Cn[t]), 0, _age + 1); last_trade_age[t] = _age
 V60 = M.V60.reindex(IDX).to_numpy()
 
-def signals(col, drop_gt=None):
-    DY, PAID, e = year_tables(col, drop_gt)
+def signals(col, drop_gt=None, ev=None, share=None):
+    if ev is None: DY, PAID, e = year_tables(col, drop_gt)
+    else: DY, PAID, e = year_tables_ev(ev, col)
     ed = e['date'].to_numpy(); ej = e['j'].to_numpy(); eD = e[col].to_numpy()
     out = {}
     for d in SIGD:
@@ -156,6 +163,7 @@ def signals(col, drop_gt=None):
         days_since[lastd.index.to_numpy()] = (d - pd.DatetimeIndex(lastd.to_numpy())).days.to_numpy()
         interrupted = (~PAID[k - 1]) | (days_since > 456)
         px = Cff[i]
+        if share is not None: D5 = D5 * share[i]
         with np.errstate(all='ignore'):
             y5 = D5 / px
         liq = (V60[i] >= 1e7) & (Cn[i] >= 10) & is_common
@@ -237,6 +245,50 @@ def sim(events, cost, idle, t0, t1):
 
 T_START = pos(SIGD[0]); T_END = len(IDX) - 1
 SG = {'E1': signals('D_E1'), 'E3': signals('D_E3'), 'cap15': signals('D_E1', drop_gt=0.15)}
+
+# ---------------- 事後診斷：clean 版股利（看過主結果後加，只報告、不進判定） ----------------
+# 1) 2021-10 前：E3 估計，單一事件推估殖利率 > 15% 視為股票股利（不計現金、改當股數調整）
+# 2) 2021-10 起：息＝value；權息的現金部分改用其後 60 天內第一個 pe_5y 的 TWSE 殖利率 × 當日收盤（找不到就不計）；權＝股數調整
+# 3) 股數基礎調整：flag 3（減資／面額變更等，因子＝參考價／前收）與上述股票股利，之前的每股股利乘上之後的因子
+RETn = L.RETN
+pe_all = pd.read_csv(XR / 'pe_5y.csv.gz', dtype={'code': str}, parse_dates=['date'])
+pe_all = pe_all[(pe_all['market'] == 'TWSE') & pe_all['code'].isin(COLS) & pe_all['date'].isin(IDX)].sort_values('date')
+fac = np.ones((len(IDX), N))
+with np.errstate(all='ignore'):
+    f3 = np.where((FL == 3) & np.isfinite(RETn) & np.isfinite(Cprev) & np.isfinite(Cn), (Cn / (1 + RETn)) / Cprev, 1.0)
+f3 = np.where(np.abs(f3 - 1) > 0.02, f3, 1.0); fac *= np.where(np.isfinite(f3), f3, 1.0)
+yE3 = np.where(np.isfinite(oo), (cp - oo / (1 + mgap[ii])) / cp, E1 / cp)
+stk = yE3 > 0.15
+np.multiply.at(fac, (ii[stk], jj[stk]), np.clip(1 - yE3[stk], 0.05, 1))
+ev_c = [pd.DataFrame({'date': IDX[ii[~stk]], 'j': jj[~stk], 'D': np.maximum(cp[~stk] * yE3[~stk], 0)})]
+xk = exd.copy(); xk['j'] = [L.CI[c] for c in xk['code']]; xk['ti'] = IDX.searchsorted(xk['date'])
+pe_y = {c: g[['date', 'yield']].to_numpy() for c, g in pe_all.groupby('code')}
+rows_c = []; n_mixed_ok = n_mixed_miss = 0
+for r in xk.itertuples():
+    ti = min(r.ti, len(IDX) - 1)
+    if r.kind == '息':
+        rows_c.append((r.date, r.j, r.value)); continue
+    if r.kind == '權':
+        fac[ti, r.j] *= r.ref_price / r.prev_close; continue
+    arr = pe_y.get(r.code); cash = np.nan
+    if arr is not None:
+        k = np.searchsorted(arr[:, 0].astype('datetime64[ns]'), np.datetime64(r.date))
+        if k < len(arr) and (pd.Timestamp(arr[k, 0]) - r.date).days <= 60 and np.isfinite(arr[k, 1]):
+            ci = pos(pd.Timestamp(arr[k, 0])); cash = arr[k, 1] / 100 * Cn[ci, r.j]
+    if np.isfinite(cash) and 0 < cash < r.prev_close - r.ref_price:
+        n_mixed_ok += 1; rows_c.append((r.date, r.j, cash))
+        fac[ti, r.j] *= r.ref_price / (r.prev_close - cash)
+    else:
+        n_mixed_miss += 1; fac[ti, r.j] *= r.ref_price / r.prev_close
+ev_c.append(pd.DataFrame(rows_c, columns=['date', 'j', 'D']))
+EVC = pd.concat(ev_c, ignore_index=True).sort_values('date').reset_index(drop=True)
+SHARE = np.cumprod(fac, axis=0)
+ei = IDX.searchsorted(EVC['date']); ei = np.clip(ei - 1, 0, len(IDX) - 1)
+EVC['Dc'] = EVC['D'].to_numpy() / SHARE[ei, EVC['j'].to_numpy()]
+EVC['year'] = EVC['date'].dt.year
+res['clean_posthoc_div'] = {'n_events': int(len(EVC)), 'n_pre_cut_treated_as_stock(E3>15%)': int(stk.sum()), 'n_mixed_cash_from_pe5y': n_mixed_ok,
+                            'n_mixed_unresolved(cash=0)': n_mixed_miss, 'n_flag3_share_factors': int((f3 != 1).sum())}
+SG['clean'] = signals('Dc', ev=EVC, share=SHARE)
 sg = SG['E1']
 pool_events = {}
 for d in SIGD:
@@ -294,9 +346,9 @@ IND = M.IND.reindex(COLS).fillna('未分類')
 navs = {'same_pool_EW': EW_NAV}
 RUNS = [('E1', 'hyst', 'cash'), ('E1', 'hyst', '0050'), ('E1', 'simple', 'cash'), ('E1', 'simple', '0050'),
         ('E3', 'hyst', 'cash'), ('E3', 'hyst', '0050'), ('E3', 'simple', 'cash'), ('cap15', 'hyst', 'cash'),
-        ('E1', 'hyst_nocap', 'cash'), ('E3', 'hyst_nocap', 'cash')]   # 最後兩個是事後診斷（看過主結果後加）：不設 30 檔上限、所有符合者等權，只報告、不進判定
+        ('E1', 'hyst_nocap', 'cash'), ('E3', 'hyst_nocap', 'cash'), ('clean', 'hyst_posthoc', 'cash'), ('clean', 'hyst_posthoc', '0050'), ('clean', 'simple_posthoc', 'cash')]   # 最後兩個是事後診斷（看過主結果後加）：不設 30 檔上限、所有符合者等權，只報告、不進判定
 for est, mode, idle in RUNS:
-    events, diag = build(SG[est], mode.replace('_nocap', ''), cap=None if mode.endswith('_nocap') else 30)
+    events, diag = build(SG[est], mode.replace('_nocap', '').replace('_posthoc', ''), cap=None if mode.endswith('_nocap') else 30)
     first_exec = IDX[min(t for t, w in events.items() if w.sum() > 0)]
     name = f'{est}|{mode}|idle_{idle}'; R = {'first_exec': str(first_exec.date())}
     for cost in ('gross', 0.001, 'stress'):
@@ -311,8 +363,8 @@ for est, mode, idle in RUNS:
                      'by_year_mean_held': dg.groupby(dg['d'].str[:4])['held'].mean().round(1).to_dict(),
                      'by_year_mean_invested': dg.groupby(dg['d'].str[:4])['invested'].mean().round(2).to_dict(),
                      'by_year_mean_pool': dg.groupby(dg['d'].str[:4])['pool'].mean().round(0).to_dict()}
-    if (est, mode, idle) == ('E1', 'hyst', 'cash'):
-        R['diag'] = diag
+    if (est, mode, idle) in (('E1', 'hyst', 'cash'), ('clean', 'hyst_posthoc', 'cash')):
+        if est == 'E1': R['diag'] = diag
         rows = []; exs = sorted(events)
         for a_, b_ in zip(exs, exs[1:] + [T_END]):
             w = events[a_]
@@ -322,14 +374,16 @@ for est, mode, idle in RUNS:
                 rows.append({'code': COLS[j], 'name': sl.get(COLS[j], ''), 'industry': IND[COLS[j]], 'exec': str(IDX[a_].date()), 'w': w[j],
                              'gross': p1 / p0 - 1 if np.isfinite(p0) and np.isfinite(p1) else np.nan, 'y5': SG[est][dsig]['y5'][j] if dsig in SG[est] else np.nan,
                              'flag345': bool(np.isin(FL[a_:b_ + 1, j], [3, 4, 5]).any())})
-        hd = pd.DataFrame(rows); hd.to_csv(HERE / 'holdings_main.csv.gz', index=False)
+        hd = pd.DataFrame(rows); hd.to_csv(HERE / ('holdings_main.csv.gz' if est == 'E1' else 'holdings_clean_posthoc.csv.gz'), index=False)
         R['holding_detail'] = {'n_stock_months': int(len(hd)), 'n_unique_codes': int(hd['code'].nunique()), 'n_flag345': int(hd['flag345'].sum()),
                                'n_gross_gt_50pct': int((hd['gross'] > 0.5).sum()), 'n_gross_lt_m50pct': int((hd['gross'] < -0.5).sum()),
                                'share_financial': round(float((hd['industry'] == '金融保險業').mean()), 3),
                                'industry_mix_top10': hd['industry'].value_counts().head(10).to_dict(),
                                'most_held_top15': {f"{c}{sl.get(c, '')}": int(n) for c, n in hd['code'].value_counts().head(15).items()},
                                'median_y5_at_signal': round(float(hd['y5'].median()), 4), 'n_y5_gt20pct': int((hd['y5'] > 0.2).sum()),
-                               'by_period_unique': {p: int(hd[(hd['exec'] >= a) & (hd['exec'] <= b)]['code'].nunique()) for p, (a, b) in WIN.items()}}
+                               'by_period_unique': {p: int(hd[(hd['exec'] >= a) & (hd['exec'] <= b)]['code'].nunique()) for p, (a, b) in WIN.items()},
+                               'by_period_share_y5_gt15pct': {p: round(float((hd[(hd['exec'] >= a) & (hd['exec'] <= b)]['y5'] > 0.15).mean()), 3) for p, (a, b) in WIN.items()},
+                               'by_period_median_y5': {p: round(float(hd[(hd['exec'] >= a) & (hd['exec'] <= b)]['y5'].median()), 4) for p, (a, b) in WIN.items()}}
         bad = hd[hd['y5'] > 0.2].drop_duplicates('code')[['code', 'name', 'exec', 'y5']].head(15)
         R['holding_detail']['y5_gt20pct_examples'] = bad.to_dict('records')
     res[name] = R
@@ -341,13 +395,14 @@ pd.DataFrame(navs).to_parquet(HERE / 'nav.parquet')
 
 def ok(w): return bool(w is not None and (w['t_vs_EW_m'] >= 2) and (w['CAGR'] >= w['0050_CAGR']))
 verd = {}
-for name in [f'{e}|{m}|idle_{i}' for e, m, i in RUNS if not m.endswith('_nocap')]:
+for name in [f'{e}|{m}|idle_{i}' for e, m, i in RUNS]:
     mw = res[name]['cost_0.001']['windows']
     p1, p2 = ok(mw['select_price_2010-01_2019-04']), ok(mw['valid_price_2019-05_2026-10'])
     q1, q2 = ok(mw['select_2021_2023']), ok(mw['valid_2024_2026-10'])
     verd[name] = {'price_select_pass': p1, 'price_valid_pass': p2, 'split2021_select_pass': q1, 'split2021_valid_pass': q2,
                   'verdict_price_split': '可用' if p1 and p2 else ('待觀察' if p1 or p2 else '不可用')}
 res['verdicts_all_variants'] = verd
+res['verdicts_note'] = '只有 E1|hyst|idle_cash 是判定用主規格；*_nocap、clean|*_posthoc 是看過主結果後加的事後診斷'
 res['verdict_main'] = verd['E1|hyst|idle_cash']
 res['runtime_s'] = round(time.time() - T0, 1)
 
