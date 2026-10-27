@@ -3,6 +3,7 @@
 專案期間：2026-10-27～2027-01-27（3 個月）。每日排程：「台股研究中心每日研究」，每天台北時間 06:49（trigger id trig_018uxTz588Aup718qjUU2SD3），到期後自動停用。每天的排程依這份清單派工；做完的題目移到「已完成」，新想到的題目加到「待辦」。
 
 ## 每日流程
+0. 每月換股日（每月第一個 ≥ 11 日的交易日）收盤後：執行 `python3 -I research/tw_stock_selection/main_picks_today.py --data /home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data --n 10` 產生主策略名單，記錄到 agents/live_tracking/（真實樣本外追蹤），並回報使用者。資料要先更新（tw-stock-screener repo `git pull`）。
 1. 環境檢查：`/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/adj.parquet` 不存在時，先執行 `bash research/tw_stock_selection/restore_env.sh`。
 2. 收回昨天還在跑的工作：FINDINGS 存進各資料夾，提交推送。
 3. 開一輪網路教學工作流 `.claude/workflows/tw-web-strategy-harvest.js`，scout_set 依序輪流 tw → global → posts；上一輪剩下的 leftover 優先。

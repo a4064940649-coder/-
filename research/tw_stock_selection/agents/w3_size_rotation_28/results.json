@@ -10516,5 +10516,83 @@
     }
    }
   }
+ },
+ "VERDICT": {
+  "checks": {
+   "select_price": {
+    "t_vs_EW_5050": -1.11,
+    "CAGR": 0.0341,
+    "0050_CAGR": 0.0764,
+    "pass_t": false,
+    "pass_0050": false,
+    "pass": false
+   },
+   "valid_price": {
+    "t_vs_EW_5050": -1.1,
+    "CAGR": 0.1586,
+    "0050_CAGR": 0.2827,
+    "pass_t": false,
+    "pass_0050": false,
+    "pass": false
+   }
+  },
+  "verdict": "不可用",
+  "grid_any_pass": {
+   "N10_W_filt": [
+    false,
+    false
+   ],
+   "N10_W_nofilt": [
+    false,
+    false
+   ],
+   "N10_D_filt": [
+    false,
+    false
+   ],
+   "N10_D_nofilt": [
+    false,
+    false
+   ],
+   "N20_W_filt": [
+    false,
+    false
+   ],
+   "N20_W_nofilt": [
+    false,
+    false
+   ],
+   "N20_D_filt": [
+    false,
+    false
+   ],
+   "N20_D_nofilt": [
+    false,
+    false
+   ],
+   "N60_W_filt": [
+    false,
+    false
+   ],
+   "N60_W_nofilt": [
+    false,
+    false
+   ],
+   "N60_D_filt": [
+    false,
+    false
+   ],
+   "N60_D_nofilt": [
+    false,
+    false
+   ]
+  }
+ },
+ "POSTHOC_checks": {
+  "close_to_close_weekly_gross_CAGR_no_exec_lag": {
+   "select_price": 0.1106,
+   "valid_price": 0.2624
+  },
+  "note": "週五收盤訊號、週五收盤即換（不可成交的理想版、不扣成本）；與引擎 gross（隔日開盤）select 10.0%／valid 22.8% 一致，差距＝開盤延遲成本。"
  }
 }
