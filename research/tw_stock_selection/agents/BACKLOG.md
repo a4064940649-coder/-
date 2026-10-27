@@ -6,7 +6,8 @@
 0. 每月換股日（每月第一個 ≥ 11 日的交易日）收盤後：執行 `python3 -I research/tw_stock_selection/main_picks_today.py --data /home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data --n 10` 產生主策略名單，記錄到 agents/live_tracking/（真實樣本外追蹤），並回報使用者。資料要先更新（tw-stock-screener repo `git pull`）。
 1. 環境檢查：`/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/adj.parquet` 不存在時，先執行 `bash research/tw_stock_selection/restore_env.sh`。
 2. 收回昨天還在跑的工作：FINDINGS 存進各資料夾，提交推送。
-3. 開一輪網路教學工作流 `.claude/workflows/tw-web-strategy-harvest.js`，scout_set 依序輪流 tw → global → posts；上一輪剩下的 leftover 優先。
+3. **主要工作：自主研究**。執行 `.claude/workflows/tw-original-research.js`（用 Workflow 的 scriptPath），輪次 o1、o2…，流程是：先研究長期贏家靠什麼賺錢 → 總監定題 → 研究員探索、迭代、凍結後做樣本外 → 雙審查加獨立複製 → 與主策略整合 → 總監報告。下一輪題目用上一輪總監報告的建議（args.extra 帶入，可用 skip_winners 沿用贏家研究）。
+   網路教學工作流 `.claude/workflows/tw-web-strategy-harvest.js` 降為輔助，只拿來蒐集參考，不再是主要產出。
 4. 從下方待辦挑 1～3 題，派研究代理。
 5. 把結論寫進 `台股個股選股規則實證研究報告.md` 與線上報告（https://claude.ai/artifact/5u7fyL7i9QrVj2w6nwiNMZ），更新本檔，提交推送，回報使用者。
 
