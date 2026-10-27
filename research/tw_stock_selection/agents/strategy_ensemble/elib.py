@@ -12,8 +12,8 @@ NAVDF = pd.read_parquet(H / 'strategy_nav.parquet')
 ALL = PR['sets']['S_recent']
 NAVS = NAVDF[ALL]
 CAL = NAVS.index
-P = NAVS.to_numpy()
-RD = NAVS.pct_change().to_numpy()            # 日報酬（第一個有效日之前 NaN）
+P = NAVS.to_numpy().copy()
+RD = NAVS.pct_change().to_numpy().copy()            # 日報酬（第一個有效日之前 NaN）
 CI = {k: i for i, k in enumerate(ALL)}
 FIRST = {k: int(np.argmax(np.isfinite(P[:, CI[k]]))) for k in ALL}
 T = len(CAL)
@@ -22,8 +22,8 @@ MONTH_END = set(_s.groupby([CAL.year, CAL.month]).last().to_numpy().tolist())
 SIG_FLOOR = 0.05 / math.sqrt(252)
 # 預先算 60 日波動（以 t−1 為止）：vol60[t] = std(RD[t-60..t-1])
 _rd = pd.DataFrame(RD, index=CAL, columns=ALL)
-VOL60 = _rd.rolling(60, min_periods=60).std().shift(1).to_numpy()
-MOM126 = (NAVS / NAVS.shift(126)).shift(1).to_numpy() - 1
+VOL60 = _rd.rolling(60, min_periods=60).std().shift(1).to_numpy().copy()
+MOM126 = (NAVS / NAVS.shift(126)).shift(1).to_numpy().copy() - 1
 
 def pos(d): return int(CAL.searchsorted(pd.Timestamp(d)))
 

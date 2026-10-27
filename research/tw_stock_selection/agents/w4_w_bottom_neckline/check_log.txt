@@ -1,0 +1,31 @@
+--- 抽樣 5 個帶量突破，逐項核對 ---
+3406 L1 2017-12-27 0.7 L2 2018-01-26 0.73 gap 21 L2/L1 1.038 N 0.78 N/L1 1.114 pre 1.58 conf 2018-02-02 trig 2018-03-26 prev<=N True close>N True vol/vma 2.96 pivot1 ok True pivot2 ok True trig>conf True
+2905 L1 2011-02-11 2.14 L2 2011-03-15 2.08 gap 21 L2/L1 0.97 N 2.37 N/L1 1.104 pre 1.25 conf 2011-03-22 trig 2011-04-08 prev<=N True close>N True vol/vma 2.32 pivot1 ok True pivot2 ok True trig>conf True
+2363 L1 2025-11-21 1.08 L2 2025-12-16 1.1 gap 17 L2/L1 1.011 N 1.22 N/L1 1.123 pre 1.36 conf 2025-12-23 trig 2026-01-21 prev<=N True close>N True vol/vma 6.53 pivot1 ok True pivot2 ok True trig>conf True
+2393 L1 2007-04-19 2.32 L2 2007-07-04 2.43 gap 52 L2/L1 1.045 N 2.78 N/L1 1.198 pre 1.22 conf 2007-07-11 trig 2007-07-17 prev<=N True close>N True vol/vma 2.31 pivot1 ok True pivot2 ok True trig>conf True
+6235 L1 2006-02-27 0.59 L2 2006-03-23 0.61 gap 17 L2/L1 1.033 N 0.68 N/L1 1.144 pre 1.25 conf 2006-03-30 trig 2006-04-13 prev<=N True close>N True vol/vma 5.45 pivot1 ok True pivot2 ok True trig>conf True
+--- 前視檢查：所有突破日都在右腳確認日之後 ---
+all trig > confirm: True
+--- 事件層（挑選期） ---
+mean raw 0.94 median raw -3.38 mean log 0.51 sum raw / sum hold (per day %) 0.074
+組合（毛）日均報酬 % -0.002 日波動 1.6
+                  mean  count
+nb                           
+(0.999, 3.0] -0.034467    857
+(3.0, 6.0]   -0.011850    791
+(6.0, 13.0]  -0.079480    866
+(13.0, 58.0]  0.130830    770
+事件加權（以部位數加權）日均 % 0.064
+             raw             hold      
+            mean count       mean count
+why                                    
+stop   -0.067389  1276  11.851881  1276
+target  0.101594  1062  12.221281  1062
+time    0.009782    31  60.000000    31
+top 5 raw
+      code        sig  hold     why       raw
+3546  6226 2026-06-25     3  target  0.426471
+1740  2492 2026-05-07     4  target  0.379310
+3902  6933 2026-08-11    12  target  0.372032
+1627  2471 2010-03-11     6  target  0.323144
+3459  6168 2025-07-25    25  target  0.322767
