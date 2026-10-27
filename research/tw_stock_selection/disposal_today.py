@@ -7,6 +7,8 @@
   - 進場日收盤漲幅 ≥ 9%（接近漲停、多半買不到）不買；出場日收盤跌幅 ≤ −9% 延到第一個非跌停日收盤賣。
   - 空頭開關：加權指數前一日收盤低於 200 日均線時不開新倉（已持有的照常到期賣）。
   - 單筆金額不超過進場日成交值的 5%。
+  - 流動性：前一日 60 日平均成交值 ≥ 1,000 萬、收盤 ≥ 10 元（agents/disposal_v2/：不加這條時 2021～2023 每筆 t 只有 0.33）。
+  - 2026-08-10 起新制：處置期 5 個營業日（當沖加重 7 日）、約 2 分鐘撮合；以公告迄日為準，一定抱到最後一天收盤。
 用法：python3 -I disposal_today.py --data <tw-stock-screener>/data [--date 2026-10-27] [--equity 200000] [--slots 10] [--taiex <taiex_twii.csv>] [--tpex]
 資料為第三方整理，下單前請以證交所「處置有價證券」公告核對：https://www.twse.com.tw/zh/announcement/punish.html
 處置股需預收款券（現金先在帳戶），撮合間隔較長，請先確認券商規定。
@@ -55,6 +57,18 @@ except (OSError, KeyError, ValueError):
     pass
 
 buy = ev[ev['start'] == today]; sell = ev[ev['hold_end'] == today]
+
+# 流動性條件（disposal_v2 事前登記版）：前一日的 60 日平均成交值 ≥ 1,000 萬、收盤 ≥ 10 元
+liq_drop = buy.iloc[0:0]
+if len(buy):
+    h = pd.read_csv(D / 'history.csv.gz', dtype={'code': str}, parse_dates=['date'],
+                    usecols=['date', 'code', 'close', 'volume'])
+    h = h[h['code'].isin(buy['code']) & (h['date'] < today)].sort_values('date')
+    h['value'] = h['close'] * h['volume']
+    g = h.groupby('code')
+    liq = pd.DataFrame({'v60': g['value'].apply(lambda s: s.tail(60).mean()), 'c': g['close'].last()})
+    ok = buy['code'].map((liq['v60'] >= 1e7) & (liq['c'] >= 10)).fillna(False).astype(bool)
+    liq_drop, buy = buy[~ok], buy[ok]
 holding = ev[(ev['start'] < today) & (ev['hold_end'] > today)]
 print(f'日期 {today.date()}（資料最後公告日 {dp["date"].max().date()}）')
 if bear is None:
@@ -74,6 +88,7 @@ else:
     room = max(a.slots - held, 0)
     print(f'\n今天收盤買進（處置第一天，最多 {room} 檔）：{len(buy)} 檔；收盤漲幅 ≥ 9% 的不買' + ('；超過空槽時依公告順序取前幾檔' if len(buy) > room else ''))
     if len(buy): print(buy[cols].to_string(index=False))
+if len(liq_drop): print(f'\n流動性不足（60 日均成交值 < 1,000 萬或收盤 < 10 元），不買：{len(liq_drop)} 檔'); print(liq_drop[cols].to_string(index=False))
 skipped = dp[(dp['start'] == today) & ~dp['take']]
 if len(skipped): print(f'\n再處置（已持有，不另開倉）：{len(skipped)} 檔'); print(skipped[cols].to_string(index=False))
 print(f'\n持有中：{len(holding)} 檔')
