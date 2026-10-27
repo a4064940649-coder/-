@@ -23,3 +23,10 @@
 ## 產出
 - 程式與結果放在 `/home/user/-/research/tw_stock_selection/agents/<你的資料夾>/`：`*.py`、`results.json`、`FINDINGS.md`（繁體中文、條列、關鍵數字、結論：可用／不可用／待觀察）。
 - Python 一律用 `python3 -I` 執行。不要修改其他資料夾的檔案，不要 git commit（主研究員會統一提交）。
+
+## 第 2 輪後補充
+- **面板缺漏：** 2018-01-13（週六）只有 46 檔有值。算 rolling 訊號（52 週高、60 日均量等）前，先把「有值檔數 < 300」的日子剔除再滾動，否則 2018 年大段訊號會變 NaN（作法見 revenue_longhistory/lhlib.py）。
+- **長期月營收：** /home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv（2005-01～2026-09，上市＋上櫃，營收單位千元；2013 起只剩存活公司，2013 年有 IFRS 口徑斷點）。讀法見 revenue_longhistory/lhlib.py。
+- **可成交回測引擎：** exec_rebuild/exlib.py（M2：換股日收盤算訊號、隔日開盤成交、開盤漲停遞補、成本模型）；長歷史版見 momentum_family/mlib.py。新研究優先 import 這些，不要自己重寫成本與成交規則。
+- **處置股正式版事件表：** disposal_reconcile/official_trades_twse.csv、official_trades_tpex.csv。
+- **統計口徑：** 一律報扣成本後的 t（月份分群），挑選期與驗證期分開；不要只報全期或 t_date。
