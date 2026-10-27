@@ -69,8 +69,11 @@ def rolling_signals(mode='strict'):
     if mode not in _RS: _RS[mode] = _rolling_signals(mode)
     return _RS[mode]
 
+_med = pd.Series(NOBS, index=IDX).rolling(21, center=True, min_periods=5).median().to_numpy()
+GOOD2 = NOBS >= 0.97 * _med   # 另外剔除 2017-08-03、2018-07-12（各缺約 50 檔＝後來下市、只存在 Asoul 的股票）
+
 def _rolling_signals(mode):
-    g = np.where(GOOD)[0]
+    g = np.where(GOOD2 if mode == 'strict_fix' else GOOD)[0]
     A = MYADJ.to_numpy()[g]; Vv = V.to_numpy()[g]
     Ad = pd.DataFrame(A); Vd = pd.DataFrame(Vv)
     if mode == 'strict':
