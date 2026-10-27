@@ -1,0 +1,40 @@
+{
+ "note": "本題不改策略參數，迭代只在「補進資料的年增率算法」，且只用重疊期一致率（不看任何報酬）挑選。共 3 版。",
+ "versions": [
+  {
+   "version": "V1_rev_over_lastyear",
+   "n_overlap": 45568,
+   "agree_rate_0.5pp": 0.9815001755617978,
+   "agree_rate_2pp": 0.988720154494382,
+   "coverage_of_overlap": 1.0,
+   "median_abs_diff_pp": 0.0
+  },
+  {
+   "version": "V2_yoy_column",
+   "n_overlap": 45568,
+   "agree_rate_0.5pp": 0.9815221207865169,
+   "agree_rate_2pp": 0.988720154494382,
+   "coverage_of_overlap": 1.0,
+   "median_abs_diff_pp": 0.005123991538197092
+  },
+  {
+   "version": "V3_level_shift12",
+   "n_overlap": 35670,
+   "agree_rate_0.5pp": 0.9941407345107934,
+   "agree_rate_2pp": 0.9947855340622371,
+   "coverage_of_overlap": 0.7827861657303371,
+   "median_abs_diff_pp": 0.0
+  },
+  {
+   "version": "V4_V3_fallback_V1",
+   "n_overlap": 45568,
+   "agree_rate_0.5pp": 0.9896637991573034,
+   "agree_rate_2pp": 0.992406952247191,
+   "coverage_of_overlap": 1.0,
+   "median_abs_diff_pp": 0.0
+  }
+ ],
+ "chosen": "V4_V3_fallback_V1",
+ "rule_v1_superseded": "一致率（≤0.5pp）最高者（會選 V3，但 V3 對 2015 年完全沒有值）",
+ "rule": "先過閘門（一致率 ≥ 98%），再取重疊期覆蓋率最高者；同分取一致率高者。規則在任何回測之前修訂，只看資料品質。"
+}

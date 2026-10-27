@@ -1,0 +1,371 @@
+/home/user/-/research/tw_stock_selection/agents/o_rev_survivorship/build_panel.py:54: RuntimeWarning: divide by zero encountered in divide
+  return pd.Series(np.where(prev > 0, (T['rev'].to_numpy() / prev - 1) * 100, np.nan), index=T.index)
+/home/user/-/research/tw_stock_selection/agents/o_rev_survivorship/build_panel.py:54: RuntimeWarning: invalid value encountered in divide
+  return pd.Series(np.where(prev > 0, (T['rev'].to_numpy() / prev - 1) * 100, np.nan), index=T.index)
+/home/user/-/research/tw_stock_selection/agents/o_rev_survivorship/build_panel.py:54: RuntimeWarning: divide by zero encountered in divide
+  return pd.Series(np.where(prev > 0, (T['rev'].to_numpy() / prev - 1) * 100, np.nan), index=T.index)
+/home/user/-/research/tw_stock_selection/agents/o_rev_survivorship/build_panel.py:54: RuntimeWarning: invalid value encountered in divide
+  return pd.Series(np.where(prev > 0, (T['rev'].to_numpy() / prev - 1) * 100, np.nan), index=T.index)
+/home/user/-/research/tw_stock_selection/agents/o_rev_survivorship/build_panel.py:54: RuntimeWarning: divide by zero encountered in divide
+  return pd.Series(np.where(prev > 0, (T['rev'].to_numpy() / prev - 1) * 100, np.nan), index=T.index)
+/home/user/-/research/tw_stock_selection/agents/o_rev_survivorship/build_panel.py:54: RuntimeWarning: invalid value encountered in divide
+  return pd.Series(np.where(prev > 0, (T['rev'].to_numpy() / prev - 1) * 100, np.nan), index=T.index)
+{
+ "timestamp": "2026-10-27T19:37:00+00:00",
+ "note": "資料在任何回測之前凍結；之後所有回測斷言下列 sha256。",
+ "source_priority": [
+  "A: taiwanan/TW_Stock_Exchange_Crawler monthly_raw_data（git 全歷史、每檔最後存在版）",
+  "其餘來源（MOPS、FinMind API、archive.org、鉅亨／MoneyDJ）在本環境連不到；GitHub 搜尋未找到 2013～2014 或 2019-09 之後含下市公司的月檔"
+ ],
+ "src_taiwanan_sha256": "6eacc673463e3150d37b1a6ad6e9329a51ccae5ecf223f5385e5503062e90211",
+ "outputs": {
+  "R_DEL": {
+   "file": "yoy_long_R_DEL.parquet",
+   "sha256": "3e4b72e454af89cfb38640c5a2c5c146d9b00ff2c24d115e9927d332d6d59a97",
+   "cells_added": 2007
+  },
+  "R_ALL": {
+   "file": "yoy_long_R_ALL.parquet",
+   "sha256": "030f920ca21f28361cd40716776442737f2821bc2664156a22a04483faa2d2df",
+   "cells_added": 5507
+  }
+ },
+ "level_agree_0.5pct": 0.9956312800349497,
+ "level_exact": 0.9954128440366973,
+ "n_level_overlap": 45780,
+ "yoy_iterations": [
+  {
+   "version": "V1_rev_over_lastyear",
+   "n_overlap": 45568,
+   "agree_rate_0.5pp": 0.9815001755617978,
+   "agree_rate_2pp": 0.988720154494382,
+   "coverage_of_overlap": 1.0,
+   "median_abs_diff_pp": 0.0
+  },
+  {
+   "version": "V2_yoy_column",
+   "n_overlap": 45568,
+   "agree_rate_0.5pp": 0.9815221207865169,
+   "agree_rate_2pp": 0.988720154494382,
+   "coverage_of_overlap": 1.0,
+   "median_abs_diff_pp": 0.005123991538197092
+  },
+  {
+   "version": "V3_level_shift12",
+   "n_overlap": 35670,
+   "agree_rate_0.5pp": 0.9941407345107934,
+   "agree_rate_2pp": 0.9947855340622371,
+   "coverage_of_overlap": 0.7827861657303371,
+   "median_abs_diff_pp": 0.0
+  },
+  {
+   "version": "V4_V3_fallback_V1",
+   "n_overlap": 45568,
+   "agree_rate_0.5pp": 0.9896637991573034,
+   "agree_rate_2pp": 0.992406952247191,
+   "coverage_of_overlap": 1.0,
+   "median_abs_diff_pp": 0.0
+  }
+ ],
+ "chosen": "V4_V3_fallback_V1",
+ "yoy_bad_by_year": {
+  "2015": 243,
+  "2016": 27,
+  "2017": 43,
+  "2018": 86,
+  "2019": 72
+ },
+ "n_foreign_codes_in_panel": 114,
+ "coverage": {
+  "domestic_all_2013_2026": {
+   "gap_stockmonths": 1449,
+   "filled": 566,
+   "coverage": 0.39061421670117324,
+   "codes": 52
+  },
+  "domestic_2013_2021_long_era": {
+   "gap_stockmonths": 1333,
+   "filled": 566,
+   "coverage": 0.42460615153788445,
+   "codes": 51
+  },
+  "domestic_2015_04_2019_05": {
+   "gap_stockmonths": 701,
+   "filled": 556,
+   "coverage": 0.7931526390870185,
+   "codes": 37
+  },
+  "domestic_2013_01_2015_03": {
+   "gap_stockmonths": 581,
+   "filled": 0,
+   "coverage": 0.0,
+   "codes": 45
+  },
+  "domestic_2021_plus": {
+   "gap_stockmonths": 116,
+   "filled": 0,
+   "coverage": 0.0,
+   "codes": 7
+  },
+  "foreign_all_2013_2026": {
+   "gap_stockmonths": 2972,
+   "filled": 1327,
+   "coverage": 0.4465006729475101,
+   "codes": 63
+  },
+  "foreign_long_era": {
+   "gap_stockmonths": 2006,
+   "filled": 1327,
+   "coverage": 0.6615154536390827,
+   "codes": 54
+  },
+  "total_all_2013_2026": {
+   "gap_stockmonths": 4421,
+   "filled": 1893,
+   "coverage": 0.42818366885320064,
+   "codes": 115
+  },
+  "by_year": {
+   "2013": {
+    "dom_gap": 257,
+    "dom_filled": 0,
+    "for_gap": 120,
+    "for_filled": 0
+   },
+   "2014": {
+    "dom_gap": 259,
+    "dom_filled": 0,
+    "for_gap": 164,
+    "for_filled": 0
+   },
+   "2015": {
+    "dom_gap": 269,
+    "dom_filled": 127,
+    "for_gap": 248,
+    "for_filled": 195
+   },
+   "2016": {
+    "dom_gap": 202,
+    "dom_filled": 158,
+    "for_gap": 323,
+    "for_filled": 323
+   },
+   "2017": {
+    "dom_gap": 149,
+    "dom_filled": 133,
+    "for_gap": 314,
+    "for_filled": 314
+   },
+   "2018": {
+    "dom_gap": 106,
+    "dom_filled": 98,
+    "for_gap": 282,
+    "for_filled": 280
+   },
+   "2019": {
+    "dom_gap": 60,
+    "dom_filled": 50,
+    "for_gap": 286,
+    "for_filled": 215
+   },
+   "2020": {
+    "dom_gap": 29,
+    "dom_filled": 0,
+    "for_gap": 237,
+    "for_filled": 0
+   },
+   "2021": {
+    "dom_gap": 9,
+    "dom_filled": 0,
+    "for_gap": 159,
+    "for_filled": 0
+   },
+   "2022": {
+    "dom_gap": 25,
+    "dom_filled": 0,
+    "for_gap": 156,
+    "for_filled": 0
+   },
+   "2023": {
+    "dom_gap": 40,
+    "dom_filled": 0,
+    "for_gap": 189,
+    "for_filled": 0
+   },
+   "2024": {
+    "dom_gap": 25,
+    "dom_filled": 0,
+    "for_gap": 152,
+    "for_filled": 0
+   },
+   "2025": {
+    "dom_gap": 19,
+    "dom_filled": 0,
+    "for_gap": 216,
+    "for_filled": 0
+   },
+   "2026": {
+    "dom_gap": 0,
+    "dom_filled": 0,
+    "for_gap": 126,
+    "for_filled": 0
+   }
+  },
+  "unfilled_domestic_top": [
+   [
+    "2809",
+    "京城銀",
+    66
+   ],
+   [
+    "2311",
+    "日月光",
+    49
+   ],
+   [
+    "2325",
+    "矽品",
+    49
+   ],
+   [
+    "3474",
+    "華亞科",
+    43
+   ],
+   [
+    "3454",
+    "晶睿",
+    40
+   ],
+   [
+    "6286",
+    "立錡",
+    37
+   ],
+   [
+    "3598",
+    "奕力",
+    32
+   ],
+   [
+    "6288",
+    "聯嘉",
+    32
+   ],
+   [
+    "1729",
+    "必翔實業",
+    31
+   ],
+   [
+    "6806",
+    "森崴能源",
+    30
+   ],
+   [
+    "3514",
+    "昱晶",
+    24
+   ],
+   [
+    "3519",
+    "綠能",
+    24
+   ],
+   [
+    "1507",
+    "永大",
+    24
+   ],
+   [
+    "2448",
+    "晶電",
+    24
+   ],
+   [
+    "2823",
+    "中壽",
+    24
+   ],
+   [
+    "3561",
+    "昇陽光電",
+    24
+   ],
+   [
+    "3698",
+    "隆達",
+    24
+   ],
+   [
+    "1701",
+    "中化",
+    23
+   ],
+   [
+    "2499",
+    "東貝",
+    22
+   ],
+   [
+    "3061",
+    "璨圓光電",
+    21
+   ],
+   [
+    "2888",
+    "新光金",
+    19
+   ],
+   [
+    "1704",
+    "榮化",
+    18
+   ],
+   [
+    "2833",
+    "台灣人壽",
+    18
+   ],
+   [
+    "2847",
+    "大眾銀行",
+    15
+   ],
+   [
+    "2384",
+    "勝華科技",
+    15
+   ],
+   [
+    "5305",
+    "敦南",
+    13
+   ],
+   [
+    "3697",
+    "",
+    13
+   ],
+   [
+    "3638",
+    "",
+    13
+   ],
+   [
+    "8078",
+    "華寶通訊",
+    13
+   ],
+   [
+    "2358",
+    "廷鑫",
+    11
+   ]
+  ]
+ },
+ "gate": {
+  "coverage_rule": "覆蓋率 ≥ 80%",
+  "consistency_rule": "重疊期一致率 ≥ 98%"
+ }
+}

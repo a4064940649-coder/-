@@ -1,0 +1,178 @@
+{
+ "coverage": [
+  {
+   "source": "BlackBoxOP/tw_stock data/margin/sbl（TWT93U 信用額度總量管制餘額表）",
+   "fields": "融券今日餘額、借券賣出前日餘額／當日賣出／還券／調整／當日餘額、次日限額（股）",
+   "start": "2026-07-30",
+   "end": "2026-10-27",
+   "n_days": 59,
+   "n_listed_codes_in_panel": 1062,
+   "panel_days_missing_in_source": 0,
+   "missing_examples": [],
+   "coverage_of_panel_traded_median": 0.9769,
+   "note": "H3a 的核心欄位（借券賣出餘額）。唯一找到的 GitHub 鏡像，2026-07-30 才開始存檔"
+  },
+  {
+   "source": "BlackBoxOP/tw_stock data/margin（MI_MARGN 融資融券）",
+   "fields": "融資餘額、融券賣出／買進／現券償還／前日餘額／今日餘額（張）",
+   "start": "2024-01-02",
+   "end": "2026-10-27",
+   "n_days": 680,
+   "n_listed_codes_in_panel": 1069,
+   "panel_days_missing_in_source": 0,
+   "missing_examples": [],
+   "coverage_of_panel_traded_median": 0.9823,
+   "note": "P2 對照（融券）。2024-01 起"
+  },
+  {
+   "source": "BlackBoxOP/tw_stock data/institutional（T86 三大法人）",
+   "fields": "外資（不含自營）、外資自營、投信、自營淨買超（股）",
+   "start": "2024-01-02",
+   "end": "2026-10-27",
+   "n_days": 679,
+   "n_listed_codes_in_panel": 1094,
+   "panel_days_missing_in_source": 1,
+   "missing_examples": [
+    "2025-12-22"
+   ],
+   "coverage_of_panel_traded_median": 0.9909,
+   "note": "2024-01 起"
+  },
+  {
+   "source": "本機 extras/inst_5y（T86）",
+   "fields": "外資淨買超（張）",
+   "start": "2021-10-08",
+   "end": "2026-10-07",
+   "n_days": 1213,
+   "n_listed_codes_in_panel": 1110,
+   "panel_days_missing_in_source": 0,
+   "missing_examples": [],
+   "coverage_of_panel_traded_median": 0.9805,
+   "note": "2021-10-08 起；回推外資持股用"
+  },
+  {
+   "source": "voidful/tw-institutional-stocker data/twse_flows.csv（T86）",
+   "fields": "外資／投信／自營淨買超（股）",
+   "start": "2025-09-11",
+   "end": "2026-10-21",
+   "n_days": 275,
+   "n_listed_codes_in_panel": 1128,
+   "panel_days_missing_in_source": 0,
+   "missing_examples": [],
+   "coverage_of_panel_traded_median": 0.9898,
+   "note": "2025-09-11 起"
+  },
+  {
+   "source": "voidful/tw-institutional-stocker data/twse_foreign.csv（MI_QFIIS）",
+   "fields": "發行股數、外資持股股數、外資持股比率",
+   "start": "2025-10-07",
+   "end": "2026-10-21",
+   "n_days": 254,
+   "n_listed_codes_in_panel": 1088,
+   "panel_days_missing_in_source": 0,
+   "missing_examples": [],
+   "coverage_of_panel_traded_median": 1.0,
+   "note": "H3b 的核心欄位（外資持股比率）。2025-10-07 才開始"
+  }
+ ],
+ "agreement": {
+  "inst_5y 外資 vs BlackBoxOP Foreign_Net（2024-01～2026-10-07，上市）": {
+   "n": 685952,
+   "exact_match_rate": 1.0,
+   "foreign_dealer_net_nonzero_rows": 0
+  },
+  "voidful foreign_net vs BlackBoxOP Foreign_Net（2025-09-11～）": {
+   "n": 282140,
+   "exact_match_rate": 0.99267
+  },
+  "BlackBoxOP 融券餘額 vs 本機 margin_hist short_bal（2025-09-24～，張）": {
+   "n": 270964,
+   "exact_match_rate": 1.0,
+   "margin_bal_match_rate": 1.0
+  },
+  "TWT93U 融券今日餘額（股）/1000 vs 本機 margin_hist short_bal（2026-07-30～）": {
+   "n": 61327,
+   "exact_match_rate": 1.0
+  },
+  "TWT93U 內部恆等式（前日＋賣出−還券＋調整＝當日）": {
+   "n": 63141,
+   "rate": 0.99997
+  },
+  "TWT93U 前日餘額＝上一筆當日餘額": {
+   "n": 62068,
+   "rate": 1.0
+  },
+  "MI_QFIIS 發行股數 vs 本機 shares_hist（月）": {
+   "n": 13968,
+   "match_rate_0.1%": 0.79066
+  },
+  "MI_QFIIS 外資持股日變動 vs 外資淨買超（2025-10～2026-10，上市）": {
+   "n": 265701,
+   "exact_rate(±1000股)": 0.3317,
+   "within_0.02%_of_shares_rate": 0.7056,
+   "corr": 0.9155,
+   "note": "兩者差異來自外資自營商以外的帳戶別、ADR 轉換、員工認股、現增／可轉債轉換、借券還券等非交易移轉"
+  }
+ },
+ "backcast_validation": {
+  "2025-10-07": {
+   "n": 1053,
+   "years_back": 1.04,
+   "MAE_pp": 0.888,
+   "p90_abs_err_pp": 2.089,
+   "share_within_1pp": 0.7388,
+   "spearman": 0.9812
+  },
+  "2026-01-12": {
+   "n": 1063,
+   "years_back": 0.77,
+   "MAE_pp": 0.742,
+   "p90_abs_err_pp": 1.843,
+   "share_within_1pp": 0.7658,
+   "spearman": 0.9867
+  },
+  "2026-04-13": {
+   "n": 1073,
+   "years_back": 0.52,
+   "MAE_pp": 0.67,
+   "p90_abs_err_pp": 1.636,
+   "share_within_1pp": 0.8071,
+   "spearman": 0.9894
+  },
+  "2026-07-13": {
+   "n": 1082,
+   "years_back": 0.27,
+   "MAE_pp": 0.469,
+   "p90_abs_err_pp": 1.166,
+   "share_within_1pp": 0.878,
+   "spearman": 0.9941
+  },
+  "delta6m_2025-10-07_to_2026-04-13": {
+   "n": 1053,
+   "MAE_pp": 0.561,
+   "spearman": 0.9099,
+   "sd_true_delta_pp": 3.477
+  }
+ },
+ "search_log": {
+  "reachable": "GitHub（git clone 匿名讀取、MCP code／repo search）。twse.com.tw、openapi.twse.com.tw、FinMind API、Hugging Face、Kaggle、TPEx、MOPS 全部連不上（2026-10-27 實測 curl 回 000／proxy 403）",
+  "candidates_checked": {
+   "ryanovovo/market-data-twse": "只有抓取程式與 schema，沒有存檔資料",
+   "tonystark20-hy/etf_rebalance": "download_margin_history.py 是程式；repo 內只有 ETF 成分股 universe 快照，沒有融券／借券歷史",
+   "Pregaine/stock": "借還券擷取程式（25 個檔），沒有資料",
+   "foxstock/garden": "LENDX／CMTSL 程式與筆記本，沒有資料",
+   "wenchiehlee/python-actions.finmind（本機）": "約 140 檔個股、2021 起，type13 融資融券日檔多數下載失敗；沒有外資持股、沒有借券",
+   "voidful/tw-institutional-stocker（本機）": "MI_QFIIS 外資持股 2025-10-07 起（每日全上市）、T86 2025-09-11 起 → 採用",
+   "BlackBoxOP/tw_stock": "TWT93U 借券賣出餘額 2026-07-30 起；融資融券、三大法人 2024-01 起 → 採用",
+   "twcs-analysis/tw-stock-collector": "lending／margin 只有 2026 年",
+   "Edricklam123/TWSE_ShortQuotaScrape": "盤中借券可用額度即時快照（2022 年幾天），不是歷史餘額",
+   "acronhuang/TW_STOCK、kaigiii/StockHunter_Finmind、AChao0212/clarifindata、anhtuan18602/TWSE、Justin179/twse-stock-fetcher": "抓取程式，沒有存檔",
+   "Yuan-Hsi/SALL_Agency": "TEJ 匯出 2022～2023 個股日資料（含融資融券、無借券、無外資持股比率），僅部分個股",
+   "MingKaiLin666/final-project": "單一標的 2016 起外資持股比率（研究用），不足以做橫斷面",
+   "JokerRW/ETF_python": "FinMind 借券 2019～2022 只有 0050、2618 兩檔",
+   "flagtech/stock-db（本機）": "融券餘額 2013 起，但資料庫放在 Hugging Face（被擋），repo 只有程式；沒有借券、沒有外資持股",
+   "code search": "TWT93U、MI_QFIIS、SBLShortSalesCurrentDayBalance、ForeignInvestmentSharesRatio、借券賣出餘額、外資持股比率等關鍵字共約 1,000 筆結果，全部是程式、文件或單一個股小檔"
+  },
+  "conclusion": "借券賣出餘額（TWT93U）與外資持股比率（MI_QFIIS）都找不到 2015 年以前、甚至 2021 年以前的全市場存檔。H3b 可用「2025-10-07 MI_QFIIS 快照 − 之後的外資淨買超 ÷ 股數」回推到 2021-10-08（inst_5y 起點）；H3a 的借券只有 2026-07-30 起 59 個交易日，無法測試。"
+ }
+}
