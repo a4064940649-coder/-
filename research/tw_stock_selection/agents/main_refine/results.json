@@ -3733,5 +3733,755 @@
   },
   "usable_and_hold_nonneg": [],
   "FINAL": "BASE（原版 n10，無改良通過）"
+ },
+ "DIAG_REV_SOURCE": {
+  "repro_exec_rebuild_main_nav_n10_maxdiff": 0.0,
+  "CAGR_same_engine": {
+   "rev5y": {
+    "2021-03~": 0.5746,
+    "2024-01~": 0.9012
+   },
+   "long": {
+    "2021-03~": 0.5284,
+    "2024-01~": 0.7878
+   },
+   "end": "2026-10-12"
+  },
+  "pick_diff_2024plus": {
+   "n_rebalances": 32,
+   "n_rebalances_with_diff": 10,
+   "n_name_diffs": 36,
+   "sum_contrib_simple": 0.1537,
+   "contrib_by_cause_side": {
+    "營收年增率不同|rev5y_only": 0.038,
+    "被排擠（排名邊界）|long_only": 0.1157
+   },
+   "financial_names_rev5y_only": [
+    "2881",
+    "2883",
+    "2885",
+    "2891"
+   ],
+   "n_rev5y_only_financial": 18,
+   "n_rev5y_only": 18,
+   "rows": [
+    {
+     "signal": "2024-02-15",
+     "code": "2891",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0669,
+     "yoy3_rev5y": 357.78,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0067
+    },
+    {
+     "signal": "2024-02-15",
+     "code": "3017",
+     "side": "long_only",
+     "fwd_ret": 0.0974,
+     "yoy3_rev5y": 44.55,
+     "yoy3_long": 44.56,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": -0.0097
+    },
+    {
+     "signal": "2024-02-15",
+     "code": "2365",
+     "side": "long_only",
+     "fwd_ret": -0.137,
+     "yoy3_rev5y": 43.46,
+     "yoy3_long": 43.47,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0137
+    },
+    {
+     "signal": "2024-02-15",
+     "code": "2881",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0611,
+     "yoy3_rev5y": 130.66,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0061
+    },
+    {
+     "signal": "2024-03-11",
+     "code": "8150",
+     "side": "long_only",
+     "fwd_ret": 0.0327,
+     "yoy3_rev5y": 24.38,
+     "yoy3_long": 24.39,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": -0.0033
+    },
+    {
+     "signal": "2024-03-11",
+     "code": "2883",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0333,
+     "yoy3_rev5y": 533.21,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0033
+    },
+    {
+     "signal": "2024-12-11",
+     "code": "2383",
+     "side": "long_only",
+     "fwd_ret": -0.0104,
+     "yoy3_rev5y": 40.24,
+     "yoy3_long": 40.24,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.001
+    },
+    {
+     "signal": "2024-12-11",
+     "code": "1736",
+     "side": "long_only",
+     "fwd_ret": -0.0791,
+     "yoy3_rev5y": 34.12,
+     "yoy3_long": 34.59,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0079
+    },
+    {
+     "signal": "2024-12-11",
+     "code": "2881",
+     "side": "rev5y_only",
+     "fwd_ret": -0.0207,
+     "yoy3_rev5y": 209.98,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": -0.0021
+    },
+    {
+     "signal": "2024-12-11",
+     "code": "2883",
+     "side": "rev5y_only",
+     "fwd_ret": -0.0778,
+     "yoy3_rev5y": 530.75,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": -0.0078
+    },
+    {
+     "signal": "2025-01-13",
+     "code": "1101",
+     "side": "long_only",
+     "fwd_ret": 0.0327,
+     "yoy3_rev5y": 78.43,
+     "yoy3_long": 78.44,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": -0.0033
+    },
+    {
+     "signal": "2025-01-13",
+     "code": "2881",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0355,
+     "yoy3_rev5y": 304.69,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0036
+    },
+    {
+     "signal": "2025-01-13",
+     "code": "2882",
+     "side": "long_only",
+     "fwd_ret": 0.0636,
+     "yoy3_rev5y": 51.08,
+     "yoy3_long": 50.88,
+     "financial": true,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": -0.0064
+    },
+    {
+     "signal": "2025-01-13",
+     "code": "2883",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0693,
+     "yoy3_rev5y": 288.85,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0069
+    },
+    {
+     "signal": "2025-02-11",
+     "code": "2383",
+     "side": "long_only",
+     "fwd_ret": -0.0847,
+     "yoy3_rev5y": 51.51,
+     "yoy3_long": 51.52,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0085
+    },
+    {
+     "signal": "2025-02-11",
+     "code": "2881",
+     "side": "rev5y_only",
+     "fwd_ret": -0.0375,
+     "yoy3_rev5y": 267.45,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": -0.0038
+    },
+    {
+     "signal": "2025-02-11",
+     "code": "2882",
+     "side": "long_only",
+     "fwd_ret": -0.0379,
+     "yoy3_rev5y": 60.49,
+     "yoy3_long": 60.07,
+     "financial": true,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0038
+    },
+    {
+     "signal": "2025-02-11",
+     "code": "2883",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0394,
+     "yoy3_rev5y": 282.01,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0039
+    },
+    {
+     "signal": "2026-02-11",
+     "code": "2885",
+     "side": "rev5y_only",
+     "fwd_ret": -0.065,
+     "yoy3_rev5y": 54.3,
+     "yoy3_long": 39.48,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": -0.0065
+    },
+    {
+     "signal": "2026-02-11",
+     "code": "2337",
+     "side": "long_only",
+     "fwd_ret": -0.033,
+     "yoy3_rev5y": 40.32,
+     "yoy3_long": 40.32,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0033
+    },
+    {
+     "signal": "2026-05-11",
+     "code": "2345",
+     "side": "long_only",
+     "fwd_ret": -0.1159,
+     "yoy3_rev5y": 60.32,
+     "yoy3_long": 60.33,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0116
+    },
+    {
+     "signal": "2026-05-11",
+     "code": "2885",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0995,
+     "yoy3_rev5y": 149.03,
+     "yoy3_long": 59.14,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0099
+    },
+    {
+     "signal": "2026-06-11",
+     "code": "2347",
+     "side": "long_only",
+     "fwd_ret": -0.081,
+     "yoy3_rev5y": 92.32,
+     "yoy3_long": 92.94,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0081
+    },
+    {
+     "signal": "2026-06-11",
+     "code": "2891",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0327,
+     "yoy3_rev5y": 497.81,
+     "yoy3_long": 46.26,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0033
+    },
+    {
+     "signal": "2026-06-11",
+     "code": "8021",
+     "side": "long_only",
+     "fwd_ret": -0.1645,
+     "yoy3_rev5y": 66.94,
+     "yoy3_long": 66.94,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0164
+    },
+    {
+     "signal": "2026-06-11",
+     "code": "4739",
+     "side": "long_only",
+     "fwd_ret": -0.2607,
+     "yoy3_rev5y": 113.6,
+     "yoy3_long": 113.6,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0261
+    },
+    {
+     "signal": "2026-06-11",
+     "code": "2881",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0339,
+     "yoy3_rev5y": 171.27,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0034
+    },
+    {
+     "signal": "2026-06-11",
+     "code": "2883",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0835,
+     "yoy3_rev5y": 181.92,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0083
+    },
+    {
+     "signal": "2026-07-13",
+     "code": "4916",
+     "side": "long_only",
+     "fwd_ret": -0.0819,
+     "yoy3_rev5y": 78.36,
+     "yoy3_long": 78.36,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0082
+    },
+    {
+     "signal": "2026-07-13",
+     "code": "2891",
+     "side": "rev5y_only",
+     "fwd_ret": -0.0178,
+     "yoy3_rev5y": 481.33,
+     "yoy3_long": 47.93,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": -0.0018
+    },
+    {
+     "signal": "2026-07-13",
+     "code": "6196",
+     "side": "long_only",
+     "fwd_ret": -0.0776,
+     "yoy3_rev5y": 77.4,
+     "yoy3_long": 77.41,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0078
+    },
+    {
+     "signal": "2026-07-13",
+     "code": "2881",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0039,
+     "yoy3_rev5y": 107.05,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0004
+    },
+    {
+     "signal": "2026-07-13",
+     "code": "8046",
+     "side": "long_only",
+     "fwd_ret": -0.093,
+     "yoy3_rev5y": 41.77,
+     "yoy3_long": 41.77,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0093
+    },
+    {
+     "signal": "2026-07-13",
+     "code": "2883",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0299,
+     "yoy3_rev5y": 82.36,
+     "yoy3_long": NaN,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.003
+    },
+    {
+     "signal": "2026-08-11",
+     "code": "2891",
+     "side": "rev5y_only",
+     "fwd_ret": 0.0121,
+     "yoy3_rev5y": 101.67,
+     "yoy3_long": 40.3,
+     "financial": true,
+     "cause": "營收年增率不同",
+     "contrib_to_gap": 0.0012
+    },
+    {
+     "signal": "2026-08-11",
+     "code": "8271",
+     "side": "long_only",
+     "fwd_ret": -0.1271,
+     "yoy3_rev5y": 196.69,
+     "yoy3_long": 196.69,
+     "financial": false,
+     "cause": "被排擠（排名邊界）",
+     "contrib_to_gap": 0.0127
+    }
+   ]
+  },
+  "yoy_mismatch_2021_2026": {
+   "cells_both_present": 65164,
+   "level_equal_share": 1.0,
+   "yoy_diff_gt1pp_cells": 1524,
+   "share": 0.02347,
+   "by_cause": {
+    "去年同月長資料缺": 928,
+    "MOPS 去年同月數字被重編（與當年原申報不同）": 498,
+    "去年同月營收 ≤0（MOPS 用 |去年| 當分母，長資料自算為空）": 68,
+    "其他（四捨五入）": 30
+   },
+   "by_cause_financial": {
+    "MOPS 去年同月數字被重編（與當年原申報不同）": 119,
+    "去年同月營收 ≤0（MOPS 用 |去年| 當分母，長資料自算為空）": 18,
+    "其他（四捨五入）": 2
+   },
+   "restated_by_year": {
+    "2021": 116,
+    "2022": 64,
+    "2023": 66,
+    "2024": 58,
+    "2025": 46,
+    "2026": 148
+   },
+   "restated_top_codes": {
+    "6112": 23,
+    "2347": 17,
+    "2423": 14,
+    "2882": 14,
+    "1101": 12,
+    "1802": 12,
+    "2449": 12,
+    "3015": 12,
+    "3593": 12,
+    "6952": 12,
+    "1342": 11,
+    "2101": 9,
+    "2945": 9,
+    "9938": 9,
+    "2104": 8
+   },
+   "only_in_rev5y": 0,
+   "only_in_long": 0,
+   "only_in_rev5y_codes": {},
+   "only_in_long_codes": {}
+  },
+  "counterfactual_CAGR": {
+   "long（原版）": {
+    "2021-03~": 0.5284,
+    "2024-01~": 0.7878,
+    "2006-04~2013-12": 0.1488,
+    "2014~2020": 0.2133
+   },
+   "rev5y（原版）": {
+    "2021-03~": 0.5746,
+    "2024-01~": 0.9012
+   },
+   "long_MOPSformula": {
+    "2021-03~": 0.5505,
+    "2024-01~": 0.8484,
+    "2006-04~2013-12": 0.1507,
+    "2014~2020": 0.2112,
+    "pick_overlap_with_long_2006_2020": 0.976,
+    "pick_overlap_with_rev5y_2024plus": 0.972
+   },
+   "rev5y_selfcomputed": {
+    "2021-03~": 0.4632,
+    "2024-01~": 0.7878,
+    "pick_overlap_with_rev5y_2024plus": 0.944
+   },
+   "long_exFIN": {
+    "2021-03~": 0.4954,
+    "2024-01~": 0.7312,
+    "2006-04~2013-12": 0.1818,
+    "2014~2020": 0.253,
+    "pick_overlap_with_long_2006_2020": 0.887,
+    "pick_overlap_with_rev5y_2024plus": 0.766
+   },
+   "rev5y_exFIN": {
+    "2021-03~": 0.4947,
+    "2024-01~": 0.7312,
+    "pick_overlap_with_rev5y_2024plus": 0.766
+   },
+   "long_MOPSformula_exFIN": {
+    "2021-03~": 0.4954,
+    "2024-01~": 0.7312,
+    "2006-04~2013-12": 0.1785,
+    "2014~2020": 0.2511,
+    "pick_overlap_with_long_2006_2020": 0.885,
+    "pick_overlap_with_rev5y_2024plus": 0.766
+   }
+  },
+  "rev_hist_check": {
+   "months": "2024-10~2026-09",
+   "revenue_equal_rev5y": [
+    0.99987,
+    22866
+   ],
+   "revenue_equal_long": [
+    0.99987,
+    23680
+   ],
+   "yoy_equal_rev5y": [
+    0.99987,
+    22765
+   ],
+   "ann_date_nonnull_months": [
+    "2026-09"
+   ],
+   "2026-09_ann_date_dist": {
+    "2026-10-06": 122,
+    "2026-10-07": 140,
+    "2026-10-08": 472,
+    "2026-10-09": 3,
+    "2026-10-10": 3,
+    "2026-10-12": 138,
+    "2026-10-13": 44,
+    "2026-10-14": 6,
+    "2026-10-15": 8
+   },
+   "signal_date_2026-10": "2026-10-12",
+   "n_announced_after_signal_in_panel": 58,
+   "top12_at_2026-10-12": {
+    "2305": "2026-10-07",
+    "2347": "2026-10-08",
+    "2466": "2026-10-12",
+    "6834": "2026-10-07",
+    "6213": NaN,
+    "2408": "2026-10-06",
+    "2855": "2026-10-08",
+    "2383": NaN,
+    "3653": "2026-10-07",
+    "1312": "2026-10-08",
+    "2395": "2026-10-07",
+    "2603": "2026-10-08"
+   },
+   "pool_announced_after_signal": [
+    "1402",
+    "1519",
+    "1795",
+    "2105",
+    "2312",
+    "2332",
+    "2371",
+    "2404",
+    "2412",
+    "2880",
+    "2881",
+    "2882",
+    "2883",
+    "2885",
+    "2886",
+    "2887",
+    "2891",
+    "2892",
+    "3033",
+    "3045",
+    "4904",
+    "5880",
+    "9904",
+    "9914"
+   ]
+  },
+  "FHC_ann_date_2026-09": {
+   "2880": "2026-10-14",
+   "2881": "2026-10-15",
+   "2882": "2026-10-15",
+   "2883": "2026-10-15",
+   "2884": "2026-10-15",
+   "2885": "2026-10-15",
+   "2886": "2026-10-14",
+   "2887": "2026-10-14",
+   "2888": null,
+   "2889": "2026-10-08",
+   "2890": "2026-10-08",
+   "2891": "2026-10-15",
+   "2892": "2026-10-14",
+   "5880": "2026-10-14"
+  },
+  "POSTHOC_fin_picks": {
+   "long_2006_2020": {
+    "rebalances": 177,
+    "fin_name_slots": 177,
+    "fhc_name_slots": 149
+   },
+   "long_2021_2026": {
+    "rebalances": 68,
+    "fin_name_slots": 89,
+    "fhc_name_slots": 82
+   },
+   "rev5y_2021_2026": {
+    "rebalances": 66,
+    "fin_name_slots": 109,
+    "fhc_name_slots": 99
+   },
+   "long_2024_2026": {
+    "rebalances": 32,
+    "fin_name_slots": 57,
+    "fhc_name_slots": 53
+   },
+   "rev5y_2024_2026": {
+    "rebalances": 32,
+    "fin_name_slots": 73,
+    "fhc_name_slots": 69
+   }
+  },
+  "POSTHOC_exclude_financials_longdata": {
+   "exFIN_all_financials": {
+    "SEL": {
+     "stats": {
+      "CAGR": 0.1818,
+      "maxDD": -0.6602,
+      "Calmar": 0.275,
+      "vol": 0.2665,
+      "n_months": 93,
+      "t_vs_0050_m": 2.14,
+      "excess_vs_0050_pct_m": 1.103
+     },
+     "paired_vs_BASE": {
+      "diff_pct_m": 0.241,
+      "t_paired_m": 1.78,
+      "n_months": 93,
+      "hit": 0.548,
+      "t_paired_daily": 1.7
+     }
+    },
+    "VAL": {
+     "stats": {
+      "CAGR": 0.253,
+      "maxDD": -0.275,
+      "Calmar": 0.92,
+      "vol": 0.2154,
+      "n_months": 84,
+      "t_vs_0050_m": 1.33,
+      "excess_vs_0050_pct_m": 0.865
+     },
+     "paired_vs_BASE": {
+      "diff_pct_m": 0.293,
+      "t_paired_m": 1.81,
+      "n_months": 84,
+      "hit": 0.536,
+      "t_paired_daily": 1.9
+     }
+    },
+    "HOLD": {
+     "stats": {
+      "CAGR": 0.462,
+      "maxDD": -0.3845,
+      "Calmar": 1.202,
+      "vol": 0.3339,
+      "n_months": 67,
+      "t_vs_0050_m": 1.31,
+      "excess_vs_0050_pct_m": 1.521
+     },
+     "paired_vs_BASE": {
+      "diff_pct_m": -0.155,
+      "t_paired_m": -0.71,
+      "n_months": 67,
+      "hit": 0.463,
+      "t_paired_daily": -0.44
+     }
+    }
+   },
+   "exFHC_financial_holding_only": {
+    "SEL": {
+     "stats": {
+      "CAGR": 0.1552,
+      "maxDD": -0.6553,
+      "Calmar": 0.237,
+      "vol": 0.267,
+      "n_months": 93,
+      "t_vs_0050_m": 1.74,
+      "excess_vs_0050_pct_m": 0.903
+     },
+     "paired_vs_BASE": {
+      "diff_pct_m": 0.04,
+      "t_paired_m": 0.34,
+      "n_months": 93,
+      "hit": 0.505,
+      "t_paired_daily": 0.4
+     }
+    },
+    "VAL": {
+     "stats": {
+      "CAGR": 0.2358,
+      "maxDD": -0.284,
+      "Calmar": 0.83,
+      "vol": 0.2134,
+      "n_months": 84,
+      "t_vs_0050_m": 1.19,
+      "excess_vs_0050_pct_m": 0.744
+     },
+     "paired_vs_BASE": {
+      "diff_pct_m": 0.172,
+      "t_paired_m": 1.17,
+      "n_months": 84,
+      "hit": 0.476,
+      "t_paired_daily": 1.15
+     }
+    },
+    "HOLD": {
+     "stats": {
+      "CAGR": 0.49,
+      "maxDD": -0.3845,
+      "Calmar": 1.274,
+      "vol": 0.3332,
+      "n_months": 67,
+      "t_vs_0050_m": 1.45,
+      "excess_vs_0050_pct_m": 1.704
+     },
+     "paired_vs_BASE": {
+      "diff_pct_m": 0.027,
+      "t_paired_m": 0.13,
+      "n_months": 67,
+      "hit": 0.478,
+      "t_paired_daily": 0.16
+     }
+    }
+   }
+  }
  }
 }
