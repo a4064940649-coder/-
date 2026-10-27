@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""main_picks_today.py（現行，只執行不修改）與 v2（gapfix、正式次排序、跳動點漲停）逐月名單比較。
+"""main_picks_today.py（現行，只執行不修改；第 1 個參數可指定 scratchpad 的 v2 patch 複本、第 2 個參數為輸出檔名）與 v2（gapfix、正式次排序、跳動點漲停）逐月名單比較。
 最近 13 個訊號日（2025-10～2026-10）× n10／n30 × 全市場／--ex-fin。工具的 --held＝v2 前一期持股（讓「已持有不擋漲停」一致）。
 輸出 results_tool_compare.json。"""
 import sys, json, subprocess, time
@@ -8,7 +8,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import numpy as np, pandas as pd
 import v2_core as V
 K = V.K
-TOOL = V.HERE.parents[1] / 'main_picks_today.py'
+TOOL = Path(sys.argv[1]) if len(sys.argv) > 1 else V.HERE.parents[1] / 'main_picks_today.py'
+OUTF = sys.argv[2] if len(sys.argv) > 2 else 'results_tool_compare.json'
 DATA = '/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data'
 T0 = time.time()
 YL, Y5, Y5f = V.load_revenue()
@@ -60,5 +61,5 @@ for univ in ('ALL', 'EXFIN'):
             res[key] = {'v2': vp, 'tool': tp, 'same_set': set(vp) == set(tp), 'only_v2': {c: info(c) for c in only_v2}, 'only_tool': {c: info(c) for c in only_tool if c in K.CI},
                         'tool_skipped_lines': sk, 'v2_strict_codetie_same_as_tool': (set(sp) == set(tp)) if sp else None, 'pool_v2': int(cs['el'].sum())}
             print(f'{time.time() - T0:5.0f}s', key, 'same' if res[key]['same_set'] else f'DIFF v2+{only_v2} tool+{only_tool}', flush=True)
-(V.HERE / 'results_tool_compare.json').write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding='utf-8')
+(V.HERE / OUTF).write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding='utf-8')
 print('done')
