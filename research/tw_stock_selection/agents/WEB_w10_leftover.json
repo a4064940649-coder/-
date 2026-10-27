@@ -1,0 +1,48 @@
+[
+ {
+  "slug": "w3_psy12_cross",
+  "name": "サイコロジカルライン／PSY 心理線 12 日穿越",
+  "category": "technical",
+  "rule": "股池：每月底符合 60 日均成交值 ≥1,000 萬、股價 ≥10 元的上市股。PSY12＝近 12 日中「收盤 > 前日收盤」的天數 ÷12 ×100（平盤不算上漲）。進場（Monex 版）：PSY12 由 ≤25 回升到 >25（即前一日 ≤3 勝、當日 ≥4 勝），收盤算訊號、隔日開盤買進，開盤漲停就不買。出場：PSY12 由 ≥75 跌破到 <75 的隔日開盤賣，或持有滿 20 個交易日，或從進場價跌 10% 停損，取先到。等權、每檔同金額，同時最多 20 檔，訊號超過 20 檔時優先買 60 日報酬最低的。對照組：楽天版（PSY≤25 當天就買、≥75 就賣）、中國 moomoo 版（PSY≤8.33，也就是 12 天裡只漲 1 天以下才買）。另測指數版：用加權指數的 PSY12 擇時 0050。成本：來回 0.5%（壓力 1%）。",
+  "sources": [
+   "https://info.monex.co.jp/technical-analysis/indicators/007.html",
+   "https://www.rakuten-sec.co.jp/web/fop/special/technical_analysis/chart_guide06/",
+   "https://www.oanda.jp/lab-education/technical_analysis/psychological_line/view_rsi/",
+   "https://www.moomoo.com/us/hans/learn/what-is-a-psychological-line",
+   "https://traders.co.jp/column/article/58"
+  ],
+  "popularity": "日本券商（楽天、マネックス、OANDA、トレーダーズ・ウェブ）的技術指標教學一定會收這一項，A 股看盤軟體（通達信、同花順、moomoo）也都內建 PSY，參數 12 日、25/75 各家一致。和已測過的 RSI<30 不同：PSY 只數上漲天數，不看漲跌幅大小，所以是另一種訊號。",
+  "data_ok": true,
+  "data_note": "只需要 close（adj）。12 日 PSY 只有 13 種值，訊號會很多，要報每年訊號數；跨過除權息日時要用 adj 判斷漲跌，避免除息被算成下跌日。"
+ },
+ {
+  "slug": "w3_volume_trough",
+  "name": "地量見地價（120 日地量＋低位，可選放量確認）",
+  "category": "technical",
+  "rule": "股池：流動性池（60 日均成交值 ≥1,000 萬、股價 ≥10 元，用訊號日前一天的值判斷，避免地量把自己排除）。成交量 V＝value/close_raw。地量訊號：V_t ＝ 過去 120 日 V 的最低值（通達信 V=LLV(V,120)），而且 close < 60 日均線（低位條件）。版本 A（直接版）：訊號日收盤算、隔日開盤買，持有 20 個交易日賣出。版本 B（放量確認版，教學建議）：地量後 10 日內第一次出現 V ≥ 5 日均量 ×2 而且當日收紅（close > 前收）時，隔日開盤買進，持有 20 日；停損：收盤 < 地量日收盤 ×0.93。每檔等權，同時最多 20 檔。敏感度：地量窗 60／120／250 日、持有 10／20／60 日。成本來回 0.5%／1%。",
+  "sources": [
+   "https://licai.cofool.com/ask/qa_6520065.html",
+   "https://cs.com.cn/gppd/jp/201808/t20180831_5866541.html",
+   "https://www.thepaper.cn/newsDetail_forward_28393949",
+   "https://www.cnfin.com/stock-xh08/a/20111209/868115.shtml"
+  ],
+  "popularity": "「天量天價、地量地價」是 A 股流傳最廣的量價口訣，中證網、澎湃、新華財經的盤勢評論常常引用，通達信、同花順的選股公式社群有大量 LLV(V,N) 寫法；日本也有「出来高底」的類似說法。研究中心測過帶量突破（量增），但沒測過量縮到極低後的反向訊號。",
+  "data_ok": true,
+  "data_note": "用 value/close_raw 算成交量即可；120 日滾動前要先剔除有值檔數 <300 的日子。停牌或資料缺漏日的成交量可能是 0 或 NaN，要排除，否則會假性觸發地量；source 3 期間的成交值是 5 分 K 加總近似，要另外檢查。"
+ },
+ {
+  "slug": "w3_rsrs_timing",
+  "name": "RSRS 阻力支撐相對強度擇時（光大證券）",
+  "category": "technical",
+  "rule": "標的：用加權指數（taiex_twii.csv 的 high/low）算訊號，交易 0050 含息（2009 前用加權指數報酬加上估計股息，或同池等權代替）。每日用過去 N=18 日的 (low, high) 做 OLS：high = α + β·low，β 就是 RSRS。標準分 z＝(β − 過去 M=600 日 β 的平均) ÷ 過去 600 日 β 的標準差。修正版（光大原報告的右偏修正）：z_adj＝z × R²（同一個 18 日回歸的 R²），另測 z × R² × β。進場：z（或 z_adj）> 0.7，收盤算、隔日開盤買 0050；出場：z < -0.7 隔日開盤賣出、持有現金；介於兩者之間就維持原部位。敏感度：N＝16／18／20，M＝300／600，門檻 ±0.7／±1.0。另加一個常見濾網：只在 20 日均線 > 3 日前 20 日均線時才允許進場。成本來回 0.1%（ETF）／壓力 0.3%。挑選期 2005-01～2019-04、驗證期 2019-05～2026-10（z 需要 600+18 日暖身，所以要用 1999 起的指數資料先暖身）。",
+  "sources": [
+   "https://www.luxalgo.com/library/indicator/JOxeFQeX-rsrs-resistance-support-relative-strength",
+   "https://cn.tradingview.com/scripts/rsrs",
+   "https://tw.tradingview.com/scripts/rsrs",
+   "https://jp.tradingview.com/scripts/rsrs"
+  ],
+  "popularity": "RSRS 出自光大證券金工 2017 年的研究報告，是聚寬、優礦、BigQuant 社群裡被複製最多次的擇時指標之一。TradingView 有中文、繁中、日文、韓文等多個社群腳本，說明都寫「在中國量化交易者中非常流行」；參數 N=18、M=600、±0.7 是各版本的共同預設。",
+  "data_ok": true,
+  "data_note": "加權指數 1999 起有 open/high/low/close，能完整算 RSRS；0050 含息 2009 起有。加權指數是價格指數（不含息），只能用來產生訊號，報酬要用 0050 含息。個股版本不能做，因為面板沒有最低價。"
+ }
+]
