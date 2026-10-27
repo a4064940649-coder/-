@@ -26,13 +26,13 @@ f1 = (FLAG == 1)
 a['flag1_exday_ret0_by_year'] = {int(y): int(v) for y, v in f1.sum(axis=1).groupby(IDX.year).sum().items() if v > 0}
 # 2021-10 起 flag 2（有 exdiv 參考價，報酬正確）的除權息日：真實除權息日報酬分佈
 f2 = (FLAG == 2)
-r2 = RET.where(f2).stack()
+r2 = RET.where(f2).stack().dropna()
 ref2 = (C / (1 + RET)).where(f2)
-gap2 = (O / ref2 - 1).where(f2).stack(); oc2 = (C / O - 1).where(f2).stack()
+gap2 = (O / ref2 - 1).where(f2).stack().dropna(); oc2 = (C / O - 1).where(f2).stack().dropna()
 a['flag2_exday_true_ret'] = {'n': int(len(r2)), 'mean_pct': round(float(r2.mean() * 100), 3), 'median_pct': round(float(r2.median() * 100), 3),
                              'mean_gap_open_vs_ref_pct': round(float(gap2.mean() * 100), 3), 'mean_open_to_close_pct': round(float(oc2.mean() * 100), 3)}
 # flag 1 日當天開盤到收盤（已知部分）
-oc1 = (C / O - 1).where(f1).stack()
+oc1 = (C / O - 1).where(f1).stack().dropna()
 a['flag1_open_to_close'] = {'n': int(len(oc1)), 'mean_pct': round(float(oc1.mean() * 100), 3)}
 # exdiv_5y 與 flag 2 的對應（上市、面板期內）
 ex = pd.read_csv(K.X / 'exdiv_5y.csv.gz', dtype={'code': str}, parse_dates=['date'])
@@ -91,7 +91,7 @@ print('b', {k: v for k, v in b.items() if k != 'picks_with_above_limit_day_in_25
 c_ = {}
 Y5 = K.yoy_from_rev5y(); Y5s = K.yoy_from_rev5y(use_col=False); YL = K.yoy_from_long()
 common = Y5.index.intersection(Y5s.index)
-dd = (Y5.reindex(common) - Y5s.reindex(index=common, columns=Y5.columns)).abs().stack()
+dd = (Y5.reindex(common) - Y5s.reindex(index=common, columns=Y5.columns)).abs().stack().dropna()
 c_['rev5y_yoycol_vs_selfcomputed_within_0.1pp'] = round(float((dd < 0.1).mean()), 4)
 # rev_5y 與長資料同月同碼營收是否相同（確認 ym 都是營收所屬月份，沒有錯位一個月）
 r5 = pd.read_csv(K.X / 'rev_5y.csv.gz', dtype={'code': str}); r5['p'] = pd.PeriodIndex(r5['ym'], freq='M')

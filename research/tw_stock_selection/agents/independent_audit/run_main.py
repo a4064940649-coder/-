@@ -44,6 +44,10 @@ if __name__ == '__main__':
     run('P1_long_lenient', YL, '2005-01-01', '2006-04-01', '2020-12-31', sigmode='lenient')
     run('P1_long_strictfix', YL, '2005-01-01', '2006-04-01', '2020-12-31', sigmode='strict_fix')
     run('P2_rev5y_strictfix', Y5, '2021-01-01', '2021-03-01', '2026-10-31', sigmode='strict_fix')
+    run('P2_rev5y_strictfix2', Y5, '2021-01-01', '2021-03-01', '2026-10-31', sigmode='strict_fix2', slips=(0.001, 0.003, 'stress'))
+    run('P2_long_strictfix2', YL, '2021-01-01', '2021-03-01', '2026-10-31', sigmode='strict_fix2')
+    for nm, Y, st, md in (('V24_rev5y_strict', Y5, '2021-01-01', 'strict'), ('V24_rev5y_strictfix2', Y5, '2021-01-01', 'strict_fix2'), ('V24_rev5y_lenient', Y5, '2021-01-01', 'lenient')):
+        run(nm, Y, st, '2024-01-01', '2026-10-31', sigmode=md)
     run('P1_long_noblock', YL, '2005-01-01', '2006-04-01', '2020-12-31', block=False)
     run('P1_long_w52only', YL, '2005-01-01', '2006-04-01', '2020-12-31', w52=1.0)
     run('P1_long_revonly', YL, '2005-01-01', '2006-04-01', '2020-12-31', w52=0.0)

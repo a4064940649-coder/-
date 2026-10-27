@@ -72,11 +72,20 @@ def rolling_signals(mode='strict'):
 _med = pd.Series(NOBS, index=IDX).rolling(21, center=True, min_periods=5).median().to_numpy()
 GOOD2 = NOBS >= 0.97 * _med   # 另外剔除 2017-08-03、2018-07-12（各缺約 50 檔＝後來下市、只存在 Asoul 的股票）
 
+GOOD3 = GOOD2 & ~((IDX >= pd.Timestamp('2024-02-15')) & (IDX <= pd.Timestamp('2024-03-15')))   # 再剔除 98 檔缺值的 src 3 缺口月
+
 def _rolling_signals(mode):
-    g = np.where(GOOD2 if mode == 'strict_fix' else GOOD)[0]
+    g = np.where(GOOD2 if mode in ('strict_fix', 'strict_fix2') else GOOD)[0]
     A = MYADJ.to_numpy()[g]; Vv = V.to_numpy()[g]
     Ad = pd.DataFrame(A); Vd = pd.DataFrame(Vv)
-    if mode == 'strict':
+    if mode == 'strict_fix2':
+        # 窗內缺值只容許落在 2024-02-15～03-15（src 3 缺 98 檔的那個月）；其他缺值仍照 strict 排除
+        exc = pd.Series(((IDX[g] >= pd.Timestamp('2024-02-15')) & (IDX[g] <= pd.Timestamp('2024-03-15'))).astype(float))
+        e252 = exc.rolling(252, min_periods=1).sum().to_numpy()[:, None]; e60 = exc.rolling(60, min_periods=1).sum().to_numpy()[:, None]
+        c252 = Ad.notna().rolling(252, min_periods=252).sum().to_numpy(); c60 = Vd.notna().rolling(60, min_periods=60).sum().to_numpy()
+        hi = np.where(c252 >= 252 - e252, Ad.rolling(252, min_periods=1).max().to_numpy(), np.nan)
+        v60 = np.where(c60 >= 60 - e60, Vd.rolling(60, min_periods=1).mean().to_numpy(), np.nan)
+    elif mode in ('strict', 'strict_fix'):
         hi = Ad.rolling(252, min_periods=252).max().to_numpy()
         v60 = Vd.rolling(60, min_periods=60).mean().to_numpy()
     else:
