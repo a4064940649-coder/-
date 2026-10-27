@@ -1,0 +1,44 @@
+# 不可信資料：WebSearch 工具回傳的搜尋摘要（2026-10-27 擷取）。curl 與 WebFetch 在本環境被代理拒絕／DNS 失敗（twse.com.tw、udn、chinatimes、cw、yahoo 皆 ENOTFOUND 或 403），因此只存搜尋引擎摘要與 URL。
+# 以下為各查詢的 URL 清單與摘要要點（摘錄，非原文全文）
+
+[Q1] 證交所 處置股 處置期間 縮短 5個營業日 2026
+- https://www.chinatimes.com/newspapers/20260804000529-260120 （中國時報 2026-08-04「處置股關禁閉 縮短為5天」）：5 日適用第一次與第二次（含）以上處置
+- https://money.udn.com/money/story/5607/9668144 （經濟日報 2026-08-03）：同時因當沖占比過高者 12→7 個營業日
+- https://wantrich.chinatimes.com/news/20260803900473-420101 （旺得富 2026-08-03）：撮合由約每 5 或 20 分鐘改為約每 2 分鐘
+- https://tw.stock.yahoo.com/news/...-095011812.html （Yahoo 2026-08-03）：8/10 仍在處置中、已滿新天數者當日解除，未滿者執行至滿 5／7 日
+- https://www.storm.mg/article/11153671 （風傳媒）：高價股注意標準放寬；每半年檢討
+- https://finance.technews.tw/2026/08/03/major-relaxation-of-terms/ ；https://www.cw.com.tw/article/5142337 ；https://www.stockwarden.com/dispositions
+
+[Q2] 舊制撮合與預收款券
+- https://www.esunsec.com.tw/article/post/63 ；https://www.pocket.tw/school/articles/4201/ ；https://uptogo.com.tw/?p=1796570
+- 摘要：舊制 第一次處置約每 5 分鐘撮合；30 個營業日內再次處置（第二次）約每 20 分鐘撮合；第一次處置 單筆 10 張或當日多筆累積 30 張以上須預收款券；第二次 全部委託預收款券。
+
+[Q3] 證交所官方（twse.com.tw 網域）
+- https://www.twse.com.tw/downloads/zh/about/company/dispositionlist.pdf （8/10 實施處置新制之有價證券處置期間及撮合時間對照表；例：南電 8046 8/7 前 5 分鐘、8/10～8/11 2 分鐘）
+- https://wwwc.twse.com.tw/staticFiles/news/news/tsecnews/8a8216d69f96ff79019fc6ffc68a00c3.pdf （TWSE 英文新聞稿 2026/8/3：effective August 10, 2026；first and second (or subsequent) dispositions 10 (or 12) → 5 (or 7) business days；matching approx every 5 or 20 minutes → every 2 minutes）
+- 兩個官方 URL 以 WebFetch 讀取失敗（ENOTFOUND），內容來自搜尋引擎摘要。
+
+[Q4] 預收款券是否調整
+- https://udn.com/news/story/7251/9668143 ；https://www.ctee.com.tw/news/20260809700013-430201 （工商時報 2026-08-09：證交所回應為何不熔斷、保留預收款）
+- https://funweb.concords.com.tw/articles/detail/4c52d67c-9f5e-44ce-a95c-558ec326d103 （康和證券：預收款券安全控管機制維持不變）
+- https://www.alphalab.site/taiwan-disposition-stock ；https://www.stockwarden.com/disposition-new-rules ；https://www.setn.com/news/1883246
+- 摘要：預收款券保留；第一次 單筆 10 張或當日累計 30 張須預收；第二次以上全部預收。
+
+[Q5] 櫃買同步
+- https://uanalyze.com.tw/articles/6178152718 （與證交所同步 櫃買 8/10 起）；https://uanalyze.com.tw/articles/1198452710 （旭然 4556 8/10 提前出關）
+- https://ec.ltn.com.tw/article/breakingnews/5527299 （自由時報：上市櫃處置股票將縮至 5 日、每 2 分鐘撮合 8/10 實施）
+
+[Q6] 注意股門檻（高價股、台積電條款）
+- https://money.udn.com/money/story/5607/9668257 ；https://newtalk.tw/news/view/2026-08-04/1051160 ；https://news.cnyes.com/news/id/6557274
+- https://www.ctee.com.tw/news/20260226700040-430201 （2026-02-26 提案階段）；https://finance.technews.tw/2026/08/09/twse-disposition-stock-reform-considerations
+- 摘要：第 11 款「6 個營業日收盤價起迄價差」：原 股價 500 元以上、價差 100 元 → 新 收盤價逾 1,000 元且價差 ≥300 元；2,000 元以上每增 1,000 元門檻加 150 元。其他注意款（連續 3 日、10 日 6 日、30 日 12 日等處置基數）未見報導提及修改。
+
+[Q7] 2024～2025 修正
+- 搜尋未找到 2024、2025 年處置期間或撮合間隔的修正報導；多篇稱 2026-08 為「30 年來首次放寬」。
+- 法規頁：https://twse-regulation.twse.com.tw/TW/law/DAT0201.aspx?FLCODE=FL007225 （作業要點）；https://www.rootlaw.com.tw/LawArticle.aspx?LawID=A040390051048300-1131231 （證交所版，標示 113-12-31）；https://www.rootlaw.com.tw/LawArticle.aspx?LawID=A040390051029300-1140711 （櫃買版 114-07-11）
+- 2014 修正（金管會證券暨期貨月刊 103-11）：第一次處置期間 5→10 個營業日：https://www.fsc.gov.tw/fckdowndoc?file=%2FP6-12%E5%BC%B7%E5%8C%96%E6%9C%89%E5%83%B9%E8%AD%89%E5%88%B8%E7%9B%A3%E8%A6%96%E9%A0%90%E8%AD%A6%E5%88%B6%E5%BA%A6.pdf&flag=doc
+
+[Q8] 公告查詢
+- https://uanalyze.com.tw/articles/7878953859 ；https://money.udn.com/money/story/5607/9707747 （證交所「公布注意暨處置專區」上線，含處置股票候選名單）
+- https://newtalk.tw/news/view/2026-09-24/1061759 （2026-09-24：17 檔處置股 2 分鐘撮合、10 張限單、全額預收）
+- https://www.stockwarden.com/faq ；https://www.stockwarden.com/margin-deposit-guide （零股與預收，單一來源）
