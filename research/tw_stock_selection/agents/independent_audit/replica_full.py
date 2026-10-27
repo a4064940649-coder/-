@@ -2,6 +2,8 @@
 """診斷：依 exlib.py 原始碼語意（pandas 寫法）在本檔重寫 M2 選股，與 ia_core 逐期比對持股。不 import exlib。"""
 import sys; from pathlib import Path; sys.path.insert(0, str(Path(__file__).resolve().parent))
 import numpy as np, pandas as pd, ia_core as K
+if len(sys.argv) > 2 and sys.argv[2] == 'old':
+    K.V = pd.read_parquet(K.P / 'value_orig_dupbug.parquet'); K._RS.clear()
 n = int(sys.argv[1]) if len(sys.argv) > 1 else 30
 X = K.X; COLS = K.COLS; IDX = K.IDX
 rev = pd.read_csv(X / 'rev_5y.csv.gz', dtype={'code': str}); rev = rev[rev['code'].isin(COLS)]; rev['p'] = pd.PeriodIndex(rev['ym'], freq='M')
@@ -70,3 +72,6 @@ ex = pd.read_parquet(K.HERE.parent / 'exec_rebuild/main_nav.parquet')[f'M2_n{n}_
 o = K.stats(nav, '2021-03-01', '2026-10-31', dates, K.E50)
 print('my engine on their picks: CAGR', round(o['CAGR'] * 100, 2), 't0050', round(o['t_0050'], 2), 'end nav', nav.iloc[-1], 'exlib end nav', ex.iloc[-1],
       'max daily ret diff', float((nav.pct_change() - ex.reindex(nav.index).pct_change()).abs().max()))
+q = (nav.pct_change() - ex.reindex(nav.index).pct_change())
+big = q[q.abs() > 0.001]
+print('days with daily diff > 0.1%:', len(big)); print(big.groupby(big.index.to_period('M')).agg(['count', 'sum']).round(4).to_string())
