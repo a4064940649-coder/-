@@ -1,0 +1,320 @@
+{
+ "source": "https://github.com/NiklavsD/bottleneck-signals (data/processed/tw_revenue.csv, commit ae3126d)",
+ "rows": 398396,
+ "months": [
+  "2005-01",
+  "2026-09"
+ ],
+ "rows_by_market": {
+  "sii": 219732,
+  "otc": 178664
+ },
+ "vs_rev5y": {
+  "rev5y_rows": 123613,
+  "found_in_long": 123588,
+  "found_rate": 0.9998,
+  "revenue_exact_rate(<0.01%)": 0.9961,
+  "revenue_within_1pct": 0.9962,
+  "yoy_rows_both": 120771,
+  "yoy_within_0.1pp": 0.9638,
+  "yoy_within_1pp": 0.9924,
+  "by_market_of_long": {
+   "sii": 66432,
+   "otc": 57156
+  },
+  "missing_examples": {
+   "6604": 11,
+   "7812": 10,
+   "7856": 4
+  },
+  "mismatch_codes_top": {
+   "3555": 1
+  },
+  "missing_codes_KY_share": 0.0,
+  "missing_codes_n": 3
+ },
+ "coverage_by_year": {
+  "2005": {
+   "sii_codes": 701,
+   "panel_traded_common": 703,
+   "panel_with_rev_any_market": 679,
+   "panel_cov_rate": 0.966
+  },
+  "2006": {
+   "sii_codes": 716,
+   "panel_traded_common": 695,
+   "panel_with_rev_any_market": 679,
+   "panel_cov_rate": 0.977
+  },
+  "2007": {
+   "sii_codes": 724,
+   "panel_traded_common": 701,
+   "panel_with_rev_any_market": 680,
+   "panel_cov_rate": 0.97
+  },
+  "2008": {
+   "sii_codes": 744,
+   "panel_traded_common": 705,
+   "panel_with_rev_any_market": 691,
+   "panel_cov_rate": 0.98
+  },
+  "2009": {
+   "sii_codes": 786,
+   "panel_traded_common": 712,
+   "panel_with_rev_any_market": 701,
+   "panel_cov_rate": 0.985
+  },
+  "2010": {
+   "sii_codes": 779,
+   "panel_traded_common": 777,
+   "panel_with_rev_any_market": 741,
+   "panel_cov_rate": 0.954
+  },
+  "2011": {
+   "sii_codes": 839,
+   "panel_traded_common": 803,
+   "panel_with_rev_any_market": 767,
+   "panel_cov_rate": 0.955
+  },
+  "2012": {
+   "sii_codes": 838,
+   "panel_traded_common": 819,
+   "panel_with_rev_any_market": 775,
+   "panel_cov_rate": 0.946
+  },
+  "2013": {
+   "sii_codes": 812,
+   "panel_traded_common": 848,
+   "panel_with_rev_any_market": 745,
+   "panel_cov_rate": 0.879
+  },
+  "2014": {
+   "sii_codes": 832,
+   "panel_traded_common": 865,
+   "panel_with_rev_any_market": 759,
+   "panel_cov_rate": 0.877
+  },
+  "2015": {
+   "sii_codes": 849,
+   "panel_traded_common": 882,
+   "panel_with_rev_any_market": 773,
+   "panel_cov_rate": 0.876
+  },
+  "2016": {
+   "sii_codes": 860,
+   "panel_traded_common": 905,
+   "panel_with_rev_any_market": 789,
+   "panel_cov_rate": 0.872
+  },
+  "2017": {
+   "sii_codes": 874,
+   "panel_traded_common": 920,
+   "panel_with_rev_any_market": 800,
+   "panel_cov_rate": 0.87
+  },
+  "2018": {
+   "sii_codes": 888,
+   "panel_traded_common": 943,
+   "panel_with_rev_any_market": 823,
+   "panel_cov_rate": 0.873
+  },
+  "2019": {
+   "sii_codes": 900,
+   "panel_traded_common": 956,
+   "panel_with_rev_any_market": 842,
+   "panel_cov_rate": 0.881
+  },
+  "2020": {
+   "sii_codes": 913,
+   "panel_traded_common": 926,
+   "panel_with_rev_any_market": 848,
+   "panel_cov_rate": 0.916
+  },
+  "2021": {
+   "sii_codes": 926,
+   "panel_traded_common": 945,
+   "panel_with_rev_any_market": 863,
+   "panel_cov_rate": 0.913
+  },
+  "2022": {
+   "sii_codes": 952,
+   "panel_traded_common": 969,
+   "panel_with_rev_any_market": 884,
+   "panel_cov_rate": 0.912
+  },
+  "2023": {
+   "sii_codes": 969,
+   "panel_traded_common": 997,
+   "panel_with_rev_any_market": 909,
+   "panel_cov_rate": 0.912
+  },
+  "2024": {
+   "sii_codes": 985,
+   "panel_traded_common": 997,
+   "panel_with_rev_any_market": 909,
+   "panel_cov_rate": 0.912
+  },
+  "2025": {
+   "sii_codes": 992,
+   "panel_traded_common": 1069,
+   "panel_with_rev_any_market": 970,
+   "panel_cov_rate": 0.907
+  },
+  "2026": {
+   "sii_codes": 994,
+   "panel_traded_common": 1088,
+   "panel_with_rev_any_market": 989,
+   "panel_cov_rate": 0.909
+  }
+ },
+ "delisted": {
+  "sii_codes_total": 1124,
+  "sii_codes_not_in_current_list": 127,
+  "by_last_year": {
+   "2005": 15,
+   "2006": 22,
+   "2007": 6,
+   "2008": 3,
+   "2009": 22,
+   "2011": 6,
+   "2012": 53
+  },
+  "examples": [
+   "1107",
+   "1207",
+   "1311",
+   "1408",
+   "1469",
+   "1507",
+   "1520",
+   "1523",
+   "1601",
+   "1606",
+   "1613",
+   "1701",
+   "1704",
+   "1715",
+   "1716",
+   "1724",
+   "1729",
+   "1807",
+   "1902",
+   "2311"
+  ],
+  "not_in_current_list_but_in_panel": 114
+ },
+ "announce": "tw_revenue.csv 沒有公告日欄位；彙總頁為次月 10 日法定期限後的全體公告。回測只在 ≥ 11 日的第一個交易日使用上月營收。",
+ "yoy_cross_section_by_year": {
+  "2006": {
+   "median_yoy": 5.1,
+   "share_abs_gt_100": 0.032,
+   "n": 25200
+  },
+  "2007": {
+   "median_yoy": 6.9,
+   "share_abs_gt_100": 0.031,
+   "n": 25200
+  },
+  "2008": {
+   "median_yoy": -2.3,
+   "share_abs_gt_100": 0.026,
+   "n": 25200
+  },
+  "2009": {
+   "median_yoy": -12.6,
+   "share_abs_gt_100": 0.033,
+   "n": 25200
+  },
+  "2010": {
+   "median_yoy": 18.6,
+   "share_abs_gt_100": 0.069,
+   "n": 25200
+  },
+  "2011": {
+   "median_yoy": -0.2,
+   "share_abs_gt_100": 0.031,
+   "n": 25200
+  },
+  "2012": {
+   "median_yoy": -1.9,
+   "share_abs_gt_100": 0.032,
+   "n": 25200
+  },
+  "2013": {
+   "median_yoy": 25.2,
+   "share_abs_gt_100": 0.139,
+   "n": 25200
+  },
+  "2014": {
+   "median_yoy": 4.7,
+   "share_abs_gt_100": 0.03,
+   "n": 25200
+  },
+  "2015": {
+   "median_yoy": -2.9,
+   "share_abs_gt_100": 0.027,
+   "n": 25200
+  },
+  "2016": {
+   "median_yoy": 0.4,
+   "share_abs_gt_100": 0.029,
+   "n": 25200
+  },
+  "2017": {
+   "median_yoy": 3.2,
+   "share_abs_gt_100": 0.035,
+   "n": 25200
+  },
+  "2018": {
+   "median_yoy": 4.4,
+   "share_abs_gt_100": 0.035,
+   "n": 25200
+  },
+  "2019": {
+   "median_yoy": -1.2,
+   "share_abs_gt_100": 0.028,
+   "n": 25200
+  },
+  "2020": {
+   "median_yoy": -0.2,
+   "share_abs_gt_100": 0.039,
+   "n": 25200
+  },
+  "2021": {
+   "median_yoy": 16.0,
+   "share_abs_gt_100": 0.068,
+   "n": 25200
+  },
+  "2022": {
+   "median_yoy": 3.8,
+   "share_abs_gt_100": 0.045,
+   "n": 25200
+  },
+  "2023": {
+   "median_yoy": -5.1,
+   "share_abs_gt_100": 0.042,
+   "n": 25200
+  },
+  "2024": {
+   "median_yoy": 5.6,
+   "share_abs_gt_100": 0.048,
+   "n": 25200
+  },
+  "2025": {
+   "median_yoy": 2.5,
+   "share_abs_gt_100": 0.046,
+   "n": 25200
+  },
+  "2026": {
+   "median_yoy": 10.2,
+   "share_abs_gt_100": 0.067,
+   "n": 18900
+  }
+ },
+ "ifrs_break": {
+  "ratio_2013-01_over_2012-01_p90": 4.32,
+  "p99": 113.45,
+  "ratio_2012-01_over_2011-01_p90": 1.28,
+  "p99_prev": 6.51
+ }
+}
