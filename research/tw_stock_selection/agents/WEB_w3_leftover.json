@@ -1,0 +1,296 @@
+[
+ {
+  "slug": "w3_frog_in_pan_momentum",
+  "name": "溫水煮青蛙動能（FIP／資訊離散度 ID 篩選的 12-1 動能）",
+  "category": "technical",
+  "rule": "股池：上市流動股。每月最後交易日，取 t−252 到 t−21 的日報酬（跳過最近一個月）：PRET = 該期間累積報酬（adj）；%pos 與 %neg 為該期間日報酬大於 0 與小於 0 的天數比例；ID = sign(PRET) × (%neg − %pos)。ID 越低代表報酬越是由許多小幅連續上漲累積而成。主版本（Alpha Architect 量化動能）：先取 PRET 前 20% 的股票，再從中取 ID 最低的一半（約 10%），等權，隔月開盤成交。持有 3 個月，季換股（3 批重疊，每批 1/3）。預先登記的變體：(a) 月換股、持有 1 個月；(b) 兩段式改成 PRET 前 10% 加 ID 低半；(c) 對照組：PRET 前 20% 中 ID 高的一半（離散資訊型），預期較差；(d) 只在加權指數高於 200 日均線時持有（Galvani 2024：FIP 只在多頭有效）。成本 0.5%／1%。挑選期 2005-01～2019-04，驗證期 2019-05～2026-10。與已測的 12-1 動能家族不同：多了資訊離散度篩選，只留平滑上漲的贏家。",
+  "sources": [
+   "https://www3.nd.edu/~zda/Frog.pdf",
+   "https://alphaarchitect.com/2015/11/frog-in-the-pan-identifying-the-highest-quality-momentum-stocks/",
+   "https://alphaarchitect.com/momentum-determinants/",
+   "https://www.interactivebrokers.com/campus/ibkr-quant-news/frog-in-the-pan-momentum-international-evidence/",
+   "https://ideas.repec.org/a/eee/finlet/v63y2024ics1544612324004045.html",
+   "https://anderson-review.ucla.edu/a-solution-to-the-debate-over-momentums-cause/"
+  ],
+  "popularity": "Da-Gurun-Warachka（2014，RFS）：連續資訊股的動能 5.94%，離散資訊股 −2.07%。Alpha Architect 把它做成 QMOM ETF 的核心篩選，並在部落格與書（Quantitative Momentum）中反覆推薦。Goyal-Jegadeesh-Subrahmanyam（Review of Finance）在新興市場與非美已開發市場找到支持 FIP 的國際證據，IBKR Quant 也有轉載。Galvani（2024）指出只在多頭市場有效。台灣傳統動能偏弱（政大論文），值得測 FIP 篩選能不能救回來。",
+  "data_ok": true,
+  "data_note": "只要 adj 就能算。漲跌停會讓報酬天數的符號分布失真，要剔除 flag 3/4/5 日。和已測的「動能家族」直接比較時，用相同股池與成本（momentum_family/mlib.py）。"
+ },
+ {
+  "slug": "w3_bollinger_squeeze",
+  "name": "布林通道壓縮（Bollinger Squeeze：BandWidth 6 個月新低後突破）",
+  "category": "technical",
+  "rule": "股池：上市流動股。布林通道：20 日收盤均線 MB、上軌 UB = MB + 2σ20、下軌 LB = MB − 2σ20（σ 用收盤 adj）。BandWidth = (UB − LB) / MB。壓縮條件：BandWidth 是過去 125 個交易日（約 6 個月，Bollinger 原始準則）的最低值。進場：壓縮成立後 10 個交易日內，第一次出現收盤 > UB，且當日成交量 > 20 日均量 × 1.5（教學常加的量能確認），就隔日開盤買；開盤漲停視為買不到。出場：收盤跌破 MB（20 日均線）後隔日開盤賣；另設時間停損 40 個交易日。預先登記的變體：(a) 不要求量能；(b) 壓縮改為 BandWidth 位於 250 日的最低 5% 分位；(c) TTM Squeeze 近似：布林通道完全落在 Keltner 通道（20 日 EMA ± 1.5 × ATR20）之內，再突破。因為沒有最低價，ATR 改用 |close_t − close_{t−1}| 與 (high_t − close_{t−1}) 的較大者的 20 日平均近似；(d) Bollinger 提醒的「假突破」：壓縮後先跌破 LB 再收回 MB 才買。成本 0.5%／1%。挑選期 2005-01～2019-04，驗證期 2019-05～2026-10。與已測的「布林上軌突破」不同：只在波動壓縮到 6 個月最低之後的突破才算，訊號頻率低很多。",
+  "sources": [
+   "https://www.luxalgo.com/library/concept/bollinger-squeeze/",
+   "https://www.luxalgo.com/library/concept/bandwidth/",
+   "https://sentimentrader.com/education/technical-indicators/bollinger-bandwidth",
+   "https://daytradingtoolkit.com/strategies/bollinger-band-squeeze-strategy",
+   "https://questdb.com/docs/cookbook/sql/finance/bollinger-bandwidth/",
+   "https://www.luxalgo.com/library/indicator/HcbazIig-bollinger-bands-w-squeeze-alert/"
+  ],
+  "popularity": "John Bollinger 在《Bollinger on Bollinger Bands》中把 Squeeze 列為核心用法，StockCharts、TradingView（TTM Squeeze 是最多人用的社群指標之一）、LuxAlgo 等平台都有內建。台股教學常用的說法是「布林通道收斂後帶量突破」。學術驗證幾乎沒有，Sentimentrader 只有單一個股的回測，需要自行驗證。",
+  "data_ok": true,
+  "data_note": "主版本只用收盤與成交值就能做。TTM（Keltner／ATR）版本需要最低價，面板沒有，只能用 close 與 high 近似真實區間，結果要標註是近似。src=3 期間的收盤是 13:20 近似值，會影響突破判定。"
+ },
+ {
+  "slug": "w3_idio_vol",
+  "name": "特質波動率（AHXZ IVOL，台灣文獻方向相反，雙向測）",
+  "category": "technical",
+  "rule": "股池：上市流動股。每月最後交易日，取最近 21 個交易日的日報酬，對同池等權市場日報酬回歸（市場模型。沒有 Fama-French 規模與淨值比因子，用 CAPM 殘差近似；另做一版加入「同產業等權報酬」當第二因子），IVOL = 殘差標準差。分 5 組，隔月開盤成交，持有 1 個月，月換股。同時報：(A) AHXZ 方向，買最低 IVOL 組；(B) 台灣文獻方向（政大論文發現台股 IVOL 與下月報酬正相關），買最高 IVOL 組；(C) 最高減最低的價差。預先登記的變體：(a) 回看 63 日；(b) 剔除當月 MAX 前 10% 的股票，避免和已測的 MAX 效應重疊；(c) 在 60 日總波動率五分組內再依 IVOL 排序，確認不只是已測的低波動因子。成本 0.5%／1%。挑選期 2005-01～2019-04，驗證期 2019-05～2026-10。與已測的「低波動」「MAX 效應」不同：用的是去除市場（與產業）共同成分後的殘差波動，而且研究重點是台灣與美國方向相反。",
+  "sources": [
+   "https://www.nber.org/system/files/working_papers/w13739/w13739.pdf",
+   "https://businessperspectives.org/images/pdf/applications/publishing/templates/article/assets/4901/imfi_en_2012_04_Wang.pdf",
+   "https://thesis.lib.nccu.edu.tw/detail/57102db1a375b7c4b7f2bd8d1dca5f25/",
+   "https://thesis.eur.nl/pub/70215/Final_Complete_Version_Master_Thesis_Brian_de_Bruijn_545277.pdf",
+   "https://academicnewsletter.sufe.edu.cn/info/357231"
+  ],
+  "popularity": "Ang-Hodrick-Xing-Zhang（2006 JF、2009 JFE，23 個已開發市場極端組月差 −1.31%）是最常被引用的異常之一，Robeco、AQR 的低風險研究都以它為基礎。台灣的證據：Wang（2012）發現 IVOL 在低報酬狀態為負、高報酬狀態為正；政大論文用 1981～2021 年 TWSE 全體股票，發現 IVOL 與 MAX 和下月報酬正相關，和美國相反。鹿特丹伊拉斯謨大學的論文指出新興市場與已開發市場的表現不同。",
+  "data_ok": true,
+  "data_note": "只要 ret 就能算。沒有市值與淨值比因子，無法做 FF3 殘差（pe_5y 只有 2021 起），只能用市場模型加產業因子近似。IVOL 與已測的低波動、MAX 相關性高，必須報 (b)(c) 的控制結果，才能說明有沒有新資訊。"
+ },
+ {
+  "slug": "w3_connors_rsi2_sma5",
+  "name": "Connors RSI(2) 均值回歸（200 日均線濾網＋收盤站上 5 日均線出場）",
+  "category": "technical",
+  "rule": "股池：上市普通股，60 日均成交值 ≥ NT$1,000 萬、收盤 ≥ 10 元。訊號（每日盤後，以還原收盤 adj 計算）：(1) 收盤 > SMA(200)；(2) Wilder RSI(2) < 10（嚴格版 < 5，兩組都報）。進場：隔日開盤買進，開盤漲停不買。出場：收盤 > SMA(5) 時，隔日開盤賣出。不設停損、不設停利（Connors 原版發現硬停損會傷績效）。變體 B：收盤跌破 SMA(200) 也出場。時間停損：教學沒給，預設 10 個交易日，並另報不設時間停損的版本。持倉：每檔等權 10%，最多 10 檔；當天訊號超過空位時，先買 RSI(2) 最低的。成本來回 0.5%。",
+  "sources": [
+   "https://www.luxalgo.com/library/concept/rsi-2/",
+   "https://therighttrader.com/learn/trading-strategies/rsi-2-strategy",
+   "https://backtrex.com/en/backtests/connors-rsi-2-sp-500",
+   "https://backtrex.com/en/backtests/connors-rsi-2-nasdaq-100",
+   "https://steemit.com/fmz/@fmz.com/larry-connors-rsi2-mean-reversion-strategy"
+  ],
+  "popularity": "出自 Connors & Alvarez《Short Term Trading Strategies That Work》（2008），是英文圈最常被引用的短線均值回歸系統。StockCharts ChartSchool 有 RSI(2) 專章，TradingView、LuxAlgo、MQL5、StockSharp 都有現成程式，回測網站（Backtrex、QuantifiedStrategies）也一再重測。",
+  "data_ok": true,
+  "data_note": "只用收盤價，價格面板就夠，挑選期 2005–2019/04、驗證期 2019/05 起。和已測過的「RSI<30 買、>70 賣」不同：週期是 2 不是 14，多了 200 日趨勢濾網，出場看 5 日均線而不是 RSI>70，屬於 2～5 天的短持有。"
+ },
+ {
+  "slug": "w3_connors_crsi",
+  "name": "ConnorsRSI（CRSI）超賣＋限價低接",
+  "category": "technical",
+  "rule": "CRSI = [RSI(close,3) + RSI(連漲連跌天數 streak,2) + PercentRank(1 日報酬,100)] / 3。股池：同 BRIEF 流動性條件，另加 Connors 原版的 100 日歷史波動率（年化）> 30%（教學預設值）。訊號：收盤 > SMA(200)（濾網版；原版不加濾網，兩版都報），且 CRSI < 10（另測 < 5）。進場：原版是隔日掛限價單，價格為收盤 ×(1−4%)（教學常見 2～10%，預設 4%）。因為面板沒有最低價，改用兩種可驗證的成交規則：(A) 隔日開盤 ≤ 限價時才以開盤價成交（保守，會低估成交率）；(B) 隔日開盤無條件買進。出場：收盤時 CRSI > 70（另測 > 50），或收盤 > SMA(5)，隔日開盤賣出。時間停損 10 個交易日。每檔 10%，最多 10 檔，同日訊號依 CRSI 由低到高排序。",
+  "sources": [
+   "https://www.luxalgo.com/blog/connors-rsi-guide-enhanced-rsi-for-short-term-signals/",
+   "https://therighttrader.com/learn/indicators/connors-rsi",
+   "https://doc.stocksharp.com/en/topics/api/indicators/list_of_indicators/connors_rsi",
+   "https://therighttrader.com/learn/comparisons/rsi-vs-connors-rsi"
+  ],
+  "popularity": "Connors Research 2012 年起推廣的招牌指標，StockCharts、TradingView、thinkorswim 都內建 ConnorsRSI，LuxAlgo 和 TheRightTrader 都有教學，常和 RSI(2) 一起比較。",
+  "data_ok": true,
+  "data_note": "CRSI 只需要收盤價。限價低接是否成交原本要看最低價，面板沒有最低價，只能用開盤價 ≤ 限價這種保守規則，或改成隔日開盤直接買，要註明兩者差異。出場門檻 70 與 50 各家說法不一，兩個都要報。"
+ },
+ {
+  "slug": "w3_connors_double7",
+  "name": "Connors 雙重 7 日（Double 7s）",
+  "category": "technical",
+  "rule": "股池：同 BRIEF 流動性條件。訊號：收盤 > SMA(200)，且今日收盤 ≤ 最近 7 個交易日（含今日）的最低收盤，也就是收盤創 7 日新低。進場：隔日開盤買進。出場：收盤 ≥ 最近 7 日最高收盤（收盤創 7 日新高）時，隔日開盤賣出。原版不設停損；時間停損教學沒給，預設 20 個交易日，並另報不設時間停損的版本。參數敏感度只在挑選期看：5／7／10 日。每檔 10%，最多 10 檔，同日訊號依距 200 日均線的乖離由大到小排序（教學沒給排序規則，此為預設，須註明）。",
+  "sources": [
+   "https://strategyquant.com/blog/larry-connors-double-7-strategy-tested-on-spy-and-8-other-markets/",
+   "https://strategyquant.com/shared/larry-connors-double-7-for-spy/",
+   "https://quantifiedstrategies.substack.com/p/larry-connors-double-seven-trading-aa3"
+  ],
+  "popularity": "出自 Connors《Short Term Trading Strategies That Work》，StrategyQuant 拿 SPY 和另外 8 個市場測過，QuantifiedStrategies 也有專文重測，r/algotrading 常拿它當入門均值回歸範例。",
+  "data_ok": true,
+  "data_note": "只用收盤價。原版是同日收盤成交，台股要改成隔日開盤成交。和已測過的「乖離率反轉」不同：它看的是 7 日收盤新低／新高的通道，再加 200 日趨勢濾網。"
+ },
+ {
+  "slug": "w3_connors_r3",
+  "name": "Connors R3（RSI(2) 連三降）",
+  "category": "technical",
+  "rule": "股池：同 BRIEF 流動性條件。訊號（全部成立）：(1) 收盤 > SMA(200)；(2) RSI(2) 連續 3 天下降，即 RSI_t < RSI_t-1 < RSI_t-2 < RSI_t-3；(3) 下降第一天的 RSI(2)（即 RSI_t-2）< 60；(4) 今日 RSI(2) < 10。進場：隔日開盤買進。出場：收盤時 RSI(2) > 70，隔日開盤賣出。原版不設停損、不設停利；時間停損預設 10 個交易日。每檔 10%，最多 10 檔，同日依 RSI(2) 由低到高排序。",
+  "sources": [
+   "https://www.whselfinvest.de/en/trading-platform/free-trading-strategies/tradingsystem/81-r3-larry-connors",
+   "https://tw.tradingview.com/script/QJSXeJnv",
+   "https://quantifiedstrategies.substack.com/p/larry-connors-r3-strategy-it-still-795"
+  ],
+  "popularity": "出自 Connors《High Probability ETF Trading》，WH SelfInvest 有官方範例策略，TradingView 有多國語言版開源腳本，QuantifiedStrategies 有重測文章。",
+  "data_ok": true,
+  "data_note": "只用收盤價。條件 (3) 各來源說法相反：WHS 寫「第一天 RSI < 60」，TradingView 腳本寫「從 60 以上開始下降」，兩種都要報。這條和 w3_connors_rsi2_sma5 共用 RSI(2)，差在「連三降」的條件更嚴格、出場改看 RSI>70，回測時要報兩者的訊號重疊度。"
+ },
+ {
+  "slug": "w3_connors_tps",
+  "name": "Connors TPS（時間、價格、分批加碼）",
+  "category": "technical",
+  "rule": "股池：同 BRIEF 流動性條件。訊號：收盤 > SMA(200)，且 RSI(2) 連 2 天收盤 < 25。進場：隔日開盤買進第一批，占該檔預算的 10%。加碼：之後任一天收盤低於上一筆買進價時，隔日開盤依序加碼 20%、30%、40%（共 4 批，即 1:2:3:4）。出場：收盤時 RSI(2) > 70，隔日開盤全部賣出。濾網：持有期間收盤跌破 SMA(200) 就不再加碼（tradingstrategyguides 版本）。時間停損預設 20 個交易日。每檔滿倉預算 10%，最多 10 檔。",
+  "sources": [
+   "https://wl6.wealth-lab.com/Forum/Posts/Connors-TPS-Strategy-40197",
+   "https://www.quantifiedstrategies.com/tps-trading-strategy/",
+   "https://tradingstrategyguides.com/tps-trading-strategy/"
+  ],
+  "popularity": "出自 Connors《High Probability ETF Trading》，Wealth-Lab 內建在「Dip Buyers」策略資料夾，QuantifiedStrategies、TradingStrategyGuides 都有專文。",
+  "data_ok": true,
+  "data_note": "只用收盤和開盤價。加碼時點各來源不同：一說「收盤低於上一筆買價」，另一說是第 3、4、5 天，兩種都要報。報酬要用實際投入資金計算，不能用滿倉預算計算，否則會低估。"
+ },
+ {
+  "slug": "w3_clenow_stocks_on_move",
+  "name": "Clenow《Stocks on the Move》回歸斜率×R² 動能",
+  "category": "technical",
+  "rule": "股池：原版是 S&P 500，台股改用每月底市值或 60 日均成交值前 200 大，再套 BRIEF 流動性條件。分數：取最近 90 個交易日 ln(adj) 對時間做線性迴歸，年化斜率 = exp(slope)^250 − 1，分數 = 年化斜率 × R²。排除：收盤 < SMA(100)，或最近 90 日內任一天絕對漲跌幅 > 15%。大盤濾網：加權指數 > SMA(200) 才准新買；低於時只賣不買。換股：每週三收盤算訊號、隔日開盤成交。賣出：跌出分數排名前 20%、跌破 SMA(100)、出現 > 15% 跳空。買進：依分數從高到低遞補空位。部位：股數 = 帳戶 × 0.1% / ATR(20)，每兩週（每月第 2、4 個週三）依新 ATR 調整一次部位；ATR 因為沒有最低價，改用收盤 20 日絕對日變動平均。上限 30 檔。",
+  "sources": [
+   "https://www.quantconnect.com/forum/discussion/16578/quot-stocks-on-the-move-quot-momentum-strategy-by-cabedovestment/",
+   "https://www.quantconnect.com/terminal/cache/embedded_backtest_a74eb3c1d70557c25911f599cb0725d7.html",
+   "https://wealth-lab.com/Discussion/Volatility-adjusted-momentum-indicator-by-Clenow-9220",
+   "https://forum.optuma.com/t/exponential-regression/4845",
+   "https://thechartist.com.au/?p=101421"
+  ],
+  "popularity": "Andreas Clenow 2015 年的暢銷書。QuantConnect 社群有多份公開實作和回測，Wealth-Lab、Optuma、TradingView 都有 Clenow Momentum 指標，r/algotrading 常討論。",
+  "data_ok": true,
+  "data_note": "價格面板加加權指數就夠。和已測過的 12-1／波動調整動能不同：排序用的是 90 日迴歸斜率乘 R²（偏好走勢平滑的），另有 100 日均線、15% 跳空排除、大盤 200 日均線只賣不買、每週換股、ATR 風險平價部位。ATR 原本要用最低價，只能用收盤變動近似，要註明。2019–2023 面板只有存活者，驗證期有存活者偏誤。"
+ },
+ {
+  "slug": "w3_weinstein_stage2",
+  "name": "Weinstein 階段分析：第二階段突破",
+  "category": "technical",
+  "rule": "週線，以週五收盤為準。30 週均線 MA30w = 30 週收盤 SMA。Mansfield RS：RS = 個股收盤 / 加權指數收盤，MRS = (RS / SMA52w(RS) − 1) × 100。第一階段基底：過去 ≥ 10 週，MA30w 的 10 週斜率絕對值 < 2%，基底區間上緣 = 過去 10～26 週最高收盤（預設 10 週，教學沒給精確數字）。進場訊號（全部成立）：(1) 本週收盤 > 基底上緣，且 > MA30w；(2) MA30w 本週 ≥ 上週（走平或上揚）；(3) MRS > 0，或本週由負轉正；(4) 本週成交值 ≥ 2 × 前 4 週平均（另測 1.5 × 20 週中位數）。下週一開盤買進。出場：週收盤 < MA30w，下週一開盤賣出（另測 Weinstein 的移動停損：前一個週線低點，因為沒有最低價，改用最低週收盤）。每檔等權，最多 20 檔。",
+  "sources": [
+   "https://www.thepatternsite.com/Stages.html",
+   "https://www.mql5.com/en/articles/22746",
+   "https://in.tradingview.com/chart/GLAND/v4dIdCy7-Stan-Weinstein-4-Stages-Heikin-Ashi/",
+   "https://www.luxalgo.com/library/concept/weinstein-stage-analysis.md",
+   "https://trendspider.com/blog/master-market-trends-with-ai-powered-weinstein-stage-analysis/"
+  ],
+  "popularity": "出自 Stan Weinstein《Secrets for Profiting in Bull and Bear Markets》（1988），是經典書。TradingView 有大量 Stage Analysis 和 Mansfield RS 腳本，TrendSpider、LuxAlgo、MQL5 都有專文，Bulkowski 的 ThePatternSite 也有統計。",
+  "data_ok": true,
+  "data_note": "價格、成交值、加權指數都有。和已測過的「站上均線」不同：加上了基底盤整、30 週均線不能下彎、Mansfield RS > 0、週量放大 2 倍這幾個條件，並用週線操作。停損原本參考週線低點，只能用收盤近似。"
+ },
+ {
+  "slug": "w3_radge_weekend_trend",
+  "name": "Nick Radge 週末趨勢交易者（Weekend Trend Trader）",
+  "category": "technical",
+  "rule": "週線，以週五收盤為準。股池：同 BRIEF 流動性條件（原版另有成交值門檻）。進場（全部成立）：(1) 本週收盤 = 20 週最高收盤；(2) ROC(20 週) ≥ 30%；(3) 加權指數週收盤 > 10 週 SMA。下週一開盤買進，開盤漲停不買。出場用移動停損：大盤濾網成立時，停損 = 持有以來最高週收盤 × (1 − 40%)；大盤跌破 10 週均線時收緊為 × (1 − 10%)。停損只上移不下移。週收盤跌破停損就在下週一開盤賣出。部位：每檔 5%，最多 20 檔。同週訊號超過空位時，依 ROC 由高到低排序。",
+  "sources": [
+   "https://usethinkscript.com/goto/post?id=5029",
+   "https://il.tradingview.com/script/QytXbleE",
+   "https://thechartist.com.au/?p=101421"
+  ],
+  "popularity": "Nick Radge（The Chartist）的招牌系統，出自《Weekly Momentum Trading》，在澳洲和英文圈長期推廣。usethinkscript、TradingView 有社群實作，Radge 自己的網站也常發表績效。",
+  "data_ok": true,
+  "data_note": "只用收盤價和加權指數。和已測過的帶量突破、52 週高點不同：用 20 週新高加 30% ROC，大盤濾網會改變停損寬度（40%→10%），沒有固定持有期，週頻操作。TradingView 版的停損是用進場後最高價，這裡改用最高週收盤。"
+ },
+ {
+  "slug": "w3_vcp_contraction_breakout",
+  "name": "波動收縮型態（VCP）突破：程式化近似版",
+  "category": "technical",
+  "rule": "股池：同 BRIEF 流動性條件，另加上升趨勢前提：收盤 > SMA(50) > SMA(150) > SMA(200)，且距 52 週最高收盤不到 25%。收縮偵測：以收盤做 zigzag（反轉門檻 5%），取最近 60～150 日內 2～4 段回檔，每段深度 =（波段高收盤 − 波段低收盤）/ 波段高收盤。條件：後一段深度 ≤ 前一段 × 0.7（教學說約一半，這裡放寬），最後一段 ≤ 10%。量縮：最後一段的 10 日平均成交值 < 50 日平均成交值。樞紐價 = 最後一段的高收盤（因為沒有最低價，只能用 open/high/close 判斷）。進場：收盤 > 樞紐價，且當日成交值 > 50 日平均 × 1.5，隔日開盤買進。出場：收盤 < 最後一段的低收盤（停損），或收盤 < SMA(50)，或持有 60 個交易日。每檔 5%，最多 20 檔。",
+  "sources": [
+   "https://www.luxalgo.com/library/concept/volatility-contraction-pattern.md",
+   "https://www.tradingview.com/scripts/coiling/",
+   "https://kr.tradingview.com/scripts/vcp/"
+  ],
+  "popularity": "VCP 是 TradingView 上最熱門的型態腳本之一，有許多公開腳本。LuxAlgo 有程式化教學，r/RealDayTrading 和美股動能社群也常用。",
+  "data_ok": true,
+  "data_note": "可以測，但只能近似：原版用盤中高低點量收縮深度，面板沒有最低價，改用收盤 zigzag（high 只拿來判斷樞紐）。成交量用 value/close_raw 近似。趨勢前提和執行中的 Minervini 趨勢模板重疊，要報訊號重疊度，判斷 VCP 本身有沒有額外貢獻。zigzag 門檻、收縮比例只在挑選期決定。"
+ },
+ {
+  "slug": "w3_adr25_breadth_timing",
+  "name": "騰落レシオ（25 日漲跌家數比）逆勢擇時",
+  "category": "technical",
+  "rule": "股池：面板全部上市股（每日只計有收盤值者；有值檔數 <300 的日子整天剔除再滾動）。每日 up_t＝ret>0 檔數、dn_t＝ret<0 檔數（平盤不計）。ADR25＝Σ25日 up ÷ Σ25日 dn ×100。進場：ADR25 由 ≤70 回升到 >70 的那天（日本教學的「70%以下から急上昇」版本），收盤算訊號、隔日開盤買 0050（2009 前用同池等權或加權指數代理）。出場：ADR25 ≥120 的隔日開盤賣出，或持有滿 60 個交易日，兩者取先到。空手時持現金（報酬 0）。敏感度（事前列好、全部報告）：門檻 70/120、75/115；期間 25 日（主）、10 日；另測「ADR25≤70 當天就買、不等回升」的版本。挑選期 2005-01～2019-04，驗證期 2019-05～2026-10；每次交易來回成本 0.1%（ETF）／壓力 0.3%。",
+  "sources": [
+   "https://media.monex.co.jp/articles/-/27603",
+   "https://media.monex.co.jp/articles/-/11532",
+   "https://media.moneyforward.com/articles/8495",
+   "https://stock-marketdata.com/advance-decline-growth-market-tse"
+  ],
+  "popularity": "日本券商（マネックス、Money Forward）每週都有騰落レシオ專欄，日經與株探的盤勢評論天天報東證 Prime 25 日騰落レシオ（例如 2025-08 報導 146.85%），「70% 以下買、120% 以上賣」是日本散戶最常引用的廣度門檻。研究中心測過 200 日均線與 10 個月均線擇時，但沒測過廣度逆勢擇時。",
+  "data_ok": true,
+  "data_note": "只用面板的 ret 就能算。注意：2019–2023 面板只有存活股，下跌家數會偏少、ADR 偏高（存活者偏誤），驗證期門檻可能要看分位數版本（例如 ADR25 低於滾動 5 年的第 5 百分位）一起報告；2024-01-02～02-14 沒資料要剔除；source 3 期間（2024-02～2025-09）收盤是 13:20 近似值，漲跌家數會有誤差。"
+ },
+ {
+  "slug": "w3_psy12_cross",
+  "name": "サイコロジカルライン／PSY 心理線 12 日穿越",
+  "category": "technical",
+  "rule": "股池：每月底符合 60 日均成交值 ≥1,000 萬、股價 ≥10 元的上市股。PSY12＝近 12 日中「收盤 > 前日收盤」的天數 ÷12 ×100（平盤不算上漲）。進場（Monex 版）：PSY12 由 ≤25 回升到 >25（即前一日 ≤3 勝、當日 ≥4 勝），收盤算訊號、隔日開盤買進，開盤漲停就不買。出場：PSY12 由 ≥75 跌破到 <75 的隔日開盤賣，或持有滿 20 個交易日，或從進場價跌 10% 停損，取先到。等權、每檔同金額，同時最多 20 檔，訊號超過 20 檔時優先買 60 日報酬最低的。對照組：楽天版（PSY≤25 當天就買、≥75 就賣）、中國 moomoo 版（PSY≤8.33，也就是 12 天裡只漲 1 天以下才買）。另測指數版：用加權指數的 PSY12 擇時 0050。成本：來回 0.5%（壓力 1%）。",
+  "sources": [
+   "https://info.monex.co.jp/technical-analysis/indicators/007.html",
+   "https://www.rakuten-sec.co.jp/web/fop/special/technical_analysis/chart_guide06/",
+   "https://www.oanda.jp/lab-education/technical_analysis/psychological_line/view_rsi/",
+   "https://www.moomoo.com/us/hans/learn/what-is-a-psychological-line",
+   "https://traders.co.jp/column/article/58"
+  ],
+  "popularity": "日本券商（楽天、マネックス、OANDA、トレーダーズ・ウェブ）的技術指標教學一定會收這一項，A 股看盤軟體（通達信、同花順、moomoo）也都內建 PSY，參數 12 日、25/75 各家一致。和已測過的 RSI<30 不同：PSY 只數上漲天數，不看漲跌幅大小，所以是另一種訊號。",
+  "data_ok": true,
+  "data_note": "只需要 close（adj）。12 日 PSY 只有 13 種值，訊號會很多，要報每年訊號數；跨過除權息日時要用 adj 判斷漲跌，避免除息被算成下跌日。"
+ },
+ {
+  "slug": "w3_dividend_lowvol",
+  "name": "紅利低波（中證紅利低波／00713 選股法）",
+  "category": "fundamental",
+  "rule": "股池：每年 12 月最後一個交易日（中證年度調樣；另測 6 月＋12 月半年版，對應 00713），取 252 日日均成交值排前 80% 的流動性池；需過去 3 個年度每年都有現金股利（年度股利 >0）。步驟一：用過去 3 年平均現金殖利率排序（每年現金股利 ÷ 該年底收盤，取 3 年平均），取前 75 檔；剔除最近一年股價報酬 < -30% 的（00713 的動能門檻）。步驟二：在 75 檔中按過去 252 日日報酬年化標準差由小到大排序，取 50 檔。權重：(a) 等權；(b) 殖利率加權（中證版），單檔上限 10%。換股日收盤算訊號、隔日開盤成交，持有到下一次換股。對手：0056、00713 的實際績效（若有）、0050、同池等權。成本來回 0.5%／1%。和已測項目不同的地方：先挑殖利率再挑低波動的兩段式組合，加上連續 3 年配息的品質條件，年度調整。",
+  "sources": [
+   "https://static.howbuy.com/gkxx/ggfile//2021/2021-1/2021-01-30/2212849.docx",
+   "https://www.lixinger.com/equity/index/detail/csi/H30269/1730269/fund-list",
+   "https://cs.com.cn/tzjj/jjdt/202410/t20241028_6449615.html",
+   "https://cs.com.cn/tzjj/jjdt/202405/t20240527_6412737.html",
+   "https://www.moneyweekly.com.tw/ArticleData/Info/Article/95279",
+   "https://money.udn.com/money/amp/story/5607/9593270"
+  ],
+  "popularity": "中證紅利低波（H30269）是 2023–2026 年 A 股規模成長最快的 Smart Beta 之一，追蹤它的 ETF 與聯接基金有十幾檔（理杏仁基金清單），中證報多次報導資金湧入「高股息低波」。台灣有 00713 元大高息低波用相同概念。研究中心測過單獨的殖利率因子和單獨的低波動，但沒測過兩段式組合。",
+  "data_ok": true,
+  "data_note": "pe_5y 的 yield 只從 2021 開始；長期可以從面板反推：除權息日的 adj/close_raw 比值跳動，就是每年的現金股利率（exdiv_5y 也可以對照 2021 起的資料），能算出 2007 起的 3 年平均殖利率。市值前 80% 用成交值前 80% 代替（股本只有 2025-09 起）。00713 還有 ROE、盈餘穩定度條件，沒有財報資料所以省略，必須註明這是簡化版。"
+ },
+ {
+  "slug": "w3_size_rotation_28",
+  "name": "二八輪動（大小型股動能輪動，空手濾網）",
+  "category": "technical",
+  "rule": "兩個標的：大型股＝0050 含息（2009 前用面板 60 日均成交值前 50 名的成交值加權組合代替）；中小型股＝面板中 60 日均成交值排第 51～300 名、符合流動性池的等權組合（每月重組成分）。每週最後一個交易日收盤算兩者的 20 日報酬 R_L、R_S（聚寬／PTrade 預設 N=20）。隔週第一個交易日開盤：若 max(R_L, R_S) ≤0，全部空手（持現金）；否則持有 20 日報酬較高的一邊，全部資金放進去。敏感度：N＝10、20、60；調倉頻率每日／每週；有空手濾網與無空手濾網。對手：0050 買進持有、兩者各 50% 每月再平衡。成本：0050 來回 0.1%，中小籃換倉來回 0.5%（壓力 1%）。挑選期 2005-01～2019-04、驗證期 2019-05～2026-10。",
+  "sources": [
+   "https://juejin.cn/post/7662321933959004194",
+   "https://bigquant.com/wiki/doc/K9Jz05h6yo",
+   "https://qteasy.readthedocs.io/zh-tw/latest/examples/Example_15_%E5%A4%A7%E5%B0%8F%E7%9B%98%E8%BD%AE%E5%8A%A8%E6%8A%95%E8%B5%84.html",
+   "https://clawhub.ai/tangweigang-jpg/rqalpha-cn-backtest",
+   "https://www.yicai.com/news/101147936.html",
+   "https://gitcode.csdn.net/6a24e5bd662f9a54cb7ae17f.html"
+  ],
+  "popularity": "「二八輪動」是聚寬、BigQuant、PTrade、RQAlpha、qteasy 的入門範例策略，掘金、CSDN 上有大量複製文章，第一財經也有分析大小盤輪動的長文。研究中心測過 200 日均線擇時與產業輪動，但沒測過大小型股的相對動能切換加絕對動能空手。",
+  "data_ok": true,
+  "data_note": "0050 含息 2009 起有，加上面板自組籃子即可。用成交值代替市值分大小型股（股本只有 2025-09 起），要註明這是「高流動性 vs 中流動性」的代理。2019–2023 只有存活股，會高估中小型股籃子的報酬。"
+ },
+ {
+  "slug": "w3_limitup_pullback",
+  "name": "漲停回馬槍（漲停後縮量回檔不破漲停日開盤）",
+  "category": "technical",
+  "rule": "股池：流動性池，排除處置股與全額交割股。Day0：收盤漲停（close_raw ≥ 前收 ×1.095，並且等於依升降單位捨去後的漲停價），Day0 成交量（value/close_raw）≥ 前 20 日均量 ×2，而且前 10 日內沒有其他漲停（首板）。回檔觀察窗：Day1～Day3。觸發日 Dk 要同時滿足：(1) 收盤 < Day0 收盤（確實回檔）；(2) 收盤 ≥ Day0 開盤（不破漲停日開盤價，教學的停損位）而且 ≥ Day0 收盤 ×0.92（回檔不超過 8%）；(3) 當日成交量 ≤ Day0 成交量 ×0.5（縮倍量）。第一個符合的 Dk 收盤算訊號、隔日開盤買進（開盤漲停不買）。出場：收盤 < Day0 開盤就停損（隔日開盤賣）；持有中收盤 ≥ 進場價 ×1.10 就隔日開盤停利；否則持有滿 5 個交易日後開盤賣。敏感度：縮量比例 0.5／0.6、觀察窗 3／5 日、持有 3／5／10 日；另測「二板回檔」版本（Day0 要求連 2 根漲停）。成本來回 0.5%／1%。和已測的「漲停追價」不同：這裡不追漲停，是等漲停之後縮量回檔才低接。",
+  "sources": [
+   "https://www.bilibili.com/read/cv50847678",
+   "https://caifuhao.eastmoney.com/news/20260711143433205026560",
+   "https://caifuhao.eastmoney.com/news/20251011102835970094030",
+   "https://caifuhao.eastmoney.com/news/20260926154229018073140",
+   "https://adg.csdn.net/6970a86e437a6b40336b140b.html"
+  ],
+  "popularity": "「漲停回馬槍」「N 字反包」「二板回調低吸」是 A 股遊資與短線散戶最常見的戰法之一，東方財富財富號、B 站、CSDN 上有大量教學。量化門檻各文章不一致，最常出現的是：回檔 ≤3 天、縮量到 50% 以內、回檔 ≤8%、不破漲停日開盤（或首板漲停價）。台股與 A 股主板同為 10% 漲跌幅，制度上可以直接套用。",
+  "data_ok": true,
+  "data_note": "有 open、close_raw、value，可以判斷漲停與成交量。沒有最低價，所以「不破」只能用收盤判斷（比原教學的盤中最低寬鬆），必須註明。漲停判定要處理升降單位與 flag 3/4/5 的公司行動日；source 3 期間的近似收盤會誤判漲停，建議在該期間另外報告或剔除。Day0 若被列為注意股，要記錄，因為會和研究中心的注意股效應重疊。"
+ },
+ {
+  "slug": "w3_volume_trough",
+  "name": "地量見地價（120 日地量＋低位，可選放量確認）",
+  "category": "technical",
+  "rule": "股池：流動性池（60 日均成交值 ≥1,000 萬、股價 ≥10 元，用訊號日前一天的值判斷，避免地量把自己排除）。成交量 V＝value/close_raw。地量訊號：V_t ＝ 過去 120 日 V 的最低值（通達信 V=LLV(V,120)），而且 close < 60 日均線（低位條件）。版本 A（直接版）：訊號日收盤算、隔日開盤買，持有 20 個交易日賣出。版本 B（放量確認版，教學建議）：地量後 10 日內第一次出現 V ≥ 5 日均量 ×2 而且當日收紅（close > 前收）時，隔日開盤買進，持有 20 日；停損：收盤 < 地量日收盤 ×0.93。每檔等權，同時最多 20 檔。敏感度：地量窗 60／120／250 日、持有 10／20／60 日。成本來回 0.5%／1%。",
+  "sources": [
+   "https://licai.cofool.com/ask/qa_6520065.html",
+   "https://cs.com.cn/gppd/jp/201808/t20180831_5866541.html",
+   "https://www.thepaper.cn/newsDetail_forward_28393949",
+   "https://www.cnfin.com/stock-xh08/a/20111209/868115.shtml"
+  ],
+  "popularity": "「天量天價、地量地價」是 A 股流傳最廣的量價口訣，中證網、澎湃、新華財經的盤勢評論常常引用，通達信、同花順的選股公式社群有大量 LLV(V,N) 寫法；日本也有「出来高底」的類似說法。研究中心測過帶量突破（量增），但沒測過量縮到極低後的反向訊號。",
+  "data_ok": true,
+  "data_note": "用 value/close_raw 算成交量即可；120 日滾動前要先剔除有值檔數 <300 的日子。停牌或資料缺漏日的成交量可能是 0 或 NaN，要排除，否則會假性觸發地量；source 3 期間的成交值是 5 分 K 加總近似，要另外檢查。"
+ },
+ {
+  "slug": "w3_rsrs_timing",
+  "name": "RSRS 阻力支撐相對強度擇時（光大證券）",
+  "category": "technical",
+  "rule": "標的：用加權指數（taiex_twii.csv 的 high/low）算訊號，交易 0050 含息（2009 前用加權指數報酬加上估計股息，或同池等權代替）。每日用過去 N=18 日的 (low, high) 做 OLS：high = α + β·low，β 就是 RSRS。標準分 z＝(β − 過去 M=600 日 β 的平均) ÷ 過去 600 日 β 的標準差。修正版（光大原報告的右偏修正）：z_adj＝z × R²（同一個 18 日回歸的 R²），另測 z × R² × β。進場：z（或 z_adj）> 0.7，收盤算、隔日開盤買 0050；出場：z < -0.7 隔日開盤賣出、持有現金；介於兩者之間就維持原部位。敏感度：N＝16／18／20，M＝300／600，門檻 ±0.7／±1.0。另加一個常見濾網：只在 20 日均線 > 3 日前 20 日均線時才允許進場。成本來回 0.1%（ETF）／壓力 0.3%。挑選期 2005-01～2019-04、驗證期 2019-05～2026-10（z 需要 600+18 日暖身，所以要用 1999 起的指數資料先暖身）。",
+  "sources": [
+   "https://www.luxalgo.com/library/indicator/JOxeFQeX-rsrs-resistance-support-relative-strength",
+   "https://cn.tradingview.com/scripts/rsrs",
+   "https://tw.tradingview.com/scripts/rsrs",
+   "https://jp.tradingview.com/scripts/rsrs"
+  ],
+  "popularity": "RSRS 出自光大證券金工 2017 年的研究報告，是聚寬、優礦、BigQuant 社群裡被複製最多次的擇時指標之一。TradingView 有中文、繁中、日文、韓文等多個社群腳本，說明都寫「在中國量化交易者中非常流行」；參數 N=18、M=600、±0.7 是各版本的共同預設。",
+  "data_ok": true,
+  "data_note": "加權指數 1999 起有 open/high/low/close，能完整算 RSRS；0050 含息 2009 起有。加權指數是價格指數（不含息），只能用來產生訊號，報酬要用 0050 含息。個股版本不能做，因為面板沒有最低價。"
+ }
+]

@@ -284,7 +284,7 @@ def main():
         o = {'blocked_gap_up': nb, 'group_members_total': nc, 'blocked_share': round(nb / nc, 4) if nc else None,
              'turnover_value_per_rebalance': round(tov, 3), 'avg_pool': round(float(info['pool'].mean()), 1), 'avg_held': round(float(info['held'].mean()), 1)}
         for w, (a, b) in WIN.items():
-            if 'ANNUAL' in key: a = max(a, str(L.IDX[min(ev)].date()))
+            a = max(a, str(L.IDX[min(ev)].date()))   # 首次建倉前（D1 樣本不足的月份）不計入
             o[w] = pstats(r, b50, ewr, a, b)
             ps_ = pstats(nav_s.pct_change(), b50, ewr, a, b); pg = pstats(nav_g.pct_change(), b50, ewr, a, b)
             o[w]['CAGR_stress'] = ps_['CAGR']; o[w]['t_stress_vs_EW_m'] = ps_['t_vs_EW_m']; o[w]['t_stress_vs_0050_m'] = ps_['t_vs_0050_m']
