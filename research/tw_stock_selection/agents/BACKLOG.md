@@ -17,7 +17,8 @@
 ## 待辦（依優先順序）
 - 上櫃面板（277MB，scratchpad/tpex_panel）不在 repo：容器回收後先跑 restore_env.sh 再執行 agents/tpex_main/build_tpex_panel.py 重建。合併版 n10（待觀察）待補齊 2023-01～09、2025-04～09 上櫃日 K 後重測。
 - 營收公告日：蒐集 rev_hist 以外的歷史公告日（GitHub），確認金控是否常態在 10 日後公告；若是，引擎改成「只用訊號日前已公告的營收」，並事前登記重測「營收腿排除金融保險業」。
-- 面板成交值異常（2025-04-30～07-04 約 10 倍）：檢查主策略流動性前 300 在這段是否受影響（各股同倍率則排名不變），必要時用 daytrade_5y 還原官方量修正。
+- 量能類研究（凹洞量、OBV、VR、窒息量等）在成交值修正後可選擇重跑；預期結論不變（多數扣成本前就為負）。
+- 93 檔 2024-02-15～03-15 缺值，造成 2024-04～06 股池漏掉約 25 檔：找補資料或改 min_periods 事前登記重測。
 - w3 偵查剩下的 11 條（agents/WEB_w3_leftover.json）：布林壓縮、ConnorsRSI、Double 7、R3、TPS、Radge 週末趨勢、漲跌家數擇時、PSY、高股息低波、量能谷底、RSRS 擇時。
 - 營收驚喜 SURGE（w3 待觀察）：每月追蹤真實樣本外。
 - 集保千張大戶週資料：每週一 `git -C /home/user/wirelessr/tdcc-opendata-archive pull`，累積滿 2 年後用 agents/insider_public/tdcc_study.py 原規則重跑（目前「排除大戶減、散戶增」待觀察）。

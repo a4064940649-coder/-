@@ -30,4 +30,4 @@
 - **可成交回測引擎：** exec_rebuild/exlib.py（M2：換股日收盤算訊號、隔日開盤成交、開盤漲停遞補、成本模型）；長歷史版見 momentum_family/mlib.py。新研究優先 import 這些，不要自己重寫成本與成交規則。
 - **處置股正式版事件表：** disposal_reconcile/official_trades_twse.csv、official_trades_tpex.csv。
 - **統計口徑：** 一律報扣成本後的 t（月份分群），挑選期與驗證期分開；不要只報全期或 t_date。
-- **成交值異常：** 面板 value 在 2025-04-30～2025-07-04 約虛胖 10 倍、2024-04-09～04-16 約 2～4 倍（src 3，價格不受影響；見 agents/w4_xiao_volume_dimple_attack/FINDINGS.md）。用成交量或流動性門檻的研究要剔除或另報這兩段。
+- **成交值異常（已修正，2026-10-27）：** src 3 原始 5 分 K 有重複列，使 2024-04-09～04-16、2025-04-30～07-04 成交值灌水 2～10 倍；共用面板 value.parquet 已換成修正版（agents/value_fix，md5 8272e253…；原檔備份在 scratchpad/panel/value_orig_dupbug.parquet）。剩下：2025-01-21 的 close_raw 是中午價（只影響當天與隔天日報酬）；93 檔 2024-02-15～03-15 價量缺值，rolling(60) 到約 2024-06 為 NaN。
