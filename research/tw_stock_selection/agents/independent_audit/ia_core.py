@@ -174,8 +174,10 @@ class Strategy:
         if end is not None: keep = [d for d in keep if d <= pd.Timestamp(end)]
         # 結束日＝最後一個訊號日之後的下一個換股日（只當作評價終點）
         after = [d for d in rebalance_days(start) if d > keep[-1]]
-        self.sig_days = keep
-        self.end_day = after[0] if after else keep[-1]
+        if after:
+            self.sig_days = keep; self.end_day = after[0]
+        else:   # 面板最後一個換股日只當評價終點，不交易
+            self.sig_days = keep[:-1]; self.end_day = keep[-1]
         self.w52 = w52; self.use_disposal = use_disposal
         self.info = {}
 
