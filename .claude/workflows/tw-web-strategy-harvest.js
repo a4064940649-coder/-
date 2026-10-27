@@ -15,6 +15,7 @@ const BRIEF = AG + '/BRIEF.md'
 const RUN = (args && args.round) || 'w1'
 const MAXT = (args && args.max_tests) || 6
 const TESTED = (args && args.tested) || []
+const GIVEN = (args && args.rules) || null   // 直接給規則清單（例如上一輪的 leftover）就跳過偵查
 
 const RULES = { type: 'object', properties: { rules: { type: 'array', items: { type: 'object', properties: {
   slug: { type: 'string', description: '英數底線的資料夾名' },
@@ -44,7 +45,7 @@ const SCOUTS = [
 ]
 
 phase('搜集')
-const scouted = await parallel(SCOUTS.map(s => () => agent(
+const scouted = GIVEN ? [{ rules: GIVEN }] : await parallel(SCOUTS.map(s => () => agent(
   `你是台股策略研究中心的偵查員。任務：用 WebSearch（必要時用 ToolSearch 載入）在網路上找 ${s.text}
 從教學內容中抽出「可以完全寫成程式」的具體規則：進場條件、出場條件、所有參數（若教學沒給參數，採用教學最常見的預設值並註明）、股池與持有期。每條附來源 URL 與它多常被推薦的依據。
 先閱讀 ${BRIEF} 的資料清單，判斷能不能用現有資料回測（data_ok）：面板沒有最低價、沒有分點資料；融資融券與股本只有 2025-09 起；三大法人、月營收 2021 起（長期月營收 2005 起）；有當沖比率、注意／處置名單、除權息。
