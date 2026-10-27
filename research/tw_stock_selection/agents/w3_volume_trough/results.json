@@ -1,0 +1,8272 @@
+{
+ "PREREG": {
+  "written_at": "2026-10-27T12:42:04",
+  "rule_name": "地量見地價（N 日地量＋低位；版本 A 直接買、版本 B 放量收紅確認）",
+  "sources": [
+   "https://licai.cofool.com/ask/qa_6520065.html",
+   "https://cs.com.cn/gppd/jp/201808/t20180831_5866541.html",
+   "https://www.thepaper.cn/newsDetail_forward_28393949",
+   "https://www.cnfin.com/stock-xh08/a/20111209/868115.shtml"
+  ],
+  "type": "事件型：主報告＝事件報酬（扣成本、對同池等權開盤對開盤異常報酬、t 按進場月份分群）；另報同時最多 20 檔的日曆組合（年化、日頻最大回撤、對 0050／同池等權月超額 t、逐年）",
+  "data": {
+   "panel": "scratchpad/panel 上市日線（含已下市；2019–2023 只有存活者）；先剔除「有值檔數 < 300」的日子（2018-01-13）再做任何 rolling；flag 5 價格視為缺值",
+   "volume": "V＝value/close_raw；value<=0、NaN、close_raw 缺值或 flag ∉ {0,1,2} 的日子 V 設 NaN（停牌／缺漏不算地量）",
+   "known_truncated_days": "2025-01-21（多數股票資料停在中午，成交值約 0.68 倍）、2025-04-10（缺部分 5 分 K，約 0.82 倍）：這兩天 V 設 NaN，不當地量日、也不進 LLV 窗（value_fix 已記錄）",
+   "price": "均線、收紅、停損、報酬一律用 adj（含息還原，避免除息假訊號）；進出場用還原開盤＝open×adj/close_raw"
+  },
+  "universe": "上市普通股（4 碼數字、排除 91xx）；以訊號日（地量日）前一交易日判斷：60 日均成交值（上市後停牌日記 0）>= NT$1,000 萬、close_raw >= 10、flag ∈ {0,1,2}；訊號日本身需 flag ∈ {0,1,2} 且有收盤",
+  "signal_trough_day_t": {
+   "LLV": "V_t 有值且 V_t <= min(V_{t-L+1..t})（通達信 V=LLV(V,L)，含當日；以交易日曆滾動，窗內有值天數 >= 0.8L，NaN 不參與）",
+   "low_position": "adj_t < MA60_t（adj 60 日簡單均線，含當日，min_periods 60）",
+   "L_primary": 120,
+   "L_grid": [
+    60,
+    120,
+    250
+   ]
+  },
+  "version_A": {
+   "entry": "t+1 開盤（還原開盤）；t+1 無開盤價或開盤漲停（開盤/前收−1 >= 漲跌幅−0.6%，2015-06-01 前 7%、之後 10%）→ 放棄、不遞補",
+   "exit": "進場日 e 起持有 H 個交易日，e+H 日開盤賣（無停損）"
+  },
+  "version_B": {
+   "confirm": "地量日 t 之後的 t+1..t+10 中第一個 c 滿足：V_c >= 2 × MA5(V)_c（含 c 當日的 5 日均量，通達信 MA(V,5) 口徑，min_periods 5）且 adj_c > adj_{c-1}（收紅＝收盤高於前收）；c 需 flag ∈ {0,1,2}",
+   "entry": "c+1 開盤；無開盤價或開盤漲停 → 放棄",
+   "stop": "自 e 起任一收盤 adj_s < 0.93 × adj_t（地量日收盤）→ s+1 開盤賣",
+   "exit": "未停損則 e+H 日開盤賣",
+   "trough_pick": "同一次確認對應多個地量日時，取最早的地量日（依序處理）"
+  },
+  "common_execution": {
+   "dedupe": "同一檔持有中（出場開盤日之前）的新進場忽略",
+   "exit_price": "出場日有開盤價用開盤；停牌則用之後第一個開盤；已下市用最後收盤",
+   "cost": "exlib.cost_rates：買＝0.1425%×0.6＋滑價 0.1%；賣＝0.1425%×0.6＋稅 0.3%＋滑價 0.1%（來回約 0.67%）；壓力情境 買 0.5%＋賣 0.5%（來回 1%）"
+  },
+  "portfolio": {
+   "cap": "同時最多 20 檔；每檔權重 1/20（空格放現金、報酬 0），每日依 1/20 再平衡近似",
+   "priority": "同日可進場數 > 空格時，依訊號日前一日 60 日均成交值由大到小",
+   "secondary": "另報「在場事件全額等權」（不設上限、全部資金分給在場部位）供參考，不用於判定",
+   "benchmarks": "0050 含息日報酬；同池等權（前一日符合股池、收盤對收盤）"
+  },
+  "variants": {
+   "PRIMARY": "B_L120_H20（教學建議的放量確認版）",
+   "CO_REPORT": "A_L120_H20（直接版）",
+   "grid": "版本 A／B × L ∈ {60,120,250} × H ∈ {10,20,60}，共 18 組全部報告；判定只看 PRIMARY；不做事後調參"
+  },
+  "event_stats": {
+   "raw": "出場價/進場價 − 1（還原）；net＝(1+raw)×(1−賣)/(1+買) − 1",
+   "abnormal_EW": "net − 同期間（進場開盤→出場開盤）同池等權報酬（前一日符合股池的上市普通股，開盤對開盤每日等權）",
+   "vs_0050": "net − 0050 含息（進場前一日收盤→出場前一日收盤）",
+   "t": "事件先按進場月份平均，再對月平均做 t（btlib.tstat）；t_date 僅參考",
+   "sample": "主統計＝全部可成交事件（不受 20 檔上限）；另報 20 檔上限實際成交的子集合"
+  },
+  "windows": {
+   "select": "2005-01-01~2019-04-30（以地量日歸屬）",
+   "valid": "2019-05-01~2026-10-22",
+   "valid_2024_2025": "2024-01-01~2025-12-31",
+   "valid_ex_src3": "驗證期剔除持有期碰到 src 3（2024-02-15~2025-09-23）的事件"
+  },
+  "verdict_rule": "PRIMARY 在挑選期與驗證期都要：事件淨異常報酬（對同池等權）> 0 且 t_month >= 2，且 20 檔上限組合淨年化 >= 0050 同期 → 可用；只有一段過 → 待觀察；兩段都不過 → 不可用；某段事件 < 30 筆或事件月份 < 24 → 無法測試",
+  "src3_check": "比較 src 3 期間與官方期間的「池內地量日比例」（每日地量檔數／池內檔數），並報 src 切換日（2024-02-15、2025-09-24）前後的地量日聚集；驗證期另報剔除 src 3 的事件統計",
+  "known_limits": [
+   "2019–2023 面板只有存活者",
+   "2024-01-02~2024-02-14 無資料（滾動窗直接跨過）",
+   "src 3 期間收盤為 13:20 近似、量為 5 分 K 加總近似",
+   "量＝value/close_raw，減資／分割前後口徑跳動",
+   "無最低價：停損以收盤判斷"
+  ]
+ },
+ "meta": {
+  "bad_days_dropped": [
+   "2018-01-13"
+  ],
+  "truncated_days_V_nan": [
+   "2025-01-21",
+   "2025-04-10"
+  ],
+  "n_stocks": 1238,
+  "cost_buy": 0.0018549999999999999,
+  "cost_sell": 0.004855,
+  "stress": [
+   0.005,
+   0.005
+  ]
+ },
+ "results": {
+  "B_L120_H20": {
+   "trough_days": 35417,
+   "candidates": 8529,
+   "blocked_gap_up": 54,
+   "no_open": 4,
+   "no_confirm_in_10d": 23278,
+   "events_uncapped": 7996,
+   "events_cap20": 4220,
+   "skipped_cap20": 4019,
+   "event_select_2005-01_2019-04": {
+    "n": 4667,
+    "n_months": 169,
+    "avg_hold_days": 18.0,
+    "stop_share": 0.201,
+    "mean_raw_pct": -0.014,
+    "mean_net_pct": -0.684,
+    "mean_EW_pct": 0.73,
+    "mean_ab_gross_pct": -0.744,
+    "t_month_ab_gross": -5.04,
+    "mean_ab_net_pct": -1.414,
+    "median_ab_net_pct": -2.573,
+    "t_month_ab_net": -8.69,
+    "t_date_ab_net": -9.44,
+    "mean_ab_net_stress_pct": -1.739,
+    "t_month_ab_net_stress": -10.48,
+    "mean_net_vs_0050_pct": -1.291,
+    "t_month_vs_0050": -5.53,
+    "hit_ab_net": 0.348
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 2637,
+    "n_months": 169,
+    "avg_hold_days": 17.6,
+    "stop_share": 0.227,
+    "mean_raw_pct": -0.198,
+    "mean_net_pct": -0.867,
+    "mean_EW_pct": 0.563,
+    "mean_ab_gross_pct": -0.762,
+    "t_month_ab_gross": -4.41,
+    "mean_ab_net_pct": -1.43,
+    "median_ab_net_pct": -2.595,
+    "t_month_ab_net": -7.71,
+    "t_date_ab_net": -7.42,
+    "mean_ab_net_stress_pct": -1.755,
+    "t_month_ab_net_stress": -9.32,
+    "mean_net_vs_0050_pct": -1.311,
+    "t_month_vs_0050": -4.84,
+    "hit_ab_net": 0.346
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 3061,
+    "n_months": 89,
+    "avg_hold_days": 18.2,
+    "stop_share": 0.182,
+    "mean_raw_pct": 0.137,
+    "mean_net_pct": -0.534,
+    "mean_EW_pct": 1.081,
+    "mean_ab_gross_pct": -0.945,
+    "t_month_ab_gross": -5.43,
+    "mean_ab_net_pct": -1.615,
+    "median_ab_net_pct": -3.102,
+    "t_month_ab_net": -7.73,
+    "t_date_ab_net": -7.79,
+    "mean_ab_net_stress_pct": -1.941,
+    "t_month_ab_net_stress": -8.87,
+    "mean_net_vs_0050_pct": -2.079,
+    "t_month_vs_0050": -5.7,
+    "hit_ab_net": 0.321
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 1444,
+    "n_months": 89,
+    "avg_hold_days": 17.7,
+    "stop_share": 0.225,
+    "mean_raw_pct": -0.054,
+    "mean_net_pct": -0.723,
+    "mean_EW_pct": 1.114,
+    "mean_ab_gross_pct": -1.168,
+    "t_month_ab_gross": -4.5,
+    "mean_ab_net_pct": -1.838,
+    "median_ab_net_pct": -3.341,
+    "t_month_ab_net": -6.42,
+    "t_date_ab_net": -6.75,
+    "mean_ab_net_stress_pct": -2.163,
+    "t_month_ab_net_stress": -7.36,
+    "mean_net_vs_0050_pct": -2.597,
+    "t_month_vs_0050": -5.42,
+    "hit_ab_net": 0.32
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 834,
+    "n_months": 23,
+    "avg_hold_days": 18.1,
+    "stop_share": 0.192,
+    "mean_raw_pct": -0.877,
+    "mean_net_pct": -1.541,
+    "mean_EW_pct": 0.119,
+    "mean_ab_gross_pct": -0.996,
+    "t_month_ab_gross": -4.4,
+    "mean_ab_net_pct": -1.66,
+    "median_ab_net_pct": -3.319,
+    "t_month_ab_net": -5.98,
+    "t_date_ab_net": -5.04,
+    "mean_ab_net_stress_pct": -1.982,
+    "t_month_ab_net_stress": -6.76,
+    "mean_net_vs_0050_pct": -3.712,
+    "t_month_vs_0050": -5.25,
+    "hit_ab_net": 0.312
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 380,
+    "n_months": 23,
+    "avg_hold_days": 17.8,
+    "stop_share": 0.226,
+    "mean_raw_pct": -1.042,
+    "mean_net_pct": -1.705,
+    "mean_EW_pct": 0.628,
+    "mean_ab_gross_pct": -1.671,
+    "t_month_ab_gross": -3.79,
+    "mean_ab_net_pct": -2.333,
+    "median_ab_net_pct": -3.635,
+    "t_month_ab_net": -5.14,
+    "t_date_ab_net": -4.39,
+    "mean_ab_net_stress_pct": -2.655,
+    "t_month_ab_net_stress": -5.81,
+    "mean_net_vs_0050_pct": -3.944,
+    "t_month_vs_0050": -4.41,
+    "hit_ab_net": 0.271
+   },
+   "event_valid_ex_src3": {
+    "n": 2325,
+    "n_months": 69,
+    "avg_hold_days": 18.3,
+    "stop_share": 0.18,
+    "mean_raw_pct": 0.436,
+    "mean_net_pct": -0.236,
+    "mean_EW_pct": 1.484,
+    "mean_ab_gross_pct": -1.048,
+    "t_month_ab_gross": -4.51,
+    "mean_ab_net_pct": -1.721,
+    "median_ab_net_pct": -3.131,
+    "t_month_ab_net": -6.41,
+    "t_date_ab_net": -7.28,
+    "mean_ab_net_stress_pct": -2.047,
+    "t_month_ab_net_stress": -7.35,
+    "mean_net_vs_0050_pct": -1.688,
+    "t_month_vs_0050": -4.18,
+    "hit_ab_net": 0.318
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.0954,
+    "maxDD": -0.8237,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1361,
+    "share_days_invested": 0.978,
+    "avg_positions": 13.9,
+    "excess_vs_0050_pct_m": -1.465,
+    "t_vs_0050_m": -4.97,
+    "excess_vs_EW_pct_m": -1.521,
+    "t_vs_EW_m": -5.16,
+    "yearly_pct": {
+     "2005": -11.2,
+     "2006": 13.0,
+     "2007": -10.2,
+     "2008": -31.5,
+     "2009": 21.8,
+     "2010": -3.7,
+     "2011": -28.6,
+     "2012": 3.3,
+     "2013": -6.6,
+     "2014": -21.2,
+     "2015": -25.7,
+     "2016": -4.8,
+     "2017": 8.8,
+     "2018": -26.7,
+     "2019": 7.3
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.1225,
+    "CAGR_gross": -0.0375
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.182,
+    "maxDD": -0.9497,
+    "t_vs_0050_m": -6.12,
+    "t_vs_EW_m": -8.07,
+    "avg_positions": 25.2,
+    "share_days_invested": 0.979
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.0836,
+    "maxDD": -0.5569,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.1546,
+    "share_days_invested": 0.993,
+    "avg_positions": 15.2,
+    "excess_vs_0050_pct_m": -2.947,
+    "t_vs_0050_m": -4.98,
+    "excess_vs_EW_pct_m": -2.061,
+    "t_vs_EW_m": -5.84,
+    "yearly_pct": {
+     "2019": 1.1,
+     "2020": -22.6,
+     "2021": 8.1,
+     "2022": -13.8,
+     "2023": 0.2,
+     "2024": -1.8,
+     "2025": -27.2,
+     "2026": -0.4
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.1127,
+    "CAGR_gross": -0.0217
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.1335,
+    "maxDD": -0.7153,
+    "t_vs_0050_m": -5.03,
+    "t_vs_EW_m": -6.21,
+    "avg_positions": 33.3,
+    "share_days_invested": 0.993
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.1635,
+    "maxDD": -0.3868,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.1576,
+    "share_days_invested": 1.0,
+    "avg_positions": 15.3,
+    "excess_vs_0050_pct_m": -4.644,
+    "t_vs_0050_m": -4.4,
+    "excess_vs_EW_pct_m": -1.996,
+    "t_vs_EW_m": -3.17,
+    "yearly_pct": {
+     "2024": -1.8,
+     "2025": -27.2
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.191,
+    "CAGR_gross": -0.1052
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.2001,
+    "maxDD": -0.4429,
+    "t_vs_0050_m": -4.64,
+    "t_vs_EW_m": -3.14,
+    "avg_positions": 33.4,
+    "share_days_invested": 1.0
+   }
+  },
+  "B_L120_H10": {
+   "trough_days": 35417,
+   "candidates": 8529,
+   "blocked_gap_up": 54,
+   "no_open": 4,
+   "no_confirm_in_10d": 23278,
+   "events_uncapped": 8379,
+   "events_cap20": 5910,
+   "skipped_cap20": 2515,
+   "event_select_2005-01_2019-04": {
+    "n": 4885,
+    "n_months": 169,
+    "avg_hold_days": 9.5,
+    "stop_share": 0.11,
+    "mean_raw_pct": -0.445,
+    "mean_net_pct": -1.112,
+    "mean_EW_pct": 0.311,
+    "mean_ab_gross_pct": -0.757,
+    "t_month_ab_gross": -6.43,
+    "mean_ab_net_pct": -1.423,
+    "median_ab_net_pct": -2.056,
+    "t_month_ab_net": -11.2,
+    "t_date_ab_net": -15.12,
+    "mean_ab_net_stress_pct": -1.747,
+    "t_month_ab_net_stress": -13.53,
+    "mean_net_vs_0050_pct": -1.319,
+    "t_month_vs_0050": -8.47,
+    "hit_ab_net": 0.32
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 3632,
+    "n_months": 169,
+    "avg_hold_days": 9.4,
+    "stop_share": 0.126,
+    "mean_raw_pct": -0.656,
+    "mean_net_pct": -1.322,
+    "mean_EW_pct": 0.198,
+    "mean_ab_gross_pct": -0.854,
+    "t_month_ab_gross": -6.32,
+    "mean_ab_net_pct": -1.519,
+    "median_ab_net_pct": -2.146,
+    "t_month_ab_net": -10.98,
+    "t_date_ab_net": -14.26,
+    "mean_ab_net_stress_pct": -1.843,
+    "t_month_ab_net_stress": -13.26,
+    "mean_net_vs_0050_pct": -1.499,
+    "t_month_vs_0050": -8.51,
+    "hit_ab_net": 0.315
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 3256,
+    "n_months": 89,
+    "avg_hold_days": 9.6,
+    "stop_share": 0.092,
+    "mean_raw_pct": -0.209,
+    "mean_net_pct": -0.877,
+    "mean_EW_pct": 0.507,
+    "mean_ab_gross_pct": -0.716,
+    "t_month_ab_gross": -4.38,
+    "mean_ab_net_pct": -1.384,
+    "median_ab_net_pct": -2.243,
+    "t_month_ab_net": -7.22,
+    "t_date_ab_net": -8.2,
+    "mean_ab_net_stress_pct": -1.709,
+    "t_month_ab_net_stress": -8.61,
+    "mean_net_vs_0050_pct": -1.714,
+    "t_month_vs_0050": -6.14,
+    "hit_ab_net": 0.32
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 2101,
+    "n_months": 89,
+    "avg_hold_days": 9.5,
+    "stop_share": 0.109,
+    "mean_raw_pct": -0.134,
+    "mean_net_pct": -0.803,
+    "mean_EW_pct": 0.663,
+    "mean_ab_gross_pct": -0.796,
+    "t_month_ab_gross": -3.94,
+    "mean_ab_net_pct": -1.465,
+    "median_ab_net_pct": -2.355,
+    "t_month_ab_net": -6.62,
+    "t_date_ab_net": -7.74,
+    "mean_ab_net_stress_pct": -1.79,
+    "t_month_ab_net_stress": -7.93,
+    "mean_net_vs_0050_pct": -1.886,
+    "t_month_vs_0050": -5.69,
+    "hit_ab_net": 0.314
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 872,
+    "n_months": 23,
+    "avg_hold_days": 9.5,
+    "stop_share": 0.109,
+    "mean_raw_pct": -0.763,
+    "mean_net_pct": -1.427,
+    "mean_EW_pct": -0.115,
+    "mean_ab_gross_pct": -0.648,
+    "t_month_ab_gross": -2.4,
+    "mean_ab_net_pct": -1.312,
+    "median_ab_net_pct": -2.212,
+    "t_month_ab_net": -4.21,
+    "t_date_ab_net": -3.68,
+    "mean_ab_net_stress_pct": -1.635,
+    "t_month_ab_net_stress": -5.09,
+    "mean_net_vs_0050_pct": -2.251,
+    "t_month_vs_0050": -4.1,
+    "hit_ab_net": 0.322
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 547,
+    "n_months": 23,
+    "avg_hold_days": 9.4,
+    "stop_share": 0.124,
+    "mean_raw_pct": -0.401,
+    "mean_net_pct": -1.068,
+    "mean_EW_pct": 0.457,
+    "mean_ab_gross_pct": -0.858,
+    "t_month_ab_gross": -2.26,
+    "mean_ab_net_pct": -1.525,
+    "median_ab_net_pct": -2.526,
+    "t_month_ab_net": -3.93,
+    "t_date_ab_net": -3.66,
+    "mean_ab_net_stress_pct": -1.849,
+    "t_month_ab_net_stress": -4.75,
+    "mean_net_vs_0050_pct": -2.504,
+    "t_month_vs_0050": -3.79,
+    "hit_ab_net": 0.303
+   },
+   "event_valid_ex_src3": {
+    "n": 2491,
+    "n_months": 69,
+    "avg_hold_days": 9.6,
+    "stop_share": 0.088,
+    "mean_raw_pct": -0.081,
+    "mean_net_pct": -0.75,
+    "mean_EW_pct": 0.757,
+    "mean_ab_gross_pct": -0.838,
+    "t_month_ab_gross": -4.13,
+    "mean_ab_net_pct": -1.507,
+    "median_ab_net_pct": -2.338,
+    "t_month_ab_net": -6.49,
+    "t_date_ab_net": -8.34,
+    "mean_ab_net_stress_pct": -1.832,
+    "t_month_ab_net_stress": -7.64,
+    "mean_net_vs_0050_pct": -1.618,
+    "t_month_vs_0050": -5.06,
+    "hit_ab_net": 0.312
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.1673,
+    "maxDD": -0.9342,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1126,
+    "share_days_invested": 0.949,
+    "avg_positions": 10.7,
+    "excess_vs_0050_pct_m": -2.176,
+    "t_vs_0050_m": -7.04,
+    "excess_vs_EW_pct_m": -2.232,
+    "t_vs_EW_m": -6.51,
+    "yearly_pct": {
+     "2005": -16.6,
+     "2006": -2.3,
+     "2007": -22.8,
+     "2008": -33.2,
+     "2009": 8.2,
+     "2010": -9.5,
+     "2011": -25.6,
+     "2012": -4.1,
+     "2013": -14.6,
+     "2014": -28.6,
+     "2015": -27.2,
+     "2016": -14.8,
+     "2017": -10.6,
+     "2018": -31.3,
+     "2019": 6.7
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.2014,
+    "CAGR_gross": -0.093
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.3109,
+    "maxDD": -0.9964,
+    "t_vs_0050_m": -8.94,
+    "t_vs_EW_m": -10.34,
+    "avg_positions": 14.6,
+    "share_days_invested": 0.949
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.1185,
+    "maxDD": -0.6414,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.1241,
+    "share_days_invested": 0.978,
+    "avg_positions": 12.4,
+    "excess_vs_0050_pct_m": -3.313,
+    "t_vs_0050_m": -5.43,
+    "excess_vs_EW_pct_m": -2.426,
+    "t_vs_EW_m": -5.32,
+    "yearly_pct": {
+     "2019": -1.0,
+     "2020": -14.7,
+     "2021": -14.0,
+     "2022": -20.1,
+     "2023": -2.6,
+     "2024": -9.7,
+     "2025": -18.5,
+     "2026": -6.4
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.1587,
+    "CAGR_gross": -0.031
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.2285,
+    "maxDD": -0.8782,
+    "t_vs_0050_m": -6.83,
+    "t_vs_EW_m": -7.24,
+    "avg_positions": 19.4,
+    "share_days_invested": 0.979
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.1507,
+    "maxDD": -0.3322,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.1249,
+    "share_days_invested": 0.996,
+    "avg_positions": 12.2,
+    "excess_vs_0050_pct_m": -4.55,
+    "t_vs_0050_m": -3.67,
+    "excess_vs_EW_pct_m": -1.901,
+    "t_vs_EW_m": -2.45,
+    "yearly_pct": {
+     "2024": -9.7,
+     "2025": -18.5
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1901,
+    "CAGR_gross": -0.0653
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.2194,
+    "maxDD": -0.4733,
+    "t_vs_0050_m": -4.37,
+    "t_vs_EW_m": -2.96,
+    "avg_positions": 19.6,
+    "share_days_invested": 0.996
+   }
+  },
+  "B_L120_H60": {
+   "trough_days": 35417,
+   "candidates": 8529,
+   "blocked_gap_up": 54,
+   "no_open": 4,
+   "no_confirm_in_10d": 23278,
+   "events_uncapped": 7427,
+   "events_cap20": 2276,
+   "skipped_cap20": 5910,
+   "event_select_2005-01_2019-04": {
+    "n": 4373,
+    "n_months": 169,
+    "avg_hold_days": 45.2,
+    "stop_share": 0.417,
+    "mean_raw_pct": 0.208,
+    "mean_net_pct": -0.463,
+    "mean_EW_pct": 1.459,
+    "mean_ab_gross_pct": -1.251,
+    "t_month_ab_gross": -3.97,
+    "mean_ab_net_pct": -1.922,
+    "median_ab_net_pct": -4.39,
+    "t_month_ab_net": -6.15,
+    "t_date_ab_net": -6.58,
+    "mean_ab_net_stress_pct": -2.248,
+    "t_month_ab_net_stress": -7.22,
+    "mean_net_vs_0050_pct": -1.823,
+    "t_month_vs_0050": -3.25,
+    "hit_ab_net": 0.321
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 1469,
+    "n_months": 165,
+    "avg_hold_days": 41.6,
+    "stop_share": 0.474,
+    "mean_raw_pct": -0.155,
+    "mean_net_pct": -0.823,
+    "mean_EW_pct": 1.522,
+    "mean_ab_gross_pct": -1.676,
+    "t_month_ab_gross": -3.63,
+    "mean_ab_net_pct": -2.345,
+    "median_ab_net_pct": -4.599,
+    "t_month_ab_net": -5.06,
+    "t_date_ab_net": -4.8,
+    "mean_ab_net_stress_pct": -2.67,
+    "t_month_ab_net_stress": -5.75,
+    "mean_net_vs_0050_pct": -2.079,
+    "t_month_vs_0050": -3.25,
+    "hit_ab_net": 0.297
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 2675,
+    "n_months": 89,
+    "avg_hold_days": 45.5,
+    "stop_share": 0.427,
+    "mean_raw_pct": 0.448,
+    "mean_net_pct": -0.225,
+    "mean_EW_pct": 1.804,
+    "mean_ab_gross_pct": -1.356,
+    "t_month_ab_gross": -4.83,
+    "mean_ab_net_pct": -2.028,
+    "median_ab_net_pct": -5.586,
+    "t_month_ab_net": -6.24,
+    "t_date_ab_net": -4.98,
+    "mean_ab_net_stress_pct": -2.355,
+    "t_month_ab_net_stress": -6.93,
+    "mean_net_vs_0050_pct": -4.416,
+    "t_month_vs_0050": -7.35,
+    "hit_ab_net": 0.299
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 714,
+    "n_months": 87,
+    "avg_hold_days": 43.9,
+    "stop_share": 0.427,
+    "mean_raw_pct": 1.289,
+    "mean_net_pct": 0.61,
+    "mean_EW_pct": 2.907,
+    "mean_ab_gross_pct": -1.618,
+    "t_month_ab_gross": -2.89,
+    "mean_ab_net_pct": -2.297,
+    "median_ab_net_pct": -5.62,
+    "t_month_ab_net": -3.8,
+    "t_date_ab_net": -2.97,
+    "mean_ab_net_stress_pct": -2.626,
+    "t_month_ab_net_stress": -4.25,
+    "mean_net_vs_0050_pct": -4.725,
+    "t_month_vs_0050": -5.09,
+    "hit_ab_net": 0.297
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 761,
+    "n_months": 23,
+    "avg_hold_days": 43.6,
+    "stop_share": 0.534,
+    "mean_raw_pct": -3.316,
+    "mean_net_pct": -3.963,
+    "mean_EW_pct": -1.312,
+    "mean_ab_gross_pct": -2.003,
+    "t_month_ab_gross": -3.88,
+    "mean_ab_net_pct": -2.651,
+    "median_ab_net_pct": -5.735,
+    "t_month_ab_net": -4.78,
+    "t_date_ab_net": -4.08,
+    "mean_ab_net_stress_pct": -2.965,
+    "t_month_ab_net_stress": -5.22,
+    "mean_net_vs_0050_pct": -8.078,
+    "t_month_vs_0050": -7.37,
+    "hit_ab_net": 0.273
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 201,
+    "n_months": 23,
+    "avg_hold_days": 42.2,
+    "stop_share": 0.498,
+    "mean_raw_pct": -0.96,
+    "mean_net_pct": -1.623,
+    "mean_EW_pct": 1.531,
+    "mean_ab_gross_pct": -2.491,
+    "t_month_ab_gross": -0.83,
+    "mean_ab_net_pct": -3.154,
+    "median_ab_net_pct": -6.398,
+    "t_month_ab_net": -1.19,
+    "t_date_ab_net": -1.46,
+    "mean_ab_net_stress_pct": -3.476,
+    "t_month_ab_net_stress": -1.37,
+    "mean_net_vs_0050_pct": -8.258,
+    "t_month_vs_0050": -3.17,
+    "hit_ab_net": 0.244
+   },
+   "event_valid_ex_src3": {
+    "n": 1912,
+    "n_months": 68,
+    "avg_hold_days": 45.5,
+    "stop_share": 0.407,
+    "mean_raw_pct": 1.47,
+    "mean_net_pct": 0.791,
+    "mean_EW_pct": 2.81,
+    "mean_ab_gross_pct": -1.339,
+    "t_month_ab_gross": -4.41,
+    "mean_ab_net_pct": -2.019,
+    "median_ab_net_pct": -5.711,
+    "t_month_ab_net": -5.52,
+    "t_date_ab_net": -4.42,
+    "mean_ab_net_stress_pct": -2.349,
+    "t_month_ab_net_stress": -6.07,
+    "mean_net_vs_0050_pct": -3.009,
+    "t_month_vs_0050": -5.35,
+    "hit_ab_net": 0.304
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.0709,
+    "maxDD": -0.7877,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1643,
+    "share_days_invested": 0.991,
+    "avg_positions": 17.7,
+    "excess_vs_0050_pct_m": -1.172,
+    "t_vs_0050_m": -3.89,
+    "excess_vs_EW_pct_m": -1.228,
+    "t_vs_EW_m": -5.45,
+    "yearly_pct": {
+     "2005": -5.2,
+     "2006": 23.1,
+     "2007": -10.5,
+     "2008": -37.0,
+     "2009": 61.3,
+     "2010": -8.5,
+     "2011": -35.3,
+     "2012": 19.5,
+     "2013": -0.2,
+     "2014": -11.5,
+     "2015": -32.6,
+     "2016": -4.4,
+     "2017": 5.2,
+     "2018": -28.0,
+     "2019": 7.8
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.0864,
+    "CAGR_gross": -0.0383
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.061,
+    "maxDD": -0.7761,
+    "t_vs_0050_m": -3.14,
+    "t_vs_EW_m": -5.59,
+    "avg_positions": 57.7,
+    "share_days_invested": 0.995
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": 0.0232,
+    "maxDD": -0.3545,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.179,
+    "share_days_invested": 0.993,
+    "avg_positions": 18.4,
+    "excess_vs_0050_pct_m": -1.99,
+    "t_vs_0050_m": -3.43,
+    "excess_vs_EW_pct_m": -1.104,
+    "t_vs_EW_m": -3.1,
+    "yearly_pct": {
+     "2019": 4.3,
+     "2020": -5.7,
+     "2021": 25.4,
+     "2022": -14.8,
+     "2023": 18.2,
+     "2024": 0.4,
+     "2025": -21.7,
+     "2026": 21.5
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": 0.0068,
+    "CAGR_gross": 0.0575
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": 0.0027,
+    "maxDD": -0.4035,
+    "t_vs_0050_m": -3.98,
+    "t_vs_EW_m": -5.12,
+    "avg_positions": 72.4,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.1201,
+    "maxDD": -0.2682,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.1792,
+    "share_days_invested": 1.0,
+    "avg_positions": 18.7,
+    "excess_vs_0050_pct_m": -4.257,
+    "t_vs_0050_m": -3.69,
+    "excess_vs_EW_pct_m": -1.609,
+    "t_vs_EW_m": -3.1,
+    "yearly_pct": {
+     "2024": 0.4,
+     "2025": -21.7
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1355,
+    "CAGR_gross": -0.0878
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.1387,
+    "maxDD": -0.3817,
+    "t_vs_0050_m": -4.09,
+    "t_vs_EW_m": -4.37,
+    "avg_positions": 72.1,
+    "share_days_invested": 1.0
+   }
+  },
+  "B_L60_H20": {
+   "trough_days": 64837,
+   "candidates": 14495,
+   "blocked_gap_up": 94,
+   "no_open": 4,
+   "no_confirm_in_10d": 42550,
+   "events_uncapped": 13416,
+   "events_cap20": 5082,
+   "skipped_cap20": 9013,
+   "event_select_2005-01_2019-04": {
+    "n": 7681,
+    "n_months": 171,
+    "avg_hold_days": 18.1,
+    "stop_share": 0.201,
+    "mean_raw_pct": 0.045,
+    "mean_net_pct": -0.625,
+    "mean_EW_pct": 0.816,
+    "mean_ab_gross_pct": -0.77,
+    "t_month_ab_gross": -4.27,
+    "mean_ab_net_pct": -1.44,
+    "median_ab_net_pct": -2.698,
+    "t_month_ab_net": -7.51,
+    "t_date_ab_net": -10.16,
+    "mean_ab_net_stress_pct": -1.766,
+    "t_month_ab_net_stress": -9.1,
+    "mean_net_vs_0050_pct": -1.373,
+    "t_month_vs_0050": -4.52,
+    "hit_ab_net": 0.346
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 3163,
+    "n_months": 171,
+    "avg_hold_days": 17.5,
+    "stop_share": 0.248,
+    "mean_raw_pct": -0.325,
+    "mean_net_pct": -0.993,
+    "mean_EW_pct": 0.606,
+    "mean_ab_gross_pct": -0.931,
+    "t_month_ab_gross": -4.01,
+    "mean_ab_net_pct": -1.599,
+    "median_ab_net_pct": -2.823,
+    "t_month_ab_net": -6.86,
+    "t_date_ab_net": -8.62,
+    "mean_ab_net_stress_pct": -1.923,
+    "t_month_ab_net_stress": -8.27,
+    "mean_net_vs_0050_pct": -1.577,
+    "t_month_vs_0050": -4.47,
+    "hit_ab_net": 0.342
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 5191,
+    "n_months": 89,
+    "avg_hold_days": 18.2,
+    "stop_share": 0.188,
+    "mean_raw_pct": 0.596,
+    "mean_net_pct": -0.078,
+    "mean_EW_pct": 1.338,
+    "mean_ab_gross_pct": -0.742,
+    "t_month_ab_gross": -4.3,
+    "mean_ab_net_pct": -1.416,
+    "median_ab_net_pct": -3.259,
+    "t_month_ab_net": -6.77,
+    "t_date_ab_net": -5.7,
+    "mean_ab_net_stress_pct": -1.743,
+    "t_month_ab_net_stress": -7.97,
+    "mean_net_vs_0050_pct": -1.804,
+    "t_month_vs_0050": -5.15,
+    "hit_ab_net": 0.325
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 1743,
+    "n_months": 89,
+    "avg_hold_days": 17.7,
+    "stop_share": 0.236,
+    "mean_raw_pct": 0.609,
+    "mean_net_pct": -0.065,
+    "mean_EW_pct": 1.333,
+    "mean_ab_gross_pct": -0.724,
+    "t_month_ab_gross": -2.67,
+    "mean_ab_net_pct": -1.398,
+    "median_ab_net_pct": -3.317,
+    "t_month_ab_net": -4.67,
+    "t_date_ab_net": -3.04,
+    "mean_ab_net_stress_pct": -1.725,
+    "t_month_ab_net_stress": -5.66,
+    "mean_net_vs_0050_pct": -2.149,
+    "t_month_vs_0050": -4.47,
+    "hit_ab_net": 0.335
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 1502,
+    "n_months": 24,
+    "avg_hold_days": 17.9,
+    "stop_share": 0.22,
+    "mean_raw_pct": -0.582,
+    "mean_net_pct": -1.247,
+    "mean_EW_pct": 0.303,
+    "mean_ab_gross_pct": -0.885,
+    "t_month_ab_gross": -3.38,
+    "mean_ab_net_pct": -1.55,
+    "median_ab_net_pct": -3.656,
+    "t_month_ab_net": -4.78,
+    "t_date_ab_net": -3.83,
+    "mean_ab_net_stress_pct": -1.874,
+    "t_month_ab_net_stress": -5.46,
+    "mean_net_vs_0050_pct": -3.424,
+    "t_month_vs_0050": -4.5,
+    "hit_ab_net": 0.321
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 478,
+    "n_months": 23,
+    "avg_hold_days": 17.6,
+    "stop_share": 0.257,
+    "mean_raw_pct": -0.136,
+    "mean_net_pct": -0.805,
+    "mean_EW_pct": 0.809,
+    "mean_ab_gross_pct": -0.945,
+    "t_month_ab_gross": -1.39,
+    "mean_ab_net_pct": -1.614,
+    "median_ab_net_pct": -3.972,
+    "t_month_ab_net": -2.46,
+    "t_date_ab_net": -2.15,
+    "mean_ab_net_stress_pct": -1.939,
+    "t_month_ab_net_stress": -2.98,
+    "mean_net_vs_0050_pct": -3.464,
+    "t_month_vs_0050": -4.33,
+    "hit_ab_net": 0.322
+   },
+   "event_valid_ex_src3": {
+    "n": 3903,
+    "n_months": 69,
+    "avg_hold_days": 18.3,
+    "stop_share": 0.177,
+    "mean_raw_pct": 0.992,
+    "mean_net_pct": 0.316,
+    "mean_EW_pct": 1.786,
+    "mean_ab_gross_pct": -0.794,
+    "t_month_ab_gross": -4.09,
+    "mean_ab_net_pct": -1.47,
+    "median_ab_net_pct": -3.225,
+    "t_month_ab_net": -6.28,
+    "t_date_ab_net": -5.21,
+    "mean_ab_net_stress_pct": -1.799,
+    "t_month_ab_net_stress": -7.36,
+    "mean_net_vs_0050_pct": -1.399,
+    "t_month_vs_0050": -3.89,
+    "hit_ab_net": 0.323
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.127,
+    "maxDD": -0.882,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1562,
+    "share_days_invested": 0.992,
+    "avg_positions": 16.5,
+    "excess_vs_0050_pct_m": -1.72,
+    "t_vs_0050_m": -6.04,
+    "excess_vs_EW_pct_m": -1.775,
+    "t_vs_EW_m": -7.41,
+    "yearly_pct": {
+     "2005": -9.3,
+     "2006": -1.2,
+     "2007": -11.6,
+     "2008": -36.6,
+     "2009": 35.7,
+     "2010": -4.1,
+     "2011": -34.1,
+     "2012": -7.3,
+     "2013": -6.2,
+     "2014": -22.1,
+     "2015": -28.6,
+     "2016": -2.8,
+     "2017": 3.2,
+     "2018": -35.2,
+     "2019": 5.5
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.1582,
+    "CAGR_gross": -0.0597
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.1539,
+    "maxDD": -0.9196,
+    "t_vs_0050_m": -3.19,
+    "t_vs_EW_m": -3.67,
+    "avg_positions": 41.6,
+    "share_days_invested": 0.993
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.0409,
+    "maxDD": -0.4518,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.1938,
+    "share_days_invested": 0.996,
+    "avg_positions": 18.3,
+    "excess_vs_0050_pct_m": -2.51,
+    "t_vs_0050_m": -4.5,
+    "excess_vs_EW_pct_m": -1.624,
+    "t_vs_EW_m": -6.27,
+    "yearly_pct": {
+     "2019": 2.0,
+     "2020": -9.7,
+     "2021": -0.7,
+     "2022": -12.3,
+     "2023": 7.8,
+     "2024": -7.1,
+     "2025": -19.2,
+     "2026": 12.8
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.0776,
+    "CAGR_gross": 0.0381
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.0806,
+    "maxDD": -0.564,
+    "t_vs_0050_m": -4.46,
+    "t_vs_EW_m": -6.56,
+    "avg_positions": 56.2,
+    "share_days_invested": 0.996
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.1418,
+    "maxDD": -0.4207,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.1999,
+    "share_days_invested": 1.0,
+    "avg_positions": 19.2,
+    "excess_vs_0050_pct_m": -4.396,
+    "t_vs_0050_m": -3.93,
+    "excess_vs_EW_pct_m": -1.748,
+    "t_vs_EW_m": -2.74,
+    "yearly_pct": {
+     "2024": -7.1,
+     "2025": -19.2
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1768,
+    "CAGR_gross": -0.0658
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.1824,
+    "maxDD": -0.4476,
+    "t_vs_0050_m": -3.94,
+    "t_vs_EW_m": -3.18,
+    "avg_positions": 59.3,
+    "share_days_invested": 1.0
+   }
+  },
+  "B_L60_H10": {
+   "trough_days": 64837,
+   "candidates": 14495,
+   "blocked_gap_up": 94,
+   "no_open": 4,
+   "no_confirm_in_10d": 42550,
+   "events_uncapped": 14162,
+   "events_cap20": 7853,
+   "skipped_cap20": 6441,
+   "event_select_2005-01_2019-04": {
+    "n": 8103,
+    "n_months": 171,
+    "avg_hold_days": 9.6,
+    "stop_share": 0.102,
+    "mean_raw_pct": -0.409,
+    "mean_net_pct": -1.076,
+    "mean_EW_pct": 0.34,
+    "mean_ab_gross_pct": -0.749,
+    "t_month_ab_gross": -6.89,
+    "mean_ab_net_pct": -1.416,
+    "median_ab_net_pct": -2.103,
+    "t_month_ab_net": -12.28,
+    "t_date_ab_net": -16.25,
+    "mean_ab_net_stress_pct": -1.74,
+    "t_month_ab_net_stress": -14.92,
+    "mean_net_vs_0050_pct": -1.352,
+    "t_month_vs_0050": -8.17,
+    "hit_ab_net": 0.324
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 4799,
+    "n_months": 171,
+    "avg_hold_days": 9.4,
+    "stop_share": 0.125,
+    "mean_raw_pct": -0.593,
+    "mean_net_pct": -1.258,
+    "mean_EW_pct": 0.234,
+    "mean_ab_gross_pct": -0.826,
+    "t_month_ab_gross": -6.72,
+    "mean_ab_net_pct": -1.492,
+    "median_ab_net_pct": -2.151,
+    "t_month_ab_net": -11.85,
+    "t_date_ab_net": -14.85,
+    "mean_ab_net_stress_pct": -1.816,
+    "t_month_ab_net_stress": -14.36,
+    "mean_net_vs_0050_pct": -1.51,
+    "t_month_vs_0050": -8.06,
+    "hit_ab_net": 0.325
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 5540,
+    "n_months": 89,
+    "avg_hold_days": 9.6,
+    "stop_share": 0.094,
+    "mean_raw_pct": -0.032,
+    "mean_net_pct": -0.702,
+    "mean_EW_pct": 0.61,
+    "mean_ab_gross_pct": -0.643,
+    "t_month_ab_gross": -4.48,
+    "mean_ab_net_pct": -1.312,
+    "median_ab_net_pct": -2.325,
+    "t_month_ab_net": -7.84,
+    "t_date_ab_net": -6.77,
+    "mean_ab_net_stress_pct": -1.637,
+    "t_month_ab_net_stress": -9.48,
+    "mean_net_vs_0050_pct": -1.591,
+    "t_month_vs_0050": -5.95,
+    "hit_ab_net": 0.323
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 2801,
+    "n_months": 89,
+    "avg_hold_days": 9.5,
+    "stop_share": 0.116,
+    "mean_raw_pct": 0.088,
+    "mean_net_pct": -0.582,
+    "mean_EW_pct": 0.702,
+    "mean_ab_gross_pct": -0.614,
+    "t_month_ab_gross": -3.45,
+    "mean_ab_net_pct": -1.284,
+    "median_ab_net_pct": -2.32,
+    "t_month_ab_net": -6.43,
+    "t_date_ab_net": -5.85,
+    "mean_ab_net_stress_pct": -1.61,
+    "t_month_ab_net_stress": -7.89,
+    "mean_net_vs_0050_pct": -1.647,
+    "t_month_vs_0050": -5.35,
+    "hit_ab_net": 0.323
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 1577,
+    "n_months": 24,
+    "avg_hold_days": 9.5,
+    "stop_share": 0.119,
+    "mean_raw_pct": -0.848,
+    "mean_net_pct": -1.513,
+    "mean_EW_pct": -0.021,
+    "mean_ab_gross_pct": -0.828,
+    "t_month_ab_gross": -3.97,
+    "mean_ab_net_pct": -1.492,
+    "median_ab_net_pct": -2.443,
+    "t_month_ab_net": -5.99,
+    "t_date_ab_net": -4.95,
+    "mean_ab_net_stress_pct": -1.814,
+    "t_month_ab_net_stress": -6.98,
+    "mean_net_vs_0050_pct": -2.432,
+    "t_month_vs_0050": -4.66,
+    "hit_ab_net": 0.317
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 771,
+    "n_months": 24,
+    "avg_hold_days": 9.5,
+    "stop_share": 0.123,
+    "mean_raw_pct": -0.523,
+    "mean_net_pct": -1.189,
+    "mean_EW_pct": 0.507,
+    "mean_ab_gross_pct": -1.03,
+    "t_month_ab_gross": -3.31,
+    "mean_ab_net_pct": -1.696,
+    "median_ab_net_pct": -2.553,
+    "t_month_ab_net": -5.02,
+    "t_date_ab_net": -3.99,
+    "mean_ab_net_stress_pct": -2.02,
+    "t_month_ab_net_stress": -5.86,
+    "mean_net_vs_0050_pct": -2.668,
+    "t_month_vs_0050": -4.31,
+    "hit_ab_net": 0.301
+   },
+   "event_valid_ex_src3": {
+    "n": 4197,
+    "n_months": 69,
+    "avg_hold_days": 9.6,
+    "stop_share": 0.086,
+    "mean_raw_pct": 0.225,
+    "mean_net_pct": -0.447,
+    "mean_EW_pct": 0.883,
+    "mean_ab_gross_pct": -0.659,
+    "t_month_ab_gross": -4.23,
+    "mean_ab_net_pct": -1.33,
+    "median_ab_net_pct": -2.326,
+    "t_month_ab_net": -7.33,
+    "t_date_ab_net": -6.25,
+    "mean_ab_net_stress_pct": -1.656,
+    "t_month_ab_net_stress": -8.85,
+    "mean_net_vs_0050_pct": -1.373,
+    "t_month_vs_0050": -4.84,
+    "hit_ab_net": 0.32
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.2052,
+    "maxDD": -0.9661,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1381,
+    "share_days_invested": 0.98,
+    "avg_positions": 14.1,
+    "excess_vs_0050_pct_m": -2.524,
+    "t_vs_0050_m": -8.75,
+    "excess_vs_EW_pct_m": -2.58,
+    "t_vs_EW_m": -9.25,
+    "yearly_pct": {
+     "2005": -15.0,
+     "2006": -8.1,
+     "2007": -21.5,
+     "2008": -40.5,
+     "2009": 29.1,
+     "2010": -10.1,
+     "2011": -39.5,
+     "2012": -13.3,
+     "2013": -17.8,
+     "2014": -29.3,
+     "2015": -34.7,
+     "2016": -15.3,
+     "2017": -13.9,
+     "2018": -42.6,
+     "2019": 5.9
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.2479,
+    "CAGR_gross": -0.1103
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.3104,
+    "maxDD": -0.9957,
+    "t_vs_0050_m": -8.96,
+    "t_vs_EW_m": -10.34,
+    "avg_positions": 24.2,
+    "share_days_invested": 0.98
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.1254,
+    "maxDD": -0.688,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.1662,
+    "share_days_invested": 0.995,
+    "avg_positions": 16.4,
+    "excess_vs_0050_pct_m": -3.328,
+    "t_vs_0050_m": -5.72,
+    "excess_vs_EW_pct_m": -2.442,
+    "t_vs_EW_m": -6.0,
+    "yearly_pct": {
+     "2019": 2.1,
+     "2020": -20.4,
+     "2021": -11.4,
+     "2022": -17.3,
+     "2023": -1.3,
+     "2024": -14.0,
+     "2025": -29.3,
+     "2026": 2.9
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.1781,
+    "CAGR_gross": -0.0077
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.1769,
+    "maxDD": -0.7977,
+    "t_vs_0050_m": -5.87,
+    "t_vs_EW_m": -7.24,
+    "avg_positions": 32.9,
+    "share_days_invested": 0.995
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.2334,
+    "maxDD": -0.4789,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.1753,
+    "share_days_invested": 1.0,
+    "avg_positions": 17.4,
+    "excess_vs_0050_pct_m": -5.329,
+    "t_vs_0050_m": -4.19,
+    "excess_vs_EW_pct_m": -2.681,
+    "t_vs_EW_m": -3.51,
+    "yearly_pct": {
+     "2024": -14.0,
+     "2025": -29.3
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.2836,
+    "CAGR_gross": -0.1203
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.2919,
+    "maxDD": -0.542,
+    "t_vs_0050_m": -4.78,
+    "t_vs_EW_m": -4.41,
+    "avg_positions": 35.2,
+    "share_days_invested": 1.0
+   }
+  },
+  "B_L60_H60": {
+   "trough_days": 64837,
+   "candidates": 14495,
+   "blocked_gap_up": 94,
+   "no_open": 4,
+   "no_confirm_in_10d": 42550,
+   "events_uncapped": 12281,
+   "events_cap20": 2471,
+   "skipped_cap20": 11556,
+   "event_select_2005-01_2019-04": {
+    "n": 7040,
+    "n_months": 171,
+    "avg_hold_days": 45.2,
+    "stop_share": 0.419,
+    "mean_raw_pct": 0.472,
+    "mean_net_pct": -0.201,
+    "mean_EW_pct": 1.512,
+    "mean_ab_gross_pct": -1.041,
+    "t_month_ab_gross": -4.4,
+    "mean_ab_net_pct": -1.714,
+    "median_ab_net_pct": -4.477,
+    "t_month_ab_net": -6.71,
+    "t_date_ab_net": -6.6,
+    "mean_ab_net_stress_pct": -2.04,
+    "t_month_ab_net_stress": -7.85,
+    "mean_net_vs_0050_pct": -1.822,
+    "t_month_vs_0050": -3.65,
+    "hit_ab_net": 0.316
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 1597,
+    "n_months": 164,
+    "avg_hold_days": 40.3,
+    "stop_share": 0.5,
+    "mean_raw_pct": 0.482,
+    "mean_net_pct": -0.191,
+    "mean_EW_pct": 1.656,
+    "mean_ab_gross_pct": -1.174,
+    "t_month_ab_gross": -0.8,
+    "mean_ab_net_pct": -1.847,
+    "median_ab_net_pct": -4.922,
+    "t_month_ab_net": -1.7,
+    "t_date_ab_net": -3.55,
+    "mean_ab_net_stress_pct": -2.173,
+    "t_month_ab_net_stress": -2.14,
+    "mean_net_vs_0050_pct": -1.618,
+    "t_month_vs_0050": -1.0,
+    "hit_ab_net": 0.291
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 4561,
+    "n_months": 89,
+    "avg_hold_days": 45.2,
+    "stop_share": 0.435,
+    "mean_raw_pct": 1.084,
+    "mean_net_pct": 0.407,
+    "mean_EW_pct": 2.107,
+    "mean_ab_gross_pct": -1.023,
+    "t_month_ab_gross": -3.62,
+    "mean_ab_net_pct": -1.7,
+    "median_ab_net_pct": -5.94,
+    "t_month_ab_net": -5.12,
+    "t_date_ab_net": -4.52,
+    "mean_ab_net_stress_pct": -2.029,
+    "t_month_ab_net_stress": -5.86,
+    "mean_net_vs_0050_pct": -4.088,
+    "t_month_vs_0050": -6.73,
+    "hit_ab_net": 0.292
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 764,
+    "n_months": 82,
+    "avg_hold_days": 42.7,
+    "stop_share": 0.449,
+    "mean_raw_pct": 2.624,
+    "mean_net_pct": 1.937,
+    "mean_EW_pct": 3.184,
+    "mean_ab_gross_pct": -0.559,
+    "t_month_ab_gross": -0.34,
+    "mean_ab_net_pct": -1.247,
+    "median_ab_net_pct": -5.608,
+    "t_month_ab_net": -1.03,
+    "t_date_ab_net": -1.49,
+    "mean_ab_net_stress_pct": -1.581,
+    "t_month_ab_net_stress": -1.38,
+    "mean_net_vs_0050_pct": -3.265,
+    "t_month_vs_0050": -2.67,
+    "hit_ab_net": 0.3
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 1379,
+    "n_months": 24,
+    "avg_hold_days": 42.8,
+    "stop_share": 0.529,
+    "mean_raw_pct": -1.861,
+    "mean_net_pct": -2.519,
+    "mean_EW_pct": -0.421,
+    "mean_ab_gross_pct": -1.441,
+    "t_month_ab_gross": -3.39,
+    "mean_ab_net_pct": -2.098,
+    "median_ab_net_pct": -6.281,
+    "t_month_ab_net": -4.42,
+    "t_date_ab_net": -3.08,
+    "mean_ab_net_stress_pct": -2.417,
+    "t_month_ab_net_stress": -4.93,
+    "mean_net_vs_0050_pct": -7.825,
+    "t_month_vs_0050": -8.37,
+    "hit_ab_net": 0.276
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 227,
+    "n_months": 22,
+    "avg_hold_days": 39.9,
+    "stop_share": 0.529,
+    "mean_raw_pct": 0.42,
+    "mean_net_pct": -0.253,
+    "mean_EW_pct": 1.806,
+    "mean_ab_gross_pct": -1.387,
+    "t_month_ab_gross": -0.57,
+    "mean_ab_net_pct": -2.059,
+    "median_ab_net_pct": -6.171,
+    "t_month_ab_net": -1.05,
+    "t_date_ab_net": -0.79,
+    "mean_ab_net_stress_pct": -2.386,
+    "t_month_ab_net_stress": -1.28,
+    "mean_net_vs_0050_pct": -7.019,
+    "t_month_vs_0050": -3.87,
+    "hit_ab_net": 0.273
+   },
+   "event_valid_ex_src3": {
+    "n": 3261,
+    "n_months": 68,
+    "avg_hold_days": 45.7,
+    "stop_share": 0.413,
+    "mean_raw_pct": 2.158,
+    "mean_net_pct": 1.474,
+    "mean_EW_pct": 3.079,
+    "mean_ab_gross_pct": -0.921,
+    "t_month_ab_gross": -3.22,
+    "mean_ab_net_pct": -1.605,
+    "median_ab_net_pct": -5.968,
+    "t_month_ab_net": -4.41,
+    "t_date_ab_net": -3.94,
+    "mean_ab_net_stress_pct": -1.937,
+    "t_month_ab_net_stress": -4.99,
+    "mean_net_vs_0050_pct": -2.62,
+    "t_month_vs_0050": -4.53,
+    "hit_ab_net": 0.295
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.0503,
+    "maxDD": -0.7407,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1762,
+    "share_days_invested": 1.0,
+    "avg_positions": 18.6,
+    "excess_vs_0050_pct_m": -0.96,
+    "t_vs_0050_m": -3.08,
+    "excess_vs_EW_pct_m": -1.016,
+    "t_vs_EW_m": -5.04,
+    "yearly_pct": {
+     "2005": -2.0,
+     "2006": 22.3,
+     "2007": -6.5,
+     "2008": -37.2,
+     "2009": 73.0,
+     "2010": -5.3,
+     "2011": -33.9,
+     "2012": -1.4,
+     "2013": 8.3,
+     "2014": -13.2,
+     "2015": -30.0,
+     "2016": 2.7,
+     "2017": 16.8,
+     "2018": -26.7,
+     "2019": 9.7
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.0676,
+    "CAGR_gross": -0.0142
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.0723,
+    "maxDD": -0.812,
+    "t_vs_0050_m": -3.9,
+    "t_vs_EW_m": -8.8,
+    "avg_positions": 93.1,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": 0.0705,
+    "maxDD": -0.2885,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.2028,
+    "share_days_invested": 0.999,
+    "avg_positions": 19.2,
+    "excess_vs_0050_pct_m": -1.543,
+    "t_vs_0050_m": -2.56,
+    "excess_vs_EW_pct_m": -0.657,
+    "t_vs_EW_m": -1.87,
+    "yearly_pct": {
+     "2019": 8.4,
+     "2020": 3.8,
+     "2021": 21.0,
+     "2022": -14.6,
+     "2023": 21.0,
+     "2024": 9.4,
+     "2025": -16.9,
+     "2026": 30.0
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": 0.052,
+    "CAGR_gross": 0.1091
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": 0.0489,
+    "maxDD": -0.3891,
+    "t_vs_0050_m": -3.09,
+    "t_vs_EW_m": -4.11,
+    "avg_positions": 122.4,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.0495,
+    "maxDD": -0.2801,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.2093,
+    "share_days_invested": 1.0,
+    "avg_positions": 19.6,
+    "excess_vs_0050_pct_m": -3.539,
+    "t_vs_0050_m": -2.57,
+    "excess_vs_EW_pct_m": -0.891,
+    "t_vs_EW_m": -1.0,
+    "yearly_pct": {
+     "2024": 9.4,
+     "2025": -16.9
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.0684,
+    "CAGR_gross": -0.01
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.117,
+    "maxDD": -0.3891,
+    "t_vs_0050_m": -3.57,
+    "t_vs_EW_m": -3.76,
+    "avg_positions": 124.1,
+    "share_days_invested": 1.0
+   }
+  },
+  "B_L250_H20": {
+   "trough_days": 16693,
+   "candidates": 4160,
+   "blocked_gap_up": 29,
+   "no_open": 0,
+   "no_confirm_in_10d": 11183,
+   "events_uncapped": 3958,
+   "events_cap20": 2867,
+   "skipped_cap20": 1148,
+   "event_select_2005-01_2019-04": {
+    "n": 2479,
+    "n_months": 164,
+    "avg_hold_days": 17.8,
+    "stop_share": 0.212,
+    "mean_raw_pct": -0.403,
+    "mean_net_pct": -1.07,
+    "mean_EW_pct": 0.505,
+    "mean_ab_gross_pct": -0.908,
+    "t_month_ab_gross": -4.84,
+    "mean_ab_net_pct": -1.575,
+    "median_ab_net_pct": -2.554,
+    "t_month_ab_net": -7.36,
+    "t_date_ab_net": -8.29,
+    "mean_ab_net_stress_pct": -1.899,
+    "t_month_ab_net_stress": -8.6,
+    "mean_net_vs_0050_pct": -1.536,
+    "t_month_vs_0050": -5.59,
+    "hit_ab_net": 0.338
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 1870,
+    "n_months": 164,
+    "avg_hold_days": 17.5,
+    "stop_share": 0.233,
+    "mean_raw_pct": -0.561,
+    "mean_net_pct": -1.227,
+    "mean_EW_pct": 0.332,
+    "mean_ab_gross_pct": -0.894,
+    "t_month_ab_gross": -4.68,
+    "mean_ab_net_pct": -1.56,
+    "median_ab_net_pct": -2.671,
+    "t_month_ab_net": -7.16,
+    "t_date_ab_net": -7.21,
+    "mean_ab_net_stress_pct": -1.883,
+    "t_month_ab_net_stress": -8.37,
+    "mean_net_vs_0050_pct": -1.533,
+    "t_month_vs_0050": -5.4,
+    "hit_ab_net": 0.335
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 1422,
+    "n_months": 84,
+    "avg_hold_days": 18.4,
+    "stop_share": 0.17,
+    "mean_raw_pct": 0.043,
+    "mean_net_pct": -0.627,
+    "mean_EW_pct": 0.977,
+    "mean_ab_gross_pct": -0.935,
+    "t_month_ab_gross": -3.56,
+    "mean_ab_net_pct": -1.605,
+    "median_ab_net_pct": -2.929,
+    "t_month_ab_net": -5.08,
+    "t_date_ab_net": -7.21,
+    "mean_ab_net_stress_pct": -1.93,
+    "t_month_ab_net_stress": -5.83,
+    "mean_net_vs_0050_pct": -1.762,
+    "t_month_vs_0050": -4.72,
+    "hit_ab_net": 0.33
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 963,
+    "n_months": 83,
+    "avg_hold_days": 18.2,
+    "stop_share": 0.177,
+    "mean_raw_pct": 0.217,
+    "mean_net_pct": -0.454,
+    "mean_EW_pct": 1.266,
+    "mean_ab_gross_pct": -1.049,
+    "t_month_ab_gross": -3.3,
+    "mean_ab_net_pct": -1.72,
+    "median_ab_net_pct": -2.994,
+    "t_month_ab_net": -4.82,
+    "t_date_ab_net": -6.27,
+    "mean_ab_net_stress_pct": -2.046,
+    "t_month_ab_net_stress": -5.57,
+    "mean_net_vs_0050_pct": -2.15,
+    "t_month_vs_0050": -4.54,
+    "hit_ab_net": 0.335
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 381,
+    "n_months": 22,
+    "avg_hold_days": 18.3,
+    "stop_share": 0.163,
+    "mean_raw_pct": -0.676,
+    "mean_net_pct": -1.341,
+    "mean_EW_pct": 0.282,
+    "mean_ab_gross_pct": -0.958,
+    "t_month_ab_gross": -3.06,
+    "mean_ab_net_pct": -1.623,
+    "median_ab_net_pct": -2.999,
+    "t_month_ab_net": -4.17,
+    "t_date_ab_net": -3.8,
+    "mean_ab_net_stress_pct": -1.946,
+    "t_month_ab_net_stress": -4.71,
+    "mean_net_vs_0050_pct": -3.368,
+    "t_month_vs_0050": -3.91,
+    "hit_ab_net": 0.336
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 257,
+    "n_months": 22,
+    "avg_hold_days": 18.1,
+    "stop_share": 0.175,
+    "mean_raw_pct": -0.428,
+    "mean_net_pct": -1.095,
+    "mean_EW_pct": 0.839,
+    "mean_ab_gross_pct": -1.267,
+    "t_month_ab_gross": -2.99,
+    "mean_ab_net_pct": -1.934,
+    "median_ab_net_pct": -3.36,
+    "t_month_ab_net": -4.06,
+    "t_date_ab_net": -3.69,
+    "mean_ab_net_stress_pct": -2.258,
+    "t_month_ab_net_stress": -4.58,
+    "mean_net_vs_0050_pct": -3.439,
+    "t_month_vs_0050": -3.82,
+    "hit_ab_net": 0.319
+   },
+   "event_valid_ex_src3": {
+    "n": 1047,
+    "n_months": 64,
+    "avg_hold_days": 18.4,
+    "stop_share": 0.171,
+    "mean_raw_pct": 0.373,
+    "mean_net_pct": -0.299,
+    "mean_EW_pct": 1.243,
+    "mean_ab_gross_pct": -0.869,
+    "t_month_ab_gross": -2.4,
+    "mean_ab_net_pct": -1.542,
+    "median_ab_net_pct": -2.868,
+    "t_month_ab_net": -3.69,
+    "t_date_ab_net": -5.8,
+    "mean_ab_net_stress_pct": -1.868,
+    "t_month_ab_net_stress": -4.32,
+    "mean_net_vs_0050_pct": -1.125,
+    "t_month_vs_0050": -3.27,
+    "hit_ab_net": 0.33
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.09,
+    "maxDD": -0.7659,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1045,
+    "share_days_invested": 0.942,
+    "avg_positions": 9.8,
+    "excess_vs_0050_pct_m": -1.456,
+    "t_vs_0050_m": -4.82,
+    "excess_vs_EW_pct_m": -1.512,
+    "t_vs_EW_m": -4.4,
+    "yearly_pct": {
+     "2005": -9.8,
+     "2006": 4.9,
+     "2007": -18.9,
+     "2008": -28.0,
+     "2009": 9.1,
+     "2010": -2.1,
+     "2011": -17.6,
+     "2012": -2.6,
+     "2013": -1.4,
+     "2014": -19.0,
+     "2015": -14.9,
+     "2016": -2.3,
+     "2017": 1.0,
+     "2018": -21.3,
+     "2019": 3.5
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.1094,
+    "CAGR_gross": -0.0491
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.2133,
+    "maxDD": -0.968,
+    "t_vs_0050_m": -6.35,
+    "t_vs_EW_m": -7.73,
+    "avg_positions": 13.2,
+    "share_days_invested": 0.943
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.0368,
+    "maxDD": -0.3418,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.1057,
+    "share_days_invested": 0.95,
+    "avg_positions": 10.4,
+    "excess_vs_0050_pct_m": -2.601,
+    "t_vs_0050_m": -4.06,
+    "excess_vs_EW_pct_m": -1.714,
+    "t_vs_EW_m": -3.69,
+    "yearly_pct": {
+     "2019": 3.8,
+     "2020": -1.0,
+     "2021": -4.6,
+     "2022": -13.2,
+     "2023": 1.6,
+     "2024": -10.5,
+     "2025": -5.5,
+     "2026": 3.5
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.0572,
+    "CAGR_gross": 0.0061
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.1577,
+    "maxDD": -0.7596,
+    "t_vs_0050_m": -4.63,
+    "t_vs_EW_m": -5.41,
+    "avg_positions": 15.6,
+    "share_days_invested": 0.952
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.0856,
+    "maxDD": -0.2003,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.1129,
+    "share_days_invested": 0.98,
+    "avg_positions": 10.7,
+    "excess_vs_0050_pct_m": -3.999,
+    "t_vs_0050_m": -3.48,
+    "excess_vs_EW_pct_m": -1.35,
+    "t_vs_EW_m": -2.41,
+    "yearly_pct": {
+     "2024": -10.5,
+     "2025": -5.5
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1062,
+    "CAGR_gross": -0.0427
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.2714,
+    "maxDD": -0.4721,
+    "t_vs_0050_m": -4.11,
+    "t_vs_EW_m": -3.73,
+    "avg_positions": 16.1,
+    "share_days_invested": 0.98
+   }
+  },
+  "B_L250_H10": {
+   "trough_days": 16693,
+   "candidates": 4160,
+   "blocked_gap_up": 29,
+   "no_open": 0,
+   "no_confirm_in_10d": 11183,
+   "events_uncapped": 4108,
+   "events_cap20": 3557,
+   "skipped_cap20": 561,
+   "event_select_2005-01_2019-04": {
+    "n": 2571,
+    "n_months": 164,
+    "avg_hold_days": 9.5,
+    "stop_share": 0.121,
+    "mean_raw_pct": -0.663,
+    "mean_net_pct": -1.329,
+    "mean_EW_pct": 0.216,
+    "mean_ab_gross_pct": -0.879,
+    "t_month_ab_gross": -5.77,
+    "mean_ab_net_pct": -1.544,
+    "median_ab_net_pct": -2.028,
+    "t_month_ab_net": -9.16,
+    "t_date_ab_net": -13.39,
+    "mean_ab_net_stress_pct": -1.867,
+    "t_month_ab_net_stress": -10.82,
+    "mean_net_vs_0050_pct": -1.427,
+    "t_month_vs_0050": -7.41,
+    "hit_ab_net": 0.315
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 2262,
+    "n_months": 164,
+    "avg_hold_days": 9.4,
+    "stop_share": 0.133,
+    "mean_raw_pct": -0.821,
+    "mean_net_pct": -1.486,
+    "mean_EW_pct": 0.088,
+    "mean_ab_gross_pct": -0.91,
+    "t_month_ab_gross": -5.93,
+    "mean_ab_net_pct": -1.574,
+    "median_ab_net_pct": -2.033,
+    "t_month_ab_net": -9.31,
+    "t_date_ab_net": -13.23,
+    "mean_ab_net_stress_pct": -1.897,
+    "t_month_ab_net_stress": -10.97,
+    "mean_net_vs_0050_pct": -1.508,
+    "t_month_vs_0050": -7.51,
+    "hit_ab_net": 0.317
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 1497,
+    "n_months": 85,
+    "avg_hold_days": 9.7,
+    "stop_share": 0.08,
+    "mean_raw_pct": -0.206,
+    "mean_net_pct": -0.874,
+    "mean_EW_pct": 0.462,
+    "mean_ab_gross_pct": -0.668,
+    "t_month_ab_gross": -3.46,
+    "mean_ab_net_pct": -1.337,
+    "median_ab_net_pct": -1.951,
+    "t_month_ab_net": -5.61,
+    "t_date_ab_net": -6.93,
+    "mean_ab_net_stress_pct": -1.661,
+    "t_month_ab_net_stress": -6.67,
+    "mean_net_vs_0050_pct": -1.531,
+    "t_month_vs_0050": -5.62,
+    "hit_ab_net": 0.326
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 1255,
+    "n_months": 85,
+    "avg_hold_days": 9.6,
+    "stop_share": 0.084,
+    "mean_raw_pct": -0.075,
+    "mean_net_pct": -0.745,
+    "mean_EW_pct": 0.584,
+    "mean_ab_gross_pct": -0.66,
+    "t_month_ab_gross": -3.14,
+    "mean_ab_net_pct": -1.329,
+    "median_ab_net_pct": -1.964,
+    "t_month_ab_net": -5.24,
+    "t_date_ab_net": -6.4,
+    "mean_ab_net_stress_pct": -1.654,
+    "t_month_ab_net_stress": -6.26,
+    "mean_net_vs_0050_pct": -1.572,
+    "t_month_vs_0050": -5.27,
+    "hit_ab_net": 0.324
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 392,
+    "n_months": 22,
+    "avg_hold_days": 9.5,
+    "stop_share": 0.094,
+    "mean_raw_pct": -0.547,
+    "mean_net_pct": -1.213,
+    "mean_EW_pct": -0.046,
+    "mean_ab_gross_pct": -0.501,
+    "t_month_ab_gross": -3.15,
+    "mean_ab_net_pct": -1.167,
+    "median_ab_net_pct": -1.848,
+    "t_month_ab_net": -4.66,
+    "t_date_ab_net": -2.91,
+    "mean_ab_net_stress_pct": -1.49,
+    "t_month_ab_net_stress": -5.39,
+    "mean_net_vs_0050_pct": -2.113,
+    "t_month_vs_0050": -4.08,
+    "hit_ab_net": 0.355
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 317,
+    "n_months": 22,
+    "avg_hold_days": 9.5,
+    "stop_share": 0.095,
+    "mean_raw_pct": -0.159,
+    "mean_net_pct": -0.828,
+    "mean_EW_pct": 0.453,
+    "mean_ab_gross_pct": -0.612,
+    "t_month_ab_gross": -3.12,
+    "mean_ab_net_pct": -1.281,
+    "median_ab_net_pct": -2.024,
+    "t_month_ab_net": -4.62,
+    "t_date_ab_net": -2.71,
+    "mean_ab_net_stress_pct": -1.606,
+    "t_month_ab_net_stress": -5.35,
+    "mean_net_vs_0050_pct": -2.031,
+    "t_month_vs_0050": -4.0,
+    "hit_ab_net": 0.338
+   },
+   "event_valid_ex_src3": {
+    "n": 1113,
+    "n_months": 66,
+    "avg_hold_days": 9.7,
+    "stop_share": 0.075,
+    "mean_raw_pct": -0.051,
+    "mean_net_pct": -0.721,
+    "mean_EW_pct": 0.647,
+    "mean_ab_gross_pct": -0.699,
+    "t_month_ab_gross": -2.48,
+    "mean_ab_net_pct": -1.368,
+    "median_ab_net_pct": -1.973,
+    "t_month_ab_net": -4.34,
+    "t_date_ab_net": -6.09,
+    "mean_ab_net_stress_pct": -1.693,
+    "t_month_ab_net_stress": -5.25,
+    "mean_net_vs_0050_pct": -1.269,
+    "t_month_vs_0050": -4.37,
+    "hit_ab_net": 0.316
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.1173,
+    "maxDD": -0.8378,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.08,
+    "share_days_invested": 0.876,
+    "avg_positions": 6.7,
+    "excess_vs_0050_pct_m": -1.739,
+    "t_vs_0050_m": -5.5,
+    "excess_vs_EW_pct_m": -1.794,
+    "t_vs_EW_m": -4.64,
+    "yearly_pct": {
+     "2005": -10.5,
+     "2006": -2.1,
+     "2007": -22.5,
+     "2008": -19.2,
+     "2009": 3.0,
+     "2010": -6.0,
+     "2011": -21.1,
+     "2012": -5.6,
+     "2013": -7.2,
+     "2014": -17.4,
+     "2015": -17.1,
+     "2016": -7.9,
+     "2017": -4.2,
+     "2018": -25.5,
+     "2019": 1.3
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.1399,
+    "CAGR_gross": -0.0691
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.3174,
+    "maxDD": -0.9961,
+    "t_vs_0050_m": -8.15,
+    "t_vs_EW_m": -8.59,
+    "avg_positions": 7.6,
+    "share_days_invested": 0.877
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.0679,
+    "maxDD": -0.4359,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.0825,
+    "share_days_invested": 0.886,
+    "avg_positions": 7.5,
+    "excess_vs_0050_pct_m": -2.896,
+    "t_vs_0050_m": -4.47,
+    "excess_vs_EW_pct_m": -2.01,
+    "t_vs_EW_m": -3.87,
+    "yearly_pct": {
+     "2019": 4.3,
+     "2020": -0.8,
+     "2021": -12.2,
+     "2022": -16.1,
+     "2023": -1.7,
+     "2024": -8.6,
+     "2025": -5.6,
+     "2026": -8.4
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.0937,
+    "CAGR_gross": -0.0136
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.2671,
+    "maxDD": -0.9074,
+    "t_vs_0050_m": -6.86,
+    "t_vs_EW_m": -8.0,
+    "avg_positions": 9.0,
+    "share_days_invested": 0.886
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.0759,
+    "maxDD": -0.1572,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.0862,
+    "share_days_invested": 0.935,
+    "avg_positions": 7.3,
+    "excess_vs_0050_pct_m": -3.924,
+    "t_vs_0050_m": -3.23,
+    "excess_vs_EW_pct_m": -1.276,
+    "t_vs_EW_m": -1.94,
+    "yearly_pct": {
+     "2024": -8.6,
+     "2025": -5.6
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1015,
+    "CAGR_gross": -0.0215
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.3795,
+    "maxDD": -0.5974,
+    "t_vs_0050_m": -4.51,
+    "t_vs_EW_m": -4.18,
+    "avg_positions": 9.0,
+    "share_days_invested": 0.935
+   }
+  },
+  "B_L250_H60": {
+   "trough_days": 16693,
+   "candidates": 4160,
+   "blocked_gap_up": 29,
+   "no_open": 0,
+   "no_confirm_in_10d": 11183,
+   "events_uncapped": 3731,
+   "events_cap20": 1844,
+   "skipped_cap20": 2080,
+   "event_select_2005-01_2019-04": {
+    "n": 2362,
+    "n_months": 163,
+    "avg_hold_days": 44.6,
+    "stop_share": 0.429,
+    "mean_raw_pct": -0.359,
+    "mean_net_pct": -1.026,
+    "mean_EW_pct": 1.064,
+    "mean_ab_gross_pct": -1.423,
+    "t_month_ab_gross": -2.37,
+    "mean_ab_net_pct": -2.09,
+    "median_ab_net_pct": -4.287,
+    "t_month_ab_net": -3.48,
+    "t_date_ab_net": -6.07,
+    "mean_ab_net_stress_pct": -2.414,
+    "t_month_ab_net_stress": -4.03,
+    "mean_net_vs_0050_pct": -2.2,
+    "t_month_vs_0050": -2.64,
+    "hit_ab_net": 0.318
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 1244,
+    "n_months": 156,
+    "avg_hold_days": 42.3,
+    "stop_share": 0.467,
+    "mean_raw_pct": -0.016,
+    "mean_net_pct": -0.685,
+    "mean_EW_pct": 1.239,
+    "mean_ab_gross_pct": -1.254,
+    "t_month_ab_gross": -0.72,
+    "mean_ab_net_pct": -1.924,
+    "median_ab_net_pct": -4.331,
+    "t_month_ab_net": -1.66,
+    "t_date_ab_net": -3.85,
+    "mean_ab_net_stress_pct": -2.249,
+    "t_month_ab_net_stress": -2.13,
+    "mean_net_vs_0050_pct": -1.733,
+    "t_month_vs_0050": -1.07,
+    "hit_ab_net": 0.309
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 1271,
+    "n_months": 84,
+    "avg_hold_days": 45.7,
+    "stop_share": 0.428,
+    "mean_raw_pct": -0.085,
+    "mean_net_pct": -0.754,
+    "mean_EW_pct": 1.155,
+    "mean_ab_gross_pct": -1.239,
+    "t_month_ab_gross": -4.23,
+    "mean_ab_net_pct": -1.909,
+    "median_ab_net_pct": -4.904,
+    "t_month_ab_net": -5.11,
+    "t_date_ab_net": -4.54,
+    "mean_ab_net_stress_pct": -2.234,
+    "t_month_ab_net_stress": -5.53,
+    "mean_net_vs_0050_pct": -3.475,
+    "t_month_vs_0050": -6.02,
+    "hit_ab_net": 0.31
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 557,
+    "n_months": 78,
+    "avg_hold_days": 45.0,
+    "stop_share": 0.434,
+    "mean_raw_pct": 0.943,
+    "mean_net_pct": 0.267,
+    "mean_EW_pct": 2.301,
+    "mean_ab_gross_pct": -1.359,
+    "t_month_ab_gross": -2.95,
+    "mean_ab_net_pct": -2.035,
+    "median_ab_net_pct": -5.461,
+    "t_month_ab_net": -3.64,
+    "t_date_ab_net": -3.18,
+    "mean_ab_net_stress_pct": -2.363,
+    "t_month_ab_net_stress": -3.97,
+    "mean_net_vs_0050_pct": -3.756,
+    "t_month_vs_0050": -4.69,
+    "hit_ab_net": 0.3
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 344,
+    "n_months": 22,
+    "avg_hold_days": 44.7,
+    "stop_share": 0.512,
+    "mean_raw_pct": -3.123,
+    "mean_net_pct": -3.772,
+    "mean_EW_pct": -2.144,
+    "mean_ab_gross_pct": -0.98,
+    "t_month_ab_gross": -2.55,
+    "mean_ab_net_pct": -1.629,
+    "median_ab_net_pct": -4.764,
+    "t_month_ab_net": -2.97,
+    "t_date_ab_net": -1.79,
+    "mean_ab_net_stress_pct": -1.944,
+    "t_month_ab_net_stress": -3.17,
+    "mean_net_vs_0050_pct": -6.908,
+    "t_month_vs_0050": -5.28,
+    "hit_ab_net": 0.299
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 157,
+    "n_months": 21,
+    "avg_hold_days": 44.2,
+    "stop_share": 0.478,
+    "mean_raw_pct": -0.386,
+    "mean_net_pct": -1.054,
+    "mean_EW_pct": 1.352,
+    "mean_ab_gross_pct": -1.739,
+    "t_month_ab_gross": -0.95,
+    "mean_ab_net_pct": -2.406,
+    "median_ab_net_pct": -5.618,
+    "t_month_ab_net": -1.21,
+    "t_date_ab_net": -1.37,
+    "mean_ab_net_stress_pct": -2.73,
+    "t_month_ab_net_stress": -1.34,
+    "mean_net_vs_0050_pct": -7.587,
+    "t_month_vs_0050": -2.84,
+    "hit_ab_net": 0.261
+   },
+   "event_valid_ex_src3": {
+    "n": 898,
+    "n_months": 63,
+    "avg_hold_days": 45.8,
+    "stop_share": 0.406,
+    "mean_raw_pct": 1.069,
+    "mean_net_pct": 0.392,
+    "mean_EW_pct": 2.156,
+    "mean_ab_gross_pct": -1.088,
+    "t_month_ab_gross": -3.21,
+    "mean_ab_net_pct": -1.764,
+    "median_ab_net_pct": -4.881,
+    "t_month_ab_net": -3.93,
+    "t_date_ab_net": -3.72,
+    "mean_ab_net_stress_pct": -2.093,
+    "t_month_ab_net_stress": -4.28,
+    "mean_net_vs_0050_pct": -1.602,
+    "t_month_vs_0050": -4.03,
+    "hit_ab_net": 0.316
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.0558,
+    "maxDD": -0.7288,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1443,
+    "share_days_invested": 0.994,
+    "avg_positions": 15.4,
+    "excess_vs_0050_pct_m": -1.071,
+    "t_vs_0050_m": -3.5,
+    "excess_vs_EW_pct_m": -1.127,
+    "t_vs_EW_m": -4.17,
+    "yearly_pct": {
+     "2005": -5.6,
+     "2006": 23.9,
+     "2007": -6.5,
+     "2008": -24.8,
+     "2009": 42.1,
+     "2010": -13.2,
+     "2011": -36.1,
+     "2012": 12.7,
+     "2013": 8.7,
+     "2014": -4.3,
+     "2015": -23.0,
+     "2016": -4.6,
+     "2017": 1.5,
+     "2018": -27.6,
+     "2019": 7.0
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.0692,
+    "CAGR_gross": -0.0277
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.0626,
+    "maxDD": -0.7572,
+    "t_vs_0050_m": -2.79,
+    "t_vs_EW_m": -4.12,
+    "avg_positions": 30.5,
+    "share_days_invested": 0.994
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": 0.0026,
+    "maxDD": -0.2974,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.1432,
+    "share_days_invested": 0.988,
+    "avg_positions": 14.8,
+    "excess_vs_0050_pct_m": -2.236,
+    "t_vs_0050_m": -3.51,
+    "excess_vs_EW_pct_m": -1.349,
+    "t_vs_EW_m": -3.07,
+    "yearly_pct": {
+     "2019": 12.0,
+     "2020": 0.2,
+     "2021": -1.3,
+     "2022": -13.9,
+     "2023": 15.2,
+     "2024": -6.4,
+     "2025": -11.8,
+     "2026": 12.6
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.0101,
+    "CAGR_gross": 0.0287
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.0287,
+    "maxDD": -0.4501,
+    "t_vs_0050_m": -4.05,
+    "t_vs_EW_m": -4.8,
+    "avg_positions": 34.3,
+    "share_days_invested": 0.988
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.0975,
+    "maxDD": -0.2753,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.161,
+    "share_days_invested": 1.0,
+    "avg_positions": 15.3,
+    "excess_vs_0050_pct_m": -4.065,
+    "t_vs_0050_m": -3.46,
+    "excess_vs_EW_pct_m": -1.416,
+    "t_vs_EW_m": -2.78,
+    "yearly_pct": {
+     "2024": -6.4,
+     "2025": -11.8
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1101,
+    "CAGR_gross": -0.0708
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.1616,
+    "maxDD": -0.3635,
+    "t_vs_0050_m": -3.77,
+    "t_vs_EW_m": -3.96,
+    "avg_positions": 34.9,
+    "share_days_invested": 1.0
+   }
+  },
+  "A_L120_H20": {
+   "trough_days": 35417,
+   "candidates": 35338,
+   "blocked_gap_up": 71,
+   "no_open": 4,
+   "no_confirm_in_10d": 0,
+   "events_uncapped": 19010,
+   "events_cap20": 4792,
+   "skipped_cap20": 26080,
+   "event_select_2005-01_2019-04": {
+    "n": 10821,
+    "n_months": 171,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.681,
+    "mean_net_pct": -1.346,
+    "mean_EW_pct": -0.005,
+    "mean_ab_gross_pct": -0.676,
+    "t_month_ab_gross": -3.0,
+    "mean_ab_net_pct": -1.341,
+    "median_ab_net_pct": -1.755,
+    "t_month_ab_net": -6.3,
+    "t_date_ab_net": -11.85,
+    "mean_ab_net_stress_pct": -1.664,
+    "t_month_ab_net_stress": -7.93,
+    "mean_net_vs_0050_pct": -1.604,
+    "t_month_vs_0050": -3.82,
+    "hit_ab_net": 0.385
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 3025,
+    "n_months": 171,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.313,
+    "mean_net_pct": -0.981,
+    "mean_EW_pct": 0.505,
+    "mean_ab_gross_pct": -0.818,
+    "t_month_ab_gross": -2.59,
+    "mean_ab_net_pct": -1.486,
+    "median_ab_net_pct": -1.983,
+    "t_month_ab_net": -5.53,
+    "t_date_ab_net": -8.13,
+    "mean_ab_net_stress_pct": -1.81,
+    "t_month_ab_net_stress": -6.98,
+    "mean_net_vs_0050_pct": -1.611,
+    "t_month_vs_0050": -3.25,
+    "hit_ab_net": 0.379
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 7665,
+    "n_months": 88,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.02,
+    "mean_net_pct": 0.344,
+    "mean_EW_pct": 1.571,
+    "mean_ab_gross_pct": -0.551,
+    "t_month_ab_gross": -4.12,
+    "mean_ab_net_pct": -1.227,
+    "median_ab_net_pct": -2.076,
+    "t_month_ab_net": -7.41,
+    "t_date_ab_net": -8.25,
+    "mean_ab_net_stress_pct": -1.556,
+    "t_month_ab_net_stress": -9.02,
+    "mean_net_vs_0050_pct": -1.736,
+    "t_month_vs_0050": -4.9,
+    "hit_ab_net": 0.362
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 1618,
+    "n_months": 88,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.524,
+    "mean_net_pct": -0.15,
+    "mean_EW_pct": 1.434,
+    "mean_ab_gross_pct": -0.911,
+    "t_month_ab_gross": -2.31,
+    "mean_ab_net_pct": -1.584,
+    "median_ab_net_pct": -2.466,
+    "t_month_ab_net": -4.28,
+    "t_date_ab_net": -5.1,
+    "mean_ab_net_stress_pct": -1.911,
+    "t_month_ab_net_stress": -5.25,
+    "mean_net_vs_0050_pct": -2.383,
+    "t_month_vs_0050": -4.49,
+    "hit_ab_net": 0.355
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 2318,
+    "n_months": 24,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.14,
+    "mean_net_pct": 0.463,
+    "mean_EW_pct": 1.672,
+    "mean_ab_gross_pct": -0.532,
+    "t_month_ab_gross": -2.17,
+    "mean_ab_net_pct": -1.209,
+    "median_ab_net_pct": -2.102,
+    "t_month_ab_net": -4.26,
+    "t_date_ab_net": -3.64,
+    "mean_ab_net_stress_pct": -1.538,
+    "t_month_ab_net_stress": -5.29,
+    "mean_net_vs_0050_pct": -2.499,
+    "t_month_vs_0050": -4.11,
+    "hit_ab_net": 0.364
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 426,
+    "n_months": 23,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.139,
+    "mean_net_pct": -0.808,
+    "mean_EW_pct": 0.966,
+    "mean_ab_gross_pct": -1.105,
+    "t_month_ab_gross": -1.14,
+    "mean_ab_net_pct": -1.773,
+    "median_ab_net_pct": -2.798,
+    "t_month_ab_net": -2.22,
+    "t_date_ab_net": -2.06,
+    "mean_ab_net_stress_pct": -2.098,
+    "t_month_ab_net_stress": -2.76,
+    "mean_net_vs_0050_pct": -3.975,
+    "t_month_vs_0050": -4.45,
+    "hit_ab_net": 0.34
+   },
+   "event_valid_ex_src3": {
+    "n": 5578,
+    "n_months": 68,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.977,
+    "mean_net_pct": 0.301,
+    "mean_EW_pct": 1.564,
+    "mean_ab_gross_pct": -0.586,
+    "t_month_ab_gross": -4.22,
+    "mean_ab_net_pct": -1.263,
+    "median_ab_net_pct": -2.106,
+    "t_month_ab_net": -7.04,
+    "t_date_ab_net": -8.15,
+    "mean_ab_net_stress_pct": -1.591,
+    "t_month_ab_net_stress": -8.42,
+    "mean_net_vs_0050_pct": -1.496,
+    "t_month_vs_0050": -3.81,
+    "hit_ab_net": 0.359
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.1301,
+    "maxDD": -0.8856,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1925,
+    "share_days_invested": 0.992,
+    "avg_positions": 17.9,
+    "excess_vs_0050_pct_m": -1.673,
+    "t_vs_0050_m": -5.24,
+    "excess_vs_EW_pct_m": -1.729,
+    "t_vs_EW_m": -6.74,
+    "yearly_pct": {
+     "2005": -22.7,
+     "2006": 13.6,
+     "2007": -13.1,
+     "2008": -55.0,
+     "2009": 24.3,
+     "2010": 5.4,
+     "2011": -35.6,
+     "2012": -10.8,
+     "2013": 2.4,
+     "2014": 2.1,
+     "2015": -30.6,
+     "2016": -14.1,
+     "2017": 13.9,
+     "2018": -34.1,
+     "2019": 12.4
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.1598,
+    "CAGR_gross": -0.0661
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.1032,
+    "maxDD": -0.8315,
+    "t_vs_0050_m": -4.09,
+    "t_vs_EW_m": -6.95,
+    "avg_positions": 64.2,
+    "share_days_invested": 0.992
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.0476,
+    "maxDD": -0.5045,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.2166,
+    "share_days_invested": 1.0,
+    "avg_positions": 19.1,
+    "excess_vs_0050_pct_m": -2.533,
+    "t_vs_0050_m": -4.34,
+    "excess_vs_EW_pct_m": -1.647,
+    "t_vs_EW_m": -5.16,
+    "yearly_pct": {
+     "2019": 17.2,
+     "2020": -15.1,
+     "2021": -2.6,
+     "2022": -28.5,
+     "2023": 19.7,
+     "2024": 12.2,
+     "2025": -25.2,
+     "2026": -0.1
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.0814,
+    "CAGR_gross": 0.025
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.0135,
+    "maxDD": -0.3938,
+    "t_vs_0050_m": -4.17,
+    "t_vs_EW_m": -5.99,
+    "avg_positions": 90.6,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.0893,
+    "maxDD": -0.4222,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.2384,
+    "share_days_invested": 1.0,
+    "avg_positions": 19.5,
+    "excess_vs_0050_pct_m": -3.931,
+    "t_vs_0050_m": -3.75,
+    "excess_vs_EW_pct_m": -1.282,
+    "t_vs_EW_m": -2.19,
+    "yearly_pct": {
+     "2024": 12.2,
+     "2025": -25.2
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1228,
+    "CAGR_gross": -0.0171
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.0491,
+    "maxDD": -0.3544,
+    "t_vs_0050_m": -3.34,
+    "t_vs_EW_m": -2.03,
+    "avg_positions": 105.1,
+    "share_days_invested": 1.0
+   }
+  },
+  "A_L120_H10": {
+   "trough_days": 35417,
+   "candidates": 35338,
+   "blocked_gap_up": 71,
+   "no_open": 4,
+   "no_confirm_in_10d": 0,
+   "events_uncapped": 22897,
+   "events_cap20": 8366,
+   "skipped_cap20": 22055,
+   "event_select_2005-01_2019-04": {
+    "n": 12873,
+    "n_months": 171,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.707,
+    "mean_net_pct": -1.372,
+    "mean_EW_pct": -0.231,
+    "mean_ab_gross_pct": -0.476,
+    "t_month_ab_gross": -4.98,
+    "mean_ab_net_pct": -1.141,
+    "median_ab_net_pct": -1.324,
+    "t_month_ab_net": -11.41,
+    "t_date_ab_net": -15.18,
+    "mean_ab_net_stress_pct": -1.464,
+    "t_month_ab_net_stress": -14.57,
+    "mean_net_vs_0050_pct": -1.474,
+    "t_month_vs_0050": -7.97,
+    "hit_ab_net": 0.368
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 5215,
+    "n_months": 171,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.59,
+    "mean_net_pct": -1.256,
+    "mean_EW_pct": 0.042,
+    "mean_ab_gross_pct": -0.631,
+    "t_month_ab_gross": -4.75,
+    "mean_ab_net_pct": -1.297,
+    "median_ab_net_pct": -1.517,
+    "t_month_ab_net": -10.37,
+    "t_date_ab_net": -11.67,
+    "mean_ab_net_stress_pct": -1.621,
+    "t_month_ab_net_stress": -13.13,
+    "mean_net_vs_0050_pct": -1.508,
+    "t_month_vs_0050": -7.12,
+    "hit_ab_net": 0.36
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 9474,
+    "n_months": 89,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.236,
+    "mean_net_pct": -0.436,
+    "mean_EW_pct": 0.592,
+    "mean_ab_gross_pct": -0.356,
+    "t_month_ab_gross": -3.71,
+    "mean_ab_net_pct": -1.028,
+    "median_ab_net_pct": -1.51,
+    "t_month_ab_net": -8.17,
+    "t_date_ab_net": -8.62,
+    "mean_ab_net_stress_pct": -1.354,
+    "t_month_ab_net_stress": -10.36,
+    "mean_net_vs_0050_pct": -1.358,
+    "t_month_vs_0050": -6.18,
+    "hit_ab_net": 0.352
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 2899,
+    "n_months": 89,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.234,
+    "mean_net_pct": -0.437,
+    "mean_EW_pct": 0.588,
+    "mean_ab_gross_pct": -0.354,
+    "t_month_ab_gross": -2.19,
+    "mean_ab_net_pct": -1.025,
+    "median_ab_net_pct": -1.572,
+    "t_month_ab_net": -5.68,
+    "t_date_ab_net": -6.0,
+    "mean_ab_net_stress_pct": -1.351,
+    "t_month_ab_net_stress": -7.4,
+    "mean_net_vs_0050_pct": -1.474,
+    "t_month_vs_0050": -5.14,
+    "hit_ab_net": 0.356
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 2824,
+    "n_months": 24,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.308,
+    "mean_net_pct": -0.975,
+    "mean_EW_pct": 0.112,
+    "mean_ab_gross_pct": -0.419,
+    "t_month_ab_gross": -2.48,
+    "mean_ab_net_pct": -1.087,
+    "median_ab_net_pct": -1.524,
+    "t_month_ab_net": -6.29,
+    "t_date_ab_net": -6.72,
+    "mean_ab_net_stress_pct": -1.411,
+    "t_month_ab_net_stress": -8.18,
+    "mean_net_vs_0050_pct": -1.894,
+    "t_month_vs_0050": -4.78,
+    "hit_ab_net": 0.357
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 783,
+    "n_months": 24,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.108,
+    "mean_net_pct": -0.777,
+    "mean_EW_pct": 0.382,
+    "mean_ab_gross_pct": -0.49,
+    "t_month_ab_gross": -2.23,
+    "mean_ab_net_pct": -1.159,
+    "median_ab_net_pct": -1.38,
+    "t_month_ab_net": -4.45,
+    "t_date_ab_net": -3.56,
+    "mean_ab_net_stress_pct": -1.484,
+    "t_month_ab_net_stress": -5.54,
+    "mean_net_vs_0050_pct": -2.381,
+    "t_month_vs_0050": -4.96,
+    "hit_ab_net": 0.368
+   },
+   "event_valid_ex_src3": {
+    "n": 6947,
+    "n_months": 70,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.424,
+    "mean_net_pct": -0.249,
+    "mean_EW_pct": 0.782,
+    "mean_ab_gross_pct": -0.358,
+    "t_month_ab_gross": -3.28,
+    "mean_ab_net_pct": -1.031,
+    "median_ab_net_pct": -1.522,
+    "t_month_ab_net": -7.0,
+    "t_date_ab_net": -7.93,
+    "mean_ab_net_stress_pct": -1.357,
+    "t_month_ab_net_stress": -8.83,
+    "mean_net_vs_0050_pct": -1.238,
+    "t_month_vs_0050": -5.09,
+    "hit_ab_net": 0.348
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.2255,
+    "maxDD": -0.9785,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1783,
+    "share_days_invested": 0.98,
+    "avg_positions": 16.2,
+    "excess_vs_0050_pct_m": -2.632,
+    "t_vs_0050_m": -7.95,
+    "excess_vs_EW_pct_m": -2.687,
+    "t_vs_EW_m": -9.53,
+    "yearly_pct": {
+     "2005": -25.9,
+     "2006": -6.4,
+     "2007": -28.5,
+     "2008": -60.6,
+     "2009": 15.8,
+     "2010": -5.0,
+     "2011": -37.9,
+     "2012": -20.3,
+     "2013": -9.8,
+     "2014": -23.1,
+     "2015": -32.1,
+     "2016": -13.9,
+     "2017": -6.2,
+     "2018": -38.6,
+     "2019": 3.5
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.2706,
+    "CAGR_gross": -0.1247
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.2298,
+    "maxDD": -0.9794,
+    "t_vs_0050_m": -8.35,
+    "t_vs_EW_m": -10.13,
+    "avg_positions": 39.9,
+    "share_days_invested": 0.98
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.1108,
+    "maxDD": -0.6972,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.1995,
+    "share_days_invested": 0.999,
+    "avg_positions": 17.8,
+    "excess_vs_0050_pct_m": -3.073,
+    "t_vs_0050_m": -4.97,
+    "excess_vs_EW_pct_m": -2.186,
+    "t_vs_EW_m": -5.83,
+    "yearly_pct": {
+     "2019": 6.7,
+     "2020": -30.4,
+     "2021": 6.0,
+     "2022": -39.0,
+     "2023": 5.4,
+     "2024": 4.9,
+     "2025": -28.5,
+     "2026": 9.6
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.1663,
+    "CAGR_gross": 0.0136
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.1297,
+    "maxDD": -0.6944,
+    "t_vs_0050_m": -5.21,
+    "t_vs_EW_m": -6.02,
+    "avg_positions": 58.0,
+    "share_days_invested": 0.999
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.1425,
+    "maxDD": -0.4103,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.2206,
+    "share_days_invested": 1.0,
+    "avg_positions": 18.7,
+    "excess_vs_0050_pct_m": -4.41,
+    "t_vs_0050_m": -4.29,
+    "excess_vs_EW_pct_m": -1.762,
+    "t_vs_EW_m": -2.89,
+    "yearly_pct": {
+     "2024": 4.9,
+     "2025": -28.5
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1994,
+    "CAGR_gross": -0.0135
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.1413,
+    "maxDD": -0.3718,
+    "t_vs_0050_m": -4.33,
+    "t_vs_EW_m": -3.74,
+    "avg_positions": 67.2,
+    "share_days_invested": 1.0
+   }
+  },
+  "A_L120_H60": {
+   "trough_days": 35417,
+   "candidates": 35338,
+   "blocked_gap_up": 71,
+   "no_open": 4,
+   "no_confirm_in_10d": 0,
+   "events_uncapped": 14098,
+   "events_cap20": 1767,
+   "skipped_cap20": 30506,
+   "event_select_2005-01_2019-04": {
+    "n": 8159,
+    "n_months": 171,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.295,
+    "mean_net_pct": -0.377,
+    "mean_EW_pct": 1.621,
+    "mean_ab_gross_pct": -1.326,
+    "t_month_ab_gross": -5.79,
+    "mean_ab_net_pct": -1.998,
+    "median_ab_net_pct": -3.328,
+    "t_month_ab_net": -7.97,
+    "t_date_ab_net": -10.34,
+    "mean_ab_net_stress_pct": -2.324,
+    "t_month_ab_net_stress": -9.04,
+    "mean_net_vs_0050_pct": -1.99,
+    "t_month_vs_0050": -4.43,
+    "hit_ab_net": 0.38
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 1128,
+    "n_months": 166,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.103,
+    "mean_net_pct": -0.772,
+    "mean_EW_pct": 2.434,
+    "mean_ab_gross_pct": -2.537,
+    "t_month_ab_gross": -4.16,
+    "mean_ab_net_pct": -3.206,
+    "median_ab_net_pct": -4.454,
+    "t_month_ab_net": -5.01,
+    "t_date_ab_net": -6.11,
+    "mean_ab_net_stress_pct": -3.531,
+    "t_month_ab_net_stress": -5.42,
+    "mean_net_vs_0050_pct": -2.986,
+    "t_month_vs_0050": -4.24,
+    "hit_ab_net": 0.344
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 5310,
+    "n_months": 86,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 2.682,
+    "mean_net_pct": 1.995,
+    "mean_EW_pct": 3.964,
+    "mean_ab_gross_pct": -1.281,
+    "t_month_ab_gross": -5.33,
+    "mean_ab_net_pct": -1.969,
+    "median_ab_net_pct": -3.868,
+    "t_month_ab_net": -6.89,
+    "t_date_ab_net": -8.83,
+    "mean_ab_net_stress_pct": -2.303,
+    "t_month_ab_net_stress": -7.66,
+    "mean_net_vs_0050_pct": -4.299,
+    "t_month_vs_0050": -6.32,
+    "hit_ab_net": 0.368
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 565,
+    "n_months": 86,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 2.508,
+    "mean_net_pct": 1.821,
+    "mean_EW_pct": 4.598,
+    "mean_ab_gross_pct": -2.09,
+    "t_month_ab_gross": -1.51,
+    "mean_ab_net_pct": -2.777,
+    "median_ab_net_pct": -4.753,
+    "t_month_ab_net": -2.21,
+    "t_date_ab_net": -3.46,
+    "mean_ab_net_stress_pct": -3.11,
+    "t_month_ab_net_stress": -2.56,
+    "mean_net_vs_0050_pct": -5.71,
+    "t_month_vs_0050": -4.23,
+    "hit_ab_net": 0.342
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 1675,
+    "n_months": 24,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.997,
+    "mean_net_pct": 1.314,
+    "mean_EW_pct": 2.681,
+    "mean_ab_gross_pct": -0.684,
+    "t_month_ab_gross": -2.9,
+    "mean_ab_net_pct": -1.367,
+    "median_ab_net_pct": -3.61,
+    "t_month_ab_net": -3.75,
+    "t_date_ab_net": -5.03,
+    "mean_ab_net_stress_pct": -1.698,
+    "t_month_ab_net_stress": -4.16,
+    "mean_net_vs_0050_pct": -7.95,
+    "t_month_vs_0050": -7.26,
+    "hit_ab_net": 0.386
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 148,
+    "n_months": 23,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.218,
+    "mean_net_pct": -0.453,
+    "mean_EW_pct": 2.309,
+    "mean_ab_gross_pct": -2.091,
+    "t_month_ab_gross": -0.85,
+    "mean_ab_net_pct": -2.762,
+    "median_ab_net_pct": -5.366,
+    "t_month_ab_net": -1.23,
+    "t_date_ab_net": -1.72,
+    "mean_ab_net_stress_pct": -3.088,
+    "t_month_ab_net_stress": -1.41,
+    "mean_net_vs_0050_pct": -10.994,
+    "t_month_vs_0050": -4.99,
+    "hit_ab_net": 0.338
+   },
+   "event_valid_ex_src3": {
+    "n": 3679,
+    "n_months": 65,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 2.845,
+    "mean_net_pct": 2.156,
+    "mean_EW_pct": 4.467,
+    "mean_ab_gross_pct": -1.622,
+    "t_month_ab_gross": -4.73,
+    "mean_ab_net_pct": -2.311,
+    "median_ab_net_pct": -4.121,
+    "t_month_ab_net": -6.02,
+    "t_date_ab_net": -8.18,
+    "mean_ab_net_stress_pct": -2.645,
+    "t_month_ab_net_stress": -6.64,
+    "mean_net_vs_0050_pct": -2.82,
+    "t_month_vs_0050": -4.14,
+    "hit_ab_net": 0.354
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.0639,
+    "maxDD": -0.7942,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.2028,
+    "share_days_invested": 1.0,
+    "avg_positions": 19.4,
+    "excess_vs_0050_pct_m": -1.061,
+    "t_vs_0050_m": -3.4,
+    "excess_vs_EW_pct_m": -1.117,
+    "t_vs_EW_m": -5.21,
+    "yearly_pct": {
+     "2005": -5.6,
+     "2006": 21.9,
+     "2007": -3.5,
+     "2008": -51.4,
+     "2009": 75.4,
+     "2010": -4.0,
+     "2011": -33.4,
+     "2012": 2.1,
+     "2013": 7.0,
+     "2014": -6.3,
+     "2015": -31.8,
+     "2016": -9.0,
+     "2017": 8.7,
+     "2018": -16.9,
+     "2019": 12.0
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.076,
+    "CAGR_gross": -0.0389
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.0163,
+    "maxDD": -0.67,
+    "t_vs_0050_m": -2.5,
+    "t_vs_EW_m": -7.28,
+    "avg_positions": 141.3,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": 0.0542,
+    "maxDD": -0.3902,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.2278,
+    "share_days_invested": 1.0,
+    "avg_positions": 20.0,
+    "excess_vs_0050_pct_m": -1.684,
+    "t_vs_0050_m": -3.15,
+    "excess_vs_EW_pct_m": -0.797,
+    "t_vs_EW_m": -2.62,
+    "yearly_pct": {
+     "2019": 9.8,
+     "2020": -1.7,
+     "2021": 19.1,
+     "2022": -25.1,
+     "2023": 35.2,
+     "2024": 8.4,
+     "2025": -7.7,
+     "2026": 13.9
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": 0.0407,
+    "CAGR_gross": 0.0823
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": 0.0584,
+    "maxDD": -0.3681,
+    "t_vs_0050_m": -3.19,
+    "t_vs_EW_m": -4.9,
+    "avg_positions": 187.3,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": 0.0002,
+    "maxDD": -0.3756,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.2453,
+    "share_days_invested": 1.0,
+    "avg_positions": 20.1,
+    "excess_vs_0050_pct_m": -3.181,
+    "t_vs_0050_m": -3.18,
+    "excess_vs_EW_pct_m": -0.532,
+    "t_vs_EW_m": -0.75,
+    "yearly_pct": {
+     "2024": 8.4,
+     "2025": -7.7
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.013,
+    "CAGR_gross": 0.0277
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.0104,
+    "maxDD": -0.3289,
+    "t_vs_0050_m": -3.05,
+    "t_vs_EW_m": -1.88,
+    "avg_positions": 218.7,
+    "share_days_invested": 1.0
+   }
+  },
+  "A_L60_H20": {
+   "trough_days": 64837,
+   "candidates": 64694,
+   "blocked_gap_up": 131,
+   "no_open": 6,
+   "no_confirm_in_10d": 0,
+   "events_uncapped": 30766,
+   "events_cap20": 5184,
+   "skipped_cap20": 53256,
+   "event_select_2005-01_2019-04": {
+    "n": 17408,
+    "n_months": 172,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.461,
+    "mean_net_pct": -1.128,
+    "mean_EW_pct": 0.128,
+    "mean_ab_gross_pct": -0.588,
+    "t_month_ab_gross": -2.65,
+    "mean_ab_net_pct": -1.255,
+    "median_ab_net_pct": -1.827,
+    "t_month_ab_net": -6.87,
+    "t_date_ab_net": -13.07,
+    "mean_ab_net_stress_pct": -1.579,
+    "t_month_ab_net_stress": -8.97,
+    "mean_net_vs_0050_pct": -1.569,
+    "t_month_vs_0050": -3.52,
+    "hit_ab_net": 0.385
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 3267,
+    "n_months": 172,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.112,
+    "mean_net_pct": -0.781,
+    "mean_EW_pct": 0.542,
+    "mean_ab_gross_pct": -0.654,
+    "t_month_ab_gross": -2.15,
+    "mean_ab_net_pct": -1.323,
+    "median_ab_net_pct": -1.902,
+    "t_month_ab_net": -5.36,
+    "t_date_ab_net": -7.17,
+    "mean_ab_net_stress_pct": -1.648,
+    "t_month_ab_net_stress": -6.94,
+    "mean_net_vs_0050_pct": -1.384,
+    "t_month_vs_0050": -3.02,
+    "hit_ab_net": 0.389
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 12342,
+    "n_months": 88,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.243,
+    "mean_net_pct": 0.564,
+    "mean_EW_pct": 1.722,
+    "mean_ab_gross_pct": -0.479,
+    "t_month_ab_gross": -3.39,
+    "mean_ab_net_pct": -1.157,
+    "median_ab_net_pct": -2.219,
+    "t_month_ab_net": -7.66,
+    "t_date_ab_net": -8.13,
+    "mean_ab_net_stress_pct": -1.486,
+    "t_month_ab_net_stress": -9.77,
+    "mean_net_vs_0050_pct": -1.722,
+    "t_month_vs_0050": -4.37,
+    "hit_ab_net": 0.365
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 1724,
+    "n_months": 88,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.106,
+    "mean_net_pct": 0.429,
+    "mean_EW_pct": 1.493,
+    "mean_ab_gross_pct": -0.387,
+    "t_month_ab_gross": -0.97,
+    "mean_ab_net_pct": -1.064,
+    "median_ab_net_pct": -2.439,
+    "t_month_ab_net": -3.15,
+    "t_date_ab_net": -3.15,
+    "mean_ab_net_stress_pct": -1.393,
+    "t_month_ab_net_stress": -4.23,
+    "mean_net_vs_0050_pct": -1.989,
+    "t_month_vs_0050": -3.71,
+    "hit_ab_net": 0.358
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 3714,
+    "n_months": 24,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.868,
+    "mean_net_pct": 0.192,
+    "mean_EW_pct": 1.357,
+    "mean_ab_gross_pct": -0.489,
+    "t_month_ab_gross": -1.23,
+    "mean_ab_net_pct": -1.165,
+    "median_ab_net_pct": -2.23,
+    "t_month_ab_net": -3.16,
+    "t_date_ab_net": -5.81,
+    "mean_ab_net_stress_pct": -1.493,
+    "t_month_ab_net_stress": -4.11,
+    "mean_net_vs_0050_pct": -2.739,
+    "t_month_vs_0050": -3.89,
+    "hit_ab_net": 0.361
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 451,
+    "n_months": 23,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.287,
+    "mean_net_pct": -0.385,
+    "mean_EW_pct": 0.872,
+    "mean_ab_gross_pct": -0.585,
+    "t_month_ab_gross": -1.19,
+    "mean_ab_net_pct": -1.257,
+    "median_ab_net_pct": -2.404,
+    "t_month_ab_net": -2.44,
+    "t_date_ab_net": -3.22,
+    "mean_ab_net_stress_pct": -1.583,
+    "t_month_ab_net_stress": -3.06,
+    "mean_net_vs_0050_pct": -3.603,
+    "t_month_vs_0050": -4.0,
+    "hit_ab_net": 0.348
+   },
+   "event_valid_ex_src3": {
+    "n": 9098,
+    "n_months": 69,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.379,
+    "mean_net_pct": 0.7,
+    "mean_EW_pct": 1.89,
+    "mean_ab_gross_pct": -0.511,
+    "t_month_ab_gross": -4.15,
+    "mean_ab_net_pct": -1.19,
+    "median_ab_net_pct": -2.261,
+    "t_month_ab_net": -8.19,
+    "t_date_ab_net": -7.25,
+    "mean_ab_net_stress_pct": -1.52,
+    "t_month_ab_net_stress": -10.17,
+    "mean_net_vs_0050_pct": -1.38,
+    "t_month_vs_0050": -3.39,
+    "hit_ab_net": 0.365
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.1162,
+    "maxDD": -0.8733,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.2069,
+    "share_days_invested": 0.994,
+    "avg_positions": 19.4,
+    "excess_vs_0050_pct_m": -1.529,
+    "t_vs_0050_m": -5.08,
+    "excess_vs_EW_pct_m": -1.585,
+    "t_vs_EW_m": -7.43,
+    "yearly_pct": {
+     "2005": -12.9,
+     "2006": 5.2,
+     "2007": -11.1,
+     "2008": -56.9,
+     "2009": 47.9,
+     "2010": -4.6,
+     "2011": -42.5,
+     "2012": 0.7,
+     "2013": 4.3,
+     "2014": -11.1,
+     "2015": -21.7,
+     "2016": -10.6,
+     "2017": 8.8,
+     "2018": -28.9,
+     "2019": 18.4
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.1488,
+    "CAGR_gross": -0.0459
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.0733,
+    "maxDD": -0.7816,
+    "t_vs_0050_m": -3.17,
+    "t_vs_EW_m": -5.73,
+    "avg_positions": 103.2,
+    "share_days_invested": 0.994
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": 0.0008,
+    "maxDD": -0.548,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.2449,
+    "share_days_invested": 1.0,
+    "avg_positions": 20.4,
+    "excess_vs_0050_pct_m": -2.026,
+    "t_vs_0050_m": -3.28,
+    "excess_vs_EW_pct_m": -1.139,
+    "t_vs_EW_m": -3.44,
+    "yearly_pct": {
+     "2019": 15.5,
+     "2020": -0.0,
+     "2021": 0.8,
+     "2022": -36.9,
+     "2023": 14.5,
+     "2024": 8.7,
+     "2025": -19.2,
+     "2026": 36.2
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.0369,
+    "CAGR_gross": 0.0824
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": 0.0138,
+    "maxDD": -0.375,
+    "t_vs_0050_m": -3.65,
+    "t_vs_EW_m": -5.98,
+    "avg_positions": 145.6,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.0669,
+    "maxDD": -0.4056,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.2492,
+    "share_days_invested": 1.0,
+    "avg_positions": 20.6,
+    "excess_vs_0050_pct_m": -3.728,
+    "t_vs_0050_m": -3.23,
+    "excess_vs_EW_pct_m": -1.08,
+    "t_vs_EW_m": -2.09,
+    "yearly_pct": {
+     "2024": 8.7,
+     "2025": -19.2
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1031,
+    "CAGR_gross": 0.0114
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.0363,
+    "maxDD": -0.3449,
+    "t_vs_0050_m": -3.05,
+    "t_vs_EW_m": -1.8,
+    "avg_positions": 168.1,
+    "share_days_invested": 1.0
+   }
+  },
+  "A_L60_H10": {
+   "trough_days": 64837,
+   "candidates": 64694,
+   "blocked_gap_up": 131,
+   "no_open": 6,
+   "no_confirm_in_10d": 0,
+   "events_uncapped": 38280,
+   "events_cap20": 9650,
+   "skipped_cap20": 47825,
+   "event_select_2005-01_2019-04": {
+    "n": 21446,
+    "n_months": 172,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.555,
+    "mean_net_pct": -1.221,
+    "mean_EW_pct": -0.145,
+    "mean_ab_gross_pct": -0.411,
+    "t_month_ab_gross": -6.57,
+    "mean_ab_net_pct": -1.077,
+    "median_ab_net_pct": -1.351,
+    "t_month_ab_net": -16.32,
+    "t_date_ab_net": -18.25,
+    "mean_ab_net_stress_pct": -1.4,
+    "t_month_ab_net_stress": -21.13,
+    "mean_net_vs_0050_pct": -1.409,
+    "t_month_vs_0050": -8.4,
+    "hit_ab_net": 0.372
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 6014,
+    "n_months": 171,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.57,
+    "mean_net_pct": -1.236,
+    "mean_EW_pct": 0.128,
+    "mean_ab_gross_pct": -0.698,
+    "t_month_ab_gross": -6.16,
+    "mean_ab_net_pct": -1.364,
+    "median_ab_net_pct": -1.61,
+    "t_month_ab_net": -12.47,
+    "t_date_ab_net": -13.25,
+    "mean_ab_net_stress_pct": -1.688,
+    "t_month_ab_net_stress": -15.59,
+    "mean_net_vs_0050_pct": -1.482,
+    "t_month_vs_0050": -7.29,
+    "hit_ab_net": 0.357
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 15641,
+    "n_months": 89,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.449,
+    "mean_net_pct": -0.224,
+    "mean_EW_pct": 0.785,
+    "mean_ab_gross_pct": -0.336,
+    "t_month_ab_gross": -3.51,
+    "mean_ab_net_pct": -1.009,
+    "median_ab_net_pct": -1.611,
+    "t_month_ab_net": -9.23,
+    "t_date_ab_net": -8.84,
+    "mean_ab_net_stress_pct": -1.335,
+    "t_month_ab_net_stress": -12.04,
+    "mean_net_vs_0050_pct": -1.312,
+    "t_month_vs_0050": -5.62,
+    "hit_ab_net": 0.347
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 3292,
+    "n_months": 89,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.526,
+    "mean_net_pct": -0.147,
+    "mean_EW_pct": 0.816,
+    "mean_ab_gross_pct": -0.29,
+    "t_month_ab_gross": -1.69,
+    "mean_ab_net_pct": -0.963,
+    "median_ab_net_pct": -1.727,
+    "t_month_ab_net": -5.73,
+    "t_date_ab_net": -5.31,
+    "mean_ab_net_stress_pct": -1.29,
+    "t_month_ab_net_stress": -7.72,
+    "mean_net_vs_0050_pct": -1.335,
+    "t_month_vs_0050": -4.61,
+    "hit_ab_net": 0.357
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 4634,
+    "n_months": 24,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.07,
+    "mean_net_pct": -0.739,
+    "mean_EW_pct": 0.254,
+    "mean_ab_gross_pct": -0.323,
+    "t_month_ab_gross": -1.52,
+    "mean_ab_net_pct": -0.993,
+    "median_ab_net_pct": -1.616,
+    "t_month_ab_net": -5.47,
+    "t_date_ab_net": -6.84,
+    "mean_ab_net_stress_pct": -1.318,
+    "t_month_ab_net_stress": -7.44,
+    "mean_net_vs_0050_pct": -1.956,
+    "t_month_vs_0050": -4.23,
+    "hit_ab_net": 0.354
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 885,
+    "n_months": 23,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.205,
+    "mean_net_pct": -0.466,
+    "mean_EW_pct": 0.446,
+    "mean_ab_gross_pct": -0.241,
+    "t_month_ab_gross": -1.05,
+    "mean_ab_net_pct": -0.912,
+    "median_ab_net_pct": -1.442,
+    "t_month_ab_net": -3.48,
+    "t_date_ab_net": -2.62,
+    "mean_ab_net_stress_pct": -1.238,
+    "t_month_ab_net_stress": -4.67,
+    "mean_net_vs_0050_pct": -2.067,
+    "t_month_vs_0050": -3.78,
+    "hit_ab_net": 0.373
+   },
+   "event_valid_ex_src3": {
+    "n": 11635,
+    "n_months": 70,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.632,
+    "mean_net_pct": -0.042,
+    "mean_EW_pct": 0.984,
+    "mean_ab_gross_pct": -0.352,
+    "t_month_ab_gross": -3.41,
+    "mean_ab_net_pct": -1.026,
+    "median_ab_net_pct": -1.61,
+    "t_month_ab_net": -8.49,
+    "t_date_ab_net": -7.94,
+    "mean_ab_net_stress_pct": -1.353,
+    "t_month_ab_net_stress": -10.99,
+    "mean_net_vs_0050_pct": -1.129,
+    "t_month_vs_0050": -4.59,
+    "hit_ab_net": 0.344
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.2553,
+    "maxDD": -0.988,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.2031,
+    "share_days_invested": 0.987,
+    "avg_positions": 18.7,
+    "excess_vs_0050_pct_m": -2.891,
+    "t_vs_0050_m": -8.3,
+    "excess_vs_EW_pct_m": -2.947,
+    "t_vs_EW_m": -11.48,
+    "yearly_pct": {
+     "2005": -21.8,
+     "2006": -13.8,
+     "2007": -28.3,
+     "2008": -64.8,
+     "2009": 20.3,
+     "2010": -14.2,
+     "2011": -46.4,
+     "2012": -19.5,
+     "2013": -10.8,
+     "2014": -20.1,
+     "2015": -39.4,
+     "2016": -19.4,
+     "2017": -13.2,
+     "2018": -39.5,
+     "2019": 5.9
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.3051,
+    "CAGR_gross": -0.1425
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.2167,
+    "maxDD": -0.9735,
+    "t_vs_0050_m": -8.98,
+    "t_vs_EW_m": -14.35,
+    "avg_positions": 66.4,
+    "share_days_invested": 0.987
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.0673,
+    "maxDD": -0.6569,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.2302,
+    "share_days_invested": 1.0,
+    "avg_positions": 20.2,
+    "excess_vs_0050_pct_m": -2.618,
+    "t_vs_0050_m": -3.99,
+    "excess_vs_EW_pct_m": -1.732,
+    "t_vs_EW_m": -4.82,
+    "yearly_pct": {
+     "2019": -0.1,
+     "2020": -14.0,
+     "2021": -5.2,
+     "2022": -39.5,
+     "2023": 10.9,
+     "2024": -4.7,
+     "2025": -16.2,
+     "2026": 36.1
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.1331,
+    "CAGR_gross": 0.0824
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.1,
+    "maxDD": -0.626,
+    "t_vs_0050_m": -5.06,
+    "t_vs_EW_m": -7.9,
+    "avg_positions": 95.7,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.113,
+    "maxDD": -0.424,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.2437,
+    "share_days_invested": 1.0,
+    "avg_positions": 21.1,
+    "excess_vs_0050_pct_m": -4.13,
+    "t_vs_0050_m": -3.31,
+    "excess_vs_EW_pct_m": -1.482,
+    "t_vs_EW_m": -2.81,
+    "yearly_pct": {
+     "2024": -4.7,
+     "2025": -16.2
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1796,
+    "CAGR_gross": 0.0398
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.1167,
+    "maxDD": -0.3718,
+    "t_vs_0050_m": -3.88,
+    "t_vs_EW_m": -3.76,
+    "avg_positions": 110.1,
+    "share_days_invested": 1.0
+   }
+  },
+  "A_L60_H60": {
+   "trough_days": 64837,
+   "candidates": 64694,
+   "blocked_gap_up": 131,
+   "no_open": 6,
+   "no_confirm_in_10d": 0,
+   "events_uncapped": 21733,
+   "events_cap20": 1812,
+   "skipped_cap20": 58830,
+   "event_select_2005-01_2019-04": {
+    "n": 12386,
+    "n_months": 172,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.841,
+    "mean_net_pct": 0.166,
+    "mean_EW_pct": 1.733,
+    "mean_ab_gross_pct": -0.892,
+    "t_month_ab_gross": -3.21,
+    "mean_ab_net_pct": -1.567,
+    "median_ab_net_pct": -3.233,
+    "t_month_ab_net": -5.31,
+    "t_date_ab_net": -8.22,
+    "mean_ab_net_stress_pct": -1.895,
+    "t_month_ab_net_stress": -6.35,
+    "mean_net_vs_0050_pct": -1.829,
+    "t_month_vs_0050": -2.3,
+    "hit_ab_net": 0.384
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 1146,
+    "n_months": 155,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.117,
+    "mean_net_pct": -0.554,
+    "mean_EW_pct": 2.138,
+    "mean_ab_gross_pct": -2.021,
+    "t_month_ab_gross": -3.11,
+    "mean_ab_net_pct": -2.691,
+    "median_ab_net_pct": -4.662,
+    "t_month_ab_net": -4.08,
+    "t_date_ab_net": -3.39,
+    "mean_ab_net_stress_pct": -3.017,
+    "t_month_ab_net_stress": -4.56,
+    "mean_net_vs_0050_pct": -2.553,
+    "t_month_vs_0050": -2.93,
+    "hit_ab_net": 0.36
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 8336,
+    "n_months": 86,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 3.648,
+    "mean_net_pct": 2.954,
+    "mean_EW_pct": 4.575,
+    "mean_ab_gross_pct": -0.927,
+    "t_month_ab_gross": -3.72,
+    "mean_ab_net_pct": -1.621,
+    "median_ab_net_pct": -4.461,
+    "t_month_ab_net": -5.4,
+    "t_date_ab_net": -6.68,
+    "mean_ab_net_stress_pct": -1.958,
+    "t_month_ab_net_stress": -6.21,
+    "mean_net_vs_0050_pct": -4.112,
+    "t_month_vs_0050": -5.34,
+    "hit_ab_net": 0.358
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 577,
+    "n_months": 86,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 2.611,
+    "mean_net_pct": 1.923,
+    "mean_EW_pct": 4.598,
+    "mean_ab_gross_pct": -1.987,
+    "t_month_ab_gross": -2.5,
+    "mean_ab_net_pct": -2.674,
+    "median_ab_net_pct": -6.486,
+    "t_month_ab_net": -3.28,
+    "t_date_ab_net": -2.97,
+    "mean_ab_net_stress_pct": -3.008,
+    "t_month_ab_net_stress": -3.66,
+    "mean_net_vs_0050_pct": -5.517,
+    "t_month_vs_0050": -5.3,
+    "hit_ab_net": 0.324
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 2585,
+    "n_months": 24,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 2.309,
+    "mean_net_pct": 1.623,
+    "mean_EW_pct": 3.126,
+    "mean_ab_gross_pct": -0.817,
+    "t_month_ab_gross": -2.91,
+    "mean_ab_net_pct": -1.502,
+    "median_ab_net_pct": -4.837,
+    "t_month_ab_net": -3.96,
+    "t_date_ab_net": -3.81,
+    "mean_ab_net_stress_pct": -1.835,
+    "t_month_ab_net_stress": -4.47,
+    "mean_net_vs_0050_pct": -8.784,
+    "t_month_vs_0050": -7.98,
+    "hit_ab_net": 0.362
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 153,
+    "n_months": 23,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.801,
+    "mean_net_pct": -1.466,
+    "mean_EW_pct": 2.38,
+    "mean_ab_gross_pct": -3.181,
+    "t_month_ab_gross": -2.23,
+    "mean_ab_net_pct": -3.846,
+    "median_ab_net_pct": -8.202,
+    "t_month_ab_net": -2.7,
+    "t_date_ab_net": -2.06,
+    "mean_ab_net_stress_pct": -4.169,
+    "t_month_ab_net_stress": -2.93,
+    "mean_net_vs_0050_pct": -11.317,
+    "t_month_vs_0050": -6.92,
+    "hit_ab_net": 0.275
+   },
+   "event_valid_ex_src3": {
+    "n": 5950,
+    "n_months": 65,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 4.152,
+    "mean_net_pct": 3.454,
+    "mean_EW_pct": 5.253,
+    "mean_ab_gross_pct": -1.101,
+    "t_month_ab_gross": -3.62,
+    "mean_ab_net_pct": -1.798,
+    "median_ab_net_pct": -4.478,
+    "t_month_ab_net": -4.99,
+    "t_date_ab_net": -6.31,
+    "mean_ab_net_stress_pct": -2.137,
+    "t_month_ab_net_stress": -5.67,
+    "mean_net_vs_0050_pct": -2.54,
+    "t_month_vs_0050": -3.25,
+    "hit_ab_net": 0.35
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.0668,
+    "maxDD": -0.8152,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.2136,
+    "share_days_invested": 1.0,
+    "avg_positions": 19.7,
+    "excess_vs_0050_pct_m": -1.056,
+    "t_vs_0050_m": -3.32,
+    "excess_vs_EW_pct_m": -1.111,
+    "t_vs_EW_m": -5.44,
+    "yearly_pct": {
+     "2005": -2.2,
+     "2006": 21.3,
+     "2007": 1.1,
+     "2008": -57.9,
+     "2009": 70.3,
+     "2010": -11.0,
+     "2011": -32.9,
+     "2012": 3.3,
+     "2013": 5.0,
+     "2014": 0.5,
+     "2015": -36.8,
+     "2016": 1.7,
+     "2017": 13.1,
+     "2018": -19.0,
+     "2019": 12.8
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.079,
+    "CAGR_gross": -0.0414
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": 0.0052,
+    "maxDD": -0.6725,
+    "t_vs_0050_m": -1.77,
+    "t_vs_EW_m": -6.99,
+    "avg_positions": 214.5,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": 0.0375,
+    "maxDD": -0.4189,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.2546,
+    "share_days_invested": 1.0,
+    "avg_positions": 20.3,
+    "excess_vs_0050_pct_m": -1.746,
+    "t_vs_0050_m": -3.0,
+    "excess_vs_EW_pct_m": -0.86,
+    "t_vs_EW_m": -2.37,
+    "yearly_pct": {
+     "2019": 8.0,
+     "2020": 3.8,
+     "2021": 18.2,
+     "2022": -27.6,
+     "2023": 22.7,
+     "2024": 11.1,
+     "2025": -16.4,
+     "2026": 20.5
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": 0.0239,
+    "CAGR_gross": 0.0657
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": 0.087,
+    "maxDD": -0.3643,
+    "t_vs_0050_m": -2.69,
+    "t_vs_EW_m": -4.6,
+    "avg_positions": 292.2,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.0387,
+    "maxDD": -0.4189,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.268,
+    "share_days_invested": 1.0,
+    "avg_positions": 20.3,
+    "excess_vs_0050_pct_m": -3.494,
+    "t_vs_0050_m": -3.36,
+    "excess_vs_EW_pct_m": -0.846,
+    "t_vs_EW_m": -1.33,
+    "yearly_pct": {
+     "2024": 11.1,
+     "2025": -16.4
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.0516,
+    "CAGR_gross": -0.012
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": 0.0273,
+    "maxDD": -0.3296,
+    "t_vs_0050_m": -2.68,
+    "t_vs_EW_m": -1.2,
+    "avg_positions": 330.0,
+    "share_days_invested": 1.0
+   }
+  },
+  "A_L250_H20": {
+   "trough_days": 16693,
+   "candidates": 16656,
+   "blocked_gap_up": 33,
+   "no_open": 2,
+   "no_confirm_in_10d": 0,
+   "events_uncapped": 9996,
+   "events_cap20": 3948,
+   "skipped_cap20": 9898,
+   "event_select_2005-01_2019-04": {
+    "n": 6024,
+    "n_months": 169,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -1.152,
+    "mean_net_pct": -1.814,
+    "mean_EW_pct": -0.365,
+    "mean_ab_gross_pct": -0.787,
+    "t_month_ab_gross": -2.1,
+    "mean_ab_net_pct": -1.449,
+    "median_ab_net_pct": -1.734,
+    "t_month_ab_net": -4.55,
+    "t_date_ab_net": -11.01,
+    "mean_ab_net_stress_pct": -1.77,
+    "t_month_ab_net_stress": -5.76,
+    "mean_net_vs_0050_pct": -1.816,
+    "t_month_vs_0050": -3.15,
+    "hit_ab_net": 0.381
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 2557,
+    "n_months": 169,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.773,
+    "mean_net_pct": -1.437,
+    "mean_EW_pct": 0.296,
+    "mean_ab_gross_pct": -1.069,
+    "t_month_ab_gross": -2.34,
+    "mean_ab_net_pct": -1.733,
+    "median_ab_net_pct": -1.921,
+    "t_month_ab_net": -4.73,
+    "t_date_ab_net": -9.2,
+    "mean_ab_net_stress_pct": -2.056,
+    "t_month_ab_net_stress": -5.91,
+    "mean_net_vs_0050_pct": -1.962,
+    "t_month_vs_0050": -3.2,
+    "hit_ab_net": 0.376
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 3861,
+    "n_months": 87,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.131,
+    "mean_net_pct": 0.453,
+    "mean_EW_pct": 1.671,
+    "mean_ab_gross_pct": -0.541,
+    "t_month_ab_gross": -3.89,
+    "mean_ab_net_pct": -1.218,
+    "median_ab_net_pct": -1.835,
+    "t_month_ab_net": -5.98,
+    "t_date_ab_net": -10.13,
+    "mean_ab_net_stress_pct": -1.547,
+    "t_month_ab_net_stress": -7.01,
+    "mean_net_vs_0050_pct": -1.151,
+    "t_month_vs_0050": -4.95,
+    "hit_ab_net": 0.37
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 1332,
+    "n_months": 87,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.046,
+    "mean_net_pct": -0.715,
+    "mean_EW_pct": 1.095,
+    "mean_ab_gross_pct": -1.141,
+    "t_month_ab_gross": -4.1,
+    "mean_ab_net_pct": -1.81,
+    "median_ab_net_pct": -2.494,
+    "t_month_ab_net": -6.05,
+    "t_date_ab_net": -8.07,
+    "mean_ab_net_stress_pct": -2.135,
+    "t_month_ab_net_stress": -7.01,
+    "mean_net_vs_0050_pct": -2.497,
+    "t_month_vs_0050": -5.2,
+    "hit_ab_net": 0.335
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 1245,
+    "n_months": 23,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 2.605,
+    "mean_net_pct": 1.918,
+    "mean_EW_pct": 2.944,
+    "mean_ab_gross_pct": -0.339,
+    "t_month_ab_gross": -1.22,
+    "mean_ab_net_pct": -1.026,
+    "median_ab_net_pct": -1.624,
+    "t_month_ab_net": -2.59,
+    "t_date_ab_net": -5.22,
+    "mean_ab_net_stress_pct": -1.36,
+    "t_month_ab_net_stress": -3.27,
+    "mean_net_vs_0050_pct": -1.24,
+    "t_month_vs_0050": -3.24,
+    "hit_ab_net": 0.386
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 353,
+    "n_months": 23,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.213,
+    "mean_net_pct": -0.881,
+    "mean_EW_pct": 0.659,
+    "mean_ab_gross_pct": -0.872,
+    "t_month_ab_gross": -1.3,
+    "mean_ab_net_pct": -1.541,
+    "median_ab_net_pct": -2.266,
+    "t_month_ab_net": -2.4,
+    "t_date_ab_net": -3.88,
+    "mean_ab_net_stress_pct": -1.865,
+    "t_month_ab_net_stress": -2.94,
+    "mean_net_vs_0050_pct": -3.805,
+    "t_month_vs_0050": -3.93,
+    "hit_ab_net": 0.346
+   },
+   "event_valid_ex_src3": {
+    "n": 2637,
+    "n_months": 66,
+    "avg_hold_days": 20.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.435,
+    "mean_net_pct": -0.237,
+    "mean_EW_pct": 1.089,
+    "mean_ab_gross_pct": -0.653,
+    "t_month_ab_gross": -3.72,
+    "mean_ab_net_pct": -1.326,
+    "median_ab_net_pct": -1.922,
+    "t_month_ab_net": -5.43,
+    "t_date_ab_net": -9.07,
+    "mean_ab_net_stress_pct": -1.652,
+    "t_month_ab_net_stress": -6.27,
+    "mean_net_vs_0050_pct": -1.097,
+    "t_month_vs_0050": -3.81,
+    "hit_ab_net": 0.361
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.1495,
+    "maxDD": -0.9124,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1693,
+    "share_days_invested": 0.98,
+    "avg_positions": 15.2,
+    "excess_vs_0050_pct_m": -1.908,
+    "t_vs_0050_m": -6.36,
+    "excess_vs_EW_pct_m": -1.964,
+    "t_vs_EW_m": -7.33,
+    "yearly_pct": {
+     "2005": -18.0,
+     "2006": 0.8,
+     "2007": -18.3,
+     "2008": -57.7,
+     "2009": 17.2,
+     "2010": 5.8,
+     "2011": -32.5,
+     "2012": -13.0,
+     "2013": -5.7,
+     "2014": -14.7,
+     "2015": -20.8,
+     "2016": -11.2,
+     "2017": 8.9,
+     "2018": -27.6,
+     "2019": 5.9
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.1742,
+    "CAGR_gross": -0.0969
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.0875,
+    "maxDD": -0.7634,
+    "t_vs_0050_m": -2.62,
+    "t_vs_EW_m": -3.49,
+    "avg_positions": 35.7,
+    "share_days_invested": 0.98
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.0841,
+    "maxDD": -0.5818,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.1791,
+    "share_days_invested": 0.993,
+    "avg_positions": 15.8,
+    "excess_vs_0050_pct_m": -2.937,
+    "t_vs_0050_m": -4.94,
+    "excess_vs_EW_pct_m": -2.05,
+    "t_vs_EW_m": -5.85,
+    "yearly_pct": {
+     "2019": 6.7,
+     "2020": -19.3,
+     "2021": 2.5,
+     "2022": -25.7,
+     "2023": 0.9,
+     "2024": -2.2,
+     "2025": -15.3,
+     "2026": -5.3
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.1111,
+    "CAGR_gross": -0.0271
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.0489,
+    "maxDD": -0.4504,
+    "t_vs_0050_m": -3.93,
+    "t_vs_EW_m": -4.38,
+    "avg_positions": 45.7,
+    "share_days_invested": 0.993
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.0956,
+    "maxDD": -0.3577,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.2161,
+    "share_days_invested": 1.0,
+    "avg_positions": 16.4,
+    "excess_vs_0050_pct_m": -4.037,
+    "t_vs_0050_m": -4.11,
+    "excess_vs_EW_pct_m": -1.389,
+    "t_vs_EW_m": -2.65,
+    "yearly_pct": {
+     "2024": -2.2,
+     "2025": -15.3
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.1233,
+    "CAGR_gross": -0.0361
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.0385,
+    "maxDD": -0.3175,
+    "t_vs_0050_m": -3.08,
+    "t_vs_EW_m": -1.56,
+    "avg_positions": 56.9,
+    "share_days_invested": 1.0
+   }
+  },
+  "A_L250_H10": {
+   "trough_days": 16693,
+   "candidates": 16656,
+   "blocked_gap_up": 33,
+   "no_open": 2,
+   "no_confirm_in_10d": 0,
+   "events_uncapped": 11672,
+   "events_cap20": 6242,
+   "skipped_cap20": 7530,
+   "event_select_2005-01_2019-04": {
+    "n": 6985,
+    "n_months": 169,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.999,
+    "mean_net_pct": -1.662,
+    "mean_EW_pct": -0.416,
+    "mean_ab_gross_pct": -0.583,
+    "t_month_ab_gross": -3.46,
+    "mean_ab_net_pct": -1.246,
+    "median_ab_net_pct": -1.353,
+    "t_month_ab_net": -8.21,
+    "t_date_ab_net": -12.8,
+    "mean_ab_net_stress_pct": -1.568,
+    "t_month_ab_net_stress": -10.53,
+    "mean_net_vs_0050_pct": -1.625,
+    "t_month_vs_0050": -6.64,
+    "hit_ab_net": 0.358
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 3987,
+    "n_months": 169,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.812,
+    "mean_net_pct": -1.476,
+    "mean_EW_pct": -0.086,
+    "mean_ab_gross_pct": -0.726,
+    "t_month_ab_gross": -3.5,
+    "mean_ab_net_pct": -1.39,
+    "median_ab_net_pct": -1.44,
+    "t_month_ab_net": -8.01,
+    "t_date_ab_net": -12.22,
+    "mean_ab_net_stress_pct": -1.713,
+    "t_month_ab_net_stress": -10.22,
+    "mean_net_vs_0050_pct": -1.703,
+    "t_month_vs_0050": -6.35,
+    "hit_ab_net": 0.353
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 4618,
+    "n_months": 88,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.043,
+    "mean_net_pct": -0.713,
+    "mean_EW_pct": 0.396,
+    "mean_ab_gross_pct": -0.44,
+    "t_month_ab_gross": -4.45,
+    "mean_ab_net_pct": -1.109,
+    "median_ab_net_pct": -1.487,
+    "t_month_ab_net": -7.57,
+    "t_date_ab_net": -9.77,
+    "mean_ab_net_stress_pct": -1.434,
+    "t_month_ab_net_stress": -9.1,
+    "mean_net_vs_0050_pct": -1.229,
+    "t_month_vs_0050": -6.53,
+    "hit_ab_net": 0.347
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 2191,
+    "n_months": 88,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.013,
+    "mean_net_pct": -0.657,
+    "mean_EW_pct": 0.554,
+    "mean_ab_gross_pct": -0.541,
+    "t_month_ab_gross": -4.18,
+    "mean_ab_net_pct": -1.211,
+    "median_ab_net_pct": -1.674,
+    "t_month_ab_net": -7.17,
+    "t_date_ab_net": -8.5,
+    "mean_ab_net_stress_pct": -1.536,
+    "t_month_ab_net_stress": -8.64,
+    "mean_net_vs_0050_pct": -1.545,
+    "t_month_vs_0050": -6.36,
+    "hit_ab_net": 0.332
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 1434,
+    "n_months": 23,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.302,
+    "mean_net_pct": -0.97,
+    "mean_EW_pct": 0.264,
+    "mean_ab_gross_pct": -0.566,
+    "t_month_ab_gross": -3.13,
+    "mean_ab_net_pct": -1.234,
+    "median_ab_net_pct": -1.609,
+    "t_month_ab_net": -5.4,
+    "t_date_ab_net": -6.77,
+    "mean_ab_net_stress_pct": -1.558,
+    "t_month_ab_net_stress": -6.52,
+    "mean_net_vs_0050_pct": -1.514,
+    "t_month_vs_0050": -5.02,
+    "hit_ab_net": 0.351
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 583,
+    "n_months": 23,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.397,
+    "mean_net_pct": -1.064,
+    "mean_EW_pct": 0.228,
+    "mean_ab_gross_pct": -0.625,
+    "t_month_ab_gross": -2.8,
+    "mean_ab_net_pct": -1.292,
+    "median_ab_net_pct": -1.553,
+    "t_month_ab_net": -5.01,
+    "t_date_ab_net": -6.35,
+    "mean_ab_net_stress_pct": -1.616,
+    "t_month_ab_net_stress": -6.09,
+    "mean_net_vs_0050_pct": -2.545,
+    "t_month_vs_0050": -5.35,
+    "hit_ab_net": 0.34
+   },
+   "event_valid_ex_src3": {
+    "n": 3216,
+    "n_months": 68,
+    "avg_hold_days": 10.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 0.064,
+    "mean_net_pct": -0.607,
+    "mean_EW_pct": 0.458,
+    "mean_ab_gross_pct": -0.394,
+    "t_month_ab_gross": -3.61,
+    "mean_ab_net_pct": -1.064,
+    "median_ab_net_pct": -1.446,
+    "t_month_ab_net": -6.14,
+    "t_date_ab_net": -8.21,
+    "mean_ab_net_stress_pct": -1.39,
+    "t_month_ab_net_stress": -7.38,
+    "mean_net_vs_0050_pct": -1.129,
+    "t_month_vs_0050": -5.08,
+    "hit_ab_net": 0.344
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.2013,
+    "maxDD": -0.963,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1479,
+    "share_days_invested": 0.947,
+    "avg_positions": 12.4,
+    "excess_vs_0050_pct_m": -2.457,
+    "t_vs_0050_m": -8.35,
+    "excess_vs_EW_pct_m": -2.513,
+    "t_vs_EW_m": -8.65,
+    "yearly_pct": {
+     "2005": -23.6,
+     "2006": -8.8,
+     "2007": -22.9,
+     "2008": -52.8,
+     "2009": 8.4,
+     "2010": -1.0,
+     "2011": -36.8,
+     "2012": -20.8,
+     "2013": -9.0,
+     "2014": -20.2,
+     "2015": -27.7,
+     "2016": -14.8,
+     "2017": 0.7,
+     "2018": -35.8,
+     "2019": 1.6
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.2371,
+    "CAGR_gross": -0.1229
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.2264,
+    "maxDD": -0.9767,
+    "t_vs_0050_m": -7.39,
+    "t_vs_EW_m": -8.77,
+    "avg_positions": 21.7,
+    "share_days_invested": 0.947
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.1107,
+    "maxDD": -0.6481,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.1587,
+    "share_days_invested": 0.973,
+    "avg_positions": 13.5,
+    "excess_vs_0050_pct_m": -3.198,
+    "t_vs_0050_m": -5.21,
+    "excess_vs_EW_pct_m": -2.311,
+    "t_vs_EW_m": -5.76,
+    "yearly_pct": {
+     "2019": 2.9,
+     "2020": -14.0,
+     "2021": 8.5,
+     "2022": -38.2,
+     "2023": 2.3,
+     "2024": -11.4,
+     "2025": -19.2,
+     "2026": -4.4
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.1531,
+    "CAGR_gross": -0.0182
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": -0.1713,
+    "maxDD": -0.7793,
+    "t_vs_0050_m": -5.05,
+    "t_vs_EW_m": -5.32,
+    "avg_positions": 28.3,
+    "share_days_invested": 0.973
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.1634,
+    "maxDD": -0.3797,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.201,
+    "share_days_invested": 0.996,
+    "avg_positions": 14.0,
+    "excess_vs_0050_pct_m": -4.67,
+    "t_vs_0050_m": -4.14,
+    "excess_vs_EW_pct_m": -2.022,
+    "t_vs_EW_m": -3.98,
+    "yearly_pct": {
+     "2024": -11.4,
+     "2025": -19.2
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.2053,
+    "CAGR_gross": -0.071
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.177,
+    "maxDD": -0.3744,
+    "t_vs_0050_m": -4.31,
+    "t_vs_EW_m": -3.18,
+    "avg_positions": 34.3,
+    "share_days_invested": 0.996
+   }
+  },
+  "A_L250_H60": {
+   "trough_days": 16693,
+   "candidates": 16656,
+   "blocked_gap_up": 33,
+   "no_open": 2,
+   "no_confirm_in_10d": 0,
+   "events_uncapped": 7828,
+   "events_cap20": 1625,
+   "skipped_cap20": 12878,
+   "event_select_2005-01_2019-04": {
+    "n": 4788,
+    "n_months": 168,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.233,
+    "mean_net_pct": -0.901,
+    "mean_EW_pct": 1.211,
+    "mean_ab_gross_pct": -1.444,
+    "t_month_ab_gross": -2.91,
+    "mean_ab_net_pct": -2.112,
+    "median_ab_net_pct": -3.38,
+    "t_month_ab_net": -4.24,
+    "t_date_ab_net": -9.41,
+    "mean_ab_net_stress_pct": -2.437,
+    "t_month_ab_net_stress": -4.89,
+    "mean_net_vs_0050_pct": -2.211,
+    "t_month_vs_0050": -2.85,
+    "hit_ab_net": 0.379
+   },
+   "event_cap20_select_2005-01_2019-04": {
+    "n": 1048,
+    "n_months": 164,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": -0.779,
+    "mean_net_pct": -1.444,
+    "mean_EW_pct": 2.163,
+    "mean_ab_gross_pct": -2.942,
+    "t_month_ab_gross": -3.85,
+    "mean_ab_net_pct": -3.606,
+    "median_ab_net_pct": -5.044,
+    "t_month_ab_net": -4.82,
+    "t_date_ab_net": -6.04,
+    "mean_ab_net_stress_pct": -3.929,
+    "t_month_ab_net_stress": -5.3,
+    "mean_net_vs_0050_pct": -3.569,
+    "t_month_vs_0050": -3.96,
+    "hit_ab_net": 0.326
+   },
+   "event_valid_2019-05_2026-10": {
+    "n": 2825,
+    "n_months": 84,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 2.376,
+    "mean_net_pct": 1.691,
+    "mean_EW_pct": 3.426,
+    "mean_ab_gross_pct": -1.049,
+    "t_month_ab_gross": -5.2,
+    "mean_ab_net_pct": -1.735,
+    "median_ab_net_pct": -3.569,
+    "t_month_ab_net": -6.23,
+    "t_date_ab_net": -6.4,
+    "mean_ab_net_stress_pct": -2.068,
+    "t_month_ab_net_stress": -6.73,
+    "mean_net_vs_0050_pct": -3.312,
+    "t_month_vs_0050": -6.29,
+    "hit_ab_net": 0.377
+   },
+   "event_cap20_valid_2019-05_2026-10": {
+    "n": 537,
+    "n_months": 85,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.045,
+    "mean_net_pct": 0.368,
+    "mean_EW_pct": 4.108,
+    "mean_ab_gross_pct": -3.064,
+    "t_month_ab_gross": -4.18,
+    "mean_ab_net_pct": -3.74,
+    "median_ab_net_pct": -5.109,
+    "t_month_ab_net": -5.0,
+    "t_date_ab_net": -4.92,
+    "mean_ab_net_stress_pct": -4.069,
+    "t_month_ab_net_stress": -5.4,
+    "mean_net_vs_0050_pct": -6.686,
+    "t_month_vs_0050": -6.07,
+    "hit_ab_net": 0.32
+   },
+   "event_valid_2024-01_2025-12": {
+    "n": 987,
+    "n_months": 23,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 3.772,
+    "mean_net_pct": 3.077,
+    "mean_EW_pct": 3.66,
+    "mean_ab_gross_pct": 0.112,
+    "t_month_ab_gross": -1.76,
+    "mean_ab_net_pct": -0.583,
+    "median_ab_net_pct": -3.04,
+    "t_month_ab_net": -2.27,
+    "t_date_ab_net": -3.59,
+    "mean_ab_net_stress_pct": -0.92,
+    "t_month_ab_net_stress": -2.52,
+    "mean_net_vs_0050_pct": -6.249,
+    "t_month_vs_0050": -5.73,
+    "hit_ab_net": 0.398
+   },
+   "event_cap20_valid_2024-01_2025-12": {
+    "n": 145,
+    "n_months": 23,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.459,
+    "mean_net_pct": 0.779,
+    "mean_EW_pct": 2.295,
+    "mean_ab_gross_pct": -0.836,
+    "t_month_ab_gross": -1.07,
+    "mean_ab_net_pct": -1.516,
+    "median_ab_net_pct": -4.32,
+    "t_month_ab_net": -1.49,
+    "t_date_ab_net": -0.96,
+    "mean_ab_net_stress_pct": -1.846,
+    "t_month_ab_net_stress": -1.7,
+    "mean_net_vs_0050_pct": -9.81,
+    "t_month_vs_0050": -5.71,
+    "hit_ab_net": 0.366
+   },
+   "event_valid_ex_src3": {
+    "n": 1810,
+    "n_months": 62,
+    "avg_hold_days": 60.0,
+    "stop_share": 0.0,
+    "mean_raw_pct": 1.608,
+    "mean_net_pct": 0.927,
+    "mean_EW_pct": 3.165,
+    "mean_ab_gross_pct": -1.557,
+    "t_month_ab_gross": -4.39,
+    "mean_ab_net_pct": -2.237,
+    "median_ab_net_pct": -3.782,
+    "t_month_ab_net": -5.23,
+    "t_date_ab_net": -5.03,
+    "mean_ab_net_stress_pct": -2.568,
+    "t_month_ab_net_stress": -5.63,
+    "mean_net_vs_0050_pct": -1.464,
+    "t_month_vs_0050": -4.21,
+    "hit_ab_net": 0.365
+   },
+   "port_cap20_select_2005-01_2019-04": {
+    "CAGR": -0.0879,
+    "maxDD": -0.8147,
+    "0050_CAGR": 0.0768,
+    "0050_maxDD": -0.5575,
+    "EW_CAGR": 0.0731,
+    "EW_maxDD": -0.6444,
+    "vol": 0.1915,
+    "share_days_invested": 1.0,
+    "avg_positions": 18.0,
+    "excess_vs_0050_pct_m": -1.303,
+    "t_vs_0050_m": -4.33,
+    "excess_vs_EW_pct_m": -1.359,
+    "t_vs_EW_m": -5.91,
+    "yearly_pct": {
+     "2005": -10.5,
+     "2006": 13.9,
+     "2007": -12.5,
+     "2008": -48.8,
+     "2009": 52.7,
+     "2010": -7.3,
+     "2011": -42.7,
+     "2012": 6.3,
+     "2013": -3.1,
+     "2014": 0.8,
+     "2015": -17.4,
+     "2016": -8.9,
+     "2017": 13.6,
+     "2018": -25.7,
+     "2019": 9.5
+    },
+    "yearly_0050_pct": {
+     "2005": 10.0,
+     "2006": 21.1,
+     "2007": 10.3,
+     "2008": -43.3,
+     "2009": 75.0,
+     "2010": 13.1,
+     "2011": -15.8,
+     "2012": 11.9,
+     "2013": 11.7,
+     "2014": 16.7,
+     "2015": -6.3,
+     "2016": 19.6,
+     "2017": 18.1,
+     "2018": -4.9,
+     "2019": 13.1
+    },
+    "yearly_EW_pct": {
+     "2005": 11.3,
+     "2006": 35.8,
+     "2007": 7.1,
+     "2008": -46.0,
+     "2009": 123.3,
+     "2010": 9.0,
+     "2011": -27.9,
+     "2012": 14.5,
+     "2013": 21.1,
+     "2014": 4.6,
+     "2015": -9.5,
+     "2016": 8.1,
+     "2017": 23.8,
+     "2018": -11.5,
+     "2019": 14.9
+    },
+    "CAGR_stress": -0.0988,
+    "CAGR_gross": -0.0651
+   },
+   "port_fullEW_select_2005-01_2019-04": {
+    "CAGR": -0.0384,
+    "maxDD": -0.6771,
+    "t_vs_0050_m": -2.71,
+    "t_vs_EW_m": -4.79,
+    "avg_positions": 82.7,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2019-05_2026-10": {
+    "CAGR": -0.001,
+    "maxDD": -0.3606,
+    "0050_CAGR": 0.2829,
+    "0050_maxDD": -0.3396,
+    "EW_CAGR": 0.1639,
+    "EW_maxDD": -0.3397,
+    "vol": 0.2034,
+    "share_days_invested": 1.0,
+    "avg_positions": 18.9,
+    "excess_vs_0050_pct_m": -2.186,
+    "t_vs_0050_m": -3.64,
+    "excess_vs_EW_pct_m": -1.3,
+    "t_vs_EW_m": -3.88,
+    "yearly_pct": {
+     "2019": 8.3,
+     "2020": -0.7,
+     "2021": 1.5,
+     "2022": -20.8,
+     "2023": 25.1,
+     "2024": 0.4,
+     "2025": -6.9,
+     "2026": -1.6
+    },
+    "yearly_0050_pct": {
+     "2019": 18.1,
+     "2020": 31.1,
+     "2021": 21.9,
+     "2022": -21.4,
+     "2023": 27.5,
+     "2024": 48.6,
+     "2025": 36.8,
+     "2026": 67.2
+    },
+    "yearly_EW_pct": {
+     "2019": 10.8,
+     "2020": 24.3,
+     "2021": 30.4,
+     "2022": -14.2,
+     "2023": 35.8,
+     "2024": 9.7,
+     "2025": 4.0,
+     "2026": 30.3
+    },
+    "CAGR_stress": -0.0132,
+    "CAGR_gross": 0.0242
+   },
+   "port_fullEW_valid_2019-05_2026-10": {
+    "CAGR": 0.0275,
+    "maxDD": -0.3636,
+    "t_vs_0050_m": -3.28,
+    "t_vs_EW_m": -3.93,
+    "avg_positions": 99.7,
+    "share_days_invested": 1.0
+   },
+   "port_cap20_valid_2024-01_2025-12": {
+    "CAGR": -0.0358,
+    "maxDD": -0.3292,
+    "0050_CAGR": 0.4602,
+    "0050_maxDD": -0.2748,
+    "EW_CAGR": 0.0728,
+    "EW_maxDD": -0.3319,
+    "vol": 0.2262,
+    "share_days_invested": 1.0,
+    "avg_positions": 19.4,
+    "excess_vs_0050_pct_m": -3.541,
+    "t_vs_0050_m": -3.34,
+    "excess_vs_EW_pct_m": -0.893,
+    "t_vs_EW_m": -1.78,
+    "yearly_pct": {
+     "2024": 0.4,
+     "2025": -6.9
+    },
+    "yearly_0050_pct": {
+     "2024": 48.6,
+     "2025": 36.8
+    },
+    "yearly_EW_pct": {
+     "2024": 9.7,
+     "2025": 4.0
+    },
+    "CAGR_stress": -0.048,
+    "CAGR_gross": -0.0105
+   },
+   "port_fullEW_valid_2024-01_2025-12": {
+    "CAGR": -0.0439,
+    "maxDD": -0.3044,
+    "t_vs_0050_m": -3.05,
+    "t_vs_EW_m": -2.04,
+    "avg_positions": 131.2,
+    "share_days_invested": 1.0
+   }
+  }
+ },
+ "yearly_events": {
+  "B_L120_H20": {
+   "2004": {
+    "n": 202,
+    "ab_net_pct": -1.2,
+    "raw_pct": -0.99
+   },
+   "2005": {
+    "n": 201,
+    "ab_net_pct": -1.83,
+    "raw_pct": 0.74
+   },
+   "2006": {
+    "n": 256,
+    "ab_net_pct": -1.14,
+    "raw_pct": 2.46
+   },
+   "2007": {
+    "n": 399,
+    "ab_net_pct": -1.03,
+    "raw_pct": -1.83
+   },
+   "2008": {
+    "n": 237,
+    "ab_net_pct": -1.09,
+    "raw_pct": -3.52
+   },
+   "2009": {
+    "n": 192,
+    "ab_net_pct": -1.95,
+    "raw_pct": 3.33
+   },
+   "2010": {
+    "n": 575,
+    "ab_net_pct": -1.74,
+    "raw_pct": 2.76
+   },
+   "2011": {
+    "n": 488,
+    "ab_net_pct": -0.38,
+    "raw_pct": -1.08
+   },
+   "2012": {
+    "n": 266,
+    "ab_net_pct": -1.7,
+    "raw_pct": -0.4
+   },
+   "2013": {
+    "n": 314,
+    "ab_net_pct": -1.67,
+    "raw_pct": 0.75
+   },
+   "2014": {
+    "n": 446,
+    "ab_net_pct": -2.08,
+    "raw_pct": -1.77
+   },
+   "2015": {
+    "n": 242,
+    "ab_net_pct": -1.27,
+    "raw_pct": -1.89
+   },
+   "2016": {
+    "n": 306,
+    "ab_net_pct": -1.02,
+    "raw_pct": 2.08
+   },
+   "2017": {
+    "n": 277,
+    "ab_net_pct": -1.66,
+    "raw_pct": 0.3
+   },
+   "2018": {
+    "n": 435,
+    "ab_net_pct": -1.55,
+    "raw_pct": -1.51
+   },
+   "2019": {
+    "n": 268,
+    "ab_net_pct": -1.62,
+    "raw_pct": 0.83
+   },
+   "2020": {
+    "n": 284,
+    "ab_net_pct": -2.11,
+    "raw_pct": 0.2
+   },
+   "2021": {
+    "n": 540,
+    "ab_net_pct": -1.48,
+    "raw_pct": 0.91
+   },
+   "2022": {
+    "n": 459,
+    "ab_net_pct": -0.59,
+    "raw_pct": -0.08
+   },
+   "2023": {
+    "n": 442,
+    "ab_net_pct": -1.99,
+    "raw_pct": 1.0
+   },
+   "2024": {
+    "n": 563,
+    "ab_net_pct": -0.81,
+    "raw_pct": -0.58
+   },
+   "2025": {
+    "n": 271,
+    "ab_net_pct": -3.42,
+    "raw_pct": -1.49
+   },
+   "2026": {
+    "n": 267,
+    "ab_net_pct": -2.37,
+    "raw_pct": 0.16
+   }
+  },
+  "B_L120_H10": {
+   "2004": {
+    "n": 210,
+    "ab_net_pct": -0.85,
+    "raw_pct": -0.3
+   },
+   "2005": {
+    "n": 208,
+    "ab_net_pct": -1.94,
+    "raw_pct": -0.24
+   },
+   "2006": {
+    "n": 271,
+    "ab_net_pct": -1.3,
+    "raw_pct": 0.9
+   },
+   "2007": {
+    "n": 413,
+    "ab_net_pct": -1.13,
+    "raw_pct": -1.25
+   },
+   "2008": {
+    "n": 243,
+    "ab_net_pct": -1.03,
+    "raw_pct": -2.51
+   },
+   "2009": {
+    "n": 204,
+    "ab_net_pct": -1.61,
+    "raw_pct": 2.05
+   },
+   "2010": {
+    "n": 609,
+    "ab_net_pct": -1.72,
+    "raw_pct": 0.81
+   },
+   "2011": {
+    "n": 507,
+    "ab_net_pct": -0.68,
+    "raw_pct": -0.55
+   },
+   "2012": {
+    "n": 275,
+    "ab_net_pct": -1.24,
+    "raw_pct": -0.19
+   },
+   "2013": {
+    "n": 328,
+    "ab_net_pct": -2.09,
+    "raw_pct": -0.38
+   },
+   "2014": {
+    "n": 466,
+    "ab_net_pct": -1.64,
+    "raw_pct": -1.25
+   },
+   "2015": {
+    "n": 252,
+    "ab_net_pct": -1.53,
+    "raw_pct": -2.4
+   },
+   "2016": {
+    "n": 319,
+    "ab_net_pct": -0.95,
+    "raw_pct": 0.58
+   },
+   "2017": {
+    "n": 294,
+    "ab_net_pct": -1.88,
+    "raw_pct": -0.39
+   },
+   "2018": {
+    "n": 461,
+    "ab_net_pct": -1.58,
+    "raw_pct": -1.48
+   },
+   "2019": {
+    "n": 284,
+    "ab_net_pct": -1.12,
+    "raw_pct": 0.87
+   },
+   "2020": {
+    "n": 308,
+    "ab_net_pct": -1.41,
+    "raw_pct": -0.13
+   },
+   "2021": {
+    "n": 562,
+    "ab_net_pct": -1.82,
+    "raw_pct": -0.4
+   },
+   "2022": {
+    "n": 479,
+    "ab_net_pct": -0.82,
+    "raw_pct": -0.05
+   },
+   "2023": {
+    "n": 470,
+    "ab_net_pct": -1.49,
+    "raw_pct": 0.47
+   },
+   "2024": {
+    "n": 591,
+    "ab_net_pct": -0.74,
+    "raw_pct": -0.91
+   },
+   "2025": {
+    "n": 281,
+    "ab_net_pct": -2.51,
+    "raw_pct": -0.46
+   },
+   "2026": {
+    "n": 316,
+    "ab_net_pct": -1.56,
+    "raw_pct": -0.29
+   }
+  },
+  "B_L120_H60": {
+   "2004": {
+    "n": 194,
+    "ab_net_pct": -1.18,
+    "raw_pct": -0.01
+   },
+   "2005": {
+    "n": 186,
+    "ab_net_pct": -1.92,
+    "raw_pct": 2.29
+   },
+   "2006": {
+    "n": 246,
+    "ab_net_pct": -0.88,
+    "raw_pct": 6.51
+   },
+   "2007": {
+    "n": 380,
+    "ab_net_pct": -1.33,
+    "raw_pct": -0.78
+   },
+   "2008": {
+    "n": 235,
+    "ab_net_pct": -2.53,
+    "raw_pct": -2.89
+   },
+   "2009": {
+    "n": 172,
+    "ab_net_pct": -1.83,
+    "raw_pct": 8.04
+   },
+   "2010": {
+    "n": 531,
+    "ab_net_pct": -2.26,
+    "raw_pct": 0.62
+   },
+   "2011": {
+    "n": 465,
+    "ab_net_pct": -0.96,
+    "raw_pct": -3.83
+   },
+   "2012": {
+    "n": 251,
+    "ab_net_pct": -2.13,
+    "raw_pct": 1.26
+   },
+   "2013": {
+    "n": 290,
+    "ab_net_pct": -1.71,
+    "raw_pct": 3.78
+   },
+   "2014": {
+    "n": 413,
+    "ab_net_pct": -2.48,
+    "raw_pct": -2.07
+   },
+   "2015": {
+    "n": 233,
+    "ab_net_pct": -2.14,
+    "raw_pct": -3.84
+   },
+   "2016": {
+    "n": 289,
+    "ab_net_pct": -2.21,
+    "raw_pct": 2.68
+   },
+   "2017": {
+    "n": 256,
+    "ab_net_pct": -2.89,
+    "raw_pct": 0.18
+   },
+   "2018": {
+    "n": 398,
+    "ab_net_pct": -1.89,
+    "raw_pct": -1.52
+   },
+   "2019": {
+    "n": 240,
+    "ab_net_pct": -1.32,
+    "raw_pct": 1.09
+   },
+   "2020": {
+    "n": 256,
+    "ab_net_pct": -1.65,
+    "raw_pct": 6.12
+   },
+   "2021": {
+    "n": 503,
+    "ab_net_pct": -1.77,
+    "raw_pct": 0.73
+   },
+   "2022": {
+    "n": 432,
+    "ab_net_pct": -1.42,
+    "raw_pct": -1.34
+   },
+   "2023": {
+    "n": 381,
+    "ab_net_pct": -1.82,
+    "raw_pct": 4.76
+   },
+   "2024": {
+    "n": 503,
+    "ab_net_pct": -1.78,
+    "raw_pct": -3.59
+   },
+   "2025": {
+    "n": 258,
+    "ab_net_pct": -4.34,
+    "raw_pct": -2.79
+   },
+   "2026": {
+    "n": 130,
+    "ab_net_pct": -4.25,
+    "raw_pct": 2.56
+   }
+  },
+  "B_L60_H20": {
+   "2004": {
+    "n": 458,
+    "ab_net_pct": -0.74,
+    "raw_pct": -0.67
+   },
+   "2005": {
+    "n": 396,
+    "ab_net_pct": -1.33,
+    "raw_pct": 1.51
+   },
+   "2006": {
+    "n": 461,
+    "ab_net_pct": -1.63,
+    "raw_pct": 2.17
+   },
+   "2007": {
+    "n": 673,
+    "ab_net_pct": -1.26,
+    "raw_pct": -0.97
+   },
+   "2008": {
+    "n": 316,
+    "ab_net_pct": -1.43,
+    "raw_pct": -4.16
+   },
+   "2009": {
+    "n": 379,
+    "ab_net_pct": -0.47,
+    "raw_pct": 5.94
+   },
+   "2010": {
+    "n": 836,
+    "ab_net_pct": -1.59,
+    "raw_pct": 2.65
+   },
+   "2011": {
+    "n": 751,
+    "ab_net_pct": -0.98,
+    "raw_pct": -1.83
+   },
+   "2012": {
+    "n": 461,
+    "ab_net_pct": -1.55,
+    "raw_pct": -1.34
+   },
+   "2013": {
+    "n": 522,
+    "ab_net_pct": -1.41,
+    "raw_pct": 1.1
+   },
+   "2014": {
+    "n": 684,
+    "ab_net_pct": -1.99,
+    "raw_pct": -1.47
+   },
+   "2015": {
+    "n": 401,
+    "ab_net_pct": -1.63,
+    "raw_pct": -2.97
+   },
+   "2016": {
+    "n": 481,
+    "ab_net_pct": -1.26,
+    "raw_pct": 1.62
+   },
+   "2017": {
+    "n": 574,
+    "ab_net_pct": -1.84,
+    "raw_pct": 0.08
+   },
+   "2018": {
+    "n": 681,
+    "ab_net_pct": -1.47,
+    "raw_pct": -1.53
+   },
+   "2019": {
+    "n": 485,
+    "ab_net_pct": -1.39,
+    "raw_pct": 1.32
+   },
+   "2020": {
+    "n": 484,
+    "ab_net_pct": -2.2,
+    "raw_pct": 0.51
+   },
+   "2021": {
+    "n": 861,
+    "ab_net_pct": -1.46,
+    "raw_pct": 1.69
+   },
+   "2022": {
+    "n": 722,
+    "ab_net_pct": -0.69,
+    "raw_pct": 0.04
+   },
+   "2023": {
+    "n": 723,
+    "ab_net_pct": -1.54,
+    "raw_pct": 1.34
+   },
+   "2024": {
+    "n": 878,
+    "ab_net_pct": -0.97,
+    "raw_pct": -0.8
+   },
+   "2025": {
+    "n": 624,
+    "ab_net_pct": -2.37,
+    "raw_pct": -0.27
+   },
+   "2026": {
+    "n": 479,
+    "ab_net_pct": -1.11,
+    "raw_pct": 1.51
+   }
+  },
+  "B_L60_H10": {
+   "2004": {
+    "n": 487,
+    "ab_net_pct": -0.76,
+    "raw_pct": -0.2
+   },
+   "2005": {
+    "n": 415,
+    "ab_net_pct": -1.52,
+    "raw_pct": 0.32
+   },
+   "2006": {
+    "n": 494,
+    "ab_net_pct": -1.57,
+    "raw_pct": 0.53
+   },
+   "2007": {
+    "n": 704,
+    "ab_net_pct": -1.18,
+    "raw_pct": -0.84
+   },
+   "2008": {
+    "n": 323,
+    "ab_net_pct": -1.13,
+    "raw_pct": -2.75
+   },
+   "2009": {
+    "n": 398,
+    "ab_net_pct": -1.03,
+    "raw_pct": 3.0
+   },
+   "2010": {
+    "n": 892,
+    "ab_net_pct": -1.63,
+    "raw_pct": 0.75
+   },
+   "2011": {
+    "n": 787,
+    "ab_net_pct": -1.08,
+    "raw_pct": -1.14
+   },
+   "2012": {
+    "n": 484,
+    "ab_net_pct": -1.25,
+    "raw_pct": -1.02
+   },
+   "2013": {
+    "n": 552,
+    "ab_net_pct": -1.87,
+    "raw_pct": -0.12
+   },
+   "2014": {
+    "n": 721,
+    "ab_net_pct": -1.59,
+    "raw_pct": -0.94
+   },
+   "2015": {
+    "n": 419,
+    "ab_net_pct": -1.4,
+    "raw_pct": -2.6
+   },
+   "2016": {
+    "n": 507,
+    "ab_net_pct": -1.16,
+    "raw_pct": 0.43
+   },
+   "2017": {
+    "n": 614,
+    "ab_net_pct": -1.78,
+    "raw_pct": -0.39
+   },
+   "2018": {
+    "n": 725,
+    "ab_net_pct": -1.48,
+    "raw_pct": -1.35
+   },
+   "2019": {
+    "n": 519,
+    "ab_net_pct": -0.92,
+    "raw_pct": 1.1
+   },
+   "2020": {
+    "n": 518,
+    "ab_net_pct": -1.63,
+    "raw_pct": -0.27
+   },
+   "2021": {
+    "n": 903,
+    "ab_net_pct": -1.86,
+    "raw_pct": -0.02
+   },
+   "2022": {
+    "n": 755,
+    "ab_net_pct": -0.75,
+    "raw_pct": 0.18
+   },
+   "2023": {
+    "n": 776,
+    "ab_net_pct": -0.99,
+    "raw_pct": 0.88
+   },
+   "2024": {
+    "n": 926,
+    "ab_net_pct": -1.06,
+    "raw_pct": -1.21
+   },
+   "2025": {
+    "n": 651,
+    "ab_net_pct": -2.11,
+    "raw_pct": -0.34
+   },
+   "2026": {
+    "n": 560,
+    "ab_net_pct": -1.11,
+    "raw_pct": 0.1
+   }
+  },
+  "B_L60_H60": {
+   "2004": {
+    "n": 430,
+    "ab_net_pct": -1.82,
+    "raw_pct": -0.75
+   },
+   "2005": {
+    "n": 361,
+    "ab_net_pct": -1.89,
+    "raw_pct": 2.12
+   },
+   "2006": {
+    "n": 423,
+    "ab_net_pct": -1.29,
+    "raw_pct": 6.11
+   },
+   "2007": {
+    "n": 621,
+    "ab_net_pct": -1.33,
+    "raw_pct": -1.38
+   },
+   "2008": {
+    "n": 310,
+    "ab_net_pct": -2.58,
+    "raw_pct": -3.75
+   },
+   "2009": {
+    "n": 340,
+    "ab_net_pct": 0.36,
+    "raw_pct": 12.75
+   },
+   "2010": {
+    "n": 753,
+    "ab_net_pct": -1.68,
+    "raw_pct": 1.2
+   },
+   "2011": {
+    "n": 710,
+    "ab_net_pct": -1.23,
+    "raw_pct": -4.27
+   },
+   "2012": {
+    "n": 426,
+    "ab_net_pct": -2.14,
+    "raw_pct": -0.17
+   },
+   "2013": {
+    "n": 475,
+    "ab_net_pct": -1.42,
+    "raw_pct": 3.92
+   },
+   "2014": {
+    "n": 621,
+    "ab_net_pct": -2.6,
+    "raw_pct": -2.15
+   },
+   "2015": {
+    "n": 380,
+    "ab_net_pct": -2.64,
+    "raw_pct": -5.07
+   },
+   "2016": {
+    "n": 448,
+    "ab_net_pct": -1.82,
+    "raw_pct": 3.43
+   },
+   "2017": {
+    "n": 502,
+    "ab_net_pct": -2.57,
+    "raw_pct": 0.55
+   },
+   "2018": {
+    "n": 613,
+    "ab_net_pct": -1.18,
+    "raw_pct": -1.03
+   },
+   "2019": {
+    "n": 434,
+    "ab_net_pct": -1.45,
+    "raw_pct": 1.36
+   },
+   "2020": {
+    "n": 438,
+    "ab_net_pct": -2.03,
+    "raw_pct": 6.15
+   },
+   "2021": {
+    "n": 797,
+    "ab_net_pct": -1.76,
+    "raw_pct": 0.79
+   },
+   "2022": {
+    "n": 669,
+    "ab_net_pct": -1.58,
+    "raw_pct": -1.4
+   },
+   "2023": {
+    "n": 629,
+    "ab_net_pct": -1.53,
+    "raw_pct": 4.55
+   },
+   "2024": {
+    "n": 796,
+    "ab_net_pct": -1.81,
+    "raw_pct": -3.26
+   },
+   "2025": {
+    "n": 583,
+    "ab_net_pct": -2.49,
+    "raw_pct": 0.05
+   },
+   "2026": {
+    "n": 272,
+    "ab_net_pct": -0.27,
+    "raw_pct": 6.45
+   }
+  },
+  "B_L250_H20": {
+   "2004": {
+    "n": 25,
+    "ab_net_pct": -3.06,
+    "raw_pct": -4.49
+   },
+   "2005": {
+    "n": 87,
+    "ab_net_pct": -3.16,
+    "raw_pct": -0.64
+   },
+   "2006": {
+    "n": 124,
+    "ab_net_pct": -1.94,
+    "raw_pct": 1.67
+   },
+   "2007": {
+    "n": 171,
+    "ab_net_pct": -1.04,
+    "raw_pct": -3.75
+   },
+   "2008": {
+    "n": 161,
+    "ab_net_pct": -0.98,
+    "raw_pct": -3.57
+   },
+   "2009": {
+    "n": 42,
+    "ab_net_pct": 0.29,
+    "raw_pct": 5.66
+   },
+   "2010": {
+    "n": 357,
+    "ab_net_pct": -1.96,
+    "raw_pct": 2.57
+   },
+   "2011": {
+    "n": 301,
+    "ab_net_pct": -0.78,
+    "raw_pct": -1.35
+   },
+   "2012": {
+    "n": 166,
+    "ab_net_pct": -1.87,
+    "raw_pct": -1.24
+   },
+   "2013": {
+    "n": 151,
+    "ab_net_pct": -1.66,
+    "raw_pct": 0.77
+   },
+   "2014": {
+    "n": 212,
+    "ab_net_pct": -2.35,
+    "raw_pct": -2.17
+   },
+   "2015": {
+    "n": 130,
+    "ab_net_pct": -1.73,
+    "raw_pct": -2.31
+   },
+   "2016": {
+    "n": 192,
+    "ab_net_pct": -0.84,
+    "raw_pct": 2.53
+   },
+   "2017": {
+    "n": 133,
+    "ab_net_pct": -2.0,
+    "raw_pct": 0.02
+   },
+   "2018": {
+    "n": 236,
+    "ab_net_pct": -1.56,
+    "raw_pct": -1.39
+   },
+   "2019": {
+    "n": 125,
+    "ab_net_pct": -1.49,
+    "raw_pct": 1.47
+   },
+   "2020": {
+    "n": 113,
+    "ab_net_pct": -1.3,
+    "raw_pct": 1.46
+   },
+   "2021": {
+    "n": 253,
+    "ab_net_pct": -1.91,
+    "raw_pct": -0.15
+   },
+   "2022": {
+    "n": 288,
+    "ab_net_pct": -0.85,
+    "raw_pct": -0.42
+   },
+   "2023": {
+    "n": 211,
+    "ab_net_pct": -2.56,
+    "raw_pct": 0.3
+   },
+   "2024": {
+    "n": 264,
+    "ab_net_pct": -1.24,
+    "raw_pct": -0.83
+   },
+   "2025": {
+    "n": 117,
+    "ab_net_pct": -2.48,
+    "raw_pct": -0.32
+   },
+   "2026": {
+    "n": 67,
+    "ab_net_pct": -1.73,
+    "raw_pct": 1.03
+   }
+  },
+  "B_L250_H10": {
+   "2004": {
+    "n": 26,
+    "ab_net_pct": -2.55,
+    "raw_pct": -2.77
+   },
+   "2005": {
+    "n": 89,
+    "ab_net_pct": -2.68,
+    "raw_pct": -1.2
+   },
+   "2006": {
+    "n": 132,
+    "ab_net_pct": -1.83,
+    "raw_pct": 0.59
+   },
+   "2007": {
+    "n": 174,
+    "ab_net_pct": -1.2,
+    "raw_pct": -2.2
+   },
+   "2008": {
+    "n": 164,
+    "ab_net_pct": -0.93,
+    "raw_pct": -2.6
+   },
+   "2009": {
+    "n": 44,
+    "ab_net_pct": -0.12,
+    "raw_pct": 4.04
+   },
+   "2010": {
+    "n": 379,
+    "ab_net_pct": -1.93,
+    "raw_pct": 0.7
+   },
+   "2011": {
+    "n": 309,
+    "ab_net_pct": -0.91,
+    "raw_pct": -0.54
+   },
+   "2012": {
+    "n": 172,
+    "ab_net_pct": -1.38,
+    "raw_pct": -0.77
+   },
+   "2013": {
+    "n": 156,
+    "ab_net_pct": -2.05,
+    "raw_pct": -0.3
+   },
+   "2014": {
+    "n": 217,
+    "ab_net_pct": -1.66,
+    "raw_pct": -1.38
+   },
+   "2015": {
+    "n": 135,
+    "ab_net_pct": -2.04,
+    "raw_pct": -2.78
+   },
+   "2016": {
+    "n": 200,
+    "ab_net_pct": -0.91,
+    "raw_pct": 0.73
+   },
+   "2017": {
+    "n": 137,
+    "ab_net_pct": -1.72,
+    "raw_pct": -0.12
+   },
+   "2018": {
+    "n": 246,
+    "ab_net_pct": -1.94,
+    "raw_pct": -1.79
+   },
+   "2019": {
+    "n": 135,
+    "ab_net_pct": -0.68,
+    "raw_pct": 1.58
+   },
+   "2020": {
+    "n": 119,
+    "ab_net_pct": -0.83,
+    "raw_pct": 0.48
+   },
+   "2021": {
+    "n": 259,
+    "ab_net_pct": -2.08,
+    "raw_pct": -1.02
+   },
+   "2022": {
+    "n": 300,
+    "ab_net_pct": -0.91,
+    "raw_pct": -0.16
+   },
+   "2023": {
+    "n": 219,
+    "ab_net_pct": -1.72,
+    "raw_pct": 0.21
+   },
+   "2024": {
+    "n": 274,
+    "ab_net_pct": -0.74,
+    "raw_pct": -0.88
+   },
+   "2025": {
+    "n": 118,
+    "ab_net_pct": -2.15,
+    "raw_pct": 0.23
+   },
+   "2026": {
+    "n": 90,
+    "ab_net_pct": -2.08,
+    "raw_pct": -0.85
+   }
+  },
+  "B_L250_H60": {
+   "2004": {
+    "n": 24,
+    "ab_net_pct": -3.45,
+    "raw_pct": -2.88
+   },
+   "2005": {
+    "n": 81,
+    "ab_net_pct": -4.47,
+    "raw_pct": -0.25
+   },
+   "2006": {
+    "n": 120,
+    "ab_net_pct": -0.52,
+    "raw_pct": 7.17
+   },
+   "2007": {
+    "n": 167,
+    "ab_net_pct": -0.48,
+    "raw_pct": -3.4
+   },
+   "2008": {
+    "n": 161,
+    "ab_net_pct": -2.69,
+    "raw_pct": -3.04
+   },
+   "2009": {
+    "n": 39,
+    "ab_net_pct": 2.93,
+    "raw_pct": 13.97
+   },
+   "2010": {
+    "n": 336,
+    "ab_net_pct": -1.89,
+    "raw_pct": 0.93
+   },
+   "2011": {
+    "n": 288,
+    "ab_net_pct": -1.33,
+    "raw_pct": -3.88
+   },
+   "2012": {
+    "n": 158,
+    "ab_net_pct": -2.22,
+    "raw_pct": 0.68
+   },
+   "2013": {
+    "n": 140,
+    "ab_net_pct": -2.91,
+    "raw_pct": 2.43
+   },
+   "2014": {
+    "n": 201,
+    "ab_net_pct": -2.38,
+    "raw_pct": -1.6
+   },
+   "2015": {
+    "n": 127,
+    "ab_net_pct": -2.78,
+    "raw_pct": -4.77
+   },
+   "2016": {
+    "n": 183,
+    "ab_net_pct": -1.98,
+    "raw_pct": 3.35
+   },
+   "2017": {
+    "n": 126,
+    "ab_net_pct": -3.36,
+    "raw_pct": -0.19
+   },
+   "2018": {
+    "n": 219,
+    "ab_net_pct": -3.03,
+    "raw_pct": -2.2
+   },
+   "2019": {
+    "n": 114,
+    "ab_net_pct": -1.19,
+    "raw_pct": 1.52
+   },
+   "2020": {
+    "n": 104,
+    "ab_net_pct": -2.13,
+    "raw_pct": 6.21
+   },
+   "2021": {
+    "n": 239,
+    "ab_net_pct": -2.03,
+    "raw_pct": 0.47
+   },
+   "2022": {
+    "n": 277,
+    "ab_net_pct": -1.14,
+    "raw_pct": -1.57
+   },
+   "2023": {
+    "n": 187,
+    "ab_net_pct": -3.29,
+    "raw_pct": 3.09
+   },
+   "2024": {
+    "n": 231,
+    "ab_net_pct": -1.25,
+    "raw_pct": -3.67
+   },
+   "2025": {
+    "n": 113,
+    "ab_net_pct": -2.4,
+    "raw_pct": -2.01
+   },
+   "2026": {
+    "n": 22,
+    "ab_net_pct": -6.83,
+    "raw_pct": -4.88
+   }
+  },
+  "A_L120_H20": {
+   "2004": {
+    "n": 391,
+    "ab_net_pct": -0.74,
+    "raw_pct": -1.03
+   },
+   "2005": {
+    "n": 483,
+    "ab_net_pct": -2.16,
+    "raw_pct": -0.87
+   },
+   "2006": {
+    "n": 544,
+    "ab_net_pct": -2.04,
+    "raw_pct": 1.07
+   },
+   "2007": {
+    "n": 906,
+    "ab_net_pct": -1.24,
+    "raw_pct": -3.18
+   },
+   "2008": {
+    "n": 787,
+    "ab_net_pct": -2.05,
+    "raw_pct": -9.21
+   },
+   "2009": {
+    "n": 369,
+    "ab_net_pct": -1.83,
+    "raw_pct": 6.14
+   },
+   "2010": {
+    "n": 1139,
+    "ab_net_pct": -1.04,
+    "raw_pct": 2.87
+   },
+   "2011": {
+    "n": 1141,
+    "ab_net_pct": -0.82,
+    "raw_pct": -1.09
+   },
+   "2012": {
+    "n": 725,
+    "ab_net_pct": -1.18,
+    "raw_pct": -0.08
+   },
+   "2013": {
+    "n": 619,
+    "ab_net_pct": -1.85,
+    "raw_pct": 1.09
+   },
+   "2014": {
+    "n": 1029,
+    "ab_net_pct": -1.45,
+    "raw_pct": -1.23
+   },
+   "2015": {
+    "n": 734,
+    "ab_net_pct": -1.14,
+    "raw_pct": -2.77
+   },
+   "2016": {
+    "n": 715,
+    "ab_net_pct": -0.9,
+    "raw_pct": 1.74
+   },
+   "2017": {
+    "n": 554,
+    "ab_net_pct": -1.19,
+    "raw_pct": 1.6
+   },
+   "2018": {
+    "n": 1020,
+    "ab_net_pct": -1.17,
+    "raw_pct": -1.32
+   },
+   "2019": {
+    "n": 524,
+    "ab_net_pct": -0.24,
+    "raw_pct": 2.57
+   },
+   "2020": {
+    "n": 662,
+    "ab_net_pct": -2.02,
+    "raw_pct": -0.81
+   },
+   "2021": {
+    "n": 1264,
+    "ab_net_pct": -1.16,
+    "raw_pct": 1.77
+   },
+   "2022": {
+    "n": 1296,
+    "ab_net_pct": -0.77,
+    "raw_pct": -0.55
+   },
+   "2023": {
+    "n": 948,
+    "ab_net_pct": -1.41,
+    "raw_pct": 1.92
+   },
+   "2024": {
+    "n": 1286,
+    "ab_net_pct": -0.94,
+    "raw_pct": -0.36
+   },
+   "2025": {
+    "n": 1032,
+    "ab_net_pct": -1.54,
+    "raw_pct": 3.01
+   },
+   "2026": {
+    "n": 709,
+    "ab_net_pct": -1.92,
+    "raw_pct": 1.73
+   }
+  },
+  "A_L120_H10": {
+   "2004": {
+    "n": 497,
+    "ab_net_pct": -0.98,
+    "raw_pct": -0.6
+   },
+   "2005": {
+    "n": 577,
+    "ab_net_pct": -2.01,
+    "raw_pct": -1.29
+   },
+   "2006": {
+    "n": 669,
+    "ab_net_pct": -1.37,
+    "raw_pct": 0.29
+   },
+   "2007": {
+    "n": 1103,
+    "ab_net_pct": -1.1,
+    "raw_pct": -1.66
+   },
+   "2008": {
+    "n": 920,
+    "ab_net_pct": -1.55,
+    "raw_pct": -5.17
+   },
+   "2009": {
+    "n": 434,
+    "ab_net_pct": -1.34,
+    "raw_pct": 3.19
+   },
+   "2010": {
+    "n": 1399,
+    "ab_net_pct": -0.98,
+    "raw_pct": 1.09
+   },
+   "2011": {
+    "n": 1395,
+    "ab_net_pct": -0.72,
+    "raw_pct": -1.08
+   },
+   "2012": {
+    "n": 851,
+    "ab_net_pct": -1.1,
+    "raw_pct": -0.66
+   },
+   "2013": {
+    "n": 705,
+    "ab_net_pct": -1.52,
+    "raw_pct": 0.51
+   },
+   "2014": {
+    "n": 1254,
+    "ab_net_pct": -1.05,
+    "raw_pct": -0.74
+   },
+   "2015": {
+    "n": 832,
+    "ab_net_pct": -0.91,
+    "raw_pct": -2.54
+   },
+   "2016": {
+    "n": 828,
+    "ab_net_pct": -0.84,
+    "raw_pct": 0.66
+   },
+   "2017": {
+    "n": 635,
+    "ab_net_pct": -1.14,
+    "raw_pct": 0.69
+   },
+   "2018": {
+    "n": 1204,
+    "ab_net_pct": -1.21,
+    "raw_pct": -1.03
+   },
+   "2019": {
+    "n": 628,
+    "ab_net_pct": -0.48,
+    "raw_pct": 1.44
+   },
+   "2020": {
+    "n": 794,
+    "ab_net_pct": -1.44,
+    "raw_pct": -0.13
+   },
+   "2021": {
+    "n": 1570,
+    "ab_net_pct": -0.87,
+    "raw_pct": 0.94
+   },
+   "2022": {
+    "n": 1584,
+    "ab_net_pct": -0.91,
+    "raw_pct": -0.85
+   },
+   "2023": {
+    "n": 1173,
+    "ab_net_pct": -1.07,
+    "raw_pct": 0.95
+   },
+   "2024": {
+    "n": 1615,
+    "ab_net_pct": -0.74,
+    "raw_pct": -0.25
+   },
+   "2025": {
+    "n": 1209,
+    "ab_net_pct": -1.54,
+    "raw_pct": -0.39
+   },
+   "2026": {
+    "n": 968,
+    "ab_net_pct": -1.26,
+    "raw_pct": 1.25
+   }
+  },
+  "A_L120_H60": {
+   "2004": {
+    "n": 300,
+    "ab_net_pct": -1.15,
+    "raw_pct": 0.28
+   },
+   "2005": {
+    "n": 371,
+    "ab_net_pct": -2.87,
+    "raw_pct": 1.47
+   },
+   "2006": {
+    "n": 414,
+    "ab_net_pct": -2.74,
+    "raw_pct": 6.61
+   },
+   "2007": {
+    "n": 716,
+    "ab_net_pct": -2.13,
+    "raw_pct": -1.65
+   },
+   "2008": {
+    "n": 559,
+    "ab_net_pct": -2.09,
+    "raw_pct": -16.97
+   },
+   "2009": {
+    "n": 301,
+    "ab_net_pct": -3.18,
+    "raw_pct": 12.67
+   },
+   "2010": {
+    "n": 857,
+    "ab_net_pct": -1.58,
+    "raw_pct": 5.01
+   },
+   "2011": {
+    "n": 819,
+    "ab_net_pct": -1.31,
+    "raw_pct": -2.61
+   },
+   "2012": {
+    "n": 555,
+    "ab_net_pct": -1.62,
+    "raw_pct": 1.8
+   },
+   "2013": {
+    "n": 488,
+    "ab_net_pct": -2.7,
+    "raw_pct": 3.69
+   },
+   "2014": {
+    "n": 742,
+    "ab_net_pct": -2.52,
+    "raw_pct": -2.19
+   },
+   "2015": {
+    "n": 573,
+    "ab_net_pct": -1.62,
+    "raw_pct": -1.57
+   },
+   "2016": {
+    "n": 543,
+    "ab_net_pct": -1.83,
+    "raw_pct": 4.78
+   },
+   "2017": {
+    "n": 451,
+    "ab_net_pct": -2.07,
+    "raw_pct": 2.47
+   },
+   "2018": {
+    "n": 728,
+    "ab_net_pct": -1.32,
+    "raw_pct": -0.49
+   },
+   "2019": {
+    "n": 419,
+    "ab_net_pct": -1.03,
+    "raw_pct": 0.79
+   },
+   "2020": {
+    "n": 487,
+    "ab_net_pct": -4.43,
+    "raw_pct": 5.35
+   },
+   "2021": {
+    "n": 928,
+    "ab_net_pct": -0.36,
+    "raw_pct": 4.99
+   },
+   "2022": {
+    "n": 875,
+    "ab_net_pct": -1.87,
+    "raw_pct": -1.99
+   },
+   "2023": {
+    "n": 687,
+    "ab_net_pct": -2.63,
+    "raw_pct": 5.46
+   },
+   "2024": {
+    "n": 903,
+    "ab_net_pct": -1.08,
+    "raw_pct": -1.43
+   },
+   "2025": {
+    "n": 772,
+    "ab_net_pct": -1.71,
+    "raw_pct": 6.01
+   },
+   "2026": {
+    "n": 281,
+    "ab_net_pct": -6.86,
+    "raw_pct": 5.4
+   }
+  },
+  "A_L60_H20": {
+   "2004": {
+    "n": 866,
+    "ab_net_pct": -0.8,
+    "raw_pct": -0.95
+   },
+   "2005": {
+    "n": 881,
+    "ab_net_pct": -1.34,
+    "raw_pct": 0.19
+   },
+   "2006": {
+    "n": 928,
+    "ab_net_pct": -1.94,
+    "raw_pct": 1.27
+   },
+   "2007": {
+    "n": 1447,
+    "ab_net_pct": -1.36,
+    "raw_pct": -2.4
+   },
+   "2008": {
+    "n": 1154,
+    "ab_net_pct": -1.67,
+    "raw_pct": -8.81
+   },
+   "2009": {
+    "n": 729,
+    "ab_net_pct": -0.99,
+    "raw_pct": 7.59
+   },
+   "2010": {
+    "n": 1641,
+    "ab_net_pct": -1.0,
+    "raw_pct": 2.56
+   },
+   "2011": {
+    "n": 1695,
+    "ab_net_pct": -1.05,
+    "raw_pct": -1.33
+   },
+   "2012": {
+    "n": 1216,
+    "ab_net_pct": -1.27,
+    "raw_pct": -0.79
+   },
+   "2013": {
+    "n": 1036,
+    "ab_net_pct": -1.61,
+    "raw_pct": 1.33
+   },
+   "2014": {
+    "n": 1531,
+    "ab_net_pct": -1.22,
+    "raw_pct": -0.68
+   },
+   "2015": {
+    "n": 1234,
+    "ab_net_pct": -1.05,
+    "raw_pct": -3.16
+   },
+   "2016": {
+    "n": 1131,
+    "ab_net_pct": -0.98,
+    "raw_pct": 1.33
+   },
+   "2017": {
+    "n": 1115,
+    "ab_net_pct": -1.33,
+    "raw_pct": 1.36
+   },
+   "2018": {
+    "n": 1550,
+    "ab_net_pct": -1.31,
+    "raw_pct": -1.34
+   },
+   "2019": {
+    "n": 980,
+    "ab_net_pct": -0.35,
+    "raw_pct": 2.36
+   },
+   "2020": {
+    "n": 1098,
+    "ab_net_pct": -1.62,
+    "raw_pct": 0.27
+   },
+   "2021": {
+    "n": 1919,
+    "ab_net_pct": -1.36,
+    "raw_pct": 2.15
+   },
+   "2022": {
+    "n": 1937,
+    "ab_net_pct": -0.86,
+    "raw_pct": -0.34
+   },
+   "2023": {
+    "n": 1542,
+    "ab_net_pct": -0.93,
+    "raw_pct": 2.3
+   },
+   "2024": {
+    "n": 1956,
+    "ab_net_pct": -0.98,
+    "raw_pct": -0.25
+   },
+   "2025": {
+    "n": 1758,
+    "ab_net_pct": -1.37,
+    "raw_pct": 2.11
+   },
+   "2026": {
+    "n": 1272,
+    "ab_net_pct": -1.54,
+    "raw_pct": 2.25
+   }
+  },
+  "A_L60_H10": {
+   "2004": {
+    "n": 1126,
+    "ab_net_pct": -0.61,
+    "raw_pct": -0.13
+   },
+   "2005": {
+    "n": 1070,
+    "ab_net_pct": -1.42,
+    "raw_pct": -0.57
+   },
+   "2006": {
+    "n": 1172,
+    "ab_net_pct": -1.4,
+    "raw_pct": 0.24
+   },
+   "2007": {
+    "n": 1823,
+    "ab_net_pct": -1.07,
+    "raw_pct": -1.14
+   },
+   "2008": {
+    "n": 1404,
+    "ab_net_pct": -1.42,
+    "raw_pct": -5.05
+   },
+   "2009": {
+    "n": 871,
+    "ab_net_pct": -1.15,
+    "raw_pct": 3.5
+   },
+   "2010": {
+    "n": 2085,
+    "ab_net_pct": -0.87,
+    "raw_pct": 0.97
+   },
+   "2011": {
+    "n": 2124,
+    "ab_net_pct": -0.8,
+    "raw_pct": -1.2
+   },
+   "2012": {
+    "n": 1508,
+    "ab_net_pct": -1.04,
+    "raw_pct": -0.9
+   },
+   "2013": {
+    "n": 1245,
+    "ab_net_pct": -1.31,
+    "raw_pct": 0.67
+   },
+   "2014": {
+    "n": 1923,
+    "ab_net_pct": -0.94,
+    "raw_pct": -0.41
+   },
+   "2015": {
+    "n": 1459,
+    "ab_net_pct": -0.99,
+    "raw_pct": -2.54
+   },
+   "2016": {
+    "n": 1370,
+    "ab_net_pct": -0.78,
+    "raw_pct": 0.58
+   },
+   "2017": {
+    "n": 1346,
+    "ab_net_pct": -1.08,
+    "raw_pct": 0.68
+   },
+   "2018": {
+    "n": 1906,
+    "ab_net_pct": -1.29,
+    "raw_pct": -0.98
+   },
+   "2019": {
+    "n": 1204,
+    "ab_net_pct": -0.56,
+    "raw_pct": 1.22
+   },
+   "2020": {
+    "n": 1327,
+    "ab_net_pct": -1.34,
+    "raw_pct": 0.28
+   },
+   "2021": {
+    "n": 2474,
+    "ab_net_pct": -1.1,
+    "raw_pct": 1.13
+   },
+   "2022": {
+    "n": 2444,
+    "ab_net_pct": -0.86,
+    "raw_pct": -0.56
+   },
+   "2023": {
+    "n": 1967,
+    "ab_net_pct": -0.83,
+    "raw_pct": 1.07
+   },
+   "2024": {
+    "n": 2498,
+    "ab_net_pct": -0.89,
+    "raw_pct": -0.17
+   },
+   "2025": {
+    "n": 2136,
+    "ab_net_pct": -1.11,
+    "raw_pct": 0.05
+   },
+   "2026": {
+    "n": 1731,
+    "ab_net_pct": -1.33,
+    "raw_pct": 1.25
+   }
+  },
+  "A_L60_H60": {
+   "2004": {
+    "n": 649,
+    "ab_net_pct": -1.24,
+    "raw_pct": 0.45
+   },
+   "2005": {
+    "n": 637,
+    "ab_net_pct": -1.89,
+    "raw_pct": 2.75
+   },
+   "2006": {
+    "n": 673,
+    "ab_net_pct": -1.95,
+    "raw_pct": 8.04
+   },
+   "2007": {
+    "n": 1030,
+    "ab_net_pct": -1.68,
+    "raw_pct": -1.15
+   },
+   "2008": {
+    "n": 798,
+    "ab_net_pct": -1.89,
+    "raw_pct": -16.76
+   },
+   "2009": {
+    "n": 590,
+    "ab_net_pct": -0.17,
+    "raw_pct": 18.22
+   },
+   "2010": {
+    "n": 1177,
+    "ab_net_pct": -1.38,
+    "raw_pct": 5.34
+   },
+   "2011": {
+    "n": 1139,
+    "ab_net_pct": -1.05,
+    "raw_pct": -3.24
+   },
+   "2012": {
+    "n": 846,
+    "ab_net_pct": -1.4,
+    "raw_pct": 0.69
+   },
+   "2013": {
+    "n": 774,
+    "ab_net_pct": -2.11,
+    "raw_pct": 4.19
+   },
+   "2014": {
+    "n": 1055,
+    "ab_net_pct": -2.11,
+    "raw_pct": -1.45
+   },
+   "2015": {
+    "n": 895,
+    "ab_net_pct": -1.09,
+    "raw_pct": -3.18
+   },
+   "2016": {
+    "n": 797,
+    "ab_net_pct": -1.72,
+    "raw_pct": 4.29
+   },
+   "2017": {
+    "n": 839,
+    "ab_net_pct": -1.74,
+    "raw_pct": 2.9
+   },
+   "2018": {
+    "n": 1043,
+    "ab_net_pct": -1.65,
+    "raw_pct": -1.1
+   },
+   "2019": {
+    "n": 738,
+    "ab_net_pct": -1.27,
+    "raw_pct": 1.6
+   },
+   "2020": {
+    "n": 780,
+    "ab_net_pct": -3.48,
+    "raw_pct": 7.39
+   },
+   "2021": {
+    "n": 1363,
+    "ab_net_pct": -0.17,
+    "raw_pct": 5.71
+   },
+   "2022": {
+    "n": 1274,
+    "ab_net_pct": -1.43,
+    "raw_pct": -1.27
+   },
+   "2023": {
+    "n": 1061,
+    "ab_net_pct": -1.79,
+    "raw_pct": 5.98
+   },
+   "2024": {
+    "n": 1311,
+    "ab_net_pct": -1.17,
+    "raw_pct": -0.3
+   },
+   "2025": {
+    "n": 1274,
+    "ab_net_pct": -1.84,
+    "raw_pct": 4.99
+   },
+   "2026": {
+    "n": 628,
+    "ab_net_pct": -3.45,
+    "raw_pct": 8.44
+   }
+  },
+  "A_L250_H20": {
+   "2004": {
+    "n": 39,
+    "ab_net_pct": -2.49,
+    "raw_pct": -1.5
+   },
+   "2005": {
+    "n": 235,
+    "ab_net_pct": -2.59,
+    "raw_pct": -1.62
+   },
+   "2006": {
+    "n": 280,
+    "ab_net_pct": -2.4,
+    "raw_pct": 0.95
+   },
+   "2007": {
+    "n": 419,
+    "ab_net_pct": -1.54,
+    "raw_pct": -5.18
+   },
+   "2008": {
+    "n": 535,
+    "ab_net_pct": -2.54,
+    "raw_pct": -9.92
+   },
+   "2009": {
+    "n": 89,
+    "ab_net_pct": -0.84,
+    "raw_pct": 7.23
+   },
+   "2010": {
+    "n": 720,
+    "ab_net_pct": -1.18,
+    "raw_pct": 3.03
+   },
+   "2011": {
+    "n": 707,
+    "ab_net_pct": -0.83,
+    "raw_pct": -0.97
+   },
+   "2012": {
+    "n": 497,
+    "ab_net_pct": -1.31,
+    "raw_pct": -0.6
+   },
+   "2013": {
+    "n": 298,
+    "ab_net_pct": -2.33,
+    "raw_pct": 0.8
+   },
+   "2014": {
+    "n": 510,
+    "ab_net_pct": -1.43,
+    "raw_pct": -1.48
+   },
+   "2015": {
+    "n": 401,
+    "ab_net_pct": -1.07,
+    "raw_pct": -3.09
+   },
+   "2016": {
+    "n": 453,
+    "ab_net_pct": -0.77,
+    "raw_pct": 1.99
+   },
+   "2017": {
+    "n": 258,
+    "ab_net_pct": -0.93,
+    "raw_pct": 2.03
+   },
+   "2018": {
+    "n": 590,
+    "ab_net_pct": -1.33,
+    "raw_pct": -1.5
+   },
+   "2019": {
+    "n": 239,
+    "ab_net_pct": -0.42,
+    "raw_pct": 2.67
+   },
+   "2020": {
+    "n": 246,
+    "ab_net_pct": -1.3,
+    "raw_pct": 0.09
+   },
+   "2021": {
+    "n": 587,
+    "ab_net_pct": -1.42,
+    "raw_pct": 0.9
+   },
+   "2022": {
+    "n": 893,
+    "ab_net_pct": -0.93,
+    "raw_pct": -1.12
+   },
+   "2023": {
+    "n": 458,
+    "ab_net_pct": -1.59,
+    "raw_pct": 1.63
+   },
+   "2024": {
+    "n": 604,
+    "ab_net_pct": -0.51,
+    "raw_pct": 0.1
+   },
+   "2025": {
+    "n": 641,
+    "ab_net_pct": -1.51,
+    "raw_pct": 4.97
+   },
+   "2026": {
+    "n": 225,
+    "ab_net_pct": -2.98,
+    "raw_pct": 0.96
+   }
+  },
+  "A_L250_H10": {
+   "2004": {
+    "n": 45,
+    "ab_net_pct": -1.34,
+    "raw_pct": 0.49
+   },
+   "2005": {
+    "n": 276,
+    "ab_net_pct": -2.03,
+    "raw_pct": -1.49
+   },
+   "2006": {
+    "n": 334,
+    "ab_net_pct": -1.41,
+    "raw_pct": 0.36
+   },
+   "2007": {
+    "n": 497,
+    "ab_net_pct": -1.49,
+    "raw_pct": -2.66
+   },
+   "2008": {
+    "n": 614,
+    "ab_net_pct": -1.82,
+    "raw_pct": -5.49
+   },
+   "2009": {
+    "n": 100,
+    "ab_net_pct": -1.53,
+    "raw_pct": 3.16
+   },
+   "2010": {
+    "n": 873,
+    "ab_net_pct": -1.13,
+    "raw_pct": 1.24
+   },
+   "2011": {
+    "n": 832,
+    "ab_net_pct": -0.9,
+    "raw_pct": -1.31
+   },
+   "2012": {
+    "n": 569,
+    "ab_net_pct": -1.18,
+    "raw_pct": -1.05
+   },
+   "2013": {
+    "n": 337,
+    "ab_net_pct": -1.73,
+    "raw_pct": 0.39
+   },
+   "2014": {
+    "n": 601,
+    "ab_net_pct": -1.14,
+    "raw_pct": -0.9
+   },
+   "2015": {
+    "n": 443,
+    "ab_net_pct": -0.71,
+    "raw_pct": -2.51
+   },
+   "2016": {
+    "n": 515,
+    "ab_net_pct": -0.92,
+    "raw_pct": 0.63
+   },
+   "2017": {
+    "n": 280,
+    "ab_net_pct": -0.73,
+    "raw_pct": 1.21
+   },
+   "2018": {
+    "n": 678,
+    "ab_net_pct": -1.37,
+    "raw_pct": -1.29
+   },
+   "2019": {
+    "n": 284,
+    "ab_net_pct": -0.51,
+    "raw_pct": 1.44
+   },
+   "2020": {
+    "n": 283,
+    "ab_net_pct": -1.2,
+    "raw_pct": 0.25
+   },
+   "2021": {
+    "n": 696,
+    "ab_net_pct": -0.96,
+    "raw_pct": 0.48
+   },
+   "2022": {
+    "n": 1090,
+    "ab_net_pct": -1.03,
+    "raw_pct": -1.29
+   },
+   "2023": {
+    "n": 549,
+    "ab_net_pct": -0.96,
+    "raw_pct": 1.08
+   },
+   "2024": {
+    "n": 724,
+    "ab_net_pct": -0.71,
+    "raw_pct": -0.3
+   },
+   "2025": {
+    "n": 710,
+    "ab_net_pct": -1.77,
+    "raw_pct": -0.3
+   },
+   "2026": {
+    "n": 318,
+    "ab_net_pct": -1.89,
+    "raw_pct": 0.79
+   }
+  },
+  "A_L250_H60": {
+   "2004": {
+    "n": 38,
+    "ab_net_pct": -2.68,
+    "raw_pct": 1.72
+   },
+   "2005": {
+    "n": 194,
+    "ab_net_pct": -4.1,
+    "raw_pct": 0.89
+   },
+   "2006": {
+    "n": 229,
+    "ab_net_pct": -2.8,
+    "raw_pct": 6.88
+   },
+   "2007": {
+    "n": 346,
+    "ab_net_pct": -2.15,
+    "raw_pct": -3.96
+   },
+   "2008": {
+    "n": 410,
+    "ab_net_pct": -3.23,
+    "raw_pct": -15.76
+   },
+   "2009": {
+    "n": 85,
+    "ab_net_pct": -1.99,
+    "raw_pct": 17.93
+   },
+   "2010": {
+    "n": 578,
+    "ab_net_pct": -1.08,
+    "raw_pct": 5.33
+   },
+   "2011": {
+    "n": 536,
+    "ab_net_pct": -1.27,
+    "raw_pct": -2.44
+   },
+   "2012": {
+    "n": 379,
+    "ab_net_pct": -1.48,
+    "raw_pct": 1.83
+   },
+   "2013": {
+    "n": 246,
+    "ab_net_pct": -3.61,
+    "raw_pct": 2.62
+   },
+   "2014": {
+    "n": 405,
+    "ab_net_pct": -2.73,
+    "raw_pct": -2.52
+   },
+   "2015": {
+    "n": 329,
+    "ab_net_pct": -1.69,
+    "raw_pct": -2.21
+   },
+   "2016": {
+    "n": 357,
+    "ab_net_pct": -1.61,
+    "raw_pct": 5.25
+   },
+   "2017": {
+    "n": 220,
+    "ab_net_pct": -2.68,
+    "raw_pct": 1.76
+   },
+   "2018": {
+    "n": 450,
+    "ab_net_pct": -1.73,
+    "raw_pct": -0.56
+   },
+   "2019": {
+    "n": 188,
+    "ab_net_pct": -1.04,
+    "raw_pct": 1.93
+   },
+   "2020": {
+    "n": 191,
+    "ab_net_pct": -4.06,
+    "raw_pct": 5.98
+   },
+   "2021": {
+    "n": 466,
+    "ab_net_pct": -0.84,
+    "raw_pct": 3.72
+   },
+   "2022": {
+    "n": 613,
+    "ab_net_pct": -2.39,
+    "raw_pct": -3.44
+   },
+   "2023": {
+    "n": 352,
+    "ab_net_pct": -3.06,
+    "raw_pct": 5.5
+   },
+   "2024": {
+    "n": 459,
+    "ab_net_pct": -0.97,
+    "raw_pct": -2.06
+   },
+   "2025": {
+    "n": 528,
+    "ab_net_pct": -0.25,
+    "raw_pct": 8.84
+   },
+   "2026": {
+    "n": 52,
+    "ab_net_pct": -9.5,
+    "raw_pct": -0.05
+   }
+  }
+ },
+ "src3_check": {
+  "L120": {
+   "official_2005-01_2024-01": {
+    "mean_daily_trough_rate_pct": 1.215,
+    "p99_pct": 9.12
+   },
+   "src3_2024-02-15_2025-09-23": {
+    "mean_daily_trough_rate_pct": 1.316,
+    "p99_pct": 8.19
+   },
+   "src4_2025-09-24_2026-10": {
+    "mean_daily_trough_rate_pct": 1.212,
+    "p99_pct": 7.13
+   },
+   "first10d_after_2024-02-15_pct": 0.552,
+   "first20d_after_2025-09-24_pct": 0.936,
+   "top10_days": {
+    "2025-04-07": 59.0,
+    "2008-10-16": 34.6,
+    "2016-06-04": 24.9,
+    "2018-12-22": 24.2,
+    "2008-10-23": 21.3,
+    "2015-12-25": 21.2,
+    "2008-10-13": 21.0,
+    "2008-08-26": 16.5,
+    "2007-12-11": 14.9,
+    "2007-12-26": 14.5
+   }
+  },
+  "L60": {
+   "official_2005-01_2024-01": {
+    "mean_daily_trough_rate_pct": 2.203,
+    "p99_pct": 13.92
+   },
+   "src3_2024-02-15_2025-09-23": {
+    "mean_daily_trough_rate_pct": 2.304,
+    "p99_pct": 11.08
+   },
+   "src4_2025-09-24_2026-10": {
+    "mean_daily_trough_rate_pct": 2.423,
+    "p99_pct": 11.17
+   },
+   "first10d_after_2024-02-15_pct": 1.12,
+   "first20d_after_2025-09-24_pct": 1.727,
+   "top10_days": {
+    "2025-04-07": 64.6,
+    "2008-10-16": 39.9,
+    "2016-06-04": 31.8,
+    "2018-12-22": 28.8,
+    "2015-12-25": 26.8,
+    "2008-10-13": 25.7,
+    "2008-10-23": 24.9,
+    "2021-06-08": 21.7,
+    "2017-09-30": 21.5,
+    "2008-08-26": 21.4
+   }
+  },
+  "L250": {
+   "official_2005-01_2024-01": {
+    "mean_daily_trough_rate_pct": 0.608,
+    "p99_pct": 5.78
+   },
+   "src3_2024-02-15_2025-09-23": {
+    "mean_daily_trough_rate_pct": 0.671,
+    "p99_pct": 4.0
+   },
+   "src4_2025-09-24_2026-10": {
+    "mean_daily_trough_rate_pct": 0.319,
+    "p99_pct": 3.39
+   },
+   "first10d_after_2024-02-15_pct": 0.13,
+   "first20d_after_2025-09-24_pct": 0.063,
+   "top10_days": {
+    "2025-04-07": 54.8,
+    "2008-10-16": 29.5,
+    "2016-06-04": 21.8,
+    "2008-10-23": 17.7,
+    "2018-12-22": 17.3,
+    "2008-10-13": 13.7,
+    "2015-12-25": 12.0,
+    "2010-11-18": 10.1,
+    "2008-08-26": 9.5,
+    "2011-12-05": 9.3
+   }
+  }
+ },
+ "verdict": {
+  "select": {
+   "beat_EW_t2": false,
+   "not_lose_0050": false,
+   "pass": false
+  },
+  "valid": {
+   "beat_EW_t2": false,
+   "not_lose_0050": false,
+   "pass": false
+  },
+  "verdict": "不可用",
+  "variants_pass": {
+   "B_L120_H20": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "B_L120_H10": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "B_L120_H60": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "B_L60_H20": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "B_L60_H10": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "B_L60_H60": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "B_L250_H20": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "B_L250_H10": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "B_L250_H60": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "A_L120_H20": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "A_L120_H10": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "A_L120_H60": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "A_L60_H20": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "A_L60_H10": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "A_L60_H60": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "A_L250_H20": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "A_L250_H10": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   },
+   "A_L250_H60": {
+    "select_2005-01_2019-04": false,
+    "valid_2019-05_2026-10": false
+   }
+  }
+ },
+ "diagnostics_posthoc": {
+  "placebo_random_pool_day_open_H20": {
+   "select_2005-01_2019-04": {
+    "n": 23094,
+    "gross_ab_pct": -0.079,
+    "t_month": -1.23
+   },
+   "valid_2019-05_2026-10": {
+    "n": 15667,
+    "gross_ab_pct": -0.093,
+    "t_month": -0.76
+   },
+   "valid_2024-01_2025-12": {
+    "n": 4385,
+    "gross_ab_pct": -0.234,
+    "t_month": -1.1
+   }
+  },
+  "placebo_random_lowpos_day_open_H20": {
+   "select_2005-01_2019-04": {
+    "n": 22736,
+    "gross_ab_pct": -0.308,
+    "t_month": -1.97
+   },
+   "valid_2019-05_2026-10": {
+    "n": 15701,
+    "gross_ab_pct": -0.606,
+    "t_month": -5.54
+   },
+   "valid_2024-01_2025-12": {
+    "n": 4893,
+    "gross_ab_pct": -0.405,
+    "t_month": -3.47
+   }
+  },
+  "A_L120_trough_open_H20_gross": {
+   "select_2005-01_2019-04": {
+    "n": 19434,
+    "gross_ab_pct": -0.705,
+    "t_month": -2.88
+   },
+   "valid_2019-05_2026-10": {
+    "n": 14928,
+    "gross_ab_pct": -0.517,
+    "t_month": -4.33
+   },
+   "valid_2024-01_2025-12": {
+    "n": 4290,
+    "gross_ab_pct": -0.405,
+    "t_month": -2.17
+   }
+  },
+  "A_L120_trough_tclose_H20_gross_unexecutable": {
+   "select_2005-01_2019-04": {
+    "n": 19437,
+    "gross_ab_pct": -0.714,
+    "t_month": -3.25
+   },
+   "valid_2019-05_2026-10": {
+    "n": 14929,
+    "gross_ab_pct": -0.536,
+    "t_month": -4.42
+   },
+   "valid_2024-01_2025-12": {
+    "n": 4290,
+    "gross_ab_pct": -0.535,
+    "t_month": -2.41
+   }
+  },
+  "trough_day_profile_L120": {
+   "n": 35417,
+   "share_ret_le_-limit+0.6pct(跌停附近)": 0.0156,
+   "median_ret_pct": 0.0,
+   "share_on_2025-04-07": 0.0112
+  },
+  "B_L120_H20_excl_limitdown_trough": {
+   "select_2005-01_2019-04": {
+    "n": 4634,
+    "ab_net_pct": -1.414,
+    "t_month": -8.61
+   },
+   "valid_2019-05_2026-10": {
+    "n": 3041,
+    "ab_net_pct": -1.602,
+    "t_month": -7.71
+   },
+   "valid_2024-01_2025-12": {
+    "n": 816,
+    "ab_net_pct": -1.592,
+    "t_month": -5.99
+   }
+  },
+  "spot_check_B": [
+   {
+    "code": "5469",
+    "trough": "2010-07-02",
+    "confirm": "2010-07-06",
+    "entry": "2010-07-07",
+    "V_t/min120": 1.0,
+    "adj/MA60": 0.917,
+    "V60_prev_mn": 45.5,
+    "V_c/MA5_c": 2.22,
+    "ret_c_pct": 5.34,
+    "days_t_to_c": 2,
+    "hold": 20,
+    "why": "time",
+    "raw_pct": 1.73
+   },
+   {
+    "code": "6706",
+    "trough": "2020-10-08",
+    "confirm": "2020-10-21",
+    "entry": "2020-10-22",
+    "V_t/min120": 1.0,
+    "adj/MA60": 0.978,
+    "V60_prev_mn": 313.3,
+    "V_c/MA5_c": 2.34,
+    "ret_c_pct": 9.96,
+    "days_t_to_c": 8,
+    "hold": 20,
+    "why": "time",
+    "raw_pct": 8.03
+   },
+   {
+    "code": "6438",
+    "trough": "2025-12-17",
+    "confirm": "2026-01-02",
+    "entry": "2026-01-05",
+    "V_t/min120": 1.0,
+    "adj/MA60": 0.936,
+    "V60_prev_mn": 167.7,
+    "V_c/MA5_c": 2.44,
+    "ret_c_pct": 2.91,
+    "days_t_to_c": 10,
+    "hold": 20,
+    "why": "time",
+    "raw_pct": 1.04
+   },
+   {
+    "code": "2614",
+    "trough": "2024-10-21",
+    "confirm": "2024-10-23",
+    "entry": "2024-10-24",
+    "V_t/min120": 1.0,
+    "adj/MA60": 0.924,
+    "V60_prev_mn": 16.6,
+    "V_c/MA5_c": 2.74,
+    "ret_c_pct": 2.19,
+    "days_t_to_c": 2,
+    "hold": 20,
+    "why": "time",
+    "raw_pct": -1.61
+   },
+   {
+    "code": "3705",
+    "trough": "2012-12-10",
+    "confirm": "2012-12-12",
+    "entry": "2012-12-13",
+    "V_t/min120": 1.0,
+    "adj/MA60": 0.993,
+    "V60_prev_mn": 17.5,
+    "V_c/MA5_c": 2.59,
+    "ret_c_pct": 1.61,
+    "days_t_to_c": 2,
+    "hold": 20,
+    "why": "time",
+    "raw_pct": -2.04
+   }
+  ]
+ }
+}
