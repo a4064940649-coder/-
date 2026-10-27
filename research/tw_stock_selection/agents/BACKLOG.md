@@ -15,7 +15,7 @@
 - 一律事前登記參數、扣成本、挑選期與驗證期分開；新規則必須和主策略比較。
 
 ## 待辦（依優先順序）
-- 主策略延伸到上櫃（tpex_main）：執行中（用量上限中斷後已續跑）。
+- 上櫃面板（277MB，scratchpad/tpex_panel）不在 repo：容器回收後先跑 restore_env.sh 再執行 agents/tpex_main/build_tpex_panel.py 重建。合併版 n10（待觀察）待補齊 2023-01～09、2025-04～09 上櫃日 K 後重測。
 - 營收公告日：蒐集 rev_hist 以外的歷史公告日（GitHub），確認金控是否常態在 10 日後公告；若是，引擎改成「只用訊號日前已公告的營收」，並事前登記重測「營收腿排除金融保險業」。
 - w4 偵查剩下的 11 條（agents/WEB_w4_leftover.json）。
 - w3 偵查剩下的 11 條（agents/WEB_w3_leftover.json）：布林壓縮、ConnorsRSI、Double 7、R3、TPS、Radge 週末趨勢、漲跌家數擇時、PSY、高股息低波、量能谷底、RSRS 擇時。
