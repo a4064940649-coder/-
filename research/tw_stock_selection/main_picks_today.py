@@ -6,7 +6,8 @@
   - 股池：只做上市股；60 日平均成交值 ≥ 1,000 萬，且排在前 300 名；收盤 ≥ 10 元；換股日當天不在處置期間。
   - 分數＝0.5 ×「收盤／52 週（252 日）最高還原收盤」的百分位＋0.5 ×「近 3 個月營收年增率平均」的百分位。
     營收只用公告期限（次月 10 日）已過的月份，也就是換股日的前一個月往回 3 個月。
-  - 等權買前 N 名。隔日開盤漲停（還原開盤 ÷ 前收 − 1 ≥ 9.4%）而且還沒持有的不買，由下一名遞補；
+  - 同分時營收 3 月年增率高者優先、再代號小者（v2）。52 週／60 日窗只豁免面板缺口日的缺值（v2 gapfix）。
+  - 等權買前 N 名。隔日開盤 ≥ 依跳動點算出的漲停價（參考價×1.1 無條件捨去到跳動點）而且還沒持有的不買，由下一名遞補；
     已持有的照常續抱。
 資料：history.csv.gz（官方日 K，2025-09-24 起）只要在訊號日前已有 252 個交易日就單獨使用；
       不夠時與研究面板（BRIEF 的 scratchpad/panel）拼接。面板不存在時，先執行 research/tw_stock_selection/restore_env.sh。
@@ -20,7 +21,25 @@ import numpy as np, pandas as pd
 
 PANEL = Path('/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel')
 W52, W60, TOPN, MIN_VAL, MIN_PX = 252, 60, 300, 1e7, 10.0
-LIMIT, LTOL = 0.10, 0.006
+LIMIT = 0.10
+MIN_NOBS = 300                                                      # 有值檔數 < 300 的日子（2018-01-13）不參與滾動窗
+GAP_DAYS = pd.to_datetime(['2017-08-03', '2018-07-12'])             # 面板缺約 50 檔的兩天：窗內缺值豁免
+GAP_RANGE = (pd.Timestamp('2024-02-15'), pd.Timestamp('2024-03-15'))  # 來源 3 缺 98 檔的月份：窗內缺值豁免
+
+
+def tick(p):
+    return np.select([p < 10, p < 50, p < 100, p < 500, p < 1000], [0.01, 0.05, 0.1, 0.5, 1.0], 5.0)
+
+
+def limit_up_price(ref, lim=LIMIT):
+    """漲停價＝參考價×(1＋漲幅)，依該價位的跳動點無條件捨去（與 agents/independent_audit/ia_core.py 相同）。"""
+    raw = np.asarray(ref, float) * (1 + lim)
+    t = tick(raw)
+    return np.floor(raw / t + 1e-9) * t
+
+
+def _exempt(idx):
+    return idx.isin(GAP_DAYS) | ((idx >= GAP_RANGE[0]) & (idx <= GAP_RANGE[1]))
 
 
 def is4(c):
@@ -163,10 +182,12 @@ def next_rebalance(cal, t):
 def score_on(data, YOY3, dsp, sd, ex_fin=False):
     """換股日 sd 收盤的股池與分數（pd.DataFrame，依分數由高到低排序）。"""
     cal = data['cal']; i = cal.get_loc(sd); cols = data['C'].columns
-    adj = data['ADJ'].iloc[i - W52 + 1:i + 1]
-    s52 = (adj.iloc[-1] / adj.max()).where(adj.notna().all()) if i >= W52 - 1 else pd.Series(np.nan, index=cols)
-    v = data['V'].iloc[i - W60 + 1:i + 1]
-    v60 = v.mean().where(v.notna().all()) if i >= W60 - 1 else pd.Series(np.nan, index=cols)
+    # v2 gapfix：先剔除有值檔數 < 300 的日子再取 252／60 日窗；窗內缺值只豁免面板缺口日（GAP_DAYS、GAP_RANGE）
+    gcal = cal[(data['C'].notna().sum(axis=1) >= MIN_NOBS).to_numpy()]; gi = gcal.get_loc(sd)
+    adj = data['ADJ'].loc[gcal[max(gi - W52 + 1, 0):gi + 1]]
+    s52 = (adj.iloc[-1] / adj.max()).where(adj[~_exempt(adj.index)].notna().all()) if gi >= W52 - 1 else pd.Series(np.nan, index=cols)
+    v = data['V'].loc[gcal[max(gi - W60 + 1, 0):gi + 1]]
+    v60 = v.mean().where(v[~_exempt(v.index)].notna().all()) if gi >= W60 - 1 else pd.Series(np.nan, index=cols)
     px = data['C'].iloc[i]
     base = (v60 >= MIN_VAL) & (px >= MIN_PX)
     t300 = base & (v60.where(base).rank(ascending=False) <= TOPN)
@@ -176,11 +197,12 @@ def score_on(data, YOY3, dsp, sd, ex_fin=False):
     for _, r in dsp[(dsp['start'] <= sd) & (dsp['end'] >= sd)].iterrows():
         if r['code'] in inD.index: inD[r['code']] = True
     el = t300 & y3.notna() & s52.notna() & ~inD
-    if ex_fin: el = el & ~pd.Series(cols.map(lambda c: data['ind'].get(c, '') == FIN_IND), index=cols)
+    if ex_fin: el = el & ~pd.Series(cols.map(lambda c: data['ind'].get(c, '') == FIN_IND or c[:2] == '28' or c in ('5876', '5880')), index=cols)
     sc = 0.5 * s52.where(el).rank(pct=True) + 0.5 * y3.where(el).rank(pct=True)
     df = pd.DataFrame({'s52': s52, 'yoy3': y3, 'score': sc, 'close': px, 'v60': v60, 'el': el, 't300': t300, 'inD': inD})
     df.index.name = 'code'
-    order = df[df['el']].reset_index().sort_values(['score', 'code'], ascending=[False, True])
+    df['score_r'] = df['score'].round(10)
+    order = df[df['el']].reset_index().sort_values(['score_r', 'yoy3', 'code'], ascending=[False, False, True]).drop(columns='score_r')
     return order.set_index('code'), df, m, int(el.sum())
 
 
@@ -191,14 +213,17 @@ def execute(data, order, sd, n, held):
     nd = cal[i + 1]
     o = data['O'].loc[nd].reindex(order.index); c1 = data['C'].loc[nd].reindex(order.index)
     a1 = data['ADJ'].loc[nd].reindex(order.index); a0 = data['ADJ'].ffill().iloc[i].reindex(order.index)
+    r1 = data['R'].loc[nd].reindex(order.index); prevc = data['C'].iloc[:i + 1].ffill().iloc[-1].reindex(order.index)
     with np.errstate(divide='ignore', invalid='ignore'):
-        gap = o * (a1 / c1) / a0 - 1
+        ref = (c1 / (1 + r1)).where(r1.notna(), prevc)          # 參考價（含除權息）；報酬缺值時用前收
+        gap = o / ref - 1
+    lu = pd.Series(limit_up_price(ref.to_numpy()), index=order.index)
     trad = o.notna() & a1.notna()
     picks, skipped = [], []
     for code in order.index:
         if not trad[code]: skipped.append((code, '隔日無開盤價（停牌）')); continue
-        if gap[code] >= LIMIT - LTOL and code not in held:
-            skipped.append((code, f'隔日開盤漲停（{gap[code]:+.1%}）')); continue
+        if np.isfinite(lu[code]) and o[code] >= lu[code] - 1e-6 and code not in held:
+            skipped.append((code, f'隔日開盤漲停（開 {o[code]:g} ≥ 漲停價 {lu[code]:g}）')); continue
         picks.append(code)
         if len(picks) == n: break
     return dict(next_day=nd, picks=picks, skipped=skipped, gap=gap, open=o)
@@ -233,8 +258,7 @@ def fmt_table(order, codes, data, price, price_day, alloc, dsp, extra=None):
 
 def tie_note(order, picks, nxt):
     if picks and nxt and abs(order.loc[picks[-1], 'score'] - order.loc[nxt[0], 'score']) < 1e-12:
-        print(f'注意：{picks[-1]} 與 {nxt[0]} 綜合分數相同（{order.loc[picks[-1], "score"]:.4f}），依代號小者優先入選。'
-              '（回測程式 exlib 的同分順序取決於 numpy 排序，可能選另一檔；兩者擇一皆符合規則）')
+        print(f'注意：{picks[-1]} 與 {nxt[0]} 綜合分數相同（{order.loc[picks[-1], "score"]:.4f}），依營收 3 月年增率高者、再代號小者優先入選（v2 正式規則）。')
 
 
 def main():
@@ -299,7 +323,7 @@ def main():
         print(f'\n【備取 第 {n + 1}～{nback} 名】')
         print(fmt_table(order, list(order.index[n:nback]), data, price, price_day, alloc, dsp))
         tie_note(order, picks, list(order.index[n:n + 1]))
-        print('\n提醒：隔日開盤若「開盤價 ÷ 今日收盤 − 1 ≥ 9.4%」（開盤漲停，除權息日請用參考價判斷）而且你還沒持有，就不買，'
+        print('\n提醒：隔日開盤若「開盤價 ≥ 漲停價（參考價×1.1，依跳動點無條件捨去；除權息日用參考價）」而且你還沒持有，就不買，'
               '改買備取中排名最前、尚未在名單內的股票；已持有的照常續抱。隔日停牌的也由備取遞補。')
     else:
         picks = ex['picks']
