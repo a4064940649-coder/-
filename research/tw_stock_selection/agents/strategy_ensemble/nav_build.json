@@ -1,0 +1,45 @@
+{
+ "sources": {
+  "N30": "revenue_longhistory/oos_nav.parquet:M2_n30_slip0.001",
+  "N10": "revenue_longhistory/oos_nav.parquet:M2_n10_slip0.001",
+  "H52": "momentum_family/long_nav.parquet:P1_52wHigh_n30_0.001",
+  "H52K90": "turnover_buffer/buffer_nav.parquet:A_P1only_n30_K90_0.001",
+  "TURN_C": "w1_rev_yoy_turnaround/nav.parquet:C_H1_0.001",
+  "MINV": "w1_minervini_trend_template/nav.parquet:BASE_ALL_ME（滑價 0.1%）",
+  "DISP_PX": "本資料夾重建：近似處置 10 槽、100 萬、0.8% 來回、閒置 0050，2005～2026-10",
+  "E0050": "etf_0050.csv adj",
+  "E0050_MA": "本資料夾重建：0050＋S1（timing_daily 主版本）",
+  "DISP_REAL": "disposal_reconcile/sleeve_nav.parquet:A_0050（上市正式版 10 槽、閒置 0050；2021-10 前以 0050 代替）",
+  "SURGE": "w3_revenue_sue/nav.parquet:S_main_0.001"
+ },
+ "first_valid": {
+  "N30": "2006-04-11",
+  "N10": "2006-04-11",
+  "H52": "2006-04-11",
+  "H52K90": "2006-04-11",
+  "TURN_C": "2006-05-11",
+  "MINV": "2006-04-11",
+  "DISP_PX": "2006-04-11",
+  "E0050": "2006-04-11",
+  "E0050_MA": "2006-04-11",
+  "DISP_REAL": "2006-04-11",
+  "SURGE": "2008-02-12",
+  "DISP_PX_cash": "2006-04-11",
+  "DISP_REAL_cash_ref": "2021-09-30"
+ },
+ "last": "2026-10-12",
+ "checks": {
+  "proxy_cash_repro_vs_original_maxabs_nav_diff": 0.0,
+  "DISP_PX_mean_invested_share": {
+   "idle0050": 0.155,
+   "cash": 0.169
+  },
+  "n_proxy_events_executed": 1287,
+  "E0050_MA_repro": {
+   "selection_CAGR": 0.0662,
+   "timing_daily_reported": 0.0662,
+   "validation_CAGR": 0.1088,
+   "timing_daily_reported_val": 0.1088
+  }
+ }
+}
