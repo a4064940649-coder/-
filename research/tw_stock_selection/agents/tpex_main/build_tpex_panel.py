@@ -62,7 +62,12 @@ def read_B(path):
 
 
 def read_fm(path):
-    df = pd.read_csv(path, usecols=range(10), dtype={'stock_id': str}, encoding='utf-8-sig')
+    try:
+        df = pd.read_csv(path, dtype={'stock_id': str}, encoding='utf-8-sig')
+    except Exception:
+        return pd.DataFrame(columns=['o', 'h', 'c', 'val', 'x', 'chgv'], index=pd.DatetimeIndex([]))
+    if 'close' not in df.columns or len(df) == 0:
+        return pd.DataFrame(columns=['o', 'h', 'c', 'val', 'x', 'chgv'], index=pd.DatetimeIndex([]))
     df = df.rename(columns={'open': 'o', 'max': 'h', 'close': 'c', 'Trading_money': 'val', 'spread': 'chgv'})
     df['date'] = pd.to_datetime(df['date'], errors='coerce'); df['x'] = False
     df = df[df['Trading_Volume'] > 0]
@@ -137,6 +142,7 @@ def main():
     # 另外 Tasi／history 中不在任何上市清單、也不在上市面板的代碼視為上櫃（2023-10 後下櫃者）
     tp_codes = set(A_tp) | set(B_tp) | tpex_now | pe_tpex
     extra = {c for c in set(E) | set(F) if c not in twse_now and c not in pe_twse and c not in tw_first.index}
+    print('extra not in tpex_now/pe_tpex/A/B:', sorted(extra - tpex_now - pe_tpex - set(A_tp) - set(B_tp)), flush=True)
     tp_codes |= extra
     print('codes: Asoul', len(A_tp), 'taiwanan', len(B_tp), 'tpex_now', len(tpex_now), 'pe_tpex', len(pe_tpex), 'extra(Tasi/hist)', len(extra), 'total', len(tp_codes), flush=True)
 
