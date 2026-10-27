@@ -1,0 +1,82 @@
+signal recheck failures 0 []
+[
+{
+"code": "8039",
+"sig": "2017-05-16",
+"entry": "2017-05-17",
+"p0": 0.948,
+"exit_day": "2017-06-13",
+"why_hand": "vol_nohigh",
+"why_run": "vol_nohigh",
+"raw_hand": 0.05208,
+"raw_run": 0.05208
+},
+{
+"code": "6255",
+"sig": "2010-04-02",
+"entry": "2010-04-06",
+"p0": 0.806,
+"exit_day": "2010-04-16",
+"why_hand": "vol_nohigh",
+"why_run": "vol_nohigh",
+"raw_hand": 0.05628,
+"raw_run": 0.05628
+},
+{
+"code": "3535",
+"sig": "2024-04-01",
+"entry": "2024-04-02",
+"p0": 1.315,
+"exit_day": "2024-04-15",
+"why_hand": "vol_nohigh",
+"why_run": "vol_nohigh",
+"raw_hand": 0.01549,
+"raw_run": 0.01549
+},
+{
+"code": "9927",
+"sig": "2010-11-10",
+"entry": "2010-11-11",
+"p0": 4.112,
+"exit_day": "2010-11-16",
+"why_hand": "ma20",
+"why_run": "ma20",
+"raw_hand": -0.02778,
+"raw_run": -0.02778
+},
+{
+"code": "1762",
+"sig": "2014-02-11",
+"entry": "2014-02-12",
+"p0": 0.874,
+"exit_day": "2014-03-10",
+"why_hand": "ma20",
+"why_run": "ma20",
+"raw_hand": -0.01338,
+"raw_run": -0.01338
+},
+{
+"code": "6672",
+"sig": "2025-03-21",
+"entry": "2025-03-24",
+"p0": 1.297,
+"exit_day": "2025-03-31",
+"why_hand": "stop",
+"why_run": "stop",
+"raw_hand": -0.1604,
+"raw_run": -0.1604
+}
+]
+hand recheck 300 mismatch 0
+select_2005-01_2019-04 {'n': 7640, 'hold_dist': {'1': 0.098, '2': 0.095, '3': 0.071, '4': 0.059, '5': 0.059, '6': 0.105, '10': 0.038, '21': 0.096}, 'share_hold_le5': 0.382, 'mean_gap_close_to_open_pct': np.float64(0.516), 'mean_gross_ab_pct': np.float64(-0.131), 'mean_cost_pct': np.float64(0.672), 'gross_ab_if_bought_at_signal_close_pct(unattainable)': np.float64(0.384), 'mean_raw_by_exit': {'ma20': np.float64(-1.15), 'stop': np.float64(-11.08), 'time': np.float64(66.03), 'vol_nohigh': np.float64(4.94)}, 'mean_hold_by_exit': {'ma20': np.float64(8.5), 'stop': np.float64(5.9), 'time': np.float64(60.0), 'vol_nohigh': np.float64(11.7)}, 'top1pct_contrib_raw': 0.514}
+valid_2019-05_2026-10 {'n': 5013, 'hold_dist': {'1': 0.093, '2': 0.084, '3': 0.075, '4': 0.053, '5': 0.054, '6': 0.105, '10': 0.042, '21': 0.097}, 'share_hold_le5': 0.359, 'mean_gap_close_to_open_pct': np.float64(0.455), 'mean_gross_ab_pct': np.float64(0.185), 'mean_cost_pct': np.float64(0.675), 'gross_ab_if_bought_at_signal_close_pct(unattainable)': np.float64(0.645), 'mean_raw_by_exit': {'ma20': np.float64(-1.16), 'stop': np.float64(-10.97), 'time': np.float64(92.55), 'vol_nohigh': np.float64(6.56)}, 'mean_hold_by_exit': {'ma20': np.float64(8.5), 'stop': np.float64(4.8), 'time': np.float64(60.0), 'vol_nohigh': np.float64(12.0)}, 'top1pct_contrib_raw': 0.7}
+valid_2024-01_2025-12 {'n': 1469, 'hold_dist': {'1': 0.088, '2': 0.097, '3': 0.084, '4': 0.058, '5': 0.071, '6': 0.102, '10': 0.04, '21': 0.082}, 'share_hold_le5': 0.398, 'mean_gap_close_to_open_pct': np.float64(0.531), 'mean_gross_ab_pct': np.float64(0.168), 'mean_cost_pct': np.float64(0.672), 'gross_ab_if_bought_at_signal_close_pct(unattainable)': np.float64(0.699), 'mean_raw_by_exit': {'ma20': np.float64(-1.6), 'stop': np.float64(-11.13), 'vol_nohigh': np.float64(7.35)}, 'mean_hold_by_exit': {'ma20': np.float64(7.9), 'stop': np.float64(4.2), 'vol_nohigh': np.float64(11.9)}, 'top1pct_contrib_raw': 0.756}
+yearly net {2004: np.float64(-0.99), 2005: np.float64(-0.94), 2006: np.float64(-0.53), 2007: np.float64(-0.73), 2008: np.float64(-1.04), 2009: np.float64(-1.14), 2010: np.float64(-1.12), 2011: np.float64(-0.51), 2012: np.float64(-0.98), 2013: np.float64(-0.51), 2014: np.float64(-0.98), 2015: np.float64(-0.76), 2016: np.float64(-0.62), 2017: np.float64(-0.85), 2018: np.float64(-0.88), 2019: np.float64(-0.64), 2020: np.float64(-0.02), 2021: np.float64(-0.49), 2022: np.float64(-0.65), 2023: np.float64(-0.39), 2024: np.float64(-0.5), 2025: np.float64(-0.51), 2026: np.float64(-0.69)}
+yearly gross {2004: np.float64(-0.32), 2005: np.float64(-0.26), 2006: np.float64(0.16), 2007: np.float64(-0.05), 2008: np.float64(-0.38), 2009: np.float64(-0.46), 2010: np.float64(-0.45), 2011: np.float64(0.15), 2012: np.float64(-0.31), 2013: np.float64(0.16), 2014: np.float64(-0.31), 2015: np.float64(-0.1), 2016: np.float64(0.05), 2017: np.float64(-0.18), 2018: np.float64(-0.22), 2019: np.float64(0.04), 2020: np.float64(0.66), 2021: np.float64(0.2), 2022: np.float64(0.02), 2023: np.float64(0.29), 2024: np.float64(0.17), 2025: np.float64(0.17), 2026: np.float64(-0.02)}
+yearly n {2004: 306, 2005: 379, 2006: 442, 2007: 543, 2008: 191, 2009: 430, 2010: 767, 2011: 563, 2012: 427, 2013: 686, 2014: 744, 2015: 438, 2016: 509, 2017: 781, 2018: 563, 2019: 660, 2020: 574, 2021: 677, 2022: 531, 2023: 892, 2024: 809, 2025: 660, 2026: 387}
+src3 vol vs official {2: {'n': 275229, 'median': 1.0033, 'p10': 0.9248, 'p90': 1.0435}, 3: {'n': 159335, 'median': 1.0097, 'p10': 0.8571, 'p90': 4.3049}, 4: {'n': 107115, 'median': 1.0, 'p10': 0.9999, 'p90': 1.0001}}
+{'2020Q4': 1.0012, '2021Q1': 1.0017, '2021Q2': 1.0021, '2021Q3': 1.0026, '2021Q4': 1.0034, '2022Q1': 1.0025, '2022Q2': 1.0027, '2022Q3': 1.0024, '2022Q4': 1.0027, '2023Q1': 1.0032, '2023Q2': 1.0041, '2023Q3': 1.006, '2023Q4': 1.0062, '2024Q1': 1.0298, '2024Q2': 1.0088, '2024Q3': 0.9898, '2024Q4': 0.9844, '2025Q1': 0.9824, '2025Q2': 8.8632, '2025Q3': 1.0039, '2025Q4': 1.0, '2026Q1': 1.0, '2026Q2': 1.0, '2026Q3': 1.0, '2026Q4': 1.0}
+history.csv vs panel {'n': 278762, 'median_ratio': 1.0, 'share_within_1pct': 0.9985}
+jumps {'2024-02-15': 0.3451, '2025-09-24': -0.1455, '2023-09-25': -0.1763, '2024-09-24': 0.0554, '2025-08-25': -0.1273, '2026-03-24': -0.3116}
+signal rates {2004: 44.05, 2005: 43.32, 2006: 46.59, 2007: 45.16, 2008: 20.34, 2009: 42.22, 2010: 57.31, 2011: 46.34, 2012: 41.03, 2013: 60.59, 2014: 56.44, 2015: 38.79, 2016: 50.07, 2017: 64.16, 2018: 47.29, 2019: 61.16, 2020: 44.34, 2021: 42.9, 2022: 37.28, 2023: 60.44, 2024: 51.15, 2025: 38.63, 2026: 29.6} {'src3': 44.81, 'other_2021on': 42.91, 'first_20d_after_2025-09-24': 40.83}
+value bug {'days_ratio_gt_1.5': {'n': 52, 'first': '2024-04-09', 'last': '2025-07-04', 'median_ratio_in_core_2025-05-08_2025-06-27': 9.951}, 'market_value_1e8_median': {'2025-03-01~04-29': 2604, '2025-05-08~06-27': 31786, '2025-07-07~09-23': 3858}, 'corr_2330_vs_0050': {'2023-03-01~2023-09-30': 0.904, '2025-05-02~2025-07-04': 0.902, '2025-07-07~2025-09-23': 0.938}, 'events_affected_by_value_bug': {'n': 305, 'mean_ab_net_pct': 0.136, 'valid_ex_affected': {'n': 4708, 'mean_ab_net_pct': -0.531, 't_month': -3.94}, 'monthly_n_2025': {'2025-01': 50, '2025-02': 98, '2025-03': 41, '2025-05': 5, '2025-06': 4, '2025-07': 80, '2025-08': 123, '2025-09': 92, '2025-10': 55, '2025-11': 34, '2025-12': 78}}}

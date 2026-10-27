@@ -1,0 +1,24 @@
+3047 2024-06-27 sell 2024-06-28 open 29.299999237060547 close 28.200000762939453 ret -2.083% up_from_min60 99.3% vol/avg20 3.68 src 3.0 r_stock 58.98%
+1227 2009-04-16 sell 2009-04-17 open 30.8 close 29.7 ret -4.502% up_from_min60 46.3% vol/avg20 2.90 src 1.0 r_stock 4.54%
+2034 2006-10-12 sell 2006-10-13 open 36.0 close 33.8 ret -3.290% up_from_min60 42.9% vol/avg20 4.97 src 1.0 r_stock 16.37%
+6491 2021-03-12 sell 2021-03-15 open 377.0 close 328.0 ret -6.419% up_from_min60 40.5% vol/avg20 2.83 src 2.0 r_stock 18.67%
+2614 2018-03-22 sell 2018-03-23 open 15.5 close 14.9 ret -3.560% up_from_min60 55.4% vol/avg20 2.73 src 2.0 r_stock 1.07%
+3018 2017-07-07 sell 2017-07-10 open 50.0 close 45.15 ret -7.857% up_from_min60 48.5% vol/avg20 13.08 src 2.0 r_stock -0.44%
+1718 2007-07-13 sell 2007-07-16 open 12.45 close 11.4 ret -2.146% up_from_min60 53.2% vol/avg20 4.71 src 1.0 r_stock -1.30%
+6205 2022-02-17 sell 2022-02-18 open 92.9 close 87.8 ret -2.661% up_from_min60 84.1% vol/avg20 3.81 src 2.0 r_stock 2.54%
+
+r_stock 分位數 {0.0: -0.39, 0.05: -0.17, 0.25: -0.047, 0.5: 0.007, 0.75: 0.077, 0.95: 0.292, 1.0: 0.864}
+最大 5 筆      code       trig       sell   r_stock  repicked
+110  2478 2018-05-11 2018-05-14  0.863753      True
+182  2023 2021-04-13 2021-04-14  0.689970      True
+347  3167 2026-03-31 2026-04-01  0.616646     False
+295  3047 2024-06-27 2024-06-28  0.589789      True
+225  1708 2022-03-15 2022-03-16  0.543784      True
+最小 5 筆      code       trig       sell   r_stock  repicked
+109  3708 2018-04-20 2018-04-23 -0.390390     False
+311  2429 2025-03-21 2025-03-24 -0.369231     False
+117  3653 2018-09-18 2018-09-19 -0.300345     False
+267  6235 2023-07-14 2023-07-17 -0.286145     False
+155  2417 2020-09-07 2020-09-08 -0.234760     False
+select winsor5% r_stock mean 2.63 excl top5% 1.02
+valid winsor5% r_stock mean 2.43 excl top5% 0.34
