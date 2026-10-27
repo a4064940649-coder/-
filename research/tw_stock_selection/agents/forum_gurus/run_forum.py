@@ -69,23 +69,32 @@ def codes_in(text):
         if c not in cs: cs.append(c)
     return cs
 
+FOREIGN = re.compile(r'(?<![0-9])00[0-9]{2,4}[A-Za-z]?(?![0-9])|\.US\b|\bUS\b|[A-Za-z]{2,5}\.(US|HK)|道瓊|那斯達克|台指|大盤|加權指數', re.I)
+def _yr_ok(c, text):
+    return not (c.startswith('19') or c.startswith('20')) or any(n in text for n, cc in name2code.items() if cc == c)
+def _names_in(text):
+    hit = [n for n in name2code if len(n) >= 2 and n in text]
+    hit = [n for n in hit if not any(n != m and n in m for m in hit)]      # 去掉被較長名稱包含的（例：力積 ⊂ 力積電）
+    return sorted({name2code[n] for n in hit})
 def stock_of(title, content):
+    """順序：標題代號 → 標題含外國/ETF/指數就排除 → 標題公司簡稱 → 內文「標的：」第一行（只接受恰好一個代號且無英文代號）。"""
     t = re.sub(r'^\[標的\]', '', title)
-    cs = [c for c in codes_in(t) if c in code_mkt or c in CI]
-    cs = [c for c in cs if not (c.startswith('19') or c.startswith('20')) or any(n in t for n, cc in name2code.items() if cc == c)]
-    if not cs:
-        m = re.search(r'標的\s*[:：](.{0,40})', content, re.S)
-        if m:
-            line = m.group(1).strip().split('\n')[0]
-            cs = [c for c in codes_in(line) if c in code_mkt or c in CI]
-            if not cs:
-                hit = sorted({cc for n, cc in name2code.items() if n in line}, key=lambda x: x)
-                cs = hit
-        if not cs:
-            hit = {cc for n, cc in name2code.items() if len(n) >= 2 and n in t}
-            cs = sorted(hit)
-    if len(cs) != 1: return None, ('multi' if len(cs) > 1 else 'none')
-    return cs[0], 'ok'
+    content = re.sub(r'[\(（]\s*例[^\)）\n]{0,30}[\)）]', ' ', content)      # 板規範本「(例 2330.TW 台積電)」
+    cs = [c for c in codes_in(t) if (c in code_mkt or c in CI) and _yr_ok(c, t)]
+    if len(cs) > 1: return None, 'multi'
+    if cs: return cs[0], 'ok'
+    if FOREIGN.search(t): return None, 'foreign_or_etf'
+    cs = _names_in(t)
+    if len(cs) > 1: return None, 'multi'
+    if cs: return cs[0], 'ok_name'
+    m = re.search(r'標的\s*[:：]([^\n]{0,40})', content)
+    if m:
+        line = m.group(1)
+        if not re.search(r'[A-Za-z]{2,}', re.sub(r'\.?TW', '', line, flags=re.I)):
+            cs = [c for c in codes_in(line) if (c in code_mkt or c in CI) and _yr_ok(c, line)]
+            if len(cs) == 1: return cs[0], 'ok_line'
+            if len(cs) > 1: return None, 'multi'
+    return None, 'none'
 
 CMT = re.compile(r'^(推|噓|→)\s*(\S+?)\s*:.*?(\d{2})/(\d{2})\s+(\d{2}):(\d{2})\s*$', re.M)
 def comments(content, t0):
@@ -132,6 +141,17 @@ def px_at(i, mode, col=None):
     A = AO if mode == 'open' else AC
     return A[i] if col is None else A[i, col]
 
+PRE20 = AC[1:] / np.vstack([np.full((20, AC.shape[1]), np.nan), AC[:-21]]) - 1   # 第 k 列 = 到第 k+1 天前一日（k 對應 i-1）
+PRE20 = np.vstack([np.full((1, AC.shape[1]), np.nan), PRE20])                        # PRE20[i] = AC[i-1]/AC[i-21]-1
+def bench_mom(i, mode, h, j):
+    """對照：同日流動性池中、發文前 20 日報酬同一十分位的股票等權（檢查是否只是追漲效果）。"""
+    pool = LIQ[i - 1] & np.isfinite(L.OPEN_RAW[i]) & np.isfinite(L.ADJ_RAW[i]) & np.isfinite(PRE20[i])
+    x = PRE20[i][pool]
+    if not np.isfinite(PRE20[i, j]) or len(x) < 100: return np.nan
+    qs = np.quantile(x, np.linspace(0, 1, 11)); k = min(max(np.searchsorted(qs, PRE20[i, j], side='right') - 1, 0), 9)
+    sel = pool & (PRE20[i] >= qs[k]) & (PRE20[i] <= qs[k + 1])
+    return np.nanmean(AO[i + h][sel] / px_at(i, mode)[sel] - 1)
+
 def bench(i, mode, h):
     """同日流動性池等權：進場價 → i+h 開盤。"""
     pool = LIQ[i - 1] & np.isfinite(L.OPEN_RAW[i]) & np.isfinite(L.ADJ_RAW[i])
@@ -166,6 +186,7 @@ def build(intraday_close=False):
         for h in HS:
             rr = AO[i + h, j] / p0 - 1
             rec[f'r{h}'] = rr; rec[f'b{h}'] = bench(i, mode, h); rec[f'a{h}'] = rr - rec[f'b{h}']
+            rec[f'am{h}'] = rr - bench_mom(i, mode, h, j)
         out.append(rec)
     E = pd.DataFrame(out)
     # 同作者 5 交易日內同檔同方向只留第一篇
@@ -205,6 +226,11 @@ def block(E, label):
             d[f'long_gross_abn{h}'] = stat(Lg, f'a{h}', 1, 0)
             d[f'short_stock_abn{h}'] = stat(Sg, f'a{h}', 1, 0)
             d[f'short_reverse{h}'] = stat(Sg, f'a{h}', -1, 0)
+            d[f'long_net_abn{h}_vs_mom_decile'] = stat(Lg, f'am{h}', 1, COST)
+            d[f'short_stock_abn{h}_vs_mom_decile'] = stat(Sg, f'am{h}', 1, 0)
+            if len(Lg) >= 20:
+                w = Lg.copy(); lo, hi = np.nanquantile(w[f'a{h}'], [0.01, 0.99]); w[f'w{h}'] = w[f'a{h}'].clip(lo, hi)
+                d[f'long_net_abn{h}_winsor1'] = stat(w, f'w{h}', 1, COST)
         d['n_long'] = int(len(Lg)); d['n_short'] = int(len(Sg))
         d['long_pre20_mean'] = round(float(Lg.pre20.mean()) * 100, 2) if len(Lg) else None
         res[half] = d
@@ -268,7 +294,7 @@ def guru_eval(lst):
                                     mean20=round(float(g[g.author == a].sadj20.mean()) * 100, 2) if (g.author == a).any() else None) for a in lst})
 R['R3'] = {'n_authors_ge10_first': int(len(qual)),
            'first_half_table': {a: dict(n=int(r.n), hit=round(float(r.hit), 3), mean_sadj20=round(float(r.m) * 100, 2)) for a, r in qual.iterrows()},
-           'top5': guru_eval(top5), 'hit_ge_60': guru_eval(hit60), 'bottom5_contrast': guru_eval(bot5),
+           'top5': guru_eval(top5), 'hit_ge_60': guru_eval(hit60), 'bottom5_contrast': guru_eval(bot5) if len(qual) >= 10 else 'n/a (<10 qualifying authors)',
            'everyone_else_second_long_net20': stat(S2[(S2.dir == 'L') & ~S2.author.isin(top5)], 'a20', 1, COST)}
 # 前半命中率與後半命中率的相關（全部 ≥10 篇且後半 ≥5 篇的作者）
 au2 = S2.groupby('author').agg(n2=('sadj20', 'size'), hit2=('sadj20', lambda x: (x > 0).mean()))
