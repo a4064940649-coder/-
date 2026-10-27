@@ -23,6 +23,8 @@ A_END_FULL = pd.Timestamp('2016-12-31')    # Asoul 上櫃 2017 起缺日 → 之
 A_USE_END = pd.Timestamp('2014-12-31')     # 有 B 的股票只用 A 到 2014 年底
 B_END = pd.Timestamp('2021-04-29'); C_END = pd.Timestamp('2022-12-30')
 D_START, D_END = pd.Timestamp('2023-01-01'), pd.Timestamp('2023-09-30')
+D2_START, D2_END = pd.Timestamp('2025-04-01'), pd.Timestamp('2025-09-23')   # Tasi 上櫃缺漏期，用 D 補（hschi 到 2025-05-28）
+E_GOOD_DAYS = []
 E_START, E_END = pd.Timestamp('2023-10-01'), pd.Timestamp('2025-09-23')
 F_START = pd.Timestamp('2025-09-24')
 is4 = BT.is4
@@ -97,6 +99,13 @@ def load_tasi(cal):
     t = t.sort_values(['code', 'date'])
     same = (t[['o', 'h', 'c', 'vol']].values == t.groupby('code')[['o', 'h', 'c', 'vol']].shift().values).all(axis=1)
     t = t[~same]
+    # Tasi 2025-04 起上櫃股大量缺漏（多日只有 0～440 檔）：只保留「現存上櫃清單中有值檔數 ≥ 700」的日子
+    tp = set(pd.read_csv(SCR / 'stock_list.csv', dtype=str).query("market=='TPEX'")['code'])
+    n_tp = t[t['code'].isin(tp)].groupby('date').size()
+    good = set(n_tp[n_tp >= 700].index)
+    t = t[t['date'].isin(good)]
+    global E_GOOD_DAYS
+    E_GOOD_DAYS = sorted(good)
     return {c: g.set_index('date')[['o', 'h', 'c', 'val', 'x', 'chgv']].sort_index() for c, g in t.groupby('code')}
 
 
@@ -173,13 +182,20 @@ def main():
         dd = []
         for srcd in (hschi, hawan):
             if code in srcd:
-                d_ = read_fm(srcd[code]).loc[D_START:D_END]
+                x_ = read_fm(srcd[code])
+                d_ = pd.concat([x_.loc[D_START:D_END], x_.loc[D2_START:D2_END]])
                 if len(d_): dd.append(d_)
         if dd:
             d_ = pd.concat(dd); d_ = d_[~d_.index.duplicated()].sort_index(); d_['src'] = 2; d_['s'] = 'D'; parts.append(d_)
-            iv.append((d_.index[0], D_END))
+            if (d_.index <= D_END).any(): iv.append((d_.index[d_.index >= D_START][0], D_END))
+            if (d_.index >= D2_START).any(): iv.append((d_.index[d_.index >= D2_START][0], d_.index[-1]))
         if code in E:
-            e = E[code].copy(); e['src'] = 4; e['s'] = 'E'; parts.append(e); iv.append((max(E_START, e.index[0]), E_END))
+            e = E[code].copy(); e['src'] = 4; e['s'] = 'E'; parts.append(e)
+            gd = pd.DatetimeIndex([d for d in E_GOOD_DAYS if d >= e.index[0]])
+            if len(gd):   # 涵蓋區間＝Tasi 有效日的連續段（中間缺日 > 3 個交易日即斷開）
+                pos = CAL0.get_indexer(gd); brk = np.where(np.diff(pos) > 3)[0]
+                st = np.r_[0, brk + 1]; en = np.r_[brk, len(gd) - 1]
+                for a_, b_ in zip(st, en): iv.append((gd[a_], gd[b_]))
         if code in F:
             f = F[code].loc[F_START:].copy()
             if len(f): f['src'] = 4; f['s'] = 'F'; parts.append(f); iv.append((F_START, pd.Timestamp('2030-01-01')))

@@ -1,0 +1,1169 @@
+{
+ "PREREG": {
+  "寫於執行前": true,
+  "原版（BASE）": "revenue_longhistory/lhlib.py 主策略 M2（n10 與 n30 各自一套）：前 300 名流動性池（60 日均值 ≥1,000 萬、股價 ≥10、非處置）、0.5×52 週高百分位＋0.5×近 3 月營收年增率平均百分位、前 n 檔等權、每月第一個 ≥11 日交易日收盤訊號、隔日開盤成交、開盤漲停且未持有者跳過遞補；營收＝tw_revenue.csv（長期版、自算年增率，去年同月 ≤0 為空值）。引擎用 main_refine/rlib.simulate（BASE n10 必須與 main_refine navs.parquet 的 BASE|slip0.001 逐日相同，程式斷言）。",
+  "金融保險業定義": "stock_list.csv industry == 金融保險業，或代碼前兩碼 28，或 5876、5880（與 main_refine diag.py 相同，涵蓋已下市、stock_list 沒有的金融股）",
+  "版本": {
+   "A_exFIN": "營收腿排除金融保險業：金融股的營收年增率設為空值 → 不進入股池（與 main_refine §6 事後觀察同一做法，本輪事前寫入）。",
+   "B_pit_mc": "只用訊號日收盤（13:30）前已公告的營收。某股票在訊號日 d 若「上個月（m−1）營收」判定為尚未公告，該股的營收腿改用當時能看到的最近 3 個月（m−4～m−2）年增率平均（實盤會看到的數字）；若也沒有值就不進股池。判定規則見「可得性規則」。延後機率的部分用 Monte Carlo 200 次（seed 0～199），報告 200 次平均淨值（逐日報酬平均）以及 200 次年化的 5%／50%／95% 分位。",
+   "B_pit_worst": "敏感度（不參與主判定）：凡是「法定期限＝訊號日」的月份，全部股票都視為未公告（延後機率＝1）。這是前視偏誤的上限。",
+   "AB": "A_exFIN 加 B_pit_mc（同時排除金融股與只用已公告營收）＝修正後實盤版本，用來給實盤預期。"
+  },
+  "可得性規則（B）": {
+   "有公告日的期間（營收月 2026-09，訊號日 2026-10-12）": "用 tw-stock-screener 的 git 歷史推得每檔「第一次被抓到的 commit 時間」（ann_date 的實際定義＝第一次看到的日期，是公告時間的上限）。commit 時間早於 2026-10-12 13:30（台北）才算已公告；2026-10-12 15:25 那次抓到的（週六 01:00～週一 15:25 之間公告，無法分辨是否在收盤前）保守視為未公告。ann_date 欄位上線前就已在檔案中的（10-05 以前公告）視為已公告。rev_hist 沒有列到、但長期營收有值的股票：保守視為未公告。",
+   "沒有公告日的期間": {
+    "法定期限 D": "營收月 m 的次月 10 日；10 日不是交易日（以加權指數交易日曆近似「上班日」）就順延到下一個交易日（行政程序法 48 條：期間末日為假日者以次日為末日）。2026-01 起（2026-02 公告），保險業與具保險子公司的公司（2880、2881、2882、2883、2885、2886、2887、2891、2892、5880、2816、2832、2850、2851、2852、2867、2905、2207）期限改為次月 15 日（再順延到交易日）。",
+    "主管機關個案延長": "營收月 2019-01 延至 2019-02-15（春節）、2023-03 延至 2023-04-12（清明連假）→ 期限晚於訊號日，該月全部股票視為未公告；2020-01 受疫情影響公司可延至 2020-02-15 → 比照「期限＝訊號日」用延後機率處理。",
+    "D < 訊號日 S": "全部股票視為已公告（假設依法準時；逾期申報忽略）。",
+    "D = S（10 日遇假日，期限順延到訊號日當天）": "每檔股票以「該產業的延後機率 p」視為未公告（Monte Carlo）。p 用 2026-09（唯一有公告時點、而且正好是 10 日遇假日的月份）估：該產業在訊號日收盤前還沒被抓到的比例（含 15:25 那次無法分辨的）。不適用 15 日新制的公司才拿來估；產業家數 < 15 就用全市場的 p。金融保險業一律 p＝1（金控過去慣例是期限當天晚上才公告自結獲利與營收，保守處理）。",
+    "D > S": "全部（或該類公司）視為未公告。"
+   }
+  },
+  "期間（日頻淨值、日曆月報酬）": {
+   "P1": "2006-04～2020-12（BASE 第一次成交起）",
+   "P2": "2021-01～2026-10-22",
+   "補充（不參與判定）": "SEL 2006-04～2013-12、VAL 2014～2020、HOLD 2021-03～2026-10，與 main_refine 同切分"
+  },
+  "成本": "主：lhlib 滑價 0.1%；壓力：買賣各 0.5%（另報配對 t）",
+  "統計": "年化、日頻最大回撤、對 0050 月 t（日曆月）、對 BASE 配對：日曆月報酬差的月均與 t（同一 n 互相比較）；另報持股名額中金融股的比例、訊號日被判定未公告而換成舊營收的名額數。",
+  "判定": {
+   "明顯下降": "某修正版對 BASE 的配對月均差 < 0，且（配對 t ≤ −2.0 或年化少 ≥ 3pp）。在 P1 或 P2 任一期成立就算。",
+   "B 明顯下降": "→ 原版有前視偏誤，實盤預期要下修到 B 的水準。",
+   "A 明顯下降": "→ 原版的報酬有一部分來自金控「沒有經濟意義的營收年增率」，實盤預期也要下修。",
+   "都沒有明顯下降": "→ 前視偏誤可忽略，原版數字可沿用；但實盤仍建議用 AB（排除金融股＋只用已公告營收）的規則。",
+   "實盤合理預期": "以 AB 版 P1、P2 的年化與回撤為基準，再依 main_refine 的經驗（rev_5y 版 2024～2026 的 85～90% 不可靠）給區間。"
+  }
+ },
+ "PREREG_sha256": "1acc0026dbbc51813ae0991ccea9f3f10db3e7880a08167c3a8f77055c42db70",
+ "PREREG_written_at": "2026-10-27T09:44:11",
+ "ANN": {
+  "ann_date_vs_git": {
+   "n_with_ann": 1769,
+   "ann_eq_taipei_date_of_first_commit": 0.9276,
+   "n_present_before_ann_field": 93
+  },
+  "commits_rev_hist": [
+   {
+    "commit": "829463d",
+    "time_taipei": "2026-10-01 17:51:04+08:00",
+    "n_2026_09": 9,
+    "has_ann_col": false
+   },
+   {
+    "commit": "380e97c",
+    "time_taipei": "2026-10-01 18:44:33+08:00",
+    "n_2026_09": 10,
+    "has_ann_col": false
+   },
+   {
+    "commit": "4d67825",
+    "time_taipei": "2026-10-02 15:24:06+08:00",
+    "n_2026_09": 22,
+    "has_ann_col": false
+   },
+   {
+    "commit": "055970c",
+    "time_taipei": "2026-10-05 12:40:49+08:00",
+    "n_2026_09": 57,
+    "has_ann_col": false
+   },
+   {
+    "commit": "b319095",
+    "time_taipei": "2026-10-05 15:24:22+08:00",
+    "n_2026_09": 92,
+    "has_ann_col": false
+   },
+   {
+    "commit": "e3b5d76",
+    "time_taipei": "2026-10-06 12:21:59+08:00",
+    "n_2026_09": 176,
+    "has_ann_col": true
+   },
+   {
+    "commit": "f3223cc",
+    "time_taipei": "2026-10-06 15:24:31+08:00",
+    "n_2026_09": 224,
+    "has_ann_col": true
+   },
+   {
+    "commit": "adad911",
+    "time_taipei": "2026-10-06 18:29:42+08:00",
+    "n_2026_09": 311,
+    "has_ann_col": true
+   },
+   {
+    "commit": "a299cc1",
+    "time_taipei": "2026-10-06 19:35:00+08:00",
+    "n_2026_09": 317,
+    "has_ann_col": true
+   },
+   {
+    "commit": "837d913",
+    "time_taipei": "2026-10-06 19:40:28+08:00",
+    "n_2026_09": 317,
+    "has_ann_col": true
+   },
+   {
+    "commit": "8fad79d",
+    "time_taipei": "2026-10-06 20:39:07+08:00",
+    "n_2026_09": 319,
+    "has_ann_col": true
+   },
+   {
+    "commit": "ff59c44",
+    "time_taipei": "2026-10-06 21:58:06+08:00",
+    "n_2026_09": 319,
+    "has_ann_col": true
+   },
+   {
+    "commit": "f01a90f",
+    "time_taipei": "2026-10-06 23:52:36+08:00",
+    "n_2026_09": 319,
+    "has_ann_col": true
+   },
+   {
+    "commit": "7a20d72",
+    "time_taipei": "2026-10-07 00:42:06+08:00",
+    "n_2026_09": 320,
+    "has_ann_col": true
+   },
+   {
+    "commit": "496df44",
+    "time_taipei": "2026-10-07 03:55:17+08:00",
+    "n_2026_09": 320,
+    "has_ann_col": true
+   },
+   {
+    "commit": "e068cff",
+    "time_taipei": "2026-10-07 15:24:47+08:00",
+    "n_2026_09": 409,
+    "has_ann_col": true
+   },
+   {
+    "commit": "201d213",
+    "time_taipei": "2026-10-07 16:26:15+08:00",
+    "n_2026_09": 484,
+    "has_ann_col": true
+   },
+   {
+    "commit": "b44e5a7",
+    "time_taipei": "2026-10-08 00:05:08+08:00",
+    "n_2026_09": 610,
+    "has_ann_col": true
+   },
+   {
+    "commit": "3471bc0",
+    "time_taipei": "2026-10-08 00:43:34+08:00",
+    "n_2026_09": 610,
+    "has_ann_col": true
+   },
+   {
+    "commit": "9587eec",
+    "time_taipei": "2026-10-08 01:21:21+08:00",
+    "n_2026_09": 610,
+    "has_ann_col": true
+   },
+   {
+    "commit": "f86beab",
+    "time_taipei": "2026-10-08 01:27:13+08:00",
+    "n_2026_09": 610,
+    "has_ann_col": true
+   },
+   {
+    "commit": "a8658db",
+    "time_taipei": "2026-10-08 02:02:34+08:00",
+    "n_2026_09": 610,
+    "has_ann_col": true
+   },
+   {
+    "commit": "4220460",
+    "time_taipei": "2026-10-08 02:42:43+08:00",
+    "n_2026_09": 610,
+    "has_ann_col": true
+   },
+   {
+    "commit": "7a8d06c",
+    "time_taipei": "2026-10-08 03:21:06+08:00",
+    "n_2026_09": 610,
+    "has_ann_col": true
+   },
+   {
+    "commit": "c041bd0",
+    "time_taipei": "2026-10-08 03:43:42+08:00",
+    "n_2026_09": 610,
+    "has_ann_col": true
+   },
+   {
+    "commit": "f4fac09",
+    "time_taipei": "2026-10-08 15:27:35+08:00",
+    "n_2026_09": 977,
+    "has_ann_col": true
+   },
+   {
+    "commit": "4c8375e",
+    "time_taipei": "2026-10-08 20:53:46+08:00",
+    "n_2026_09": 1512,
+    "has_ann_col": true
+   },
+   {
+    "commit": "6a2b33f",
+    "time_taipei": "2026-10-09 01:23:10+08:00",
+    "n_2026_09": 1521,
+    "has_ann_col": true
+   },
+   {
+    "commit": "effb94c",
+    "time_taipei": "2026-10-10 00:59:14+08:00",
+    "n_2026_09": 1531,
+    "has_ann_col": true
+   },
+   {
+    "commit": "4bc3997",
+    "time_taipei": "2026-10-12 15:25:32+08:00",
+    "n_2026_09": 1702,
+    "has_ann_col": true
+   },
+   {
+    "commit": "ab665b2",
+    "time_taipei": "2026-10-12 16:31:18+08:00",
+    "n_2026_09": 1770,
+    "has_ann_col": true
+   },
+   {
+    "commit": "50bda15",
+    "time_taipei": "2026-10-13 03:48:26+08:00",
+    "n_2026_09": 1841,
+    "has_ann_col": true
+   },
+   {
+    "commit": "5b7e715",
+    "time_taipei": "2026-10-13 15:28:13+08:00",
+    "n_2026_09": 1841,
+    "has_ann_col": true
+   },
+   {
+    "commit": "3ff6f39",
+    "time_taipei": "2026-10-13 16:37:27+08:00",
+    "n_2026_09": 1841,
+    "has_ann_col": true
+   },
+   {
+    "commit": "8af9121",
+    "time_taipei": "2026-10-14 00:16:30+08:00",
+    "n_2026_09": 1842,
+    "has_ann_col": true
+   },
+   {
+    "commit": "1e1a9f6",
+    "time_taipei": "2026-10-14 01:34:13+08:00",
+    "n_2026_09": 1842,
+    "has_ann_col": true
+   },
+   {
+    "commit": "e150794",
+    "time_taipei": "2026-10-14 15:27:45+08:00",
+    "n_2026_09": 1843,
+    "has_ann_col": true
+   },
+   {
+    "commit": "8f92b02",
+    "time_taipei": "2026-10-14 21:53:47+08:00",
+    "n_2026_09": 1849,
+    "has_ann_col": true
+   },
+   {
+    "commit": "1763e7f",
+    "time_taipei": "2026-10-15 15:26:13+08:00",
+    "n_2026_09": 1853,
+    "has_ann_col": true
+   },
+   {
+    "commit": "7d0a238",
+    "time_taipei": "2026-10-15 18:09:10+08:00",
+    "n_2026_09": 1857,
+    "has_ann_col": true
+   },
+   {
+    "commit": "c4751ca",
+    "time_taipei": "2026-10-20 15:25:46+08:00",
+    "n_2026_09": 1858,
+    "has_ann_col": true
+   },
+   {
+    "commit": "ab5e2ce",
+    "time_taipei": "2026-10-20 21:53:38+08:00",
+    "n_2026_09": 1858,
+    "has_ann_col": true
+   },
+   {
+    "commit": "98faca6",
+    "time_taipei": "2026-10-22 15:25:02+08:00",
+    "n_2026_09": 1859,
+    "has_ann_col": true
+   },
+   {
+    "commit": "df1c2dc",
+    "time_taipei": "2026-10-22 21:53:22+08:00",
+    "n_2026_09": 1860,
+    "has_ann_col": true
+   },
+   {
+    "commit": "fd6659d",
+    "time_taipei": "2026-10-23 02:12:44+08:00",
+    "n_2026_09": 1861,
+    "has_ann_col": true
+   },
+   {
+    "commit": "077c8d7",
+    "time_taipei": "2026-10-27 15:29:43+08:00",
+    "n_2026_09": 1862,
+    "has_ann_col": true
+   }
+  ],
+  "first_seen_distribution_taipei_date": {
+   "10-01": 10,
+   "10-02": 12,
+   "10-05": 70,
+   "10-06": 227,
+   "10-07": 165,
+   "10-08": 1028,
+   "10-09": 9,
+   "10-10": 10,
+   "10-12": 239,
+   "10-13": 71,
+   "10-14": 8,
+   "10-15": 8,
+   "10-20": 1,
+   "10-22": 2,
+   "10-23": 1,
+   "10-27": 1
+  },
+  "by_industry_all": {
+   "貿易百貨業": {
+    "n": 13,
+    "share_after_10th": 0.615,
+    "share_not_before_signal_close": 0.615,
+    "share_C_certain_after": 0.462
+   },
+   "水泥工業": {
+    "n": 7,
+    "share_after_10th": 0.571,
+    "share_not_before_signal_close": 0.571,
+    "share_C_certain_after": 0.286
+   },
+   "造紙工業": {
+    "n": 7,
+    "share_after_10th": 0.571,
+    "share_not_before_signal_close": 0.571,
+    "share_C_certain_after": 0.143
+   },
+   "金融保險業": {
+    "n": 39,
+    "share_after_10th": 0.462,
+    "share_not_before_signal_close": 0.462,
+    "share_C_certain_after": 0.436
+   },
+   "玻璃陶瓷": {
+    "n": 5,
+    "share_after_10th": 0.4,
+    "share_not_before_signal_close": 0.4,
+    "share_C_certain_after": 0.0
+   },
+   "（stock_list 無）": {
+    "n": 40,
+    "share_after_10th": 0.325,
+    "share_not_before_signal_close": 0.35,
+    "share_C_certain_after": 0.225
+   },
+   "汽車工業": {
+    "n": 32,
+    "share_after_10th": 0.344,
+    "share_not_before_signal_close": 0.344,
+    "share_C_certain_after": 0.188
+   },
+   "塑膠工業": {
+    "n": 22,
+    "share_after_10th": 0.318,
+    "share_not_before_signal_close": 0.318,
+    "share_C_certain_after": 0.045
+   },
+   "數位雲端": {
+    "n": 34,
+    "share_after_10th": 0.294,
+    "share_not_before_signal_close": 0.294,
+    "share_C_certain_after": 0.147
+   },
+   "橡膠工業": {
+    "n": 11,
+    "share_after_10th": 0.273,
+    "share_not_before_signal_close": 0.273,
+    "share_C_certain_after": 0.273
+   },
+   "食品工業": {
+    "n": 32,
+    "share_after_10th": 0.25,
+    "share_not_before_signal_close": 0.25,
+    "share_C_certain_after": 0.094
+   },
+   "農業科技業": {
+    "n": 4,
+    "share_after_10th": 0.25,
+    "share_not_before_signal_close": 0.25,
+    "share_C_certain_after": 0.0
+   },
+   "電器電纜": {
+    "n": 16,
+    "share_after_10th": 0.25,
+    "share_not_before_signal_close": 0.25,
+    "share_C_certain_after": 0.188
+   },
+   "電子通路業": {
+    "n": 37,
+    "share_after_10th": 0.243,
+    "share_not_before_signal_close": 0.243,
+    "share_C_certain_after": 0.162
+   },
+   "運動休閒": {
+    "n": 21,
+    "share_after_10th": 0.238,
+    "share_not_before_signal_close": 0.238,
+    "share_C_certain_after": 0.143
+   },
+   "文化創意業": {
+    "n": 26,
+    "share_after_10th": 0.231,
+    "share_not_before_signal_close": 0.231,
+    "share_C_certain_after": 0.115
+   },
+   "鋼鐵工業": {
+    "n": 48,
+    "share_after_10th": 0.229,
+    "share_not_before_signal_close": 0.229,
+    "share_C_certain_after": 0.083
+   },
+   "綠能環保": {
+    "n": 37,
+    "share_after_10th": 0.216,
+    "share_not_before_signal_close": 0.216,
+    "share_C_certain_after": 0.108
+   },
+   "電機機械": {
+    "n": 91,
+    "share_after_10th": 0.198,
+    "share_not_before_signal_close": 0.198,
+    "share_C_certain_after": 0.11
+   },
+   "化學工業": {
+    "n": 41,
+    "share_after_10th": 0.195,
+    "share_not_before_signal_close": 0.195,
+    "share_C_certain_after": 0.049
+   },
+   "居家生活": {
+    "n": 26,
+    "share_after_10th": 0.192,
+    "share_not_before_signal_close": 0.192,
+    "share_C_certain_after": 0.115
+   },
+   "觀光餐旅": {
+    "n": 47,
+    "share_after_10th": 0.191,
+    "share_not_before_signal_close": 0.191,
+    "share_C_certain_after": 0.085
+   },
+   "航運業": {
+    "n": 32,
+    "share_after_10th": 0.188,
+    "share_not_before_signal_close": 0.188,
+    "share_C_certain_after": 0.062
+   },
+   "其他業": {
+    "n": 82,
+    "share_after_10th": 0.183,
+    "share_not_before_signal_close": 0.183,
+    "share_C_certain_after": 0.024
+   },
+   "其他電子業": {
+    "n": 90,
+    "share_after_10th": 0.178,
+    "share_not_before_signal_close": 0.178,
+    "share_C_certain_after": 0.067
+   },
+   "電子零組件業": {
+    "n": 202,
+    "share_after_10th": 0.168,
+    "share_not_before_signal_close": 0.168,
+    "share_C_certain_after": 0.079
+   },
+   "生技醫療業": {
+    "n": 138,
+    "share_after_10th": 0.145,
+    "share_not_before_signal_close": 0.145,
+    "share_C_certain_after": 0.051
+   },
+   "紡織纖維": {
+    "n": 50,
+    "share_after_10th": 0.14,
+    "share_not_before_signal_close": 0.14,
+    "share_C_certain_after": 0.08
+   },
+   "通信網路業": {
+    "n": 88,
+    "share_after_10th": 0.125,
+    "share_not_before_signal_close": 0.125,
+    "share_C_certain_after": 0.102
+   },
+   "資訊服務業": {
+    "n": 43,
+    "share_after_10th": 0.116,
+    "share_not_before_signal_close": 0.116,
+    "share_C_certain_after": 0.093
+   },
+   "電腦及週邊設備業": {
+    "n": 105,
+    "share_after_10th": 0.114,
+    "share_not_before_signal_close": 0.114,
+    "share_C_certain_after": 0.038
+   },
+   "光電業": {
+    "n": 112,
+    "share_after_10th": 0.107,
+    "share_not_before_signal_close": 0.107,
+    "share_C_certain_after": 0.036
+   },
+   "建材營造業": {
+    "n": 84,
+    "share_after_10th": 0.095,
+    "share_not_before_signal_close": 0.095,
+    "share_C_certain_after": 0.036
+   },
+   "油電燃氣業": {
+    "n": 12,
+    "share_after_10th": 0.083,
+    "share_not_before_signal_close": 0.083,
+    "share_C_certain_after": 0.0
+   },
+   "半導體業": {
+    "n": 188,
+    "share_after_10th": 0.059,
+    "share_not_before_signal_close": 0.059,
+    "share_C_certain_after": 0.021
+   }
+  },
+  "overall": {
+   "n": 1862,
+   "share_after_10th": 0.177,
+   "share_not_before_signal_close": 0.178,
+   "share_C_certain_after": 0.086,
+   "nonfin": {
+    "share_not_before_signal_close": 0.172,
+    "share_after_10th": 0.171
+   },
+   "fin": {
+    "n": 39,
+    "share_not_before_signal_close": 0.462,
+    "share_after_10th": 0.462
+   },
+   "fin_ins15": {
+    "n": 16,
+    "share_not_before_signal_close": 1.0
+   },
+   "fin_10day_rule": {
+    "n": 23,
+    "share_not_before_signal_close": 0.087
+   }
+  },
+  "pool300_2026-10-12": {
+   "n_pool": 265,
+   "n_in_rev_hist": 265,
+   "missing_in_rev_hist": [],
+   "n_not_before_close": 57,
+   "n_B_ambiguous": 25,
+   "n_C_after": 32,
+   "not_before_close_codes": {
+    "1101": [
+     "水泥工業",
+     "2026-10-12 16:31:18+08:00"
+    ],
+    "1102": [
+     "水泥工業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "1216": [
+     "食品工業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "1301": [
+     "塑膠工業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "1303": [
+     "塑膠工業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "1326": [
+     "塑膠工業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "1402": [
+     "紡織纖維",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "1409": [
+     "紡織纖維",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "1503": [
+     "電機機械",
+     "2026-10-12 16:31:18+08:00"
+    ],
+    "1519": [
+     "電機機械",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "1718": [
+     "化學工業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "1795": [
+     "生技醫療業",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "1802": [
+     "玻璃陶瓷",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "1810": [
+     "玻璃陶瓷",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "2002": [
+     "鋼鐵工業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "2105": [
+     "橡膠工業",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "2308": [
+     "電子零組件業",
+     "2026-10-12 16:31:18+08:00"
+    ],
+    "2312": [
+     "其他電子業",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "2332": [
+     "通信網路業",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "2338": [
+     "半導體業",
+     "2026-10-12 16:31:18+08:00"
+    ],
+    "2371": [
+     "電機機械",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "2399": [
+     "電腦及週邊設備業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "2404": [
+     "其他電子業",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "2406": [
+     "光電業",
+     "2026-10-12 16:31:18+08:00"
+    ],
+    "2412": [
+     "通信網路業",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "2464": [
+     "其他電子業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "2466": [
+     "光電業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "2481": [
+     "半導體業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "2605": [
+     "航運業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "2880": [
+     "金融保險業",
+     "2026-10-14 21:53:47+08:00"
+    ],
+    "2881": [
+     "金融保險業",
+     "2026-10-15 18:09:10+08:00"
+    ],
+    "2882": [
+     "金融保險業",
+     "2026-10-15 18:09:10+08:00"
+    ],
+    "2885": [
+     "金融保險業",
+     "2026-10-15 15:26:13+08:00"
+    ],
+    "2886": [
+     "金融保險業",
+     "2026-10-14 21:53:47+08:00"
+    ],
+    "2887": [
+     "金融保險業",
+     "2026-10-14 21:53:47+08:00"
+    ],
+    "2891": [
+     "金融保險業",
+     "2026-10-15 15:26:13+08:00"
+    ],
+    "2892": [
+     "金融保險業",
+     "2026-10-14 21:53:47+08:00"
+    ],
+    "2912": [
+     "貿易百貨業",
+     "2026-10-12 16:31:18+08:00"
+    ],
+    "3033": [
+     "電子通路業",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "3045": [
+     "通信網路業",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "3481": [
+     "光電業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "3532": [
+     "半導體業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "3702": [
+     "電子通路業",
+     "2026-10-12 16:31:18+08:00"
+    ],
+    "3711": [
+     "半導體業",
+     "2026-10-12 16:31:18+08:00"
+    ],
+    "4551": [
+     "汽車工業",
+     "2026-10-12 16:31:18+08:00"
+    ],
+    "4904": [
+     "通信網路業",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "4916": [
+     "電腦及週邊設備業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "5434": [
+     "電子通路業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "5880": [
+     "金融保險業",
+     "2026-10-14 21:53:47+08:00"
+    ],
+    "6005": [
+     "金融保險業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "6209": [
+     "光電業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "6226": [
+     "光電業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "6472": [
+     "生技醫療業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "6505": [
+     "油電燃氣業",
+     "2026-10-12 15:25:32+08:00"
+    ],
+    "9904": [
+     "運動休閒",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "9914": [
+     "運動休閒",
+     "2026-10-13 03:48:26+08:00"
+    ],
+    "9945": [
+     "其他業",
+     "2026-10-12 15:25:32+08:00"
+    ]
+   },
+   "by_industry": {
+    "水泥工業": {
+     "n": 2,
+     "share_after_10th": 1.0,
+     "share_not_before_signal_close": 1.0,
+     "share_C_certain_after": 0.5
+    },
+    "汽車工業": {
+     "n": 1,
+     "share_after_10th": 1.0,
+     "share_not_before_signal_close": 1.0,
+     "share_C_certain_after": 1.0
+    },
+    "玻璃陶瓷": {
+     "n": 2,
+     "share_after_10th": 1.0,
+     "share_not_before_signal_close": 1.0,
+     "share_C_certain_after": 0.0
+    },
+    "橡膠工業": {
+     "n": 1,
+     "share_after_10th": 1.0,
+     "share_not_before_signal_close": 1.0,
+     "share_C_certain_after": 1.0
+    },
+    "食品工業": {
+     "n": 1,
+     "share_after_10th": 1.0,
+     "share_not_before_signal_close": 1.0,
+     "share_C_certain_after": 0.0
+    },
+    "貿易百貨業": {
+     "n": 1,
+     "share_after_10th": 1.0,
+     "share_not_before_signal_close": 1.0,
+     "share_C_certain_after": 1.0
+    },
+    "塑膠工業": {
+     "n": 4,
+     "share_after_10th": 0.75,
+     "share_not_before_signal_close": 0.75,
+     "share_C_certain_after": 0.0
+    },
+    "運動休閒": {
+     "n": 3,
+     "share_after_10th": 0.667,
+     "share_not_before_signal_close": 0.667,
+     "share_C_certain_after": 0.667
+    },
+    "金融保險業": {
+     "n": 17,
+     "share_after_10th": 0.588,
+     "share_not_before_signal_close": 0.588,
+     "share_C_certain_after": 0.529
+    },
+    "油電燃氣業": {
+     "n": 2,
+     "share_after_10th": 0.5,
+     "share_not_before_signal_close": 0.5,
+     "share_C_certain_after": 0.0
+    },
+    "其他業": {
+     "n": 2,
+     "share_after_10th": 0.5,
+     "share_not_before_signal_close": 0.5,
+     "share_C_certain_after": 0.0
+    },
+    "紡織纖維": {
+     "n": 4,
+     "share_after_10th": 0.5,
+     "share_not_before_signal_close": 0.5,
+     "share_C_certain_after": 0.25
+    },
+    "電子通路業": {
+     "n": 6,
+     "share_after_10th": 0.5,
+     "share_not_before_signal_close": 0.5,
+     "share_C_certain_after": 0.333
+    },
+    "生技醫療業": {
+     "n": 5,
+     "share_after_10th": 0.4,
+     "share_not_before_signal_close": 0.4,
+     "share_C_certain_after": 0.2
+    },
+    "通信網路業": {
+     "n": 14,
+     "share_after_10th": 0.286,
+     "share_not_before_signal_close": 0.286,
+     "share_C_certain_after": 0.286
+    },
+    "電機機械": {
+     "n": 11,
+     "share_after_10th": 0.273,
+     "share_not_before_signal_close": 0.273,
+     "share_C_certain_after": 0.273
+    },
+    "鋼鐵工業": {
+     "n": 4,
+     "share_after_10th": 0.25,
+     "share_not_before_signal_close": 0.25,
+     "share_C_certain_after": 0.0
+    },
+    "光電業": {
+     "n": 21,
+     "share_after_10th": 0.238,
+     "share_not_before_signal_close": 0.238,
+     "share_C_certain_after": 0.048
+    },
+    "其他電子業": {
+     "n": 15,
+     "share_after_10th": 0.2,
+     "share_not_before_signal_close": 0.2,
+     "share_C_certain_after": 0.133
+    },
+    "化學工業": {
+     "n": 10,
+     "share_after_10th": 0.1,
+     "share_not_before_signal_close": 0.1,
+     "share_C_certain_after": 0.0
+    },
+    "航運業": {
+     "n": 11,
+     "share_after_10th": 0.091,
+     "share_not_before_signal_close": 0.091,
+     "share_C_certain_after": 0.0
+    },
+    "電腦及週邊設備業": {
+     "n": 24,
+     "share_after_10th": 0.083,
+     "share_not_before_signal_close": 0.083,
+     "share_C_certain_after": 0.0
+    },
+    "半導體業": {
+     "n": 54,
+     "share_after_10th": 0.074,
+     "share_not_before_signal_close": 0.074,
+     "share_C_certain_after": 0.037
+    },
+    "電子零組件業": {
+     "n": 44,
+     "share_after_10th": 0.023,
+     "share_not_before_signal_close": 0.023,
+     "share_C_certain_after": 0.023
+    },
+    "建材營造業": {
+     "n": 1,
+     "share_after_10th": 0.0,
+     "share_not_before_signal_close": 0.0,
+     "share_C_certain_after": 0.0
+    },
+    "綠能環保": {
+     "n": 2,
+     "share_after_10th": 0.0,
+     "share_not_before_signal_close": 0.0,
+     "share_C_certain_after": 0.0
+    },
+    "資訊服務業": {
+     "n": 2,
+     "share_after_10th": 0.0,
+     "share_not_before_signal_close": 0.0,
+     "share_C_certain_after": 0.0
+    },
+    "電器電纜": {
+     "n": 1,
+     "share_after_10th": 0.0,
+     "share_not_before_signal_close": 0.0,
+     "share_C_certain_after": 0.0
+    }
+   }
+  },
+  "p_delay": {
+   "p_overall_nonfin_non15": 0.1708,
+   "p_by_industry": {
+    "金融保險業": 1.0,
+    "（stock_list 無）": 0.35,
+    "汽車工業": 0.3226,
+    "塑膠工業": 0.3182,
+    "數位雲端": 0.2941,
+    "電器電纜": 0.25,
+    "食品工業": 0.25,
+    "電子通路業": 0.2432,
+    "運動休閒": 0.2381,
+    "文化創意業": 0.2308,
+    "鋼鐵工業": 0.2292,
+    "綠能環保": 0.2162,
+    "電機機械": 0.1978,
+    "化學工業": 0.1951,
+    "居家生活": 0.1923,
+    "觀光餐旅": 0.1915,
+    "航運業": 0.1875,
+    "其他業": 0.1829,
+    "其他電子業": 0.1778,
+    "橡膠工業": 0.1708,
+    "水泥工業": 0.1708,
+    "油電燃氣業": 0.1708,
+    "玻璃陶瓷": 0.1708,
+    "貿易百貨業": 0.1708,
+    "農業科技業": 0.1708,
+    "造紙工業": 0.1708,
+    "電子零組件業": 0.1683,
+    "生技醫療業": 0.1449,
+    "紡織纖維": 0.14,
+    "通信網路業": 0.125,
+    "資訊服務業": 0.1163,
+    "電腦及週邊設備業": 0.1143,
+    "光電業": 0.1071,
+    "建材營造業": 0.0952,
+    "半導體業": 0.0585
+   },
+   "n_by_industry": {
+    "光電業": 112,
+    "其他業": 82,
+    "其他電子業": 90,
+    "化學工業": 41,
+    "半導體業": 188,
+    "塑膠工業": 22,
+    "居家生活": 26,
+    "建材營造業": 84,
+    "數位雲端": 34,
+    "文化創意業": 26,
+    "橡膠工業": 11,
+    "水泥工業": 7,
+    "汽車工業": 31,
+    "油電燃氣業": 12,
+    "玻璃陶瓷": 5,
+    "生技醫療業": 138,
+    "紡織纖維": 50,
+    "綠能環保": 37,
+    "航運業": 32,
+    "觀光餐旅": 47,
+    "貿易百貨業": 12,
+    "資訊服務業": 43,
+    "農業科技業": 4,
+    "通信網路業": 88,
+    "造紙工業": 7,
+    "運動休閒": 21,
+    "鋼鐵工業": 48,
+    "電器電纜": 16,
+    "電子通路業": 37,
+    "電子零組件業": 202,
+    "電機機械": 91,
+    "電腦及週邊設備業": 105,
+    "食品工業": 32,
+    "（stock_list 無）": 40
+   }
+  },
+  "calendar_summary": {
+   "n_months": 246,
+   "case_counts": {
+    "D<S": 154,
+    "D=S": 90,
+    "D>S": 2
+   },
+   "share_D_eq_S": 0.366,
+   "D_eq_S_by_signal_month": {
+    "01": 5,
+    "02": 8,
+    "03": 6,
+    "04": 5,
+    "05": 7,
+    "06": 8,
+    "07": 7,
+    "08": 6,
+    "09": 5,
+    "10": 21,
+    "11": 6,
+    "12": 6
+   },
+   "tenth_weekday_when_D_eq_S": {
+    "Sunday": 35,
+    "Saturday": 33,
+    "Friday": 6,
+    "Wednesday": 5,
+    "Monday": 5,
+    "Tuesday": 3,
+    "Thursday": 3
+   },
+   "P1_2006_2020_share_D_eq_S": 0.356,
+   "P2_2021_2026_share_D_eq_S": 0.391,
+   "ins15_2026": [
+    {
+     "rev_month": "2026-01",
+     "signal_day": "2026-02-11",
+     "D15": "2026-02-23",
+     "ins15_case": "D>S"
+    },
+    {
+     "rev_month": "2026-02",
+     "signal_day": "2026-03-11",
+     "D15": "2026-03-16",
+     "ins15_case": "D>S"
+    },
+    {
+     "rev_month": "2026-03",
+     "signal_day": "2026-04-13",
+     "D15": "2026-04-15",
+     "ins15_case": "D>S"
+    },
+    {
+     "rev_month": "2026-04",
+     "signal_day": "2026-05-11",
+     "D15": "2026-05-15",
+     "ins15_case": "D>S"
+    },
+    {
+     "rev_month": "2026-05",
+     "signal_day": "2026-06-11",
+     "D15": "2026-06-15",
+     "ins15_case": "D>S"
+    },
+    {
+     "rev_month": "2026-06",
+     "signal_day": "2026-07-13",
+     "D15": "2026-07-15",
+     "ins15_case": "D>S"
+    },
+    {
+     "rev_month": "2026-07",
+     "signal_day": "2026-08-11",
+     "D15": "2026-08-17",
+     "ins15_case": "D>S"
+    },
+    {
+     "rev_month": "2026-08",
+     "signal_day": "2026-09-11",
+     "D15": "2026-09-15",
+     "ins15_case": "D>S"
+    },
+    {
+     "rev_month": "2026-09",
+     "signal_day": "2026-10-12",
+     "D15": "2026-10-15",
+     "ins15_case": "D>S"
+    }
+   ]
+  },
+  "bottleneck_history": {
+   "is_shallow": "false",
+   "n_commits_all": 17,
+   "tw_revenue_commits": [
+    {
+     "commit": "ae3126d",
+     "time": "2026-10-17T07:03:20+00:00",
+     "last_month": "2026-09-01",
+     "n_last_month": 1858
+    },
+    {
+     "commit": "d55bec9",
+     "time": "2026-09-23T02:12:17+00:00",
+     "last_month": "2026-08-01",
+     "n_last_month": 1857
+    }
+   ]
+  }
+ }
+}
