@@ -147,9 +147,6 @@ def summarize(X):
             d[rule] = {'gross_ab': stats(gg, f'{rule}_ab'), 'net05_ab': stats(gg, f'{rule}_ab', 0.005), 'net1_ab': stats(gg, f'{rule}_ab', 0.01),
                        'net05_vs0050': stats(gg, f'{rule}_ab50', 0.005), 'raw_net05': stats(gg, f'{rule}_raw', 0.005),
                        'not_fillable': int((~fill.fillna(False).astype(bool)).sum()) if rule != 'R1b' else int((~g['R1_fill'].fillna(False).astype(bool)).sum())}
-                # 分期與逐年（淨 0.5%）
-            for rule2 in ['R1', 'R1b', 'R0', 'R2']:
-                pass
         for rule in ['R1', 'R1b', 'R0', 'R2']:
             if rule not in d: continue
             fillcol = 'R1_fill' if rule == 'R1b' else f'{rule}_fill'

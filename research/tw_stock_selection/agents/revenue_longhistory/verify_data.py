@@ -86,7 +86,7 @@ def main():
     # 5. 2013 IFRS 斷點：上市公司 2013 起申報合併營收（之前為個體）。看 YoY 截面中位數與極端值比例
     med = {}
     for y in range(2006, 2027):
-        v = Y[(Y.index.year == y)].stack()
+        v = Y[(Y.index.year == y)].stack().dropna()
         med[y] = {'median_yoy': round(float(v.median()), 1), 'share_abs_gt_100': round(float((v.abs() > 100).mean()), 3), 'n': int(len(v))}
     out['yoy_cross_section_by_year'] = med
     # 年內連續性：同一公司 2012-12 → 2013-01 營收倍數的分布（合併 vs 個體）
