@@ -1,0 +1,1751 @@
+{
+ "PREREG": {
+  "寫於看結果前": true,
+  "來源規則": "玩股網 blog/203664/post/162、CMoney note 872197、鉅亨 hao post/200578：本益比河流圖跌到下緣（低本益比區）且獲利沒有衰退時買進，回到中軌（中位數）賣出。",
+  "資料": "pe_5y.csv.gz（每月第一個交易日的 TWSE/TPEx 本益比，2021-09～2026-10，共 62 個月；PE 以當日收盤計算——已用 close_raw/PE 檢查，當日收盤版本月間比值穩定）。虧損股 PE 為空值，視為非正。",
+  "可測範圍": "價格面板只有上市股；上櫃日 K 只有 2025-09-24 起（history.csv.gz），無法涵蓋 2023-09 起的訊號 → 只測上市，上櫃從缺（偏離規則，FINDINGS 註明）。",
+  "訊號月 m 與訊號日 d": "d = pe_5y 該月日期（每月第一個交易日），d 收盤後才知道 PE → d+1 開盤成交。",
+  "股池（同池等權也用它）": "面板上市股、排除 91xx 存託憑證；d 收盤 60 日均成交值 ≥ NT$1,000 萬（mlib.V60，剔除稀疏日後滾動）且收盤 ≥ 10 元；PE(m−11..m) 12 個月都 > 0；PE(m−24..m−1) 24 個月都 > 0（百分位窗口完整）；d+1 有開盤價。不設前 300 名、不設處置濾網（教學沒有）。",
+  "剔除景氣循環（主版本）": {
+   "航運": "stock_list industry = 航運業（不在名單者代碼 26xx）",
+   "鋼鐵": "industry = 鋼鐵工業（不在名單者代碼 20xx）",
+   "記憶體（固定名單）": [
+    "2408",
+    "2344",
+    "2337",
+    "3006",
+    "8271",
+    "4967",
+    "2451",
+    "3260",
+    "8299",
+    "5351",
+    "6531",
+    "4973"
+   ],
+   "面板（固定名單）": [
+    "2409",
+    "3481",
+    "6116",
+    "8105",
+    "3049",
+    "2475"
+   ],
+   "另報": "不剔除版（股池與同池等權都不剔除）"
+  },
+  "進場條件（月 m）": [
+   "PE(m) ≤ PE(m−24..m−1) 的第 20 百分位（numpy linear 內插）",
+   "EPS_ttm(m) = close(d_m)/PE(m) ≥ EPS_ttm(m−12) = close(d_{m−12})/PE(m−12)",
+   "在股池內"
+  ],
+  "出場條件（月 m 檢查，d+1 開盤賣）": [
+   "PE(m) ≥ PE(m−24..m−1) 中位數（窗口內正 PE 的 nanmedian，至少 12 個值；PE 為空＝虧損時不觸發此條）",
+   "或持有滿 12 個月（進場月 m0，m ≥ m0+12）"
+  ],
+  "其他細節": [
+   "出場與進場同月判斷：先出場，若當月又符合進場條件則視為重新進場（不交易、12 個月計時重來）；持有中再次符合進場條件不重設計時。",
+   "持有股掉出股池（流動性、PE 轉負）不強制出場，只依規則出場。",
+   "d+1 開盤漲停（mlib.GAP_UP，含息跳空 ≥ 漲停 −0.6%）的新進場股視為買不到、不遞補（規則全買，無排名可遞補），訊號作廢；已持有者續抱。",
+   "2024-01、2024-02 的 d+1 不在價格面板（2024-01-02～2024-02-14 缺漏）→ 這兩個月不換股（訊號作廢、出場延到 2024-03），持有計時照算。",
+   "停牌／下市：沿用 exlib 以最後成交價計，下次換股時以該價賣出。"
+  ],
+  "權重": "每個換股日 d+1 開盤把組合調回「所有在場持股等權」（漂移後權重計周轉）；無持股時放現金（報酬 0）。",
+  "成本": "exlib.cost_rates：買 0.0855%+滑價、賣 0.0855%+稅 0.3%+滑價；主 = 滑價 0.1%（來回約 0.67%）；壓力 = 買 0.5%+賣 0.5%（來回 1%）；另報未扣成本。",
+  "對手": "0050 含息（日頻）；同池等權 = 同股池全部等權、同引擎、d+1 開盤換股、不扣成本；事件基準「上市等權」= 面板上市股（排除 91xx）中 d 收盤 60 日均值 ≥ 1,000 萬且 ≥ 10 元、d+1 有開盤的全部股票等權（不要求 PE），每月 d+1 開盤調整。",
+  "統計（組合）": "日頻 NAV：年化、日頻最大回撤、逐年；t = 訊號日 d 收盤→下一 d 收盤月窗超額（每月一個觀察值）對 0050 與同池等權。",
+  "統計（事件）": "每筆（股票, 進場月）d+1 開盤→出場 d+1 開盤（未出場者算到 2026-10-22 收盤，標記未結束）報酬扣主成本，減同期上市等權（換股日開盤淨值）報酬；按進場月份平均後算 t（持有期重疊，t 偏樂觀，僅供參考）。",
+  "期間": {
+   "說明": "24 個月窗口 → 第一個訊號 2023-09；依 BRIEF 2021 起資料切分 2021～2023 挑選、2024～2026 驗證，挑選期實際只剩 2023-09～2023-12（約 4 個月），不具判斷力；驗證期 2024-01～2026-10；另報 2024-01～2025-12、全期 2023-09～2026-10、官方價格段（排除 src3 2024-02-15～2025-09-23）。",
+   "挑選期": [
+    "2023-09-01",
+    "2023-12-31"
+   ],
+   "驗證期": [
+    "2024-01-01",
+    "2026-10-31"
+   ],
+   "另報_2024_2025": [
+    "2024-01-01",
+    "2025-12-31"
+   ],
+   "全期": [
+    "2023-09-01",
+    "2026-10-31"
+   ]
+  },
+  "判定": "主版本（剔除循環、滑價 0.1%）：挑選期與驗證期都「對同池等權月窗 t ≥ 2 且年化 ≥ 0050」→ 可用；只一段過 → 待觀察；否則不可用。因挑選期僅約 4 個月、可測期約 3 年，最佳結論上限為「待觀察」。不剔除版、壓力成本、事件層級只報告、不改判定。",
+  "資料修補（第一次執行後補記，非調參）": "第一次執行發現 2025-01、2025-02 訊號數為 0：EPS(m−12) 需要 2024-01-02、2024-02-01 收盤，但價格面板缺 2024-01-02～2024-02-14。改用前一個有收盤的月份（2023-12-01）推算的 EPS 代替（TWSE PE 在 2023-11-15～2024-03-31 都用同一組至 2023Q3 的四季 EPS，故推算值相同；當月 PE 須 > 0）。其他參數未動。修補前結果另存於 results.json 的 pre_fix_summary。",
+  "資料檢查（事前列出）": [
+   "每月股池檔數、訊號檔數、持有檔數、開盤漲停擋下數",
+   "持有期 flag 3/4/5 與單筆 > 100% 報酬",
+   "src3 段（13:20 近似收盤）在 EPS 推算與 NAV 的影響：報官方段統計",
+   "剔除循環股檔數",
+   "引擎與 exlib.sim_portfolio 比對"
+  ]
+ },
+ "pre_fix_summary_slip0.1": {
+  "ex_cyclical": {
+   "select_2023-09_2023-12": {
+    "CAGR": 0.1415,
+    "vol": 0.099,
+    "maxDD": -0.0616,
+    "years": 0.33,
+    "n_months": 4,
+    "excess_vs_0050_pct_m": -2.04,
+    "t_vs_0050_m": -0.99,
+    "0050_CAGR": 0.2516,
+    "0050_maxDD": -0.0487,
+    "excess_vs_EW_pct_m": -1.38,
+    "t_vs_EW_m": -2.98,
+    "EW_CAGR": 0.2648,
+    "EW_maxDD": -0.0461
+   },
+   "valid_2024-01_2026-10": {
+    "CAGR": 0.1427,
+    "vol": 0.1775,
+    "maxDD": -0.2707,
+    "years": 2.81,
+    "n_months": 31,
+    "excess_vs_0050_pct_m": -3.02,
+    "t_vs_0050_m": -2.95,
+    "0050_CAGR": 0.5448,
+    "0050_maxDD": -0.2748,
+    "excess_vs_EW_pct_m": -0.51,
+    "t_vs_EW_m": -1.26,
+    "EW_CAGR": 0.2018,
+    "EW_maxDD": -0.3029
+   },
+   "y2024_2025": {
+    "CAGR": 0.1012,
+    "vol": 0.1874,
+    "maxDD": -0.2707,
+    "years": 2.01,
+    "n_months": 22,
+    "excess_vs_0050_pct_m": -2.36,
+    "t_vs_0050_m": -2.26,
+    "0050_CAGR": 0.4244,
+    "0050_maxDD": -0.2748,
+    "excess_vs_EW_pct_m": -0.01,
+    "t_vs_EW_m": -0.04,
+    "EW_CAGR": 0.1103,
+    "EW_maxDD": -0.3029
+   }
+  },
+  "incl_cyclical": {
+   "select_2023-09_2023-12": {
+    "CAGR": 0.1583,
+    "vol": 0.0974,
+    "maxDD": -0.0608,
+    "years": 0.33,
+    "n_months": 4,
+    "excess_vs_0050_pct_m": -1.97,
+    "t_vs_0050_m": -0.98,
+    "0050_CAGR": 0.2516,
+    "0050_maxDD": -0.0487,
+    "excess_vs_EW_pct_m": -1.4,
+    "t_vs_EW_m": -2.81,
+    "EW_CAGR": 0.2774,
+    "EW_maxDD": -0.0487
+   },
+   "valid_2024-01_2026-10": {
+    "CAGR": 0.1373,
+    "vol": 0.1774,
+    "maxDD": -0.27,
+    "years": 2.81,
+    "n_months": 31,
+    "excess_vs_0050_pct_m": -3.05,
+    "t_vs_0050_m": -2.95,
+    "0050_CAGR": 0.5448,
+    "0050_maxDD": -0.2748,
+    "excess_vs_EW_pct_m": -0.52,
+    "t_vs_EW_m": -1.31,
+    "EW_CAGR": 0.2005,
+    "EW_maxDD": -0.2999
+   },
+   "y2024_2025": {
+    "CAGR": 0.0977,
+    "vol": 0.1876,
+    "maxDD": -0.27,
+    "years": 2.01,
+    "n_months": 22,
+    "excess_vs_0050_pct_m": -2.38,
+    "t_vs_0050_m": -2.27,
+    "0050_CAGR": 0.4244,
+    "0050_maxDD": -0.2748,
+    "excess_vs_EW_pct_m": -0.03,
+    "t_vs_EW_m": -0.11,
+    "EW_CAGR": 0.1098,
+    "EW_maxDD": -0.2999
+   }
+  }
+ },
+ "engine_check_max_abs_diff": 0.0,
+ "ex_cyclical": {
+  "diag_monthly": [
+   {
+    "d": "2023-09-01",
+    "pool": 439,
+    "signals": 67,
+    "new": 67,
+    "exits": 0,
+    "held": 67,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2023-10-02",
+    "pool": 425,
+    "signals": 68,
+    "new": 10,
+    "exits": 1,
+    "held": 76,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2023-11-01",
+    "pool": 406,
+    "signals": 71,
+    "new": 14,
+    "exits": 0,
+    "held": 90,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2023-12-01",
+    "pool": 397,
+    "signals": 42,
+    "new": 8,
+    "exits": 24,
+    "held": 74,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-03-01",
+    "pool": 404,
+    "signals": 31,
+    "new": 4,
+    "exits": 13,
+    "held": 65,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-04-01",
+    "pool": 442,
+    "signals": 20,
+    "new": 5,
+    "exits": 25,
+    "held": 45,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-05-02",
+    "pool": 456,
+    "signals": 21,
+    "new": 4,
+    "exits": 5,
+    "held": 44,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-06-03",
+    "pool": 465,
+    "signals": 32,
+    "new": 12,
+    "exits": 7,
+    "held": 49,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-07-01",
+    "pool": 502,
+    "signals": 35,
+    "new": 6,
+    "exits": 2,
+    "held": 53,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-08-01",
+    "pool": 494,
+    "signals": 44,
+    "new": 11,
+    "exits": 3,
+    "held": 61,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-09-02",
+    "pool": 493,
+    "signals": 56,
+    "new": 24,
+    "exits": 13,
+    "held": 72,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-10-01",
+    "pool": 489,
+    "signals": 62,
+    "new": 14,
+    "exits": 2,
+    "held": 84,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-11-01",
+    "pool": 467,
+    "signals": 61,
+    "new": 10,
+    "exits": 7,
+    "held": 87,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-12-02",
+    "pool": 448,
+    "signals": 66,
+    "new": 25,
+    "exits": 13,
+    "held": 99,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-01-02",
+    "pool": 437,
+    "signals": 65,
+    "new": 9,
+    "exits": 2,
+    "held": 106,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-02-03",
+    "pool": 429,
+    "signals": 77,
+    "new": 19,
+    "exits": 5,
+    "held": 120,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-03-03",
+    "pool": 429,
+    "signals": 58,
+    "new": 12,
+    "exits": 10,
+    "held": 122,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-04-01",
+    "pool": 437,
+    "signals": 145,
+    "new": 71,
+    "exits": 10,
+    "held": 183,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-05-02",
+    "pool": 445,
+    "signals": 172,
+    "new": 34,
+    "exits": 2,
+    "held": 215,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-06-02",
+    "pool": 514,
+    "signals": 164,
+    "new": 36,
+    "exits": 25,
+    "held": 226,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-07-01",
+    "pool": 534,
+    "signals": 172,
+    "new": 25,
+    "exits": 12,
+    "held": 239,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-08-01",
+    "pool": 525,
+    "signals": 167,
+    "new": 21,
+    "exits": 22,
+    "held": 238,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-09-01",
+    "pool": 474,
+    "signals": 75,
+    "new": 12,
+    "exits": 74,
+    "held": 176,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-10-01",
+    "pool": 400,
+    "signals": 60,
+    "new": 8,
+    "exits": 14,
+    "held": 170,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-11-03",
+    "pool": 413,
+    "signals": 67,
+    "new": 10,
+    "exits": 16,
+    "held": 164,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-12-01",
+    "pool": 409,
+    "signals": 92,
+    "new": 40,
+    "exits": 33,
+    "held": 171,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-01-02",
+    "pool": 407,
+    "signals": 91,
+    "new": 9,
+    "exits": 9,
+    "held": 171,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-02-02",
+    "pool": 410,
+    "signals": 79,
+    "new": 9,
+    "exits": 16,
+    "held": 164,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-03-02",
+    "pool": 408,
+    "signals": 61,
+    "new": 6,
+    "exits": 21,
+    "held": 149,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-04-01",
+    "pool": 427,
+    "signals": 92,
+    "new": 32,
+    "exits": 36,
+    "held": 145,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-05-04",
+    "pool": 427,
+    "signals": 70,
+    "new": 9,
+    "exits": 22,
+    "held": 132,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-06-01",
+    "pool": 440,
+    "signals": 74,
+    "new": 20,
+    "exits": 41,
+    "held": 111,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-07-01",
+    "pool": 462,
+    "signals": 85,
+    "new": 13,
+    "exits": 9,
+    "held": 115,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-08-03",
+    "pool": 460,
+    "signals": 107,
+    "new": 21,
+    "exits": 10,
+    "held": 126,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-09-01",
+    "pool": 450,
+    "signals": 166,
+    "new": 79,
+    "exits": 13,
+    "held": 192,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-10-08",
+    "pool": 426,
+    "signals": 152,
+    "new": 8,
+    "exits": 9,
+    "held": 191,
+    "gap_blocked": 0
+   }
+  ],
+  "cost_gross": {
+   "turnover_per_rebalance": 0.185,
+   "windows": {
+    "select_2023-09_2023-12": {
+     "CAGR": 0.1613,
+     "vol": 0.0992,
+     "maxDD": -0.0608,
+     "years": 0.33,
+     "n_months": 4,
+     "excess_vs_0050_pct_m": -1.9,
+     "t_vs_0050_m": -0.92,
+     "0050_CAGR": 0.2516,
+     "0050_maxDD": -0.0487,
+     "excess_vs_EW_pct_m": -1.24,
+     "t_vs_EW_m": -2.73,
+     "EW_CAGR": 0.2648,
+     "EW_maxDD": -0.0461
+    },
+    "valid_2024-01_2026-10": {
+     "CAGR": 0.1581,
+     "vol": 0.1771,
+     "maxDD": -0.2674,
+     "years": 2.81,
+     "n_months": 31,
+     "excess_vs_0050_pct_m": -2.9,
+     "t_vs_0050_m": -2.85,
+     "0050_CAGR": 0.5448,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.39,
+     "t_vs_EW_m": -0.98,
+     "EW_CAGR": 0.2018,
+     "EW_maxDD": -0.3029
+    },
+    "y2024_2025": {
+     "CAGR": 0.1137,
+     "vol": 0.1869,
+     "maxDD": -0.2674,
+     "years": 2.01,
+     "n_months": 22,
+     "excess_vs_0050_pct_m": -2.26,
+     "t_vs_0050_m": -2.17,
+     "0050_CAGR": 0.4244,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": 0.09,
+     "t_vs_EW_m": 0.36,
+     "EW_CAGR": 0.1103,
+     "EW_maxDD": -0.3029
+    },
+    "full_2023-09_2026-10": {
+     "CAGR": 0.1584,
+     "vol": 0.1702,
+     "maxDD": -0.2674,
+     "years": 3.14,
+     "n_months": 35,
+     "excess_vs_0050_pct_m": -2.78,
+     "t_vs_0050_m": -3.01,
+     "0050_CAGR": 0.5114,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.49,
+     "t_vs_EW_m": -1.35,
+     "EW_CAGR": 0.2082,
+     "EW_maxDD": -0.3029
+    },
+    "official_2025-09-24_2026-10": {
+     "CAGR": 0.2142,
+     "vol": 0.1406,
+     "maxDD": -0.0781,
+     "years": 1.08,
+     "n_months": 12,
+     "excess_vs_0050_pct_m": -4.5,
+     "t_vs_0050_m": -2.23,
+     "0050_CAGR": 0.7922,
+     "0050_maxDD": -0.1539,
+     "excess_vs_EW_pct_m": -1.22,
+     "t_vs_EW_m": -1.31,
+     "EW_CAGR": 0.3338,
+     "EW_maxDD": -0.1523
+    }
+   },
+   "yearly_pct": {
+    "2023": 5.0,
+    "2024": 14.4,
+    "2025": 8.5,
+    "2026": 21.8
+   }
+  },
+  "cost_0.001": {
+   "turnover_per_rebalance": 0.185,
+   "windows": {
+    "select_2023-09_2023-12": {
+     "CAGR": 0.1415,
+     "vol": 0.099,
+     "maxDD": -0.0616,
+     "years": 0.33,
+     "n_months": 4,
+     "excess_vs_0050_pct_m": -2.04,
+     "t_vs_0050_m": -0.99,
+     "0050_CAGR": 0.2516,
+     "0050_maxDD": -0.0487,
+     "excess_vs_EW_pct_m": -1.38,
+     "t_vs_EW_m": -2.98,
+     "EW_CAGR": 0.2648,
+     "EW_maxDD": -0.0461
+    },
+    "valid_2024-01_2026-10": {
+     "CAGR": 0.1418,
+     "vol": 0.1772,
+     "maxDD": -0.2699,
+     "years": 2.81,
+     "n_months": 31,
+     "excess_vs_0050_pct_m": -3.03,
+     "t_vs_0050_m": -2.97,
+     "0050_CAGR": 0.5448,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.52,
+     "t_vs_EW_m": -1.29,
+     "EW_CAGR": 0.2018,
+     "EW_maxDD": -0.3029
+    },
+    "y2024_2025": {
+     "CAGR": 0.0985,
+     "vol": 0.187,
+     "maxDD": -0.2699,
+     "years": 2.01,
+     "n_months": 22,
+     "excess_vs_0050_pct_m": -2.39,
+     "t_vs_0050_m": -2.29,
+     "0050_CAGR": 0.4244,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.03,
+     "t_vs_EW_m": -0.14,
+     "EW_CAGR": 0.1103,
+     "EW_maxDD": -0.3029
+    },
+    "full_2023-09_2026-10": {
+     "CAGR": 0.1418,
+     "vol": 0.1703,
+     "maxDD": -0.2699,
+     "years": 3.14,
+     "n_months": 35,
+     "excess_vs_0050_pct_m": -2.91,
+     "t_vs_0050_m": -3.15,
+     "0050_CAGR": 0.5114,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.62,
+     "t_vs_EW_m": -1.7,
+     "EW_CAGR": 0.2082,
+     "EW_maxDD": -0.3029
+    },
+    "official_2025-09-24_2026-10": {
+     "CAGR": 0.1973,
+     "vol": 0.1406,
+     "maxDD": -0.0781,
+     "years": 1.08,
+     "n_months": 12,
+     "excess_vs_0050_pct_m": -4.63,
+     "t_vs_0050_m": -2.29,
+     "0050_CAGR": 0.7922,
+     "0050_maxDD": -0.1539,
+     "excess_vs_EW_pct_m": -1.34,
+     "t_vs_EW_m": -1.43,
+     "EW_CAGR": 0.3338,
+     "EW_maxDD": -0.1523
+    }
+   },
+   "yearly_pct": {
+    "2023": 4.4,
+    "2024": 12.8,
+    "2025": 7.0,
+    "2026": 20.3
+   }
+  },
+  "cost_stress": {
+   "turnover_per_rebalance": 0.186,
+   "windows": {
+    "select_2023-09_2023-12": {
+     "CAGR": 0.1242,
+     "vol": 0.0991,
+     "maxDD": -0.062,
+     "years": 0.33,
+     "n_months": 4,
+     "excess_vs_0050_pct_m": -2.17,
+     "t_vs_0050_m": -1.07,
+     "0050_CAGR": 0.2516,
+     "0050_maxDD": -0.0487,
+     "excess_vs_EW_pct_m": -1.51,
+     "t_vs_EW_m": -3.4,
+     "EW_CAGR": 0.2648,
+     "EW_maxDD": -0.0461
+    },
+    "valid_2024-01_2026-10": {
+     "CAGR": 0.134,
+     "vol": 0.1773,
+     "maxDD": -0.2711,
+     "years": 2.81,
+     "n_months": 31,
+     "excess_vs_0050_pct_m": -3.09,
+     "t_vs_0050_m": -3.03,
+     "0050_CAGR": 0.5448,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.58,
+     "t_vs_EW_m": -1.44,
+     "EW_CAGR": 0.2018,
+     "EW_maxDD": -0.3029
+    },
+    "y2024_2025": {
+     "CAGR": 0.0912,
+     "vol": 0.1871,
+     "maxDD": -0.2711,
+     "years": 2.01,
+     "n_months": 22,
+     "excess_vs_0050_pct_m": -2.45,
+     "t_vs_0050_m": -2.35,
+     "0050_CAGR": 0.4244,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.1,
+     "t_vs_EW_m": -0.38,
+     "EW_CAGR": 0.1103,
+     "EW_maxDD": -0.3029
+    },
+    "full_2023-09_2026-10": {
+     "CAGR": 0.133,
+     "vol": 0.1704,
+     "maxDD": -0.2711,
+     "years": 3.14,
+     "n_months": 35,
+     "excess_vs_0050_pct_m": -2.98,
+     "t_vs_0050_m": -3.23,
+     "0050_CAGR": 0.5114,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.69,
+     "t_vs_EW_m": -1.89,
+     "EW_CAGR": 0.2082,
+     "EW_maxDD": -0.3029
+    },
+    "official_2025-09-24_2026-10": {
+     "CAGR": 0.1892,
+     "vol": 0.1407,
+     "maxDD": -0.0781,
+     "years": 1.08,
+     "n_months": 12,
+     "excess_vs_0050_pct_m": -4.69,
+     "t_vs_0050_m": -2.31,
+     "0050_CAGR": 0.7922,
+     "0050_maxDD": -0.1539,
+     "excess_vs_EW_pct_m": -1.41,
+     "t_vs_EW_m": -1.49,
+     "EW_CAGR": 0.3338,
+     "EW_maxDD": -0.1523
+    }
+   },
+   "yearly_pct": {
+    "2023": 3.9,
+    "2024": 12.1,
+    "2025": 6.3,
+    "2026": 19.6
+   }
+  },
+  "same_pool_EW": {
+   "yearly_pct": {
+    "2023": 8.0,
+    "2024": 18.9,
+    "2025": 3.7,
+    "2026": 36.0
+   },
+   "windows": {
+    "select_2023-09_2023-12": {
+     "CAGR": 0.2648,
+     "vol": 0.1064,
+     "maxDD": -0.0461,
+     "years": 0.33,
+     "n_months": 4,
+     "excess_vs_0050_pct_m": -0.66,
+     "t_vs_0050_m": -0.4,
+     "0050_CAGR": 0.2516,
+     "0050_maxDD": -0.0487
+    },
+    "valid_2024-01_2026-10": {
+     "CAGR": 0.2018,
+     "vol": 0.2097,
+     "maxDD": -0.3029,
+     "years": 2.81,
+     "n_months": 31,
+     "excess_vs_0050_pct_m": -2.5,
+     "t_vs_0050_m": -3.07,
+     "0050_CAGR": 0.5448,
+     "0050_maxDD": -0.2748
+    },
+    "y2024_2025": {
+     "CAGR": 0.1103,
+     "vol": 0.2054,
+     "maxDD": -0.3029,
+     "years": 2.01,
+     "n_months": 22,
+     "excess_vs_0050_pct_m": -2.35,
+     "t_vs_0050_m": -2.49,
+     "0050_CAGR": 0.4244,
+     "0050_maxDD": -0.2748
+    },
+    "full_2023-09_2026-10": {
+     "CAGR": 0.2082,
+     "vol": 0.2008,
+     "maxDD": -0.3029,
+     "years": 3.14,
+     "n_months": 35,
+     "excess_vs_0050_pct_m": -2.29,
+     "t_vs_0050_m": -3.07,
+     "0050_CAGR": 0.5114,
+     "0050_maxDD": -0.2748
+    },
+    "official_2025-09-24_2026-10": {
+     "CAGR": 0.3338,
+     "vol": 0.202,
+     "maxDD": -0.1523,
+     "years": 1.08,
+     "n_months": 12,
+     "excess_vs_0050_pct_m": -3.28,
+     "t_vs_0050_m": -2.3,
+     "0050_CAGR": 0.7922,
+     "0050_maxDD": -0.1539
+    }
+   }
+  },
+  "events": {
+   "all": {
+    "n_events": 717,
+    "n_entry_months": 36,
+    "mean_net_pct": 7.27,
+    "median_net_pct": 2.06,
+    "mean_abn_vs_TWSE_EW_pct": -3.94,
+    "hit_abn": 0.384,
+    "mean_abn_by_month_pct": -2.73,
+    "t_abn_month_cluster": -1.82,
+    "mean_hold_days": 129.4,
+    "exit_reasons": {
+     "pe_med": 395,
+     "open_end": 191,
+     "hold12": 97,
+     "reentry12": 34
+    },
+    "open_end": 191
+   },
+   "entry_2023": {
+    "n_events": 99,
+    "n_entry_months": 4,
+    "mean_net_pct": 12.26,
+    "median_net_pct": 8.17,
+    "mean_abn_vs_TWSE_EW_pct": -3.64,
+    "hit_abn": 0.364,
+    "mean_abn_by_month_pct": -4.48,
+    "t_abn_month_cluster": -2.88,
+    "mean_hold_days": 121.6,
+    "exit_reasons": {
+     "pe_med": 80,
+     "hold12": 11,
+     "reentry12": 8
+    },
+    "open_end": 0
+   },
+   "entry_2024_2026": {
+    "n_events": 618,
+    "n_entry_months": 32,
+    "mean_net_pct": 6.48,
+    "median_net_pct": 0.79,
+    "mean_abn_vs_TWSE_EW_pct": -3.98,
+    "hit_abn": 0.387,
+    "mean_abn_by_month_pct": -2.51,
+    "t_abn_month_cluster": -1.5,
+    "mean_hold_days": 130.6,
+    "exit_reasons": {
+     "pe_med": 315,
+     "open_end": 191,
+     "hold12": 86,
+     "reentry12": 26
+    },
+    "open_end": 191
+   },
+   "entry_2024_2025": {
+    "n_events": 412,
+    "n_entry_months": 22,
+    "mean_net_pct": 6.85,
+    "median_net_pct": 0.48,
+    "mean_abn_vs_TWSE_EW_pct": -4.79,
+    "hit_abn": 0.408,
+    "mean_abn_by_month_pct": -2.85,
+    "t_abn_month_cluster": -1.23,
+    "mean_hold_days": 163.3,
+    "exit_reasons": {
+     "pe_med": 277,
+     "hold12": 86,
+     "reentry12": 26,
+     "open_end": 23
+    },
+    "open_end": 23
+   },
+   "n_flag345": 82,
+   "n_gross_gt_100pct": 12,
+   "top5_gross": [
+    {
+     "code": "6658",
+     "entry_d": "2025-12-01",
+     "exit_d": "2026-05-04",
+     "gross": 1.98,
+     "flag345": false
+    },
+    {
+     "code": "6861",
+     "entry_d": "2025-06-02",
+     "exit_d": "2026-03-02",
+     "gross": 1.696,
+     "flag345": false
+    },
+    {
+     "code": "6449",
+     "entry_d": "2026-04-01",
+     "exit_d": "2026-06-01",
+     "gross": 1.645,
+     "flag345": false
+    },
+    {
+     "code": "2501",
+     "entry_d": "2023-09-01",
+     "exit_d": "2024-05-02",
+     "gross": 1.59,
+     "flag345": true
+    },
+    {
+     "code": "6933",
+     "entry_d": "2025-12-01",
+     "exit_d": "2026-10-08",
+     "gross": 1.365,
+     "flag345": false
+    }
+   ],
+   "industry_mix_top10": {
+    "電腦及週邊設備業": 73,
+    "電子零組件業": 69,
+    "金融保險業": 55,
+    "半導體業": 51,
+    "建材營造業": 46,
+    "電機機械": 37,
+    "生技醫療業": 36,
+    "其他業": 33,
+    "通信網路業": 30,
+    "汽車工業": 28
+   }
+  }
+ },
+ "incl_cyclical": {
+  "diag_monthly": [
+   {
+    "d": "2023-09-01",
+    "pool": 470,
+    "signals": 70,
+    "new": 70,
+    "exits": 0,
+    "held": 70,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2023-10-02",
+    "pool": 456,
+    "signals": 71,
+    "new": 10,
+    "exits": 1,
+    "held": 79,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2023-11-01",
+    "pool": 435,
+    "signals": 75,
+    "new": 15,
+    "exits": 0,
+    "held": 94,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2023-12-01",
+    "pool": 421,
+    "signals": 44,
+    "new": 8,
+    "exits": 24,
+    "held": 78,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-03-01",
+    "pool": 433,
+    "signals": 33,
+    "new": 4,
+    "exits": 15,
+    "held": 67,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-04-01",
+    "pool": 474,
+    "signals": 23,
+    "new": 7,
+    "exits": 25,
+    "held": 49,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-05-02",
+    "pool": 488,
+    "signals": 24,
+    "new": 4,
+    "exits": 6,
+    "held": 47,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-06-03",
+    "pool": 497,
+    "signals": 36,
+    "new": 13,
+    "exits": 7,
+    "held": 53,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-07-01",
+    "pool": 535,
+    "signals": 39,
+    "new": 6,
+    "exits": 2,
+    "held": 57,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-08-01",
+    "pool": 526,
+    "signals": 50,
+    "new": 13,
+    "exits": 3,
+    "held": 67,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-09-02",
+    "pool": 522,
+    "signals": 64,
+    "new": 27,
+    "exits": 14,
+    "held": 80,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-10-01",
+    "pool": 519,
+    "signals": 70,
+    "new": 14,
+    "exits": 2,
+    "held": 92,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-11-01",
+    "pool": 500,
+    "signals": 70,
+    "new": 11,
+    "exits": 7,
+    "held": 96,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2024-12-02",
+    "pool": 478,
+    "signals": 73,
+    "new": 26,
+    "exits": 13,
+    "held": 109,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-01-02",
+    "pool": 465,
+    "signals": 72,
+    "new": 10,
+    "exits": 3,
+    "held": 116,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-02-03",
+    "pool": 458,
+    "signals": 84,
+    "new": 20,
+    "exits": 5,
+    "held": 131,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-03-03",
+    "pool": 457,
+    "signals": 63,
+    "new": 13,
+    "exits": 13,
+    "held": 131,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-04-01",
+    "pool": 468,
+    "signals": 152,
+    "new": 73,
+    "exits": 12,
+    "held": 192,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-05-02",
+    "pool": 476,
+    "signals": 181,
+    "new": 35,
+    "exits": 2,
+    "held": 225,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-06-02",
+    "pool": 550,
+    "signals": 168,
+    "new": 36,
+    "exits": 28,
+    "held": 233,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-07-01",
+    "pool": 570,
+    "signals": 178,
+    "new": 26,
+    "exits": 12,
+    "held": 247,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-08-01",
+    "pool": 560,
+    "signals": 174,
+    "new": 24,
+    "exits": 24,
+    "held": 247,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-09-01",
+    "pool": 506,
+    "signals": 82,
+    "new": 15,
+    "exits": 77,
+    "held": 185,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-10-01",
+    "pool": 426,
+    "signals": 66,
+    "new": 8,
+    "exits": 14,
+    "held": 179,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-11-03",
+    "pool": 439,
+    "signals": 71,
+    "new": 10,
+    "exits": 18,
+    "held": 171,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2025-12-01",
+    "pool": 437,
+    "signals": 97,
+    "new": 44,
+    "exits": 36,
+    "held": 179,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-01-02",
+    "pool": 436,
+    "signals": 97,
+    "new": 10,
+    "exits": 9,
+    "held": 180,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-02-02",
+    "pool": 439,
+    "signals": 83,
+    "new": 9,
+    "exits": 16,
+    "held": 173,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-03-02",
+    "pool": 437,
+    "signals": 64,
+    "new": 6,
+    "exits": 22,
+    "held": 157,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-04-01",
+    "pool": 458,
+    "signals": 98,
+    "new": 34,
+    "exits": 38,
+    "held": 153,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-05-04",
+    "pool": 458,
+    "signals": 77,
+    "new": 11,
+    "exits": 22,
+    "held": 142,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-06-01",
+    "pool": 473,
+    "signals": 87,
+    "new": 25,
+    "exits": 41,
+    "held": 126,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-07-01",
+    "pool": 494,
+    "signals": 94,
+    "new": 13,
+    "exits": 10,
+    "held": 129,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-08-03",
+    "pool": 491,
+    "signals": 118,
+    "new": 23,
+    "exits": 12,
+    "held": 140,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-09-01",
+    "pool": 483,
+    "signals": 180,
+    "new": 84,
+    "exits": 15,
+    "held": 209,
+    "gap_blocked": 0
+   },
+   {
+    "d": "2026-10-08",
+    "pool": 462,
+    "signals": 168,
+    "new": 8,
+    "exits": 9,
+    "held": 208,
+    "gap_blocked": 0
+   }
+  ],
+  "cost_gross": {
+   "turnover_per_rebalance": 0.183,
+   "windows": {
+    "select_2023-09_2023-12": {
+     "CAGR": 0.1781,
+     "vol": 0.0977,
+     "maxDD": -0.06,
+     "years": 0.33,
+     "n_months": 4,
+     "excess_vs_0050_pct_m": -1.83,
+     "t_vs_0050_m": -0.91,
+     "0050_CAGR": 0.2516,
+     "0050_maxDD": -0.0487,
+     "excess_vs_EW_pct_m": -1.26,
+     "t_vs_EW_m": -2.58,
+     "EW_CAGR": 0.2774,
+     "EW_maxDD": -0.0487
+    },
+    "valid_2024-01_2026-10": {
+     "CAGR": 0.1528,
+     "vol": 0.177,
+     "maxDD": -0.2667,
+     "years": 2.81,
+     "n_months": 31,
+     "excess_vs_0050_pct_m": -2.93,
+     "t_vs_0050_m": -2.85,
+     "0050_CAGR": 0.5448,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.4,
+     "t_vs_EW_m": -1.01,
+     "EW_CAGR": 0.2005,
+     "EW_maxDD": -0.2999
+    },
+    "y2024_2025": {
+     "CAGR": 0.1108,
+     "vol": 0.187,
+     "maxDD": -0.2667,
+     "years": 2.01,
+     "n_months": 22,
+     "excess_vs_0050_pct_m": -2.28,
+     "t_vs_0050_m": -2.17,
+     "0050_CAGR": 0.4244,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": 0.08,
+     "t_vs_EW_m": 0.32,
+     "EW_CAGR": 0.1098,
+     "EW_maxDD": -0.2999
+    },
+    "full_2023-09_2026-10": {
+     "CAGR": 0.1554,
+     "vol": 0.17,
+     "maxDD": -0.2667,
+     "years": 3.14,
+     "n_months": 35,
+     "excess_vs_0050_pct_m": -2.8,
+     "t_vs_0050_m": -3.0,
+     "0050_CAGR": 0.5114,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.5,
+     "t_vs_EW_m": -1.4,
+     "EW_CAGR": 0.2083,
+     "EW_maxDD": -0.2999
+    },
+    "official_2025-09-24_2026-10": {
+     "CAGR": 0.2057,
+     "vol": 0.1395,
+     "maxDD": -0.0725,
+     "years": 1.08,
+     "n_months": 12,
+     "excess_vs_0050_pct_m": -4.55,
+     "t_vs_0050_m": -2.23,
+     "0050_CAGR": 0.7922,
+     "0050_maxDD": -0.1539,
+     "excess_vs_EW_pct_m": -1.25,
+     "t_vs_EW_m": -1.37,
+     "EW_CAGR": 0.3355,
+     "EW_maxDD": -0.1458
+    }
+   },
+   "yearly_pct": {
+    "2023": 5.5,
+    "2024": 13.3,
+    "2025": 8.9,
+    "2026": 20.8
+   }
+  },
+  "cost_0.001": {
+   "turnover_per_rebalance": 0.183,
+   "windows": {
+    "select_2023-09_2023-12": {
+     "CAGR": 0.1583,
+     "vol": 0.0974,
+     "maxDD": -0.0608,
+     "years": 0.33,
+     "n_months": 4,
+     "excess_vs_0050_pct_m": -1.97,
+     "t_vs_0050_m": -0.98,
+     "0050_CAGR": 0.2516,
+     "0050_maxDD": -0.0487,
+     "excess_vs_EW_pct_m": -1.4,
+     "t_vs_EW_m": -2.81,
+     "EW_CAGR": 0.2774,
+     "EW_maxDD": -0.0487
+    },
+    "valid_2024-01_2026-10": {
+     "CAGR": 0.1368,
+     "vol": 0.1771,
+     "maxDD": -0.2691,
+     "years": 2.81,
+     "n_months": 31,
+     "excess_vs_0050_pct_m": -3.06,
+     "t_vs_0050_m": -2.96,
+     "0050_CAGR": 0.5448,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.53,
+     "t_vs_EW_m": -1.33,
+     "EW_CAGR": 0.2005,
+     "EW_maxDD": -0.2999
+    },
+    "y2024_2025": {
+     "CAGR": 0.0956,
+     "vol": 0.1871,
+     "maxDD": -0.2691,
+     "years": 2.01,
+     "n_months": 22,
+     "excess_vs_0050_pct_m": -2.4,
+     "t_vs_0050_m": -2.29,
+     "0050_CAGR": 0.4244,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.05,
+     "t_vs_EW_m": -0.18,
+     "EW_CAGR": 0.1098,
+     "EW_maxDD": -0.2999
+    },
+    "full_2023-09_2026-10": {
+     "CAGR": 0.139,
+     "vol": 0.17,
+     "maxDD": -0.2691,
+     "years": 3.14,
+     "n_months": 35,
+     "excess_vs_0050_pct_m": -2.93,
+     "t_vs_0050_m": -3.13,
+     "0050_CAGR": 0.5114,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.63,
+     "t_vs_EW_m": -1.75,
+     "EW_CAGR": 0.2083,
+     "EW_maxDD": -0.2999
+    },
+    "official_2025-09-24_2026-10": {
+     "CAGR": 0.1892,
+     "vol": 0.1396,
+     "maxDD": -0.0725,
+     "years": 1.08,
+     "n_months": 12,
+     "excess_vs_0050_pct_m": -4.68,
+     "t_vs_0050_m": -2.28,
+     "0050_CAGR": 0.7922,
+     "0050_maxDD": -0.1539,
+     "excess_vs_EW_pct_m": -1.37,
+     "t_vs_EW_m": -1.49,
+     "EW_CAGR": 0.3355,
+     "EW_maxDD": -0.1458
+    }
+   },
+   "yearly_pct": {
+    "2023": 4.9,
+    "2024": 11.8,
+    "2025": 7.4,
+    "2026": 19.4
+   }
+  },
+  "cost_stress": {
+   "turnover_per_rebalance": 0.184,
+   "windows": {
+    "select_2023-09_2023-12": {
+     "CAGR": 0.1409,
+     "vol": 0.0975,
+     "maxDD": -0.0612,
+     "years": 0.33,
+     "n_months": 4,
+     "excess_vs_0050_pct_m": -2.09,
+     "t_vs_0050_m": -1.06,
+     "0050_CAGR": 0.2516,
+     "0050_maxDD": -0.0487,
+     "excess_vs_EW_pct_m": -1.53,
+     "t_vs_EW_m": -3.16,
+     "EW_CAGR": 0.2774,
+     "EW_maxDD": -0.0487
+    },
+    "valid_2024-01_2026-10": {
+     "CAGR": 0.129,
+     "vol": 0.1772,
+     "maxDD": -0.2703,
+     "years": 2.81,
+     "n_months": 31,
+     "excess_vs_0050_pct_m": -3.12,
+     "t_vs_0050_m": -3.02,
+     "0050_CAGR": 0.5448,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.59,
+     "t_vs_EW_m": -1.48,
+     "EW_CAGR": 0.2005,
+     "EW_maxDD": -0.2999
+    },
+    "y2024_2025": {
+     "CAGR": 0.0883,
+     "vol": 0.1872,
+     "maxDD": -0.2703,
+     "years": 2.01,
+     "n_months": 22,
+     "excess_vs_0050_pct_m": -2.46,
+     "t_vs_0050_m": -2.34,
+     "0050_CAGR": 0.4244,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.11,
+     "t_vs_EW_m": -0.43,
+     "EW_CAGR": 0.1098,
+     "EW_maxDD": -0.2999
+    },
+    "full_2023-09_2026-10": {
+     "CAGR": 0.1302,
+     "vol": 0.1701,
+     "maxDD": -0.2703,
+     "years": 3.14,
+     "n_months": 35,
+     "excess_vs_0050_pct_m": -3.0,
+     "t_vs_0050_m": -3.21,
+     "0050_CAGR": 0.5114,
+     "0050_maxDD": -0.2748,
+     "excess_vs_EW_pct_m": -0.7,
+     "t_vs_EW_m": -1.93,
+     "EW_CAGR": 0.2083,
+     "EW_maxDD": -0.2999
+    },
+    "official_2025-09-24_2026-10": {
+     "CAGR": 0.1813,
+     "vol": 0.1397,
+     "maxDD": -0.0725,
+     "years": 1.08,
+     "n_months": 12,
+     "excess_vs_0050_pct_m": -4.73,
+     "t_vs_0050_m": -2.31,
+     "0050_CAGR": 0.7922,
+     "0050_maxDD": -0.1539,
+     "excess_vs_EW_pct_m": -1.43,
+     "t_vs_EW_m": -1.55,
+     "EW_CAGR": 0.3355,
+     "EW_maxDD": -0.1458
+    }
+   },
+   "yearly_pct": {
+    "2023": 4.4,
+    "2024": 11.1,
+    "2025": 6.7,
+    "2026": 18.7
+   }
+  },
+  "same_pool_EW": {
+   "yearly_pct": {
+    "2023": 8.3,
+    "2024": 17.9,
+    "2025": 4.6,
+    "2026": 35.7
+   },
+   "windows": {
+    "select_2023-09_2023-12": {
+     "CAGR": 0.2774,
+     "vol": 0.1049,
+     "maxDD": -0.0487,
+     "years": 0.33,
+     "n_months": 4,
+     "excess_vs_0050_pct_m": -0.56,
+     "t_vs_0050_m": -0.35,
+     "0050_CAGR": 0.2516,
+     "0050_maxDD": -0.0487
+    },
+    "valid_2024-01_2026-10": {
+     "CAGR": 0.2005,
+     "vol": 0.2073,
+     "maxDD": -0.2999,
+     "years": 2.81,
+     "n_months": 31,
+     "excess_vs_0050_pct_m": -2.53,
+     "t_vs_0050_m": -3.05,
+     "0050_CAGR": 0.5448,
+     "0050_maxDD": -0.2748
+    },
+    "y2024_2025": {
+     "CAGR": 0.1098,
+     "vol": 0.2038,
+     "maxDD": -0.2999,
+     "years": 2.01,
+     "n_months": 22,
+     "excess_vs_0050_pct_m": -2.36,
+     "t_vs_0050_m": -2.44,
+     "0050_CAGR": 0.4244,
+     "0050_maxDD": -0.2748
+    },
+    "full_2023-09_2026-10": {
+     "CAGR": 0.2083,
+     "vol": 0.1985,
+     "maxDD": -0.2999,
+     "years": 3.14,
+     "n_months": 35,
+     "excess_vs_0050_pct_m": -2.3,
+     "t_vs_0050_m": -3.04,
+     "0050_CAGR": 0.5114,
+     "0050_maxDD": -0.2748
+    },
+    "official_2025-09-24_2026-10": {
+     "CAGR": 0.3355,
+     "vol": 0.1981,
+     "maxDD": -0.1458,
+     "years": 1.08,
+     "n_months": 12,
+     "excess_vs_0050_pct_m": -3.3,
+     "t_vs_0050_m": -2.29,
+     "0050_CAGR": 0.7922,
+     "0050_maxDD": -0.1539
+    }
+   }
+  },
+  "events": {
+   "all": {
+    "n_events": 765,
+    "n_entry_months": 36,
+    "mean_net_pct": 7.08,
+    "median_net_pct": 2.05,
+    "mean_abn_vs_TWSE_EW_pct": -3.93,
+    "hit_abn": 0.382,
+    "mean_abn_by_month_pct": -2.55,
+    "t_abn_month_cluster": -1.7,
+    "mean_hold_days": 129.1,
+    "exit_reasons": {
+     "pe_med": 416,
+     "open_end": 208,
+     "hold12": 102,
+     "reentry12": 39
+    },
+    "open_end": 208
+   },
+   "entry_2023": {
+    "n_events": 103,
+    "n_entry_months": 4,
+    "mean_net_pct": 12.55,
+    "median_net_pct": 8.38,
+    "mean_abn_vs_TWSE_EW_pct": -3.44,
+    "hit_abn": 0.369,
+    "mean_abn_by_month_pct": -4.48,
+    "t_abn_month_cluster": -2.95,
+    "mean_hold_days": 121.8,
+    "exit_reasons": {
+     "pe_med": 83,
+     "hold12": 11,
+     "reentry12": 9
+    },
+    "open_end": 0
+   },
+   "entry_2024_2026": {
+    "n_events": 662,
+    "n_entry_months": 32,
+    "mean_net_pct": 6.23,
+    "median_net_pct": 0.73,
+    "mean_abn_vs_TWSE_EW_pct": -4.01,
+    "hit_abn": 0.384,
+    "mean_abn_by_month_pct": -2.3,
+    "t_abn_month_cluster": -1.37,
+    "mean_hold_days": 130.2,
+    "exit_reasons": {
+     "pe_med": 333,
+     "open_end": 208,
+     "hold12": 91,
+     "reentry12": 30
+    },
+    "open_end": 208
+   },
+   "entry_2024_2025": {
+    "n_events": 439,
+    "n_entry_months": 22,
+    "mean_net_pct": 6.77,
+    "median_net_pct": 0.7,
+    "mean_abn_vs_TWSE_EW_pct": -4.6,
+    "hit_abn": 0.405,
+    "mean_abn_by_month_pct": -2.26,
+    "t_abn_month_cluster": -0.99,
+    "mean_hold_days": 162.6,
+    "exit_reasons": {
+     "pe_med": 294,
+     "hold12": 91,
+     "reentry12": 30,
+     "open_end": 24
+    },
+    "open_end": 24
+   },
+   "n_flag345": 86,
+   "n_gross_gt_100pct": 12,
+   "top5_gross": [
+    {
+     "code": "6658",
+     "entry_d": "2025-12-01",
+     "exit_d": "2026-05-04",
+     "gross": 1.98,
+     "flag345": false
+    },
+    {
+     "code": "6861",
+     "entry_d": "2025-06-02",
+     "exit_d": "2026-03-02",
+     "gross": 1.696,
+     "flag345": false
+    },
+    {
+     "code": "6449",
+     "entry_d": "2026-04-01",
+     "exit_d": "2026-06-01",
+     "gross": 1.645,
+     "flag345": false
+    },
+    {
+     "code": "2501",
+     "entry_d": "2023-09-01",
+     "exit_d": "2024-05-02",
+     "gross": 1.59,
+     "flag345": true
+    },
+    {
+     "code": "6933",
+     "entry_d": "2025-12-01",
+     "exit_d": "2026-10-08",
+     "gross": 1.365,
+     "flag345": false
+    }
+   ],
+   "industry_mix_top10": {
+    "電腦及週邊設備業": 73,
+    "電子零組件業": 69,
+    "半導體業": 55,
+    "金融保險業": 55,
+    "建材營造業": 46,
+    "電機機械": 37,
+    "生技醫療業": 36,
+    "其他業": 33,
+    "通信網路業": 30,
+    "汽車工業": 28
+   }
+  }
+ },
+ "TWSE_EW_market_yearly_pct": {
+  "2023": 7.4,
+  "2024": 11.3,
+  "2025": 3.3,
+  "2026": 34.0
+ },
+ "0050_yearly_pct": {
+  "2023": 7.6,
+  "2024": 48.6,
+  "2025": 36.8,
+  "2026": 67.2
+ },
+ "n_cyclical_codes_in_panel": {
+  "ship": 27,
+  "steel": 31,
+  "memory_panel": 14
+ },
+ "runtime_s": 1.2
+}

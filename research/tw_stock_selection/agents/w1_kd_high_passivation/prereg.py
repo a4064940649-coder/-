@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+"""事前設定（看任何結果前寫入 results.json 的 PREREG；之後不改）。"""
+import json, datetime
+from pathlib import Path
+HERE = Path(__file__).resolve().parent
+PREREG = {
+ 'written_at': datetime.datetime.now().isoformat(timespec='seconds'),
+ 'rule_name': 'KD 高檔鈍化視為強勢買進（羅威派）',
+ 'sources': ['https://www.cmoney.tw/notes/note-detail.aspx?nid=50839', 'https://www.wantgoo.com/blog/67867/post/56',
+             'https://www.wantgoo.com/blog/98845/post/169'],
+ 'type': '事件型（訊號觸發）：主報告＝事件報酬（扣成本、對同池上市等權的異常報酬、t 依進場月份分群）；另報日曆時間組合（所有在場事件等權）',
+ 'data': {
+   'panel': 'scratchpad/panel 上市日線（含已下市；2019–2023 只有存活者）；有值檔數 < 300 的日子（2018-01-13）整列剔除後才做 rolling／KD 遞迴；flag 5 價格視為缺值',
+   'universe': '上市普通股（4 碼、排除 91xx 存託憑證）；t 日 60 日均成交值（上市後停牌日記 0）>= NT$1,000 萬、原始收盤 >= 10 元、t 日 flag ∈ {0,1,2}',
+   'corp_action_filter': 'KD 視窗 [t-9, t] 內有 flag 3/4/5 的訊號剔除',
+   'prices': '一律用還原價：還原收盤 adj；還原開盤/最高 = open/high × adj/close_raw',
+ },
+ 'kd': {
+   'params': 'KD(9,3,3)（台灣看盤軟體預設）',
+   'H9': '9 日（含當日）還原最高價的最大值（真實 high）',
+   'L9': '面板無 low：以 9 日內 min(還原開盤, 還原收盤) 的最小值近似（近似值 >= 真實 L9，會讓 RSV 偏低、訊號偏少）；9 日視窗需 9 筆都有值',
+   'RSV': '(C - L9)/(H9 - L9) × 100；H9 == L9 時 RSV = 50；RSV 截在 [0, 100]',
+   'recursion': 'K = 2/3 K_{t-1} + 1/3 RSV；D = 2/3 D_{t-1} + 1/3 K；第一筆 RSV 時 K_{-1}=D_{-1}=50；RSV 缺值（停牌）日 K/D 沿用前值、該日不算訊號',
+   'warmup': '每檔第 20 筆有效 RSV 之後的 K/D 才可用',
+   'approx_check': '2025-09-24 起用 history.csv.gz 官方 OHLC（含真實 low）在同一份資料上算 KD(真 low) 與 KD(近似 low)，報 K 的平均絕對誤差、K>80 判斷一致率、N=3 事件日的重疊率',
+ },
+ 'signal_v1': {
+   'definition': '鈍化成立日 t：K_t > 80 且 K 已連續 N 個交易日 > 80（連續長度恰好達到 N 的那一天，即第 N 天；之後持續鈍化不重複觸發）；t 在股池內',
+   'N': '主版 N=3（教學定義）；變體 N=5、N=10',
+ },
+ 'signal_v2': {
+   'definition': '教學第二版：先有一段 K>80 連續 >= 3 日的鈍化（起點 ts＝連續段第一天）；鈍化結束日 te＝之後第一個 K <= 80 的日子；'
+                 '在 (te, te+20] 內找第一個 K 黃金交叉 D（K_{s-1} <= D_{s-1} 且 K_s > D_s）的日子 s；'
+                 '若 [ts, s] 期間每日收盤都 >= Lref（Lref＝ts 前 20 個交易日 [ts-20, ts-1] 的最低還原收盤）且 s 在股池內 → 訊號日 s；'
+                 '若 20 日內沒有交叉、或期間跌破 Lref、或在交叉前又出現新一段 >=3 日鈍化 → 該段鈍化不產生訊號（每段鈍化最多一次）',
+   'author_params_fixed': '「20 日內找交叉」為作者設定（教學未給數字），事前固定',
+   'exit': '持有 20 個交易日（e+20 開盤賣），期間 s∈[e, e+19] 若收盤 < MA20（還原）→ s+1 開盤賣（先到者）',
+ },
+ 'execution': {
+   'entry': 't+1 開盤（還原開盤）；t+1 無開盤價、或開盤漲停（開盤/前收−1 >= 漲跌幅−0.6%；2015-06-01 前 7%、之後 10%）→ 買不到、該訊號放棄（不遞補）',
+   'dedupe': '同一檔在持有中（尚未到出場開盤日）出現的新訊號忽略；出場日當天收盤後可再觸發',
+   'exit_A': 's>=e（含進場日收盤）第一個收盤 < MA5（還原）→ s+1 開盤賣；安全上限 e+250 開盤賣',
+   'exit_B': 's>=e 第一個 K_s < 80 → s+1 開盤賣；安全上限 e+250',
+   'exit_C5': '固定 5 日：e+5 開盤賣', 'exit_C20': '固定 20 日：e+20 開盤賣',
+   'exit_price': '出場日有開盤價用開盤；停牌則用之後第一個開盤；已下市用最後收盤（不假設歸零）',
+   'cost': 'exlib.cost_rates：買＝0.1425%×0.6＋滑價 0.1%；賣＝0.1425%×0.6＋稅 0.3%＋滑價 0.1%（來回約 0.67%）；壓力情境 買 0.5%＋賣 0.5%',
+ },
+ 'variants': {
+   'PRIMARY': 'V1 N=3、出場 A（教學：連 3 日 K>80 為鈍化、跌破 5 日線鈍化結束）',
+   'all_reported': 'V1 N∈{3,5,10} × 出場 {A,B,C5,C20} ＝ 12 組＋V2（第二版）1 組，全部報告；V2 另外單獨判定',
+ },
+ 'event_stats': {
+   'raw': '出場價/進場價 − 1（還原）；net＝(1+raw)×(1−賣)/(1+買) − 1',
+   'abnormal_EW': 'net − 同期間（進場開盤→出場開盤）同池等權報酬；同池＝前一日符合股池條件的上市普通股，每日等權、開盤對開盤',
+   'vs_0050': 'net − 0050 含息（t 收盤→出場前一日收盤）',
+   't': '事件先按進場月份平均，再對月平均做 t（btlib.tstat）；t_date 僅供參考',
+ },
+ 'portfolio_stats': '日曆時間組合：每日持有所有在場事件、等權（每日再平衡），進場日報酬＝收/開，出場日＝出場價/前收，進出各按 1/n 權重扣成本；無持股日現金 0 報酬。報年化、日頻最大回撤、對 0050 與同池等權的月超額 t、逐年、曝險天數比例',
+ 'windows': {'select': '2005-01-01~2019-04-30（以訊號日歸屬）', 'valid': '2019-05-01~2026-10-22', 'valid_2024_2025': '2024-01-01~2025-12-31',
+             'valid_ex_src3': '驗證期剔除持有期碰到 src 3（2024-02-15~2025-09-23）的事件（僅事件層）'},
+ 'verdict_rule': '對 PRIMARY（V1 N=3 出場 A）：挑選期與驗證期都要：事件淨異常報酬（對同池等權）> 0 且 t_month >= 2，且日曆組合淨年化 >= 0050 同期年化 → 可用；只有一段過 → 待觀察；否則不可用。其他變體只作穩健性參考，不得用來改判；V2 以相同標準另外判定並報告。',
+ 'known_limits': ['面板無最低價：L9 以 min(open, close) 近似', '2019–2023 面板只有存活者（驗證期偏樂觀）',
+                  '2024-01-02~2024-02-14 無資料（rolling/KD 遞迴跨過此缺口）', 'src 3 期間收盤為 13:20 近似、high 為 5 分 K 近似',
+                  '出場開盤若跌停鎖死實際可能賣不到，未模擬'],
+}
+if __name__ == '__main__':
+    f = HERE / 'results.json'
+    d = json.loads(f.read_text(encoding='utf-8')) if f.exists() else {}
+    assert 'PREREG' not in d, 'PREREG 已存在，不覆寫'
+    d = {'PREREG': PREREG, **d}
+    f.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding='utf-8')
+    print('PREREG written')
