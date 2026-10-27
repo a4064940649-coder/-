@@ -14,7 +14,9 @@
 - 一律事前登記參數、扣成本、挑選期與驗證期分開；新規則必須和主策略比較。
 
 ## 待辦（依優先順序）
-- 網路教學 w3（全球）、w4（公開貼文）：執行中。
+- 網路教學 w4（公開貼文）、w5（w3 剩下的 8 條：FIP 動能、IVOL、Connors RSI(2)、Clenow、Weinstein、VCP、二八輪動、漲停回馬槍）：執行中。
+- w3 偵查剩下的 11 條（agents/WEB_w3_leftover.json）：布林壓縮、ConnorsRSI、Double 7、R3、TPS、Radge 週末趨勢、漲跌家數擇時、PSY、高股息低波、量能谷底、RSRS 擇時。
+- 營收驚喜 SURGE（w3 待觀察）：每月追蹤真實樣本外。
 - 集保千張大戶週資料：每週一 `git -C /home/user/wirelessr/tdcc-opendata-archive pull`，累積滿 2 年後用 agents/insider_public/tdcc_study.py 原規則重跑（目前「排除大戶減、散戶增」待觀察）。
 - PTT 空方文避開名單（forum_gurus 待觀察）：每月用 a607ernie/ptt-stock-data 新快照補資料重跑。
 - 主策略改 10～15 檔（concentration_equity 待觀察）：每月追蹤 10 檔與 30 檔的真實樣本外差異。
