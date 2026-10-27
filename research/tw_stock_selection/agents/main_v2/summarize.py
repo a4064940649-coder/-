@@ -56,6 +56,9 @@ for n in (10, 30):
 R['RUN'] = {w: {k: v for k, v in W[w].items() if k != 'grid'} for w in W}
 R['GRID'] = {w: W[w]['grid'] for w in W}
 R['OFFICIAL'] = OFF; R['RANGES'] = RNG; R['AB_SUMMARY'] = AB; R['EXPECTATION'] = EXP; R['TOOL_COMPARE'] = TC
+for nm in ('results_tool_compare_patched.json', 'results_tool_compare_2024.json', 'results_tool_compare_patched_2024.json'):
+    if (HERE / nm).exists(): R['TOOL_COMPARE_' + nm[21:-5].upper()] = json.loads((HERE / nm).read_text(encoding='utf-8'))
+R['VALIDATE'] = json.loads((HERE / 'results_validate.json').read_text(encoding='utf-8'))
 (HERE / 'results.json').write_text(json.dumps(R, ensure_ascii=False, indent=0), encoding='utf-8')
 
 # ---------------- 印表 ----------------
@@ -170,3 +173,5 @@ for k, v in TC.items():
     if not v['same_set']:
         print(f'- {k}: v2 多 {v["only_v2"]}；工具多 {v["only_tool"]}；工具跳過：{v["tool_skipped_lines"]}')
 print(f'- 共 {len(TC)} 組，相同 {sum(v["same_set"] for v in TC.values())} 組')
+for k in [k for k in R if k.startswith('TOOL_COMPARE_')]:
+    T = R[k]; print(f'- {k}: 共 {len(T)} 組，相同 {sum(v["same_set"] for v in T.values())} 組；不同：' + '；'.join(f'{kk} v2+{list(v["only_v2"])} 工具+{list(v["only_tool"])}' for kk, v in T.items() if not v['same_set']))

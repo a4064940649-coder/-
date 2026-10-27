@@ -10,6 +10,7 @@ import v2_core as V
 K = V.K
 TOOL = Path(sys.argv[1]) if len(sys.argv) > 1 else V.HERE.parents[1] / 'main_picks_today.py'
 OUTF = sys.argv[2] if len(sys.argv) > 2 else 'results_tool_compare.json'
+START = sys.argv[3] if len(sys.argv) > 3 else '2025-10-01'
 DATA = '/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data'
 T0 = time.time()
 YL, Y5, Y5f = V.load_revenue()
@@ -38,7 +39,7 @@ for univ in ('ALL', 'EXFIN'):
     for n in (10, 30):
         pl = S.plan(n, 'official'); pls = Ss.plan(n, 'code')
         bysig = {p[3]: p for p in pl}; bysig_s = {p[3]: p for p in pls}
-        sigs = [d for d in S.sig_days if d >= pd.Timestamp('2025-10-01')]
+        sigs = [d for d in S.sig_days if pd.Timestamp(START) <= d < (pd.Timestamp('2025-10-01') if START < '2025-10-01' else pd.Timestamp('2100-01-01'))]
         prev = {p[3]: q for p, q in zip(pl[1:], pl[:-1])}
         for d in sigs:
             held = [K.COLS[j] for j in prev[d][1]] if d in prev else []
