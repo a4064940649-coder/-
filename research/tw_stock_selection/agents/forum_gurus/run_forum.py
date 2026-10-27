@@ -111,7 +111,7 @@ for r in raw.itertuples():
 P = pd.DataFrame(rows).sort_values('t').reset_index(drop=True)
 cnt['directional_single_stock'] = int((P.dir.notna() & P.code.notna()).sum())
 cnt['dir_single_listed_panel'] = int((P.dir.notna() & P.in_panel).sum())
-cnt['dir_single_otc'] = int((P.dir.notna() & P.code.notna() & (P.mkt == 'TPEx')).sum())
+cnt['dir_single_otc'] = int((P.dir.notna() & P.code.notna() & (P.mkt == 'TPEX')).sum())
 
 # ---------------- 進場 ----------------
 day_pos = {d: i for i, d in enumerate(IDX)}
@@ -148,12 +148,12 @@ def main_hold(i):
     return set(ev_main[ex_days[k]][1].tolist())
 
 def build(intraday_close=False):
-    out = []
+    out = []; build.drop = {'no_entry_day_gap': 0, 'no_price': 0, 'dedup': 0}
     for r in P[P.dir.notna() & P.in_panel].itertuples():
         i, mode = entry(r.t, intraday_close)
-        if i is None or i + max(HS) >= NT: continue
+        if i is None or i + max(HS) >= NT: build.drop['no_entry_day_gap'] += 1; continue
         j = CI[r.code]
-        if not (np.isfinite(L.ADJ_RAW[i, j]) and (mode == 'close' or np.isfinite(L.OPEN_RAW[i, j]))): continue
+        if not (np.isfinite(L.ADJ_RAW[i, j]) and (mode == 'close' or np.isfinite(L.OPEN_RAW[i, j]))): build.drop['no_price'] += 1; continue
         blocked = bool(GAP[i, j]) if mode == 'open' else bool(LOCKC[i, j])
         etime = IDX[i] + (pd.Timedelta(hours=9) if mode == 'open' else pd.Timedelta(hours=13, minutes=30))
         push_pt = sum(1 for k, ts in r.cm if k == '推' and ts < etime)
@@ -172,7 +172,7 @@ def build(intraday_close=False):
     E = E.sort_values('t'); keep = []; last = {}
     for k, r in E.iterrows():
         key = (r.author, r.code, r.dir)
-        if key in last and r.ei - last[key] < 5: keep.append(False); continue
+        if key in last and r.ei - last[key] < 5: keep.append(False); build.drop['dedup'] += 1; continue
         last[key] = r.ei; keep.append(True)
     E = E[keep].copy()
     E['month'] = E.eday.dt.to_period('M').astype(str)
@@ -181,15 +181,16 @@ def build(intraday_close=False):
 
 def tmonth(x, m):
     g = pd.Series(np.asarray(x, float), index=np.asarray(m)).groupby(level=0).mean().dropna()
-    if len(g) < 3: return np.nan, len(g)
-    return float(g.mean() / g.std(ddof=1) * np.sqrt(len(g))), len(g)
+    if len(g) < 3: return np.nan, len(g), (float(g.mean()) if len(g) else np.nan)
+    return float(g.mean() / g.std(ddof=1) * np.sqrt(len(g))), len(g), float(g.mean())
 
 def stat(E, col, sign=1.0, cost=0.0):
     if len(E) == 0: return dict(n=0)
+    if len(E) < 3: return dict(n=int(len(E)), mean=round(float(np.mean(sign * E[col].to_numpy(float) - cost)) * 100, 3))
     x = sign * E[col].to_numpy(float) - cost
     ok = np.isfinite(x); x = x[ok]; m = E.month.to_numpy()[ok]
-    t, nm = tmonth(x, m)
-    return dict(n=int(ok.sum()), mean=round(float(np.mean(x)) * 100, 3), median=round(float(np.median(x)) * 100, 3),
+    t, nm, mm = tmonth(x, m)
+    return dict(n=int(ok.sum()), mean=round(float(np.mean(x)) * 100, 3), mean_month=round(mm * 100, 3), median=round(float(np.median(x)) * 100, 3),
                 hit=round(float((x > 0).mean()), 3), t_month=None if np.isnan(t) else round(t, 2), n_month=nm)
 
 def block(E, label):
@@ -210,6 +211,7 @@ def block(E, label):
     return res
 
 E_all = build(False)
+cnt['dir_single_listed_entry_ok'] = int(len(E_all)); cnt['build_drops'] = dict(build.drop)
 E_ic = build(True)
 blocked_n = int(E_all[(E_all.dir == 'L')].blocked.sum())
 liq_drop = int((~E_all.liq).sum())
