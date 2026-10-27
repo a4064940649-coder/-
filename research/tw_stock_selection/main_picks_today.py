@@ -217,12 +217,18 @@ def fmt_table(order, codes, data, price, price_day, alloc, dsp, extra=None):
         if len(up): note.append(f'{up["start"].min().date()} 起處置（需預收款券）')
         if extra and code in extra: note.append(extra[code])
         row = {'名次': int(order.index.get_loc(code)) + 1, '代號': code, '名稱': data['names'].get(code, ''),
-               '52週高點比': f'{r["s52"]:.1%}', '營收3月年增': f'{r["yoy3"]:+.1f}%', '綜合分數': f'{r["score"]:.3f}', '收盤': f'{p:g}'}
+               '52週高點比': f'{r["s52"]:.1%}', '營收3月年增': f'{r["yoy3"]:+.1f}%', '綜合分數': f'{r["score"]:.3f}', f'收盤{price_day:%m/%d}': f'{p:g}'}
         if alloc:
             row['整張(張)'] = int(alloc // (p * 1000)); row['零股(股)'] = int(alloc // p)
         row['備註'] = '；'.join(note)
         rows.append(row)
     return pd.DataFrame(rows).to_string(index=False) if rows else '（無）'
+
+
+def tie_note(order, picks, nxt):
+    if picks and nxt and abs(order.loc[picks[-1], 'score'] - order.loc[nxt[0], 'score']) < 1e-12:
+        print(f'注意：{picks[-1]} 與 {nxt[0]} 綜合分數相同（{order.loc[picks[-1], "score"]:.4f}），依代號小者優先入選。'
+              '（回測程式 exlib 的同分順序取決於 numpy 排序，可能選另一檔；兩者擇一皆符合規則）')
 
 
 def main():
@@ -265,6 +271,9 @@ def main():
     c_m = int(YOY.loc[m].notna().sum()) if m in YOY.index else 0
     print(f'營收月份：{m - 2}～{m}（{m} 營收公告期限 {(m + 1).to_timestamp().replace(day=10).date()} 已過）；{m} 有營收的公司 {c_m} 家'
           + ('' if c_m >= 0.8 * med else f'（只有前 12 個月中位數 {med:.0f} 家的 {c_m / med:.0%}，資料可能還沒更新完整，請先更新再下單）'))
+    if dsp['date'].max() < sd - pd.Timedelta(days=3):
+        print(f'注意：處置公告資料只到 {dsp["date"].max().date()}，比訊號日 {sd.date()} 早；請到證交所「處置有價證券」公告確認名單中沒有 {sd.date()} 當天處置中的股票：'
+              'https://www.twse.com.tw/zh/announcement/punish.html')
     print(f'股池：60 日均成交值前 {TOPN} 名、≥ 1,000 萬、收盤 ≥ 10、非處置，且有營收與 52 週資料 → {n_el} 檔')
     if n_el < 50: print('警告：股池不足 50 檔，資料可能有問題')
 
@@ -281,6 +290,7 @@ def main():
         print(fmt_table(order, picks, data, price, price_day, alloc, dsp))
         print(f'\n【備取 第 {n + 1}～{nback} 名】')
         print(fmt_table(order, list(order.index[n:nback]), data, price, price_day, alloc, dsp))
+        tie_note(order, picks, list(order.index[n:n + 1]))
         print('\n提醒：隔日開盤若「開盤價 ÷ 今日收盤 − 1 ≥ 9.4%」（開盤漲停，除權息日請用參考價判斷）而且你還沒持有，就不買，'
               '改買備取中排名最前、尚未在名單內的股票；已持有的照常續抱。隔日停牌的也由備取遞補。')
     else:
@@ -293,12 +303,13 @@ def main():
             print(f'\n未買（由下一名遞補）：')
             print(fmt_table(order, [c for c, _ in ex['skipped']], data, price, price_day, None, dsp, sk))
         rest = [c for c in order.index[last_rank + 1:] if c not in sk][:nback - n]
+        tie_note(order, picks, rest[:1])
         print(f'\n【備取】（名單之後的 {len(rest)} 名）')
         print(fmt_table(order, rest, data, price, price_day, alloc, dsp))
 
     if held or a.held:
         hs = set(held); ps = set(picks)
-        print(f'\n【與目前持股比較】（持有 {len(hs)} 檔）')
+        print(f'\n【與目前持股比較】（持有 {len(hs)} 檔）' + ('' if sd == t else f'（今天不是換股日：照規則等 {nxt.date()} 換股；若是剛開始執行，可依本月名單建倉）'))
         def why(c):
             if c not in full.index: return '不是上市普通股或無資料'
             r = full.loc[c]
