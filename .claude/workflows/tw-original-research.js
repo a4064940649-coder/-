@@ -83,14 +83,14 @@ if (!(args && args.skip_winners)) {
 你的範圍：${s.text}
 用 WebSearch／WebFetch 查公開資料，交叉比對，數字要附來源；本環境部分台灣網站被網路政策擋住，可以用搜尋摘要、學術資料庫、GitHub 與英文來源。不要寫回測程式。`,
     { label: `贏家:${s.key}`, phase: '贏家研究', schema: WIN })))).filter(Boolean)
-} else if (args && args.winners_json) {
-  winners = args.winners_json
 }
+const WFILE = (args && args.winners_file) || ''
+const WTEXT = winners.length ? JSON.stringify(winners) : (WFILE ? `（本輪沿用先前的贏家研究，請先讀檔案 ${WFILE}；上一輪總監報告與方法教訓見 ${AG}/original_o1/DIRECTOR_REPORT.md）` : '（無）')
 
 phase('定題')
 const plan = await agent(
   `你是台股策略研究中心的研究總監。${CENTER}
-贏家研究結果（JSON）：${JSON.stringify(winners)}
+贏家研究結果：${WTEXT}
 請定出 ${NT} 個研究計畫。要求：每一題都對應一類長期贏家的真實優勢（winner_link），機制清楚、可證偽，散戶用現股與公開資料做得到，扣得起成本，和研究中心已測過的研究不重複（重疊就說明差別）。題目之間要涵蓋不同機制；至少一題要能直接改良或補強主策略（例如解釋主策略的右尾贏家、或與主策略低相關的第二條腿）。研究計畫要寫清楚探索要看什麼、模型可以怎麼迭代、什麼時候凍結、最終判定門檻。`,
   { label: '研究總監定題', phase: '定題', schema: PLAN })
 const programs = (plan && plan.programs || []).slice(0, NT)
@@ -104,6 +104,7 @@ const done = await pipeline(programs,
 預測：${p.predictions}
 資料：${p.data}
 研究計畫：${p.research_plan}
+方法教訓（必讀並遵守）：${AG}/original_o1/DIRECTOR_REPORT.md 第 5.3 節（事件 t 按事件日分群、驗證期污染、格點邊緣的贏家詛咒、成交可行性寫進事前登記、t 提升要拆均值與波動、存活者偏誤）。
 工作方式（必須照做）：
 1. 探索：只用挑選期資料做描述統計，先確認機制是否看得到（例如事件前後報酬、子樣本差異、資訊傳遞速度），把探索結果寫進 explore.json。
 2. 迭代建模：仍只用挑選期，可以嘗試多個版本（至少 3 個、最多 8 個），每個版本與結果都記錄在 iterations.json（多重檢定要在最後報告中誠實揭露版本數）。
@@ -155,7 +156,7 @@ if (survivors.length) {
 phase('彙整')
 const report = await agent(
   `你是台股策略研究中心的研究總監。${CENTER}
-贏家研究摘要：${JSON.stringify(winners.map(w => ({ winners: w.winners.map(x => ({ who: x.who, edge: x.edge, retail_feasible: x.retail_feasible })), flows: w.losers_and_flows })))}
+贏家研究摘要：${winners.length ? JSON.stringify(winners.map(w => ({ winners: w.winners.map(x => ({ who: x.who, edge: x.edge, retail_feasible: x.retail_feasible })), flows: w.losers_and_flows }))) : WTEXT}
 研究計畫與結果：${JSON.stringify(results.map(x => ({ slug: x.slug, title: x.title, winner_link: x.winner_link, verdict: x.verdict, final: x.final, mechanism: x.mechanism_supported, headline: x.headline, reviews: x.reviews, replication: x.replication })))}
 整合結果：${integration || '（無）'}
 落選題目：${JSON.stringify(plan ? plan.not_chosen : [])}

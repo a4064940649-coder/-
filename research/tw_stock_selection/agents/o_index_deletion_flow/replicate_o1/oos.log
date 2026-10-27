@@ -1,0 +1,62 @@
+{'P1_P3': {'adv20_cut_select_median': 53380432.05,
+           'oos_all_del': {'mean': np.float64(-0.3), 'median': np.float64(-2.01), 'n': 251, 'n_months': 34, 't_month': 0.02, 'trim5': -2.27, 'win': 0.402},
+           'oos_by_class': {'HD_DEL': {'mean': np.float64(0.88), 'median': np.float64(-2.0), 'n': 112, 'n_months': 9, 't_month': 0.55, 'trim5': -1.76, 'win': 0.446},
+                            'MSCI_SC_DEL': {'mean': np.float64(-1.6),
+                                            'median': np.float64(-2.04),
+                                            'n': 71,
+                                            'n_months': 10,
+                                            't_month': -2.5,
+                                            'trim5': -2.94,
+                                            'win': 0.338},
+                            'MSCI_STD_DEL': {'mean': np.float64(-2.97),
+                                             'median': np.float64(-2.93),
+                                             'n': 34,
+                                             'n_months': 13,
+                                             't_month': -2.19,
+                                             'trim5': -4.22,
+                                             'win': 0.294},
+                            'TW50_DEL': {'mean': np.float64(1.22), 'median': np.float64(-0.07), 'n': 34, 'n_months': 18, 't_month': 1.13, 'trim5': -0.49, 'win': 0.5}},
+           'oos_by_class_HD_pooled': {'mean': np.float64(0.88), 'median': np.float64(-2.0), 'n': 112, 'n_months': 9, 't_month': 0.55, 'trim5': -1.76, 'win': 0.446},
+           'oos_highADV_ooscut': {'mean': np.float64(0.64), 'median': np.float64(-1.77), 'n': 126, 'n_months': 25, 't_month': 0.48, 'trim5': -1.59, 'win': 0.46},
+           'oos_highADV_selcut': {'mean': np.float64(-0.15), 'median': np.float64(-1.87), 'n': 206, 'n_months': 33, 't_month': 0.03, 'trim5': -2.29, 'win': 0.417},
+           'oos_highADV_tertile': {'mean': np.float64(0.93), 'median': np.float64(-2.1), 'n': 84, 'n_months': 16, 't_month': 0.18, 'trim5': -1.62, 'win': 0.476},
+           'oos_lowADV_ooscut': {'mean': np.float64(-1.24), 'median': np.float64(-2.18), 'n': 125, 'n_months': 26, 't_month': -1.94, 'trim5': -2.92, 'win': 0.344},
+           'oos_lowADV_selcut': {'mean': np.float64(-0.96), 'median': np.float64(-2.39), 'n': 45, 'n_months': 10, 't_month': -2.27, 'trim5': -2.23, 'win': 0.333},
+           'oos_lowADV_tertile': {'mean': np.float64(-1.51), 'median': np.float64(-1.93), 'n': 84, 'n_months': 19, 't_month': -2.2, 'trim5': -2.8, 'win': 0.369},
+           'select_all_del': {'mean': np.float64(1.54), 'median': np.float64(0.18), 'n': 119, 'n_months': 22, 't_month': 2.72, 'trim5': 0.43, 'win': 0.521},
+           'select_highADV': {'mean': np.float64(0.33), 'median': np.float64(-0.87), 'n': 60, 'n_months': 20, 't_month': 2.18, 'trim5': -0.63, 'win': 0.467},
+           'select_lowADV': {'mean': np.float64(2.76), 'median': np.float64(1.23), 'n': 59, 'n_months': 13, 't_month': 2.1, 'trim5': 1.52, 'win': 0.576}},
+ 'holdout': {'HL': {'n_months_paired': 2, 'paired': np.float64(-3.17), 'simple': np.float64(-3.08), 't_paired': -0.7},
+             'high': {'mean': np.float64(-3.25), 'median': np.float64(-3.0), 'n': 8, 'n_months': 2, 't_month': -3.04, 'trim5': -4.09, 'win': 0.375},
+             'high_stress': {'mean': np.float64(-3.75), 'median': np.float64(-3.5), 'n': 8, 'n_months': 2, 't_month': -3.58, 'trim5': -4.59, 'win': 0.375},
+             'high_vs0050': {'mean': np.float64(-8.88), 'median': np.float64(-6.84), 'n': 8, 'n_months': 2, 't_month': -1.41, 'trim5': -10.15, 'win': 0.125},
+             'low': {'mean': np.float64(-0.17), 'median': np.float64(-2.4), 'n': 158, 'n_months': 8, 't_month': -0.07, 'trim5': -2.27, 'win': 0.411}},
+ 'oos': {'HL': {'n_months_paired': 7, 'paired': np.float64(-3.62), 'simple': np.float64(-2.78), 't_paired': -1.58},
+         'high': {'mean': np.float64(-2.9), 'median': np.float64(-2.24), 'n': 16, 'n_months': 8, 't_month': -1.62, 'trim5': -3.28, 'win': 0.312},
+         'high_stress': {'mean': np.float64(-3.4), 'median': np.float64(-2.74), 'n': 16, 'n_months': 8, 't_month': -1.95, 'trim5': -3.78, 'win': 0.312},
+         'high_vs0050': {'mean': np.float64(-5.9), 'median': np.float64(-5.23), 'n': 16, 'n_months': 8, 't_month': -1.78, 'trim5': -6.74, 'win': 0.188},
+         'low': {'mean': np.float64(-0.12), 'median': np.float64(-2.01), 'n': 235, 'n_months': 33, 't_month': 0.09, 'trim5': -2.13, 'win': 0.409}},
+ 'oos_segments': {'2019_2020': {'mean': np.float64(-0.72), 'median': np.float64(-0.72), 'n': 2, 'n_months': 2, 't_month': -0.31, 'trim5': -3.04, 'win': 0.5},
+                  '2021+': {'mean': np.float64(-3.21), 'median': np.float64(-2.58), 'n': 14, 'n_months': 6, 't_month': -1.59, 'trim5': -3.67, 'win': 0.286}},
+ 'validate': {'HL': {'n_months_paired': 5, 'paired': np.float64(-3.8), 'simple': np.float64(-2.52), 't_paired': -1.27},
+              'high': {'mean': np.float64(-2.54), 'median': np.float64(-2.24), 'n': 8, 'n_months': 6, 't_month': -1.14, 'trim5': -3.31, 'win': 0.25},
+              'high_stress': {'mean': np.float64(-3.04), 'median': np.float64(-2.74), 'n': 8, 'n_months': 6, 't_month': -1.38, 'trim5': -3.81, 'win': 0.25},
+              'high_vs0050': {'mean': np.float64(-2.92), 'median': np.float64(-5.21), 'n': 8, 'n_months': 6, 't_month': -1.11, 'trim5': -4.28, 'win': 0.25},
+              'low': {'mean': np.float64(-0.02), 'median': np.float64(-1.7), 'n': 77, 'n_months': 25, 't_month': 0.12, 'trim5': -1.79, 'win': 0.403}},
+ 'verdict': {'call': '不可用', 'i': False, 'ii': False, 'iii': False, 'validate_net_le0': True}}
+{'code': '2915', 'name': '潤泰全', 'type': 'MSCI_STD_DEL', 'eff': '2020-05-29', 'pressure': 3.0734, 'net20': 0.016}
+{'code': '1434', 'name': '福懋', 'type': 'MSCI_STD_DEL', 'eff': '2020-11-30', 'pressure': 4.4074, 'net20': -0.0304}
+{'code': '1519', 'name': '華城', 'type': 'MSCI_SC_DEL', 'eff': '2021-11-30', 'pressure': 3.1976, 'net20': -0.0144}
+{'code': '4532', 'name': '瑞智', 'type': 'MSCI_SC_DEL', 'eff': '2021-11-30', 'pressure': 3.4758, 'net20': -0.0372}
+{'code': '8462', 'name': '柏文', 'type': 'MSCI_SC_DEL', 'eff': '2021-11-30', 'pressure': 3.324, 'net20': -0.0414}
+{'code': '6743', 'name': '安普新', 'type': 'MSCI_SC_DEL', 'eff': '2022-05-31', 'pressure': 3.9328, 'net20': -0.1144}
+{'code': '1515', 'name': '力山', 'type': 'MSCI_SC_DEL', 'eff': '2022-11-30', 'pressure': 3.4219, 'net20': 0.0281}
+{'code': '2441', 'name': '超豐', 'type': '0056_DEL', 'eff': '2022-12-16', 'pressure': 3.7326, 'net20': -0.0098}
+{'code': '4961', 'name': '天鈺', 'type': '00940_DEL', 'eff': '2025-11-18', 'pressure': 3.7002, 'net20': -0.0467}
+{'code': '9940', 'name': '信義房屋', 'type': 'MSCI_SC_DEL', 'eff': '2025-11-24', 'pressure': 3.8144, 'net20': 0.0092}
+{'code': '2504', 'name': '國產', 'type': '00713_DEL', 'eff': '2025-12-16', 'pressure': 4.8257, 'net20': -0.0132}
+{'code': '2607', 'name': '榮運', 'type': '00713_DEL', 'eff': '2025-12-16', 'pressure': 7.0665, 'net20': -0.0477}
+{'code': '6605', 'name': '帝寶', 'type': '00713_DEL', 'eff': '2025-12-16', 'pressure': 5.1195, 'net20': 0.026}
+{'code': '6670', 'name': '復盛應用', 'type': '00713_DEL', 'eff': '2025-12-16', 'pressure': 3.4956, 'net20': 0.0226}
+{'code': '1442', 'name': '名軒', 'type': '00919_DEL', 'eff': '2025-12-16', 'pressure': 11.8843, 'net20': -0.0735}
+{'code': '2915', 'name': '潤泰全', 'type': '00918_DEL', 'eff': '2025-12-31', 'pressure': 3.2844, 'net20': -0.137}

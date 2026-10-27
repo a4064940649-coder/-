@@ -1,0 +1,48 @@
+{
+ "spec": {
+  "source_spec_sha256_researcher": "9dd08c248726fb39340c229566022be91a0340d90216765c67f0fbe7dbce35c9",
+  "events_sha256": "b19b78f2d36d2a7de29e78d99aa8ced1fed24fc5eae7c309b72cf6a6aa705759",
+  "classes_K": {
+   "MSCI_STD_DEL": 500000000.0,
+   "TW50_DEL": 300000000.0,
+   "MSCI_SC_DEL": 50000000.0,
+   "0056_DEL": 300000000.0,
+   "00878_DEL": 300000000.0,
+   "00919_DEL": 300000000.0,
+   "00713_DEL": 300000000.0,
+   "00918_DEL": 300000000.0,
+   "00929_DEL": 300000000.0,
+   "00940_DEL": 300000000.0
+  },
+  "cut": 2.7478,
+  "hold": 20,
+  "entry": "E close",
+  "exit": "E+20 close",
+  "filters": "in panel; E-1 adv60>=1e7 (min 40 obs on >=300-name days); E-1 close>=10; E traded; E close < prev*(1.065 | 1.095 from 2015-06-01); E not in 2024-02-15..2025-09-23",
+  "bench": "equal-weight all listed stocks traded at E, buy-and-hold E close->E+20 close (ffill for halted/delisted)",
+  "cost": {
+   "normal": 0.005,
+   "stress": 0.01
+  },
+  "windows": {
+   "select": [
+    "2008-01-01",
+    "2018-12-31"
+   ],
+   "validate": [
+    "2019-01-01",
+    "2023-12-31"
+   ],
+   "holdout": [
+    "2025-09-24",
+    "2026-10-31"
+   ]
+  },
+  "verdict": "(i) high net mean>0, t_month>=2, median>0, trim5>0; (ii) H-L paired>0, t>=1.5; (iii) 2019-2020 and 2021+ both>0; (iv) monthly corr with main & disposal <0.3; (v) 70/20/10 t >= 80/20 t and DD not deeper",
+  "sleeve": "10 slots, NAV/10 per trade, cap 5% of E-1 adv20, idle in 0050 (fee 0.0855% each way, +0.1% tax on sell), same-day higher pressure first",
+  "p4": "main EXFIN n10 gapfix official plan; MSCI STD/SC or TW50 add with e_k<=E<e_{k+1}-1; paired diff E close -> e_{k+1} open vs other holdings; adopt if mean<-1%, t<=-2, both 2006-2015 & 2016-2026 <0"
+ },
+ "sha256": "330037cae35bdbe46d7d8c64c79cab5f88c27f848de65bbc730735b6a0b80e8f",
+ "utc": "2026-10-27T18:31:15Z",
+ "note": "在算任何 2019 年後報酬之前寫入"
+}

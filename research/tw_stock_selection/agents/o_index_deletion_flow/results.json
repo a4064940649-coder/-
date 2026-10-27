@@ -1,0 +1,1683 @@
+{
+ "DATA_FREEZE": {
+  "file": "events_v2.csv",
+  "sha256": "b19b78f2d36d2a7de29e78d99aa8ced1fed24fc5eae7c309b72cf6a6aa705759",
+  "n_rows": 1354,
+  "timestamp_utc": "2026-10-27T17:57:11+00:00",
+  "note": "凍結時尚未計算任何報酬；只用名單、交易日曆與成交值",
+  "gate": {
+   "n_msci_ftse_deletions_valid": 321,
+   "n_eff_verified_in_source": 321,
+   "share_verified": 1.0,
+   "review_group_median_volume_ratio": {
+    "2010-11-30": 12.01,
+    "2011-11-30": 9.7,
+    "2012-11-30": 6.59,
+    "2013-05-31": 16.14,
+    "2013-08-30": 28.92,
+    "2013-11-26": 4.91,
+    "2014-02-27": 12.23,
+    "2014-05-30": 5.06,
+    "2015-02-26": 11.82,
+    "2015-05-29": 18.01,
+    "2015-11-30": 7.14,
+    "2016-05-31": 5.54,
+    "2016-11-30": 8.75,
+    "2017-05-31": 7.86,
+    "2017-11-30": 11.1,
+    "2018-05-31": 8.39,
+    "2018-11-30": 7.33,
+    "2019-05-28": 7.32,
+    "2019-11-26": 17.53,
+    "2020-05-29": 10.55,
+    "2020-08-31": 12.95,
+    "2020-11-30": 23.17,
+    "2021-02-26": 13.65,
+    "2021-05-27": 7.94,
+    "2021-11-30": 6.46,
+    "2022-05-31": 19.21,
+    "2022-11-30": 11.61,
+    "2023-05-31": 6.97,
+    "2023-11-30": 20.46,
+    "2025-11-24": 10.02,
+    "2026-02-26": 15.41,
+    "2026-05-29": 7.54,
+    "2026-08-31": 9.7
+   },
+   "n_reviews": 33,
+   "n_reviews_spike_ge_1.5": 33,
+   "ftse_all_world_events": 0,
+   "ftse_note": "FTSE 全球指數台股增刪在台灣媒體與 GitHub 鏡像中幾乎沒有報導，未能蒐集",
+   "pass": true
+  }
+ },
+ "PREREG": {
+  "spec": {
+   "name": "指數刪除股收盤承接（o_index_deletion_flow）凍結版 V6",
+   "events": "凍結事件表 events_v2.csv（sha256 b19b78f2d36d2a7de29e78d99aa8ced1fed24fc5eae7c309b72cf6a6aa705759）中的刪除事件：MSCI 標準指數刪除（含轉入小型）、MSCI 小型指數刪除（不含升級到標準）、臺灣50 刪除、高股息 ETF（0056、00878、00919、00713、00918、00929、00940）刪除。",
+   "universe_filters": "上市股（面板內）；E−1 的 60 日均成交值 ≥ NT$1,000 萬且收盤 ≥ 10 元；E 日有成交；E 日收盤漲停（≥ 前收 ×(1+6.5%／9.5%)，2015-06-01 為界）不買；E 日落在 2024-02-15～2025-09-23（src 3 近似收盤）整筆排除。",
+   "pressure": "pressure = K_class ÷ E−1 的 20 日均成交值；K_class（NT$）：MSCI 標準刪除 5 億、臺灣50 刪除 3 億、高股息 ETF 刪除 3 億、MSCI 小型刪除 0.5 億。",
+   "trade_group": "只交易高賣壓組：pressure ≥ 2.7483（挑選期刪除事件的中位數，固定不再更新）；低賣壓組＝pressure < 同一切點（只用來檢定劑量反應）。",
+   "entry_exit": "生效日 E 收盤集合競價買進（價格＝官方收盤），持有 20 個交易日，E+20 收盤賣出；遇停牌以最後成交價計。",
+   "benchmark": "上市等權：同一窗（E 收盤→E+20 收盤）全體上市股買進持有報酬的等權平均。事件報酬＝個股報酬 − 上市等權。",
+   "costs": "一般來回 0.5%；壓力來回 1%。",
+   "stats": "扣成本後淨平均、中位數、按事件月分群 t、剔除前 5% 後平均、勝率；高減低＝同事件月兩組平均差的 t。",
+   "portfolio": "10 槽固定金額：每筆＝部位淨值 ÷ 10；同時最多 10 筆，滿槽跳過；同日多筆依 pressure 由高到低；單筆 ≤ E−1 的 20 日均成交值 × 5%；閒置資金放 0050（買賣 0050 手續費 0.0855%、賣出另加證交稅 0.1%）；事件買進成本 0.1%、賣出 0.4%（合計 0.5%）。",
+   "periods": {
+    "select": "2008-01～2018-12（已用）",
+    "validate": "2019-01-01～2023-12-31",
+    "holdout": "2025-09-24～2026-10-22（E+20 在資料內者）",
+    "final_judgement_window": "驗證＋保留合併 2019～2026（排除 src 3）"
+   },
+   "decision": {
+    "可用": "(i) 高賣壓組淨平均 > 0、月分群 t ≥ 2、中位數 > 0、剔除前 5% 後 > 0；(ii) 高減低 > 0 且 t ≥ 1.5；(iii) 2019～2020 與 2021 以後兩段高賣壓組淨平均同號（皆 > 0）；(iv) 與主策略（EXFIN n10 gapfix）及處置部位（disposal_reconcile A_0050）的月報酬相關 < 0.3；(v) 主策略 70%＋處置 20%＋刪除承接 10% 對 0050 t 不低於主策略 80%＋處置 20%，最大回撤不加深（重疊期 2021-10～2026-10）；另報主策略 90%＋刪除 10% 對主策略 100%（2010-11～2026-10）。",
+    "待觀察": "只過 (i) 沒過 (ii)：紙上追蹤 2027-05、2027-11 兩次 MSCI 調整。",
+    "不可用": "(i) 不成立，或高賣壓組驗證期淨報酬 ≤ 0（P5）。"
+   },
+   "P4": {
+    "rule": "主策略 EXFIN n10 gapfix 正式名單（main_v2 v2_core.V2(gapfix, exfin=True).plan(10)）；持有期 [進場日 e_k, 下個進場日 e_{k+1}) 內，持股若遇 MSCI 標準／小型或臺灣50 納入的生效日 E（e_k ≤ E < e_{k+1}−1），計算 E 收盤 → e_{k+1} 開盤的報酬，減去同窗其他持股平均（配對差）。E 在 src 3 期間者主檢定排除。",
+    "modified_strategy": "遇納入就在 E 收盤賣出，資金放 0050 到下個換股日照常換股；額外成本＝該股權重 × 0.5%。",
+    "test_period": "2006～2026 全期（實際有事件為 2010-11 起）",
+    "adopt_if": "配對差平均 < −1%、月分群 t ≤ −2、2006～2015 與 2016～2026 兩段皆 < 0；三者全部成立才加入 SOP。"
+   },
+   "n_versions_tried": 8
+  },
+  "sha256": "9dd08c248726fb39340c229566022be91a0340d90216765c67f0fbe7dbce35c9",
+  "timestamp_utc": "2026-10-27T18:01:12+00:00"
+ },
+ "OOS_events": {
+  "cut": 2.748310084054563,
+  "by_period": {
+   "select": {
+    "high": {
+     "n": 61,
+     "n_months": 16,
+     "mean": 2.96,
+     "median": 0.38,
+     "t_month": 2.71,
+     "win": 0.557,
+     "mean_ex_top5pct": 1.77
+    },
+    "low": {
+     "n": 58,
+     "n_months": 16,
+     "mean": 0.03,
+     "median": -1.09,
+     "t_month": 1.28,
+     "win": 0.483,
+     "mean_ex_top5pct": -0.95
+    },
+    "high_stress": {
+     "n": 61,
+     "n_months": 16,
+     "mean": 2.46,
+     "median": -0.12,
+     "t_month": 2.38,
+     "win": 0.475,
+     "mean_ex_top5pct": 1.27
+    },
+    "high_minus_low": {
+     "pooled_diff%": 2.93,
+     "paired_month_diff%": 4.78,
+     "n_months": 10,
+     "t": 2.08
+    },
+    "high_vs_0050": {
+     "n": 61,
+     "n_months": 16,
+     "mean": 2.59,
+     "median": 1.01,
+     "t_month": 2.58,
+     "win": 0.525,
+     "mean_ex_top5pct": 1.36
+    },
+    "high_by_class": {
+     "MSCI_SC_DEL": {
+      "n": 24,
+      "n_months": 8,
+      "mean": 5.02,
+      "median": 2.77,
+      "t_month": 2.87,
+      "win": 0.625,
+      "mean_ex_top5pct": 3.06
+     },
+     "MSCI_STD_DEL": {
+      "n": 36,
+      "n_months": 12,
+      "mean": 1.66,
+      "median": -0.0,
+      "t_month": 1.78,
+      "win": 0.5,
+      "mean_ex_top5pct": 0.5
+     },
+     "TW50_DEL": {
+      "n": 1,
+      "n_months": 1,
+      "mean": 0.38,
+      "median": 0.38,
+      "t_month": NaN,
+      "win": 1.0,
+      "mean_ex_top5pct": 0.38
+     }
+    },
+    "all_by_class": {
+     "MSCI_SC_DEL": {
+      "n": 67,
+      "n_months": 9,
+      "mean": 1.76,
+      "median": 0.58,
+      "t_month": 1.4,
+      "win": 0.522,
+      "mean_ex_top5pct": 0.43
+     },
+     "MSCI_STD_DEL": {
+      "n": 46,
+      "n_months": 14,
+      "mean": 0.74,
+      "median": -0.42,
+      "t_month": 1.31,
+      "win": 0.478,
+      "mean_ex_top5pct": -0.55
+     },
+     "TW50_DEL": {
+      "n": 6,
+      "n_months": 6,
+      "mean": 5.09,
+      "median": 1.44,
+      "t_month": 1.61,
+      "win": 0.833,
+      "mean_ex_top5pct": 2.56
+     }
+    }
+   },
+   "validate": {
+    "high": {
+     "n": 8,
+     "n_months": 6,
+     "mean": -2.54,
+     "median": -2.24,
+     "t_month": -1.14,
+     "win": 0.25,
+     "mean_ex_top5pct": -3.31
+    },
+    "low": {
+     "n": 77,
+     "n_months": 25,
+     "mean": -0.01,
+     "median": -1.69,
+     "t_month": 0.12,
+     "win": 0.403,
+     "mean_ex_top5pct": -1.78
+    },
+    "high_stress": {
+     "n": 8,
+     "n_months": 6,
+     "mean": -3.04,
+     "median": -2.74,
+     "t_month": -1.38,
+     "win": 0.25,
+     "mean_ex_top5pct": -3.81
+    },
+    "high_minus_low": {
+     "pooled_diff%": -2.53,
+     "paired_month_diff%": -3.8,
+     "n_months": 5,
+     "t": -1.27
+    },
+    "high_vs_0050": {
+     "n": 8,
+     "n_months": 6,
+     "mean": -2.92,
+     "median": -5.21,
+     "t_month": -1.11,
+     "win": 0.25,
+     "mean_ex_top5pct": -4.28
+    },
+    "high_by_class": {
+     "HDETF_DEL": {
+      "n": 1,
+      "n_months": 1,
+      "mean": -0.97,
+      "median": -0.97,
+      "t_month": NaN,
+      "win": 0.0,
+      "mean_ex_top5pct": -0.97
+     },
+     "MSCI_SC_DEL": {
+      "n": 5,
+      "n_months": 3,
+      "mean": -3.58,
+      "median": -3.71,
+      "t_month": -0.95,
+      "win": 0.2,
+      "mean_ex_top5pct": -5.18
+     },
+     "MSCI_STD_DEL": {
+      "n": 2,
+      "n_months": 2,
+      "mean": -0.73,
+      "median": -0.73,
+      "t_month": NaN,
+      "win": 0.5,
+      "mean_ex_top5pct": -3.04
+     }
+    },
+    "all_by_class": {
+     "HDETF_DEL": {
+      "n": 21,
+      "n_months": 5,
+      "mean": 1.43,
+      "median": 0.47,
+      "t_month": 0.49,
+      "win": 0.524,
+      "mean_ex_top5pct": -1.06
+     },
+     "MSCI_SC_DEL": {
+      "n": 30,
+      "n_months": 6,
+      "mean": -1.29,
+      "median": -1.72,
+      "t_month": -2.06,
+      "win": 0.333,
+      "mean_ex_top5pct": -2.67
+     },
+     "MSCI_STD_DEL": {
+      "n": 13,
+      "n_months": 9,
+      "mean": -2.22,
+      "median": -3.04,
+      "t_month": -1.69,
+      "win": 0.231,
+      "mean_ex_top5pct": -3.67
+     },
+     "TW50_DEL": {
+      "n": 21,
+      "n_months": 14,
+      "mean": 0.77,
+      "median": -0.65,
+      "t_month": 0.94,
+      "win": 0.429,
+      "mean_ex_top5pct": -0.74
+     }
+    }
+   },
+   "holdout": {
+    "high": {
+     "n": 8,
+     "n_months": 2,
+     "mean": -3.25,
+     "median": -2.97,
+     "t_month": NaN,
+     "win": 0.375,
+     "mean_ex_top5pct": -4.08
+    },
+    "low": {
+     "n": 158,
+     "n_months": 8,
+     "mean": -0.17,
+     "median": -2.35,
+     "t_month": -0.06,
+     "win": 0.411,
+     "mean_ex_top5pct": -2.27
+    },
+    "high_stress": {
+     "n": 8,
+     "n_months": 2,
+     "mean": -3.75,
+     "median": -3.47,
+     "t_month": NaN,
+     "win": 0.375,
+     "mean_ex_top5pct": -4.58
+    },
+    "high_minus_low": {
+     "pooled_diff%": -3.08,
+     "paired_month_diff%": -3.17,
+     "n_months": 2,
+     "t": null
+    },
+    "high_vs_0050": {
+     "n": 8,
+     "n_months": 2,
+     "mean": -8.88,
+     "median": -6.84,
+     "t_month": NaN,
+     "win": 0.125,
+     "mean_ex_top5pct": -10.15
+    },
+    "high_by_class": {
+     "HDETF_DEL": {
+      "n": 7,
+      "n_months": 2,
+      "mean": -3.84,
+      "median": -4.63,
+      "t_month": NaN,
+      "win": 0.286,
+      "mean_ex_top5pct": -4.91
+     },
+     "MSCI_SC_DEL": {
+      "n": 1,
+      "n_months": 1,
+      "mean": 0.91,
+      "median": 0.91,
+      "t_month": NaN,
+      "win": 1.0,
+      "mean_ex_top5pct": 0.91
+     }
+    },
+    "all_by_class": {
+     "HDETF_DEL": {
+      "n": 91,
+      "n_months": 4,
+      "mean": 0.75,
+      "median": -3.08,
+      "t_month": 0.21,
+      "win": 0.429,
+      "mean_ex_top5pct": -1.93
+     },
+     "MSCI_SC_DEL": {
+      "n": 41,
+      "n_months": 4,
+      "mean": -1.81,
+      "median": -2.39,
+      "t_month": -1.29,
+      "win": 0.341,
+      "mean_ex_top5pct": -2.99
+     },
+     "MSCI_STD_DEL": {
+      "n": 21,
+      "n_months": 4,
+      "mean": -3.44,
+      "median": -2.74,
+      "t_month": -1.24,
+      "win": 0.333,
+      "mean_ex_top5pct": -4.56
+     },
+     "TW50_DEL": {
+      "n": 13,
+      "n_months": 4,
+      "mean": 1.97,
+      "median": 2.27,
+      "t_month": 0.62,
+      "win": 0.615,
+      "mean_ex_top5pct": -0.06
+     }
+    }
+   },
+   "final_2019_2026": {
+    "high": {
+     "n": 16,
+     "n_months": 8,
+     "mean": -2.89,
+     "median": -2.24,
+     "t_month": -1.62,
+     "win": 0.312,
+     "mean_ex_top5pct": -3.27
+    },
+    "low": {
+     "n": 235,
+     "n_months": 33,
+     "mean": -0.12,
+     "median": -1.99,
+     "t_month": 0.1,
+     "win": 0.409,
+     "mean_ex_top5pct": -2.12
+    },
+    "high_stress": {
+     "n": 16,
+     "n_months": 8,
+     "mean": -3.39,
+     "median": -2.74,
+     "t_month": -1.95,
+     "win": 0.312,
+     "mean_ex_top5pct": -3.77
+    },
+    "high_minus_low": {
+     "pooled_diff%": -2.78,
+     "paired_month_diff%": -3.62,
+     "n_months": 7,
+     "t": -1.58
+    },
+    "high_vs_0050": {
+     "n": 16,
+     "n_months": 8,
+     "mean": -5.9,
+     "median": -5.23,
+     "t_month": -1.78,
+     "win": 0.188,
+     "mean_ex_top5pct": -6.74
+    },
+    "high_by_class": {
+     "HDETF_DEL": {
+      "n": 8,
+      "n_months": 3,
+      "mean": -3.48,
+      "median": -2.97,
+      "t_month": -2.82,
+      "win": 0.25,
+      "mean_ex_top5pct": -4.35
+     },
+     "MSCI_SC_DEL": {
+      "n": 6,
+      "n_months": 4,
+      "mean": -2.83,
+      "median": -2.57,
+      "t_month": -0.86,
+      "win": 0.333,
+      "mean_ex_top5pct": -3.96
+     },
+     "MSCI_STD_DEL": {
+      "n": 2,
+      "n_months": 2,
+      "mean": -0.73,
+      "median": -0.73,
+      "t_month": NaN,
+      "win": 0.5,
+      "mean_ex_top5pct": -3.04
+     }
+    },
+    "all_by_class": {
+     "HDETF_DEL": {
+      "n": 112,
+      "n_months": 9,
+      "mean": 0.88,
+      "median": -1.98,
+      "t_month": 0.55,
+      "win": 0.446,
+      "mean_ex_top5pct": -1.76
+     },
+     "MSCI_SC_DEL": {
+      "n": 71,
+      "n_months": 10,
+      "mean": -1.59,
+      "median": -2.04,
+      "t_month": -2.49,
+      "win": 0.338,
+      "mean_ex_top5pct": -2.92
+     },
+     "MSCI_STD_DEL": {
+      "n": 34,
+      "n_months": 13,
+      "mean": -2.97,
+      "median": -2.89,
+      "t_month": -2.2,
+      "win": 0.294,
+      "mean_ex_top5pct": -4.23
+     },
+     "TW50_DEL": {
+      "n": 34,
+      "n_months": 18,
+      "mean": 1.23,
+      "median": -0.06,
+      "t_month": 1.13,
+      "win": 0.5,
+      "mean_ex_top5pct": -0.49
+     }
+    }
+   },
+   "sub_2019_2020": {
+    "high": {
+     "n": 2,
+     "n_months": 2,
+     "mean": -0.73,
+     "median": -0.73,
+     "t_month": NaN,
+     "win": 0.5,
+     "mean_ex_top5pct": -3.04
+    },
+    "low": {
+     "n": 7,
+     "n_months": 6,
+     "mean": 0.31,
+     "median": -1.02,
+     "t_month": 0.31,
+     "win": 0.429,
+     "mean_ex_top5pct": -1.47
+    },
+    "high_stress": {
+     "n": 2,
+     "n_months": 2,
+     "mean": -1.23,
+     "median": -1.23,
+     "t_month": NaN,
+     "win": 0.5,
+     "mean_ex_top5pct": -3.54
+    },
+    "high_minus_low": {
+     "pooled_diff%": -1.04,
+     "paired_month_diff%": -3.76,
+     "n_months": 1,
+     "t": null
+    },
+    "high_vs_0050": {
+     "n": 2,
+     "n_months": 2,
+     "mean": -1.98,
+     "median": -1.98,
+     "t_month": NaN,
+     "win": 0.5,
+     "mean_ex_top5pct": -5.43
+    },
+    "high_by_class": {
+     "MSCI_STD_DEL": {
+      "n": 2,
+      "n_months": 2,
+      "mean": -0.73,
+      "median": -0.73,
+      "t_month": NaN,
+      "win": 0.5,
+      "mean_ex_top5pct": -3.04
+     }
+    },
+    "all_by_class": {
+     "MSCI_SC_DEL": {
+      "n": 2,
+      "n_months": 1,
+      "mean": -3.71,
+      "median": -3.71,
+      "t_month": NaN,
+      "win": 0.0,
+      "mean_ex_top5pct": -6.41
+     },
+     "MSCI_STD_DEL": {
+      "n": 4,
+      "n_months": 3,
+      "mean": -2.5,
+      "median": -1.16,
+      "t_month": -0.9,
+      "win": 0.5,
+      "mean_ex_top5pct": -3.86
+     },
+     "TW50_DEL": {
+      "n": 3,
+      "n_months": 3,
+      "mean": 6.05,
+      "median": 8.91,
+      "t_month": 1.54,
+      "win": 0.667,
+      "mean_ex_top5pct": 3.58
+     }
+    }
+   },
+   "sub_2021plus": {
+    "high": {
+     "n": 14,
+     "n_months": 6,
+     "mean": -3.2,
+     "median": -2.57,
+     "t_month": -1.58,
+     "win": 0.286,
+     "mean_ex_top5pct": -3.67
+    },
+    "low": {
+     "n": 228,
+     "n_months": 27,
+     "mean": -0.13,
+     "median": -2.08,
+     "t_month": -0.04,
+     "win": 0.408,
+     "mean_ex_top5pct": -2.2
+    },
+    "high_stress": {
+     "n": 14,
+     "n_months": 6,
+     "mean": -3.7,
+     "median": -3.07,
+     "t_month": -1.84,
+     "win": 0.286,
+     "mean_ex_top5pct": -4.17
+    },
+    "high_minus_low": {
+     "pooled_diff%": -3.07,
+     "paired_month_diff%": -3.59,
+     "n_months": 6,
+     "t": -1.33
+    },
+    "high_vs_0050": {
+     "n": 14,
+     "n_months": 6,
+     "mean": -6.46,
+     "median": -5.23,
+     "t_month": -1.61,
+     "win": 0.143,
+     "mean_ex_top5pct": -7.47
+    },
+    "high_by_class": {
+     "HDETF_DEL": {
+      "n": 8,
+      "n_months": 3,
+      "mean": -3.48,
+      "median": -2.97,
+      "t_month": -2.82,
+      "win": 0.25,
+      "mean_ex_top5pct": -4.35
+     },
+     "MSCI_SC_DEL": {
+      "n": 6,
+      "n_months": 4,
+      "mean": -2.83,
+      "median": -2.57,
+      "t_month": -0.86,
+      "win": 0.333,
+      "mean_ex_top5pct": -3.96
+     }
+    },
+    "all_by_class": {
+     "HDETF_DEL": {
+      "n": 112,
+      "n_months": 9,
+      "mean": 0.88,
+      "median": -1.98,
+      "t_month": 0.55,
+      "win": 0.446,
+      "mean_ex_top5pct": -1.76
+     },
+     "MSCI_SC_DEL": {
+      "n": 69,
+      "n_months": 9,
+      "mean": -1.53,
+      "median": -2.04,
+      "t_month": -2.28,
+      "win": 0.348,
+      "mean_ex_top5pct": -2.9
+     },
+     "MSCI_STD_DEL": {
+      "n": 30,
+      "n_months": 10,
+      "mean": -3.04,
+      "median": -3.47,
+      "t_month": -1.9,
+      "win": 0.267,
+      "mean_ex_top5pct": -4.47
+     },
+     "TW50_DEL": {
+      "n": 31,
+      "n_months": 15,
+      "mean": 0.76,
+      "median": -0.24,
+      "t_month": 0.71,
+      "win": 0.484,
+      "mean_ex_top5pct": -1.16
+     }
+    }
+   }
+  },
+  "yearly_high_net": {
+   "2010": {
+    "n": 2,
+    "n_months": 1,
+    "mean": 14.96,
+    "median": 14.96,
+    "t_month": NaN,
+    "win": 1.0,
+    "mean_ex_top5pct": 4.9
+   },
+   "2011": {
+    "n": 3,
+    "n_months": 1,
+    "mean": -1.18,
+    "median": -1.5,
+    "t_month": NaN,
+    "win": 0.333,
+    "mean_ex_top5pct": -1.8
+   },
+   "2012": {
+    "n": 1,
+    "n_months": 1,
+    "mean": 0.41,
+    "median": 0.41,
+    "t_month": NaN,
+    "win": 1.0,
+    "mean_ex_top5pct": 0.41
+   },
+   "2013": {
+    "n": 10,
+    "n_months": 3,
+    "mean": 7.45,
+    "median": 8.13,
+    "t_month": 4.09,
+    "win": 0.9,
+    "mean_ex_top5pct": 6.34
+   },
+   "2014": {
+    "n": 16,
+    "n_months": 1,
+    "mean": -1.12,
+    "median": -1.07,
+    "t_month": NaN,
+    "win": 0.312,
+    "mean_ex_top5pct": -1.78
+   },
+   "2015": {
+    "n": 15,
+    "n_months": 3,
+    "mean": 1.47,
+    "median": -0.98,
+    "t_month": 0.09,
+    "win": 0.4,
+    "mean_ex_top5pct": 0.32
+   },
+   "2016": {
+    "n": 3,
+    "n_months": 3,
+    "mean": 4.69,
+    "median": 2.69,
+    "t_month": 1.45,
+    "win": 1.0,
+    "mean_ex_top5pct": 1.53
+   },
+   "2017": {
+    "n": 7,
+    "n_months": 1,
+    "mean": 4.37,
+    "median": 0.18,
+    "t_month": NaN,
+    "win": 0.571,
+    "mean_ex_top5pct": 0.18
+   },
+   "2018": {
+    "n": 4,
+    "n_months": 2,
+    "mean": 7.64,
+    "median": 5.17,
+    "t_month": NaN,
+    "win": 0.75,
+    "mean_ex_top5pct": 2.31
+   },
+   "2020": {
+    "n": 2,
+    "n_months": 2,
+    "mean": -0.73,
+    "median": -0.73,
+    "t_month": NaN,
+    "win": 0.5,
+    "mean_ex_top5pct": -3.04
+   },
+   "2021": {
+    "n": 3,
+    "n_months": 1,
+    "mean": -3.09,
+    "median": -3.71,
+    "t_month": NaN,
+    "win": 0.0,
+    "mean_ex_top5pct": -3.92
+   },
+   "2022": {
+    "n": 3,
+    "n_months": 3,
+    "mean": -3.2,
+    "median": -0.97,
+    "t_month": -0.75,
+    "win": 0.333,
+    "mean_ex_top5pct": -6.21
+   },
+   "2025": {
+    "n": 8,
+    "n_months": 2,
+    "mean": -3.25,
+    "median": -2.97,
+    "t_month": NaN,
+    "win": 0.375,
+    "mean_ex_top5pct": -4.08
+   }
+  },
+  "robust_final": {
+   "drop_top_contrib_stock": {
+    "code": "1515",
+    "n": 15,
+    "n_months": 7,
+    "mean": -3.27,
+    "median": -3.04,
+    "t_month": -2.11,
+    "win": 0.267,
+    "mean_ex_top5pct": -3.69
+   },
+   "drop_top3_stocks": {
+    "n": 13,
+    "n_months": 7,
+    "mean": -4.15,
+    "median": -3.71,
+    "t_month": -2.27,
+    "win": 0.154,
+    "mean_ex_top5pct": -4.63
+   },
+   "by_industry": {},
+   "msci_only": {
+    "n": 8,
+    "n_months": 6,
+    "mean": -2.31,
+    "median": -2.24,
+    "t_month": -0.96,
+    "win": 0.375,
+    "mean_ex_top5pct": -3.04
+   },
+   "etf_only": {
+    "n": 8,
+    "n_months": 3,
+    "mean": -3.48,
+    "median": -2.97,
+    "t_month": -2.82,
+    "win": 0.25,
+    "mean_ex_top5pct": -4.35
+   },
+   "openE1_entry": {
+    "n": 16,
+    "n_months": 8,
+    "mean": -2.87,
+    "median": -2.13,
+    "t_month": -1.85,
+    "win": 0.312,
+    "mean_ex_top5pct": -3.32
+   },
+   "hold5": {
+    "n": 16,
+    "n_months": 8,
+    "mean": -0.66,
+    "median": -1.41,
+    "t_month": 0.51,
+    "win": 0.312,
+    "mean_ex_top5pct": -1.3
+   },
+   "hold10": {
+    "n": 16,
+    "n_months": 8,
+    "mean": -1.39,
+    "median": -2.34,
+    "t_month": -0.09,
+    "win": 0.25,
+    "mean_ex_top5pct": -2.13
+   }
+  }
+ },
+ "POSTHOC_diagnostics": {
+  "oos_2019_2026": {
+   "HDETF_DEL": {
+    "n": 113,
+    "AR0%": 0.15,
+    "AR1%": -0.5,
+    "vol_ratio_med": 2.1,
+    "x5_net": 0.01,
+    "x20_net": 0.88,
+    "pressure_med": 0.33
+   },
+   "MSCI_SC_DEL": {
+    "n": 75,
+    "AR0%": 0.36,
+    "AR1%": 0.93,
+    "vol_ratio_med": 5.0,
+    "x5_net": 0.02,
+    "x20_net": -1.59,
+    "pressure_med": 1.23
+   },
+   "MSCI_STD_DEL": {
+    "n": 35,
+    "AR0%": 0.17,
+    "AR1%": 0.93,
+    "vol_ratio_med": 17.5,
+    "x5_net": -0.15,
+    "x20_net": -2.97,
+    "pressure_med": 0.95
+   },
+   "TW50_DEL": {
+    "n": 35,
+    "AR0%": 1.08,
+    "AR1%": 0.75,
+    "vol_ratio_med": 4.4,
+    "x5_net": 1.37,
+    "x20_net": 1.23,
+    "pressure_med": 0.52
+   },
+   "rel_tercile_within_year": {
+    "0": {
+     "n": 87,
+     "AR0%": 0.31,
+     "AR1%": 0.26,
+     "x20_net": {
+      "n": 84,
+      "n_months": 22,
+      "mean": 0.5,
+      "median": -0.84,
+      "t_month": 0.25,
+      "win": 0.464,
+      "mean_ex_top5pct": -1.72
+     },
+     "x5_net": {
+      "n": 84,
+      "n_months": 22,
+      "mean": 0.44,
+      "median": -0.54,
+      "t_month": 0.59,
+      "win": 0.476,
+      "mean_ex_top5pct": -0.99
+     }
+    },
+    "1": {
+     "n": 84,
+     "AR0%": 0.15,
+     "AR1%": 0.17,
+     "x20_net": {
+      "n": 81,
+      "n_months": 24,
+      "mean": -0.05,
+      "median": -2.16,
+      "t_month": 0.01,
+      "win": 0.395,
+      "mean_ex_top5pct": -2.49
+     },
+     "x5_net": {
+      "n": 81,
+      "n_months": 24,
+      "mean": -0.14,
+      "median": 0.08,
+      "t_month": -0.13,
+      "win": 0.506,
+      "mean_ex_top5pct": -0.59
+     }
+    },
+    "2": {
+     "n": 87,
+     "AR0%": 0.55,
+     "AR1%": 0.4,
+     "x20_net": {
+      "n": 86,
+      "n_months": 20,
+      "mean": -1.3,
+      "median": -2.35,
+      "t_month": -2.83,
+      "win": 0.349,
+      "mean_ex_top5pct": -2.79
+     },
+     "x5_net": {
+      "n": 86,
+      "n_months": 20,
+      "mean": 0.21,
+      "median": -0.46,
+      "t_month": -0.24,
+      "win": 0.465,
+      "mean_ex_top5pct": -0.51
+     }
+    }
+   },
+   "v20_median_NTD": 442940460.97749996
+  },
+  "select_2008_2018": {
+   "MSCI_SC_DEL": {
+    "n": 69,
+    "AR0%": -0.72,
+    "AR1%": 1.32,
+    "vol_ratio_med": 4.7,
+    "x5_net": 1.81,
+    "x20_net": 1.76,
+    "pressure_med": 2.08
+   },
+   "MSCI_STD_DEL": {
+    "n": 46,
+    "AR0%": -2.31,
+    "AR1%": 1.27,
+    "vol_ratio_med": 13.7,
+    "x5_net": -0.46,
+    "x20_net": 0.74,
+    "pressure_med": 4.24
+   },
+   "TW50_DEL": {
+    "n": 6,
+    "AR0%": -0.55,
+    "AR1%": -0.76,
+    "vol_ratio_med": 2.0,
+    "x5_net": 0.99,
+    "x20_net": 5.09,
+    "pressure_med": 1.48
+   },
+   "rel_tercile_within_year": {
+    "0": {
+     "n": 42,
+     "AR0%": -0.83,
+     "AR1%": 1.07,
+     "x20_net": {
+      "n": 41,
+      "n_months": 13,
+      "mean": 0.34,
+      "median": -1.42,
+      "t_month": 1.26,
+      "win": 0.463,
+      "mean_ex_top5pct": -0.62
+     },
+     "x5_net": {
+      "n": 41,
+      "n_months": 13,
+      "mean": -0.63,
+      "median": -0.48,
+      "t_month": -0.22,
+      "win": 0.488,
+      "mean_ex_top5pct": -1.16
+     }
+    },
+    "1": {
+     "n": 41,
+     "AR0%": -1.59,
+     "AR1%": 1.49,
+     "x20_net": {
+      "n": 41,
+      "n_months": 15,
+      "mean": 2.23,
+      "median": 0.13,
+      "t_month": 1.42,
+      "win": 0.512,
+      "mean_ex_top5pct": 0.95
+     },
+     "x5_net": {
+      "n": 41,
+      "n_months": 15,
+      "mean": 1.58,
+      "median": 0.88,
+      "t_month": 1.54,
+      "win": 0.61,
+      "mean_ex_top5pct": 0.89
+     }
+    },
+    "2": {
+     "n": 38,
+     "AR0%": -1.55,
+     "AR1%": 1.02,
+     "x20_net": {
+      "n": 37,
+      "n_months": 13,
+      "mean": 2.09,
+      "median": 0.58,
+      "t_month": 1.74,
+      "win": 0.595,
+      "mean_ex_top5pct": 1.03
+     },
+     "x5_net": {
+      "n": 37,
+      "n_months": 13,
+      "mean": 1.82,
+      "median": 0.78,
+      "t_month": 1.95,
+      "win": 0.703,
+      "mean_ex_top5pct": 0.95
+     }
+    }
+   },
+   "v20_median_NTD": 53380432.05
+  }
+ },
+ "SLEEVE": {
+  "sleeve_normal": {
+   "2010-11_2018": {
+    "CAGR%": 8.61,
+    "maxDD%": -24.9,
+    "0050_CAGR%": 6.5,
+    "t_vs_0050_month": 1.6,
+    "excess_month_mean%": 0.173,
+    "n_months": 97
+   },
+   "2019_2026": {
+    "CAGR%": 27.78,
+    "maxDD%": -34.5,
+    "0050_CAGR%": 29.29,
+    "t_vs_0050_month": -1.83,
+    "excess_month_mean%": -0.107,
+    "n_months": 91
+   },
+   "all": {
+    "CAGR%": 17.43,
+    "maxDD%": -34.5,
+    "0050_CAGR%": 16.93,
+    "t_vs_0050_month": 0.59,
+    "excess_month_mean%": 0.037,
+    "n_months": 189
+   }
+  },
+  "sleeve_stress": {
+   "2019_2026": {
+    "CAGR%": 27.65,
+    "maxDD%": -34.5,
+    "0050_CAGR%": 29.29,
+    "t_vs_0050_month": -1.89,
+    "excess_month_mean%": -0.116,
+    "n_months": 91
+   },
+   "all": {
+    "CAGR%": 17.18,
+    "maxDD%": -34.5,
+    "0050_CAGR%": 16.93,
+    "t_vs_0050_month": 0.3,
+    "excess_month_mean%": 0.019,
+    "n_months": 189
+   }
+  },
+  "avg_slots_used": 0.36,
+  "share_days_any_position": 0.122,
+  "corr_monthly": {
+   "del_vs_main_2010_2026": 0.483,
+   "del_vs_disp_2021_2026": 0.8,
+   "del_excess_vs_main_excess": -0.004
+  },
+  "alloc": {
+   "2021-10_2026-10": {
+    "main80_disp20": {
+     "CAGR%": 39.43,
+     "maxDD_month%": -28.8,
+     "t_vs_0050": 0.84,
+     "n_months": 58
+    },
+    "main70_disp20_del10": {
+     "CAGR%": 38.81,
+     "maxDD_month%": -28.6,
+     "t_vs_0050": 0.86,
+     "n_months": 58
+    }
+   },
+   "2010-12_2026-10": {
+    "main100": {
+     "CAGR%": 31.44,
+     "maxDD_month%": -30.9,
+     "t_vs_0050": 2.21,
+     "n_months": 188
+    },
+    "main90_del10": {
+     "CAGR%": 30.28,
+     "maxDD_month%": -30.1,
+     "t_vs_0050": 2.22,
+     "n_months": 188
+    }
+   },
+   "benchmarks_2010-12_2026-10": {
+    "0050": {
+     "CAGR%": 17.02,
+     "maxDD_month%": -29.3,
+     "t_vs_0050": NaN,
+     "n_months": 188
+    },
+    "EW_pool": {
+     "CAGR%": 11.21,
+     "maxDD_month%": -31.4,
+     "t_vs_0050": -1.4,
+     "n_months": 188
+    }
+   }
+  }
+ },
+ "P4": {
+  "n_events_all": 20,
+  "n_events_main": 14,
+  "by_type_n": {
+   "MSCI_SC_ADD": 3,
+   "MSCI_STD_ADD": 5,
+   "TW50_ADD": 6
+  },
+  "paired_diff_main": {
+   "mean%": -4.67,
+   "t_month": -1.71,
+   "n_months": 12,
+   "median%": -3.2,
+   "pooled_mean%": -1.82
+  },
+  "half_2006_2015": {
+   "mean%": -11.26,
+   "t_month": null,
+   "n_months": 2
+  },
+  "half_2016_2026": {
+   "mean%": -3.35,
+   "t_month": -1.08,
+   "n_months": 10
+  },
+  "by_type": {
+   "MSCI_SC_ADD": {
+    "mean%": -8.18,
+    "t_month": -2.97,
+    "n_months": 3
+   },
+   "MSCI_STD_ADD": {
+    "mean%": -7.39,
+    "t_month": -3.36,
+    "n_months": 5
+   },
+   "TW50_ADD": {
+    "mean%": 1.38,
+    "t_month": 0.19,
+    "n_months": 4
+   }
+  },
+  "incl_src3": {
+   "mean%": -1.84,
+   "t_month": -0.8,
+   "n_months": 18
+  },
+  "raw_R_i_mean%": 5.06,
+  "raw_R_peers_mean%": 6.89,
+  "strategy_compare": {
+   "base": {
+    "CAGR%": 27.08,
+    "maxDD_period%": -60.4
+   },
+   "sell_on_inclusion": {
+    "CAGR%": 26.94,
+    "maxDD_period%": -60.4
+   },
+   "n_periods": 244,
+   "n_periods_affected": 18,
+   "paired_period_diff_t": -0.46
+  },
+  "adopt_into_SOP": false,
+  "yearly": {
+   "2010": {
+    "n": 1,
+    "mean%": -13.72
+   },
+   "2011": {
+    "n": 1,
+    "mean%": -8.8
+   },
+   "2020": {
+    "n": 2,
+    "mean%": -1.84
+   },
+   "2021": {
+    "n": 5,
+    "mean%": 4.7
+   },
+   "2022": {
+    "n": 1,
+    "mean%": -1.29
+   },
+   "2023": {
+    "n": 1,
+    "mean%": -11.12
+   },
+   "2025": {
+    "n": 1,
+    "mean%": -2.67
+   },
+   "2026": {
+    "n": 2,
+    "mean%": -3.87
+   }
+  }
+ },
+ "TABLES": {
+  "P1_all_deletions_net": {
+   "oos": {
+    "h5": {
+     "n": 251,
+     "n_months": 34,
+     "mean": 0.18,
+     "median": -0.26,
+     "t_month": 1.11,
+     "win": 0.482,
+     "mean_ex_top5pct": -0.71
+    },
+    "h10": {
+     "n": 251,
+     "n_months": 34,
+     "mean": -0.01,
+     "median": -1.09,
+     "t_month": 0.37,
+     "win": 0.406,
+     "mean_ex_top5pct": -1.34
+    },
+    "h20": {
+     "n": 251,
+     "n_months": 34,
+     "mean": -0.29,
+     "median": -1.99,
+     "t_month": 0.02,
+     "win": 0.402,
+     "mean_ex_top5pct": -2.26
+    }
+   },
+   "select": {
+    "h5": {
+     "n": 119,
+     "n_months": 22,
+     "mean": 0.89,
+     "median": 0.58,
+     "t_month": 1.86,
+     "win": 0.597,
+     "mean_ex_top5pct": 0.18
+    },
+    "h10": {
+     "n": 119,
+     "n_months": 22,
+     "mean": 0.95,
+     "median": 0.55,
+     "t_month": 1.61,
+     "win": 0.529,
+     "mean_ex_top5pct": 0.05
+    },
+    "h20": {
+     "n": 119,
+     "n_months": 22,
+     "mean": 1.53,
+     "median": 0.18,
+     "t_month": 2.73,
+     "win": 0.521,
+     "mean_ex_top5pct": 0.43
+    }
+   }
+  },
+  "P3_by_class_net20": {
+   "oos": {
+    "HDETF_DEL": {
+     "h5": {
+      "n": 112,
+      "n_months": 9,
+      "mean": 0.01,
+      "median": -1.2,
+      "t_month": 0.07,
+      "win": 0.411,
+      "mean_ex_top5pct": -1.24
+     },
+     "h20": {
+      "n": 112,
+      "n_months": 9,
+      "mean": 0.88,
+      "median": -1.98,
+      "t_month": 0.55,
+      "win": 0.446,
+      "mean_ex_top5pct": -1.76
+     }
+    },
+    "MSCI_SC_DEL": {
+     "h5": {
+      "n": 71,
+      "n_months": 10,
+      "mean": 0.02,
+      "median": 0.16,
+      "t_month": -0.29,
+      "win": 0.535,
+      "mean_ex_top5pct": -0.56
+     },
+     "h20": {
+      "n": 71,
+      "n_months": 10,
+      "mean": -1.59,
+      "median": -2.04,
+      "t_month": -2.49,
+      "win": 0.338,
+      "mean_ex_top5pct": -2.92
+     }
+    },
+    "MSCI_STD_DEL": {
+     "h5": {
+      "n": 34,
+      "n_months": 13,
+      "mean": -0.15,
+      "median": -0.79,
+      "t_month": -0.45,
+      "win": 0.441,
+      "mean_ex_top5pct": -1.05
+     },
+     "h20": {
+      "n": 34,
+      "n_months": 13,
+      "mean": -2.97,
+      "median": -2.89,
+      "t_month": -2.2,
+      "win": 0.294,
+      "mean_ex_top5pct": -4.23
+     }
+    },
+    "TW50_DEL": {
+     "h5": {
+      "n": 34,
+      "n_months": 18,
+      "mean": 1.37,
+      "median": 1.25,
+      "t_month": 2.58,
+      "win": 0.647,
+      "mean_ex_top5pct": 0.92
+     },
+     "h20": {
+      "n": 34,
+      "n_months": 18,
+      "mean": 1.23,
+      "median": -0.06,
+      "t_month": 1.13,
+      "win": 0.5,
+      "mean_ex_top5pct": -0.49
+     }
+    }
+   },
+   "select": {
+    "MSCI_SC_DEL": {
+     "h5": {
+      "n": 67,
+      "n_months": 9,
+      "mean": 1.81,
+      "median": 0.88,
+      "t_month": 2.23,
+      "win": 0.701,
+      "mean_ex_top5pct": 1.01
+     },
+     "h20": {
+      "n": 67,
+      "n_months": 9,
+      "mean": 1.76,
+      "median": 0.58,
+      "t_month": 1.4,
+      "win": 0.522,
+      "mean_ex_top5pct": 0.43
+     }
+    },
+    "MSCI_STD_DEL": {
+     "h5": {
+      "n": 46,
+      "n_months": 14,
+      "mean": -0.46,
+      "median": -0.1,
+      "t_month": 0.7,
+      "win": 0.478,
+      "mean_ex_top5pct": -1.29
+     },
+     "h20": {
+      "n": 46,
+      "n_months": 14,
+      "mean": 0.74,
+      "median": -0.42,
+      "t_month": 1.31,
+      "win": 0.478,
+      "mean_ex_top5pct": -0.55
+     }
+    },
+    "TW50_DEL": {
+     "h5": {
+      "n": 6,
+      "n_months": 6,
+      "mean": 0.99,
+      "median": -1.02,
+      "t_month": 0.59,
+      "win": 0.333,
+      "mean_ex_top5pct": -0.29
+     },
+     "h20": {
+      "n": 6,
+      "n_months": 6,
+      "mean": 5.09,
+      "median": 1.44,
+      "t_month": 1.61,
+      "win": 0.833,
+      "mean_ex_top5pct": 2.56
+     }
+    }
+   }
+  },
+  "P3_by_liq_net20": {
+   "oos": {
+    "lowADV": {
+     "n": 83,
+     "n_months": 18,
+     "mean": -1.54,
+     "median": -1.94,
+     "t_month": -2.29,
+     "win": 0.361,
+     "mean_ex_top5pct": -2.84
+    },
+    "midADV": {
+     "n": 85,
+     "n_months": 27,
+     "mean": -0.32,
+     "median": -1.99,
+     "t_month": -0.29,
+     "win": 0.365,
+     "mean_ex_top5pct": -2.53
+    },
+    "highADV": {
+     "n": 83,
+     "n_months": 16,
+     "mean": 0.98,
+     "median": -2.11,
+     "t_month": 0.21,
+     "win": 0.482,
+     "mean_ex_top5pct": -1.6
+    }
+   },
+   "select": {
+    "lowADV": {
+     "n": 40,
+     "n_months": 10,
+     "mean": 2.73,
+     "median": 0.48,
+     "t_month": 1.85,
+     "win": 0.55,
+     "mean_ex_top5pct": 1.47
+    },
+    "midADV": {
+     "n": 39,
+     "n_months": 13,
+     "mean": 1.01,
+     "median": 1.26,
+     "t_month": 1.26,
+     "win": 0.59,
+     "mean_ex_top5pct": -0.02
+    },
+    "highADV": {
+     "n": 40,
+     "n_months": 18,
+     "mean": 0.85,
+     "median": -1.0,
+     "t_month": 1.89,
+     "win": 0.425,
+     "mean_ex_top5pct": -0.11
+    }
+   }
+  },
+  "CAR_oos": {
+   "HDETF_DEL": {
+    "n": 113,
+    "CAR_-10_-1": -0.26,
+    "AR_0": 0.15,
+    "AR_+1": -0.5,
+    "CAR_+1_+5": 0.54,
+    "CAR_+1_+20": 1.0
+   },
+   "MSCI_SC_ADD": {
+    "n": 114,
+    "CAR_-10_-1": 4.89,
+    "AR_0": 0.55,
+    "AR_+1": -0.32,
+    "CAR_+1_+5": -1.25,
+    "CAR_+1_+20": -2.49
+   },
+   "MSCI_SC_DEL": {
+    "n": 97,
+    "CAR_-10_-1": -2.45,
+    "AR_0": -0.01,
+    "AR_+1": 1.15,
+    "CAR_+1_+5": 1.29,
+    "CAR_+1_+20": 0.58
+   },
+   "MSCI_STD_ADD": {
+    "n": 28,
+    "CAR_-10_-1": 6.26,
+    "AR_0": -0.31,
+    "AR_+1": -1.46,
+    "CAR_+1_+5": -4.19,
+    "CAR_+1_+20": -0.92
+   },
+   "MSCI_STD_DEL": {
+    "n": 36,
+    "CAR_-10_-1": -2.5,
+    "AR_0": 0.12,
+    "AR_+1": 0.95,
+    "CAR_+1_+5": 0.81,
+    "CAR_+1_+20": -2.3
+   },
+   "TW50_ADD": {
+    "n": 39,
+    "CAR_-10_-1": 4.14,
+    "AR_0": 0.06,
+    "AR_+1": -0.9,
+    "CAR_+1_+5": -0.96,
+    "CAR_+1_+20": 1.57
+   },
+   "TW50_DEL": {
+    "n": 39,
+    "CAR_-10_-1": -1.54,
+    "AR_0": 1.07,
+    "AR_+1": 0.66,
+    "CAR_+1_+5": 1.4,
+    "CAR_+1_+20": 1.74
+   }
+  }
+ },
+ "COMPARE": {
+  "2010-11_2018": {
+   "del": {
+    "CAGR%": 8.63,
+    "maxDD_daily%": -24.9
+   },
+   "del_stress": {
+    "CAGR%": 8.27,
+    "maxDD_daily%": -25.1
+   },
+   "main": {
+    "CAGR%": 18.56,
+    "maxDD_daily%": -33.8
+   },
+   "ew": {
+    "CAGR%": 1.57,
+    "maxDD_daily%": -36.4
+   },
+   "e50": {
+    "CAGR%": 6.5,
+    "maxDD_daily%": -23.0
+   },
+   "t_del_vs_e50": 1.6,
+   "mean_excess_vs_e50%": 0.173,
+   "t_del_vs_main": -1.73,
+   "mean_excess_vs_main%": -0.82,
+   "t_del_vs_ew": 1.72,
+   "mean_excess_vs_ew%": 0.523
+  },
+  "2019_2026-10-12": {
+   "del": {
+    "CAGR%": 29.09,
+    "maxDD_daily%": -34.5
+   },
+   "del_stress": {
+    "CAGR%": 28.96,
+    "maxDD_daily%": -34.5
+   },
+   "main": {
+    "CAGR%": 46.73,
+    "maxDD_daily%": -43.7
+   },
+   "ew": {
+    "CAGR%": 23.16,
+    "maxDD_daily%": -37.1
+   },
+   "e50": {
+    "CAGR%": 30.62,
+    "maxDD_daily%": -34.0
+   },
+   "t_del_vs_e50": -1.67,
+   "mean_excess_vs_e50%": -0.103,
+   "t_del_vs_main": -1.38,
+   "mean_excess_vs_main%": -1.276,
+   "t_del_vs_ew": 0.82,
+   "mean_excess_vs_ew%": 0.404
+  }
+ }
+}

@@ -1,0 +1,617 @@
+{
+ "PREREG": {
+  "topic": "o_prepriced_growth：搶在價格之前的成長股（第二條腿）",
+  "selected_version": "AVG|B1|n30",
+  "selection_rule": "挑選期 2006-07～2013-12（模擬截在 2013-12-31）對同池等權 t（訊號窗、一般成本）最高，且與主策略 n10 排除金融的月超額（對同池等權）相關 < 0.6",
+  "selection_t_EW": 1.3957,
+  "selection_corr_main": 0.0154,
+  "n_versions_tried": 24,
+  "maxt_bootstrap_selection": {
+   "t_obs_max": 1.396,
+   "argmax": 17,
+   "p_maxt": 0.3888,
+   "p_each": [
+    0.7384,
+    0.9062,
+    0.7022,
+    0.955,
+    0.472,
+    0.7986,
+    0.48,
+    0.6366,
+    0.9954,
+    1.0,
+    0.9754,
+    0.9996,
+    0.941,
+    0.9996,
+    0.9606,
+    0.9922,
+    0.8552,
+    0.3888,
+    0.7568,
+    0.7218,
+    0.8246,
+    0.8862,
+    0.7434,
+    0.7094
+   ],
+   "boot_max_t_q95": 2.656,
+   "T": 89,
+   "K": 24,
+   "versions_order": [
+    "ACC|B1|n10",
+    "ACC|B1|n30",
+    "ACC|B2|n10",
+    "ACC|B2|n30",
+    "ACC|B3|n10",
+    "ACC|B3|n30",
+    "ACC|B4|n10",
+    "ACC|B4|n30",
+    "NH|B1|n10",
+    "NH|B1|n30",
+    "NH|B2|n10",
+    "NH|B2|n30",
+    "NH|B3|n10",
+    "NH|B3|n30",
+    "NH|B4|n10",
+    "NH|B4|n30",
+    "AVG|B1|n10",
+    "AVG|B1|n30",
+    "AVG|B2|n10",
+    "AVG|B2|n30",
+    "AVG|B3|n10",
+    "AVG|B3|n30",
+    "AVG|B4|n10",
+    "AVG|B4|n30"
+   ]
+  },
+  "rule": {
+   "pool": "同主策略 v2：gapfix 滾動窗、前 300 名 60 日均成交值（≥ NT$1,000 萬、收盤 ≥ 10）、排除金融保險業（stock_list 金融保險業＋28xx、5876、5880）、非處置、隔日有開盤成交、52 週比與營收 3 月年增率有值",
+   "band": "52 週比（還原收盤 ÷ 252 日最高）在股池內百分位 ∈ [0.3, 0.8]（含端點）",
+   "revenue_signal": "ACC 與 NH 在股池內百分位的平均",
+   "rank": "區間內依營收分數由高到低，同分比營收 3 月年增率、再比代碼",
+   "n": 30,
+   "execution": "每月第一個 ≥ 11 日的交易日收盤算訊號，隔日開盤等權成交；開盤漲停（跳動點）且未持有者遞補；停牌凍結；成本一般＝手續費 0.0855%＋滑價 0.1%（賣再加稅 0.3%），壓力＝買賣各 0.5%",
+   "revenue_source": "訊號日 < 2021-03-01 用 tw_revenue.csv；之後年增率用 rev_5y yoy（落後 3 個月那段缺值時用長期營收補），營收水準 rev_5y 優先",
+   "revenue_timing": "主結果 BASE（同主策略正式 2.64 的口徑）；AB（只用已公告營收，rev_announce 延後機率 MC）為敏感度"
+  },
+  "combination": "主策略 n10（排除金融）與第二腿 n10 各半資金、每月換股日再平衡、重疊持股權重相加、成本只算淨交易；不搜尋權重",
+  "note_on_n": "合成方式事前固定為兩條腿各 n10；若選中版本為 n30，第二腿單獨檢定用選中的 n30，合成仍用同訊號同區間的 n10（計畫原文）",
+  "periods": {
+   "selection": "2006-01～2013-12（實際 2006-07 起）",
+   "validation": "2014-01～2020-12",
+   "holdout": "2021-01～2026-10-12"
+  },
+  "gate": {
+   "rule": "挑選期對同池等權 t ≥ 1.5 才打開後兩段；否則判不可用",
+   "best_t": 1.3957,
+   "open": false
+  },
+  "final_criteria": "(i) 驗證期與保留期第二腿對同池等權扣成本 t 都 ≥ 1.5，合併 2014～2026 t ≥ 2；(ii) 與主策略月超額相關 < 0.5；(iii) 各半合成跨循環 2006～2026 對 0050 t > 主策略單獨（2.64）、年化 ≥ 主策略 −1.5pp、最大回撤不深於主策略；(iv) 合成在 2006～2013、2021～2026 年化 ≥ 主策略 −3pp；(v) 壓力成本下 (iii) 方向不變；(vi) 安聯 2014～2020 對第二腿載荷 > 0",
+  "decision_if_gate_closed": "不可用（P5 失敗條件：挑選期對等權 t < 1.5），不打開驗證期與保留期，P3 安聯 2014～2020 不檢定（屬驗證期資料）"
+ },
+ "PREREG_sha256": "12017357a887893dcb9381b2fcfbdc3c1e1d3064ac8c3ecf90e38a85880f3f08",
+ "PREREG_time_utc": "2026-10-27T17:17:38+00:00",
+ "iterations_json_sha256": "c6825f14aea9cc4dd387f6e1a8eb7580bbe09885c35bdf569df5acf89ca8185b",
+ "OOS": {
+  "status": "NOT_OPENED",
+  "reason": "挑選期最佳版本 AVG|B1|n30 對同池等權 t 1.40 < 1.5（P5 失敗條件）",
+  "verdict": "不可用",
+  "time_utc": "2026-10-27T17:17:51+00:00"
+ },
+ "DIAG_posthoc_selection_only": {
+  "zero_cost": {
+   "ACC|B1|n10": {
+    "t_EW_gross": 1.7353,
+    "mean_ex_gross_pct_m": 0.6713
+   },
+   "ACC|B1|n30": {
+    "t_EW_gross": 2.0073,
+    "mean_ex_gross_pct_m": 0.4085
+   },
+   "ACC|B2|n10": {
+    "t_EW_gross": 1.83,
+    "mean_ex_gross_pct_m": 0.7324
+   },
+   "ACC|B2|n30": {
+    "t_EW_gross": 1.5817,
+    "mean_ex_gross_pct_m": 0.3519
+   },
+   "ACC|B3|n10": {
+    "t_EW_gross": 2.4008,
+    "mean_ex_gross_pct_m": 0.9696
+   },
+   "ACC|B3|n30": {
+    "t_EW_gross": 2.2648,
+    "mean_ex_gross_pct_m": 0.5325
+   },
+   "ACC|B4|n10": {
+    "t_EW_gross": 2.323,
+    "mean_ex_gross_pct_m": 0.9349
+   },
+   "ACC|B4|n30": {
+    "t_EW_gross": 2.5154,
+    "mean_ex_gross_pct_m": 0.6204
+   },
+   "NH|B1|n10": {
+    "t_EW_gross": 0.6554,
+    "mean_ex_gross_pct_m": 0.2523
+   },
+   "NH|B1|n30": {
+    "t_EW_gross": 0.3377,
+    "mean_ex_gross_pct_m": 0.0656
+   },
+   "NH|B2|n10": {
+    "t_EW_gross": 1.0422,
+    "mean_ex_gross_pct_m": 0.4055
+   },
+   "NH|B2|n30": {
+    "t_EW_gross": 0.5898,
+    "mean_ex_gross_pct_m": 0.1253
+   },
+   "NH|B3|n10": {
+    "t_EW_gross": 1.2887,
+    "mean_ex_gross_pct_m": 0.5039
+   },
+   "NH|B3|n30": {
+    "t_EW_gross": 0.5844,
+    "mean_ex_gross_pct_m": 0.1271
+   },
+   "NH|B4|n10": {
+    "t_EW_gross": 1.0878,
+    "mean_ex_gross_pct_m": 0.4456
+   },
+   "NH|B4|n30": {
+    "t_EW_gross": 1.0378,
+    "mean_ex_gross_pct_m": 0.2542
+   },
+   "AVG|B1|n10": {
+    "t_EW_gross": 1.719,
+    "mean_ex_gross_pct_m": 0.6091
+   },
+   "AVG|B1|n30": {
+    "t_EW_gross": 3.5993,
+    "mean_ex_gross_pct_m": 0.6982
+   },
+   "AVG|B2|n10": {
+    "t_EW_gross": 1.9674,
+    "mean_ex_gross_pct_m": 0.7145
+   },
+   "AVG|B2|n30": {
+    "t_EW_gross": 2.5977,
+    "mean_ex_gross_pct_m": 0.5617
+   },
+   "AVG|B3|n10": {
+    "t_EW_gross": 1.7539,
+    "mean_ex_gross_pct_m": 0.6626
+   },
+   "AVG|B3|n30": {
+    "t_EW_gross": 2.0802,
+    "mean_ex_gross_pct_m": 0.4593
+   },
+   "AVG|B4|n10": {
+    "t_EW_gross": 1.8273,
+    "mean_ex_gross_pct_m": 0.7651
+   },
+   "AVG|B4|n30": {
+    "t_EW_gross": 2.3547,
+    "mean_ex_gross_pct_m": 0.5843
+   },
+   "maxt_bootstrap_gross": {
+    "t_obs_max": 3.599,
+    "argmax": 17,
+    "p_maxt": 0.005,
+    "p_each": [
+     0.2476,
+     0.1716,
+     0.2174,
+     0.3116,
+     0.0912,
+     0.1138,
+     0.104,
+     0.0726,
+     0.7106,
+     0.8252,
+     0.5434,
+     0.7372,
+     0.433,
+     0.7396,
+     0.523,
+     0.5456,
+     0.2542,
+     0.005,
+     0.1832,
+     0.061,
+     0.2422,
+     0.1528,
+     0.219,
+     0.0986
+    ],
+    "boot_max_t_q95": 2.669,
+    "T": 89,
+    "K": 24
+   },
+   "MAIN_n10": {
+    "t_EW_gross": 2.5794,
+    "mean_ex_gross_pct_m": 1.3179
+   }
+  },
+  "entry_timing": {
+   "AVG|B1|n30": {
+    "close_entry_mean_ex_pct": 0.6554,
+    "close_entry_t": 3.5104,
+    "open_entry_gross_mean_ex_pct": 0.6982,
+    "open_entry_gross_t": 3.5993
+   },
+   "AVG|B1|n10": {
+    "close_entry_mean_ex_pct": 0.5991,
+    "close_entry_t": 1.6895,
+    "open_entry_gross_mean_ex_pct": 0.6091,
+    "open_entry_gross_t": 1.719
+   },
+   "AVG|B2|n10": {
+    "close_entry_mean_ex_pct": 0.7022,
+    "close_entry_t": 1.9467,
+    "open_entry_gross_mean_ex_pct": 0.7145,
+    "open_entry_gross_t": 1.9674
+   },
+   "ACC|B3|n10": {
+    "close_entry_mean_ex_pct": 0.914,
+    "close_entry_t": 2.3377,
+    "open_entry_gross_mean_ex_pct": 0.9696,
+    "open_entry_gross_t": 2.4008
+   },
+   "MAIN_n10": {
+    "close_entry_mean_ex_pct": 1.4485,
+    "close_entry_t": 2.8336,
+    "open_entry_gross_mean_ex_pct": 1.3179,
+    "open_entry_gross_t": 2.5794
+   }
+  },
+  "best": {
+   "version": "AVG|B1|n30",
+   "normal": {
+    "CAGR": 9.7467,
+    "maxDD": -58.6088,
+    "Calmar": 0.1663,
+    "t_0050": 0.933,
+    "t_EW": 1.3957,
+    "t_0050_cal": 1.0996,
+    "t_EW_cal": 1.1671,
+    "E50_CAGR": 5.9508,
+    "EW_CAGR": 6.3817,
+    "ex_0050": 3.7959,
+    "ex_EW": 3.365,
+    "n_m": 89,
+    "years": 7.47,
+    "yearly": {
+     "2006": 32.3,
+     "2007": 27.3,
+     "2008": -42.0,
+     "2009": 101.6,
+     "2010": 17.8,
+     "2011": -35.6,
+     "2012": 12.2,
+     "2013": 19.6
+    }
+   },
+   "stress": {
+    "CAGR": 7.0679,
+    "maxDD": -59.7052,
+    "Calmar": 0.1184,
+    "t_0050": 0.423,
+    "t_EW": 0.3084,
+    "t_0050_cal": 0.5584,
+    "t_EW_cal": 0.2458,
+    "E50_CAGR": 5.9508,
+    "EW_CAGR": 6.3817,
+    "ex_0050": 1.117,
+    "ex_EW": 0.6862,
+    "n_m": 89,
+    "years": 7.47
+   },
+   "yearly": {
+    "2006": {
+     "leg": 32.3,
+     "main_n10": 57.5,
+     "EW": 28.8,
+     "0050": 18.2
+    },
+    "2007": {
+     "leg": 27.3,
+     "main_n10": 28.4,
+     "EW": 7.7,
+     "0050": 10.3
+    },
+    "2008": {
+     "leg": -42.0,
+     "main_n10": -53.1,
+     "EW": -48.1,
+     "0050": -43.3
+    },
+    "2009": {
+     "leg": 101.6,
+     "main_n10": 86.3,
+     "EW": 112.4,
+     "0050": 75.0
+    },
+    "2010": {
+     "leg": 17.8,
+     "main_n10": 22.0,
+     "EW": 9.6,
+     "0050": 13.1
+    },
+    "2011": {
+     "leg": -35.6,
+     "main_n10": -1.6,
+     "EW": -29.6,
+     "0050": -15.8
+    },
+    "2012": {
+     "leg": 12.2,
+     "main_n10": 32.9,
+     "EW": 14.1,
+     "0050": 11.9
+    },
+    "2013": {
+     "leg": 19.6,
+     "main_n10": 26.6,
+     "EW": 17.9,
+     "0050": 11.7
+    }
+   },
+   "top_contrib": {
+    "top_code": "3041",
+    "top_name": "揚智",
+    "top_contrib_pp": 4.9565,
+    "sum_contrib_pp": 128.4967,
+    "top_share": 0.0386,
+    "gross_CAGR_approx": 15.1045,
+    "gross_CAGR_ex_top": 14.6503,
+    "ex_top_drop_pp": 0.4542,
+    "top5": [
+     [
+      "3041",
+      5.0
+     ],
+     [
+      "1734",
+      4.5
+     ],
+     [
+      "2324",
+      4.1
+     ],
+     [
+      "2417",
+      3.5
+     ],
+     [
+      "2384",
+      3.4
+     ]
+    ]
+   },
+   "t_EW_ex2013": 1.3626,
+   "paired_vs_main_n10": {
+    "mean_pct_m": -0.6565,
+    "t": -1.2113
+   },
+   "mean_ex_EW_pct_m": 0.2682,
+   "mean_ex_0050_pct_m": 0.3821,
+   "n_windows": 89,
+   "n_stock_months": 2700,
+   "turnover": 0.6334,
+   "main_n10_same_period": {
+    "CAGR": 18.5613,
+    "maxDD": -64.9711,
+    "t_0050": 1.8577,
+    "t_EW": 1.814,
+    "E50_CAGR": 5.9508,
+    "EW_CAGR": 6.3817
+   },
+   "t_EW_2013_only": 0.3018,
+   "industry_share": {
+    "半導體業": 0.12,
+    "電子零組件業": 0.094,
+    "電腦及週邊設備業": 0.077,
+    "光電業": 0.07,
+    "（未知）": 0.053,
+    "通信網路業": 0.051,
+    "航運業": 0.049,
+    "塑膠工業": 0.039,
+    "鋼鐵工業": 0.036,
+    "橡膠工業": 0.036
+   },
+   "elec_share": 0.4767,
+   "liq_rank_median": 121.0,
+   "share_liq_101_300": 0.5826,
+   "ex_top_gross_t_approx": 2.6366,
+   "with_top_gross_t_approx": 2.7779
+  },
+  "combo_in_selection": {
+   "normal": {
+    "combo": {
+     "CAGR": 13.8224,
+     "maxDD": -61.4966,
+     "Calmar": 0.2248,
+     "t_0050": 1.5255,
+     "t_EW": 1.7774,
+     "t_0050_cal": 1.7886,
+     "t_EW_cal": 1.895,
+     "E50_CAGR": 5.9508,
+     "EW_CAGR": 6.3817,
+     "ex_0050": 7.8716,
+     "ex_EW": 7.4407,
+     "n_m": 89,
+     "years": 7.47
+    },
+    "main_n10": {
+     "CAGR": 18.5613,
+     "maxDD": -64.9711,
+     "Calmar": 0.2857,
+     "t_0050": 1.8577,
+     "t_EW": 1.814,
+     "t_0050_cal": 2.06,
+     "t_EW_cal": 1.9381,
+     "E50_CAGR": 5.9508,
+     "EW_CAGR": 6.3817,
+     "ex_0050": 12.6104,
+     "ex_EW": 12.1796,
+     "n_m": 89,
+     "years": 7.47
+    },
+    "leg_n10": {
+     "CAGR": 7.0415,
+     "maxDD": -60.3198,
+     "Calmar": 0.1167,
+     "t_0050": 0.3936,
+     "t_EW": 0.246,
+     "t_0050_cal": 0.564,
+     "t_EW_cal": 0.31,
+     "E50_CAGR": 5.9508,
+     "EW_CAGR": 6.3817,
+     "ex_0050": 1.0907,
+     "ex_EW": 0.6598,
+     "n_m": 89,
+     "years": 7.47
+    }
+   },
+   "stress": {
+    "combo": {
+     "CAGR": 11.1526,
+     "maxDD": -62.6852,
+     "Calmar": 0.1779,
+     "t_0050": 1.064,
+     "t_EW": 1.1263,
+     "t_0050_cal": 1.2886,
+     "t_EW_cal": 1.2074,
+     "E50_CAGR": 5.9508,
+     "EW_CAGR": 6.3817,
+     "ex_0050": 5.2018,
+     "ex_EW": 4.7709,
+     "n_m": 89,
+     "years": 7.47
+    },
+    "main_n10": {
+     "CAGR": 15.9241,
+     "maxDD": -66.0724,
+     "Calmar": 0.241,
+     "t_0050": 1.5161,
+     "t_EW": 1.4397,
+     "t_0050_cal": 1.6901,
+     "t_EW_cal": 1.5269,
+     "E50_CAGR": 5.9508,
+     "EW_CAGR": 6.3817,
+     "ex_0050": 9.9733,
+     "ex_EW": 9.5424,
+     "n_m": 89,
+     "years": 7.47
+    },
+    "leg_n10": {
+     "CAGR": 3.8748,
+     "maxDD": -61.8231,
+     "Calmar": 0.0627,
+     "t_0050": -0.1041,
+     "t_EW": -0.4723,
+     "t_0050_cal": 0.0382,
+     "t_EW_cal": -0.3849,
+     "E50_CAGR": 5.9508,
+     "EW_CAGR": 6.3817,
+     "ex_0050": -2.076,
+     "ex_EW": -2.5068,
+     "n_m": 89,
+     "years": 7.47
+    }
+   },
+   "corr_leg_n10_main_exEW": -0.0098
+  },
+  "P3_selection_period_only": {
+   "M3": {
+    "alpha_m_pct": -0.0825,
+    "alpha_t": -0.3224,
+    "r2": 0.5434,
+    "betas": {
+     "EWm": [
+      0.5279,
+      5.5489
+     ],
+     "ELEC": [
+      0.5578,
+      8.5712
+     ],
+     "C1x": [
+      0.4209,
+      3.8372
+     ],
+     "C2x": [
+      0.3251,
+      2.3181
+     ]
+    }
+   },
+   "M3+LEG(n30)": {
+    "alpha_m_pct": -0.121,
+    "alpha_t": -0.4686,
+    "r2": 0.5499,
+    "betas": {
+     "EWm": [
+      0.538,
+      5.6978
+     ],
+     "ELEC": [
+      0.5677,
+      8.7908
+     ],
+     "C1x": [
+      0.4317,
+      3.7725
+     ],
+     "C2x": [
+      0.3138,
+      2.2408
+     ],
+     "LEGx": [
+      0.1636,
+      1.0874
+     ]
+    }
+   },
+   "M3+LEG(n10)": {
+    "alpha_m_pct": -0.0823,
+    "alpha_t": -0.3193,
+    "r2": 0.553,
+    "betas": {
+     "EWm": [
+      0.5368,
+      5.5768
+     ],
+     "ELEC": [
+      0.546,
+      8.4799
+     ],
+     "C1x": [
+      0.4201,
+      3.7064
+     ],
+     "C2x": [
+      0.2859,
+      2.2501
+     ],
+     "LEG10x": [
+      0.1107,
+      0.981
+     ]
+    }
+   },
+   "n": 88,
+   "window": [
+    "2006-08-11",
+    "2013-11-11"
+   ],
+   "note": "計畫的 P3 是 2014～2020（驗證期），閘門未開故不做；這裡只是挑選期描述。安聯在 2006～2013 本來就沒有殘差 α。"
+  },
+  "runtime_s": 12.8
+ }
+}
