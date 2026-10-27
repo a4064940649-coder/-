@@ -1,0 +1,274 @@
+[
+ {
+  "slug": "w4_choke_volume_first_red",
+  "name": "窒息量後的第一根表態紅 K（量縮整理後量增價漲）",
+  "category": "technical",
+  "rule": "股池同上。(1) 前面有一段行情：max(close_{t-60..t-1}) / min(close_{t-120..t-1}) ≥ 1.25。(2) 窒息量：t-10～t-1 之間有某一天的成交量 ≤ 0.35 × 過去 60 日最大量，而且 ≤ 0.5 × 當時的 VMA20。教學說窒息量沒有絕對數字，這兩個門檻是研究中心預設值，另測 0.25／0.5。(3) 量縮期間股價沒有破底：min(close_{t-10..t-1}) ≥ 該段行情起漲低點 + 0.382 × 漲幅。(4) 觸發日 t 是表態紅 K：close_t > open_t，close_t / close_{t-1} − 1 ≥ 2%（教學說紅 K 漲幅最好 2% 以上），量 ≥ 1.5 × VMA5。變體濾網（另一位作者的條件）：收盤創 20 日新高，且 VMA5 > VMA20。進場：t+1 開盤，開盤漲停視為買不到。出場：停損為收盤 < 觸發日開盤價（教學說跌破表態紅 K 即失敗；面板沒有最低價，所以用開盤價代替）；另外收盤 < MA10 出場；最長持有 40 個交易日。",
+  "sources": [
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=210766",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=171894",
+   "https://www.wantgoo.com/blog/22582/post/31",
+   "https://www.wantgoo.com/blog/22582/post/1136",
+   "https://www.businesstoday.com.tw/article/category/80401/post/201806190015/"
+  ],
+  "popularity": "『窒息量』是台股論壇和 CMoney 筆記的常用詞。CMoney 至少兩篇熱門筆記、玩股網專欄、今周刊都有教學，也是 PTT 推文常見的術語（原文抓不到）。各方教學都只給定性描述，沒有給數字門檻。",
+  "data_ok": true,
+  "data_note": "沒有最低價，所以紅 K 低點停損改用開盤價，算近似版。和佇列中的 w1『爆量長紅後量縮』順序相反：這條是先量縮、再出現紅 K 進場。"
+ },
+ {
+  "slug": "w4_obv_leads_new_high",
+  "name": "OBV 能量潮先創新高、股價還沒創新高（量能先行吸籌）；以及 OBV 均線黃金交叉",
+  "category": "technical",
+  "rule": "股池同上。OBV_t = OBV_{t-1} + sign(close_t − close_{t-1}) × vol_t，成交量 = value/close_raw。OBV 的絕對值沒有意義，所以只用滾動視窗內的相對位置；面板在 2024-01-02～02-14 有缺口，缺口後重新起算。主版本（每日收盤）：OBV_t = max(OBV_{t-59..t})，OBV 創 60 日新高；同時 close_t < 0.95 × max(close_{t-59..t})，股價距 60 日高點還有 5% 以上；而且 close_t > MA60_t。版本 B（XQ 論壇的寫法）：OBV 的 MA5 由下往上穿過 OBV 的 MA20，且 close > MA20。進場：t+1 開盤。出場：收盤 < MA20，或 OBV < OBV 的 MA20，隔日開盤賣；最長持有 40 個交易日。對照組：股價創 60 日新高、OBV 卻沒有創新高（頂背離），看後續 20 日報酬，驗證教學的賣出說法。",
+  "sources": [
+   "https://www.stockfeel.com.tw/obv-%E8%83%BD%E9%87%8F%E6%BD%AE-%E6%8C%87%E6%A8%99/",
+   "https://www.pocket.tw/school/articles/5358/",
+   "https://forum.xq.com.tw/thread/obv-5%e6%97%a5%e5%b9%b3%e5%9d%87%e7%b7%9a%e4%b8%8a%e7%a9%bf20%e6%97%a5%e5%b9%b3%e5%9d%87%e7%b7%9a",
+   "https://forum.xq.com.tw/thread/obv-%e5%8f%8a-obv-%e5%9d%87%e7%b7%9a/",
+   "https://ctyeh.com/stock/knowledge/12883",
+   "https://hao.cnyes.com/post/36798"
+  ],
+  "popularity": "股感、口袋學堂、鉅亨號、iThome 都有 OBV 教學，XQ 論壇有多篇 OBV 選股腳本的討論串，是台股看盤軟體的標準副圖。各來源對『OBV 創新高、股價沒創新高』的解讀方向互相矛盾，所以兩個方向都要測。",
+  "data_ok": true,
+  "data_note": "2005 年起都能測。來源 3 的區段（2024-02～2025-09）收盤是近似值，成交量也是 5 分 K 加總，算 OBV 的正負號時可能有誤差，這段要另外報。"
+ },
+ {
+  "slug": "w4_vr_volume_ratio",
+  "name": "VR 成交量比率：低檔底部量買進、過熱出場（台灣看盤軟體內建的人氣指標）",
+  "category": "technical",
+  "rule": "股池同上。VR(N) = (N 日內上漲日量合計 + 0.5 × 平盤日量合計) / (N 日內下跌日量合計 + 0.5 × 平盤日量合計) × 100。N = 26（看盤軟體的常見預設，教學沒有統一參數）。進場（事件，每日收盤）：VR_{t-1} < 60 且 VR_t ≥ 60，也就是從嚴重超跌區（moomoo 定義 < 60%）回升；變體門檻 40（MoneyDJ 的『底部量』）。濾網兩版：無；close > MA60。t+1 開盤買。出場：VR > 350（moomoo 的超買區；變體 450，MoneyDJ 的『頭部』），或固定持有 20／60 個交易日，兩者先到者為準。另報橫斷面版本：每月底依 VR(26) 由低到高分五組，買最低組，持有 1 個月。PSY 心理線（12 日上漲天數比例 < 25 買、> 75 賣）作附帶變體。",
+  "sources": [
+   "https://www.moneydj.com/z/analyst/VR.htm",
+   "https://www.moomoo.com/us/hant/support/topic3_815",
+   "https://www.wantgoo.com/blog/37351/post/5430",
+   "https://www.moneydj.com/z/analyst/PSY.htm",
+   "https://www.moomoo.com/us/hant/support/topic3_814"
+  ],
+  "popularity": "VR 和 PSY 是台灣看盤軟體（XQ、MoneyDJ、券商 App）內建的『人氣指標』，MoneyDJ 理財寶、玩股網、moomoo 都有教學。論壇使用率比 KD、MACD 低，屬於中等。",
+  "data_ok": true,
+  "data_note": "2005 年起都能測。注意它和已測的 RSI<30/>70 很像，差別是 VR 用成交量加權而不是用價差，可能高度相關。建議回報和 RSI 訊號的重疊率，重疊太高就直接判為重複。"
+ },
+ {
+  "slug": "w4_w_bottom_neckline",
+  "name": "W 底突破頸線（右腳不破左腳、帶量突破、等幅目標、跌破頸線停損）",
+  "category": "technical",
+  "rule": "股池同上。用收盤價找轉折（面板沒有最低價）：轉折低點 = 左右各 5 日內最低收盤，要到右側 5 日過完才確認。W 底：左腳 L1、右腳 L2 相隔 15～60 個交易日；L2 介於 L1 × 0.97 和 L1 × 1.05 之間（右腳不低於左腳，允許 3% 誤差）；頸線 N = 兩腳之間的最高收盤，且 N / L1 − 1 ≥ 10%；左腳前 60 日要有下跌段（max close / L1 ≥ 1.2，代表這是底部）。觸發：右腳確認後 30 日內，close_{t-1} ≤ N 且 close_t > N；主版本要求量 ≥ 1.5 × VMA20（教學說宜帶量突破），另報不要求量的版本。進場：t+1 開盤。出場：達到目標價 close ≥ N + (N − L2)（等幅測量）即停利；收盤 < N × 0.97（跌破頸線）即停損；最長持有 60 個交易日。變體：突破後等回測頸線（close 落在 N 和 N × 1.02 之間且收紅）再買，即教學說的第二買點。",
+  "sources": [
+   "https://smart.businessweekly.com.tw/Reading/IndepArticle.aspx?ID=36820",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=893325",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=16901",
+   "https://www.businesstoday.com.tw/article/category/80401/post/201806190042/",
+   "https://www.pocket.tw/school/articles/4310/"
+  ],
+  "popularity": "W 底和 M 頭是 PTT [請益] 新手最常問的型態，也是 Smart、今周刊、CMoney、口袋學堂的基本教材，CMoney 有多篇熱門筆記。論壇上『打出 W 底』是很常見的說法（PTT 原文抓不到）。",
+  "data_ok": true,
+  "data_note": "沒有最低價，轉折只能用收盤價近似；轉折要右側 5 日確認，所以只有確認後的突破才能用，避免偷看未來。2005 年起都能測。"
+ },
+ {
+  "slug": "w4_ma_deduction_turn",
+  "name": "均線扣抵值上彎選股（月線＋季線扣抵）",
+  "category": "technical",
+  "rule": "股池：上市普通股，60 日均成交值 ≥ NT$1,000 萬、收盤 ≥ 10 元。扣抵值定義：MA20 在 t 日的扣抵值＝C[t-19]（下一日加入新價時會被剔除的那一天），MA60 的扣抵值＝C[t-59]。進場（t 日收盤判斷，t+1 開盤買）：(1) C[t] > MA20[t] 且 C[t] > MA60[t]；(2) 月線預期續揚：未來 5 個扣抵值 C[t-19..t-15] 全部 < C[t]（股價不動，月線未來 5 日也會上彎）；(3) 季線預期上彎：C[t] > C[t-59] 且 C[t-59..t-55] 的平均 < C[t]；(4) 前一日條件 (2) 不成立（只取首次轉為上彎，避免每天重複進場）。出場：C[s] < MA20 扣抵值 C[s-19] 且 C[s] < MA20[s]（月線即將下彎），s+1 開盤賣；最長持有 40 交易日。教學沒給固定參數，採最常見的「月線 20、季線 60、看未來 5 日扣抵」。變體：只用月線扣抵（去掉 (3)）；改看未來 10 日扣抵。",
+  "sources": [
+   "https://histock.tw/blog/histock1688/39",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=231069",
+   "https://www.businesstoday.com.tw/article/category/80407/post/201805290018/",
+   "https://hao.cnyes.com/post/28042",
+   "https://www.stockfeel.com.tw/?p=148371",
+   "https://www.nstock.tw/author/article?id=226"
+  ],
+  "popularity": "台股特有的技術分析詞彙，在嗨投資、CMoney 達人筆記、今周刊、鉅亨網好學校、股感、nStock 都有教學，投顧節目和社群貼文也常說「扣抵低，月線將上彎」。英文教學幾乎沒有這個概念，所以和 w3 不重複。",
+  "data_ok": true,
+  "data_note": "只需要收盤價（adj 或 close_raw），面板 2004 年起就有。跟已測的均線交叉、多頭排列、葛蘭碧不同：這條規則是用扣抵值預測均線「未來」的方向，本質接近 20／60 日價格動能，再加上均線方向的門檻。回測要和 1 個月反轉、12-1 動能做增量比較。rolling 前要先剔除「有值檔數 < 300」的日子。"
+ },
+ {
+  "slug": "w4_volume_leads_price",
+  "name": "量先價行：5 日均量上穿 20 日均量、均價尚未交叉",
+  "category": "technical",
+  "rule": "股池同上。成交量＝value/close_raw。進場（t 日收盤判斷，t+1 開盤買）：(1) 均量黃金交叉：Vol_MA5[t] > Vol_MA20[t] 且 Vol_MA5[t-1] ≤ Vol_MA20[t-1]；(2) 價格尚未交叉：MA5[t] < MA20[t]（教學核心：量先動、價還沒動）；(3) 月線走平或上揚：MA20[t] ≥ MA20[t-5]；(4) 季線沒有明顯下彎：MA60[t] ≥ 0.98×MA60[t-20]。出場：進場後 MA5 上穿 MA20、之後又跌回 MA20 之下時賣；或 C < MA20 連 2 日；或持有滿 20 交易日。三者都在訊號隔日開盤賣。教學沒給持有期，取 20 日（月線週期）。",
+  "sources": [
+   "https://www.wantgoo.com/blog/67867/post/180",
+   "https://n.yam.com/Article/20120709613685",
+   "https://www.mirrormedia.mg/story/amp/20190711fin015",
+   "https://www.cmoney.tw/notes/?tag=51267"
+  ],
+  "popularity": "玩股網的選股教學文章；蕃薯藤／yam 從 2012 年起每天刊出「均量黃金交叉個股」名單（上市、上櫃分開），表示有固定讀者。CMoney 的量價標籤下也有多篇。熱度屬中等，但規則明確。",
+  "data_ok": true,
+  "data_note": "成交量用 value/close_raw 近似，2004 年起可用。src=3（2024-02～2025-09）的成交值是 Yahoo 5 分 K 加總，量的訊號會有誤差，要分段報告。跟已測的「帶量突破」不同：這條要求價格還沒突破（MA5 < MA20），是在突破之前布局。教學自己也指出，多數股票的均量與均價會在同一天交叉，事件數可能偏少。"
+ },
+ {
+  "slug": "w4_dryup_volume_rebound",
+  "name": "窒息量後首根帶量紅 K（低檔量縮再放量）",
+  "category": "technical",
+  "rule": "股池同上。窒息量定義（教學沒有統一門檻，取常見的「量 < 20 日均量 × 0.5」）：近 10 個交易日內至少 1 日 Vol < 0.5×Vol_MA20。低檔條件：C[t] ≤ 1.15×min(C[t-59..t])，且 MA20[t]/MA20[t-5]−1 ≥ −1%（月線下彎不超過 1%）。觸發日 t：C[t]/C[t-1]−1 ≥ 3%、C[t] > O[t]（紅 K）、Vol[t] ≥ 2×Vol_MA5[t-1]。t+1 開盤買，開盤漲停視為買不到。出場：收盤跌破觸發日開盤價 O[t]（沒有最低價，用紅 K 開盤價代替低點）則隔日開盤賣；否則持有 10 交易日。變體：窒息量門檻 0.4／0.6；持有 5／20 日。",
+  "sources": [
+   "https://money.udn.com/money/story/5607/9654499",
+   "https://tw.stock.yahoo.com/news/%E6%99%A8%E9%96%93%E8%A7%A3%E7%9B%A4-%E7%AA%92%E6%81%AF%E9%87%8F-%E5%8F%B0%E8%82%A1%E9%9B%A3%E8%A1%8C-001515979.html",
+   "https://www.wantgoo.com/blog/67867/post/180",
+   "https://wantrich.chinatimes.com/news/20250916900067-420101",
+   "https://www.nstock.tw/author/article?id=1758"
+  ],
+  "popularity": "「窒息量」「量縮價穩」是台股社群和媒體的常用詞，經濟日報、Yahoo 晨間解盤、旺得富都用過，玩股網、nStock 的作者把「長期無量盤整後出現帶量紅 K」當成選股法。不過沒有統一的公式，門檻是依常見說法設定的。",
+  "data_ok": true,
+  "data_note": "需要的開盤、收盤、成交值都有，只是沒有最低價，停損改用紅 K 的開盤價。跟已測的「帶量突破、均線糾結帶量長紅」不同：這條要求先出現極端量縮，而且位置在低檔（接近 60 日低點），不是突破新高。依 w2 的經驗，持有少於 20 日的規則要先過扣成本前初篩（每筆異常報酬 ≥ 1%）。"
+ },
+ {
+  "slug": "w4_bullish_engulfing_low",
+  "name": "低檔多頭吞噬（紅 K 吞噬黑 K）＋放量＋確認 K",
+  "category": "technical",
+  "rule": "股池同上。條件（只用開盤與收盤，不需最低價）：(1) t-1 為黑 K：C[t-1] < O[t-1]，實體 ≥ 1.5%；(2) t 為紅 K，實體完全包住前一根：O[t] ≤ C[t-1] 且 C[t] ≥ O[t-1]，且 |C[t]−O[t]| ≥ 1.5×|C[t-1]−O[t-1]|；(3) 下跌或低檔：C[t-1]/C[t-11]−1 ≤ −5% 且 C[t] < MA20[t]；(4) 放量：Vol[t] ≥ 1.5×Vol_MA5[t-1]；(5) 確認 K（教學建議等 1 根確認）：C[t+1] > C[t]。t+2 開盤買（無確認版：t+1 開盤買）。出場：收盤跌破 O[t]（吞噬紅 K 的開盤價）則隔日開盤停損；否則持有 10 交易日。對照組：高檔空頭吞噬（條件反過來，C > MA20 且 10 日漲幅 ≥ 10%），當作賣出訊號測試。",
+  "sources": [
+   "https://www.esunsec.com.tw/article/post/56",
+   "https://www.xq.com.tw/xstrader/?p=10568",
+   "https://histock.tw/blog/archer/4",
+   "https://ctyeh.com/stock/knowledge/12863",
+   "https://www.wantgoo.com/blog/98845/post/57",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=757261"
+  ],
+  "popularity": "多頭吞噬是台股最常教的 K 線反轉型態之一，玉山證券、XQ 全球贏家、嗨投資、玩股網、CMoney 都有教學。histock 的作者說「K 線型態裡最多的反轉信號是多頭吞噬」，XQ 也提供現成的選股腳本。",
+  "data_ok": true,
+  "data_note": "開盤、收盤、成交值都有，可以從 2004 年測起。實體用原始開盤與收盤（open、close_raw）計算，避免除權息日造成假訊號；要排除 flag 3/4/5 的公司行動日。src=3 這段的收盤是 13:20 近似值，K 棒顏色可能判斷錯誤，要分段報告。已測的「連三紅、跳空未補」是不同的型態。"
+ },
+ {
+  "slug": "w4_peg_revenue_growth",
+  "name": "PEG < 0.75 低估成長股（以營收成長率代替 EPS 成長率）",
+  "category": "fundamental",
+  "rule": "股池同上。每月 12 日之後的第一個交易日（月營收公告截止日之後）計算：PE＝當月 pe_5y 月初 PE；成長率 g＝近 12 個月累計營收對前 12 個月的年增率（%）。條件：PE > 0、g ≥ 10%（避免分母太小）、PEG＝PE/g < 0.75（教學門檻：< 0.75 低估、約 1 合理、> 1.2 高估）。入選股等權持有，隔日開盤成交，每月換股；入選超過 30 檔時取 PEG 最低的 30 檔。出場：下個月不再符合就賣；PEG > 1.2 時提前賣。變體：門檻 PEG < 1；g 改用近 3 個月累計年增率。",
+  "sources": [
+   "https://www.stockfeel.com.tw/本益成長比-peg-選股/",
+   "https://blog.fugle.tw/peg-ratio",
+   "https://roo.cash/blog/peg-ratio-article/",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=203668",
+   "https://samuel6788.substack.com/p/peg"
+  ],
+  "popularity": "PEG（彼得林區法）在台灣財經教學很常見，股感、富果、CMoney 筆記、Substack 都有介紹，Goodinfo 的個股頁也直接顯示 PEG。教學的 PEG 原本用 EPS 成長率，用月營收代替是本中心的改寫。",
+  "data_ok": true,
+  "data_note": "PE 來自 pe_5y（2021-09 起），營收用 rev_5y，或用長期月營收檔算年增率。只能測 2021-09～2026，挑選期 2021～2023、驗證期 2024～2026，檢定力低。教學原版要 EPS 成長率，但季報 EPS 不在資料裡，改用近 12 個月營收年增率代替，必須在報告裡註明。和已測的「月營收年增率」及「PE」單一因子不同，這是兩者的比值。要再控制單月營收年增率，看有沒有增量。"
+ },
+ {
+  "slug": "w4_0050_drawdown_add",
+  "name": "0050 定期定額＋跌深分批加碼",
+  "category": "other",
+  "rule": "資產：0050 含息與現金。基本版：每月第一個交易日開盤投入固定金額 1 單位（定期定額）。加碼版：另外準備預備金，0050 含息指數從前高回落 10%、20%、30% 時，各在首次觸及的隔日開盤投入預備金的 1/3；每個門檻在創新高前只觸發一次，創新高後重置；預備金平時以 1% 利率放現金。對照：同總金額一次投入、純定期定額、KD 變體（月 K 值 < 20 時該月投入 2 倍，> 80 時只投 0.5 倍；沒有最低價，用月收盤的高低近似）。報告內部報酬率（IRR）、期末市值、最大回撤、資金閒置比例；期間 2004～2026，另報 2008、2015、2020、2022 的空頭子段。",
+  "sources": [
+   "https://www.businesstoday.com.tw/article/category/183013/post/202604080019/",
+   "https://finance.ettoday.net/news/3210478",
+   "https://www.businesstoday.com.tw/article/category/183008/post/202607240002/",
+   "https://www.businesstoday.com.tw/article/category/183013/post/202504010063/",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=572423"
+  ],
+  "popularity": "「0050 跌了要不要加碼」是 2025～2026 年台股散戶最常討論的題目。今周刊（股市小黑「下跌分批 vs 一次投入」）、ETtoday 網友熱議文、CMoney 的 KD 加減碼文都在談；柏格先生、財女珍妮、市場先生等 ETF 創作者的影片也常討論定期定額要不要擇時。不過沒找到市場先生親自提出的具體參數，門檻採常見的 10／20／30%。",
+  "data_ok": true,
+  "data_note": "0050 含息資料（etf_0050.csv，etf_long 從 2009 起）足夠測 2004～2026。這是資金投入時點的規則，不是選股，評估要用 IRR 和期末市值，不能用月報酬 t。已測的 200 日均線擇時是全進全出，這條只是加碼、不賣出，兩者不同。KD 變體缺最低價，只能近似。"
+ },
+ {
+  "slug": "w4_lin_pencil_base_breakout",
+  "name": "林則行《飆股的長相》鉛筆型平穩期後創新高＋量增＋營收成長",
+  "category": "technical",
+  "rule": "股池：上市、60 日均成交值 ≥ NT$1,000 萬、股價 ≥ 10 元。每日收盤後判斷訊號，隔日開盤買進；開盤漲停視為買不到。進場要同時符合：(1) 近 1～2 年新高：今日收盤 > 前 250 日收盤最高價。(2) 不是史上新高：今日收盤 < 前 2,500 日（約 10 年，資料不足就用全部歷史）收盤最高價。書中說位於史上最高價就是太貴、別買。(3) 鉛筆型平穩期：前 120 個交易日（約半年）max(收盤)/min(收盤) − 1 ≤ 30%。(4) 量增：今日成交量（value/close_raw）≥ 前 20 日均量 × 1.2，書中寫的是「高出二到三成」。(5) 獲利支撐：最近已公告 3 個月的營收合計年增 ≥ 10%，用來代理「單季營收年增 > 10%」；稅後盈餘 > 20% 這條沒有資料，省略。(6) 書中原本要求當日高低落差 ≤ 4%，但面板沒有最低價，改用 (high − min(open, close)) / 前日收盤 ≤ 4% 近似。出場：(a) 收盤跌破進場價 −8% 就隔日開盤停損，林則行本人設 8%。(b) 書中用「順位相關係數」發賣訊，但公式沒有公開，預設改為「近 26 日收盤對時間序的 Spearman 相關 < 0」時隔日開盤賣出。(c) 最長持有 120 個交易日。多檔同時觸發就等權持有，最多 20 檔。",
+  "sources": [
+   "https://www.eslite.com/product/1001191562682001692002",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=35181",
+   "https://www.businesstoday.com.tw/article/category/183008/post/201409190016/",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=12228"
+  ],
+  "popularity": "大是文化出版的中譯暢銷書，誠品有上架。CMoney 有多篇書摘，其中一篇標題是「K線大師揭密…金融海嘯也獲利 21%」。今周刊做過專訪。部落格常轉述「平穩期半年、波動 30% 以下、量增二到三成、漲幅未達 20% 不買」這組數字。",
+  "data_ok": true,
+  "data_note": "和已測的 52 週高點、Minervini 差在三點：多了「半年內波動 ≤ 30%」的鉛筆型平穩期，排除史上新高，並且要求量增和營收年增。面板沒有最低價，所以平穩期改用收盤價區間，K 棒高低落差用最高價對開收較低者近似。月營收在 2021 年前用長期月營收（2005 起）。順位相關係數的參數是研究員自訂的預設，必須在挑選期固定。"
+ },
+ {
+  "slug": "w4_chu_jiahong_strong_bar_ma5_exit",
+  "name": "朱家泓 多頭排列＋漲幅 3.5% 長紅過前高，跌破 5 日線出場",
+  "category": "technical",
+  "rule": "股池：流動性池（60 日均值 ≥ 1,000 萬、股價 ≥ 10）。訊號日 t 要同時符合：(1) 多頭排列：MA5 > MA10 > MA20 > MA60，以收盤價計算，取朱家泓常用的 5/10/20/60 四條均線。(2) MA20 比 5 日前高（月線上揚）。(3) 今日漲幅 ≥ 3.5%（收盤對前日收盤）。(4) 收盤 > 前一日最高價（high）。(5) 量增：今日成交量 ≥ 前 5 日均量 × 1.5；教學只說「量增」，1.5 倍是研究員採用的預設。進場：t+1 開盤，開盤漲停不買。出場的先後順序：(a) 收盤 < MA5 就隔日開盤出場，這是他的主要賣訊。(b) 停損：收盤 < 訊號日長紅 K 的開盤價就隔日開盤出場。教學原本用 K 棒低點，面板沒有最低價，改用開盤價。(c) 獲利目標版本另外測：短線 +8% 或中線 +15% 觸價出場，用最高價判斷。(d) 最長持有 60 個交易日。逐筆計算，同池等權當對照。",
+  "sources": [
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=68237",
+   "https://smart.businessweekly.com.tw/Magazine/detail.aspx?id=7010779&p=2",
+   "https://www.ctee.com.tw/news/20190721700238-430298",
+   "https://www.mirrormedia.mg/story/20180719fin018",
+   "https://hao.cnyes.com/ch/172825"
+  ],
+  "popularity": "朱家泓是台灣技術分析暢銷書作者，著有《做對5個實戰步驟》《活用技術分析寶典》，還有飆股班課程。CMoney、Smart 智富、工商時報、鏡週刊、鉅亨號 2016～2025 年都有專訪或書摘，「漲幅 3.5% 以上強勢股」「跌破 5 日線出場」「短線目標 5～8%」反覆被引用。",
+  "data_ok": true,
+  "data_note": "已測過的均線多頭排列是月換股，均線糾結長紅是 20 日固定持有。這條的差別在於多了單日 ≥ 3.5% 且過前日高的觸發，並用 MA5 移動出場，屬於波段短抱。停損原本用 K 低，沒有最低價，所以用長紅開盤價代替。要特別注意成本，因為已測的短抱技術規則多半敗在成本。"
+ },
+ {
+  "slug": "w4_xiao_volume_dimple_attack",
+  "name": "蕭明道 凹洞量後攻擊量（量縮整理後放量）",
+  "category": "technical",
+  "rule": "股池：流動性池。凹洞量（量縮）條件：前 5 日每天的成交量都 < 前 20 日均量，而且前 5 日均量 ≤ 前 60 日均量 × 0.6。整理條件：前 20 日 max(收盤)/min(收盤) − 1 ≤ 15%，對應「股價久未動」。攻擊量觸發：今日成交量 > 前 5 日每一天的成交量（原文是「量比前面 5 根大」），且 ≥ 前 20 日均量 × 1.5，且今日收盤 > 前日收盤，且收盤 ≥ MA20。進場：隔日開盤。出場：(a) 量縮不見高價：持有期間出現 20 日最大量那天後，若 5 個交易日內收盤沒有超過該日最高價，就隔日開盤出場。(b) 收盤 < MA20 就隔日開盤出場。(c) 停損 −10%。(d) 最長持有 60 日。教學沒給 0.6、15%、1.5、−10% 這幾個數字，是研究員依常見寫法採用的預設，要在挑選期固定。",
+  "sources": [
+   "https://www.moneyweekly.com.tw/_Article?AID=128558",
+   "https://www.moneyweekly.com.tw/_Article?AID=53120",
+   "https://www.businesstoday.com.tw/article/category/80401/post/201409190013/",
+   "https://www.mirrormedia.mg/story/20200305fin002/index.html"
+  ],
+  "popularity": "蕭明道著有《主力的思維》，是知名技術派講師。理財周刊、今周刊、鏡週刊多次專訪，其中一篇標題是「技術派大師狠賺3億絕活」。理周文章用技嘉案例具體描述「凹洞量、連續 5 天扣低量、量比前 5 根大即買點」。",
+  "data_ok": true,
+  "data_note": "和已測的「均線糾結帶量長紅」相近，那條已判不可用。差別在這條先要求連續 5 日量縮（凹洞），再要求量大於前 5 根，出場則用「量縮不見高價」。成交量用 value/close_raw 換算。來源 3（Yahoo 近似收盤，2024-02～2025-09）的量價要抽查。"
+ },
+ {
+  "slug": "w4_sun_7pct_dividend_bible",
+  "name": "孫慶龍 7% 存股聖經（5 年平均股利殖利率 7% 買、5% 賣）",
+  "category": "fundamental",
+  "rule": "股池：流動性池，而且過去 5 個完整年度每年都有發放現金股利。每月最後一個交易日收盤後計算，隔月第一個交易日開盤換股。D5 是過去 5 個年度現金股利的平均，只計入當時已除息的部分。買進：收盤 ≤ D5 / 7%，也就是 5 年均殖利率 ≥ 7%。賣出採遲滯帶：持有中的股票在收盤 ≥ D5 / 5%（均殖利率 ≤ 5%）時賣出一半，收盤 ≥ D5 / 3% 時全部賣出；也可測簡化版，均殖利率 ≤ 5% 就全部賣出。另外，若最近一年度沒有發放現金股利（配息中斷），強制賣出。符合者等權持有，最多 30 檔。沒有標的時持有 0050 或現金，兩種都報告。",
+  "sources": [
+   "https://smart.businessweekly.com.tw/Reading/IndepArticle.aspx?ID=6013374",
+   "https://smart.businessweekly.com.tw/Reading/IndepArticle.aspx?id=6009146",
+   "https://smart.businessweekly.com.tw/Reading/IndepArticle.aspx?ID=6008849",
+   "https://www.nstock.tw/author/article?id=789"
+  ],
+  "popularity": "孫慶龍（「股市天王」）的招牌方法，Smart 智富有一系列文章，例如漢科 3402 的案例：平均股利 1.96 元，換算 7% 買進價 28 元。nstock 也有轉載。存股社群把「7% 買、5% 賣、3% 全出」當成標準估價口訣。",
+  "data_ok": true,
+  "data_note": "已測的「殖利率／PB／PE」是用當期殖利率排序。這條改用 5 年平均股利，加上 7%／5%／3% 的固定門檻和遲滯帶，進出邏輯不同。股利資料在 2021 年後用 exdiv_5y；2004～2020 年要用面板 adj 和 close_raw 在除息日的比值變化，反推每股現金股利，flag 有公司行動時要排除或核對。從 2005 起累積 5 年股利，所以實際可回測期從 2010 年起。2019～2023 只有存活者，有偏誤。"
+ },
+ {
+  "slug": "w4_historical_price_band",
+  "name": "存股估價：歷年股價法／股利法（便宜價買、昂貴價賣）",
+  "category": "fundamental",
+  "rule": "股池：流動性池，而且過去 10 年每年都有發放現金股利（存股族常見條件）。每月底計算，隔月首日開盤成交。版本 A，歷年股價法（高低價法）：便宜價是過去 N=7 個完整年度「年內最低收盤」的平均，合理價是年均收盤的平均，昂貴價是年內最高收盤的平均。收盤 ≤ 便宜價就買進，收盤 ≥ 昂貴價就賣出，介於兩者之間時續抱不加碼。N=10 當敏感度測試。版本 B，股利法：P_cheap = 近 10 年平均現金股利 × 15，P_exp = 近 10 年平均現金股利 × 30。收盤 ≤ P_cheap 買進，≥ P_exp 賣出；另測 ×16／×20／×32 的倍數版本。兩個版本都等權持有，最多 30 檔，沒有標的時持有 0050。",
+  "sources": [
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=183445",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=113435",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=24725",
+   "https://uptogo.com.tw/?p=1893421",
+   "https://apps.apple.com/us/app/%E5%AE%9A%E5%AD%98%E8%82%A1%E5%90%88%E7%90%86%E5%83%B9-%E4%BA%94%E7%A8%AE%E5%85%AC%E5%BC%8F%E8%A9%A6%E7%AE%97/id1227233300?uo=4"
+  ],
+  "popularity": "艾蜜莉（定存股）把「便宜價／合理價／昂貴價」推成存股圈最常用的估價框架。CMoney 有多篇「5 種估價方式」教學，iOS 上甚至有專門的 App「定存股合理價－五種公式試算」，各財經部落格也普遍轉載 15×／20×／30× 的股利倍數。",
+  "data_ok": true,
+  "data_note": "歷年股價法教學用的是年內最低價，面板沒有最低價，改用年內最低收盤，便宜價會略高。股利從 exdiv_5y（2021 起）取得，2021 年前從面板 adj/close_raw 反推。需要 10 年股利歷史，實際回測期約從 2015 年起，挑選期很短，可考慮改成 5 年版本來延長。和孫慶龍那條高度相關，可以合併成同一研究的兩個變體。"
+ },
+ {
+  "slug": "w4_tower_line_n3",
+  "name": "寶塔線（3 日收盤）翻紅買、第 2 根轉黑賣（莊文宗雙線戰法）",
+  "category": "technical",
+  "rule": "股池：流動性池。寶塔線只用收盤價計算，n=3。狀態規則：收盤 > 前 3 日最高收盤，狀態變紅；收盤 < 前 3 日最低收盤，狀態變黑；其他情況延續前一日狀態。進場：狀態由黑翻紅的那一天，且收盤 ≥ 布林中軌（MA20），隔日開盤買進；不加中軌濾網的版本另外測。出場（莊文宗）：翻紅後第一次出現黑棒（狀態轉黑當天），隔日開盤賣出 50%；轉黑後若再出現一根黑棒，也就是又一天收盤 < 前 3 日最低收盤，或狀態一直沒有翻回紅，剩下的 50% 在隔日開盤全部賣出。簡化版：第一次轉黑就全部出場。n=4、5 當敏感度測試，教學說 n 可以設 3、4 或 5。逐筆計算，同時另做「每日持有全部紅狀態股票等權」的組合版。",
+  "sources": [
+   "https://finance.ettoday.net/news/3197855",
+   "https://finance.ettoday.net/news/3178985",
+   "https://www.mirrormedia.mg/story/20260701money001",
+   "https://www.moneyweekly.com.tw/_Article?AID=1686",
+   "https://histock.tw/blog/38/318",
+   "https://www.wantgoo.com/blog/37351/post/5224"
+  ],
+  "popularity": "寶塔線是台灣看盤軟體的內建指標，HiStock、玩股網、理財周刊有大量教學文。2026 年 ETtoday（「翻紅就買」「第2根轉黑立刻下車」）和鏡週刊（「雙線戰法滾6000萬」）連續專訪莊文宗，近期熱度高。",
+  "data_ok": true,
+  "data_note": "不在已測清單內。教學原本用寶塔棒的高低點，也就是過去 n 根棒的收盤極值，所以只用收盤價就能完整重現，沒有最低價也不影響。屬於短抱技術規則，交易頻率高，需要特別報告扣成本前後的差異。"
+ },
+ {
+  "slug": "w4_climax_volume_black_exit",
+  "name": "高檔爆量長黑出場（疊加在主策略上的出場規則）",
+  "category": "technical",
+  "rule": "用途：作為現行主策略（52 週高點 × 月營收、M2 成交）持股的額外出場濾網，也可疊加在其他做多規則上。觸發條件：持股在交易日 t 要同時符合：(1) 高檔：收盤 / 前 60 日最低收盤 − 1 ≥ 30%，對應教學「漲幅至少 20～30%」。(2) 爆量：當日成交量 ≥ 前 20 日均量 × 2.5，另測「前 240 日均量 × 2.5」和「前 5 日均量 × 2」兩個版本。(3) 長黑：收盤 < 開盤，且收盤對前日收盤跌幅 ≥ 1.5%（教學定義）；另測「開高走低」，也就是開盤 > 前日收盤且收盤 < 開盤。觸發後隔日開盤賣出，空出的倉位在下一個換股日才遞補，期間持有 0050 或現金。對照組：主策略不加這個出場規則。報告有加和沒加之間的報酬、回撤、換手與成本差異。",
+  "sources": [
+   "https://www.stockfeel.com.tw/?p=140476",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=63810",
+   "https://www.cmoney.tw/notes/note-detail.aspx?nid=9932",
+   "https://www.pocket.tw/school/articles/5186/",
+   "https://www.moneyweekly.com.tw/_Article?AID=128558"
+  ],
+  "popularity": "「高檔爆量長黑就跑」是台股技術派共通的出場口訣。股感、CMoney、口袋證券、永豐 richclub 都有專文。朱家泓（爆量收黑先賣）和蕭明道（區間極限大量後量縮不見高價就出場）的專訪也都提到。",
+  "data_ok": true,
+  "data_note": "這條是出場規則，不是新的選股，研究中心尚未測過。需要的開盤、收盤和成交量（value/close_raw）都有。教學的倍數和漲幅門檻不統一，事前登記三組倍數，全部報告。來源 3 期間的開盤和收盤都是近似值，K 棒顏色可能判錯，要分段報告。"
+ }
+]
