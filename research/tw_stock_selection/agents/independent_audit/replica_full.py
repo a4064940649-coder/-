@@ -60,3 +60,13 @@ for d in dates[:-1]:
         cs = S.cross_section(d)
         print(d.date(), 'mine-only', [(K.COLS[j], round(cs['sc'][j], 4)) for j in a - b], 'theirs-only', [(K.COLS[j], round(cs['sc'][j], 4), round(float(sc.loc[d].iloc[j]), 4)) for j in b - a])
 print('pick diff periods', nd)
+
+# ---- 用我的引擎跑「他們的持股」 ----
+t0 = IDX.get_loc(dates[0]); t1 = IDX.get_loc(dates[-1])
+bb, ss = K.rates(0.001)
+plt = [(IDX.get_loc(d) + 1, np.array(theirs[d])) for d in dates[:-1]]
+nav, _ = K.simulate(plt, bb, ss, t0, t1)
+ex = pd.read_parquet(K.HERE.parent / 'exec_rebuild/main_nav.parquet')[f'M2_n{n}_slip0.001']
+o = K.stats(nav, '2021-03-01', '2026-10-31', dates, K.E50)
+print('my engine on their picks: CAGR', round(o['CAGR'] * 100, 2), 't0050', round(o['t_0050'], 2), 'end nav', nav.iloc[-1], 'exlib end nav', ex.iloc[-1],
+      'max daily ret diff', float((nav.pct_change() - ex.reindex(nav.index).pct_change()).abs().max()))

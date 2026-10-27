@@ -38,7 +38,7 @@ RULES = {
 }
 
 
-def simulate(items, K, buy, sell, t0, t1, rule=None, mode='cash'):
+def simulate(items, K, buy, sell, t0, t1, rule=None, mode='cash', log=None):
     """items: list of dict(t=進場日, s=子帳戶, order=排名陣列, n=檔數, backfill=漲停是否遞補, gu_held=已持有者是否豁免漲停, x=子帳戶出場日或 None)。
     rule: dict（tp／sl／tr／time／mkt），None＝無出場規則。mode: 'cash'／'next'。
     回傳 (nav Series（index 從 t0−1，起始 1.0）, info)。K=1、rule=None 或只有 sl 時與 rlib.simulate 相同。"""
@@ -119,6 +119,7 @@ def simulate(items, K, buy, sell, t0, t1, rule=None, mode='cash'):
                     if not ORF2[t, j] or LIMDN2[t, j]: continue
                     proceeds = u[s, j] * AO2[t, j] * (1 - sell)
                     close_pos(s, j, t)
+                    if log is not None: log.append((t, s, int(j), float(entry[s, j])))
                     u[s, j] = 0.0; entry[s, j] = np.nan; peak[s, j] = np.nan; hd[s, j] = 0; done.append(j); sell_t.append(t)
                     rep = None
                     if mode == 'next' and last_order[s] is not None:
