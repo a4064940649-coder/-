@@ -38,15 +38,21 @@ const REVIEW = { type: 'object', properties: {
   note: { type: 'string' },
 }, required: ['final', 'issues', 'note'] }
 
-const SCOUTS = [
+const SCOUTS_TW = [
   { key: 'ta', text: '台灣網路上的技術分析教學：PTT Stock 板精華、Mobile01、Dcard 理財、知名部落格（例如：股市阿水、雷浩斯、春哥、財報狗、CMoney 教學）、YouTube 教學影片的文字摘要、券商學院、技術分析書籍（葛蘭碧八大法則、K 線型態、量價關係、均線糾結、KD 鈍化、W 底／頭肩底突破、海龜、通道、跳空缺口、波浪、費波那契等）。' },
   { key: 'fund', text: '台灣網路上的產業研究、基本面與籌碼教學：營收創新高、EPS／毛利率成長、本益比河流圖、殖利率法、產業循環（記憶體、面板、航運、被動元件報價）、庫存循環、法說會、董監持股與大戶持股、投信認養、外資連買、融資融券（融資減券增、券資比）、主力分點、當沖比率、注意股、現金增資、庫藏股、股東會紀念品等。' },
   { key: 'pop', text: '台灣散戶最常被推薦、或是近年最紅的「選股公式／存股法／飆股法則」：例如 CMoney 與財經 YouTuber 常見的選股條件組合、「三率三升」、「月營收連續 N 月成長」、「均線多頭排列＋量增」、「投信首買」、「低基期」、「起漲點」等；也包括國外流行但台灣常引用的方法（CAN SLIM、Minervini 趨勢模板、Piotroski F-score、魔術公式）。' },
 ]
+const SCOUTS_GLOBAL = [
+  { key: 'academic', text: '全球學術與量化資料庫整理的股市異常與策略：Quantpedia（策略清單與 SSRN 論文摘要）、SSRN／arXiv 上的實證論文、Alpha Architect、AQR、Research Affiliates、Two Sigma 文章、《151 Trading Strategies》、Robeco 因子研究；特別找「在台灣或新興市場也被驗證過」、而且研究中心還沒測過的（例如：盈餘公告漂移 PEAD、分析師修正、股票回購、內部人買進、季節性 SUE、短期反轉、Amihud 非流動性、波動率擠壓、相對成交量、價格延遲 price delay、連續上漲天數、52 週低點反彈、異常成交量突破等）。' },
+  { key: 'en_ta', text: '英文世界的交易教學網站與影片：Investopedia、StockCharts ChartSchool、TradingView 熱門腳本與教學、QuantConnect／Quantopian 社群策略、r/algotrading、r/RealDayTrading、Larry Connors（RSI(2)、Connors RSI、雙重 7 日）、Linda Raschke、Mark Minervini 以外的 VCP、Stan Weinstein 階段分析、Nick Radge、Andreas Clenow 動能、Tom Hougaard 等；YouTube 熱門交易影片（Rayner Teo、The Trading Channel、Trading Rush、Ross Cameron、Tom Bowley 等）只能讀其逐字稿、文字摘要或影片說明欄，請找這些文字版本。' },
+  { key: 'asia', text: '日本、中國大陸、韓國、香港的股市教學與量化社群：日本（株探、みんかぶ、ストップ高翌日、新高値ブレイク投資術、移動平均乖離、信用倍率、IPO セカンダリー）、中國大陸（聚寬 JoinQuant、優礦、米筐、BigQuant 公開策略、A 股常見的漲停板戰法、首板二板、龍虎榜、北向資金、小市值輪動、高股息低波）、韓國（외국인 순매수、상한가 따라잡기）。抽出在台股制度下（10% 漲跌幅、T+2、現股當沖、處置與注意股、無放空限制差異）仍可執行的規則。' },
+]
+const SCOUTS = (args && args.scout_set === 'global') ? SCOUTS_GLOBAL : SCOUTS_TW
 
 phase('搜集')
 const scouted = GIVEN ? [{ rules: GIVEN }] : await parallel(SCOUTS.map(s => () => agent(
-  `你是台股策略研究中心的偵查員。任務：用 WebSearch（必要時用 ToolSearch 載入）在網路上找 ${s.text}
+  `你是台股策略研究中心的偵查員。任務：用 WebSearch 與 WebFetch（必要時用 ToolSearch 載入）在網路上找 ${s.text}
 從教學內容中抽出「可以完全寫成程式」的具體規則：進場條件、出場條件、所有參數（若教學沒給參數，採用教學最常見的預設值並註明）、股池與持有期。每條附來源 URL 與它多常被推薦的依據。
 先閱讀 ${BRIEF} 的資料清單，判斷能不能用現有資料回測（data_ok）：面板沒有最低價、沒有分點資料；融資融券與股本只有 2025-09 起；三大法人、月營收 2021 起（長期月營收 2005 起）；有當沖比率、注意／處置名單、除權息。
 以下規則研究中心已經測過，不要重複（除非教學的版本明顯不同，並說明差異）：${JSON.stringify(TESTED)}
