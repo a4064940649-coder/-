@@ -1,0 +1,41 @@
+signal recheck failures 0 []
+[
+{
+"code": "3042",
+"sig": "2007-01-10",
+"entry": "2007-01-11",
+"p0": 2.91,
+"exit_day": "2007-01-17",
+"exit_px": 2.685,
+"raw_hand": -0.07718,
+"raw_run": -0.07718,
+"why_run": "ma5"
+},
+{
+"code": "2605",
+"sig": "2009-10-07",
+"entry": "2009-10-08",
+"p0": 3.804,
+"exit_day": "2009-10-16",
+"exit_px": 3.725,
+"raw_hand": -0.02099,
+"raw_run": -0.02099,
+"why_run": "ma5"
+},
+{
+"code": "2352",
+"sig": "2026-05-21",
+"entry": "2026-05-22",
+"p0": 0.772,
+"exit_day": "2026-05-28",
+"exit_px": 0.754,
+"raw_hand": -0.02305,
+"raw_run": -0.02305,
+"why_run": "ma5"
+}
+]
+select_2005-01_2019-04 {'n': 16497, 'hold_dist': {'1': 0.101, '2': 0.14, '3': 0.179, '4': 0.207, '5': 0.114, '6': 0.081, '7': 0.056, '8': 0.04, '9': 0.025, '10': 0.018, '11': 0.04}, 'mean_gap_close_to_open_pct': np.float64(0.819), 'mean_gross_ab_pct': np.float64(-0.451), 'mean_cost_pct': np.float64(0.669), 'gross_ab_if_bought_at_signal_close_pct(unattainable)': np.float64(0.368), 'mean_raw_by_exit': {'ma5': np.float64(1.29), 'stop': np.float64(-4.78), 'time': np.float64(1.36)}, 'top1pct_contrib_raw': 0.404}
+valid_2019-05_2026-10 {'n': 11507, 'hold_dist': {'1': 0.141, '2': 0.147, '3': 0.188, '4': 0.188, '5': 0.103, '6': 0.069, '7': 0.046, '8': 0.036, '9': 0.023, '10': 0.015, '11': 0.044}, 'mean_gap_close_to_open_pct': np.float64(0.849), 'mean_gross_ab_pct': np.float64(-0.028), 'mean_cost_pct': np.float64(0.671), 'gross_ab_if_bought_at_signal_close_pct(unattainable)': np.float64(0.822), 'mean_raw_by_exit': {'ma5': np.float64(2.19), 'stop': np.float64(-5.36)}, 'top1pct_contrib_raw': 0.612}
+valid_2024-01_2025-12 {'n': 2919, 'hold_dist': {'1': 0.135, '2': 0.151, '3': 0.186, '4': 0.184, '5': 0.112, '6': 0.071, '7': 0.046, '8': 0.036, '9': 0.024, '10': 0.014, '11': 0.042}, 'mean_gap_close_to_open_pct': np.float64(0.865), 'mean_gross_ab_pct': np.float64(0.101), 'mean_cost_pct': np.float64(0.671), 'gross_ab_if_bought_at_signal_close_pct(unattainable)': np.float64(0.969), 'mean_raw_by_exit': {'ma5': np.float64(2.04), 'stop': np.float64(-5.26)}, 'top1pct_contrib_raw': 0.581}
+yearly net {2004: np.float64(-1.54), 2005: np.float64(-0.72), 2006: np.float64(-1.06), 2007: np.float64(-1.22), 2008: np.float64(-1.93), 2009: np.float64(-1.71), 2010: np.float64(-1.1), 2011: np.float64(-0.68), 2012: np.float64(-1.58), 2013: np.float64(-0.77), 2014: np.float64(-1.15), 2015: np.float64(-1.01), 2016: np.float64(-1.0), 2017: np.float64(-0.72), 2018: np.float64(-0.54), 2019: np.float64(-1.05), 2020: np.float64(-0.46), 2021: np.float64(-0.32), 2022: np.float64(-1.23), 2023: np.float64(-1.09), 2024: np.float64(-0.77), 2025: np.float64(-0.31), 2026: np.float64(-0.73)}
+yearly gross {2004: np.float64(-0.88), 2005: np.float64(-0.05), 2006: np.float64(-0.39), 2007: np.float64(-0.54), 2008: np.float64(-1.27), 2009: np.float64(-1.04), 2010: np.float64(-0.44), 2011: np.float64(-0.01), 2012: np.float64(-0.91), 2013: np.float64(-0.1), 2014: np.float64(-0.48), 2015: np.float64(-0.35), 2016: np.float64(-0.33), 2017: np.float64(-0.05), 2018: np.float64(0.13), 2019: np.float64(-0.38), 2020: np.float64(0.21), 2021: np.float64(0.35), 2022: np.float64(-0.56), 2023: np.float64(-0.42), 2024: np.float64(-0.1), 2025: np.float64(0.36), 2026: np.float64(-0.06)}
