@@ -1,0 +1,189 @@
+{
+ "source": "MOPS 重大訊息標題（shinbutou/nccu_bigdata，上市公司 2011-01～2020-10，932 檔，2020 年存活清單）",
+ "n_events": {
+  "CB": 425,
+  "SB": 378,
+  "PCB": 100,
+  "ECB": 59
+ },
+ "cb_by_year": {
+  "2011": 53,
+  "2012": 51,
+  "2013": 43,
+  "2014": 52,
+  "2015": 40,
+  "2016": 35,
+  "2017": 33,
+  "2018": 36,
+  "2019": 44,
+  "2020": 38
+ },
+ "cb_outcome": {
+  "listed": 355,
+  "no_filing": 39,
+  "withdrawn": 22,
+  "unknown_fsc_gap": 9
+ },
+ "price_announcements": 35,
+ "price_to_list_lag_td": {
+  "median": 6,
+  "n": 35,
+  "q": [
+   6.0,
+   6.0,
+   6.0,
+   6.0
+  ]
+ },
+ "coverage_by_recv_year": [
+  {
+   "recv": 2011,
+   "fsc_cases": 46,
+   "matched": 43,
+   "in_mops_list": 44,
+   "withdrawn": 3,
+   "withdrawn_matched": 3,
+   "coverage": 0.9347826086956522,
+   "coverage_of_survivors": 0.9772727272727273
+  },
+  {
+   "recv": 2012,
+   "fsc_cases": 39,
+   "matched": 34,
+   "in_mops_list": 36,
+   "withdrawn": 5,
+   "withdrawn_matched": 2,
+   "coverage": 0.8717948717948718,
+   "coverage_of_survivors": 0.9444444444444444
+  },
+  {
+   "recv": 2013,
+   "fsc_cases": 34,
+   "matched": 27,
+   "in_mops_list": 31,
+   "withdrawn": 5,
+   "withdrawn_matched": 4,
+   "coverage": 0.7941176470588235,
+   "coverage_of_survivors": 0.8709677419354839
+  },
+  {
+   "recv": 2014,
+   "fsc_cases": 50,
+   "matched": 40,
+   "in_mops_list": 46,
+   "withdrawn": 2,
+   "withdrawn_matched": 1,
+   "coverage": 0.8,
+   "coverage_of_survivors": 0.8695652173913043
+  },
+  {
+   "recv": 2015,
+   "fsc_cases": 41,
+   "matched": 31,
+   "in_mops_list": 38,
+   "withdrawn": 7,
+   "withdrawn_matched": 5,
+   "coverage": 0.7560975609756098,
+   "coverage_of_survivors": 0.8157894736842105
+  },
+  {
+   "recv": 2017,
+   "fsc_cases": 30,
+   "matched": 28,
+   "in_mops_list": 30,
+   "withdrawn": 2,
+   "withdrawn_matched": 2,
+   "coverage": 0.9333333333333333,
+   "coverage_of_survivors": 0.9333333333333333
+  },
+  {
+   "recv": 2018,
+   "fsc_cases": 38,
+   "matched": 36,
+   "in_mops_list": 38,
+   "withdrawn": 2,
+   "withdrawn_matched": 2,
+   "coverage": 0.9473684210526315,
+   "coverage_of_survivors": 0.9473684210526315
+  },
+  {
+   "recv": 2019,
+   "fsc_cases": 41,
+   "matched": 36,
+   "in_mops_list": 41,
+   "withdrawn": 2,
+   "withdrawn_matched": 2,
+   "coverage": 0.8780487804878049,
+   "coverage_of_survivors": 0.8780487804878049
+  },
+  {
+   "recv": 2020,
+   "fsc_cases": 22,
+   "matched": 21,
+   "in_mops_list": 21,
+   "withdrawn": 1,
+   "withdrawn_matched": 1,
+   "coverage": 0.9545454545454546,
+   "coverage_of_survivors": 1.0
+  }
+ ],
+ "coverage_total": {
+  "fsc": 341,
+  "matched": 296,
+  "in_mops_list": 325,
+  "withdrawn": 29,
+  "withdrawn_matched": 22
+ },
+ "board_to_recv_days": {
+  "median": 19.0,
+  "q": [
+   3.0,
+   8.0,
+   35.75,
+   64.60000000000002
+  ],
+  "n": 318
+ },
+ "gate_a": {
+  "rule": "挑選期 2010～2018 有董事會日錨點、上市、60 日均成交值 ≥ 3,000 萬的國內 CB 事件 ≥ 200（含撤回／未送件；排除金融後計數為正式數）",
+  "n_board_events_2010_2018": 343,
+  "n_in_panel_tradable": 326,
+  "n_liquid": 163,
+  "n_liquid_exfin": 157,
+  "n_liquid_exfin_by_outcome": {
+   "listed": 134,
+   "no_filing": 12,
+   "withdrawn": 9,
+   "unknown_fsc_gap": 2
+  },
+  "n_liquid_exfin_by_year": {
+   "2011": 28,
+   "2012": 20,
+   "2013": 18,
+   "2014": 30,
+   "2015": 15,
+   "2016": 11,
+   "2017": 19,
+   "2018": 16
+  },
+  "n_liquid_exfin_incl_ECB": 204,
+  "passed": false,
+  "upper_bound": {
+   "fsc_liquid_exfin": 167,
+   "fsc_liquid_exfin_by_year": {
+    "2010": 28,
+    "2011": 26,
+    "2012": 20,
+    "2013": 17,
+    "2014": 26,
+    "2015": 16,
+    "2017": 18,
+    "2018": 16
+   },
+   "mops_events_without_fsc": 32,
+   "total": 199,
+   "note": "2016 FSC 整年缺、2009-09～2010-01 與 2010-08～12、2013-12 缺；這些月份只能靠 MOPS（2011 起）補，2010 年無任何董事會日來源"
+  }
+ },
+ "note_2010": "MOPS 鏡像自 2011-01 起；2010 年無董事會日來源（新聞鏡像 2013 起），2010 事件數為 0。"
+}

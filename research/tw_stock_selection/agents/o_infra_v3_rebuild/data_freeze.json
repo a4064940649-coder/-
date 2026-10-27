@@ -1,0 +1,357 @@
+{
+ "timestamp": "2026-10-27T21:18:59+00:00",
+ "note": "在任何策略報酬之前凍結；之後所有回測斷言下列 sha256。",
+ "files": {
+  "delist_prices.parquet": {
+   "sha256": "bc4526b4424eaf9b0d13dcc378ce1ccf54a3f3a35e57d414101ea587aa6abf04"
+  },
+  "merger_consideration.csv": {
+   "sha256": "262e92568a0162e99241c16f1de309df3736c670447b436b91d12b6f69cfd8fd"
+  },
+  "disposal_hist.csv": {
+   "sha256": "20f4f478d1f7756ecac1f364ad3ddf47cb7ab342c2d45a9131610f8031bc2a1b"
+  },
+  "delist_official.csv": {
+   "sha256": "41f51cb7e1aadbf1d28244f26cb6452f3ede20f2fbb594350848ed8f55a1f2bd"
+  }
+ },
+ "coverage": {
+  "delist_prices": {
+   "should_have_4digit_2019-05-17_2023": 32,
+   "got_stocks_any": 32,
+   "stocks_full": 9,
+   "stockdays_need": 16858,
+   "stockdays_got": 15375,
+   "stockday_rate": 0.9120298967849092,
+   "cross_check": {
+    "A_vs_panel": {
+     "n": 29933,
+     "agree": 29933,
+     "rate": 1.0
+    },
+    "B_vs_panel": {
+     "n": 62856,
+     "agree": 62856,
+     "rate": 1.0
+    },
+    "A_vs_B_2019_2021": {
+     "n": 10168,
+     "agree": 10168,
+     "rate": 1.0
+    },
+    "A_vs_panel_ret0.1pp": {
+     "n": 26628,
+     "agree": 26591,
+     "rate": 0.9986104852035451
+    },
+    "B_vs_panel_ret0.1pp": {
+     "n": 62840,
+     "agree": 62837,
+     "rate": 0.9999522597071929
+    }
+   },
+   "new_listing_after_2019_06_then_delisted_by_2023": 0,
+   "note": "終止上市名單 2019-05-17～2023 共 37 列，其中 5 檔為 6 碼 DR（不在面板宇宙）；32 檔 4 碼全部在面板內、資料停在 2019-05-16 前後。"
+  },
+  "merger": {
+   "pfixNone|ALL|disp_v2|10": {
+    "dead_events": 0
+   },
+   "pfixNone|ALL|disp_v2|30": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfixNone|ALL|disp_v2|EW": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfixNone|ALL|disp_none|10": {
+    "dead_events": 0
+   },
+   "pfixNone|ALL|disp_none|30": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfixNone|ALL|disp_none|EW": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfixNone|EXFIN|disp_v2|10": {
+    "dead_events": 0
+   },
+   "pfixNone|EXFIN|disp_v2|30": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfixNone|EXFIN|disp_v2|EW": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfixNone|EXFIN|disp_none|10": {
+    "dead_events": 0
+   },
+   "pfixNone|EXFIN|disp_none|30": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfixNone|EXFIN|disp_none|EW": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfix0.5|ALL|disp_v2|10": {
+    "dead_events": 0
+   },
+   "pfix0.5|ALL|disp_v2|30": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfix0.5|ALL|disp_v2|EW": {
+    "dead_events": 4644,
+    "dead_codes": 28,
+    "type_known_share": 0.9164513350559862,
+    "usable_consideration_share": 0.8809216192937123,
+    "news_verified_share": 0.10917312661498708
+   },
+   "pfix0.5|ALL|disp_none|10": {
+    "dead_events": 0
+   },
+   "pfix0.5|ALL|disp_none|30": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfix0.5|ALL|disp_none|EW": {
+    "dead_events": 4644,
+    "dead_codes": 28,
+    "type_known_share": 0.9164513350559862,
+    "usable_consideration_share": 0.8809216192937123,
+    "news_verified_share": 0.10917312661498708
+   },
+   "pfix0.5|EXFIN|disp_v2|10": {
+    "dead_events": 0
+   },
+   "pfix0.5|EXFIN|disp_v2|30": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfix0.5|EXFIN|disp_v2|EW": {
+    "dead_events": 4152,
+    "dead_codes": 24,
+    "type_known_share": 0.9065510597302505,
+    "usable_consideration_share": 0.8668111753371869,
+    "news_verified_share": 0.12210982658959538
+   },
+   "pfix0.5|EXFIN|disp_none|10": {
+    "dead_events": 0
+   },
+   "pfix0.5|EXFIN|disp_none|30": {
+    "dead_events": 91,
+    "dead_codes": 1,
+    "type_known_share": 1.0,
+    "usable_consideration_share": 1.0,
+    "news_verified_share": 1.0
+   },
+   "pfix0.5|EXFIN|disp_none|EW": {
+    "dead_events": 4152,
+    "dead_codes": 24,
+    "type_known_share": 0.9065510597302505,
+    "usable_consideration_share": 0.8668111753371869,
+    "news_verified_share": 0.12210982658959538
+   },
+   "pfix1.0|ALL|disp_v2|10": {
+    "dead_events": 1426,
+    "dead_codes": 10,
+    "type_known_share": 0.861851332398317,
+    "usable_consideration_share": 0.7461430575035063,
+    "news_verified_share": 0.2391304347826087
+   },
+   "pfix1.0|ALL|disp_v2|30": {
+    "dead_events": 2841,
+    "dead_codes": 19,
+    "type_known_share": 0.930658218936994,
+    "usable_consideration_share": 0.872580077437522,
+    "news_verified_share": 0.17845828933474128
+   },
+   "pfix1.0|ALL|disp_v2|EW": {
+    "dead_events": 4644,
+    "dead_codes": 28,
+    "type_known_share": 0.9164513350559862,
+    "usable_consideration_share": 0.8809216192937123,
+    "news_verified_share": 0.10917312661498708
+   },
+   "pfix1.0|ALL|disp_none|10": {
+    "dead_events": 1426,
+    "dead_codes": 10,
+    "type_known_share": 0.861851332398317,
+    "usable_consideration_share": 0.7461430575035063,
+    "news_verified_share": 0.2391304347826087
+   },
+   "pfix1.0|ALL|disp_none|30": {
+    "dead_events": 2841,
+    "dead_codes": 19,
+    "type_known_share": 0.930658218936994,
+    "usable_consideration_share": 0.872580077437522,
+    "news_verified_share": 0.17845828933474128
+   },
+   "pfix1.0|ALL|disp_none|EW": {
+    "dead_events": 4644,
+    "dead_codes": 28,
+    "type_known_share": 0.9164513350559862,
+    "usable_consideration_share": 0.8809216192937123,
+    "news_verified_share": 0.10917312661498708
+   },
+   "pfix1.0|EXFIN|disp_v2|10": {
+    "dead_events": 1191,
+    "dead_codes": 8,
+    "type_known_share": 0.834592779177162,
+    "usable_consideration_share": 0.6960537363560033,
+    "news_verified_share": 0.2863140218303946
+   },
+   "pfix1.0|EXFIN|disp_v2|30": {
+    "dead_events": 2349,
+    "dead_codes": 15,
+    "type_known_share": 0.9161345253299277,
+    "usable_consideration_share": 0.8458918688803746,
+    "news_verified_share": 0.21583652618135377
+   },
+   "pfix1.0|EXFIN|disp_v2|EW": {
+    "dead_events": 4152,
+    "dead_codes": 24,
+    "type_known_share": 0.9065510597302505,
+    "usable_consideration_share": 0.8668111753371869,
+    "news_verified_share": 0.12210982658959538
+   },
+   "pfix1.0|EXFIN|disp_none|10": {
+    "dead_events": 1191,
+    "dead_codes": 8,
+    "type_known_share": 0.834592779177162,
+    "usable_consideration_share": 0.6960537363560033,
+    "news_verified_share": 0.2863140218303946
+   },
+   "pfix1.0|EXFIN|disp_none|30": {
+    "dead_events": 2349,
+    "dead_codes": 15,
+    "type_known_share": 0.9161345253299277,
+    "usable_consideration_share": 0.8458918688803746,
+    "news_verified_share": 0.21583652618135377
+   },
+   "pfix1.0|EXFIN|disp_none|EW": {
+    "dead_events": 4152,
+    "dead_codes": 24,
+    "type_known_share": 0.9065510597302505,
+    "usable_consideration_share": 0.8668111753371869,
+    "news_verified_share": 0.12210982658959538
+   }
+  },
+  "disposal": {
+   "proxy_chosen": "Q1_bear_c1_3consec",
+   "select_precision": 0.6805135951661632,
+   "select_recall": 0.6514822848879248,
+   "validate_precision": 0.6813857038302025,
+   "validate_recall": 0.5605057194461168,
+   "proxy_events_per_year": {
+    "2004": 50,
+    "2005": 53,
+    "2006": 96,
+    "2007": 84,
+    "2008": 43,
+    "2009": 132,
+    "2010": 55,
+    "2011": 19,
+    "2012": 35,
+    "2013": 34,
+    "2014": 27,
+    "2015": 40,
+    "2016": 42,
+    "2017": 56,
+    "2018": 71,
+    "2019": 32,
+    "2020": 149,
+    "2021": 126
+   },
+   "real_events_per_year": {
+    "2021": 38,
+    "2022": 100,
+    "2023": 101,
+    "2024": 162,
+    "2025": 99,
+    "2026": 389
+   },
+   "real_mean_2022_2025": 115.5,
+   "gap_years_lt_half_real_mean": [
+    2004,
+    2005,
+    2008,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2019
+   ],
+   "source_search": "GitHub 找不到 2021-09 以前的 TWSE punish 封存；新聞鏡像每年 23～105 篇提到處置，不足以當名單 → 價格規則近似"
+  }
+ },
+ "periods_seen_by": {
+  "S1 2006-04～2013": [
+   "main_v2（正式數字）",
+   "o_rev_survivorship（R_DEL 不改 S1 以外）",
+   "disposal_bear_longhistory（2005～2021-09 近似處置事件，事件層）",
+   "disposal_x_main（近似處置事件，事件層）"
+  ],
+  "S2 2014～2020": [
+   "main_v2",
+   "o_rev_survivorship（R_DEL、B05、B10、去凍結 B10）",
+   "disposal_bear_longhistory／disposal_x_main（事件層）"
+  ],
+  "S3 2021-03～2026-10": [
+   "main_v2",
+   "o_rev_survivorship",
+   "o_rev_survivorship 執行審查（不排除處置 +5.1pp）",
+   "disposal_reconcile／disposal_v2（真實名單事件層）"
+  ],
+  "S4 2024～2026-10": [
+   "main_v2",
+   "o_rev_survivorship",
+   "integrate_o2（TSMC30）"
+  ],
+  "conclusion": "全部期間都已被看過；本題不產生新訊號，只修資料與引擎，因此沒有「盲測」期間。處置近似規則的版本選擇只用 2021-09-24～2023 真實名單（事件層），驗證 2024～2026 只報告。"
+ },
+ "delist_prices_meta_sha256": "3768f2af8ef97e16110bf144b92a07b35cf5ebc44c1eb48f2e6d40da0ef28a5d",
+ "disposal_hist_meta_sha256": "4cc706dc4490391da7b5dd3e2cb502e751a79aa3f816341699a46c4374b02b7b"
+}

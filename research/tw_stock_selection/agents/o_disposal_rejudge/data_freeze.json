@@ -1,0 +1,694 @@
+{
+ "created_utc": "2026-10-27T21:08:11+00:00",
+ "source_A": {
+  "repo": "github.com/tsungmin2001/tw-disposition",
+  "path": "raw/twse_YYYY.json",
+  "note": "TWSE rwd announcement/punish 全年查詢封存；每檔 len(data)==total 已斷言",
+  "file_sha256": {
+   "twse_2003.json": "5a3c4c82a9931675b21281d29c40022483721fbc0eb9c4cddd67dc90b40719f7",
+   "twse_2004.json": "f72268288bf5a34d631865671115e6204698d116f6c5884f16d12d23cb8388c6",
+   "twse_2005.json": "3a926c013104a2284e5cacc079b7e890fed5c4ecfc01d9ab59e51a180b2e4913",
+   "twse_2006.json": "d8b40bf1d14d05d1cea0d8ad73e5f765bf6d1af7b61c2948f3d87b46b1627d94",
+   "twse_2007.json": "d69e5c4b18c1bd1a28e73d019e592f89bed776ac9f44c5626df808527a5a0ec7",
+   "twse_2008.json": "393136173c116a4dd9c17eba05ecad7ecbf0995f0caf68e0542645135b4f3d4b",
+   "twse_2009.json": "b36bb8ef15edec6a62231d04327e77b79c62e59b2d9c549cfa2a91408f58326f",
+   "twse_2010.json": "d2f46292c08f659bb410d04c09b551f4d5dc8a0f0c29fbd09c9a997d0fd5b0ff",
+   "twse_2011.json": "c6a8759274f772582f32157ae715f583c1dd55ccf785457dd58bb40d713e2f7e",
+   "twse_2012.json": "e13206fbc35ca64535f61bbcebeed0a830ab0d5e9615281cf0d4d5a0ae15d149",
+   "twse_2013.json": "18e4754d341d9176bc52b7972a036cab31198f3cda480f3bd56b1885c98901af",
+   "twse_2014.json": "1e56ce91760996ff3d9295570628fd61057813eecb4ba4a3f49515dcab12c01b",
+   "twse_2015.json": "781236ee85680bb62415c9d939bbde3066a7dae4aec4364f1e3eade557a71b05",
+   "twse_2016.json": "d6702ab6ffc284d194e17c9cd95ee55b923af4c5dfeaf80f6bcc70af40fffe6a",
+   "twse_2017.json": "94241d0f2cc6dd9e63cf4856b6a0552e45f97cdef4965522709512f1f76a9c66",
+   "twse_2018.json": "f2358ab20a33f0df18991b9d5c3df4cb2a502d8057bbb23eb11ae051c9bfd729",
+   "twse_2019.json": "cfdd94e6299f0f030af9a2faef3dd1e471ce75d8c28e8f4232df3432ff055a11",
+   "twse_2020.json": "4aa327b70d7727442b476e803dedbb8ce77c0cef916edf0a55747b7443eceb7b",
+   "twse_2021.json": "e14d618bfedbc94ca4216eb7f0e39c73f753d27b720a38776e4f1c049c2b1144",
+   "twse_2022.json": "2a490623f979575b77fc025a5cedb3a8ffc5abf4f53af46712ba5de042829055",
+   "twse_2023.json": "6e4de0427e769134fd4ffa98590c558e6709a7fd67f4965f0fc957524c997eed",
+   "twse_2024.json": "f97421fef29200b51fae4568546cc2cc1f6a4649472f16fc4c6d183f826e6adf",
+   "twse_2025.json": "6c31f73140fb7a6f6702e82c8d11842faa2841db57d722de0b5d3b1a0299231c",
+   "twse_2026.json": "9015865d3a94bfe8d6c1ba6a4dbd3bdf6d32dfb22e385b8f52a958c6f51a4683"
+  },
+  "rows_raw": 3259,
+  "rows_dedup": 3179
+ },
+ "list_csv": "disposal_hist_rejudge.csv",
+ "list_sha256": "2c171924096ecf4c0d1da9c3c0db12002c38ace46864dede615496cbb1abe20d",
+ "proxy_csv_sha256": "55033a6c9ce305d729076a253f4238ddabbf798405303f3f579cac40312bdce9",
+ "n_in_panel": 2367,
+ "by_year_in_panel": {
+  "2002": {
+   "n": 2,
+   "nth1": 2,
+   "nth2": 0,
+   "changed_method": 1,
+   "prepay_only": 1,
+   "med_tdays": 0.0,
+   "match_min": {
+    "NaN": 1,
+    "0.0": 1
+   }
+  },
+  "2003": {
+   "n": 113,
+   "nth1": 82,
+   "nth2": 31,
+   "changed_method": 4,
+   "prepay_only": 109,
+   "med_tdays": 0.0,
+   "match_min": {
+    "0.0": 109,
+    "NaN": 4
+   }
+  },
+  "2004": {
+   "n": 59,
+   "nth1": 49,
+   "nth2": 10,
+   "changed_method": 4,
+   "prepay_only": 55,
+   "med_tdays": 5.0,
+   "match_min": {
+    "0.0": 55,
+    "NaN": 4
+   }
+  },
+  "2005": {
+   "n": 26,
+   "nth1": 24,
+   "nth2": 2,
+   "changed_method": 6,
+   "prepay_only": 20,
+   "med_tdays": 5.0,
+   "match_min": {
+    "0.0": 20,
+    "NaN": 6
+   }
+  },
+  "2006": {
+   "n": 45,
+   "nth1": 43,
+   "nth2": 2,
+   "changed_method": 0,
+   "prepay_only": 45,
+   "med_tdays": 5.0,
+   "match_min": {
+    "0.0": 45
+   }
+  },
+  "2007": {
+   "n": 79,
+   "nth1": 53,
+   "nth2": 26,
+   "changed_method": 6,
+   "prepay_only": 72,
+   "med_tdays": 5.0,
+   "match_min": {
+    "0.0": 72,
+    "NaN": 7
+   }
+  },
+  "2008": {
+   "n": 26,
+   "nth1": 23,
+   "nth2": 3,
+   "changed_method": 1,
+   "prepay_only": 25,
+   "med_tdays": 5.0,
+   "match_min": {
+    "0.0": 25,
+    "NaN": 1
+   }
+  },
+  "2009": {
+   "n": 109,
+   "nth1": 85,
+   "nth2": 24,
+   "changed_method": 12,
+   "prepay_only": 97,
+   "med_tdays": 5.0,
+   "match_min": {
+    "0.0": 97,
+    "NaN": 12
+   }
+  },
+  "2010": {
+   "n": 53,
+   "nth1": 31,
+   "nth2": 22,
+   "changed_method": 5,
+   "prepay_only": 36,
+   "med_tdays": 5.0,
+   "match_min": {
+    "0.0": 36,
+    "NaN": 17
+   }
+  },
+  "2011": {
+   "n": 65,
+   "nth1": 9,
+   "nth2": 56,
+   "changed_method": 2,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "20.0": 41,
+    "NaN": 16,
+    "5.0": 7,
+    "10.0": 1
+   }
+  },
+  "2012": {
+   "n": 61,
+   "nth1": 13,
+   "nth2": 48,
+   "changed_method": 3,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "20.0": 45,
+    "5.0": 11,
+    "30.0": 3,
+    "45.0": 2
+   }
+  },
+  "2013": {
+   "n": 79,
+   "nth1": 33,
+   "nth2": 46,
+   "changed_method": 22,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "20.0": 34,
+    "5.0": 20,
+    "45.0": 9,
+    "25.0": 7,
+    "10.0": 6,
+    "60.0": 3
+   }
+  },
+  "2014": {
+   "n": 57,
+   "nth1": 24,
+   "nth2": 33,
+   "changed_method": 7,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "20.0": 32,
+    "5.0": 18,
+    "45.0": 4,
+    "10.0": 3
+   }
+  },
+  "2015": {
+   "n": 55,
+   "nth1": 35,
+   "nth2": 20,
+   "changed_method": 6,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 31,
+    "20.0": 18,
+    "10.0": 3,
+    "25.0": 2,
+    "45.0": 1
+   }
+  },
+  "2016": {
+   "n": 42,
+   "nth1": 28,
+   "nth2": 14,
+   "changed_method": 3,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 25,
+    "20.0": 14,
+    "45.0": 3
+   }
+  },
+  "2017": {
+   "n": 87,
+   "nth1": 52,
+   "nth2": 35,
+   "changed_method": 15,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 48,
+    "20.0": 24,
+    "25.0": 11,
+    "45.0": 2,
+    "10.0": 2
+   }
+  },
+  "2018": {
+   "n": 110,
+   "nth1": 62,
+   "nth2": 48,
+   "changed_method": 26,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 59,
+    "20.0": 25,
+    "25.0": 23,
+    "10.0": 2,
+    "45.0": 1
+   }
+  },
+  "2019": {
+   "n": 34,
+   "nth1": 30,
+   "nth2": 4,
+   "changed_method": 12,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 21,
+    "45.0": 7,
+    "60.0": 3,
+    "10.0": 2,
+    "20.0": 1
+   }
+  },
+  "2020": {
+   "n": 225,
+   "nth1": 132,
+   "nth2": 93,
+   "changed_method": 39,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 111,
+    "20.0": 73,
+    "60.0": 17,
+    "10.0": 11,
+    "45.0": 10,
+    "25.0": 3
+   }
+  },
+  "2021": {
+   "n": 180,
+   "nth1": 139,
+   "nth2": 41,
+   "changed_method": 10,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 131,
+    "20.0": 39,
+    "10.0": 5,
+    "45.0": 3,
+    "60.0": 2
+   }
+  },
+  "2022": {
+   "n": 95,
+   "nth1": 66,
+   "nth2": 29,
+   "changed_method": 13,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 60,
+    "20.0": 22,
+    "60.0": 7,
+    "45.0": 6
+   }
+  },
+  "2023": {
+   "n": 99,
+   "nth1": 71,
+   "nth2": 28,
+   "changed_method": 5,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 67,
+    "20.0": 27,
+    "10.0": 3,
+    "60.0": 1,
+    "45.0": 1
+   }
+  },
+  "2024": {
+   "n": 162,
+   "nth1": 133,
+   "nth2": 29,
+   "changed_method": 8,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 127,
+    "20.0": 27,
+    "10.0": 4,
+    "45.0": 2,
+    "25.0": 2
+   }
+  },
+  "2025": {
+   "n": 99,
+   "nth1": 76,
+   "nth2": 23,
+   "changed_method": 6,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 71,
+    "20.0": 22,
+    "45.0": 3,
+    "10.0": 2,
+    "25.0": 1
+   }
+  },
+  "2026": {
+   "n": 405,
+   "nth1": 247,
+   "nth2": 158,
+   "changed_method": 14,
+   "prepay_only": 0,
+   "med_tdays": 10.0,
+   "match_min": {
+    "5.0": 200,
+    "20.0": 126,
+    "2.0": 65,
+    "10.0": 5,
+    "60.0": 4,
+    "25.0": 4,
+    "45.0": 1
+   }
+  }
+ },
+ "post2021_annual_mean_2022_2025": 113.75,
+ "gate_50pct": {
+  "2005": {
+   "n": 26,
+   "ratio": 0.229,
+   "pass50": false
+  },
+  "2006": {
+   "n": 45,
+   "ratio": 0.396,
+   "pass50": false
+  },
+  "2007": {
+   "n": 79,
+   "ratio": 0.695,
+   "pass50": true
+  },
+  "2008": {
+   "n": 26,
+   "ratio": 0.229,
+   "pass50": false
+  },
+  "2009": {
+   "n": 109,
+   "ratio": 0.958,
+   "pass50": true
+  },
+  "2010": {
+   "n": 53,
+   "ratio": 0.466,
+   "pass50": false
+  },
+  "2011": {
+   "n": 65,
+   "ratio": 0.571,
+   "pass50": true
+  },
+  "2012": {
+   "n": 61,
+   "ratio": 0.536,
+   "pass50": true
+  },
+  "2013": {
+   "n": 79,
+   "ratio": 0.695,
+   "pass50": true
+  },
+  "2014": {
+   "n": 57,
+   "ratio": 0.501,
+   "pass50": true
+  },
+  "2015": {
+   "n": 55,
+   "ratio": 0.484,
+   "pass50": false
+  },
+  "2016": {
+   "n": 42,
+   "ratio": 0.369,
+   "pass50": false
+  },
+  "2017": {
+   "n": 87,
+   "ratio": 0.765,
+   "pass50": true
+  },
+  "2018": {
+   "n": 110,
+   "ratio": 0.967,
+   "pass50": true
+  },
+  "2019": {
+   "n": 34,
+   "ratio": 0.299,
+   "pass50": false
+  },
+  "2020": {
+   "n": 225,
+   "ratio": 1.978,
+   "pass50": true
+  },
+  "2021": {
+   "n": 180,
+   "ratio": 1.582,
+   "pass50": true
+  }
+ },
+ "agree_disposal_5y": {
+  "n_A": 871,
+  "n_B": 885,
+  "both": 871,
+  "A_in_B": 1.0,
+  "B_in_A": 0.9842,
+  "jaccard": 0.9842,
+  "exact_start_end_both": 871,
+  "only_A_sample": [],
+  "only_B_sample": [
+   [
+    "4736",
+    "2022-04-14"
+   ],
+   [
+    "4736",
+    "2022-04-19"
+   ],
+   [
+    "6446",
+    "2021-11-22"
+   ],
+   [
+    "6446",
+    "2021-11-25"
+   ],
+   [
+    "6446",
+    "2021-12-09"
+   ],
+   [
+    "6446",
+    "2021-12-14"
+   ],
+   [
+    "6446",
+    "2021-12-17"
+   ],
+   [
+    "6446",
+    "2022-03-25"
+   ],
+   [
+    "6472",
+    "2022-08-19"
+   ],
+   [
+    "6472",
+    "2022-11-18"
+   ],
+   [
+    "6472",
+    "2023-02-14"
+   ],
+   [
+    "6472",
+    "2023-03-31"
+   ],
+   [
+    "8476",
+    "2021-10-28"
+   ],
+   [
+    "8476",
+    "2021-11-09"
+   ]
+  ],
+  "announce_same_rate": 1.0
+ },
+ "agree_infra_v3": {
+  "exists": false
+ },
+ "proxy_precision_recall": {
+  "2005": {
+   "n_proxy": 51,
+   "n_true": 20,
+   "precision": 0.255,
+   "recall": 0.65
+  },
+  "2006": {
+   "n_proxy": 94,
+   "n_true": 45,
+   "precision": 0.309,
+   "recall": 0.667
+  },
+  "2007": {
+   "n_proxy": 84,
+   "n_true": 73,
+   "precision": 0.333,
+   "recall": 0.397
+  },
+  "2008": {
+   "n_proxy": 43,
+   "n_true": 25,
+   "precision": 0.233,
+   "recall": 0.4
+  },
+  "2009": {
+   "n_proxy": 131,
+   "n_true": 97,
+   "precision": 0.275,
+   "recall": 0.371
+  },
+  "2010": {
+   "n_proxy": 51,
+   "n_true": 48,
+   "precision": 0.314,
+   "recall": 0.333
+  },
+  "2011": {
+   "n_proxy": 18,
+   "n_true": 61,
+   "precision": 0.111,
+   "recall": 0.033
+  },
+  "2012": {
+   "n_proxy": 35,
+   "n_true": 56,
+   "precision": 0.086,
+   "recall": 0.054
+  },
+  "2013": {
+   "n_proxy": 34,
+   "n_true": 53,
+   "precision": 0.265,
+   "recall": 0.17
+  },
+  "2014": {
+   "n_proxy": 27,
+   "n_true": 45,
+   "precision": 0.111,
+   "recall": 0.067
+  },
+  "2015": {
+   "n_proxy": 39,
+   "n_true": 49,
+   "precision": 0.41,
+   "recall": 0.327
+  },
+  "2016": {
+   "n_proxy": 40,
+   "n_true": 39,
+   "precision": 0.475,
+   "recall": 0.513
+  },
+  "2017": {
+   "n_proxy": 54,
+   "n_true": 72,
+   "precision": 0.722,
+   "recall": 0.569
+  },
+  "2018": {
+   "n_proxy": 69,
+   "n_true": 84,
+   "precision": 0.638,
+   "recall": 0.583
+  },
+  "2019": {
+   "n_proxy": 25,
+   "n_true": 22,
+   "precision": 0.6,
+   "recall": 0.727
+  },
+  "2020": {
+   "n_proxy": 138,
+   "n_true": 181,
+   "precision": 0.601,
+   "recall": 0.53
+  },
+  "2021": {
+   "n_proxy": 144,
+   "n_true": 170,
+   "precision": 0.701,
+   "recall": 0.647
+  },
+  "2022": {
+   "n_proxy": 69,
+   "n_true": 82,
+   "precision": 0.681,
+   "recall": 0.61
+  },
+  "2023": {
+   "n_proxy": 70,
+   "n_true": 94,
+   "precision": 0.671,
+   "recall": 0.5
+  },
+  "2024": {
+   "n_proxy": 131,
+   "n_true": 154,
+   "precision": 0.641,
+   "recall": 0.578
+  },
+  "2025": {
+   "n_proxy": 78,
+   "n_true": 93,
+   "precision": 0.59,
+   "recall": 0.527
+  },
+  "2026": {
+   "n_proxy": 253,
+   "n_true": 391,
+   "precision": 0.767,
+   "recall": 0.601
+  },
+  "2006-04_2021-08": {
+   "n_proxy": 986,
+   "n_true": 1082,
+   "precision": 0.44,
+   "recall": 0.43
+  },
+  "2021-09_2026-09": {
+   "n_proxy": 616,
+   "n_true": 821,
+   "precision": 0.693,
+   "recall": 0.585
+  }
+ },
+ "note_regimes": "2010-12 前處置措施只有「收足五成款券」（第一次）／「收足全部款券」（再次），沒有分盤撮合；2010-12 起第一次約每 5 分鐘、第二次約每 20 分鐘撮合。「人工管制撮合」多為變更交易方法／全額交割股的處置。2011～2015 第一次處置 5 個營業日、第二次 10 個營業日；之後皆 10 個營業日；2026-08-10 起 5 個營業日。"
+}

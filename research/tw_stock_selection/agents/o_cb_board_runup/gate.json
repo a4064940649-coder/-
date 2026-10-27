@@ -1,0 +1,40 @@
+{
+ "time_utc": "2026-10-27T21:47:26Z",
+ "gate_a": {
+  "rule": "挑選期 2010～2018 有董事會日錨點、上市、60 日均成交值 ≥ 3,000 萬的國內 CB 事件 ≥ 200（含撤回／未送件；排除金融後計數為正式數）",
+  "count": 157,
+  "count_incl_fin": 163,
+  "threshold": 200,
+  "passed": false,
+  "by_year": {
+   "2011": 28,
+   "2012": 20,
+   "2013": 18,
+   "2014": 30,
+   "2015": 15,
+   "2016": 11,
+   "2017": 19,
+   "2018": 16
+  },
+  "by_outcome": {
+   "listed": 134,
+   "no_filing": 12,
+   "withdrawn": 9,
+   "unknown_fsc_gap": 2
+  },
+  "upper_bound_if_every_FSC_case_had_a_board_date": 199,
+  "incl_ECB_not_counted": 204
+ },
+ "gate_b": {
+  "computed": false,
+  "reason": "(a) 未通過；依規定 (a) 過了才算 (b)，因此沒有計算任何事件報酬。"
+ },
+ "decision": "主題關閉",
+ "reason": "挑選期 2010～2018 可用董事會日錨點、60 日均成交值 ≥ 3,000 萬、非金融的上市公司國內 CB 事件只有 157 筆（< 200）。即使每一件 FSC 申報都找得到董事會日（含 2010 年，實際沒有來源），上界也只有 199 筆。海外 CB（ECB）不屬於本題機制（國內基準價、CBAS、競拍／詢圈），事前就不計入。",
+ "sha256": {
+  "events_board.csv": "396d0e0b31920719c80c79a0410cac59d5e7e1cf231104fcc867d3b9775bcf07",
+  "build_summary.json": "98e17f48eab5f62aa3efcf20551e22032ded7c86f40e55f45dc93c60cc3fa675",
+  "build_events.py": "fe64d631f660bb55692bf8978e68f95704bc2dc4dd10b590123c9e0bec6a590a",
+  "mops_titles.parquet": "5ab26876c08c0325f37658539cb7e11efb6d1ecd9ca9fbca0df65f411de38c47"
+ }
+}
