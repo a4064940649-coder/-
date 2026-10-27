@@ -1,0 +1,6699 @@
+{
+ "PREREG": {
+  "question": "擇時開關（加權指數均線）以日頻淨值套在主策略 n30／n10 與 0050，長期是否改善 Calmar 且年化損失 ≤ 3pp",
+  "data": {
+   "strategy_nav": "agents/revenue_longhistory/oos_nav.parquet 欄 M2_n30_slip0.001、M2_n10_slip0.001（日收盤淨值，已含選股成本）",
+   "0050": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv（含息 adj），對齊策略淨值的交易日（ffill）",
+   "taiex": "/home/user/jonatw/finlab-txd/data/raw/taiex_twii.csv close，均線在 TAIEX 自己的完整日曆上計算後 asof 對齊"
+  },
+  "signals": {
+   "S1": "加權指數收盤 < MA200（200 日簡單均線）→ 場外；只在換股日（每月第一個日期 ≥ 11 的交易日）收盤檢查，其餘日子沿用（現版）",
+   "S2": "同 S1 但每日收盤檢查",
+   "S3": "每日檢查、2% 緩衝帶：場內時收盤 < MA200×0.98 才出場；場外時收盤 > MA200×1.02 才回場；起始狀態＝收盤 ≥ MA200",
+   "S4": "Faber 10 個月均線：每月最後一個交易日收盤 < 最近 10 個月底收盤平均 → 場外，月底檢查，次月沿用",
+   "S5": "收盤 < MA120 → 場外，每日檢查"
+  },
+  "execution": {
+   "main": "訊號在 t 日收盤後才知道（只用 t 日收盤以前的資料），t+1 日收盤成交；新部位從 t+2 日的日報酬開始適用（pos_t = sig_{t-2}）。因為只有收盤淨值，不用開盤價。",
+   "sensitivity_only": "理想版：t 日收盤成交（pos_t = sig_{t-1}），只做敏感度，不用於挑選或判定"
+  },
+  "targets": [
+   "M2_n30_slip0.001",
+   "M2_n10_slip0.001",
+   "0050"
+  ],
+  "off_market": {
+   "main": "現金報酬 0",
+   "alt": "現金年利率 1%（依日曆日複利），另報"
+  },
+  "costs": {
+   "strategy": {
+    "exit_sell": 0.00486,
+    "reentry_buy": 0.00186
+   },
+   "0050": {
+    "exit_sell": 0.001855,
+    "reentry_buy": 0.000855
+   },
+   "reentry_assumption": "場外期間策略淨值照算；回場時以當時策略淨值報酬接續（等於買回同一組股票），扣回場成本。成本在成交日收盤扣。"
+  },
+  "periods": {
+   "selection": [
+    "2006-04-01",
+    "2013-12-31"
+   ],
+   "validation": [
+    "2014-01-01",
+    "2020-12-31"
+   ],
+   "holdout": [
+    "2021-03-01",
+    "2026-10-31"
+   ],
+   "full_context_only": [
+    "2006-04-01",
+    "2026-10-31"
+   ]
+  },
+  "state_carry": "整段連續模擬，期間邊界不重設狀態；各期統計只取該期日報酬",
+  "selection_rule": "每個對象各自在挑選期（現金 0、主成交時點、含成本）選日頻 Calmar（年化 ÷ |日頻最大回撤|）最高的開關；驗證期、保留期只看不調。主策略的判定以 n30 為主，n10、0050 各自另判。",
+  "verdict_rule": "選中開關在驗證期與保留期都滿足（Calmar > 不切換）且（年化 ≥ 不切換年化 − 3pp）→ 可用；只有一期滿足 → 待觀察；都不滿足 → 不可用",
+  "report": [
+   "每個開關×對象×期間：年化、日頻最大回撤、Calmar、對 0050 月超額 t（日曆月）、切換次數（出場＋回場）、場外日數比例、成本拖累（零成本年化 − 含成本年化）",
+   "逐年報酬（全期）",
+   "空頭期：2008、2011、2015、2018 全年、2020-03（2020-02-01～2020-04-30）、2022 全年的報酬與期內最大回撤",
+   "錯過反彈：場外日策略（或 0050）本身日報酬的加總與連乘；並依場外段落分正段（錯過的漲幅）與負段（避開的跌幅）"
+  ],
+  "known_caveats": [
+   "面板 2024-01-02～2024-02-14 無資料，策略淨值在此是一步跳；訊號在該期間以 TAIEX 計算但只能在 2024-02-15 起執行",
+   "2018-01-13 為面板異常日（TAIEX 無此日），訊號 asof 沿用前一日",
+   "0050 在 2025-06-11～17 分割停牌，無價格 → ffill"
+  ]
+ },
+ "PREREG_sha256": "f601115ba5857667cbbb1b141d922ead3f554477a03be14a77144c0ba0dda6f5",
+ "PREREG_written_at": "2026-10-27T04:59:35",
+ "results": {
+  "main_cash0": {
+   "n30|none": {
+    "selection": {
+     "CAGR": 0.105,
+     "maxDD": -0.6387,
+     "Calmar": 0.164,
+     "total": 1.1621,
+     "t_vs_0050_m": 1.22,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "validation": {
+     "CAGR": 0.1818,
+     "maxDD": -0.3147,
+     "Calmar": 0.577,
+     "total": 2.2192,
+     "t_vs_0050_m": 0.72,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "holdout": {
+     "CAGR": 0.4639,
+     "maxDD": -0.3606,
+     "Calmar": 1.287,
+     "total": 7.5267,
+     "t_vs_0050_m": 1.63,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "full": {
+     "CAGR": 0.2279,
+     "maxDD": -0.6387,
+     "Calmar": 0.357,
+     "total": 66.302,
+     "t_vs_0050_m": 2.14,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    }
+   },
+   "n30|S1": {
+    "selection": {
+     "CAGR": 0.1457,
+     "maxDD": -0.3766,
+     "Calmar": 0.387,
+     "total": 1.8588,
+     "t_vs_0050_m": 1.19,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.303,
+     "cost_drag_pp": 0.6,
+     "missed_sum": -0.2249,
+     "missed_compound": -0.2737,
+     "episodes": 6,
+     "ep_pos_sum": 0.1721,
+     "ep_neg_sum": -0.4211,
+     "ep_pos_n": 4
+    },
+    "validation": {
+     "CAGR": 0.1038,
+     "maxDD": -0.1688,
+     "Calmar": 0.615,
+     "total": 0.9961,
+     "t_vs_0050_m": -0.74,
+     "switches": 14,
+     "exits": 7,
+     "pct_out": 0.294,
+     "cost_drag_pp": 0.75,
+     "missed_sum": 0.4743,
+     "missed_compound": 0.5385,
+     "episodes": 7,
+     "ep_pos_sum": 0.4588,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 7
+    },
+    "holdout": {
+     "CAGR": 0.4303,
+     "maxDD": -0.2465,
+     "Calmar": 1.746,
+     "total": 6.4838,
+     "t_vs_0050_m": 1.16,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.231,
+     "cost_drag_pp": 0.51,
+     "missed_sum": 0.159,
+     "missed_compound": 0.1166,
+     "episodes": 3,
+     "ep_pos_sum": 0.1137,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 3
+    },
+    "full": {
+     "CAGR": 0.2083,
+     "maxDD": -0.3766,
+     "Calmar": 0.553,
+     "total": 47.4316,
+     "t_vs_0050_m": 1.17,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.64,
+     "missed_sum": 0.4084,
+     "missed_compound": 0.2477,
+     "episodes": 16,
+     "ep_pos_sum": 0.7447,
+     "ep_neg_sum": -0.4211,
+     "ep_pos_n": 14
+    }
+   },
+   "n30|S2": {
+    "selection": {
+     "CAGR": 0.0734,
+     "maxDD": -0.2854,
+     "Calmar": 0.257,
+     "total": 0.7277,
+     "t_vs_0050_m": 0.2,
+     "switches": 82,
+     "exits": 41,
+     "pct_out": 0.338,
+     "cost_drag_pp": 3.91,
+     "missed_sum": 0.0578,
+     "missed_compound": -0.0505,
+     "episodes": 41,
+     "ep_pos_sum": 0.8311,
+     "ep_neg_sum": -0.7326,
+     "ep_pos_n": 29
+    },
+    "validation": {
+     "CAGR": 0.0973,
+     "maxDD": -0.2253,
+     "Calmar": 0.432,
+     "total": 0.9153,
+     "t_vs_0050_m": -0.85,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.25,
+     "cost_drag_pp": 2.78,
+     "missed_sum": 0.3892,
+     "missed_compound": 0.4108,
+     "episodes": 26,
+     "ep_pos_sum": 0.3862,
+     "ep_neg_sum": -0.0321,
+     "ep_pos_n": 23
+    },
+    "holdout": {
+     "CAGR": 0.4325,
+     "maxDD": -0.2465,
+     "Calmar": 1.755,
+     "total": 6.549,
+     "t_vs_0050_m": 1.15,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.215,
+     "cost_drag_pp": 1.55,
+     "missed_sum": 0.1089,
+     "missed_compound": 0.0631,
+     "episodes": 9,
+     "ep_pos_sum": 0.1624,
+     "ep_neg_sum": -0.0939,
+     "ep_pos_n": 6
+    },
+    "full": {
+     "CAGR": 0.1771,
+     "maxDD": -0.2854,
+     "Calmar": 0.621,
+     "total": 27.3293,
+     "t_vs_0050_m": 0.54,
+     "switches": 152,
+     "exits": 76,
+     "pct_out": 0.273,
+     "cost_drag_pp": 2.97,
+     "missed_sum": 0.5558,
+     "missed_compound": 0.4241,
+     "episodes": 76,
+     "ep_pos_sum": 1.3797,
+     "ep_neg_sum": -0.8586,
+     "ep_pos_n": 58
+    }
+   },
+   "n30|S3": {
+    "selection": {
+     "CAGR": 0.1058,
+     "maxDD": -0.3298,
+     "Calmar": 0.321,
+     "total": 1.1741,
+     "t_vs_0050_m": 0.63,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.335,
+     "cost_drag_pp": 0.87,
+     "missed_sum": 0.0386,
+     "missed_compound": -0.064,
+     "episodes": 9,
+     "ep_pos_sum": 0.5554,
+     "ep_neg_sum": -0.5009,
+     "ep_pos_n": 7
+    },
+    "validation": {
+     "CAGR": 0.1112,
+     "maxDD": -0.1666,
+     "Calmar": 0.667,
+     "total": 1.0919,
+     "t_vs_0050_m": -0.65,
+     "switches": 10,
+     "exits": 5,
+     "pct_out": 0.235,
+     "cost_drag_pp": 0.54,
+     "missed_sum": 0.4369,
+     "missed_compound": 0.4879,
+     "episodes": 5,
+     "ep_pos_sum": 0.424,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.4501,
+     "maxDD": -0.2465,
+     "Calmar": 1.826,
+     "total": 7.0836,
+     "t_vs_0050_m": 1.28,
+     "switches": 4,
+     "exits": 2,
+     "pct_out": 0.221,
+     "cost_drag_pp": 0.35,
+     "missed_sum": 0.0876,
+     "missed_compound": 0.0407,
+     "episodes": 2,
+     "ep_pos_sum": 0.0403,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.1995,
+     "maxDD": -0.3298,
+     "Calmar": 0.605,
+     "total": 40.691,
+     "t_vs_0050_m": 0.99,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.268,
+     "cost_drag_pp": 0.63,
+     "missed_sum": 0.5631,
+     "missed_compound": 0.4494,
+     "episodes": 16,
+     "ep_pos_sum": 1.0198,
+     "ep_neg_sum": -0.5009,
+     "ep_pos_n": 14
+    }
+   },
+   "n30|S4": {
+    "selection": {
+     "CAGR": 0.1153,
+     "maxDD": -0.301,
+     "Calmar": 0.383,
+     "total": 1.3229,
+     "t_vs_0050_m": 0.7,
+     "switches": 16,
+     "exits": 8,
+     "pct_out": 0.379,
+     "cost_drag_pp": 0.78,
+     "missed_sum": -0.0119,
+     "missed_compound": -0.1181,
+     "episodes": 8,
+     "ep_pos_sum": 0.3987,
+     "ep_neg_sum": -0.428,
+     "ep_pos_n": 6
+    },
+    "validation": {
+     "CAGR": 0.0811,
+     "maxDD": -0.3959,
+     "Calmar": 0.205,
+     "total": 0.7264,
+     "t_vs_0050_m": -1.18,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.236,
+     "cost_drag_pp": 0.63,
+     "missed_sum": 0.6118,
+     "missed_compound": 0.7909,
+     "episodes": 6,
+     "ep_pos_sum": 0.6701,
+     "ep_neg_sum": -0.0165,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.4184,
+     "maxDD": -0.2465,
+     "Calmar": 1.697,
+     "total": 6.1384,
+     "t_vs_0050_m": 1.05,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.199,
+     "cost_drag_pp": 0.51,
+     "missed_sum": 0.2001,
+     "missed_compound": 0.1706,
+     "episodes": 3,
+     "ep_pos_sum": 0.1642,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 3
+    },
+    "full": {
+     "CAGR": 0.185,
+     "maxDD": -0.3959,
+     "Calmar": 0.467,
+     "total": 31.4633,
+     "t_vs_0050_m": 0.68,
+     "switches": 34,
+     "exits": 17,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.66,
+     "missed_sum": 0.8,
+     "missed_compound": 0.8489,
+     "episodes": 17,
+     "ep_pos_sum": 1.233,
+     "ep_neg_sum": -0.4444,
+     "ep_pos_n": 14
+    }
+   },
+   "n30|S5": {
+    "selection": {
+     "CAGR": 0.0969,
+     "maxDD": -0.2902,
+     "Calmar": 0.334,
+     "total": 1.0421,
+     "t_vs_0050_m": 0.53,
+     "switches": 78,
+     "exits": 39,
+     "pct_out": 0.372,
+     "cost_drag_pp": 3.79,
+     "missed_sum": -0.0872,
+     "missed_compound": -0.1858,
+     "episodes": 39,
+     "ep_pos_sum": 0.8341,
+     "ep_neg_sum": -0.8256,
+     "ep_pos_n": 33
+    },
+    "validation": {
+     "CAGR": 0.0936,
+     "maxDD": -0.1516,
+     "Calmar": 0.618,
+     "total": 0.8709,
+     "t_vs_0050_m": -0.93,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.299,
+     "cost_drag_pp": 2.77,
+     "missed_sum": 0.417,
+     "missed_compound": 0.4443,
+     "episodes": 26,
+     "ep_pos_sum": 0.5057,
+     "ep_neg_sum": -0.1216,
+     "ep_pos_n": 21
+    },
+    "holdout": {
+     "CAGR": 0.3657,
+     "maxDD": -0.2674,
+     "Calmar": 1.367,
+     "total": 4.7689,
+     "t_vs_0050_m": 0.7,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.246,
+     "cost_drag_pp": 4.32,
+     "missed_sum": 0.2701,
+     "missed_compound": 0.2407,
+     "episodes": 26,
+     "ep_pos_sum": 0.3988,
+     "ep_neg_sum": -0.1697,
+     "ep_pos_n": 14
+    },
+    "full": {
+     "CAGR": 0.17,
+     "maxDD": -0.2902,
+     "Calmar": 0.586,
+     "total": 23.995,
+     "t_vs_0050_m": 0.42,
+     "switches": 182,
+     "exits": 91,
+     "pct_out": 0.311,
+     "cost_drag_pp": 3.55,
+     "missed_sum": 0.5998,
+     "missed_compound": 0.459,
+     "episodes": 91,
+     "ep_pos_sum": 1.7386,
+     "ep_neg_sum": -1.1169,
+     "ep_pos_n": 68
+    }
+   },
+   "n10|none": {
+    "selection": {
+     "CAGR": 0.1488,
+     "maxDD": -0.6509,
+     "Calmar": 0.229,
+     "total": 1.9201,
+     "t_vs_0050_m": 1.68,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "validation": {
+     "CAGR": 0.2133,
+     "maxDD": -0.2839,
+     "Calmar": 0.751,
+     "total": 2.8712,
+     "t_vs_0050_m": 0.96,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "holdout": {
+     "CAGR": 0.5223,
+     "maxDD": -0.357,
+     "Calmar": 1.463,
+     "total": 9.6237,
+     "t_vs_0050_m": 1.51,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "full": {
+     "CAGR": 0.2717,
+     "maxDD": -0.6509,
+     "Calmar": 0.418,
+     "total": 137.2286,
+     "t_vs_0050_m": 2.4,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    }
+   },
+   "n10|S1": {
+    "selection": {
+     "CAGR": 0.1708,
+     "maxDD": -0.4232,
+     "Calmar": 0.404,
+     "total": 2.3808,
+     "t_vs_0050_m": 1.38,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.303,
+     "cost_drag_pp": 0.61,
+     "missed_sum": -0.0829,
+     "missed_compound": -0.1705,
+     "episodes": 6,
+     "ep_pos_sum": 0.3625,
+     "ep_neg_sum": -0.4448,
+     "ep_pos_n": 4
+    },
+    "validation": {
+     "CAGR": 0.1201,
+     "maxDD": -0.2208,
+     "Calmar": 0.544,
+     "total": 1.212,
+     "t_vs_0050_m": -0.27,
+     "switches": 14,
+     "exits": 7,
+     "pct_out": 0.294,
+     "cost_drag_pp": 0.76,
+     "missed_sum": 0.5644,
+     "missed_compound": 0.6695,
+     "episodes": 7,
+     "ep_pos_sum": 0.5675,
+     "ep_neg_sum": -0.0163,
+     "ep_pos_n": 6
+    },
+    "holdout": {
+     "CAGR": 0.5403,
+     "maxDD": -0.2891,
+     "Calmar": 1.869,
+     "total": 10.3517,
+     "t_vs_0050_m": 1.49,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.231,
+     "cost_drag_pp": 0.55,
+     "missed_sum": -0.0301,
+     "missed_compound": -0.0828,
+     "episodes": 3,
+     "ep_pos_sum": 0.0759,
+     "ep_neg_sum": -0.1485,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.2504,
+     "maxDD": -0.4232,
+     "Calmar": 0.592,
+     "total": 96.7123,
+     "t_vs_0050_m": 1.7,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.66,
+     "missed_sum": 0.4514,
+     "missed_compound": 0.2702,
+     "episodes": 16,
+     "ep_pos_sum": 1.0059,
+     "ep_neg_sum": -0.6096,
+     "ep_pos_n": 12
+    }
+   },
+   "n10|S2": {
+    "selection": {
+     "CAGR": 0.092,
+     "maxDD": -0.3144,
+     "Calmar": 0.293,
+     "total": 0.9738,
+     "t_vs_0050_m": 0.45,
+     "switches": 82,
+     "exits": 41,
+     "pct_out": 0.338,
+     "cost_drag_pp": 3.97,
+     "missed_sum": 0.2368,
+     "missed_compound": 0.1225,
+     "episodes": 41,
+     "ep_pos_sum": 1.076,
+     "ep_neg_sum": -0.7735,
+     "ep_pos_n": 32
+    },
+    "validation": {
+     "CAGR": 0.12,
+     "maxDD": -0.2167,
+     "Calmar": 0.553,
+     "total": 1.2104,
+     "t_vs_0050_m": -0.27,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.25,
+     "cost_drag_pp": 2.84,
+     "missed_sum": 0.4378,
+     "missed_compound": 0.4701,
+     "episodes": 26,
+     "ep_pos_sum": 0.4732,
+     "ep_neg_sum": -0.0659,
+     "ep_pos_n": 16
+    },
+    "holdout": {
+     "CAGR": 0.5293,
+     "maxDD": -0.2891,
+     "Calmar": 1.831,
+     "total": 9.9011,
+     "t_vs_0050_m": 1.42,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.215,
+     "cost_drag_pp": 1.66,
+     "missed_sum": -0.032,
+     "missed_compound": -0.0828,
+     "episodes": 9,
+     "ep_pos_sum": 0.1966,
+     "ep_neg_sum": -0.2456,
+     "ep_pos_n": 6
+    },
+    "full": {
+     "CAGR": 0.2156,
+     "maxDD": -0.3144,
+     "Calmar": 0.686,
+     "total": 53.7433,
+     "t_vs_0050_m": 1.16,
+     "switches": 152,
+     "exits": 76,
+     "pct_out": 0.273,
+     "cost_drag_pp": 3.07,
+     "missed_sum": 0.6426,
+     "missed_compound": 0.5136,
+     "episodes": 76,
+     "ep_pos_sum": 1.7459,
+     "ep_neg_sum": -1.085,
+     "ep_pos_n": 54
+    }
+   },
+   "n10|S3": {
+    "selection": {
+     "CAGR": 0.1318,
+     "maxDD": -0.3902,
+     "Calmar": 0.338,
+     "total": 1.6023,
+     "t_vs_0050_m": 0.9,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.335,
+     "cost_drag_pp": 0.89,
+     "missed_sum": 0.1712,
+     "missed_compound": 0.0561,
+     "episodes": 9,
+     "ep_pos_sum": 0.7599,
+     "ep_neg_sum": -0.5416,
+     "ep_pos_n": 7
+    },
+    "validation": {
+     "CAGR": 0.1382,
+     "maxDD": -0.195,
+     "Calmar": 0.709,
+     "total": 1.4752,
+     "t_vs_0050_m": -0.05,
+     "switches": 10,
+     "exits": 5,
+     "pct_out": 0.235,
+     "cost_drag_pp": 0.55,
+     "missed_sum": 0.4589,
+     "missed_compound": 0.5122,
+     "episodes": 5,
+     "ep_pos_sum": 0.4522,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.5444,
+     "maxDD": -0.2891,
+     "Calmar": 1.883,
+     "total": 10.5203,
+     "t_vs_0050_m": 1.49,
+     "switches": 4,
+     "exits": 2,
+     "pct_out": 0.221,
+     "cost_drag_pp": 0.37,
+     "missed_sum": -0.04,
+     "missed_compound": -0.0902,
+     "episodes": 2,
+     "ep_pos_sum": 0.0882,
+     "ep_neg_sum": -0.1639,
+     "ep_pos_n": 1
+    },
+    "full": {
+     "CAGR": 0.2422,
+     "maxDD": -0.3902,
+     "Calmar": 0.621,
+     "total": 84.4113,
+     "t_vs_0050_m": 1.56,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.268,
+     "cost_drag_pp": 0.65,
+     "missed_sum": 0.5901,
+     "missed_compound": 0.4531,
+     "episodes": 16,
+     "ep_pos_sum": 1.3003,
+     "ep_neg_sum": -0.7055,
+     "ep_pos_n": 13
+    }
+   },
+   "n10|S4": {
+    "selection": {
+     "CAGR": 0.1585,
+     "maxDD": -0.3002,
+     "Calmar": 0.528,
+     "total": 2.1146,
+     "t_vs_0050_m": 1.19,
+     "switches": 16,
+     "exits": 8,
+     "pct_out": 0.379,
+     "cost_drag_pp": 0.81,
+     "missed_sum": 0.0102,
+     "missed_compound": -0.1116,
+     "episodes": 8,
+     "ep_pos_sum": 0.4557,
+     "ep_neg_sum": -0.4406,
+     "ep_pos_n": 6
+    },
+    "validation": {
+     "CAGR": 0.1255,
+     "maxDD": -0.3943,
+     "Calmar": 0.318,
+     "total": 1.2876,
+     "t_vs_0050_m": -0.19,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.236,
+     "cost_drag_pp": 0.65,
+     "missed_sum": 0.5248,
+     "missed_compound": 0.6252,
+     "episodes": 6,
+     "ep_pos_sum": 0.554,
+     "ep_neg_sum": -0.0138,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.5519,
+     "maxDD": -0.2891,
+     "Calmar": 1.909,
+     "total": 10.838,
+     "t_vs_0050_m": 1.51,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.199,
+     "cost_drag_pp": 0.56,
+     "missed_sum": -0.0806,
+     "missed_compound": -0.1205,
+     "episodes": 3,
+     "ep_pos_sum": 0.1222,
+     "ep_neg_sum": -0.2188,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.25,
+     "maxDD": -0.3943,
+     "Calmar": 0.634,
+     "total": 96.0855,
+     "t_vs_0050_m": 1.67,
+     "switches": 34,
+     "exits": 17,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.7,
+     "missed_sum": 0.4544,
+     "missed_compound": 0.2698,
+     "episodes": 17,
+     "ep_pos_sum": 1.1318,
+     "ep_neg_sum": -0.6732,
+     "ep_pos_n": 13
+    }
+   },
+   "n10|S5": {
+    "selection": {
+     "CAGR": 0.1261,
+     "maxDD": -0.2943,
+     "Calmar": 0.429,
+     "total": 1.5025,
+     "t_vs_0050_m": 0.88,
+     "switches": 78,
+     "exits": 39,
+     "pct_out": 0.372,
+     "cost_drag_pp": 3.89,
+     "missed_sum": 0.0235,
+     "missed_compound": -0.1026,
+     "episodes": 39,
+     "ep_pos_sum": 1.0896,
+     "ep_neg_sum": -0.9257,
+     "ep_pos_n": 33
+    },
+    "validation": {
+     "CAGR": 0.1171,
+     "maxDD": -0.1889,
+     "Calmar": 0.62,
+     "total": 1.1713,
+     "t_vs_0050_m": -0.28,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.299,
+     "cost_drag_pp": 2.83,
+     "missed_sum": 0.4624,
+     "missed_compound": 0.4966,
+     "episodes": 26,
+     "ep_pos_sum": 0.6214,
+     "ep_neg_sum": -0.186,
+     "ep_pos_n": 20
+    },
+    "holdout": {
+     "CAGR": 0.4778,
+     "maxDD": -0.2984,
+     "Calmar": 1.601,
+     "total": 7.9917,
+     "t_vs_0050_m": 1.19,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.246,
+     "cost_drag_pp": 4.67,
+     "missed_sum": 0.0522,
+     "missed_compound": -0.0083,
+     "episodes": 26,
+     "ep_pos_sum": 0.4209,
+     "ep_neg_sum": -0.3855,
+     "ep_pos_n": 14
+    },
+    "full": {
+     "CAGR": 0.2172,
+     "maxDD": -0.2984,
+     "Calmar": 0.728,
+     "total": 55.2356,
+     "t_vs_0050_m": 1.21,
+     "switches": 182,
+     "exits": 91,
+     "pct_out": 0.311,
+     "cost_drag_pp": 3.69,
+     "missed_sum": 0.5381,
+     "missed_compound": 0.3319,
+     "episodes": 91,
+     "ep_pos_sum": 2.1319,
+     "ep_neg_sum": -1.4972,
+     "ep_pos_n": 67
+    }
+   },
+   "0050|none": {
+    "selection": {
+     "CAGR": 0.0548,
+     "maxDD": -0.5575,
+     "Calmar": 0.098,
+     "total": 0.51,
+     "t_vs_0050_m": null,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "validation": {
+     "CAGR": 0.1445,
+     "maxDD": -0.2822,
+     "Calmar": 0.512,
+     "total": 1.5725,
+     "t_vs_0050_m": null,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "holdout": {
+     "CAGR": 0.2801,
+     "maxDD": -0.3396,
+     "Calmar": 0.825,
+     "total": 3.009,
+     "t_vs_0050_m": null,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "full": {
+     "CAGR": 0.1494,
+     "maxDD": -0.5575,
+     "Calmar": 0.268,
+     "total": 16.363,
+     "t_vs_0050_m": null,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    }
+   },
+   "0050|S1": {
+    "selection": {
+     "CAGR": 0.0662,
+     "maxDD": -0.2311,
+     "Calmar": 0.286,
+     "total": 0.6404,
+     "t_vs_0050_m": -0.02,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.303,
+     "cost_drag_pp": 0.22,
+     "missed_sum": 0.0197,
+     "missed_compound": -0.0944,
+     "episodes": 6,
+     "ep_pos_sum": 0.2144,
+     "ep_neg_sum": -0.2657,
+     "ep_pos_n": 5
+    },
+    "validation": {
+     "CAGR": 0.1088,
+     "maxDD": -0.1542,
+     "Calmar": 0.706,
+     "total": 1.0611,
+     "t_vs_0050_m": -1.05,
+     "switches": 14,
+     "exits": 7,
+     "pct_out": 0.294,
+     "cost_drag_pp": 0.3,
+     "missed_sum": 0.2422,
+     "missed_compound": 0.2247,
+     "episodes": 7,
+     "ep_pos_sum": 0.2509,
+     "ep_neg_sum": -0.0407,
+     "ep_pos_n": 6
+    },
+    "holdout": {
+     "CAGR": 0.2729,
+     "maxDD": -0.213,
+     "Calmar": 1.281,
+     "total": 2.8843,
+     "t_vs_0050_m": -0.26,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.231,
+     "cost_drag_pp": 0.18,
+     "missed_sum": 0.0648,
+     "missed_compound": 0.0237,
+     "episodes": 3,
+     "ep_pos_sum": 0.0871,
+     "ep_neg_sum": -0.0598,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.1399,
+     "maxDD": -0.2311,
+     "Calmar": 0.605,
+     "total": 13.6426,
+     "t_vs_0050_m": -0.61,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.24,
+     "missed_sum": 0.3266,
+     "missed_compound": 0.1354,
+     "episodes": 16,
+     "ep_pos_sum": 0.5524,
+     "ep_neg_sum": -0.3662,
+     "ep_pos_n": 13
+    }
+   },
+   "0050|S2": {
+    "selection": {
+     "CAGR": 0.0289,
+     "maxDD": -0.2403,
+     "Calmar": 0.12,
+     "total": 0.2458,
+     "t_vs_0050_m": -0.67,
+     "switches": 82,
+     "exits": 41,
+     "pct_out": 0.338,
+     "cost_drag_pp": 1.49,
+     "missed_sum": 0.2056,
+     "missed_compound": 0.0845,
+     "episodes": 41,
+     "ep_pos_sum": 0.5778,
+     "ep_neg_sum": -0.4254,
+     "ep_pos_n": 29
+    },
+    "validation": {
+     "CAGR": 0.1181,
+     "maxDD": -0.1495,
+     "Calmar": 0.79,
+     "total": 1.1851,
+     "t_vs_0050_m": -0.86,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.25,
+     "cost_drag_pp": 1.13,
+     "missed_sum": 0.1305,
+     "missed_compound": 0.0971,
+     "episodes": 26,
+     "ep_pos_sum": 0.2189,
+     "ep_neg_sum": -0.1218,
+     "ep_pos_n": 21
+    },
+    "holdout": {
+     "CAGR": 0.2589,
+     "maxDD": -0.213,
+     "Calmar": 1.215,
+     "total": 2.6502,
+     "t_vs_0050_m": -0.45,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.215,
+     "cost_drag_pp": 0.55,
+     "missed_sum": 0.1109,
+     "missed_compound": 0.0718,
+     "episodes": 9,
+     "ep_pos_sum": 0.153,
+     "ep_neg_sum": -0.0789,
+     "ep_pos_n": 6
+    },
+    "full": {
+     "CAGR": 0.1245,
+     "maxDD": -0.2403,
+     "Calmar": 0.518,
+     "total": 10.0792,
+     "t_vs_0050_m": -1.08,
+     "switches": 152,
+     "exits": 76,
+     "pct_out": 0.273,
+     "cost_drag_pp": 1.14,
+     "missed_sum": 0.4469,
+     "missed_compound": 0.2753,
+     "episodes": 76,
+     "ep_pos_sum": 0.9496,
+     "ep_neg_sum": -0.6261,
+     "ep_pos_n": 56
+    }
+   },
+   "0050|S3": {
+    "selection": {
+     "CAGR": 0.0522,
+     "maxDD": -0.2281,
+     "Calmar": 0.229,
+     "total": 0.4818,
+     "t_vs_0050_m": -0.27,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.335,
+     "cost_drag_pp": 0.33,
+     "missed_sum": 0.1189,
+     "missed_compound": -0.0055,
+     "episodes": 9,
+     "ep_pos_sum": 0.4055,
+     "ep_neg_sum": -0.3419,
+     "ep_pos_n": 7
+    },
+    "validation": {
+     "CAGR": 0.1196,
+     "maxDD": -0.148,
+     "Calmar": 0.808,
+     "total": 1.2057,
+     "t_vs_0050_m": -0.88,
+     "switches": 10,
+     "exits": 5,
+     "pct_out": 0.235,
+     "cost_drag_pp": 0.22,
+     "missed_sum": 0.1754,
+     "missed_compound": 0.1506,
+     "episodes": 5,
+     "ep_pos_sum": 0.1763,
+     "ep_neg_sum": -0.0307,
+     "ep_pos_n": 3
+    },
+    "holdout": {
+     "CAGR": 0.2808,
+     "maxDD": -0.213,
+     "Calmar": 1.318,
+     "total": 3.0214,
+     "t_vs_0050_m": -0.14,
+     "switches": 4,
+     "exits": 2,
+     "pct_out": 0.221,
+     "cost_drag_pp": 0.12,
+     "missed_sum": 0.0327,
+     "missed_compound": -0.0085,
+     "episodes": 2,
+     "ep_pos_sum": 0.0691,
+     "ep_neg_sum": -0.0726,
+     "ep_pos_n": 1
+    },
+    "full": {
+     "CAGR": 0.1399,
+     "maxDD": -0.2281,
+     "Calmar": 0.613,
+     "total": 13.6548,
+     "t_vs_0050_m": -0.61,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.268,
+     "cost_drag_pp": 0.24,
+     "missed_sum": 0.327,
+     "missed_compound": 0.1345,
+     "episodes": 16,
+     "ep_pos_sum": 0.6509,
+     "ep_neg_sum": -0.4452,
+     "ep_pos_n": 11
+    }
+   },
+   "0050|S4": {
+    "selection": {
+     "CAGR": 0.0388,
+     "maxDD": -0.2044,
+     "Calmar": 0.19,
+     "total": 0.3413,
+     "t_vs_0050_m": -0.49,
+     "switches": 16,
+     "exits": 8,
+     "pct_out": 0.379,
+     "cost_drag_pp": 0.29,
+     "missed_sum": 0.2302,
+     "missed_compound": 0.1016,
+     "episodes": 8,
+     "ep_pos_sum": 0.411,
+     "ep_neg_sum": -0.2649,
+     "ep_pos_n": 6
+    },
+    "validation": {
+     "CAGR": 0.1012,
+     "maxDD": -0.2822,
+     "Calmar": 0.359,
+     "total": 0.9642,
+     "t_vs_0050_m": -1.44,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.236,
+     "cost_drag_pp": 0.26,
+     "missed_sum": 0.2761,
+     "missed_compound": 0.2886,
+     "episodes": 6,
+     "ep_pos_sum": 0.3338,
+     "ep_neg_sum": -0.0592,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.2458,
+     "maxDD": -0.213,
+     "Calmar": 1.154,
+     "total": 2.4415,
+     "t_vs_0050_m": -0.65,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.199,
+     "cost_drag_pp": 0.18,
+     "missed_sum": 0.182,
+     "missed_compound": 0.1555,
+     "episodes": 3,
+     "ep_pos_sum": 0.1861,
+     "ep_neg_sum": -0.0328,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.1194,
+     "maxDD": -0.2822,
+     "Calmar": 0.423,
+     "total": 9.1094,
+     "t_vs_0050_m": -1.22,
+     "switches": 34,
+     "exits": 17,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.25,
+     "missed_sum": 0.6883,
+     "missed_compound": 0.6401,
+     "episodes": 17,
+     "ep_pos_sum": 0.9309,
+     "ep_neg_sum": -0.3569,
+     "ep_pos_n": 13
+    }
+   },
+   "0050|S5": {
+    "selection": {
+     "CAGR": 0.048,
+     "maxDD": -0.2153,
+     "Calmar": 0.223,
+     "total": 0.4359,
+     "t_vs_0050_m": -0.32,
+     "switches": 78,
+     "exits": 39,
+     "pct_out": 0.372,
+     "cost_drag_pp": 1.45,
+     "missed_sum": 0.0723,
+     "missed_compound": -0.054,
+     "episodes": 39,
+     "ep_pos_sum": 0.6778,
+     "ep_neg_sum": -0.6048,
+     "ep_pos_n": 30
+    },
+    "validation": {
+     "CAGR": 0.1112,
+     "maxDD": -0.1402,
+     "Calmar": 0.793,
+     "total": 1.0916,
+     "t_vs_0050_m": -1.02,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.299,
+     "cost_drag_pp": 1.12,
+     "missed_sum": 0.1776,
+     "missed_compound": 0.1462,
+     "episodes": 26,
+     "ep_pos_sum": 0.3263,
+     "ep_neg_sum": -0.1802,
+     "ep_pos_n": 19
+    },
+    "holdout": {
+     "CAGR": 0.2107,
+     "maxDD": -0.213,
+     "Calmar": 0.989,
+     "total": 1.9301,
+     "t_vs_0050_m": -1.19,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.246,
+     "cost_drag_pp": 1.53,
+     "missed_sum": 0.2868,
+     "missed_compound": 0.275,
+     "episodes": 26,
+     "ep_pos_sum": 0.4049,
+     "ep_neg_sum": -0.1472,
+     "ep_pos_n": 21
+    },
+    "full": {
+     "CAGR": 0.1178,
+     "maxDD": -0.2278,
+     "Calmar": 0.517,
+     "total": 8.8124,
+     "t_vs_0050_m": -1.29,
+     "switches": 182,
+     "exits": 91,
+     "pct_out": 0.311,
+     "cost_drag_pp": 1.35,
+     "missed_sum": 0.5367,
+     "missed_compound": 0.3825,
+     "episodes": 91,
+     "ep_pos_sum": 1.4091,
+     "ep_neg_sum": -0.9322,
+     "ep_pos_n": 70
+    }
+   }
+  },
+  "cash1pct": {
+   "n30|none": {
+    "selection": {
+     "CAGR": 0.105,
+     "maxDD": -0.6387,
+     "Calmar": 0.164,
+     "total": 1.1621,
+     "t_vs_0050_m": 1.22,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "validation": {
+     "CAGR": 0.1818,
+     "maxDD": -0.3147,
+     "Calmar": 0.577,
+     "total": 2.2192,
+     "t_vs_0050_m": 0.72,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "holdout": {
+     "CAGR": 0.4639,
+     "maxDD": -0.3606,
+     "Calmar": 1.287,
+     "total": 7.5267,
+     "t_vs_0050_m": 1.63,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "full": {
+     "CAGR": 0.2279,
+     "maxDD": -0.6387,
+     "Calmar": 0.357,
+     "total": 66.302,
+     "t_vs_0050_m": 2.14,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    }
+   },
+   "n30|S1": {
+    "selection": {
+     "CAGR": 0.1492,
+     "maxDD": -0.3693,
+     "Calmar": 0.404,
+     "total": 1.9267,
+     "t_vs_0050_m": 1.24,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.303,
+     "cost_drag_pp": 0.6,
+     "missed_sum": -0.2249,
+     "missed_compound": -0.2737,
+     "episodes": 6,
+     "ep_pos_sum": 0.1721,
+     "ep_neg_sum": -0.4211,
+     "ep_pos_n": 4
+    },
+    "validation": {
+     "CAGR": 0.107,
+     "maxDD": -0.1667,
+     "Calmar": 0.642,
+     "total": 1.0377,
+     "t_vs_0050_m": -0.68,
+     "switches": 14,
+     "exits": 7,
+     "pct_out": 0.294,
+     "cost_drag_pp": 0.75,
+     "missed_sum": 0.4743,
+     "missed_compound": 0.5385,
+     "episodes": 7,
+     "ep_pos_sum": 0.4588,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 7
+    },
+    "holdout": {
+     "CAGR": 0.4335,
+     "maxDD": -0.2465,
+     "Calmar": 1.759,
+     "total": 6.5781,
+     "t_vs_0050_m": 1.18,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.231,
+     "cost_drag_pp": 0.52,
+     "missed_sum": 0.159,
+     "missed_compound": 0.1166,
+     "episodes": 3,
+     "ep_pos_sum": 0.1137,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 3
+    },
+    "full": {
+     "CAGR": 0.2117,
+     "maxDD": -0.3693,
+     "Calmar": 0.573,
+     "total": 50.2515,
+     "t_vs_0050_m": 1.24,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.64,
+     "missed_sum": 0.4084,
+     "missed_compound": 0.2477,
+     "episodes": 16,
+     "ep_pos_sum": 0.7447,
+     "ep_neg_sum": -0.4211,
+     "ep_pos_n": 14
+    }
+   },
+   "n30|S2": {
+    "selection": {
+     "CAGR": 0.077,
+     "maxDD": -0.2776,
+     "Calmar": 0.277,
+     "total": 0.7732,
+     "t_vs_0050_m": 0.25,
+     "switches": 82,
+     "exits": 41,
+     "pct_out": 0.338,
+     "cost_drag_pp": 3.92,
+     "missed_sum": 0.0578,
+     "missed_compound": -0.0505,
+     "episodes": 41,
+     "ep_pos_sum": 0.8311,
+     "ep_neg_sum": -0.7326,
+     "ep_pos_n": 29
+    },
+    "validation": {
+     "CAGR": 0.1001,
+     "maxDD": -0.2203,
+     "Calmar": 0.454,
+     "total": 0.9496,
+     "t_vs_0050_m": -0.81,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.25,
+     "cost_drag_pp": 2.79,
+     "missed_sum": 0.3892,
+     "missed_compound": 0.4108,
+     "episodes": 26,
+     "ep_pos_sum": 0.3862,
+     "ep_neg_sum": -0.0321,
+     "ep_pos_n": 23
+    },
+    "holdout": {
+     "CAGR": 0.4355,
+     "maxDD": -0.2465,
+     "Calmar": 1.767,
+     "total": 6.6374,
+     "t_vs_0050_m": 1.17,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.215,
+     "cost_drag_pp": 1.56,
+     "missed_sum": 0.1089,
+     "missed_compound": 0.0631,
+     "episodes": 9,
+     "ep_pos_sum": 0.1624,
+     "ep_neg_sum": -0.0939,
+     "ep_pos_n": 6
+    },
+    "full": {
+     "CAGR": 0.1803,
+     "maxDD": -0.2776,
+     "Calmar": 0.65,
+     "total": 28.9429,
+     "t_vs_0050_m": 0.6,
+     "switches": 152,
+     "exits": 76,
+     "pct_out": 0.273,
+     "cost_drag_pp": 2.98,
+     "missed_sum": 0.5558,
+     "missed_compound": 0.4241,
+     "episodes": 76,
+     "ep_pos_sum": 1.3797,
+     "ep_neg_sum": -0.8586,
+     "ep_pos_n": 58
+    }
+   },
+   "n30|S3": {
+    "selection": {
+     "CAGR": 0.1095,
+     "maxDD": -0.3216,
+     "Calmar": 0.34,
+     "total": 1.2306,
+     "t_vs_0050_m": 0.68,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.335,
+     "cost_drag_pp": 0.87,
+     "missed_sum": 0.0386,
+     "missed_compound": -0.064,
+     "episodes": 9,
+     "ep_pos_sum": 0.5554,
+     "ep_neg_sum": -0.5009,
+     "ep_pos_n": 7
+    },
+    "validation": {
+     "CAGR": 0.1138,
+     "maxDD": -0.1647,
+     "Calmar": 0.691,
+     "total": 1.1264,
+     "t_vs_0050_m": -0.6,
+     "switches": 10,
+     "exits": 5,
+     "pct_out": 0.235,
+     "cost_drag_pp": 0.54,
+     "missed_sum": 0.4369,
+     "missed_compound": 0.4879,
+     "episodes": 5,
+     "ep_pos_sum": 0.424,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.4532,
+     "maxDD": -0.2465,
+     "Calmar": 1.839,
+     "total": 7.1816,
+     "t_vs_0050_m": 1.3,
+     "switches": 4,
+     "exits": 2,
+     "pct_out": 0.221,
+     "cost_drag_pp": 0.35,
+     "missed_sum": 0.0876,
+     "missed_compound": 0.0407,
+     "episodes": 2,
+     "ep_pos_sum": 0.0403,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.2027,
+     "maxDD": -0.3216,
+     "Calmar": 0.63,
+     "total": 43.0092,
+     "t_vs_0050_m": 1.05,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.268,
+     "cost_drag_pp": 0.63,
+     "missed_sum": 0.5631,
+     "missed_compound": 0.4494,
+     "episodes": 16,
+     "ep_pos_sum": 1.0198,
+     "ep_neg_sum": -0.5009,
+     "ep_pos_n": 14
+    }
+   },
+   "n30|S4": {
+    "selection": {
+     "CAGR": 0.1195,
+     "maxDD": -0.2917,
+     "Calmar": 0.41,
+     "total": 1.3916,
+     "t_vs_0050_m": 0.75,
+     "switches": 16,
+     "exits": 8,
+     "pct_out": 0.379,
+     "cost_drag_pp": 0.78,
+     "missed_sum": -0.0119,
+     "missed_compound": -0.1181,
+     "episodes": 8,
+     "ep_pos_sum": 0.3987,
+     "ep_neg_sum": -0.428,
+     "ep_pos_n": 6
+    },
+    "validation": {
+     "CAGR": 0.0837,
+     "maxDD": -0.3929,
+     "Calmar": 0.213,
+     "total": 0.755,
+     "t_vs_0050_m": -1.14,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.236,
+     "cost_drag_pp": 0.63,
+     "missed_sum": 0.6118,
+     "missed_compound": 0.7909,
+     "episodes": 6,
+     "ep_pos_sum": 0.6701,
+     "ep_neg_sum": -0.0165,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.4211,
+     "maxDD": -0.2465,
+     "Calmar": 1.708,
+     "total": 6.2157,
+     "t_vs_0050_m": 1.07,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.199,
+     "cost_drag_pp": 0.51,
+     "missed_sum": 0.2001,
+     "missed_compound": 0.1706,
+     "episodes": 3,
+     "ep_pos_sum": 0.1642,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 3
+    },
+    "full": {
+     "CAGR": 0.1882,
+     "maxDD": -0.3929,
+     "Calmar": 0.479,
+     "total": 33.346,
+     "t_vs_0050_m": 0.75,
+     "switches": 34,
+     "exits": 17,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.67,
+     "missed_sum": 0.8,
+     "missed_compound": 0.8489,
+     "episodes": 17,
+     "ep_pos_sum": 1.233,
+     "ep_neg_sum": -0.4444,
+     "ep_pos_n": 14
+    }
+   },
+   "n30|S5": {
+    "selection": {
+     "CAGR": 0.101,
+     "maxDD": -0.2861,
+     "Calmar": 0.353,
+     "total": 1.1021,
+     "t_vs_0050_m": 0.58,
+     "switches": 78,
+     "exits": 39,
+     "pct_out": 0.372,
+     "cost_drag_pp": 3.81,
+     "missed_sum": -0.0872,
+     "missed_compound": -0.1858,
+     "episodes": 39,
+     "ep_pos_sum": 0.8341,
+     "ep_neg_sum": -0.8256,
+     "ep_pos_n": 33
+    },
+    "validation": {
+     "CAGR": 0.0968,
+     "maxDD": -0.1432,
+     "Calmar": 0.676,
+     "total": 0.9101,
+     "t_vs_0050_m": -0.87,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.299,
+     "cost_drag_pp": 2.78,
+     "missed_sum": 0.417,
+     "missed_compound": 0.4443,
+     "episodes": 26,
+     "ep_pos_sum": 0.5057,
+     "ep_neg_sum": -0.1216,
+     "ep_pos_n": 21
+    },
+    "holdout": {
+     "CAGR": 0.3688,
+     "maxDD": -0.2669,
+     "Calmar": 1.382,
+     "total": 4.845,
+     "t_vs_0050_m": 0.72,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.246,
+     "cost_drag_pp": 4.33,
+     "missed_sum": 0.2701,
+     "missed_compound": 0.2407,
+     "episodes": 26,
+     "ep_pos_sum": 0.3988,
+     "ep_neg_sum": -0.1697,
+     "ep_pos_n": 14
+    },
+    "full": {
+     "CAGR": 0.1736,
+     "maxDD": -0.2861,
+     "Calmar": 0.607,
+     "total": 25.6139,
+     "t_vs_0050_m": 0.49,
+     "switches": 182,
+     "exits": 91,
+     "pct_out": 0.311,
+     "cost_drag_pp": 3.56,
+     "missed_sum": 0.5998,
+     "missed_compound": 0.459,
+     "episodes": 91,
+     "ep_pos_sum": 1.7386,
+     "ep_neg_sum": -1.1169,
+     "ep_pos_n": 68
+    }
+   },
+   "n10|none": {
+    "selection": {
+     "CAGR": 0.1488,
+     "maxDD": -0.6509,
+     "Calmar": 0.229,
+     "total": 1.9201,
+     "t_vs_0050_m": 1.68,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "validation": {
+     "CAGR": 0.2133,
+     "maxDD": -0.2839,
+     "Calmar": 0.751,
+     "total": 2.8712,
+     "t_vs_0050_m": 0.96,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "holdout": {
+     "CAGR": 0.5223,
+     "maxDD": -0.357,
+     "Calmar": 1.463,
+     "total": 9.6237,
+     "t_vs_0050_m": 1.51,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "full": {
+     "CAGR": 0.2717,
+     "maxDD": -0.6509,
+     "Calmar": 0.418,
+     "total": 137.2286,
+     "t_vs_0050_m": 2.4,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    }
+   },
+   "n10|S1": {
+    "selection": {
+     "CAGR": 0.1744,
+     "maxDD": -0.4164,
+     "Calmar": 0.419,
+     "total": 2.4611,
+     "t_vs_0050_m": 1.42,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.303,
+     "cost_drag_pp": 0.62,
+     "missed_sum": -0.0829,
+     "missed_compound": -0.1705,
+     "episodes": 6,
+     "ep_pos_sum": 0.3625,
+     "ep_neg_sum": -0.4448,
+     "ep_pos_n": 4
+    },
+    "validation": {
+     "CAGR": 0.1234,
+     "maxDD": -0.2142,
+     "Calmar": 0.576,
+     "total": 1.2581,
+     "t_vs_0050_m": -0.23,
+     "switches": 14,
+     "exits": 7,
+     "pct_out": 0.294,
+     "cost_drag_pp": 0.76,
+     "missed_sum": 0.5644,
+     "missed_compound": 0.6695,
+     "episodes": 7,
+     "ep_pos_sum": 0.5675,
+     "ep_neg_sum": -0.0163,
+     "ep_pos_n": 6
+    },
+    "holdout": {
+     "CAGR": 0.5438,
+     "maxDD": -0.2891,
+     "Calmar": 1.881,
+     "total": 10.4946,
+     "t_vs_0050_m": 1.5,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.231,
+     "cost_drag_pp": 0.56,
+     "missed_sum": -0.0301,
+     "missed_compound": -0.0828,
+     "episodes": 3,
+     "ep_pos_sum": 0.0759,
+     "ep_neg_sum": -0.1485,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.2539,
+     "maxDD": -0.4164,
+     "Calmar": 0.61,
+     "total": 102.4017,
+     "t_vs_0050_m": 1.75,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.66,
+     "missed_sum": 0.4514,
+     "missed_compound": 0.2702,
+     "episodes": 16,
+     "ep_pos_sum": 1.0059,
+     "ep_neg_sum": -0.6096,
+     "ep_pos_n": 12
+    }
+   },
+   "n10|S2": {
+    "selection": {
+     "CAGR": 0.0957,
+     "maxDD": -0.3061,
+     "Calmar": 0.313,
+     "total": 1.0258,
+     "t_vs_0050_m": 0.49,
+     "switches": 82,
+     "exits": 41,
+     "pct_out": 0.338,
+     "cost_drag_pp": 3.99,
+     "missed_sum": 0.2368,
+     "missed_compound": 0.1225,
+     "episodes": 41,
+     "ep_pos_sum": 1.076,
+     "ep_neg_sum": -0.7735,
+     "ep_pos_n": 32
+    },
+    "validation": {
+     "CAGR": 0.1228,
+     "maxDD": -0.2122,
+     "Calmar": 0.579,
+     "total": 1.25,
+     "t_vs_0050_m": -0.23,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.25,
+     "cost_drag_pp": 2.84,
+     "missed_sum": 0.4378,
+     "missed_compound": 0.4701,
+     "episodes": 26,
+     "ep_pos_sum": 0.4732,
+     "ep_neg_sum": -0.0659,
+     "ep_pos_n": 16
+    },
+    "holdout": {
+     "CAGR": 0.5324,
+     "maxDD": -0.2891,
+     "Calmar": 1.842,
+     "total": 10.0288,
+     "t_vs_0050_m": 1.43,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.215,
+     "cost_drag_pp": 1.66,
+     "missed_sum": -0.032,
+     "missed_compound": -0.0828,
+     "episodes": 9,
+     "ep_pos_sum": 0.1966,
+     "ep_neg_sum": -0.2456,
+     "ep_pos_n": 6
+    },
+    "full": {
+     "CAGR": 0.2189,
+     "maxDD": -0.3061,
+     "Calmar": 0.715,
+     "total": 56.8614,
+     "t_vs_0050_m": 1.21,
+     "switches": 152,
+     "exits": 76,
+     "pct_out": 0.273,
+     "cost_drag_pp": 3.08,
+     "missed_sum": 0.6426,
+     "missed_compound": 0.5136,
+     "episodes": 76,
+     "ep_pos_sum": 1.7459,
+     "ep_neg_sum": -1.085,
+     "ep_pos_n": 54
+    }
+   },
+   "n10|S3": {
+    "selection": {
+     "CAGR": 0.1356,
+     "maxDD": -0.3828,
+     "Calmar": 0.354,
+     "total": 1.67,
+     "t_vs_0050_m": 0.95,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.335,
+     "cost_drag_pp": 0.89,
+     "missed_sum": 0.1712,
+     "missed_compound": 0.0561,
+     "episodes": 9,
+     "ep_pos_sum": 0.7599,
+     "ep_neg_sum": -0.5416,
+     "ep_pos_n": 7
+    },
+    "validation": {
+     "CAGR": 0.1409,
+     "maxDD": -0.189,
+     "Calmar": 0.746,
+     "total": 1.5161,
+     "t_vs_0050_m": -0.02,
+     "switches": 10,
+     "exits": 5,
+     "pct_out": 0.235,
+     "cost_drag_pp": 0.55,
+     "missed_sum": 0.4589,
+     "missed_compound": 0.5122,
+     "episodes": 5,
+     "ep_pos_sum": 0.4522,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.5477,
+     "maxDD": -0.2891,
+     "Calmar": 1.894,
+     "total": 10.6599,
+     "t_vs_0050_m": 1.51,
+     "switches": 4,
+     "exits": 2,
+     "pct_out": 0.221,
+     "cost_drag_pp": 0.37,
+     "missed_sum": -0.04,
+     "missed_compound": -0.0902,
+     "episodes": 2,
+     "ep_pos_sum": 0.0882,
+     "ep_neg_sum": -0.1639,
+     "ep_pos_n": 1
+    },
+    "full": {
+     "CAGR": 0.2455,
+     "maxDD": -0.3828,
+     "Calmar": 0.641,
+     "total": 89.1606,
+     "t_vs_0050_m": 1.61,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.268,
+     "cost_drag_pp": 0.66,
+     "missed_sum": 0.5901,
+     "missed_compound": 0.4531,
+     "episodes": 16,
+     "ep_pos_sum": 1.3003,
+     "ep_neg_sum": -0.7055,
+     "ep_pos_n": 13
+    }
+   },
+   "n10|S4": {
+    "selection": {
+     "CAGR": 0.1628,
+     "maxDD": -0.2908,
+     "Calmar": 0.56,
+     "total": 2.2067,
+     "t_vs_0050_m": 1.24,
+     "switches": 16,
+     "exits": 8,
+     "pct_out": 0.379,
+     "cost_drag_pp": 0.81,
+     "missed_sum": 0.0102,
+     "missed_compound": -0.1116,
+     "episodes": 8,
+     "ep_pos_sum": 0.4557,
+     "ep_neg_sum": -0.4406,
+     "ep_pos_n": 6
+    },
+    "validation": {
+     "CAGR": 0.1281,
+     "maxDD": -0.3913,
+     "Calmar": 0.327,
+     "total": 1.3256,
+     "t_vs_0050_m": -0.15,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.236,
+     "cost_drag_pp": 0.65,
+     "missed_sum": 0.5248,
+     "missed_compound": 0.6252,
+     "episodes": 6,
+     "ep_pos_sum": 0.554,
+     "ep_neg_sum": -0.0138,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.5548,
+     "maxDD": -0.2891,
+     "Calmar": 1.919,
+     "total": 10.9662,
+     "t_vs_0050_m": 1.53,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.199,
+     "cost_drag_pp": 0.56,
+     "missed_sum": -0.0806,
+     "missed_compound": -0.1205,
+     "episodes": 3,
+     "ep_pos_sum": 0.1222,
+     "ep_neg_sum": -0.2188,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.2535,
+     "maxDD": -0.3913,
+     "Calmar": 0.648,
+     "total": 101.7161,
+     "t_vs_0050_m": 1.73,
+     "switches": 34,
+     "exits": 17,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.7,
+     "missed_sum": 0.4544,
+     "missed_compound": 0.2698,
+     "episodes": 17,
+     "ep_pos_sum": 1.1318,
+     "ep_neg_sum": -0.6732,
+     "ep_pos_n": 13
+    }
+   },
+   "n10|S5": {
+    "selection": {
+     "CAGR": 0.1303,
+     "maxDD": -0.2903,
+     "Calmar": 0.449,
+     "total": 1.5759,
+     "t_vs_0050_m": 0.93,
+     "switches": 78,
+     "exits": 39,
+     "pct_out": 0.372,
+     "cost_drag_pp": 3.91,
+     "missed_sum": 0.0235,
+     "missed_compound": -0.1026,
+     "episodes": 39,
+     "ep_pos_sum": 1.0896,
+     "ep_neg_sum": -0.9257,
+     "ep_pos_n": 33
+    },
+    "validation": {
+     "CAGR": 0.1204,
+     "maxDD": -0.1828,
+     "Calmar": 0.659,
+     "total": 1.2167,
+     "t_vs_0050_m": -0.24,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.299,
+     "cost_drag_pp": 2.84,
+     "missed_sum": 0.4624,
+     "missed_compound": 0.4966,
+     "episodes": 26,
+     "ep_pos_sum": 0.6214,
+     "ep_neg_sum": -0.186,
+     "ep_pos_n": 20
+    },
+    "holdout": {
+     "CAGR": 0.4813,
+     "maxDD": -0.2979,
+     "Calmar": 1.615,
+     "total": 8.1104,
+     "t_vs_0050_m": 1.21,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.246,
+     "cost_drag_pp": 4.68,
+     "missed_sum": 0.0522,
+     "missed_compound": -0.0083,
+     "episodes": 26,
+     "ep_pos_sum": 0.4209,
+     "ep_neg_sum": -0.3855,
+     "ep_pos_n": 14
+    },
+    "full": {
+     "CAGR": 0.2209,
+     "maxDD": -0.2979,
+     "Calmar": 0.741,
+     "total": 58.8778,
+     "t_vs_0050_m": 1.27,
+     "switches": 182,
+     "exits": 91,
+     "pct_out": 0.311,
+     "cost_drag_pp": 3.7,
+     "missed_sum": 0.5381,
+     "missed_compound": 0.3319,
+     "episodes": 91,
+     "ep_pos_sum": 2.1319,
+     "ep_neg_sum": -1.4972,
+     "ep_pos_n": 67
+    }
+   },
+   "0050|none": {
+    "selection": {
+     "CAGR": 0.0548,
+     "maxDD": -0.5575,
+     "Calmar": 0.098,
+     "total": 0.51,
+     "t_vs_0050_m": null,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "validation": {
+     "CAGR": 0.1445,
+     "maxDD": -0.2822,
+     "Calmar": 0.512,
+     "total": 1.5725,
+     "t_vs_0050_m": null,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "holdout": {
+     "CAGR": 0.2801,
+     "maxDD": -0.3396,
+     "Calmar": 0.825,
+     "total": 3.009,
+     "t_vs_0050_m": null,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    },
+    "full": {
+     "CAGR": 0.1494,
+     "maxDD": -0.5575,
+     "Calmar": 0.268,
+     "total": 16.363,
+     "t_vs_0050_m": null,
+     "switches": 0,
+     "exits": 0,
+     "pct_out": 0.0,
+     "cost_drag_pp": 0.0
+    }
+   },
+   "0050|S1": {
+    "selection": {
+     "CAGR": 0.0694,
+     "maxDD": -0.222,
+     "Calmar": 0.313,
+     "total": 0.6794,
+     "t_vs_0050_m": 0.04,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.303,
+     "cost_drag_pp": 0.23,
+     "missed_sum": 0.0197,
+     "missed_compound": -0.0944,
+     "episodes": 6,
+     "ep_pos_sum": 0.2144,
+     "ep_neg_sum": -0.2657,
+     "ep_pos_n": 5
+    },
+    "validation": {
+     "CAGR": 0.1121,
+     "maxDD": -0.1521,
+     "Calmar": 0.737,
+     "total": 1.104,
+     "t_vs_0050_m": -0.97,
+     "switches": 14,
+     "exits": 7,
+     "pct_out": 0.294,
+     "cost_drag_pp": 0.3,
+     "missed_sum": 0.2422,
+     "missed_compound": 0.2247,
+     "episodes": 7,
+     "ep_pos_sum": 0.2509,
+     "ep_neg_sum": -0.0407,
+     "ep_pos_n": 6
+    },
+    "holdout": {
+     "CAGR": 0.2757,
+     "maxDD": -0.213,
+     "Calmar": 1.294,
+     "total": 2.9332,
+     "t_vs_0050_m": -0.21,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.231,
+     "cost_drag_pp": 0.18,
+     "missed_sum": 0.0648,
+     "missed_compound": 0.0237,
+     "episodes": 3,
+     "ep_pos_sum": 0.0871,
+     "ep_neg_sum": -0.0598,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.143,
+     "maxDD": -0.222,
+     "Calmar": 0.644,
+     "total": 14.4952,
+     "t_vs_0050_m": -0.51,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.24,
+     "missed_sum": 0.3266,
+     "missed_compound": 0.1354,
+     "episodes": 16,
+     "ep_pos_sum": 0.5524,
+     "ep_neg_sum": -0.3662,
+     "ep_pos_n": 13
+    }
+   },
+   "0050|S2": {
+    "selection": {
+     "CAGR": 0.0323,
+     "maxDD": -0.2313,
+     "Calmar": 0.14,
+     "total": 0.2786,
+     "t_vs_0050_m": -0.61,
+     "switches": 82,
+     "exits": 41,
+     "pct_out": 0.338,
+     "cost_drag_pp": 1.5,
+     "missed_sum": 0.2056,
+     "missed_compound": 0.0845,
+     "episodes": 41,
+     "ep_pos_sum": 0.5778,
+     "ep_neg_sum": -0.4254,
+     "ep_pos_n": 29
+    },
+    "validation": {
+     "CAGR": 0.121,
+     "maxDD": -0.1441,
+     "Calmar": 0.84,
+     "total": 1.2243,
+     "t_vs_0050_m": -0.78,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.25,
+     "cost_drag_pp": 1.13,
+     "missed_sum": 0.1305,
+     "missed_compound": 0.0971,
+     "episodes": 26,
+     "ep_pos_sum": 0.2189,
+     "ep_neg_sum": -0.1218,
+     "ep_pos_n": 21
+    },
+    "holdout": {
+     "CAGR": 0.2615,
+     "maxDD": -0.213,
+     "Calmar": 1.228,
+     "total": 2.6929,
+     "t_vs_0050_m": -0.41,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.215,
+     "cost_drag_pp": 0.55,
+     "missed_sum": 0.1109,
+     "missed_compound": 0.0718,
+     "episodes": 9,
+     "ep_pos_sum": 0.153,
+     "ep_neg_sum": -0.0789,
+     "ep_pos_n": 6
+    },
+    "full": {
+     "CAGR": 0.1275,
+     "maxDD": -0.2313,
+     "Calmar": 0.551,
+     "total": 10.7103,
+     "t_vs_0050_m": -0.99,
+     "switches": 152,
+     "exits": 76,
+     "pct_out": 0.273,
+     "cost_drag_pp": 1.14,
+     "missed_sum": 0.4469,
+     "missed_compound": 0.2753,
+     "episodes": 76,
+     "ep_pos_sum": 0.9496,
+     "ep_neg_sum": -0.6261,
+     "ep_pos_n": 56
+    }
+   },
+   "0050|S3": {
+    "selection": {
+     "CAGR": 0.0557,
+     "maxDD": -0.2272,
+     "Calmar": 0.245,
+     "total": 0.5203,
+     "t_vs_0050_m": -0.21,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.335,
+     "cost_drag_pp": 0.33,
+     "missed_sum": 0.1189,
+     "missed_compound": -0.0055,
+     "episodes": 9,
+     "ep_pos_sum": 0.4055,
+     "ep_neg_sum": -0.3419,
+     "ep_pos_n": 7
+    },
+    "validation": {
+     "CAGR": 0.1222,
+     "maxDD": -0.146,
+     "Calmar": 0.837,
+     "total": 1.2421,
+     "t_vs_0050_m": -0.81,
+     "switches": 10,
+     "exits": 5,
+     "pct_out": 0.235,
+     "cost_drag_pp": 0.22,
+     "missed_sum": 0.1754,
+     "missed_compound": 0.1506,
+     "episodes": 5,
+     "ep_pos_sum": 0.1763,
+     "ep_neg_sum": -0.0307,
+     "ep_pos_n": 3
+    },
+    "holdout": {
+     "CAGR": 0.2835,
+     "maxDD": -0.213,
+     "Calmar": 1.331,
+     "total": 3.0702,
+     "t_vs_0050_m": -0.1,
+     "switches": 4,
+     "exits": 2,
+     "pct_out": 0.221,
+     "cost_drag_pp": 0.12,
+     "missed_sum": 0.0327,
+     "missed_compound": -0.0085,
+     "episodes": 2,
+     "ep_pos_sum": 0.0691,
+     "ep_neg_sum": -0.0726,
+     "ep_pos_n": 1
+    },
+    "full": {
+     "CAGR": 0.1429,
+     "maxDD": -0.2272,
+     "Calmar": 0.629,
+     "total": 14.4696,
+     "t_vs_0050_m": -0.51,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.268,
+     "cost_drag_pp": 0.24,
+     "missed_sum": 0.327,
+     "missed_compound": 0.1345,
+     "episodes": 16,
+     "ep_pos_sum": 0.6509,
+     "ep_neg_sum": -0.4452,
+     "ep_pos_n": 11
+    }
+   },
+   "0050|S4": {
+    "selection": {
+     "CAGR": 0.0427,
+     "maxDD": -0.193,
+     "Calmar": 0.221,
+     "total": 0.381,
+     "t_vs_0050_m": -0.43,
+     "switches": 16,
+     "exits": 8,
+     "pct_out": 0.379,
+     "cost_drag_pp": 0.29,
+     "missed_sum": 0.2302,
+     "missed_compound": 0.1016,
+     "episodes": 8,
+     "ep_pos_sum": 0.411,
+     "ep_neg_sum": -0.2649,
+     "ep_pos_n": 6
+    },
+    "validation": {
+     "CAGR": 0.1038,
+     "maxDD": -0.2822,
+     "Calmar": 0.368,
+     "total": 0.9968,
+     "t_vs_0050_m": -1.36,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.236,
+     "cost_drag_pp": 0.26,
+     "missed_sum": 0.2761,
+     "missed_compound": 0.2886,
+     "episodes": 6,
+     "ep_pos_sum": 0.3338,
+     "ep_neg_sum": -0.0592,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.2482,
+     "maxDD": -0.213,
+     "Calmar": 1.165,
+     "total": 2.4787,
+     "t_vs_0050_m": -0.61,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.199,
+     "cost_drag_pp": 0.18,
+     "missed_sum": 0.182,
+     "missed_compound": 0.1555,
+     "episodes": 3,
+     "ep_pos_sum": 0.1861,
+     "ep_neg_sum": -0.0328,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.1225,
+     "maxDD": -0.2822,
+     "Calmar": 0.434,
+     "total": 9.6957,
+     "t_vs_0050_m": -1.12,
+     "switches": 34,
+     "exits": 17,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.25,
+     "missed_sum": 0.6883,
+     "missed_compound": 0.6401,
+     "episodes": 17,
+     "ep_pos_sum": 0.9309,
+     "ep_neg_sum": -0.3569,
+     "ep_pos_n": 13
+    }
+   },
+   "0050|S5": {
+    "selection": {
+     "CAGR": 0.0519,
+     "maxDD": -0.2059,
+     "Calmar": 0.252,
+     "total": 0.4781,
+     "t_vs_0050_m": -0.25,
+     "switches": 78,
+     "exits": 39,
+     "pct_out": 0.372,
+     "cost_drag_pp": 1.45,
+     "missed_sum": 0.0723,
+     "missed_compound": -0.054,
+     "episodes": 39,
+     "ep_pos_sum": 0.6778,
+     "ep_neg_sum": -0.6048,
+     "ep_pos_n": 30
+    },
+    "validation": {
+     "CAGR": 0.1145,
+     "maxDD": -0.1372,
+     "Calmar": 0.834,
+     "total": 1.1354,
+     "t_vs_0050_m": -0.93,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.299,
+     "cost_drag_pp": 1.13,
+     "missed_sum": 0.1776,
+     "missed_compound": 0.1462,
+     "episodes": 26,
+     "ep_pos_sum": 0.3263,
+     "ep_neg_sum": -0.1802,
+     "ep_pos_n": 19
+    },
+    "holdout": {
+     "CAGR": 0.2135,
+     "maxDD": -0.213,
+     "Calmar": 1.002,
+     "total": 1.9688,
+     "t_vs_0050_m": -1.15,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.246,
+     "cost_drag_pp": 1.53,
+     "missed_sum": 0.2868,
+     "missed_compound": 0.275,
+     "episodes": 26,
+     "ep_pos_sum": 0.4049,
+     "ep_neg_sum": -0.1472,
+     "ep_pos_n": 21
+    },
+    "full": {
+     "CAGR": 0.1212,
+     "maxDD": -0.2185,
+     "Calmar": 0.555,
+     "total": 9.4479,
+     "t_vs_0050_m": -1.18,
+     "switches": 182,
+     "exits": 91,
+     "pct_out": 0.311,
+     "cost_drag_pp": 1.36,
+     "missed_sum": 0.5367,
+     "missed_compound": 0.3825,
+     "episodes": 91,
+     "ep_pos_sum": 1.4091,
+     "ep_neg_sum": -0.9322,
+     "ep_pos_n": 70
+    }
+   }
+  },
+  "lag1_sensitivity": {
+   "n30|S1": {
+    "selection": {
+     "CAGR": 0.1616,
+     "maxDD": -0.3171,
+     "Calmar": 0.51,
+     "total": 2.1802,
+     "t_vs_0050_m": 1.4,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.303,
+     "cost_drag_pp": 0.61,
+     "missed_sum": -0.3305,
+     "missed_compound": -0.3471,
+     "episodes": 6,
+     "ep_pos_sum": 0.1193,
+     "ep_neg_sum": -0.457,
+     "ep_pos_n": 4
+    },
+    "validation": {
+     "CAGR": 0.1088,
+     "maxDD": -0.1392,
+     "Calmar": 0.781,
+     "total": 1.0607,
+     "t_vs_0050_m": -0.64,
+     "switches": 14,
+     "exits": 7,
+     "pct_out": 0.294,
+     "cost_drag_pp": 0.75,
+     "missed_sum": 0.4452,
+     "missed_compound": 0.4903,
+     "episodes": 7,
+     "ep_pos_sum": 0.4151,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 7
+    },
+    "holdout": {
+     "CAGR": 0.4353,
+     "maxDD": -0.2465,
+     "Calmar": 1.766,
+     "total": 6.6308,
+     "t_vs_0050_m": 1.19,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.231,
+     "cost_drag_pp": 0.52,
+     "missed_sum": 0.1398,
+     "missed_compound": 0.0951,
+     "episodes": 3,
+     "ep_pos_sum": 0.093,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 3
+    },
+    "full": {
+     "CAGR": 0.2177,
+     "maxDD": -0.3171,
+     "Calmar": 0.686,
+     "total": 55.7109,
+     "t_vs_0050_m": 1.34,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.64,
+     "missed_sum": 0.2544,
+     "missed_compound": 0.0655,
+     "episodes": 16,
+     "ep_pos_sum": 0.6274,
+     "ep_neg_sum": -0.457,
+     "ep_pos_n": 14
+    }
+   },
+   "n30|S2": {
+    "selection": {
+     "CAGR": 0.0847,
+     "maxDD": -0.2965,
+     "Calmar": 0.286,
+     "total": 0.874,
+     "t_vs_0050_m": 0.35,
+     "switches": 82,
+     "exits": 41,
+     "pct_out": 0.338,
+     "cost_drag_pp": 3.95,
+     "missed_sum": -0.0214,
+     "missed_compound": -0.1246,
+     "episodes": 41,
+     "ep_pos_sum": 0.7162,
+     "ep_neg_sum": -0.6886,
+     "ep_pos_n": 32
+    },
+    "validation": {
+     "CAGR": 0.0921,
+     "maxDD": -0.2305,
+     "Calmar": 0.399,
+     "total": 0.8527,
+     "t_vs_0050_m": -0.9,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.25,
+     "cost_drag_pp": 2.77,
+     "missed_sum": 0.4231,
+     "missed_compound": 0.4585,
+     "episodes": 26,
+     "ep_pos_sum": 0.4271,
+     "ep_neg_sum": -0.0384,
+     "ep_pos_n": 23
+    },
+    "holdout": {
+     "CAGR": 0.4361,
+     "maxDD": -0.2465,
+     "Calmar": 1.769,
+     "total": 6.6536,
+     "t_vs_0050_m": 1.18,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.215,
+     "cost_drag_pp": 1.56,
+     "missed_sum": 0.0962,
+     "missed_compound": 0.0486,
+     "episodes": 9,
+     "ep_pos_sum": 0.1534,
+     "ep_neg_sum": -0.1011,
+     "ep_pos_n": 6
+    },
+    "full": {
+     "CAGR": 0.1807,
+     "maxDD": -0.2965,
+     "Calmar": 0.609,
+     "total": 29.1354,
+     "t_vs_0050_m": 0.61,
+     "switches": 152,
+     "exits": 76,
+     "pct_out": 0.273,
+     "cost_drag_pp": 2.98,
+     "missed_sum": 0.4979,
+     "missed_compound": 0.3388,
+     "episodes": 76,
+     "ep_pos_sum": 1.2967,
+     "ep_neg_sum": -0.8281,
+     "ep_pos_n": 61
+    }
+   },
+   "n30|S3": {
+    "selection": {
+     "CAGR": 0.1067,
+     "maxDD": -0.3336,
+     "Calmar": 0.32,
+     "total": 1.1883,
+     "t_vs_0050_m": 0.63,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.335,
+     "cost_drag_pp": 0.87,
+     "missed_sum": 0.0337,
+     "missed_compound": -0.0701,
+     "episodes": 9,
+     "ep_pos_sum": 0.5528,
+     "ep_neg_sum": -0.4931,
+     "ep_pos_n": 7
+    },
+    "validation": {
+     "CAGR": 0.118,
+     "maxDD": -0.1665,
+     "Calmar": 0.708,
+     "total": 1.1832,
+     "t_vs_0050_m": -0.52,
+     "switches": 10,
+     "exits": 5,
+     "pct_out": 0.235,
+     "cost_drag_pp": 0.54,
+     "missed_sum": 0.3962,
+     "missed_compound": 0.4257,
+     "episodes": 5,
+     "ep_pos_sum": 0.3712,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.4443,
+     "maxDD": -0.2465,
+     "Calmar": 1.802,
+     "total": 6.9024,
+     "t_vs_0050_m": 1.24,
+     "switches": 4,
+     "exits": 2,
+     "pct_out": 0.221,
+     "cost_drag_pp": 0.35,
+     "missed_sum": 0.1103,
+     "missed_compound": 0.0646,
+     "episodes": 2,
+     "ep_pos_sum": 0.0636,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.2011,
+     "maxDD": -0.3336,
+     "Calmar": 0.603,
+     "total": 41.8137,
+     "t_vs_0050_m": 1.01,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.268,
+     "cost_drag_pp": 0.63,
+     "missed_sum": 0.5402,
+     "missed_compound": 0.4114,
+     "episodes": 16,
+     "ep_pos_sum": 0.9876,
+     "ep_neg_sum": -0.4931,
+     "ep_pos_n": 14
+    }
+   },
+   "n30|S4": {
+    "selection": {
+     "CAGR": 0.1147,
+     "maxDD": -0.2845,
+     "Calmar": 0.403,
+     "total": 1.3127,
+     "t_vs_0050_m": 0.69,
+     "switches": 16,
+     "exits": 8,
+     "pct_out": 0.379,
+     "cost_drag_pp": 0.78,
+     "missed_sum": -0.0072,
+     "missed_compound": -0.1142,
+     "episodes": 8,
+     "ep_pos_sum": 0.4236,
+     "ep_neg_sum": -0.4411,
+     "ep_pos_n": 6
+    },
+    "validation": {
+     "CAGR": 0.0803,
+     "maxDD": -0.4009,
+     "Calmar": 0.2,
+     "total": 0.717,
+     "t_vs_0050_m": -1.2,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.236,
+     "cost_drag_pp": 0.63,
+     "missed_sum": 0.6172,
+     "missed_compound": 0.8007,
+     "episodes": 6,
+     "ep_pos_sum": 0.6675,
+     "ep_neg_sum": -0.0098,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.4201,
+     "maxDD": -0.2465,
+     "Calmar": 1.704,
+     "total": 6.1867,
+     "t_vs_0050_m": 1.06,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.199,
+     "cost_drag_pp": 0.51,
+     "missed_sum": 0.1934,
+     "missed_compound": 0.1627,
+     "episodes": 3,
+     "ep_pos_sum": 0.1671,
+     "ep_neg_sum": -0.0093,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.1848,
+     "maxDD": -0.4009,
+     "Calmar": 0.461,
+     "total": 31.3624,
+     "t_vs_0050_m": 0.69,
+     "switches": 34,
+     "exits": 17,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.66,
+     "missed_sum": 0.8034,
+     "missed_compound": 0.8547,
+     "episodes": 17,
+     "ep_pos_sum": 1.2582,
+     "ep_neg_sum": -0.4602,
+     "ep_pos_n": 13
+    }
+   },
+   "n30|S5": {
+    "selection": {
+     "CAGR": 0.1165,
+     "maxDD": -0.243,
+     "Calmar": 0.48,
+     "total": 1.3424,
+     "t_vs_0050_m": 0.79,
+     "switches": 78,
+     "exits": 39,
+     "pct_out": 0.372,
+     "cost_drag_pp": 3.86,
+     "missed_sum": -0.2187,
+     "missed_compound": -0.2902,
+     "episodes": 39,
+     "ep_pos_sum": 0.6709,
+     "ep_neg_sum": -0.7972,
+     "ep_pos_n": 33
+    },
+    "validation": {
+     "CAGR": 0.1005,
+     "maxDD": -0.1314,
+     "Calmar": 0.765,
+     "total": 0.9551,
+     "t_vs_0050_m": -0.77,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.299,
+     "cost_drag_pp": 2.79,
+     "missed_sum": 0.3749,
+     "missed_compound": 0.3821,
+     "episodes": 26,
+     "ep_pos_sum": 0.4482,
+     "ep_neg_sum": -0.1117,
+     "ep_pos_n": 20
+    },
+    "holdout": {
+     "CAGR": 0.3563,
+     "maxDD": -0.3115,
+     "Calmar": 1.144,
+     "total": 4.5513,
+     "t_vs_0050_m": 0.63,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.246,
+     "cost_drag_pp": 4.29,
+     "missed_sum": 0.3122,
+     "missed_compound": 0.2893,
+     "episodes": 26,
+     "ep_pos_sum": 0.4276,
+     "ep_neg_sum": -0.1591,
+     "ep_pos_n": 21
+    },
+    "full": {
+     "CAGR": 0.1781,
+     "maxDD": -0.3115,
+     "Calmar": 0.572,
+     "total": 27.8313,
+     "t_vs_0050_m": 0.57,
+     "switches": 182,
+     "exits": 91,
+     "pct_out": 0.311,
+     "cost_drag_pp": 3.57,
+     "missed_sum": 0.4684,
+     "missed_compound": 0.2649,
+     "episodes": 91,
+     "ep_pos_sum": 1.5467,
+     "ep_neg_sum": -1.068,
+     "ep_pos_n": 74
+    }
+   },
+   "n10|S1": {
+    "selection": {
+     "CAGR": 0.1861,
+     "maxDD": -0.3778,
+     "Calmar": 0.492,
+     "total": 2.7354,
+     "t_vs_0050_m": 1.53,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.303,
+     "cost_drag_pp": 0.62,
+     "missed_sum": -0.182,
+     "missed_compound": -0.2492,
+     "episodes": 6,
+     "ep_pos_sum": 0.295,
+     "ep_neg_sum": -0.4679,
+     "ep_pos_n": 4
+    },
+    "validation": {
+     "CAGR": 0.1213,
+     "maxDD": -0.1929,
+     "Calmar": 0.629,
+     "total": 1.2288,
+     "t_vs_0050_m": -0.26,
+     "switches": 14,
+     "exits": 7,
+     "pct_out": 0.294,
+     "cost_drag_pp": 0.76,
+     "missed_sum": 0.5597,
+     "missed_compound": 0.6569,
+     "episodes": 7,
+     "ep_pos_sum": 0.5319,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 7
+    },
+    "holdout": {
+     "CAGR": 0.5346,
+     "maxDD": -0.2891,
+     "Calmar": 1.849,
+     "total": 10.1169,
+     "t_vs_0050_m": 1.46,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.231,
+     "cost_drag_pp": 0.55,
+     "missed_sum": -0.0092,
+     "missed_compound": -0.0635,
+     "episodes": 3,
+     "ep_pos_sum": 0.0837,
+     "ep_neg_sum": -0.1369,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.2557,
+     "maxDD": -0.3778,
+     "Calmar": 0.677,
+     "total": 105.5309,
+     "t_vs_0050_m": 1.76,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.66,
+     "missed_sum": 0.3685,
+     "missed_compound": 0.165,
+     "episodes": 16,
+     "ep_pos_sum": 0.9106,
+     "ep_neg_sum": -0.6048,
+     "ep_pos_n": 13
+    }
+   },
+   "n10|S2": {
+    "selection": {
+     "CAGR": 0.1129,
+     "maxDD": -0.3308,
+     "Calmar": 0.341,
+     "total": 1.2838,
+     "t_vs_0050_m": 0.7,
+     "switches": 82,
+     "exits": 41,
+     "pct_out": 0.338,
+     "cost_drag_pp": 4.05,
+     "missed_sum": 0.0937,
+     "missed_compound": -0.0299,
+     "episodes": 41,
+     "ep_pos_sum": 0.887,
+     "ep_neg_sum": -0.7297,
+     "ep_pos_n": 35
+    },
+    "validation": {
+     "CAGR": 0.1108,
+     "maxDD": -0.2626,
+     "Calmar": 0.422,
+     "total": 1.0874,
+     "t_vs_0050_m": -0.36,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.25,
+     "cost_drag_pp": 2.81,
+     "missed_sum": 0.4951,
+     "missed_compound": 0.5567,
+     "episodes": 26,
+     "ep_pos_sum": 0.5571,
+     "ep_neg_sum": -0.0916,
+     "ep_pos_n": 21
+    },
+    "holdout": {
+     "CAGR": 0.5321,
+     "maxDD": -0.2891,
+     "Calmar": 1.841,
+     "total": 10.0157,
+     "t_vs_0050_m": 1.43,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.215,
+     "cost_drag_pp": 1.66,
+     "missed_sum": -0.0417,
+     "missed_compound": -0.0923,
+     "episodes": 9,
+     "ep_pos_sum": 0.1588,
+     "ep_neg_sum": -0.2261,
+     "ep_pos_n": 7
+    },
+    "full": {
+     "CAGR": 0.2215,
+     "maxDD": -0.3308,
+     "Calmar": 0.67,
+     "total": 59.4468,
+     "t_vs_0050_m": 1.24,
+     "switches": 152,
+     "exits": 76,
+     "pct_out": 0.273,
+     "cost_drag_pp": 3.09,
+     "missed_sum": 0.5472,
+     "missed_compound": 0.3708,
+     "episodes": 76,
+     "ep_pos_sum": 1.6029,
+     "ep_neg_sum": -1.0474,
+     "ep_pos_n": 63
+    }
+   },
+   "n10|S3": {
+    "selection": {
+     "CAGR": 0.1333,
+     "maxDD": -0.3496,
+     "Calmar": 0.381,
+     "total": 1.6292,
+     "t_vs_0050_m": 0.92,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.335,
+     "cost_drag_pp": 0.89,
+     "missed_sum": 0.1623,
+     "missed_compound": 0.0453,
+     "episodes": 9,
+     "ep_pos_sum": 0.7349,
+     "ep_neg_sum": -0.5178,
+     "ep_pos_n": 7
+    },
+    "validation": {
+     "CAGR": 0.1443,
+     "maxDD": -0.2068,
+     "Calmar": 0.698,
+     "total": 1.5692,
+     "t_vs_0050_m": 0.02,
+     "switches": 10,
+     "exits": 5,
+     "pct_out": 0.235,
+     "cost_drag_pp": 0.55,
+     "missed_sum": 0.4236,
+     "missed_compound": 0.4569,
+     "episodes": 5,
+     "ep_pos_sum": 0.4022,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.5382,
+     "maxDD": -0.2891,
+     "Calmar": 1.862,
+     "total": 10.2645,
+     "t_vs_0050_m": 1.47,
+     "switches": 4,
+     "exits": 2,
+     "pct_out": 0.221,
+     "cost_drag_pp": 0.37,
+     "missed_sum": -0.0174,
+     "missed_compound": -0.0695,
+     "episodes": 2,
+     "ep_pos_sum": 0.1028,
+     "ep_neg_sum": -0.1562,
+     "ep_pos_n": 1
+    },
+    "full": {
+     "CAGR": 0.2438,
+     "maxDD": -0.3496,
+     "Calmar": 0.697,
+     "total": 86.5826,
+     "t_vs_0050_m": 1.57,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.268,
+     "cost_drag_pp": 0.66,
+     "missed_sum": 0.5684,
+     "missed_compound": 0.4171,
+     "episodes": 16,
+     "ep_pos_sum": 1.2399,
+     "ep_neg_sum": -0.674,
+     "ep_pos_n": 13
+    }
+   },
+   "n10|S4": {
+    "selection": {
+     "CAGR": 0.1525,
+     "maxDD": -0.2901,
+     "Calmar": 0.526,
+     "total": 1.9936,
+     "t_vs_0050_m": 1.13,
+     "switches": 16,
+     "exits": 8,
+     "pct_out": 0.379,
+     "cost_drag_pp": 0.81,
+     "missed_sum": 0.0502,
+     "missed_compound": -0.0757,
+     "episodes": 8,
+     "ep_pos_sum": 0.513,
+     "ep_neg_sum": -0.4508,
+     "ep_pos_n": 6
+    },
+    "validation": {
+     "CAGR": 0.1226,
+     "maxDD": -0.3939,
+     "Calmar": 0.311,
+     "total": 1.2475,
+     "t_vs_0050_m": -0.23,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.236,
+     "cost_drag_pp": 0.65,
+     "missed_sum": 0.5426,
+     "missed_compound": 0.6542,
+     "episodes": 6,
+     "ep_pos_sum": 0.5609,
+     "ep_neg_sum": 0,
+     "ep_pos_n": 6
+    },
+    "holdout": {
+     "CAGR": 0.5545,
+     "maxDD": -0.2891,
+     "Calmar": 1.918,
+     "total": 10.9524,
+     "t_vs_0050_m": 1.52,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.199,
+     "cost_drag_pp": 0.56,
+     "missed_sum": -0.0901,
+     "missed_compound": -0.1289,
+     "episodes": 3,
+     "ep_pos_sum": 0.1397,
+     "ep_neg_sum": -0.239,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.2471,
+     "maxDD": -0.3939,
+     "Calmar": 0.627,
+     "total": 91.5631,
+     "t_vs_0050_m": 1.64,
+     "switches": 34,
+     "exits": 17,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.7,
+     "missed_sum": 0.5027,
+     "missed_compound": 0.3318,
+     "episodes": 17,
+     "ep_pos_sum": 1.2136,
+     "ep_neg_sum": -0.6897,
+     "ep_pos_n": 14
+    }
+   },
+   "n10|S5": {
+    "selection": {
+     "CAGR": 0.1499,
+     "maxDD": -0.2471,
+     "Calmar": 0.607,
+     "total": 1.9415,
+     "t_vs_0050_m": 1.17,
+     "switches": 78,
+     "exits": 39,
+     "pct_out": 0.372,
+     "cost_drag_pp": 3.98,
+     "missed_sum": -0.1323,
+     "missed_compound": -0.2365,
+     "episodes": 39,
+     "ep_pos_sum": 0.8996,
+     "ep_neg_sum": -0.9059,
+     "ep_pos_n": 32
+    },
+    "validation": {
+     "CAGR": 0.117,
+     "maxDD": -0.1989,
+     "Calmar": 0.588,
+     "total": 1.1692,
+     "t_vs_0050_m": -0.29,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.299,
+     "cost_drag_pp": 2.83,
+     "missed_sum": 0.4657,
+     "missed_compound": 0.498,
+     "episodes": 26,
+     "ep_pos_sum": 0.5971,
+     "ep_neg_sum": -0.1665,
+     "ep_pos_n": 19
+    },
+    "holdout": {
+     "CAGR": 0.4602,
+     "maxDD": -0.3302,
+     "Calmar": 1.394,
+     "total": 7.4066,
+     "t_vs_0050_m": 1.1,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.246,
+     "cost_drag_pp": 4.62,
+     "missed_sum": 0.1249,
+     "missed_compound": 0.0608,
+     "episodes": 26,
+     "ep_pos_sum": 0.4504,
+     "ep_neg_sum": -0.3402,
+     "ep_pos_n": 19
+    },
+    "full": {
+     "CAGR": 0.2227,
+     "maxDD": -0.3302,
+     "Calmar": 0.674,
+     "total": 60.7397,
+     "t_vs_0050_m": 1.28,
+     "switches": 182,
+     "exits": 91,
+     "pct_out": 0.311,
+     "cost_drag_pp": 3.71,
+     "missed_sum": 0.4583,
+     "missed_compound": 0.2132,
+     "episodes": 91,
+     "ep_pos_sum": 1.947,
+     "ep_neg_sum": -1.4126,
+     "ep_pos_n": 70
+    }
+   },
+   "0050|S1": {
+    "selection": {
+     "CAGR": 0.0746,
+     "maxDD": -0.2069,
+     "Calmar": 0.36,
+     "total": 0.7429,
+     "t_vs_0050_m": 0.12,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.303,
+     "cost_drag_pp": 0.23,
+     "missed_sum": -0.0405,
+     "missed_compound": -0.1476,
+     "episodes": 6,
+     "ep_pos_sum": 0.1852,
+     "ep_neg_sum": -0.2892,
+     "ep_pos_n": 5
+    },
+    "validation": {
+     "CAGR": 0.1085,
+     "maxDD": -0.1544,
+     "Calmar": 0.702,
+     "total": 1.0562,
+     "t_vs_0050_m": -1.0,
+     "switches": 14,
+     "exits": 7,
+     "pct_out": 0.294,
+     "cost_drag_pp": 0.3,
+     "missed_sum": 0.2453,
+     "missed_compound": 0.2276,
+     "episodes": 7,
+     "ep_pos_sum": 0.2608,
+     "ep_neg_sum": -0.0481,
+     "ep_pos_n": 6
+    },
+    "holdout": {
+     "CAGR": 0.2751,
+     "maxDD": -0.213,
+     "Calmar": 1.291,
+     "total": 2.922,
+     "t_vs_0050_m": -0.22,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.231,
+     "cost_drag_pp": 0.18,
+     "missed_sum": 0.0551,
+     "missed_compound": 0.0139,
+     "episodes": 3,
+     "ep_pos_sum": 0.0847,
+     "ep_neg_sum": -0.0668,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.1436,
+     "maxDD": -0.213,
+     "Calmar": 0.674,
+     "total": 14.671,
+     "t_vs_0050_m": -0.49,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.24,
+     "missed_sum": 0.2599,
+     "missed_compound": 0.0609,
+     "episodes": 16,
+     "ep_pos_sum": 0.5308,
+     "ep_neg_sum": -0.4041,
+     "ep_pos_n": 13
+    }
+   },
+   "0050|S2": {
+    "selection": {
+     "CAGR": 0.0182,
+     "maxDD": -0.2776,
+     "Calmar": 0.066,
+     "total": 0.1496,
+     "t_vs_0050_m": -0.82,
+     "switches": 82,
+     "exits": 41,
+     "pct_out": 0.338,
+     "cost_drag_pp": 1.48,
+     "missed_sum": 0.2873,
+     "missed_compound": 0.1753,
+     "episodes": 41,
+     "ep_pos_sum": 0.6348,
+     "ep_neg_sum": -0.3953,
+     "ep_pos_n": 38
+    },
+    "validation": {
+     "CAGR": 0.1074,
+     "maxDD": -0.1765,
+     "Calmar": 0.609,
+     "total": 1.0425,
+     "t_vs_0050_m": -1.07,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.25,
+     "cost_drag_pp": 1.12,
+     "missed_sum": 0.1984,
+     "missed_compound": 0.1737,
+     "episodes": 26,
+     "ep_pos_sum": 0.2986,
+     "ep_neg_sum": -0.1319,
+     "ep_pos_n": 23
+    },
+    "holdout": {
+     "CAGR": 0.2683,
+     "maxDD": -0.213,
+     "Calmar": 1.26,
+     "total": 2.8059,
+     "t_vs_0050_m": -0.33,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.215,
+     "cost_drag_pp": 0.55,
+     "missed_sum": 0.0682,
+     "missed_compound": 0.0279,
+     "episodes": 9,
+     "ep_pos_sum": 0.1381,
+     "ep_neg_sum": -0.1034,
+     "ep_pos_n": 8
+    },
+    "full": {
+     "CAGR": 0.1187,
+     "maxDD": -0.2776,
+     "Calmar": 0.427,
+     "total": 8.9638,
+     "t_vs_0050_m": -1.23,
+     "switches": 152,
+     "exits": 76,
+     "pct_out": 0.273,
+     "cost_drag_pp": 1.13,
+     "missed_sum": 0.5539,
+     "missed_compound": 0.418,
+     "episodes": 76,
+     "ep_pos_sum": 1.0715,
+     "ep_neg_sum": -0.6305,
+     "ep_pos_n": 69
+    }
+   },
+   "0050|S3": {
+    "selection": {
+     "CAGR": 0.05,
+     "maxDD": -0.2387,
+     "Calmar": 0.209,
+     "total": 0.4576,
+     "t_vs_0050_m": -0.3,
+     "switches": 18,
+     "exits": 9,
+     "pct_out": 0.335,
+     "cost_drag_pp": 0.33,
+     "missed_sum": 0.1358,
+     "missed_compound": 0.0109,
+     "episodes": 9,
+     "ep_pos_sum": 0.4179,
+     "ep_neg_sum": -0.3355,
+     "ep_pos_n": 7
+    },
+    "validation": {
+     "CAGR": 0.128,
+     "maxDD": -0.1367,
+     "Calmar": 0.936,
+     "total": 1.3241,
+     "t_vs_0050_m": -0.6,
+     "switches": 10,
+     "exits": 5,
+     "pct_out": 0.235,
+     "cost_drag_pp": 0.22,
+     "missed_sum": 0.1238,
+     "missed_compound": 0.092,
+     "episodes": 5,
+     "ep_pos_sum": 0.144,
+     "ep_neg_sum": -0.0512,
+     "ep_pos_n": 3
+    },
+    "holdout": {
+     "CAGR": 0.2708,
+     "maxDD": -0.213,
+     "Calmar": 1.271,
+     "total": 2.848,
+     "t_vs_0050_m": -0.28,
+     "switches": 4,
+     "exits": 2,
+     "pct_out": 0.221,
+     "cost_drag_pp": 0.12,
+     "missed_sum": 0.0766,
+     "missed_compound": 0.0362,
+     "episodes": 2,
+     "ep_pos_sum": 0.084,
+     "ep_neg_sum": -0.0441,
+     "ep_pos_n": 1
+    },
+    "full": {
+     "CAGR": 0.1394,
+     "maxDD": -0.2387,
+     "Calmar": 0.584,
+     "total": 13.5345,
+     "t_vs_0050_m": -0.61,
+     "switches": 32,
+     "exits": 16,
+     "pct_out": 0.268,
+     "cost_drag_pp": 0.24,
+     "missed_sum": 0.3362,
+     "missed_compound": 0.1439,
+     "episodes": 16,
+     "ep_pos_sum": 0.6458,
+     "ep_neg_sum": -0.4307,
+     "ep_pos_n": 11
+    }
+   },
+   "0050|S4": {
+    "selection": {
+     "CAGR": 0.0447,
+     "maxDD": -0.2243,
+     "Calmar": 0.199,
+     "total": 0.4019,
+     "t_vs_0050_m": -0.39,
+     "switches": 16,
+     "exits": 8,
+     "pct_out": 0.379,
+     "cost_drag_pp": 0.29,
+     "missed_sum": 0.1839,
+     "missed_compound": 0.0539,
+     "episodes": 8,
+     "ep_pos_sum": 0.4107,
+     "ep_neg_sum": -0.2944,
+     "ep_pos_n": 6
+    },
+    "validation": {
+     "CAGR": 0.1027,
+     "maxDD": -0.2822,
+     "Calmar": 0.364,
+     "total": 0.9826,
+     "t_vs_0050_m": -1.44,
+     "switches": 12,
+     "exits": 6,
+     "pct_out": 0.236,
+     "cost_drag_pp": 0.26,
+     "missed_sum": 0.2668,
+     "missed_compound": 0.2766,
+     "episodes": 6,
+     "ep_pos_sum": 0.3011,
+     "ep_neg_sum": -0.0393,
+     "ep_pos_n": 5
+    },
+    "holdout": {
+     "CAGR": 0.2452,
+     "maxDD": -0.213,
+     "Calmar": 1.151,
+     "total": 2.4319,
+     "t_vs_0050_m": -0.66,
+     "switches": 6,
+     "exits": 3,
+     "pct_out": 0.199,
+     "cost_drag_pp": 0.18,
+     "missed_sum": 0.185,
+     "missed_compound": 0.1587,
+     "episodes": 3,
+     "ep_pos_sum": 0.204,
+     "ep_neg_sum": -0.0456,
+     "ep_pos_n": 2
+    },
+    "full": {
+     "CAGR": 0.1222,
+     "maxDD": -0.2822,
+     "Calmar": 0.433,
+     "total": 9.636,
+     "t_vs_0050_m": -1.13,
+     "switches": 34,
+     "exits": 17,
+     "pct_out": 0.279,
+     "cost_drag_pp": 0.25,
+     "missed_sum": 0.6356,
+     "missed_compound": 0.5589,
+     "episodes": 17,
+     "ep_pos_sum": 0.9158,
+     "ep_neg_sum": -0.3793,
+     "ep_pos_n": 13
+    }
+   },
+   "0050|S5": {
+    "selection": {
+     "CAGR": 0.0422,
+     "maxDD": -0.2227,
+     "Calmar": 0.189,
+     "total": 0.3757,
+     "t_vs_0050_m": -0.42,
+     "switches": 78,
+     "exits": 39,
+     "pct_out": 0.372,
+     "cost_drag_pp": 1.44,
+     "missed_sum": 0.1165,
+     "missed_compound": -0.0126,
+     "episodes": 39,
+     "ep_pos_sum": 0.6452,
+     "ep_neg_sum": -0.5376,
+     "ep_pos_n": 35
+    },
+    "validation": {
+     "CAGR": 0.1129,
+     "maxDD": -0.1386,
+     "Calmar": 0.815,
+     "total": 1.115,
+     "t_vs_0050_m": -0.93,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.299,
+     "cost_drag_pp": 1.13,
+     "missed_sum": 0.167,
+     "missed_compound": 0.1335,
+     "episodes": 26,
+     "ep_pos_sum": 0.3272,
+     "ep_neg_sum": -0.1916,
+     "ep_pos_n": 22
+    },
+    "holdout": {
+     "CAGR": 0.1841,
+     "maxDD": -0.2988,
+     "Calmar": 0.616,
+     "total": 1.5865,
+     "t_vs_0050_m": -1.45,
+     "switches": 52,
+     "exits": 26,
+     "pct_out": 0.246,
+     "cost_drag_pp": 1.49,
+     "missed_sum": 0.4144,
+     "missed_compound": 0.4444,
+     "episodes": 26,
+     "ep_pos_sum": 0.5329,
+     "ep_neg_sum": -0.1441,
+     "ep_pos_n": 25
+    },
+    "full": {
+     "CAGR": 0.1093,
+     "maxDD": -0.2988,
+     "Calmar": 0.366,
+     "total": 7.3914,
+     "t_vs_0050_m": -1.49,
+     "switches": 182,
+     "exits": 91,
+     "pct_out": 0.311,
+     "cost_drag_pp": 1.34,
+     "missed_sum": 0.6979,
+     "missed_compound": 0.6166,
+     "episodes": 91,
+     "ep_pos_sum": 1.5053,
+     "ep_neg_sum": -0.8732,
+     "ep_pos_n": 82
+    }
+   }
+  },
+  "yearly_pct": {
+   "n30|none": {
+    "2006": 51.8,
+    "2007": 12.3,
+    "2008": -50.4,
+    "2009": 75.3,
+    "2010": 16.2,
+    "2011": -18.4,
+    "2012": 21.2,
+    "2013": 27.1,
+    "2014": 14.9,
+    "2015": 17.9,
+    "2016": 7.2,
+    "2017": 33.8,
+    "2018": -9.7,
+    "2019": 26.4,
+    "2020": 45.2,
+    "2021": 70.3,
+    "2022": -9.3,
+    "2023": 62.5,
+    "2024": 25.8,
+    "2025": 47.9,
+    "2026": 107.2
+   },
+   "n30|S1": {
+    "2006": 51.8,
+    "2007": 13.8,
+    "2008": -17.5,
+    "2009": 41.3,
+    "2010": 9.6,
+    "2011": 1.0,
+    "2012": 0.9,
+    "2013": 27.1,
+    "2014": 9.5,
+    "2015": 15.1,
+    "2016": -7.4,
+    "2017": 33.8,
+    "2018": 0.3,
+    "2019": 8.0,
+    "2020": 17.9,
+    "2021": 56.9,
+    "2022": -3.5,
+    "2023": 46.6,
+    "2024": 25.8,
+    "2025": 46.7,
+    "2026": 107.2
+   },
+   "n30|S2": {
+    "2006": 16.5,
+    "2007": 13.4,
+    "2008": -8.7,
+    "2009": 46.8,
+    "2010": -12.7,
+    "2011": -2.6,
+    "2012": -3.9,
+    "2013": 19.3,
+    "2014": 8.7,
+    "2015": 13.6,
+    "2016": -0.8,
+    "2017": 33.8,
+    "2018": -14.3,
+    "2019": 6.3,
+    "2020": 28.4,
+    "2021": 63.2,
+    "2022": -8.8,
+    "2023": 53.5,
+    "2024": 25.8,
+    "2025": 43.9,
+    "2026": 107.2
+   },
+   "n30|S3": {
+    "2006": 17.5,
+    "2007": 13.9,
+    "2008": -13.4,
+    "2009": 44.6,
+    "2010": 0.7,
+    "2011": 4.4,
+    "2012": -3.0,
+    "2013": 27.1,
+    "2014": 6.4,
+    "2015": 17.6,
+    "2016": -3.3,
+    "2017": 33.8,
+    "2018": 1.3,
+    "2019": 7.9,
+    "2020": 18.2,
+    "2021": 70.3,
+    "2022": -6.7,
+    "2023": 54.3,
+    "2024": 25.8,
+    "2025": 43.4,
+    "2026": 107.2
+   },
+   "n30|S4": {
+    "2006": 37.0,
+    "2007": 14.3,
+    "2008": -7.0,
+    "2009": 34.8,
+    "2010": -4.5,
+    "2011": 3.3,
+    "2012": -5.6,
+    "2013": 27.1,
+    "2014": 11.8,
+    "2015": 22.5,
+    "2016": -0.8,
+    "2017": 33.8,
+    "2018": -16.5,
+    "2019": 8.1,
+    "2020": 5.1,
+    "2021": 70.3,
+    "2022": -4.6,
+    "2023": 37.3,
+    "2024": 25.8,
+    "2025": 39.2,
+    "2026": 107.2
+   },
+   "n30|S5": {
+    "2006": 24.5,
+    "2007": 12.5,
+    "2008": -11.6,
+    "2009": 73.9,
+    "2010": -3.4,
+    "2011": -11.7,
+    "2012": -3.1,
+    "2013": 14.7,
+    "2014": 7.1,
+    "2015": 12.1,
+    "2016": -0.6,
+    "2017": 27.9,
+    "2018": -8.8,
+    "2019": 8.6,
+    "2020": 23.9,
+    "2021": 51.6,
+    "2022": -13.2,
+    "2023": 46.1,
+    "2024": 9.3,
+    "2025": 50.2,
+    "2026": 107.2
+   },
+   "n10|none": {
+    "2006": 58.4,
+    "2007": 22.1,
+    "2008": -52.2,
+    "2009": 81.3,
+    "2010": 17.4,
+    "2011": -7.1,
+    "2012": 29.4,
+    "2013": 23.4,
+    "2014": 23.7,
+    "2015": 34.8,
+    "2016": -5.4,
+    "2017": 43.7,
+    "2018": -7.3,
+    "2019": 23.2,
+    "2020": 49.6,
+    "2021": 121.3,
+    "2022": -24.8,
+    "2023": 55.7,
+    "2024": 31.0,
+    "2025": 69.5,
+    "2026": 112.6
+   },
+   "n10|S1": {
+    "2006": 58.4,
+    "2007": 22.8,
+    "2008": -20.9,
+    "2009": 50.3,
+    "2010": 0.3,
+    "2011": 19.3,
+    "2012": -1.1,
+    "2013": 23.4,
+    "2014": 16.0,
+    "2015": 24.1,
+    "2016": -17.3,
+    "2017": 43.7,
+    "2018": -2.0,
+    "2019": 11.5,
+    "2020": 18.4,
+    "2021": 114.8,
+    "2022": -3.8,
+    "2023": 42.0,
+    "2024": 31.0,
+    "2025": 60.0,
+    "2026": 112.6
+   },
+   "n10|S2": {
+    "2006": 16.7,
+    "2007": 22.1,
+    "2008": -7.8,
+    "2009": 54.1,
+    "2010": -19.7,
+    "2011": 15.8,
+    "2012": -9.0,
+    "2013": 15.3,
+    "2014": 16.4,
+    "2015": 27.6,
+    "2016": -12.6,
+    "2017": 43.7,
+    "2018": -13.6,
+    "2019": 10.6,
+    "2020": 24.0,
+    "2021": 109.8,
+    "2022": -7.5,
+    "2023": 48.4,
+    "2024": 31.0,
+    "2025": 56.3,
+    "2026": 112.6
+   },
+   "n10|S3": {
+    "2006": 15.0,
+    "2007": 21.9,
+    "2008": -17.2,
+    "2009": 53.0,
+    "2010": -4.6,
+    "2011": 25.1,
+    "2012": -0.5,
+    "2013": 23.4,
+    "2014": 17.0,
+    "2015": 30.8,
+    "2016": -13.2,
+    "2017": 43.7,
+    "2018": 1.4,
+    "2019": 10.7,
+    "2020": 15.6,
+    "2021": 121.3,
+    "2022": -6.9,
+    "2023": 49.4,
+    "2024": 31.0,
+    "2025": 54.7,
+    "2026": 112.6
+   },
+   "n10|S4": {
+    "2006": 38.8,
+    "2007": 22.5,
+    "2008": -7.8,
+    "2009": 46.9,
+    "2010": -6.4,
+    "2011": 19.5,
+    "2012": -2.0,
+    "2013": 23.4,
+    "2014": 22.4,
+    "2015": 35.7,
+    "2016": -8.8,
+    "2017": 43.7,
+    "2018": -15.0,
+    "2019": 10.1,
+    "2020": 12.3,
+    "2021": 121.3,
+    "2022": 1.0,
+    "2023": 38.7,
+    "2024": 31.0,
+    "2025": 57.7,
+    "2026": 112.6
+   },
+   "n10|S5": {
+    "2006": 27.7,
+    "2007": 19.8,
+    "2008": -9.7,
+    "2009": 84.1,
+    "2010": -10.3,
+    "2011": 1.2,
+    "2012": -4.9,
+    "2013": 14.0,
+    "2014": 15.4,
+    "2015": 21.7,
+    "2016": -11.6,
+    "2017": 39.4,
+    "2018": -6.7,
+    "2019": 13.0,
+    "2020": 19.0,
+    "2021": 108.8,
+    "2022": -10.4,
+    "2023": 43.6,
+    "2024": 13.6,
+    "2025": 59.4,
+    "2026": 112.6
+   },
+   "0050|none": {
+    "2006": 15.9,
+    "2007": 10.3,
+    "2008": -43.3,
+    "2009": 75.0,
+    "2010": 13.1,
+    "2011": -15.8,
+    "2012": 11.9,
+    "2013": 11.7,
+    "2014": 16.7,
+    "2015": -6.3,
+    "2016": 19.6,
+    "2017": 18.1,
+    "2018": -4.9,
+    "2019": 33.5,
+    "2020": 31.1,
+    "2021": 21.9,
+    "2022": -21.4,
+    "2023": 27.5,
+    "2024": 48.6,
+    "2025": 36.8,
+    "2026": 79.8
+   },
+   "0050|S1": {
+    "2006": 15.9,
+    "2007": 9.8,
+    "2008": -7.8,
+    "2009": 41.9,
+    "2010": 8.4,
+    "2011": -12.9,
+    "2012": -6.5,
+    "2013": 11.7,
+    "2014": 10.0,
+    "2015": 4.0,
+    "2016": 5.5,
+    "2017": 18.1,
+    "2018": -1.4,
+    "2019": 20.5,
+    "2020": 21.7,
+    "2021": 15.2,
+    "2022": -5.8,
+    "2023": 12.9,
+    "2024": 48.6,
+    "2025": 32.2,
+    "2026": 79.8
+   },
+   "0050|S2": {
+    "2006": -0.9,
+    "2007": 8.7,
+    "2008": -8.7,
+    "2009": 45.2,
+    "2010": -0.5,
+    "2011": -9.2,
+    "2012": -8.3,
+    "2013": 5.4,
+    "2014": 8.5,
+    "2015": -1.0,
+    "2016": 13.1,
+    "2017": 18.1,
+    "2018": -6.5,
+    "2019": 23.0,
+    "2020": 32.3,
+    "2021": 17.1,
+    "2022": -9.8,
+    "2023": 10.9,
+    "2024": 48.6,
+    "2025": 30.1,
+    "2026": 79.8
+   },
+   "0050|S3": {
+    "2006": -2.2,
+    "2007": 11.0,
+    "2008": -5.5,
+    "2009": 43.8,
+    "2010": 1.7,
+    "2011": -3.8,
+    "2012": -8.1,
+    "2013": 11.7,
+    "2014": 9.7,
+    "2015": 0.2,
+    "2016": 7.9,
+    "2017": 18.1,
+    "2018": 4.3,
+    "2019": 23.1,
+    "2020": 22.6,
+    "2021": 21.9,
+    "2022": -7.1,
+    "2023": 16.1,
+    "2024": 48.6,
+    "2025": 27.6,
+    "2026": 79.8
+   },
+   "0050|S4": {
+    "2006": 4.8,
+    "2007": 11.0,
+    "2008": -2.8,
+    "2009": 27.4,
+    "2010": -5.1,
+    "2011": -2.9,
+    "2012": -9.5,
+    "2013": 11.7,
+    "2014": 14.3,
+    "2015": 4.6,
+    "2016": 8.1,
+    "2017": 18.1,
+    "2018": -4.1,
+    "2019": 22.3,
+    "2020": 9.7,
+    "2021": 21.9,
+    "2022": -10.4,
+    "2023": 6.3,
+    "2024": 48.6,
+    "2025": 23.7,
+    "2026": 79.8
+   },
+   "0050|S5": {
+    "2006": -3.2,
+    "2007": 11.9,
+    "2008": -7.7,
+    "2009": 68.8,
+    "2010": 2.1,
+    "2011": -11.5,
+    "2012": -5.0,
+    "2013": -0.9,
+    "2014": 7.1,
+    "2015": -2.8,
+    "2016": 16.6,
+    "2017": 16.1,
+    "2018": -7.5,
+    "2019": 23.9,
+    "2020": 29.4,
+    "2021": 15.6,
+    "2022": -16.6,
+    "2023": 11.3,
+    "2024": 29.4,
+    "2025": 30.9,
+    "2026": 79.8
+   }
+  },
+  "bear": {
+   "n30|none": {
+    "2008": {
+     "ret": -0.5045,
+     "maxDD": -0.5806
+    },
+    "2011": {
+     "ret": -0.1842,
+     "maxDD": -0.3186
+    },
+    "2015": {
+     "ret": 0.1786,
+     "maxDD": -0.1946
+    },
+    "2018": {
+     "ret": -0.0971,
+     "maxDD": -0.2179
+    },
+    "2020-03": {
+     "ret": 0.0184,
+     "maxDD": -0.2978
+    },
+    "2022": {
+     "ret": -0.0932,
+     "maxDD": -0.2199
+    }
+   },
+   "n30|S1": {
+    "2008": {
+     "ret": -0.175,
+     "maxDD": -0.1928
+    },
+    "2011": {
+     "ret": 0.0101,
+     "maxDD": -0.1434
+    },
+    "2015": {
+     "ret": 0.1513,
+     "maxDD": -0.0449
+    },
+    "2018": {
+     "ret": 0.0031,
+     "maxDD": -0.0945
+    },
+    "2020-03": {
+     "ret": -0.1171,
+     "maxDD": -0.1409
+    },
+    "2022": {
+     "ret": -0.0351,
+     "maxDD": -0.0819
+    }
+   },
+   "n30|S2": {
+    "2008": {
+     "ret": -0.0865,
+     "maxDD": -0.1368
+    },
+    "2011": {
+     "ret": -0.0263,
+     "maxDD": -0.1223
+    },
+    "2015": {
+     "ret": 0.1357,
+     "maxDD": -0.0449
+    },
+    "2018": {
+     "ret": -0.1429,
+     "maxDD": -0.1836
+    },
+    "2020-03": {
+     "ret": -0.0452,
+     "maxDD": -0.0709
+    },
+    "2022": {
+     "ret": -0.0883,
+     "maxDD": -0.1077
+    }
+   },
+   "n30|S3": {
+    "2008": {
+     "ret": -0.1336,
+     "maxDD": -0.1522
+    },
+    "2011": {
+     "ret": 0.044,
+     "maxDD": -0.1223
+    },
+    "2015": {
+     "ret": 0.1758,
+     "maxDD": -0.0542
+    },
+    "2018": {
+     "ret": 0.0129,
+     "maxDD": -0.0996
+    },
+    "2020-03": {
+     "ret": -0.1171,
+     "maxDD": -0.1409
+    },
+    "2022": {
+     "ret": -0.0671,
+     "maxDD": -0.0819
+    }
+   },
+   "n30|S4": {
+    "2008": {
+     "ret": -0.0703,
+     "maxDD": -0.1027
+    },
+    "2011": {
+     "ret": 0.033,
+     "maxDD": -0.1223
+    },
+    "2015": {
+     "ret": 0.2253,
+     "maxDD": -0.0449
+    },
+    "2018": {
+     "ret": -0.165,
+     "maxDD": -0.2258
+    },
+    "2020-03": {
+     "ret": -0.1598,
+     "maxDD": -0.2978
+    },
+    "2022": {
+     "ret": -0.0459,
+     "maxDD": -0.0819
+    }
+   },
+   "n30|S5": {
+    "2008": {
+     "ret": -0.1162,
+     "maxDD": -0.1522
+    },
+    "2011": {
+     "ret": -0.1173,
+     "maxDD": -0.1571
+    },
+    "2015": {
+     "ret": 0.1208,
+     "maxDD": -0.0514
+    },
+    "2018": {
+     "ret": -0.0883,
+     "maxDD": -0.1317
+    },
+    "2020-03": {
+     "ret": -0.0754,
+     "maxDD": -0.1003
+    },
+    "2022": {
+     "ret": -0.1324,
+     "maxDD": -0.1324
+    }
+   },
+   "n10|none": {
+    "2008": {
+     "ret": -0.5219,
+     "maxDD": -0.5941
+    },
+    "2011": {
+     "ret": -0.071,
+     "maxDD": -0.373
+    },
+    "2015": {
+     "ret": 0.3476,
+     "maxDD": -0.1814
+    },
+    "2018": {
+     "ret": -0.0735,
+     "maxDD": -0.2467
+    },
+    "2020-03": {
+     "ret": 0.0751,
+     "maxDD": -0.2717
+    },
+    "2022": {
+     "ret": -0.2485,
+     "maxDD": -0.357
+    }
+   },
+   "n10|S1": {
+    "2008": {
+     "ret": -0.2092,
+     "maxDD": -0.2209
+    },
+    "2011": {
+     "ret": 0.1931,
+     "maxDD": -0.1526
+    },
+    "2015": {
+     "ret": 0.2406,
+     "maxDD": -0.0465
+    },
+    "2018": {
+     "ret": -0.0203,
+     "maxDD": -0.1295
+    },
+    "2020-03": {
+     "ret": -0.1176,
+     "maxDD": -0.1413
+    },
+    "2022": {
+     "ret": -0.0384,
+     "maxDD": -0.0852
+    }
+   },
+   "n10|S2": {
+    "2008": {
+     "ret": -0.0777,
+     "maxDD": -0.1645
+    },
+    "2011": {
+     "ret": 0.1576,
+     "maxDD": -0.0878
+    },
+    "2015": {
+     "ret": 0.276,
+     "maxDD": -0.0465
+    },
+    "2018": {
+     "ret": -0.136,
+     "maxDD": -0.1967
+    },
+    "2020-03": {
+     "ret": -0.0522,
+     "maxDD": -0.0776
+    },
+    "2022": {
+     "ret": -0.0746,
+     "maxDD": -0.0997
+    }
+   },
+   "n10|S3": {
+    "2008": {
+     "ret": -0.1722,
+     "maxDD": -0.1845
+    },
+    "2011": {
+     "ret": 0.2513,
+     "maxDD": -0.0878
+    },
+    "2015": {
+     "ret": 0.3078,
+     "maxDD": -0.0592
+    },
+    "2018": {
+     "ret": 0.0139,
+     "maxDD": -0.1361
+    },
+    "2020-03": {
+     "ret": -0.1176,
+     "maxDD": -0.1413
+    },
+    "2022": {
+     "ret": -0.0692,
+     "maxDD": -0.0852
+    }
+   },
+   "n10|S4": {
+    "2008": {
+     "ret": -0.0779,
+     "maxDD": -0.0999
+    },
+    "2011": {
+     "ret": 0.1949,
+     "maxDD": -0.0878
+    },
+    "2015": {
+     "ret": 0.3571,
+     "maxDD": -0.0465
+    },
+    "2018": {
+     "ret": -0.1501,
+     "maxDD": -0.2769
+    },
+    "2020-03": {
+     "ret": -0.1364,
+     "maxDD": -0.2717
+    },
+    "2022": {
+     "ret": 0.0104,
+     "maxDD": -0.0852
+    }
+   },
+   "n10|S5": {
+    "2008": {
+     "ret": -0.0969,
+     "maxDD": -0.1845
+    },
+    "2011": {
+     "ret": 0.0116,
+     "maxDD": -0.1046
+    },
+    "2015": {
+     "ret": 0.2166,
+     "maxDD": -0.0622
+    },
+    "2018": {
+     "ret": -0.0672,
+     "maxDD": -0.1379
+    },
+    "2020-03": {
+     "ret": -0.0885,
+     "maxDD": -0.113
+    },
+    "2022": {
+     "ret": -0.1038,
+     "maxDD": -0.1065
+    }
+   },
+   "0050|none": {
+    "2008": {
+     "ret": -0.4332,
+     "maxDD": -0.5238
+    },
+    "2011": {
+     "ret": -0.1581,
+     "maxDD": -0.2301
+    },
+    "2015": {
+     "ret": -0.0628,
+     "maxDD": -0.2096
+    },
+    "2018": {
+     "ret": -0.0494,
+     "maxDD": -0.1599
+    },
+    "2020-03": {
+     "ret": -0.0495,
+     "maxDD": -0.2625
+    },
+    "2022": {
+     "ret": -0.2137,
+     "maxDD": -0.3396
+    }
+   },
+   "0050|S1": {
+    "2008": {
+     "ret": -0.0777,
+     "maxDD": -0.1113
+    },
+    "2011": {
+     "ret": -0.1295,
+     "maxDD": -0.1587
+    },
+    "2015": {
+     "ret": 0.0404,
+     "maxDD": -0.0605
+    },
+    "2018": {
+     "ret": -0.0144,
+     "maxDD": -0.1269
+    },
+    "2020-03": {
+     "ret": -0.0884,
+     "maxDD": -0.1178
+    },
+    "2022": {
+     "ret": -0.0578,
+     "maxDD": -0.1182
+    }
+   },
+   "0050|S2": {
+    "2008": {
+     "ret": -0.0875,
+     "maxDD": -0.0967
+    },
+    "2011": {
+     "ret": -0.092,
+     "maxDD": -0.1151
+    },
+    "2015": {
+     "ret": -0.0095,
+     "maxDD": -0.0735
+    },
+    "2018": {
+     "ret": -0.0648,
+     "maxDD": -0.1299
+    },
+    "2020-03": {
+     "ret": -0.0424,
+     "maxDD": -0.0764
+    },
+    "2022": {
+     "ret": -0.0981,
+     "maxDD": -0.1399
+    }
+   },
+   "0050|S3": {
+    "2008": {
+     "ret": -0.0548,
+     "maxDD": -0.0906
+    },
+    "2011": {
+     "ret": -0.0376,
+     "maxDD": -0.0905
+    },
+    "2015": {
+     "ret": 0.0019,
+     "maxDD": -0.0794
+    },
+    "2018": {
+     "ret": 0.0431,
+     "maxDD": -0.0875
+    },
+    "2020-03": {
+     "ret": -0.0884,
+     "maxDD": -0.1178
+    },
+    "2022": {
+     "ret": -0.0711,
+     "maxDD": -0.1182
+    }
+   },
+   "0050|S4": {
+    "2008": {
+     "ret": -0.0276,
+     "maxDD": -0.0617
+    },
+    "2011": {
+     "ret": -0.0295,
+     "maxDD": -0.0905
+    },
+    "2015": {
+     "ret": 0.0459,
+     "maxDD": -0.0625
+    },
+    "2018": {
+     "ret": -0.0409,
+     "maxDD": -0.1403
+    },
+    "2020-03": {
+     "ret": -0.1578,
+     "maxDD": -0.2625
+    },
+    "2022": {
+     "ret": -0.104,
+     "maxDD": -0.1492
+    }
+   },
+   "0050|S5": {
+    "2008": {
+     "ret": -0.0771,
+     "maxDD": -0.0906
+    },
+    "2011": {
+     "ret": -0.115,
+     "maxDD": -0.1423
+    },
+    "2015": {
+     "ret": -0.0279,
+     "maxDD": -0.0885
+    },
+    "2018": {
+     "ret": -0.075,
+     "maxDD": -0.1395
+    },
+    "2020-03": {
+     "ret": -0.0467,
+     "maxDD": -0.0775
+    },
+    "2022": {
+     "ret": -0.1659,
+     "maxDD": -0.2015
+    }
+   }
+  },
+  "episodes_full": {
+   "n30|S1": [
+    [
+     "2007-12-13",
+     "2008-04-14",
+     0.0485,
+     79
+    ],
+    [
+     "2008-06-13",
+     "2009-04-14",
+     -0.308,
+     208
+    ],
+    [
+     "2010-05-13",
+     "2010-08-12",
+     0.053,
+     65
+    ],
+    [
+     "2011-08-15",
+     "2012-02-14",
+     -0.1131,
+     124
+    ],
+    [
+     "2012-05-15",
+     "2012-08-14",
+     0.0312,
+     65
+    ],
+    [
+     "2012-10-15",
+     "2012-12-12",
+     0.0394,
+     43
+    ],
+    [
+     "2014-10-15",
+     "2014-11-12",
+     0.0113,
+     21
+    ],
+    [
+     "2014-12-15",
+     "2015-01-13",
+     0.0493,
+     21
+    ],
+    [
+     "2015-06-15",
+     "2016-03-14",
+     0.0534,
+     183
+    ],
+    [
+     "2016-05-13",
+     "2016-06-14",
+     0.0824,
+     22
+    ],
+    [
+     "2018-02-22",
+     "2018-03-13",
+     0.0228,
+     13
+    ],
+    [
+     "2018-07-13",
+     "2019-04-12",
+     0.0161,
+     182
+    ],
+    [
+     "2020-03-13",
+     "2020-06-12",
+     0.2235,
+     63
+    ],
+    [
+     "2021-10-14",
+     "2021-11-12",
+     0.078,
+     22
+    ],
+    [
+     "2022-03-15",
+     "2023-02-14",
+     0.0348,
+     226
+    ],
+    [
+     "2025-03-13",
+     "2025-06-12",
+     0.001,
+     62
+    ]
+   ],
+   "n30|S2": [
+    [
+     "2006-06-12",
+     "2006-06-12",
+     0.0172,
+     1
+    ],
+    [
+     "2006-06-15",
+     "2006-06-15",
+     -0.0275,
+     1
+    ],
+    [
+     "2006-06-19",
+     "2006-06-19",
+     -0.0052,
+     1
+    ],
+    [
+     "2006-06-22",
+     "2006-06-23",
+     0.0547,
+     2
+    ],
+    [
+     "2006-06-27",
+     "2006-06-27",
+     0.0118,
+     1
+    ],
+    [
+     "2006-07-18",
+     "2006-08-10",
+     0.1126,
+     18
+    ],
+    [
+     "2006-08-23",
+     "2006-08-23",
+     -0.0004,
+     1
+    ],
+    [
+     "2006-08-25",
+     "2006-09-01",
+     0.0078,
+     6
+    ],
+    [
+     "2006-09-18",
+     "2006-09-18",
+     0.0423,
+     1
+    ],
+    [
+     "2007-11-23",
+     "2007-12-05",
+     0.0058,
+     9
+    ],
+    [
+     "2007-12-12",
+     "2008-03-25",
+     -0.0291,
+     67
+    ],
+    [
+     "2008-03-31",
+     "2008-04-08",
+     -0.0103,
+     6
+    ],
+    [
+     "2008-04-10",
+     "2008-04-11",
+     0.0303,
+     2
+    ],
+    [
+     "2008-05-30",
+     "2008-05-30",
+     -0.0288,
+     1
+    ],
+    [
+     "2008-06-03",
+     "2008-06-03",
+     -0.005,
+     1
+    ],
+    [
+     "2008-06-05",
+     "2008-06-06",
+     0.0276,
+     2
+    ],
+    [
+     "2008-06-11",
+     "2009-04-07",
+     -0.4005,
+     205
+    ],
+    [
+     "2009-04-10",
+     "2009-04-10",
+     0.0185,
+     1
+    ],
+    [
+     "2010-02-08",
+     "2010-02-10",
+     0.0648,
+     3
+    ],
+    [
+     "2010-05-10",
+     "2010-05-11",
+     0.0152,
+     2
+    ],
+    [
+     "2010-05-13",
+     "2010-05-14",
+     0.0272,
+     2
+    ],
+    [
+     "2010-05-19",
+     "2010-07-15",
+     0.0416,
+     41
+    ],
+    [
+     "2010-07-20",
+     "2010-07-21",
+     0.0133,
+     2
+    ],
+    [
+     "2010-07-23",
+     "2010-07-26",
+     0.0054,
+     2
+    ],
+    [
+     "2010-08-27",
+     "2010-09-06",
+     0.0769,
+     7
+    ],
+    [
+     "2011-06-22",
+     "2011-06-23",
+     0.0066,
+     2
+    ],
+    [
+     "2011-06-27",
+     "2011-07-01",
+     0.0326,
+     5
+    ],
+    [
+     "2011-07-14",
+     "2011-07-21",
+     0.0591,
+     6
+    ],
+    [
+     "2011-08-02",
+     "2011-08-02",
+     -0.0054,
+     1
+    ],
+    [
+     "2011-08-04",
+     "2012-02-09",
+     -0.1741,
+     128
+    ],
+    [
+     "2012-04-09",
+     "2012-04-09",
+     -0.0104,
+     1
+    ],
+    [
+     "2012-04-11",
+     "2012-04-12",
+     0.0052,
+     2
+    ],
+    [
+     "2012-04-19",
+     "2012-05-03",
+     0.0186,
+     10
+    ],
+    [
+     "2012-05-09",
+     "2012-07-04",
+     -0.0359,
+     41
+    ],
+    [
+     "2012-07-09",
+     "2012-08-10",
+     0.048,
+     24
+    ],
+    [
+     "2012-08-30",
+     "2012-09-04",
+     0.0154,
+     4
+    ],
+    [
+     "2012-09-07",
+     "2012-09-10",
+     0.0154,
+     2
+    ],
+    [
+     "2012-10-15",
+     "2012-11-30",
+     0.0141,
+     35
+    ],
+    [
+     "2013-06-27",
+     "2013-06-27",
+     0.0103,
+     1
+    ],
+    [
+     "2013-08-23",
+     "2013-08-26",
+     0.0062,
+     2
+    ],
+    [
+     "2013-08-29",
+     "2013-08-30",
+     0.0268,
+     2
+    ],
+    [
+     "2014-10-13",
+     "2014-11-04",
+     -0.0166,
+     17
+    ],
+    [
+     "2014-11-07",
+     "2014-11-11",
+     0.0215,
+     3
+    ],
+    [
+     "2014-11-14",
+     "2014-11-21",
+     0.0044,
+     6
+    ],
+    [
+     "2014-12-04",
+     "2014-12-04",
+     0.0013,
+     1
+    ],
+    [
+     "2014-12-12",
+     "2014-12-23",
+     0.0118,
+     8
+    ],
+    [
+     "2015-01-08",
+     "2015-01-09",
+     0.0183,
+     2
+    ],
+    [
+     "2015-06-11",
+     "2015-06-23",
+     0.02,
+     8
+    ],
+    [
+     "2015-07-01",
+     "2015-07-01",
+     0.0083,
+     1
+    ],
+    [
+     "2015-07-08",
+     "2016-03-04",
+     0.0143,
+     161
+    ],
+    [
+     "2016-05-04",
+     "2016-05-24",
+     0.0019,
+     15
+    ],
+    [
+     "2016-05-26",
+     "2016-05-26",
+     0.012,
+     1
+    ],
+    [
+     "2018-02-08",
+     "2018-02-08",
+     0.005,
+     1
+    ],
+    [
+     "2018-02-21",
+     "2018-02-22",
+     0.0456,
+     2
+    ],
+    [
+     "2018-04-26",
+     "2018-05-09",
+     0.0145,
+     9
+    ],
+    [
+     "2018-06-28",
+     "2018-07-02",
+     0.0017,
+     3
+    ],
+    [
+     "2018-07-05",
+     "2018-07-16",
+     0.0173,
+     8
+    ],
+    [
+     "2018-07-19",
+     "2018-07-19",
+     -0.0068,
+     1
+    ],
+    [
+     "2018-08-15",
+     "2018-08-15",
+     -0.0086,
+     1
+    ],
+    [
+     "2018-08-17",
+     "2018-08-24",
+     0.0013,
+     6
+    ],
+    [
+     "2018-08-28",
+     "2018-08-28",
+     0.0044,
+     1
+    ],
+    [
+     "2018-09-12",
+     "2018-09-17",
+     0.0113,
+     4
+    ],
+    [
+     "2018-09-19",
+     "2018-09-20",
+     0.0028,
+     2
+    ],
+    [
+     "2018-09-25",
+     "2018-09-25",
+     0.0052,
+     1
+    ],
+    [
+     "2018-10-08",
+     "2019-03-18",
+     0.0155,
+     105
+    ],
+    [
+     "2019-05-27",
+     "2019-05-31",
+     0.0239,
+     5
+    ],
+    [
+     "2020-03-11",
+     "2020-06-02",
+     0.1239,
+     57
+    ],
+    [
+     "2021-10-06",
+     "2021-10-08",
+     0.0082,
+     3
+    ],
+    [
+     "2021-10-14",
+     "2021-10-18",
+     0.0215,
+     3
+    ],
+    [
+     "2022-03-09",
+     "2022-03-22",
+     0.0928,
+     10
+    ],
+    [
+     "2022-04-11",
+     "2023-01-30",
+     -0.0676,
+     198
+    ],
+    [
+     "2023-10-30",
+     "2023-10-31",
+     -0.0094,
+     2
+    ],
+    [
+     "2023-11-02",
+     "2023-11-03",
+     0.0155,
+     2
+    ],
+    [
+     "2025-03-11",
+     "2025-06-11",
+     -0.0169,
+     63
+    ],
+    [
+     "2025-06-17",
+     "2025-06-19",
+     0.0032,
+     3
+    ],
+    [
+     "2025-06-23",
+     "2025-06-26",
+     0.0213,
+     4
+    ]
+   ],
+   "n30|S3": [
+    [
+     "2006-06-23",
+     "2006-06-30",
+     0.0939,
+     6
+    ],
+    [
+     "2006-07-19",
+     "2006-08-17",
+     0.11,
+     22
+    ],
+    [
+     "2006-08-30",
+     "2006-09-05",
+     0.0423,
+     5
+    ],
+    [
+     "2007-11-27",
+     "2008-04-14",
+     0.0478,
+     91
+    ],
+    [
+     "2008-06-12",
+     "2009-04-10",
+     -0.3559,
+     207
+    ],
+    [
+     "2010-05-24",
+     "2010-08-03",
+     0.1459,
+     51
+    ],
+    [
+     "2011-07-18",
+     "2012-02-16",
+     -0.145,
+     146
+    ],
+    [
+     "2012-05-16",
+     "2012-09-13",
+     0.0744,
+     86
+    ],
+    [
+     "2012-10-25",
+     "2012-12-06",
+     0.0411,
+     31
+    ],
+    [
+     "2014-10-15",
+     "2014-12-30",
+     0.072,
+     56
+    ],
+    [
+     "2015-07-13",
+     "2016-03-14",
+     0.0575,
+     165
+    ],
+    [
+     "2016-05-06",
+     "2016-05-31",
+     0.0371,
+     18
+    ],
+    [
+     "2018-10-09",
+     "2019-03-22",
+     0.0372,
+     108
+    ],
+    [
+     "2020-03-13",
+     "2020-06-04",
+     0.2203,
+     57
+    ],
+    [
+     "2022-03-10",
+     "2023-01-31",
+     0.0164,
+     219
+    ],
+    [
+     "2025-03-13",
+     "2025-07-04",
+     0.0239,
+     78
+    ]
+   ],
+   "n30|S4": [
+    [
+     "2006-08-02",
+     "2006-10-02",
+     0.101,
+     44
+    ],
+    [
+     "2007-12-04",
+     "2008-05-02",
+     0.0214,
+     99
+    ],
+    [
+     "2008-06-03",
+     "2009-05-04",
+     -0.342,
+     229
+    ],
+    [
+     "2010-06-02",
+     "2010-08-02",
+     0.1203,
+     43
+    ],
+    [
+     "2010-09-02",
+     "2010-10-01",
+     0.0711,
+     21
+    ],
+    [
+     "2011-07-04",
+     "2012-03-01",
+     -0.086,
+     164
+    ],
+    [
+     "2012-05-03",
+     "2012-10-01",
+     0.0361,
+     107
+    ],
+    [
+     "2012-11-02",
+     "2012-12-03",
+     0.0488,
+     22
+    ],
+    [
+     "2014-11-04",
+     "2014-12-01",
+     0.0203,
+     20
+    ],
+    [
+     "2015-07-02",
+     "2016-04-01",
+     -0.0165,
+     185
+    ],
+    [
+     "2016-05-04",
+     "2016-06-01",
+     0.0426,
+     21
+    ],
+    [
+     "2018-05-03",
+     "2018-06-01",
+     0.0819,
+     22
+    ],
+    [
+     "2018-11-02",
+     "2019-04-01",
+     0.1527,
+     97
+    ],
+    [
+     "2020-04-06",
+     "2020-07-01",
+     0.3727,
+     60
+    ],
+    [
+     "2022-05-04",
+     "2023-02-01",
+     0.0039,
+     184
+    ],
+    [
+     "2023-11-02",
+     "2023-12-01",
+     0.105,
+     22
+    ],
+    [
+     "2025-04-02",
+     "2025-07-01",
+     0.0552,
+     61
+    ]
+   ],
+   "n30|S5": [
+    [
+     "2006-06-09",
+     "2006-07-05",
+     0.0709,
+     19
+    ],
+    [
+     "2006-07-07",
+     "2006-08-17",
+     0.039,
+     30
+    ],
+    [
+     "2006-08-23",
+     "2006-09-05",
+     0.0309,
+     10
+    ],
+    [
+     "2006-09-08",
+     "2006-09-19",
+     0.0346,
+     8
+    ],
+    [
+     "2007-03-07",
+     "2007-03-07",
+     0.0121,
+     1
+    ],
+    [
+     "2007-08-20",
+     "2007-08-21",
+     0.0685,
+     2
+    ],
+    [
+     "2007-11-12",
+     "2008-03-07",
+     -0.1213,
+     77
+    ],
+    [
+     "2008-03-11",
+     "2008-03-25",
+     0.0667,
+     11
+    ],
+    [
+     "2008-04-03",
+     "2008-04-03",
+     -0.0019,
+     1
+    ],
+    [
+     "2008-06-12",
+     "2009-03-12",
+     -0.4645,
+     186
+    ],
+    [
+     "2010-01-29",
+     "2010-01-29",
+     -0.0139,
+     1
+    ],
+    [
+     "2010-02-03",
+     "2010-03-09",
+     0.0522,
+     19
+    ],
+    [
+     "2010-03-17",
+     "2010-03-18",
+     0.0318,
+     2
+    ],
+    [
+     "2010-05-07",
+     "2010-07-15",
+     0.0462,
+     49
+    ],
+    [
+     "2010-08-30",
+     "2010-08-30",
+     0.0047,
+     1
+    ],
+    [
+     "2010-09-02",
+     "2010-09-03",
+     0.0259,
+     2
+    ],
+    [
+     "2011-03-16",
+     "2011-03-28",
+     0.0499,
+     9
+    ],
+    [
+     "2011-03-30",
+     "2011-03-30",
+     0.011,
+     1
+    ],
+    [
+     "2011-04-21",
+     "2011-04-21",
+     0.0129,
+     1
+    ],
+    [
+     "2011-05-25",
+     "2011-05-30",
+     0.0154,
+     4
+    ],
+    [
+     "2011-06-15",
+     "2011-06-15",
+     -0.0023,
+     1
+    ],
+    [
+     "2011-06-20",
+     "2011-07-07",
+     0.0597,
+     14
+    ],
+    [
+     "2011-07-11",
+     "2011-07-25",
+     0.0269,
+     11
+    ],
+    [
+     "2011-07-27",
+     "2011-07-27",
+     0.0132,
+     1
+    ],
+    [
+     "2011-08-02",
+     "2012-01-31",
+     -0.2217,
+     122
+    ],
+    [
+     "2012-04-25",
+     "2012-04-26",
+     0.0084,
+     2
+    ],
+    [
+     "2012-05-02",
+     "2012-05-02",
+     0.0364,
+     1
+    ],
+    [
+     "2012-05-11",
+     "2012-08-15",
+     0.0096,
+     68
+    ],
+    [
+     "2012-08-17",
+     "2012-08-17",
+     0.0006,
+     1
+    ],
+    [
+     "2012-08-22",
+     "2012-08-22",
+     0.0083,
+     1
+    ],
+    [
+     "2012-08-30",
+     "2012-09-04",
+     0.0154,
+     4
+    ],
+    [
+     "2012-09-07",
+     "2012-09-10",
+     0.0154,
+     2
+    ],
+    [
+     "2012-10-25",
+     "2012-11-27",
+     0.0048,
+     24
+    ],
+    [
+     "2013-06-24",
+     "2013-07-01",
+     0.0215,
+     6
+    ],
+    [
+     "2013-07-05",
+     "2013-07-08",
+     0.006,
+     2
+    ],
+    [
+     "2013-07-10",
+     "2013-07-10",
+     0.0089,
+     1
+    ],
+    [
+     "2013-08-09",
+     "2013-09-03",
+     0.0047,
+     17
+    ],
+    [
+     "2013-11-15",
+     "2013-11-18",
+     0.0061,
+     2
+    ],
+    [
+     "2013-11-25",
+     "2013-11-26",
+     0.0157,
+     2
+    ],
+    [
+     "2014-02-07",
+     "2014-02-07",
+     0.0077,
+     1
+    ],
+    [
+     "2014-09-18",
+     "2014-09-18",
+     0.0026,
+     1
+    ],
+    [
+     "2014-09-24",
+     "2014-12-01",
+     -0.0116,
+     48
+    ],
+    [
+     "2014-12-03",
+     "2014-12-04",
+     0.0204,
+     2
+    ],
+    [
+     "2014-12-11",
+     "2014-12-25",
+     0.0174,
+     11
+    ],
+    [
+     "2015-01-08",
+     "2015-01-09",
+     0.0183,
+     2
+    ],
+    [
+     "2015-06-08",
+     "2015-11-05",
+     0.0258,
+     104
+    ],
+    [
+     "2015-11-10",
+     "2016-02-19",
+     0.0159,
+     67
+    ],
+    [
+     "2016-05-05",
+     "2016-05-24",
+     0.0126,
+     14
+    ],
+    [
+     "2016-05-26",
+     "2016-05-26",
+     0.012,
+     1
+    ],
+    [
+     "2016-11-11",
+     "2016-11-11",
+     -0.0224,
+     1
+    ],
+    [
+     "2016-11-15",
+     "2016-11-18",
+     0.0059,
+     4
+    ],
+    [
+     "2016-12-26",
+     "2016-12-29",
+     0.005,
+     4
+    ],
+    [
+     "2017-09-28",
+     "2017-09-28",
+     0.0049,
+     1
+    ],
+    [
+     "2017-12-08",
+     "2017-12-29",
+     0.0277,
+     16
+    ],
+    [
+     "2018-02-08",
+     "2018-02-22",
+     0.0425,
+     5
+    ],
+    [
+     "2018-02-26",
+     "2018-02-26",
+     0.0067,
+     1
+    ],
+    [
+     "2018-03-07",
+     "2018-03-07",
+     -0.0007,
+     1
+    ],
+    [
+     "2018-04-24",
+     "2018-05-14",
+     0.0155,
+     14
+    ],
+    [
+     "2018-06-27",
+     "2018-07-23",
+     -0.0208,
+     19
+    ],
+    [
+     "2018-08-15",
+     "2018-08-28",
+     0.003,
+     10
+    ],
+    [
+     "2018-09-11",
+     "2018-09-25",
+     0.0418,
+     10
+    ],
+    [
+     "2018-10-05",
+     "2019-02-19",
+     -0.0662,
+     89
+    ],
+    [
+     "2019-08-06",
+     "2019-09-06",
+     0.0666,
+     23
+    ],
+    [
+     "2020-03-02",
+     "2020-03-06",
+     0.0236,
+     5
+    ],
+    [
+     "2020-03-10",
+     "2020-06-03",
+     0.1299,
+     59
+    ],
+    [
+     "2021-05-19",
+     "2021-05-19",
+     0.0348,
+     1
+    ],
+    [
+     "2021-08-18",
+     "2021-08-26",
+     0.0495,
+     7
+    ],
+    [
+     "2021-09-24",
+     "2021-09-27",
+     0.0119,
+     2
+    ],
+    [
+     "2021-10-01",
+     "2021-11-08",
+     -0.0051,
+     26
+    ],
+    [
+     "2022-03-09",
+     "2022-03-24",
+     0.0998,
+     12
+    ],
+    [
+     "2022-03-30",
+     "2022-03-31",
+     -0.0144,
+     2
+    ],
+    [
+     "2022-04-08",
+     "2022-11-23",
+     -0.0734,
+     160
+    ],
+    [
+     "2022-12-22",
+     "2022-12-23",
+     0.0025,
+     2
+    ],
+    [
+     "2022-12-27",
+     "2022-12-28",
+     -0.0094,
+     2
+    ],
+    [
+     "2022-12-30",
+     "2023-01-09",
+     0.021,
+     6
+    ],
+    [
+     "2023-09-13",
+     "2023-09-13",
+     -0.0002,
+     1
+    ],
+    [
+     "2023-09-25",
+     "2023-10-03",
+     0.0142,
+     6
+    ],
+    [
+     "2023-10-05",
+     "2023-10-12",
+     0.0105,
+     4
+    ],
+    [
+     "2023-10-20",
+     "2023-11-08",
+     0.0191,
+     14
+    ],
+    [
+     "2023-11-14",
+     "2023-11-14",
+     0.0145,
+     1
+    ],
+    [
+     "2024-08-07",
+     "2024-08-08",
+     0.0612,
+     2
+    ],
+    [
+     "2024-08-12",
+     "2024-08-12",
+     0.0127,
+     1
+    ],
+    [
+     "2024-09-06",
+     "2024-09-16",
+     -0.0067,
+     7
+    ],
+    [
+     "2024-09-20",
+     "2024-09-20",
+     -0.0027,
+     1
+    ],
+    [
+     "2024-11-29",
+     "2024-12-03",
+     0.0389,
+     3
+    ],
+    [
+     "2024-12-24",
+     "2024-12-24",
+     -0.001,
+     1
+    ],
+    [
+     "2025-01-15",
+     "2025-01-15",
+     -0.0165,
+     1
+    ],
+    [
+     "2025-01-17",
+     "2025-01-17",
+     -0.0077,
+     1
+    ],
+    [
+     "2025-03-05",
+     "2025-03-06",
+     -0.0044,
+     2
+    ],
+    [
+     "2025-03-10",
+     "2025-06-11",
+     -0.0283,
+     64
+    ],
+    [
+     "2025-06-25",
+     "2025-06-25",
+     0.0081,
+     1
+    ]
+   ]
+  },
+  "selection": {
+   "n30": {
+    "selection_calmar": {
+     "S1": 0.387,
+     "S2": 0.257,
+     "S3": 0.321,
+     "S4": 0.383,
+     "S5": 0.334
+    },
+    "none_selection_calmar": 0.164,
+    "picked": "S1",
+    "pass": {
+     "validation": false,
+     "holdout": false
+    },
+    "verdict": "不可用",
+    "all_switches_same_rule_info_only": {
+     "S1": {
+      "validation": false,
+      "holdout": false
+     },
+     "S2": {
+      "validation": false,
+      "holdout": false
+     },
+     "S3": {
+      "validation": false,
+      "holdout": true
+     },
+     "S4": {
+      "validation": false,
+      "holdout": false
+     },
+     "S5": {
+      "validation": false,
+      "holdout": false
+     }
+    }
+   },
+   "n10": {
+    "selection_calmar": {
+     "S1": 0.404,
+     "S2": 0.293,
+     "S3": 0.338,
+     "S4": 0.528,
+     "S5": 0.429
+    },
+    "none_selection_calmar": 0.229,
+    "picked": "S4",
+    "pass": {
+     "validation": false,
+     "holdout": true
+    },
+    "verdict": "待觀察",
+    "all_switches_same_rule_info_only": {
+     "S1": {
+      "validation": false,
+      "holdout": true
+     },
+     "S2": {
+      "validation": false,
+      "holdout": true
+     },
+     "S3": {
+      "validation": false,
+      "holdout": true
+     },
+     "S4": {
+      "validation": false,
+      "holdout": true
+     },
+     "S5": {
+      "validation": false,
+      "holdout": false
+     }
+    }
+   },
+   "0050": {
+    "selection_calmar": {
+     "S1": 0.286,
+     "S2": 0.12,
+     "S3": 0.229,
+     "S4": 0.19,
+     "S5": 0.223
+    },
+    "none_selection_calmar": 0.098,
+    "picked": "S1",
+    "pass": {
+     "validation": false,
+     "holdout": true
+    },
+    "verdict": "待觀察",
+    "all_switches_same_rule_info_only": {
+     "S1": {
+      "validation": false,
+      "holdout": true
+     },
+     "S2": {
+      "validation": true,
+      "holdout": true
+     },
+     "S3": {
+      "validation": true,
+      "holdout": true
+     },
+     "S4": {
+      "validation": false,
+      "holdout": false
+     },
+     "S5": {
+      "validation": false,
+      "holdout": false
+     }
+    }
+   }
+  }
+ },
+ "POSTHOC_diagnostics": {
+  "note": "事後診斷，不用於挑選或判定",
+  "engine_raw_vs_oos_nav_maxabsdiff": 5.9131684881919e-08,
+  "engine_S1_dplus1_open|n30": {
+   "selection": {
+    "CAGR": 0.1629,
+    "maxDD": -0.3425,
+    "Calmar": 0.476
+   },
+   "validation": {
+    "CAGR": 0.1181,
+    "maxDD": -0.1419,
+    "Calmar": 0.833
+   },
+   "holdout": {
+    "CAGR": 0.4373,
+    "maxDD": -0.2465,
+    "Calmar": 1.774
+   },
+   "full": {
+    "CAGR": 0.2221,
+    "maxDD": -0.3425,
+    "Calmar": 0.649
+   },
+   "oos_2006-04_2020-12": {
+    "CAGR": 0.1414,
+    "maxDD": -0.3425,
+    "Calmar": 0.413
+   }
+  },
+  "overlay_S1_lag1|n30": {
+   "selection": {
+    "CAGR": 0.1616,
+    "maxDD": -0.3171,
+    "Calmar": 0.51
+   },
+   "validation": {
+    "CAGR": 0.1088,
+    "maxDD": -0.1392,
+    "Calmar": 0.781
+   },
+   "holdout": {
+    "CAGR": 0.4353,
+    "maxDD": -0.2465,
+    "Calmar": 1.766
+   },
+   "full": {
+    "CAGR": 0.2177,
+    "maxDD": -0.3171,
+    "Calmar": 0.686
+   },
+   "oos_2006-04_2020-12": {
+    "CAGR": 0.1362,
+    "maxDD": -0.3171,
+    "Calmar": 0.429
+   }
+  },
+  "overlay_S1_lag2|n30": {
+   "selection": {
+    "CAGR": 0.1457,
+    "maxDD": -0.3766,
+    "Calmar": 0.387
+   },
+   "validation": {
+    "CAGR": 0.1038,
+    "maxDD": -0.1688,
+    "Calmar": 0.615
+   },
+   "holdout": {
+    "CAGR": 0.4303,
+    "maxDD": -0.2465,
+    "Calmar": 1.746
+   },
+   "full": {
+    "CAGR": 0.2083,
+    "maxDD": -0.3766,
+    "Calmar": 0.553
+   },
+   "oos_2006-04_2020-12": {
+    "CAGR": 0.1256,
+    "maxDD": -0.3766,
+    "Calmar": 0.333
+   }
+  },
+  "engine_S1_dplus1_open|n10": {
+   "selection": {
+    "CAGR": 0.1895,
+    "maxDD": -0.3993,
+    "Calmar": 0.475
+   },
+   "validation": {
+    "CAGR": 0.1347,
+    "maxDD": -0.1927,
+    "Calmar": 0.699
+   },
+   "holdout": {
+    "CAGR": 0.5394,
+    "maxDD": -0.2891,
+    "Calmar": 1.866
+   },
+   "full": {
+    "CAGR": 0.2633,
+    "maxDD": -0.3993,
+    "Calmar": 0.659
+   },
+   "oos_2006-04_2020-12": {
+    "CAGR": 0.1631,
+    "maxDD": -0.3993,
+    "Calmar": 0.409
+   }
+  },
+  "overlay_S1_lag1|n10": {
+   "selection": {
+    "CAGR": 0.1861,
+    "maxDD": -0.3778,
+    "Calmar": 0.492
+   },
+   "validation": {
+    "CAGR": 0.1213,
+    "maxDD": -0.1929,
+    "Calmar": 0.629
+   },
+   "holdout": {
+    "CAGR": 0.5346,
+    "maxDD": -0.2891,
+    "Calmar": 1.849
+   },
+   "full": {
+    "CAGR": 0.2557,
+    "maxDD": -0.3778,
+    "Calmar": 0.677
+   },
+   "oos_2006-04_2020-12": {
+    "CAGR": 0.1548,
+    "maxDD": -0.3778,
+    "Calmar": 0.41
+   }
+  },
+  "overlay_S1_lag2|n10": {
+   "selection": {
+    "CAGR": 0.1708,
+    "maxDD": -0.4232,
+    "Calmar": 0.404
+   },
+   "validation": {
+    "CAGR": 0.1201,
+    "maxDD": -0.2208,
+    "Calmar": 0.544
+   },
+   "holdout": {
+    "CAGR": 0.5403,
+    "maxDD": -0.2891,
+    "Calmar": 1.869
+   },
+   "full": {
+    "CAGR": 0.2504,
+    "maxDD": -0.4232,
+    "Calmar": 0.592
+   },
+   "oos_2006-04_2020-12": {
+    "CAGR": 0.1464,
+    "maxDD": -0.4232,
+    "Calmar": 0.346
+   }
+  },
+  "oos_2006-04_2020-12_main": {
+   "n30|none": {
+    "CAGR": 0.1408,
+    "maxDD": -0.6387,
+    "Calmar": 0.221,
+    "total": 5.9601,
+    "t_vs_0050_m": 1.38,
+    "switches": 0,
+    "exits": 0,
+    "pct_out": 0.0,
+    "cost_drag_pp": 0.0
+   },
+   "n30|S1": {
+    "CAGR": 0.1256,
+    "maxDD": -0.3766,
+    "Calmar": 0.333,
+    "total": 4.7066,
+    "t_vs_0050_m": 0.51,
+    "switches": 26,
+    "exits": 13,
+    "pct_out": 0.299,
+    "cost_drag_pp": 0.67,
+    "missed_sum": 0.2495,
+    "missed_compound": 0.1174,
+    "ep_pos_sum": 0.6309,
+    "ep_neg_sum": -0.4211,
+    "ep_pos_n": 11
+   },
+   "n30|S2": {
+    "CAGR": 0.0847,
+    "maxDD": -0.2854,
+    "Calmar": 0.297,
+    "total": 2.3092,
+    "t_vs_0050_m": -0.32,
+    "switches": 134,
+    "exits": 67,
+    "pct_out": 0.296,
+    "cost_drag_pp": 3.37,
+    "missed_sum": 0.447,
+    "missed_compound": 0.3396,
+    "ep_pos_sum": 1.2173,
+    "ep_neg_sum": -0.7647,
+    "ep_pos_n": 52
+   },
+   "n30|S3": {
+    "CAGR": 0.1083,
+    "maxDD": -0.3298,
+    "Calmar": 0.329,
+    "total": 3.5479,
+    "t_vs_0050_m": 0.16,
+    "switches": 28,
+    "exits": 14,
+    "pct_out": 0.288,
+    "cost_drag_pp": 0.71,
+    "missed_sum": 0.4755,
+    "missed_compound": 0.3927,
+    "ep_pos_sum": 0.9794,
+    "ep_neg_sum": -0.5009,
+    "ep_pos_n": 12
+   },
+   "n30|S4": {
+    "CAGR": 0.0989,
+    "maxDD": -0.3959,
+    "Calmar": 0.25,
+    "total": 3.0102,
+    "t_vs_0050_m": -0.06,
+    "switches": 28,
+    "exits": 14,
+    "pct_out": 0.311,
+    "cost_drag_pp": 0.71,
+    "missed_sum": 0.5999,
+    "missed_compound": 0.5795,
+    "ep_pos_sum": 1.0688,
+    "ep_neg_sum": -0.4444,
+    "ep_pos_n": 11
+   },
+   "n30|S5": {
+    "CAGR": 0.0953,
+    "maxDD": -0.2902,
+    "Calmar": 0.328,
+    "total": 2.8206,
+    "t_vs_0050_m": -0.11,
+    "switches": 130,
+    "exits": 65,
+    "pct_out": 0.337,
+    "cost_drag_pp": 3.3,
+    "missed_sum": 0.3298,
+    "missed_compound": 0.176,
+    "ep_pos_sum": 1.3398,
+    "ep_neg_sum": -0.9472,
+    "ep_pos_n": 54
+   },
+   "n10|none": {
+    "CAGR": 0.179,
+    "maxDD": -0.6509,
+    "Calmar": 0.275,
+    "total": 10.3041,
+    "t_vs_0050_m": 1.86,
+    "switches": 0,
+    "exits": 0,
+    "pct_out": 0.0,
+    "cost_drag_pp": 0.0
+   },
+   "n10|S1": {
+    "CAGR": 0.1464,
+    "maxDD": -0.4232,
+    "Calmar": 0.346,
+    "total": 6.4783,
+    "t_vs_0050_m": 0.87,
+    "switches": 26,
+    "exits": 13,
+    "pct_out": 0.299,
+    "cost_drag_pp": 0.68,
+    "missed_sum": 0.4815,
+    "missed_compound": 0.3849,
+    "ep_pos_sum": 0.93,
+    "ep_neg_sum": -0.4611,
+    "ep_pos_n": 10
+   },
+   "n10|S2": {
+    "CAGR": 0.1052,
+    "maxDD": -0.3144,
+    "Calmar": 0.335,
+    "total": 3.3629,
+    "t_vs_0050_m": 0.18,
+    "switches": 134,
+    "exits": 67,
+    "pct_out": 0.296,
+    "cost_drag_pp": 3.44,
+    "missed_sum": 0.6746,
+    "missed_compound": 0.6502,
+    "ep_pos_sum": 1.5493,
+    "ep_neg_sum": -0.8394,
+    "ep_pos_n": 48
+   },
+   "n10|S3": {
+    "CAGR": 0.1349,
+    "maxDD": -0.3902,
+    "Calmar": 0.346,
+    "total": 5.4412,
+    "t_vs_0050_m": 0.67,
+    "switches": 28,
+    "exits": 14,
+    "pct_out": 0.288,
+    "cost_drag_pp": 0.73,
+    "missed_sum": 0.6301,
+    "missed_compound": 0.5971,
+    "ep_pos_sum": 1.2121,
+    "ep_neg_sum": -0.5416,
+    "ep_pos_n": 12
+   },
+   "n10|S4": {
+    "CAGR": 0.1427,
+    "maxDD": -0.3943,
+    "Calmar": 0.362,
+    "total": 6.1251,
+    "t_vs_0050_m": 0.8,
+    "switches": 28,
+    "exits": 14,
+    "pct_out": 0.311,
+    "cost_drag_pp": 0.73,
+    "missed_sum": 0.535,
+    "missed_compound": 0.4438,
+    "ep_pos_sum": 1.0097,
+    "ep_neg_sum": -0.4544,
+    "ep_pos_n": 11
+   },
+   "n10|S5": {
+    "CAGR": 0.1218,
+    "maxDD": -0.2943,
+    "Calmar": 0.414,
+    "total": 4.4336,
+    "t_vs_0050_m": 0.47,
+    "switches": 130,
+    "exits": 65,
+    "pct_out": 0.337,
+    "cost_drag_pp": 3.38,
+    "missed_sum": 0.4859,
+    "missed_compound": 0.343,
+    "ep_pos_sum": 1.711,
+    "ep_neg_sum": -1.1117,
+    "ep_pos_n": 53
+   },
+   "0050|none": {
+    "CAGR": 0.0965,
+    "maxDD": -0.5575,
+    "Calmar": 0.173,
+    "total": 2.8844,
+    "t_vs_0050_m": null,
+    "switches": 0,
+    "exits": 0,
+    "pct_out": 0.0,
+    "cost_drag_pp": 0.0
+   },
+   "0050|S1": {
+    "CAGR": 0.0863,
+    "maxDD": -0.2311,
+    "Calmar": 0.373,
+    "total": 2.381,
+    "t_vs_0050_m": -0.56,
+    "switches": 26,
+    "exits": 13,
+    "pct_out": 0.299,
+    "cost_drag_pp": 0.26,
+    "missed_sum": 0.2618,
+    "missed_compound": 0.1091,
+    "ep_pos_sum": 0.4653,
+    "ep_neg_sum": -0.3064,
+    "ep_pos_n": 11
+   },
+   "0050|S2": {
+    "CAGR": 0.0704,
+    "maxDD": -0.2403,
+    "Calmar": 0.293,
+    "total": 1.7222,
+    "t_vs_0050_m": -1.0,
+    "switches": 134,
+    "exits": 67,
+    "pct_out": 0.296,
+    "cost_drag_pp": 1.33,
+    "missed_sum": 0.336,
+    "missed_compound": 0.1898,
+    "ep_pos_sum": 0.7966,
+    "ep_neg_sum": -0.5471,
+    "ep_pos_n": 50
+   },
+   "0050|S3": {
+    "CAGR": 0.0838,
+    "maxDD": -0.2281,
+    "Calmar": 0.367,
+    "total": 2.2683,
+    "t_vs_0050_m": -0.63,
+    "switches": 28,
+    "exits": 14,
+    "pct_out": 0.288,
+    "cost_drag_pp": 0.28,
+    "missed_sum": 0.2943,
+    "missed_compound": 0.1442,
+    "ep_pos_sum": 0.5818,
+    "ep_neg_sum": -0.3726,
+    "ep_pos_n": 10
+   },
+   "0050|S4": {
+    "CAGR": 0.068,
+    "maxDD": -0.2822,
+    "Calmar": 0.241,
+    "total": 1.6346,
+    "t_vs_0050_m": -1.03,
+    "switches": 28,
+    "exits": 14,
+    "pct_out": 0.311,
+    "cost_drag_pp": 0.28,
+    "missed_sum": 0.5063,
+    "missed_compound": 0.4195,
+    "ep_pos_sum": 0.7448,
+    "ep_neg_sum": -0.3241,
+    "ep_pos_n": 11
+   },
+   "0050|S5": {
+    "CAGR": 0.0776,
+    "maxDD": -0.2278,
+    "Calmar": 0.34,
+    "total": 2.0034,
+    "t_vs_0050_m": -0.78,
+    "switches": 130,
+    "exits": 65,
+    "pct_out": 0.337,
+    "cost_drag_pp": 1.3,
+    "missed_sum": 0.2499,
+    "missed_compound": 0.0843,
+    "ep_pos_sum": 1.0041,
+    "ep_neg_sum": -0.785,
+    "ep_pos_n": 49
+   }
+  },
+  "one_day_delay_cost": {
+   "n30|S1": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": -0.1394,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.0145,
+    "n_exit": 16
+   },
+   "n30|S2": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.1768,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.2348,
+    "n_exit": 76
+   },
+   "n30|S3": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.0165,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.0394,
+    "n_exit": 16
+   },
+   "n30|S4": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.1226,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.1192,
+    "n_exit": 17
+   },
+   "n30|S5": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.0833,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.2148,
+    "n_exit": 91
+   },
+   "n10|S1": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": -0.1481,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": -0.0651,
+    "n_exit": 16
+   },
+   "n10|S2": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.2411,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.3365,
+    "n_exit": 76
+   },
+   "n10|S3": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.02,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.0417,
+    "n_exit": 16
+   },
+   "n10|S4": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.1543,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.106,
+    "n_exit": 17
+   },
+   "n10|S5": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.0873,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.167,
+    "n_exit": 91
+   },
+   "0050|S1": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": -0.0497,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.017,
+    "n_exit": 16
+   },
+   "0050|S2": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.1745,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.0675,
+    "n_exit": 76
+   },
+   "0050|S3": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.0265,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.0173,
+    "n_exit": 16
+   },
+   "0050|S4": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.0688,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.1215,
+    "n_exit": 17
+   },
+   "0050|S5": {
+    "sum_r_on_exit_trade_days(lag2 bears, lag1 avoids)": 0.2022,
+    "sum_r_on_entry_trade_days(lag2 misses, lag1 earns)": 0.041,
+    "n_exit": 91
+   }
+  },
+  "maxDD_dates": {
+   "n30|none|selection": [
+    "2007-07-25",
+    "2008-11-20",
+    -0.6387
+   ],
+   "n30|none|validation": [
+    "2020-01-20",
+    "2020-03-19",
+    -0.3147
+   ],
+   "n30|none|holdout": [
+    "2024-07-17",
+    "2025-04-09",
+    -0.3606
+   ],
+   "n30|none|full": [
+    "2007-07-25",
+    "2008-11-20",
+    -0.6387
+   ],
+   "n30|S1|selection": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.3766
+   ],
+   "n30|S1|validation": [
+    "2020-01-20",
+    "2020-06-15",
+    -0.1688
+   ],
+   "n30|S1|holdout": [
+    "2021-04-29",
+    "2021-05-17",
+    -0.2465
+   ],
+   "n30|S1|full": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.3766
+   ],
+   "n30|S2|selection": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.2854
+   ],
+   "n30|S2|validation": [
+    "2018-01-17",
+    "2019-06-14",
+    -0.2253
+   ],
+   "n30|S2|holdout": [
+    "2021-04-29",
+    "2021-05-17",
+    -0.2465
+   ],
+   "n30|S2|full": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.2854
+   ],
+   "n30|S3|selection": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.3298
+   ],
+   "n30|S3|validation": [
+    "2020-01-20",
+    "2020-06-15",
+    -0.1666
+   ],
+   "n30|S3|holdout": [
+    "2021-04-29",
+    "2021-05-17",
+    -0.2465
+   ],
+   "n30|S3|full": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.3298
+   ],
+   "n30|S4|selection": [
+    "2007-07-25",
+    "2009-06-18",
+    -0.301
+   ],
+   "n30|S4|validation": [
+    "2018-04-23",
+    "2020-03-19",
+    -0.3959
+   ],
+   "n30|S4|holdout": [
+    "2021-04-29",
+    "2021-05-17",
+    -0.2465
+   ],
+   "n30|S4|full": [
+    "2018-04-23",
+    "2020-03-19",
+    -0.3959
+   ],
+   "n30|S5|selection": [
+    "2007-07-25",
+    "2009-03-12",
+    -0.2902
+   ],
+   "n30|S5|validation": [
+    "2018-01-17",
+    "2020-06-15",
+    -0.1516
+   ],
+   "n30|S5|holdout": [
+    "2024-07-17",
+    "2025-02-04",
+    -0.2674
+   ],
+   "n30|S5|full": [
+    "2007-07-25",
+    "2009-03-12",
+    -0.2902
+   ],
+   "n10|none|selection": [
+    "2007-07-25",
+    "2009-02-02",
+    -0.6509
+   ],
+   "n10|none|validation": [
+    "2020-01-20",
+    "2020-03-19",
+    -0.2839
+   ],
+   "n10|none|holdout": [
+    "2022-04-20",
+    "2022-10-26",
+    -0.357
+   ],
+   "n10|none|full": [
+    "2007-07-25",
+    "2009-02-02",
+    -0.6509
+   ],
+   "n10|S1|selection": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.4232
+   ],
+   "n10|S1|validation": [
+    "2015-06-01",
+    "2016-11-09",
+    -0.2208
+   ],
+   "n10|S1|holdout": [
+    "2021-04-29",
+    "2021-05-17",
+    -0.2891
+   ],
+   "n10|S1|full": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.4232
+   ],
+   "n10|S2|selection": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.3144
+   ],
+   "n10|S2|validation": [
+    "2018-06-11",
+    "2019-06-13",
+    -0.2167
+   ],
+   "n10|S2|holdout": [
+    "2021-04-29",
+    "2021-05-17",
+    -0.2891
+   ],
+   "n10|S2|full": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.3144
+   ],
+   "n10|S3|selection": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.3902
+   ],
+   "n10|S3|validation": [
+    "2015-07-03",
+    "2016-11-09",
+    -0.195
+   ],
+   "n10|S3|holdout": [
+    "2021-04-29",
+    "2021-05-17",
+    -0.2891
+   ],
+   "n10|S3|full": [
+    "2007-07-25",
+    "2009-04-20",
+    -0.3902
+   ],
+   "n10|S4|selection": [
+    "2007-07-25",
+    "2009-06-18",
+    -0.3002
+   ],
+   "n10|S4|validation": [
+    "2018-04-23",
+    "2020-03-19",
+    -0.3943
+   ],
+   "n10|S4|holdout": [
+    "2021-04-29",
+    "2021-05-17",
+    -0.2891
+   ],
+   "n10|S4|full": [
+    "2018-04-23",
+    "2020-03-19",
+    -0.3943
+   ],
+   "n10|S5|selection": [
+    "2007-07-25",
+    "2009-03-12",
+    -0.2943
+   ],
+   "n10|S5|validation": [
+    "2015-06-01",
+    "2016-11-09",
+    -0.1889
+   ],
+   "n10|S5|holdout": [
+    "2024-07-17",
+    "2025-01-13",
+    -0.2984
+   ],
+   "n10|S5|full": [
+    "2024-07-17",
+    "2025-01-13",
+    -0.2984
+   ],
+   "0050|none|selection": [
+    "2007-10-29",
+    "2008-11-20",
+    -0.5575
+   ],
+   "0050|none|validation": [
+    "2020-01-14",
+    "2020-03-19",
+    -0.2822
+   ],
+   "0050|none|holdout": [
+    "2022-01-17",
+    "2022-10-25",
+    -0.3396
+   ],
+   "0050|none|full": [
+    "2007-10-29",
+    "2008-11-20",
+    -0.5575
+   ],
+   "0050|S1|selection": [
+    "2007-10-29",
+    "2009-04-28",
+    -0.2311
+   ],
+   "0050|S1|validation": [
+    "2020-01-14",
+    "2020-06-15",
+    -0.1542
+   ],
+   "0050|S1|holdout": [
+    "2024-07-11",
+    "2024-08-05",
+    -0.213
+   ],
+   "0050|S1|full": [
+    "2007-10-29",
+    "2009-04-28",
+    -0.2311
+   ],
+   "0050|S2|selection": [
+    "2007-10-29",
+    "2009-04-08",
+    -0.2403
+   ],
+   "0050|S2|validation": [
+    "2018-01-23",
+    "2019-06-06",
+    -0.1495
+   ],
+   "0050|S2|holdout": [
+    "2024-07-11",
+    "2024-08-05",
+    -0.213
+   ],
+   "0050|S2|full": [
+    "2007-10-29",
+    "2009-04-08",
+    -0.2403
+   ],
+   "0050|S3|selection": [
+    "2006-05-08",
+    "2006-09-12",
+    -0.2281
+   ],
+   "0050|S3|validation": [
+    "2020-01-14",
+    "2020-06-15",
+    -0.148
+   ],
+   "0050|S3|holdout": [
+    "2024-07-11",
+    "2024-08-05",
+    -0.213
+   ],
+   "0050|S3|full": [
+    "2006-05-08",
+    "2006-09-12",
+    -0.2281
+   ],
+   "0050|S4|selection": [
+    "2010-01-11",
+    "2012-12-24",
+    -0.2044
+   ],
+   "0050|S4|validation": [
+    "2020-01-14",
+    "2020-03-19",
+    -0.2822
+   ],
+   "0050|S4|holdout": [
+    "2024-07-11",
+    "2024-08-05",
+    -0.213
+   ],
+   "0050|S4|full": [
+    "2020-01-14",
+    "2020-03-19",
+    -0.2822
+   ],
+   "0050|S5|selection": [
+    "2011-01-28",
+    "2013-11-26",
+    -0.2153
+   ],
+   "0050|S5|validation": [
+    "2018-01-23",
+    "2019-02-19",
+    -0.1402
+   ],
+   "0050|S5|holdout": [
+    "2024-07-11",
+    "2024-08-05",
+    -0.213
+   ],
+   "0050|S5|full": [
+    "2011-01-28",
+    "2014-02-05",
+    -0.2278
+   ]
+  }
+ }
+}
