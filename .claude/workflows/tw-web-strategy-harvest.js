@@ -5,6 +5,7 @@ export const meta = {
   phases: [
     { title: '搜集', detail: '多位偵查員從不同類型的網路來源抽出可回測規則' },
     { title: '測試', detail: '每條規則一位研究員寫程式回測，一位反方審查' },
+    { title: '交叉', detail: '審查後仍是可用／待觀察的規則，和主策略交叉組合測試' },
     { title: '彙整', detail: '主研究員整理本輪結果與下一輪方向' },
   ],
 }
@@ -83,10 +84,24 @@ const results = await pipeline(picks,
     { label: `審查:${r.slug}`, phase: '測試', schema: REVIEW }).then(v => ({ rule: r, result: res, review: v })) : null)
 const done = results.filter(Boolean)
 
+phase('交叉')
+const keep = done.filter(d => d.review && ['可用', '待觀察'].includes(d.review.final))
+const combos = keep.length ? (await parallel(keep.map(d => () => agent(
+  `你是台股策略研究中心的研究員，負責「交叉運用」。先讀 ${BRIEF}。網路教學規則「${d.rule.name}」回測後判為 ${d.review.final}（${d.result.headline}；程式在 ${AG}/${d.rule.slug}/）。
+把它和中心主策略交叉，事前固定以下三種方式並全部報告（程式放 ${AG}/${d.rule.slug}/cross_*.py，python3 -I，不要改其他資料夾）：
+(a) 第二層篩選：主策略（52 週高點 × 月營收 3 個月年增率，引擎 ${AG}/revenue_longhistory/lhlib.py 或 ${AG}/exec_rebuild/exlib.py 的 M2）先選前 60 名，再用這條規則的訊號排序取前 30／前 10；
+(b) 排名合成：把這條規則的訊號轉成百分位，和主策略兩條腿等權平均（三腿各 1/3）；
+(c) 狀態切換：只在這條規則認定的有利狀態下持有主策略，其餘持現金或 0050（若規則不是市場層級訊號，就略過並說明）。
+期間：若資料能回到 2006 年，挑選 2006-04～2013-12、驗證 2014～2020、保留期 2021-03～2026-10；否則挑選 2021～2023、驗證 2024～2026。和原主策略做配對 t（月窗）。
+回傳 verdict（可用＝驗證期與保留期都勝原主策略且配對 t ≥ 2）、headline 與完整 findings（以「# FINDINGS」開頭的交叉結果全文）。`,
+  { label: `交叉:${d.rule.slug}`, phase: '交叉', schema: RESULT }).then(c => c ? { slug: d.rule.slug, ...c } : null)))).filter(Boolean) : []
+if (!keep.length) log('本輪沒有可用／待觀察的規則，略過交叉')
+
 phase('彙整')
 const report = await agent(
   `你是台股策略研究中心的主研究員。本輪（${RUN}）從網路教學收集規則並回測，結果如下（JSON）：${JSON.stringify(done.map(d => ({ slug: d.rule.slug, name: d.rule.name, category: d.rule.category, sources: d.rule.sources, verdict: d.result.verdict, headline: d.result.headline, review: d.review })))}
+與主策略交叉的結果：${JSON.stringify(combos.map(c => ({ slug: c.slug, verdict: c.verdict, headline: c.headline })))}
 尚未測試、留到下一輪的規則：${JSON.stringify(leftover.map(r => r.name))}
 寫一份繁體中文、研究報告風格的本輪摘要（條列、關鍵數字加粗）：1) 一句話結論；2) 每條規則一列的結果表（規則、來源、研究員判定、審查後判定、關鍵數字）；3) 有沒有任何規則值得加入目前配置（目前配置：52 週高點 × 月營收選股＋處置股 20%＋0050，見 /home/user/-/台股個股選股規則實證研究報告.md 第 0 節）；4) 為什麼網路教學大多無效或有效的共同原因；5) 下一輪建議。直接回傳 Markdown 全文。`,
   { label: '彙整', phase: '彙整' })
-return { round: RUN, picks: picks.map(r => r.slug), leftover, results: done.map(d => ({ slug: d.rule.slug, name: d.rule.name, category: d.rule.category, sources: d.rule.sources, verdict: d.result.verdict, headline: d.result.headline, findings: d.result.findings, review: d.review })), report }
+return { round: RUN, picks: picks.map(r => r.slug), leftover, combos, results: done.map(d => ({ slug: d.rule.slug, name: d.rule.name, category: d.rule.category, sources: d.rule.sources, verdict: d.result.verdict, headline: d.result.headline, findings: d.result.findings, review: d.review })), report }
