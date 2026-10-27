@@ -157,7 +157,6 @@ def build(kind, dates=ME, terc=False, group=9, exlim=False):
                      float(np.nanmean(lh[pick])) if len(pick) else np.nan, float(np.nanmean(lh[ok])),
                      float(np.nanmedian(s[pick])) if len(pick) else np.nan, float(np.nanmedian(s[ok]))))
     inf = pd.DataFrame(info, columns=['d', 'pool', 'held', 'v60_med', 'v60_p10', 'limhits_pick', 'limhits_pool', 'd1_med_pick', 'd1_med_pool']).set_index('d')
-    build.picks = {d: LCOL[p] for d, p in zip(inf.index, [events[LPOS[NEXT[d]]][1] for d in inf.index])} if False else None
     return events, pools, inf, nblk, ncand
 
 def sim(events, buy, sell, t0, t1):
@@ -285,6 +284,7 @@ def main():
         o = {'blocked_gap_up': nb, 'group_members_total': nc, 'blocked_share': round(nb / nc, 4) if nc else None,
              'turnover_value_per_rebalance': round(tov, 3), 'avg_pool': round(float(info['pool'].mean()), 1), 'avg_held': round(float(info['held'].mean()), 1)}
         for w, (a, b) in WIN.items():
+            if 'ANNUAL' in key: a = max(a, str(L.IDX[min(ev)].date()))
             o[w] = pstats(r, b50, ewr, a, b)
             ps_ = pstats(nav_s.pct_change(), b50, ewr, a, b); pg = pstats(nav_g.pct_change(), b50, ewr, a, b)
             o[w]['CAGR_stress'] = ps_['CAGR']; o[w]['t_stress_vs_EW_m'] = ps_['t_vs_EW_m']; o[w]['t_stress_vs_0050_m'] = ps_['t_vs_0050_m']
@@ -308,7 +308,8 @@ def main():
     # 年換股等權（同股池）
     ewA = ew_for('W_EW', ME_ANN)
     rA = navs['W_EW_D10_ANNUAL'].pct_change()
-    res['W_EW_D10_ANNUAL']['vs_annual_EW'] = {w: {k: v for k, v in pstats(rA, b50, ewA[0].pct_change(), a, b).items() if k in ('CAGR', 'EW_CAGR', 'excess_vs_EW_pct_m', 't_vs_EW_m')} for w, (a, b) in WIN.items() if pd.Timestamp(b) > pd.Timestamp('2005-07-01')}
+    a0 = str(rA.index[rA.ne(0).argmax()].date())
+    res['W_EW_D10_ANNUAL']['vs_annual_EW'] = {w: {k: v for k, v in pstats(rA, b50, ewA[0].pct_change(), max(a, a0), b).items() if k in ('CAGR', 'EW_CAGR', 'excess_vs_EW_pct_m', 't_vs_EW_m')} for w, (a, b) in WIN.items()}
     out['portfolios'] = res
     # D10−D1 毛價差
     sp = {}
