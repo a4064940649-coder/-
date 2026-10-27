@@ -48,7 +48,12 @@ const SCOUTS_GLOBAL = [
   { key: 'en_ta', text: '英文世界的交易教學網站與影片：Investopedia、StockCharts ChartSchool、TradingView 熱門腳本與教學、QuantConnect／Quantopian 社群策略、r/algotrading、r/RealDayTrading、Larry Connors（RSI(2)、Connors RSI、雙重 7 日）、Linda Raschke、Mark Minervini 以外的 VCP、Stan Weinstein 階段分析、Nick Radge、Andreas Clenow 動能、Tom Hougaard 等；YouTube 熱門交易影片（Rayner Teo、The Trading Channel、Trading Rush、Ross Cameron、Tom Bowley 等）只能讀其逐字稿、文字摘要或影片說明欄，請找這些文字版本。' },
   { key: 'asia', text: '日本、中國大陸、韓國、香港的股市教學與量化社群：日本（株探、みんかぶ、ストップ高翌日、新高値ブレイク投資術、移動平均乖離、信用倍率、IPO セカンダリー）、中國大陸（聚寬 JoinQuant、優礦、米筐、BigQuant 公開策略、A 股常見的漲停板戰法、首板二板、龍虎榜、北向資金、小市值輪動、高股息低波）、韓國（외국인 순매수、상한가 따라잡기）。抽出在台股制度下（10% 漲跌幅、T+2、現股當沖、處置與注意股、無放空限制差異）仍可執行的規則。' },
 ]
-const SCOUTS = (args && args.scout_set === 'global') ? SCOUTS_GLOBAL : SCOUTS_TW
+const SCOUTS_POSTS = [
+  { key: 'ptt_dcard', text: 'PTT Stock 板（精華區、[心得]、[請益]、[標的] 熱門文）、Dcard 股票板、Mobile01 投資理財、CMoney 股市爆料同學會的熱門貼文與「大神」分享的操作方法（只用公開貼文；不要找或使用任何未公開重大消息）。' },
+  { key: 'social', text: 'Threads、X（Twitter）、Facebook 公開粉專、Telegram 公開頻道、Substack、Medium 上台股與亞洲股市作者公開分享的交易規則與選股公式；也包含知名財經 YouTuber（例如：股癌、游庭皓、老王愛說笑、柏格先生、財女珍妮、M 平方、Mr.Market 市場先生）的公開影片逐字稿、節目摘要或文章版。只用公開內容。' },
+  { key: 'books_blogs', text: '中文投資書籍與部落格的「可程式化」操作法：例如《飆股的長相》《主力的思維》《小資族存股》《K線日記》、春哥、蕭明道、陳飛龍、林恩如、權證小哥、阿格力、郭俊宏、孫慶龍等公開文章或書摘中的具體進出場規則。' },
+]
+const SCOUTS = (args && args.scout_set === 'global') ? SCOUTS_GLOBAL : (args && args.scout_set === 'posts') ? SCOUTS_POSTS : SCOUTS_TW
 
 phase('搜集')
 const scouted = GIVEN ? [{ rules: GIVEN }] : await parallel(SCOUTS.map(s => () => agent(
