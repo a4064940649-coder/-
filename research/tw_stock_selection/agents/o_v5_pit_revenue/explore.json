@@ -1,0 +1,417 @@
+{
+ "gap_2006_2012": {
+  "n_cells": 490,
+  "n_sig_days": 245,
+  "n_days_in_range": 80,
+  "cells_per_day": 6.049382716049383,
+  "n_risk_cells": 137,
+  "n_codes": 65,
+  "n_delisted_cells": 427,
+  "by_year": {
+   "2006": 43,
+   "2007": 46,
+   "2008": 35,
+   "2009": 60,
+   "2010": 66,
+   "2011": 111,
+   "2012": 129
+  },
+  "risk_by_year": {
+   "2006": 13,
+   "2007": 13,
+   "2008": 14,
+   "2009": 10,
+   "2010": 29,
+   "2011": 23,
+   "2012": 35
+  },
+  "n_needed_levels": 424
+ },
+ "gap_stock_level_next_window_excess_vs_pool_EW（描述，不是策略報酬）": {
+  "all": {
+   "n_cells": 490,
+   "n_months": 80,
+   "mean_pp": -0.8582619669173138,
+   "t_by_month": -1.1525437223294663
+  },
+  "s52_pct>=0.7": {
+   "n_cells": 137,
+   "n_months": 61,
+   "mean_pp": 0.6317264665030766,
+   "t_by_month": 0.6665734388301964
+  },
+  "s52_pct<0.7": {
+   "n_cells": 353,
+   "n_months": 79,
+   "mean_pp": -1.8288954888382545,
+   "t_by_month": -2.0586919402069914
+  },
+  "delisted": {
+   "n_cells": 427,
+   "n_months": 75,
+   "mean_pp": -0.22349199827654812,
+   "t_by_month": -0.2657354481566518
+  },
+  "not_delisted": {
+   "n_cells": 63,
+   "n_months": 50,
+   "mean_pp": 0.4667972185674418,
+   "t_by_month": 0.26577795194545717
+  }
+ },
+ "first_value": {
+  "n_news_cells_prec_ok": 6513,
+  "all": {
+   "n_cells": 6513,
+   "disagree_rate": 0.017349915553508368,
+   "n_disagree": 113,
+   "disagree_rate_consensus": 0.007832898172323759,
+   "n_disagree_consensus_or_internal": 41,
+   "rate_disagree_consensus_or_internal": 0.006295102103485337
+  },
+  "top30_cur": {
+   "n_cells": 926,
+   "disagree_rate": 0.012958963282937365,
+   "n_disagree": 12,
+   "disagree_rate_consensus": 0.006756756756756757,
+   "n_disagree_consensus_or_internal": 5,
+   "rate_disagree_consensus_or_internal": 0.005399568034557235
+  },
+  "top10_cur": {
+   "n_cells": 345,
+   "disagree_rate": 0.014492753623188406,
+   "n_disagree": 5,
+   "disagree_rate_consensus": 0.019230769230769232,
+   "n_disagree_consensus_or_internal": 3,
+   "rate_disagree_consensus_or_internal": 0.008695652173913044
+  },
+  "ratio_top30_vs_all": 0.7469179456793898,
+  "top30_stockmonths": 7350,
+  "top30_cov_all6": 0.0035374149659863946,
+  "top30_cov_cur3": 0.017142857142857144,
+  "top30_cov_all6_2013_2021": 0.008176100628930818,
+  "top30_cov_cur3_2013_2021": 0.03962264150943396,
+  "disagree_by_year": {
+   "2013": {
+    "n": 411,
+    "rate": 0.0364963503649635
+   },
+   "2014": {
+    "n": 448,
+    "rate": 0.020089285714285716
+   },
+   "2015": {
+    "n": 618,
+    "rate": 0.016181229773462782
+   },
+   "2016": {
+    "n": 384,
+    "rate": 0.015625
+   },
+   "2017": {
+    "n": 624,
+    "rate": 0.019230769230769232
+   },
+   "2018": {
+    "n": 1242,
+    "rate": 0.016908212560386472
+   },
+   "2019": {
+    "n": 849,
+    "rate": 0.02120141342756184
+   },
+   "2020": {
+    "n": 886,
+    "rate": 0.009029345372460496
+   },
+   "2021": {
+    "n": 1051,
+    "rate": 0.013320647002854425
+   }
+  },
+  "disagree_by_dir": {
+   "first>latest（事後下修）": 61,
+   "first<latest（事後上修）": 52
+  },
+  "disagree_abs_rel_quantiles": {
+   "0.1": 0.008628439400177967,
+   "0.25": 0.021156301562883284,
+   "0.5": 0.07813143097844832,
+   "0.75": 0.44371995203304504,
+   "0.9": 6.02383007103964
+  },
+  "disagree_by_src": {
+   "rev5y": {
+    "n": 228,
+    "rate": 0.013157894736842105
+   },
+   "taiwanan": {
+    "n": 1153,
+    "rate": 0.017346053772766695
+   },
+   "tw_revenue": {
+    "n": 5132,
+    "rate": 0.017537022603273576
+   }
+  },
+  "disagree_electronics": {
+   "n": 4219,
+   "rate": 0.013510310500118512
+  },
+  "disagree_non_electronics": {
+   "n": 2294,
+   "rate": 0.024411508282476024
+  },
+  "disagree_by_industry_top": {
+   "光電業": {
+    "n": 710,
+    "rate": 0.02112676056338028
+   },
+   "其他業": {
+    "n": 150,
+    "rate": 0.02
+   },
+   "其他電子業": {
+    "n": 353,
+    "rate": 0.014164305949008499
+   },
+   "半導體業": {
+    "n": 1064,
+    "rate": 0.008458646616541353
+   },
+   "塑膠工業": {
+    "n": 217,
+    "rate": 0.018433179723502304
+   },
+   "汽車工業": {
+    "n": 248,
+    "rate": 0.004032258064516129
+   },
+   "通信網路業": {
+    "n": 451,
+    "rate": 0.0022172949002217295
+   },
+   "電子零組件業": {
+    "n": 917,
+    "rate": 0.015267175572519083
+   },
+   "電機機械": {
+    "n": 159,
+    "rate": 0.0440251572327044
+   },
+   "電腦及週邊設備業": {
+    "n": 586,
+    "rate": 0.020477815699658702
+   },
+   "（已下市）": {
+    "n": 179,
+    "rate": 0.05027932960893855
+   }
+  },
+  "disagree_rank_1_10": {
+   "n": 345,
+   "rate": 0.014492753623188406
+  },
+  "disagree_rank_11_30": {
+   "n": 581,
+   "rate": 0.012048192771084338
+  }
+ },
+ "first_value_examples_top10": [
+  {
+   "code": "1101",
+   "ym": "2018-05",
+   "earliest": "11683000.0",
+   "lv": "11539982.0",
+   "rel_first": "0.012393260232121728",
+   "n": "1",
+   "consensus": "False",
+   "internal_ok": "True",
+   "first_date": "2018-06-23"
+  },
+  {
+   "code": "2406",
+   "ym": "2013-09",
+   "earliest": "648000.0",
+   "lv": "614785.0",
+   "rel_first": "0.05402701757524997",
+   "n": "2",
+   "consensus": "True",
+   "internal_ok": "False",
+   "first_date": "2013-10-07"
+  },
+  {
+   "code": "2406",
+   "ym": "2013-10",
+   "earliest": "805000.0000000001",
+   "lv": "749094.0",
+   "rel_first": "0.07463148817104415",
+   "n": "1",
+   "consensus": "False",
+   "internal_ok": "False",
+   "first_date": "2013-11-06"
+  },
+  {
+   "code": "2406",
+   "ym": "2013-12",
+   "earliest": "944999.9999999999",
+   "lv": "902921.0",
+   "rel_first": "0.046603191198343996",
+   "n": "1",
+   "consensus": "False",
+   "internal_ok": "False",
+   "first_date": "2014-01-07"
+  },
+  {
+   "code": "3008",
+   "ym": "2015-04",
+   "earliest": "4247000.0",
+   "lv": "4274234.0",
+   "rel_first": "-0.006371667999459096",
+   "n": "3",
+   "consensus": "True",
+   "internal_ok": "False",
+   "first_date": "2015-05-06"
+  }
+ ],
+ "sources": {
+  "note": "本題新資料來源的搜尋紀錄（2026-10-28 UTC）。只當 CSV／HTML 讀，clone 在 raw/，一律 python3 -I。",
+  "network_reachability": {
+   "blocked_proxy_403": [
+    "web.archive.org",
+    "archive.org",
+    "mops.twse.com.tw",
+    "mopsov.twse.com.tw",
+    "emops.twse.com.tw",
+    "doc.twse.com.tw",
+    "www.twse.com.tw",
+    "openapi.twse.com.tw",
+    "isin.twse.com.tw",
+    "www.tpex.org.tw",
+    "data.gov.tw",
+    "api.finmindtrade.com",
+    "news.cnyes.com",
+    "api.cnyes.com",
+    "huggingface.co",
+    "www.kaggle.com",
+    "tw.stock.yahoo.com",
+    "histock.tw",
+    "statementdog.com",
+    "www.wantgoo.com",
+    "www.cmoney.tw",
+    "money.udn.com",
+    "www.moneydj.com",
+    "pchome.megatime.com.tw",
+    "fubon-ebrokerdj.fbs.com.tw",
+    "jdata.yuanta.com.tw",
+    "www.google.com",
+    "webcache.googleusercontent.com",
+    "archive.ph",
+    "cachedview.nl",
+    "timetravel.mementoweb.org",
+    "arquivo.pt",
+    "zenodo.org",
+    "figshare.com",
+    "data.mendeley.com",
+    "dataverse.harvard.edu"
+   ],
+   "reachable": [
+    "github.com（git clone）",
+    "api.github.com（只限 repo-scoped；search 端點 403）",
+    "raw.githubusercontent.com",
+    "gitlab.com",
+    "bitbucket.org"
+   ],
+   "gh_search": "gh api search/* → 403（session 綁定 repo）；改用 GitHub MCP search_code／search_repositories"
+  },
+  "github_code_searches": [
+   {
+    "q": "t21sc03_97",
+    "hit": "只有 ChiJiun/tuc-6274-financial-forecast（上櫃 6274 單一公司的頁面與 2026 年重抓的 sii peer rows，無下市公司）"
+   },
+   {
+    "q": "t21sc03_96_1",
+    "hit": "同上"
+   },
+   {
+    "q": "\"t21/sii/t21sc03\"",
+    "hit": "171 筆，全是爬蟲程式碼，沒有 2006～2012 資料檔"
+   },
+   {
+    "q": "\"sii_97_\" path:csv",
+    "hit": 0
+   },
+   {
+    "q": "\"當月營收\" \"上月比較增減\" extension:csv",
+    "hit": "ch-lai/TWStock-Screener（2018-09～2019-08）、shohokuno10/Tasi（2021 起）等；無 2006～2012"
+   },
+   {
+    "q": "\"revenue_month\" \"2008\" \"2330\" extension:csv",
+    "hit": "個股（2330、2049）檔，無下市股"
+   },
+   {
+    "q": "\"矽品\" \"2011\" \"營收\" extension:csv",
+    "hit": "新聞檔皆為 2013 年後（ctbc、nickchengtw 2022 起）"
+   },
+   {
+    "q": "\"思源\" \"雷凌\" extension:csv",
+    "hit": "只有股票名單檔"
+   },
+   {
+    "q": "\"友尚\" \"思源\" \"建興電\"",
+    "hit": "名單／下市清單檔，沒有營收數字"
+   },
+   {
+    "q": "\"矽品\" \"1月營收\" \"2012\"",
+    "hit": "casper1126/tsmc-sentiment-quant cache_news_2000_2015.csv（已 clone 檢查：只有台積電新聞標題，2010～2015 多數日空白）"
+   },
+   {
+    "q": "\"單月營收\" \"2008/01\" extension:csv",
+    "hit": 0
+   },
+   {
+    "q": "\"營業收入淨額\" \"2008\" \"2325\" extension:csv",
+    "hit": "全為 2021 年後月營收表"
+   },
+   {
+    "q": "t51sb08（舊式財報彙總頁）",
+    "hit": "只有爬蟲程式與網址清單（zealzel/stockZ_local 已 clone 檢查：無資料）"
+   },
+   {
+    "q": "\"t21sc03\" \"_96_\" OR ... extension:html",
+    "hit": 0
+   }
+  ],
+  "github_repo_searches": [
+   {
+    "q": "月營收 歷史資料",
+    "hit": 0
+   },
+   {
+    "q": "monthly revenue twse mops data",
+    "hit": 0
+   },
+   {
+    "q": "twse revenue",
+    "hit": "5 個 repo，皆近年或單一公司"
+   }
+  ],
+  "local_repos_checked": [
+   "/home/user/mjib007/revenue-yoy-backtest（只有教材程式）",
+   "/home/user/mickyang12/mops（2026 財報）",
+   "/home/user/a607ernie/ptt-stock-data（ptt_stock.json 為空）",
+   "/home/user/niklavsd/bottleneck-signals（tw_revenue.csv 的來源程式：MOPS t21sc03 現行重產頁，raw 頁未入庫）",
+   "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener（git 歷史只到 2026-10；raw/scr 重 clone 確認 rev_hist 最早 commit 2026-10-01）",
+   "o_v4 raw/taiwanan（月營收 commit 2018-12～2019-09，多數晚於訊號日，且為回補的最新值）"
+  ],
+  "cloned_to_raw": [
+   "raw/chlai（ch-lai/TWStock-Screener，2018-09～2019-08 月營收，不在缺口期）",
+   "raw/chijiun（ChiJiun/tuc-6274-financial-forecast）",
+   "raw/scr（stevenhsiehsheng-ctrl/tw-stock-screener 無 blob 歷史）",
+   "raw/casper（casper1126/tsmc-sentiment-quant）",
+   "raw/zealzel",
+   "raw/cookman123_-"
+  ],
+  "conclusion": "2006～2012 缺口格（下市股缺營收）沒有任何可連線、可驗證、PIT 合法的月營收或季營收來源；首次公告值只有 o_v4 已抽取的鉅亨新聞（2013～2021 抽樣）。"
+ }
+}

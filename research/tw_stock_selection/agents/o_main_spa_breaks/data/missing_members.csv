@@ -1,0 +1,122 @@
+id,source,span,t1,t2,cat,note,similar_member
+adm_B1,attention_disposal_mechanism,recent,0.18,-0.29,disposal,B1 連續 2 日注意，t_month,disposal_v2/navs.parquet::TWSE_K10_0050
+adm_B2,attention_disposal_mechanism,recent,0.92,-0.73,disposal,B2 第 5 日注意,disposal_v2/navs.parquet::TWSE_K10_0050
+adm_B4,attention_disposal_mechanism,recent,-1.72,-1.72,disposal,B4 處置解除後,disposal_v2/navs.parquet::TWSE_K10_0050
+etf_R1,etf_rebalance,long,1.53,1.53,event,臺灣50 納入股（按審核期分群 t）,w3_limitup_pullback/nav_primary.parquet::net
+etf_R2,etf_rebalance,long,2.0,1.33,event,臺灣50 刪除股（對等權 t）,w3_limitup_pullback/nav_primary.parquet::net
+ev_earnings,events,recent,3.0,2.8,rev,財報季窗口營收強勢股（窗口 t，截 3）,combo_search/search_nav.parquet::C2|n30|raw
+ev_capred,events,long,0.0,0.0,event,減資後，不顯著,w3_limitup_pullback/nav_primary.parquet::net
+ind_cycle,industry,recent,1.15,-2.61,rev,產業營收循環,combo_search/search_nav.parquet::C2|n30|raw
+ind_lead_px,industry,recent,0.93,0.4,price,龍頭領先（價格）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+ind_lead_rev,industry,recent,2.13,-3.0,rev,龍頭領先（營收），驗證 −3.03 截 −3,combo_search/search_nav.parquet::C2|n30|raw
+ind_leadlag,industry,recent,2.8,-2.6,price,產業領先落後（對等權）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+ind_mom,industry,recent,2.24,-0.1,price,產業動能 RS_52wH（IC t；驗證年化略輸 0050）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+ind_mask,industry,recent,2.04,-0.91,main,主策略加產業遮罩（對主策略配對 t）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+irl_A,industry_revenue_long,long,1.5,1.0,main,產業營收長歷史 A 組態（未報對 0050 t，取保守估計）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+insider,insider_public,recent,0.0,0.0,flow,內部人與公開資訊，|t| < 1.4,combo_search/search_nav.parquet::C9|n30|raw
+inst_trust,institutions,recent,0.77,-1.85,flow,投信買超（延後一天）,combo_search/search_nav.parquet::C9|n30|raw
+inst_foreign,institutions,recent,1.74,0.0,flow,外資買超（延後一天）,combo_search/search_nav.parquet::C9|n30|raw
+ml_ridge,ml,long,0.0,-1.86,price,Ridge（挑選期未報對 0050 t）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+ml_lgbm,ml,long,0.0,-1.21,price,LightGBM,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+ml_nn,ml,long,0.0,-1.14,price,淺層網路,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+ml_combo,ml,long,0.0,-1.94,price,模型合成,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+prepriced,o_prepriced_growth,long,0.93,0.0,rev,AVG|B1|n30（挑選期失敗，未開驗證期）,combo_search/search_nav.parquet::C2|n30|raw
+ss_seasonal,seasonal_statarb,long,-0.75,-2.1,price,個股同月季節性,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+ss_indrev,seasonal_statarb,long,-2.24,-2.0,price,產業內反轉,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+ss_pairs,seasonal_statarb,long,-1.18,-1.18,price,只做多配對,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+ss_calendar,seasonal_statarb,long,2.21,-1.11,timing,春節前後 0050 擇時,strategy_ensemble/strategy_nav.parquet::E0050_MA
+st_overnight,short_term,long,-3.0,-3.0,event,隔夜（每筆 t −12～−17，截 −3）,w3_limitup_pullback/nav_primary.parquet::net
+st_gapdown,short_term,long,-2.76,-3.0,event,跳空下跌當沖,w3_limitup_pullback/nav_primary.parquet::net
+tech_best,technical,long,1.4,-0.81,price,21 條經典技術規則中最好的帶量突破,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+tech_comp,technical,long,0.0,-1.68,price,技術合成,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+timing_daily,timing_daily,long,-0.02,-1.05,timing,0050 日頻擇時開關,strategy_ensemble/strategy_nav.parquet::E0050_MA
+w12_divmonth,w12_dividend_month_premium,long,-2.67,-3.0,event,配息月溢酬,w3_limitup_pullback/nav_primary.parquet::net
+w12_ffboll,w12_foreign_flow_bollinger_timing,recent,-0.33,-1.94,timing,外資流向布林擇時,strategy_ensemble/strategy_nav.parquet::E0050_MA
+w12_ipo2,w12_ipo_secondary_listing_high,long,0.0,0.0,event,無 FINDINGS，記 0,w3_limitup_pullback/nav_primary.parquet::net
+w12_preholiday,w12_pre_holiday_0050,long,2.43,-1.27,timing,節前 0050（每次 t）,strategy_ensemble/strategy_nav.parquet::E0050_MA
+w12_tom,w12_turn_of_month_0050,long,-0.36,-0.04,timing,月初效應 0050,strategy_ensemble/strategy_nav.parquet::E0050_MA
+w1_bias,w1_bias_reversion,long,-3.0,-3.0,event,乖離反轉（不可用，事件淨異常為負）,w3_limitup_pullback/nav_primary.parquet::net
+w1_granville,w1_granville_pullback_ma60,long,-3.0,-3.0,event,葛蘭碧回測,w3_limitup_pullback/nav_primary.parquet::net
+w1_kd,w1_kd_high_passivation,long,-3.0,-3.0,event,KD 高檔鈍化,w3_limitup_pullback/nav_primary.parquet::net
+w1_squeeze,w1_ma_squeeze_breakout,long,-3.0,-3.0,event,均線糾結突破,w3_limitup_pullback/nav_primary.parquet::net
+w1_trust_small,w1_trust_first_buy_small,recent,0.0,0.0,flow,投信首買小型股,combo_search/search_nav.parquet::C9|n30|raw
+w1_tuyang,w1_tuyang_streak,recent,-2.44,-0.73,flow,土洋連買,combo_search/search_nav.parquet::C9|n30|raw
+w3_adr,w3_adr25_breadth_timing,long,-2.17,-2.97,timing,ADR 廣度擇時,strategy_ensemble/strategy_nav.parquet::E0050_MA
+w3_rsrs,w3_rsrs_timing,long,-2.54,-1.88,timing,RSRS 擇時,strategy_ensemble/strategy_nav.parquet::E0050_MA
+w3_voltrough,w3_volume_trough,long,-3.0,-3.0,event,量縮低點,w3_limitup_pullback/nav_primary.parquet::net
+w4_ddadd,w4_0050_drawdown_add,long,1.16,1.13,timing,0050 跌深加碼,strategy_ensemble/strategy_nav.parquet::E0050_MA
+w4_engulf,w4_bullish_engulfing_low,long,0.0,0.0,event,低檔吞噬,w3_limitup_pullback/nav_primary.parquet::net
+w4_choke,w4_choke_volume_first_red,long,-2.38,0.0,event,爆量首紅,w3_limitup_pullback/nav_primary.parquet::net
+w4_chu,w4_chu_jiahong_strong_bar_ma5_exit,long,0.0,0.0,event,強勢長紅 5 日線出場,w3_limitup_pullback/nav_primary.parquet::net
+w4_climax,w4_climax_volume_black_exit,long,1.25,1.16,price,高檔爆量長黑出場（加在主策略上，對 0050 t）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+w4_dryup,w4_dryup_volume_rebound,long,0.0,0.0,event,量縮反彈,w3_limitup_pullback/nav_primary.parquet::net
+w4_ma20,w4_ma20_deduction_low,long,0.0,0.0,event,月線扣抵,w3_limitup_pullback/nav_primary.parquet::net
+w4_obv,w4_obv_leads_new_high,long,0.0,0.0,event,OBV 領先,w3_limitup_pullback/nav_primary.parquet::net
+w4_tower,w4_tower_line_n3,long,0.0,0.0,event,寶塔線,w3_limitup_pullback/nav_primary.parquet::net
+w4_vlp,w4_vol_leads_price_vma_cross,long,0.0,0.0,event,量先價行,w3_limitup_pullback/nav_primary.parquet::net
+w4_vr,w4_vr_volume_ratio,long,-2.16,-3.0,event,VR 量比,w3_limitup_pullback/nav_primary.parquet::net
+w4_wbottom,w4_w_bottom_neckline,long,-3.0,-3.0,event,W 底頸線,w3_limitup_pullback/nav_primary.parquet::net
+w4_xiao,w4_xiao_volume_dimple_attack,long,0.0,0.0,event,量窩攻擊,w3_limitup_pullback/nav_primary.parquet::net
+fs_A:i_industry_52w,output/bt_factor_search,long,-0.78,-2.18,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:i_industry_mom_6_1,output/bt_factor_search,long,-1.03,-0.02,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:l_illiquidity_amihud,output/bt_factor_search,long,-0.47,-1.14,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:p_52w_high,output/bt_factor_search,long,1.58,-0.67,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:p_low_MAX_21d,output/bt_factor_search,long,-2.59,-3.13,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:p_low_vol_60d,output/bt_factor_search,long,-1.16,-2.45,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:p_mom_12_1,output/bt_factor_search,long,-0.19,0.37,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:p_mom_3m,output/bt_factor_search,long,-0.42,0.86,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:p_mom_6_1,output/bt_factor_search,long,0.36,0.71,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:p_reversal_1m,output/bt_factor_search,long,-0.96,-1.35,rev,早期大範圍搜尋 top30,combo_search/search_nav.parquet::C2|n30|raw
+fs_A:t_breakout_20d,output/bt_factor_search,long,-0.8,-2.21,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:t_close_over_ma200,output/bt_factor_search,long,0.62,0.76,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:t_dist_52w_low,output/bt_factor_search,long,0.43,0.87,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:t_ma_alignment,output/bt_factor_search,long,0.03,-0.79,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:t_rsi14,output/bt_factor_search,long,-0.01,-1.21,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_A:t_volume_surge_20_120,output/bt_factor_search,long,-1.98,-0.07,price,早期大範圍搜尋 top30,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:c_foreign_20d,output/bt_factor_search,recent,-0.83,-1.98,flow,早期大範圍搜尋 top30（2021 起）,combo_search/search_nav.parquet::C9|n30|raw
+fs_B:c_low_daytrade_ratio_20d,output/bt_factor_search,recent,0.7,-2.97,flow,早期大範圍搜尋 top30（2021 起）,combo_search/search_nav.parquet::C9|n30|raw
+fs_B:c_trust_20d,output/bt_factor_search,recent,0.42,-2.39,flow,早期大範圍搜尋 top30（2021 起）,combo_search/search_nav.parquet::C9|n30|raw
+fs_B:f_rev_12m_high_ratio,output/bt_factor_search,recent,0.65,0.29,rev,早期大範圍搜尋 top30（2021 起）,combo_search/search_nav.parquet::C2|n30|raw
+fs_B:f_rev_accel,output/bt_factor_search,recent,0.43,-0.85,rev,早期大範圍搜尋 top30（2021 起）,combo_search/search_nav.parquet::C2|n30|raw
+fs_B:f_rev_yoy,output/bt_factor_search,recent,1.31,-0.58,rev,早期大範圍搜尋 top30（2021 起）,combo_search/search_nav.parquet::C2|n30|raw
+fs_B:f_rev_yoy3,output/bt_factor_search,recent,0.83,-0.62,rev,早期大範圍搜尋 top30（2021 起）,combo_search/search_nav.parquet::C2|n30|raw
+fs_B:i_industry_52w,output/bt_factor_search,recent,0.95,-2.5,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:i_industry_mom_6_1,output/bt_factor_search,recent,0.68,-0.83,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:i_industry_rev_yoy3,output/bt_factor_search,recent,-0.58,-2.14,rev,早期大範圍搜尋 top30（2021 起）,combo_search/search_nav.parquet::C2|n30|raw
+fs_B:l_illiquidity_amihud,output/bt_factor_search,recent,0.39,-2.04,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:p_52w_high,output/bt_factor_search,recent,1.58,-0.6,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:p_low_MAX_21d,output/bt_factor_search,recent,-0.18,-3.35,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:p_low_vol_60d,output/bt_factor_search,recent,0.38,-2.79,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:p_mom_12_1,output/bt_factor_search,recent,0.67,-1.46,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:p_mom_3m,output/bt_factor_search,recent,1.03,-0.85,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:p_mom_6_1,output/bt_factor_search,recent,1.06,-1.42,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:p_reversal_1m,output/bt_factor_search,recent,-1.04,-3.65,rev,早期大範圍搜尋 top30（2021 起）,combo_search/search_nav.parquet::C2|n30|raw
+fs_B:t_breakout_20d,output/bt_factor_search,recent,0.92,-1.27,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:t_close_over_ma200,output/bt_factor_search,recent,1.64,-0.96,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:t_dist_52w_low,output/bt_factor_search,recent,1.29,-0.56,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:t_ma_alignment,output/bt_factor_search,recent,0.99,-1.4,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:t_rsi14,output/bt_factor_search,recent,1.29,-1.3,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:t_volume_surge_20_120,output/bt_factor_search,recent,0.91,-1.25,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:v_book_to_price,output/bt_factor_search,recent,0.27,-1.48,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:v_div_yield,output/bt_factor_search,recent,0.83,-2.8,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+fs_B:v_earnings_yield,output/bt_factor_search,recent,-0.35,-2.63,price,早期大範圍搜尋 top30（2021 起）,momentum_family/long_nav.parquet::P1_52wHigh_n30_0.001
+rr_R5_base,output/bt_revenue_robust,recent,2.11,2.11,main,早期主策略穩健性（2021～2026 全期 t）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+rr_2_s52_lag1,output/bt_revenue_robust,recent,1.48,1.48,main,早期主策略穩健性（2021～2026 全期 t）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+rr_3_no_limit_up_entry,output/bt_revenue_robust,recent,2.33,2.33,main,早期主策略穩健性（2021～2026 全期 t）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+rr_4_n10,output/bt_revenue_robust,recent,2.34,2.34,main,早期主策略穩健性（2021～2026 全期 t）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+rr_4_n20,output/bt_revenue_robust,recent,1.94,1.94,main,早期主策略穩健性（2021～2026 全期 t）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+rr_4_n50,output/bt_revenue_robust,recent,1.43,1.43,main,早期主策略穩健性（2021～2026 全期 t）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+rr_4_liq_top200,output/bt_revenue_robust,recent,1.45,1.45,main,早期主策略穩健性（2021～2026 全期 t）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+rr_4_liq_top500,output/bt_revenue_robust,recent,2.02,2.02,main,早期主策略穩健性（2021～2026 全期 t）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+ag_選股30,output/bt_aggressive,recent,2.02,2.02,main,早期積極配置（舊資料）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+ag_選股10,output/bt_aggressive,recent,2.19,2.19,main,早期積極配置（舊資料）,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+ag_處置股,output/bt_aggressive,recent,3.35,3.35,disposal,早期積極配置（舊資料）,disposal_v2/navs.parquet::TWSE_K10_0050
+ag_選股30 50%＋處置 50%,output/bt_aggressive,recent,3.71,3.71,disp_combo,早期積極配置（舊資料）,disposal_v2/navs.parquet::combo_n10_80_20_official
+ag_選股10 50%＋處置 50%,output/bt_aggressive,recent,3.94,3.94,disp_combo,早期積極配置（舊資料）,disposal_v2/navs.parquet::combo_n10_80_20_official
+ag_選股30 70%＋處置 30%,output/bt_aggressive,recent,3.6,3.6,disp_combo,早期積極配置（舊資料）,disposal_v2/navs.parquet::combo_n10_80_20_official
+ag_選股10 70%＋處置 30%,output/bt_aggressive,recent,3.64,3.64,disp_combo,早期積極配置（舊資料）,disposal_v2/navs.parquet::combo_n10_80_20_official
+ag_0050 40%＋選股30 40%＋處置 20%,output/bt_aggressive,recent,3.66,3.66,disp_combo,早期積極配置（舊資料）,disposal_v2/navs.parquet::combo_n10_80_20_official
+fr_FINAL_R5_with_disposal_filter,output/bt_final_rule,recent,2.02,2.02,main,早期最終規則與敏感度,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+fr_SENS_single_month_yoy,output/bt_final_rule,recent,1.67,1.67,main,早期最終規則與敏感度,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+fr_SENS_weight_52w_0.33,output/bt_final_rule,recent,1.73,1.73,main,早期最終規則與敏感度,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal
+fr_SENS_weight_52w_0.67,output/bt_final_rule,recent,1.67,1.67,main,早期最終規則與敏感度,o_v4_revenue_patch_official/navs_v4.parquet::AB_V4|normal

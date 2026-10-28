@@ -1,0 +1,113 @@
+{
+ "rule": "資料合併規則迭代（只看資料品質指標，不看報酬）。首次值判定規則 F1～F6、缺口代理規則 G1～G2。輸出 iterations.json。\n選版規則（寫在跑之前）：\n  首次值：(i) 不可有 |首次/最新−1| > 50% 的替換（單位或抽取錯誤）；(ii) 替換格中有獨立佐證（≥2 則共識，或同句年增／月增率與面板去年同月／上月水準一致）的比例 ≥ 95%；\n          通過者取替換格最多者；同分取規則較嚴者（編號較大者）。\n  缺口：G1（嚴格 PIT：可得時點 ≤ 訊號日的新聞、封存快照、已公告季報）與 G2（放寬：任何事後抓取的官方月營收值，視為法定期限公告）各算覆蓋率；\n        閘門＝全部缺口格與 52 週比百分位 ≥ 0.7 的高風險格覆蓋率都 ≥ 60%（以 G1 判定，G2 只報告）。",
+ "first_value_versions": {
+  "F1": {
+   "desc": "單則即可：精度 ≤ 0.25%、落後 ≤ 1 個月、最早一則與面板差 ≥ 0.5% 就替換",
+   "n_replaced": 113,
+   "n_implausible_gt50pct": 28,
+   "confirmed_share": 0.36283185840707965,
+   "n_in_top30_current_cells": 12,
+   "n_2013": 15,
+   "n_after_window": 17,
+   "dir_first_lt_latest": 52,
+   "dir_first_gt_latest": 61,
+   "median_abs_rel": 0.0781314309784483
+  },
+  "F2": {
+   "desc": "F1＋|差| ≤ 50%（排除單位／抽取錯誤）",
+   "n_replaced": 85,
+   "n_implausible_gt50pct": 0,
+   "confirmed_share": 0.4235294117647059,
+   "n_in_top30_current_cells": 10,
+   "n_2013": 10,
+   "n_after_window": 13,
+   "dir_first_lt_latest": 41,
+   "dir_first_gt_latest": 44,
+   "median_abs_rel": 0.0398133449815156
+  },
+  "F3": {
+   "desc": "F2＋獨立佐證（≥2 則共識或同句年增／月增率內部一致）",
+   "n_replaced": 36,
+   "n_implausible_gt50pct": 0,
+   "confirmed_share": 1.0,
+   "n_in_top30_current_cells": 5,
+   "n_2013": 3,
+   "n_after_window": 5,
+   "dir_first_lt_latest": 15,
+   "dir_first_gt_latest": 21,
+   "median_abs_rel": 0.0228357666088192
+  },
+  "F4": {
+   "desc": "F3＋排除 2013 年（IFRS 斷點：合併／個體口徑可能混用）",
+   "n_replaced": 33,
+   "n_implausible_gt50pct": 0,
+   "confirmed_share": 1.0,
+   "n_in_top30_current_cells": 4,
+   "n_2013": 0,
+   "n_after_window": 5,
+   "dir_first_lt_latest": 15,
+   "dir_first_gt_latest": 18,
+   "median_abs_rel": 0.0205583392984967
+  },
+  "F5": {
+   "desc": "F3＋最早一則須在營收月次月 15 日以前（確保是初次公告的版本）",
+   "n_replaced": 31,
+   "n_implausible_gt50pct": 0,
+   "confirmed_share": 1.0,
+   "n_in_top30_current_cells": 4,
+   "n_2013": 3,
+   "n_after_window": 0,
+   "dir_first_lt_latest": 11,
+   "dir_first_gt_latest": 20,
+   "median_abs_rel": 0.03374454697152
+  },
+  "F6": {
+   "desc": "F3，但差 ≥ 1.0% 才替換",
+   "n_replaced": 26,
+   "n_implausible_gt50pct": 0,
+   "confirmed_share": 1.0,
+   "n_in_top30_current_cells": 3,
+   "n_2013": 3,
+   "n_after_window": 2,
+   "dir_first_lt_latest": 10,
+   "dir_first_gt_latest": 16,
+   "median_abs_rel": 0.0430021826144657
+  }
+ },
+ "gap_versions": {
+  "G1": {
+   "desc": "嚴格 PIT：鉅亨新聞（2013 起，不涵蓋 2006～2012）、web.archive.org 快照（連不到）、季報（2006～2012 無可得來源）",
+   "n_cells": 490,
+   "n_covered": 0,
+   "coverage_all": 0.0,
+   "n_risk": 137,
+   "coverage_risk": 0.0
+  },
+  "G2": {
+   "desc": "放寬：任何事後抓取的官方月營收／季營收值（GitHub 搜尋無 2006～2012 下市股資料）",
+   "n_cells": 490,
+   "n_covered": 0,
+   "coverage_all": 0.0,
+   "n_risk": 137,
+   "coverage_risk": 0.0
+  }
+ },
+ "first_value_selected": "F3",
+ "gap_gate": {
+  "threshold": 0.6,
+  "coverage_all": 0.0,
+  "coverage_risk": 0.0,
+  "pass": false,
+  "consequence_if_fail": "缺口部分以 AB＋B10（V5 資料下為 AB_V5_B10）為正式保守口徑結案"
+ },
+ "first_value_gate": {
+  "threshold": 0.8,
+  "top30_stockmonths": 7350,
+  "coverage_all6_levels": 0.0035374149659863946,
+  "coverage_cur3_levels": 0.017142857142857144,
+  "coverage_all6_2013_2021": 0.008176100628930818,
+  "pass": false,
+  "consequence_if_fail": "有首次值的格照替換；其餘格以「首次值取最壞／最好」給界限（FV 擾動 Monte Carlo＋固定方向版）"
+ },
+ "n_versions_total": 8
+}

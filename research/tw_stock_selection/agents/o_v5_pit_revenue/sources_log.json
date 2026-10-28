@@ -1,0 +1,32 @@
+{
+ "note": "本題新資料來源的搜尋紀錄（2026-10-28 UTC）。只當 CSV／HTML 讀，clone 在 raw/，一律 python3 -I。",
+ "network_reachability": {
+  "blocked_proxy_403": ["web.archive.org", "archive.org", "mops.twse.com.tw", "mopsov.twse.com.tw", "emops.twse.com.tw", "doc.twse.com.tw", "www.twse.com.tw", "openapi.twse.com.tw", "isin.twse.com.tw", "www.tpex.org.tw", "data.gov.tw",
+     "api.finmindtrade.com", "news.cnyes.com", "api.cnyes.com", "huggingface.co", "www.kaggle.com", "tw.stock.yahoo.com", "histock.tw", "statementdog.com", "www.wantgoo.com", "www.cmoney.tw", "money.udn.com", "www.moneydj.com",
+     "pchome.megatime.com.tw", "fubon-ebrokerdj.fbs.com.tw", "jdata.yuanta.com.tw", "www.google.com", "webcache.googleusercontent.com", "archive.ph", "cachedview.nl", "timetravel.mementoweb.org", "arquivo.pt", "zenodo.org", "figshare.com", "data.mendeley.com", "dataverse.harvard.edu"],
+  "reachable": ["github.com（git clone）", "api.github.com（只限 repo-scoped；search 端點 403）", "raw.githubusercontent.com", "gitlab.com", "bitbucket.org"],
+  "gh_search": "gh api search/* → 403（session 綁定 repo）；改用 GitHub MCP search_code／search_repositories"
+ },
+ "github_code_searches": [
+  {"q": "t21sc03_97", "hit": "只有 ChiJiun/tuc-6274-financial-forecast（上櫃 6274 單一公司的頁面與 2026 年重抓的 sii peer rows，無下市公司）"},
+  {"q": "t21sc03_96_1", "hit": "同上"},
+  {"q": "\"t21/sii/t21sc03\"", "hit": "171 筆，全是爬蟲程式碼，沒有 2006～2012 資料檔"},
+  {"q": "\"sii_97_\" path:csv", "hit": 0},
+  {"q": "\"當月營收\" \"上月比較增減\" extension:csv", "hit": "ch-lai/TWStock-Screener（2018-09～2019-08）、shohokuno10/Tasi（2021 起）等；無 2006～2012"},
+  {"q": "\"revenue_month\" \"2008\" \"2330\" extension:csv", "hit": "個股（2330、2049）檔，無下市股"},
+  {"q": "\"矽品\" \"2011\" \"營收\" extension:csv", "hit": "新聞檔皆為 2013 年後（ctbc、nickchengtw 2022 起）"},
+  {"q": "\"思源\" \"雷凌\" extension:csv", "hit": "只有股票名單檔"},
+  {"q": "\"友尚\" \"思源\" \"建興電\"", "hit": "名單／下市清單檔，沒有營收數字"},
+  {"q": "\"矽品\" \"1月營收\" \"2012\"", "hit": "casper1126/tsmc-sentiment-quant cache_news_2000_2015.csv（已 clone 檢查：只有台積電新聞標題，2010～2015 多數日空白）"},
+  {"q": "\"單月營收\" \"2008/01\" extension:csv", "hit": 0},
+  {"q": "\"營業收入淨額\" \"2008\" \"2325\" extension:csv", "hit": "全為 2021 年後月營收表"},
+  {"q": "t51sb08（舊式財報彙總頁）", "hit": "只有爬蟲程式與網址清單（zealzel/stockZ_local 已 clone 檢查：無資料）"},
+  {"q": "\"t21sc03\" \"_96_\" OR ... extension:html", "hit": 0}
+ ],
+ "github_repo_searches": [{"q": "月營收 歷史資料", "hit": 0}, {"q": "monthly revenue twse mops data", "hit": 0}, {"q": "twse revenue", "hit": "5 個 repo，皆近年或單一公司"}],
+ "local_repos_checked": ["/home/user/mjib007/revenue-yoy-backtest（只有教材程式）", "/home/user/mickyang12/mops（2026 財報）", "/home/user/a607ernie/ptt-stock-data（ptt_stock.json 為空）",
+   "/home/user/niklavsd/bottleneck-signals（tw_revenue.csv 的來源程式：MOPS t21sc03 現行重產頁，raw 頁未入庫）", "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener（git 歷史只到 2026-10；raw/scr 重 clone 確認 rev_hist 最早 commit 2026-10-01）",
+   "o_v4 raw/taiwanan（月營收 commit 2018-12～2019-09，多數晚於訊號日，且為回補的最新值）"],
+ "cloned_to_raw": ["raw/chlai（ch-lai/TWStock-Screener，2018-09～2019-08 月營收，不在缺口期）", "raw/chijiun（ChiJiun/tuc-6274-financial-forecast）", "raw/scr（stevenhsiehsheng-ctrl/tw-stock-screener 無 blob 歷史）", "raw/casper（casper1126/tsmc-sentiment-quant）", "raw/zealzel", "raw/cookman123_-"],
+ "conclusion": "2006～2012 缺口格（下市股缺營收）沒有任何可連線、可驗證、PIT 合法的月營收或季營收來源；首次公告值只有 o_v4 已抽取的鉅亨新聞（2013～2021 抽樣）。"
+}

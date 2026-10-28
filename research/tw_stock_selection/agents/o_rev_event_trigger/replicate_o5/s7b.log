@@ -1,0 +1,19 @@
+8 {'t': 1.2976701202241148, 't19': 0.02614734924976801, 'skipped': 1}
+Traceback (most recent call last):
+  File "/home/user/-/research/tw_stock_selection/agents/o_rev_event_trigger/replicate_o5/s7_jgrid.py", line 5, in <module>
+    sd, end, am, sk = C.build_days(j)
+                      ~~~~~~~~~~~~^^^
+  File "/home/user/-/research/tw_stock_selection/agents/o_rev_event_trigger/replicate_o5/rcore.py", line 50, in build_days
+    d = j_day(m, j)
+  File "/home/user/-/research/tw_stock_selection/agents/o_rev_event_trigger/replicate_o5/rcore.py", line 44, in j_day
+    return TX[i]
+           ~~^^^
+  File "/usr/local/lib/python3.13/dist-packages/pandas/core/indexes/base.py", line 5401, in __getitem__
+    return getitem(key)
+  File "/usr/local/lib/python3.13/dist-packages/pandas/core/arrays/datetimelike.py", line 393, in __getitem__
+    result = cast(Union[Self, DTScalarOrNaT], super().__getitem__(key))
+                                              ~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/pandas/core/arrays/_mixins.py", line 293, in __getitem__
+    result = self._ndarray[key]
+             ~~~~~~~~~~~~~^^^^^
+IndexError: index 6866 is out of bounds for axis 0 with size 6866

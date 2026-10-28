@@ -1,0 +1,56 @@
+--- a/research/tw_stock_selection/main_picks_today.py
++++ b/research/tw_stock_selection/main_picks_today.py
+@@ -2,7 +2,9 @@
+ """主策略（52 週高點 × 月營收 3 個月年增率，可成交版 M2）每月下單清單。
+ 
+ 規則（與 agents/exec_rebuild/exlib.py 的 selection('M2', n) 相同）：
+-  - 換股日＝每月第一個「日期 ≥ 11 日」的交易日。當天收盤後算訊號，隔一個交易日開盤買。
++  - 訊號日（J+1）＝每月營收法定期限日 D（10 日；遇假日順延到下一個交易日；主管機關延長時用延長後期限）之後的第一個交易日。
++    訊號日收盤後算訊號；成交日＝訊號日的下一個交易日開盤。（10 日是交易日時與舊規則「第一個 ≥ 11 日的交易日」相同；
++    10 日遇假日時比舊規則晚一個交易日，避免用到期限日當晚才公告的營收。）
+   - 股池：只做上市股；60 日平均成交值 ≥ 1,000 萬，且排在前 300 名；收盤 ≥ 10 元；換股日當天不在處置期間。
+   - 分數＝0.5 ×「收盤／52 週（252 日）最高還原收盤」的百分位＋0.5 ×「近 3 個月營收年增率平均」的百分位。
+     營收只用公告期限（次月 10 日）已過的月份，也就是換股日的前一個月往回 3 個月。
+@@ -146,13 +148,21 @@
+ 
+ 
+ # ---------------- 日曆 ----------------
++SPECIAL_DEADLINE = {(2019, 2): 15, (2023, 4): 12}   # 主管機關延長營收申報期限的月份（日）；新的延長公告要手動加入
++
+ def rebalance_day(cal, y, m):
+-    d = cal[(cal.year == y) & (cal.month == m) & (cal.day >= 11)]
+-    return d[0] if len(d) else None
++    """訊號日 J+1：期限日 D（m 月 10 日起第一個交易日）之後的第一個交易日。"""
++    dl = SPECIAL_DEADLINE.get((y, m), 10)
++    d = cal[(cal.year == y) & (cal.month == m) & (cal.day >= dl)]
++    if len(d) == 0: return None
++    nxt = cal[cal > d[0]]
++    return nxt[0] if len(nxt) else None
+ 
+ 
+ def est_rebalance_day(y, m):
+-    d = pd.Timestamp(year=y, month=m, day=11)
++    d = pd.Timestamp(year=y, month=m, day=SPECIAL_DEADLINE.get((y, m), 10))
++    while d.weekday() >= 5: d += pd.Timedelta(days=1)
++    d += pd.Timedelta(days=1)
+     while d.weekday() >= 5: d += pd.Timedelta(days=1)
+     return d
+ 
+@@ -166,7 +176,7 @@
+ 
+ 
+ def next_rebalance(cal, t):
+-    """t 之後的下一個換股日；資料日曆還沒涵蓋時用「第一個 ≥ 11 日的平日」預估（第二個值為 True）。"""
++    """t 之後的下一個訊號日；資料日曆還沒涵蓋時用「10 日起第一個平日之後的下一個平日」預估（第二個值為 True）。"""
+     for k in (0, 1, 2):
+         p = pd.Period(t, 'M') + k
+         rd = rebalance_day(cal, p.year, p.month)
+@@ -295,7 +305,7 @@
+         print(f'今天是換股日：今天收盤後依下表名單，於下一個交易日開盤買進。')
+     else:
+         print(f'今天不是換股日。本月持股名單依最近一次換股日 {sd.date()} 的訊號（下表）；建議股數以 {t.date()} 收盤計算。')
+-    print(f'下一個換股日：{nxt.date()}' + ('（預估：該月第一個 ≥ 11 日的平日，未扣除國定假日）' if est else ''))
++    print(f'下一個換股日：{nxt.date()}' + ('（預估：期限日＝10 日起第一個平日，訊號日＝其後下一個平日；未扣除國定假日）' if est else ''))
+ 
+     order, full, m, n_el = score_on(data, YOY3, dsp, sd, a.ex_fin)
+     if a.ex_fin: print('已排除金融保險業（--ex-fin）')

@@ -1,0 +1,40 @@
+{
+ "web.archive.org": {
+  "url": "https://web.archive.org/web/2015*/mops.twse.com.tw/nas/t21/sii/t21sc03_104_1_0.html",
+  "http_code": "000",
+  "stderr": "curl: (56) CONNECT tunnel failed, response 403"
+ },
+ "archive.org_api": {
+  "url": "https://archive.org/wayback/available?url=mops.twse.com.tw/nas/t21/sii/t21sc03_104_1_0.html",
+  "http_code": "000",
+  "stderr": "curl: (56) CONNECT tunnel failed, response 403"
+ },
+ "mops": {
+  "url": "https://mops.twse.com.tw/nas/t21/sii/t21sc03_104_1_0.html",
+  "http_code": "000",
+  "stderr": "curl: (56) CONNECT tunnel failed, response 403"
+ },
+ "mopsov": {
+  "url": "https://mopsov.twse.com.tw/nas/t21/sii/t21sc03_104_1_0.html",
+  "http_code": "000",
+  "stderr": "curl: (56) CONNECT tunnel failed, response 403"
+ },
+ "finmind": {
+  "url": "https://api.finmindtrade.com/api/v4/data",
+  "http_code": "000",
+  "stderr": "curl: (56) CONNECT tunnel failed, response 403"
+ },
+ "twse": {
+  "url": "https://www.twse.com.tw/",
+  "http_code": "000",
+  "stderr": "curl: (56) CONNECT tunnel failed, response 403"
+ },
+ "github_code_search": {
+  "queries": [
+   "\"營收公告日\" OR \"營收發布日\" extension:csv",
+   "t21sc03 出表日期",
+   "repo search: monthly revenue announcement date taiwan mops"
+  ],
+  "result": "0 筆資料檔；只找到即時爬蟲程式（抓的是更正後現值，沒有歷史公告時間），沒有 2011～2018 的逐檔公告時間戳封存"
+ }
+}

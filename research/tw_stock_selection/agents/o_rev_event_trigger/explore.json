@@ -1,0 +1,176 @@
+{
+ "calendar": {
+  "official_jcase_all": {
+   "1": 155,
+   "0": 88,
+   "-4": 1,
+   "-1": 1
+  },
+  "official_jcase_SEL": {
+   "1": 97,
+   "0": 56
+  },
+  "n_months_all": {
+   "official": 245,
+   "J0": 245,
+   "J+1": 245
+  },
+  "n_months_SEL": {
+   "official": 153,
+   "J0": 153,
+   "J+1": 153
+  },
+  "missing_J0_months": [],
+  "missing_J1_months": [],
+  "J0_equals_official_share_all": 0.35918367346938773
+ },
+ "ann_timing_news": {
+  "n_pool_stock_months_with_news": 2312,
+  "n_with_strict": 459,
+  "lag_distribution_trading_days_vs_D(clip -12..5)": {
+   "-7": 3,
+   "-6": 18,
+   "-5": 67,
+   "-4": 184,
+   "-3": 282,
+   "-2": 328,
+   "-1": 457,
+   "0": 506,
+   "1": 206,
+   "2": 42,
+   "3": 24,
+   "4": 32,
+   "5": 163
+  },
+  "bucket_share_loose": {
+   "early_1_4": 0.5411,
+   "on_D": 0.2189,
+   "after_D": 0.202,
+   "early_ge5": 0.0381
+  },
+  "bucket_share_strict": {
+   "early_1_4": 0.7342,
+   "on_D": 0.1895,
+   "early_ge5": 0.0566,
+   "after_D": 0.0196
+  },
+  "early_ge5_share_by_year_loose": {
+   "2013": 0.0303,
+   "2014": 0.0426,
+   "2015": 0.048,
+   "2016": 0.0262,
+   "2017": 0.0265,
+   "2018": 0.0471
+  },
+  "before_D_share_by_year_loose": {
+   "2013": 0.5372,
+   "2014": 0.5665,
+   "2015": 0.6426,
+   "2016": 0.573,
+   "2017": 0.5635,
+   "2018": 0.5899
+  },
+  "on_or_after_D_share_loose": 0.4208477508650519,
+  "note": "新聞日期是公告時間的上限：早公告比例是下限；新聞涵蓋偏向大型股與好消息（池內股月只涵蓋約 12%）"
+ },
+ "prediction2_descriptive": {
+  "b": {
+   "after_D": {
+    "mean_pct": 0.5534049559164074,
+    "n": 467
+   },
+   "early_1_4": {
+    "mean_pct": 0.5220794756837274,
+    "n": 1251
+   },
+   "early_ge5": {
+    "mean_pct": 0.57698947658998,
+    "n": 88
+   },
+   "on_D": {
+    "mean_pct": 0.46800691508556597,
+    "n": 506
+   },
+   "early_ge5_minus_onD_by_month": {
+    "mean": 0.12448001688477661,
+    "t": 2.544780468225113,
+    "n_months": 41
+   }
+  },
+  "bs": {
+   "after_D": {
+    "mean_pct": 0.5739298399235802,
+    "n": 9
+   },
+   "early_1_4": {
+    "mean_pct": 0.517878705034572,
+    "n": 337
+   },
+   "early_ge5": {
+    "mean_pct": 0.6487264230352005,
+    "n": 26
+   },
+   "on_D": {
+    "mean_pct": 0.487333763373226,
+    "n": 87
+   },
+   "early_ge5_minus_onD_by_month": {
+    "mean": 0.18502127004805224,
+    "t": 1.7652166303856933,
+    "n_months": 12
+   }
+  }
+ },
+ "q_night": {
+  "D": "2026-10-12",
+  "cutoff": "2026-10-13 09:00:00",
+  "n_nonfin_nonins15": 1821,
+  "n_late": 6,
+  "q": 0.0032948929159802307,
+  "late_codes": [
+   "2249",
+   "6467",
+   "6898",
+   "6938",
+   "7710",
+   "7806"
+  ],
+  "completion_rate_D_night_nonfin": 0.9967051070840197,
+  "completion_rate_D_close_nonfin(A_before)": 0.829214717188358,
+  "rule": "完成率 ≥ 99% 的最早日＝期限日 D 當晚（非金融）→ J0N；q＝D 當晚仍未公告機率，全產業共用"
+ },
+ "lookahead_exposure_SEL": {
+  "J+1": {
+   "n_months": 153,
+   "expected_unannounced_slots_per_month(nonAB_list)": 0.0,
+   "share_months_with_exposure": 0.0,
+   "slots_diff_AB_seed0_vs_nonAB_per_month": 0.0,
+   "months_with_slot_diff": 0,
+   "new_names_per_month": 5.973684210526316
+  },
+  "J0": {
+   "n_months": 153,
+   "expected_unannounced_slots_per_month(nonAB_list)": 1.6170482162545194,
+   "share_months_with_exposure": 1.0,
+   "slots_diff_AB_seed0_vs_nonAB_per_month": 0.5751633986928104,
+   "months_with_slot_diff": 77,
+   "new_names_per_month": 5.848684210526316
+  },
+  "J0N": {
+   "n_months": 153,
+   "expected_unannounced_slots_per_month(nonAB_list)": 0.032948929159802305,
+   "share_months_with_exposure": 1.0,
+   "slots_diff_AB_seed0_vs_nonAB_per_month": 0.026143790849673203,
+   "months_with_slot_diff": 4,
+   "new_names_per_month": 5.848684210526316
+  },
+  "OFF": {
+   "n_months": 153,
+   "expected_unannounced_slots_per_month(nonAB_list)": 0.5886160124807498,
+   "share_months_with_exposure": 0.3660130718954248,
+   "slots_diff_AB_seed0_vs_nonAB_per_month": 0.1895424836601307,
+   "months_with_slot_diff": 22,
+   "new_names_per_month": 5.8618421052631575
+  }
+ }
+}

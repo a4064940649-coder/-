@@ -1,0 +1,6126 @@
+[
+{
+"path": "breadth_derisk/navs_hold.parquet",
+"shape": [
+1335,
+132
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-03-11",
+"last": "2026-10-12",
+"cols": [
+"r5y|ALL|BASE|cash|0.001",
+"r5y|ALL|BASE|cash|stress",
+"r5y|ALL|D1_K10|cash|0.001",
+"r5y|ALL|D1_K10|0050|0.001",
+"r5y|ALL|D1_K10|cash|stress",
+"r5y|ALL|D1_K10|0050|stress",
+"r5y|ALL|D1_K20|cash|0.001",
+"r5y|ALL|D1_K20|0050|0.001",
+"r5y|ALL|D1_K20|cash|stress",
+"r5y|ALL|D1_K20|0050|stress",
+"r5y|ALL|D1_K30|cash|0.001",
+"r5y|ALL|D1_K30|0050|0.001"
+],
+"ncols": 132
+},
+{
+"path": "breadth_derisk/navs_selval.parquet",
+"shape": [
+3649,
+132
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2021-01-11",
+"cols": [
+"long|ALL|BASE|cash|0.001",
+"long|ALL|BASE|cash|stress",
+"long|ALL|D1_K10|cash|0.001",
+"long|ALL|D1_K10|0050|0.001",
+"long|ALL|D1_K10|cash|stress",
+"long|ALL|D1_K10|0050|stress",
+"long|ALL|D1_K20|cash|0.001",
+"long|ALL|D1_K20|0050|0.001",
+"long|ALL|D1_K20|cash|stress",
+"long|ALL|D1_K20|0050|stress",
+"long|ALL|D1_K30|cash|0.001",
+"long|ALL|D1_K30|0050|0.001"
+],
+"ncols": 132
+},
+{
+"path": "combo_search/search_monthly.parquet",
+"shape": [
+245,
+518
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-09-11",
+"cols": [
+"EW",
+"0050",
+"C1|n30|raw",
+"C1|n30|sw",
+"C1|n10|raw",
+"C1|n10|sw",
+"C2|n30|raw",
+"C2|n30|sw",
+"C2|n10|raw",
+"C2|n10|sw",
+"C3|n30|raw",
+"C3|n30|sw"
+],
+"ncols": 518
+},
+{
+"path": "combo_search/search_nav.parquet",
+"shape": [
+5018,
+518
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"EW",
+"0050",
+"C1|n30|raw",
+"C1|n30|sw",
+"C1|n10|raw",
+"C1|n10|sw",
+"C2|n30|raw",
+"C2|n30|sw",
+"C2|n10|raw",
+"C2|n10|sw",
+"C3|n30|raw",
+"C3|n30|sw"
+],
+"ncols": 518
+},
+{
+"path": "concentration_equity/navs.parquet",
+"shape": [
+5018,
+17
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"EW3",
+"EW5",
+"EW10",
+"EW15",
+"EW20",
+"EW30",
+"EW50",
+"SW10",
+"SW30",
+"n30_E1",
+"n30_E2",
+"n30_E3"
+],
+"ncols": 17
+},
+{
+"path": "disposal_bear_longhistory/nav.parquet",
+"shape": [
+4444,
+7
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-12-31",
+"last": "2022-12-30",
+"cols": [
+"base_1M_cash_0.8",
+"base_1M_0050_0.8",
+"stress_1M_cash_1.2",
+"base_5M_cash_0.8",
+"switch_MA200_1M_cash_0.8",
+"switch_MA200_1M_0050_0.8",
+"proxy_only_incl_2022_1M_cash_0.8"
+],
+"ncols": 7
+},
+{
+"path": "disposal_reconcile/sleeve_nav.parquet",
+"shape": [
+1204,
+6
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-09-30",
+"last": "2026-10-22",
+"cols": [
+"A_0050",
+"B_0050",
+"C_0050",
+"A_cash",
+"B_cash",
+"C_cash"
+],
+"ncols": 6
+},
+{
+"path": "disposal_v2/navs.parquet",
+"shape": [
+1343,
+16
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-03-11",
+"last": "2026-10-22",
+"cols": [
+"TWSE_K10_0050",
+"TWSE_K10_cash",
+"TWSE_K10_0050_cost0.008",
+"TWSE_K10_0050_cost0.012",
+"TWSE_K10_0050_cost0.02",
+"TWSE_K10_0050_V_TOOL_noliq",
+"TWSE_K10_0050_V_NOBEAR",
+"TWSE_K10_0050_exG2",
+"BOTH_K10_0050",
+"BOTH_K10_cash",
+"combo_n10_100_0_official",
+"combo_n10_90_10_official"
+],
+"ncols": 16
+},
+{
+"path": "disposal_x_main/nav.parquet",
+"shape": [
+3829,
+5
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-03-31",
+"last": "2021-09-30",
+"cols": [
+"G1_only_0050",
+"all_events_0050",
+"G2uG3_0050",
+"G1_only_0050_cost1.2",
+"G1_only_cash"
+],
+"ncols": 5
+},
+{
+"path": "exec_rebuild/disposal_nav.parquet",
+"shape": [
+1197,
+8
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-09-30",
+"last": "2026-10-13",
+"cols": [
+"orig_0.005_cash",
+"orig_0.005_0050",
+"slots_K10_cap100萬_idle_cash",
+"slots_K10_cap100萬_idle_0050",
+"slots_K10_cap500萬_idle_cash",
+"slots_K10_cap500萬_idle_0050",
+"slots_K10_cap2000萬_idle_cash",
+"slots_K10_cap2000萬_idle_0050"
+],
+"ncols": 8
+},
+{
+"path": "exec_rebuild/main_nav.parquet",
+"shape": [
+1335,
+36
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-03-11",
+"last": "2026-10-12",
+"cols": [
+"EW_M0",
+"M0_n30_gross",
+"M0_n30_slip0.001",
+"M0_n30_slip0.003",
+"M0_n30_slipstress",
+"M0_n10_gross",
+"M0_n10_slip0.001",
+"M0_n10_slip0.003",
+"M0_n10_slipstress",
+"EW_M1",
+"M1_n30_gross",
+"M1_n30_slip0.001"
+],
+"ncols": 36
+},
+{
+"path": "exit_rules/navs.parquet",
+"shape": [
+5332,
+250
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-07",
+"last": "2026-10-22",
+"cols": [
+"main_n10|NONE|slip0.001",
+"main_n10|NONE|stress",
+"main_n10|TP20|next|slip0.001",
+"main_n10|TP20|next|stress",
+"main_n10|TP20|cash|slip0.001",
+"main_n10|TP20|cash|stress",
+"main_n10|TP30|cash|slip0.001",
+"main_n10|TP30|cash|stress",
+"main_n10|TP30|next|slip0.001",
+"main_n10|TP30|next|stress",
+"main_n10|TP50|cash|slip0.001",
+"main_n10|TP50|cash|stress"
+],
+"ncols": 250
+},
+{
+"path": "forum_gurus/events.parquet",
+"shape": [
+1005,
+26
+],
+"idx_type": "Index",
+"idx_dtype": "int64",
+"first": "0",
+"last": "1130",
+"cols": [
+"id",
+"t",
+"author",
+"code",
+"dir",
+"ei",
+"eday",
+"mode",
+"blocked",
+"liq",
+"push_pt",
+"boo_pt"
+],
+"ncols": 26
+},
+{
+"path": "forum_gurus/posts_raw.parquet",
+"shape": [
+5877,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "5876",
+"cols": [
+"STOCK_ID",
+"TITLE",
+"ID",
+"LINK",
+"AUTHOR",
+"CONTENT",
+"TIME",
+"MESSAGE_ALL",
+"BOO",
+"PUSH",
+"MESSAGE_COUNT",
+"NEUTRAL"
+],
+"ncols": 16
+},
+{
+"path": "independent_audit/navs.parquet",
+"shape": [
+5018,
+66
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"P2_rev5y|EW",
+"P2_rev5y|n30|0.001",
+"P2_rev5y|n30|0.003",
+"P2_rev5y|n30|stress",
+"P2_rev5y|n10|0.001",
+"P2_rev5y|n10|0.003",
+"P2_rev5y|n10|stress",
+"P2_rev5y_nofreeze|EW",
+"P2_rev5y_nofreeze|n30|0.001",
+"P2_rev5y_nofreeze|n10|0.001",
+"P2_rev5y_lenient|EW",
+"P2_rev5y_lenient|n30|0.001"
+],
+"ncols": 66
+},
+{
+"path": "integrate_o1/navs.parquet",
+"shape": [
+5018,
+7
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"MAIN",
+"NEW",
+"MIX80_20",
+"MIX50_50",
+"SLOT10",
+"TREND30",
+"C0050_30"
+],
+"ncols": 7
+},
+{
+"path": "integrate_o2/navs.parquet",
+"shape": [
+5018,
+8
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"MAIN_O",
+"MAIN_R",
+"NEUTRAL05",
+"KY_ALL",
+"KY_CAP2",
+"MIX80_20_KY",
+"MIX50_50_KY",
+"TSMC30_R"
+],
+"ncols": 8
+},
+{
+"path": "integrate_o4/navs.parquet",
+"shape": [
+5018,
+41
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V4|normal",
+"F_SIG|normal",
+"F_DUNION|normal",
+"O_BREADTH30|normal",
+"L_E50_20|normal",
+"L_E50_30|normal",
+"L_E50_50|normal",
+"L_2330_20|normal",
+"L_2330_30|normal",
+"L_2330_50|normal",
+"BASE_V4|normal",
+"BASE_F_SIG|normal"
+],
+"ncols": 41
+},
+{
+"path": "main_refine/navs.parquet",
+"shape": [
+5026,
+28
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-22",
+"cols": [
+"BASE|slip0.001",
+"BASE|stress",
+"R1a_yoy1|slip0.001",
+"R1a_yoy1|stress",
+"R1c_yoy6|slip0.001",
+"R1c_yoy6|stress",
+"R1d_accel|slip0.001",
+"R1d_accel|stress",
+"R1e_hi12|slip0.001",
+"R1e_hi12|stress",
+"R2_w03|slip0.001",
+"R2_w03|stress"
+],
+"ncols": 28
+},
+{
+"path": "main_v2/navs_gapfix.parquet",
+"shape": [
+5026,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-22",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"ALL|n10|latest",
+"ALL|n30|latest",
+"AB_ALL|n10|mc",
+"AB_ALL|n30|mc",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "main_v2/navs_lenient.parquet",
+"shape": [
+5026,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-22",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"ALL|n10|latest",
+"ALL|n30|latest",
+"AB_ALL|n10|mc",
+"AB_ALL|n30|mc",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "main_v2/navs_strict.parquet",
+"shape": [
+5026,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-22",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"ALL|n10|latest",
+"ALL|n30|latest",
+"AB_ALL|n10|mc",
+"AB_ALL|n30|mc",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "manual_screen/navs.parquet",
+"shape": [
+5018,
+38
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"long|MAIN",
+"long|MAIN|stress",
+"long|MAIN_exfin",
+"long|MAIN_exfin|stress",
+"long|M1",
+"long|M1|stress",
+"long|M2",
+"long|M2|stress",
+"long|M3",
+"long|M3|stress",
+"long|M4",
+"long|M4|stress"
+],
+"ncols": 38
+},
+{
+"path": "momentum_family/long_nav.parquet",
+"shape": [
+5322,
+45
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-11",
+"last": "2026-10-12",
+"cols": [
+"EW",
+"EW4",
+"0050",
+"P1_52wHigh_n30_gross",
+"P1_52wHigh_n30_0.001",
+"P1_52wHigh_n30_stress",
+"P1_52wHigh_n10_gross",
+"P1_52wHigh_n10_0.001",
+"P1_52wHigh_n10_stress",
+"P2_mom12_1_n30_gross",
+"P2_mom12_1_n30_0.001",
+"P2_mom12_1_n30_stress"
+],
+"ncols": 45
+},
+{
+"path": "o_buyback_gate_core_rebal/main_navs.parquet",
+"shape": [
+5018,
+7
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"MAIN|normal",
+"MAIN|stress3",
+"MAIN|stress_old",
+"MAIN|gross",
+"POOL_EW|gross",
+"E50",
+"A2330"
+],
+"ncols": 7
+},
+{
+"path": "o_buyback_gate_core_rebal/main_navs_slip.parquet",
+"shape": [
+5018,
+9
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"slip0.0000",
+"slip0.0005",
+"slip0.0010",
+"slip0.0015",
+"slip0.0020",
+"slip0.0030",
+"slip0.0040",
+"slip0.0060",
+"fullfee_slip0.0010"
+],
+"ncols": 9
+},
+{
+"path": "o_buyback_gate_core_rebal/replicate_o4/my_2330.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"g2330"
+],
+"ncols": 1
+},
+{
+"path": "o_buyback_gate_core_rebal/replicate_o4/my_navs.parquet",
+"shape": [
+5018,
+5
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"normal",
+"stress3",
+"nodisc",
+"ew",
+"e50"
+],
+"ncols": 5
+},
+{
+"path": "o_buyback_gate_core_rebal/replicate_o4/my_navs_slip.parquet",
+"shape": [
+5018,
+15
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"0.00050",
+"0.00075",
+"0.00100",
+"0.00125",
+"0.00150",
+"0.00175",
+"0.00200",
+"0.00225",
+"0.00250",
+"0.00275",
+"0.00300",
+"0.00325"
+],
+"ncols": 15
+},
+{
+"path": "o_capacity_tsmc_gap/replicate_o1/navs_pools.parquet",
+"shape": [
+5018,
+6
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"51-300",
+"51-300|EW",
+"101-300",
+"101-300|EW",
+"1-100",
+"1-100|EW"
+],
+"ncols": 6
+},
+{
+"path": "o_capacity_tsmc_gap/replicate_o1/navs_tsmc.parquet",
+"shape": [
+5018,
+11
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"n10|w0|normal",
+"n10|w0|stress",
+"n10|w10|normal",
+"n10|w10|stress",
+"n10|w20|normal",
+"n10|w20|stress",
+"n10|w30|normal",
+"n10|w30|stress",
+"n30|w0|normal",
+"n30|w0|stress",
+"EW"
+],
+"ncols": 11
+},
+{
+"path": "o_cb_board_runup/alt_ipo_lockup/explore_panel.parquet",
+"shape": [
+37348,
+21
+],
+"idx_type": "Index",
+"idx_dtype": "int64",
+"first": "0",
+"last": "38018",
+"cols": [
+"d",
+"j",
+"r",
+"age",
+"kind",
+"hot",
+"pr52",
+"pry",
+"sc",
+"rank",
+"lv",
+"elec"
+],
+"ncols": 21
+},
+{
+"path": "o_cb_board_runup/alt_ipo_lockup/oos_navs_v2.parquet",
+"shape": [
+5018,
+7
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"EW",
+"base|normal",
+"A5|normal",
+"PLACEBO_transfer|normal",
+"base|stress",
+"A5|stress",
+"PLACEBO_transfer|stress"
+],
+"ncols": 7
+},
+{
+"path": "o_cb_board_runup/alt_ipo_lockup/oos_navs_v3.parquet",
+"shape": [
+5018,
+7
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"EW",
+"base|normal",
+"A5|normal",
+"PLACEBO_transfer|normal",
+"base|stress",
+"A5|stress",
+"PLACEBO_transfer|stress"
+],
+"ncols": 7
+},
+{
+"path": "o_cb_board_runup/mops_titles.parquet",
+"shape": [
+288310,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "288309",
+"cols": [
+"code",
+"name",
+"d",
+"tm",
+"title",
+"file",
+"date"
+],
+"ncols": 7
+},
+{
+"path": "o_cb_board_runup/replicate_o3/my_titles.parquet",
+"shape": [
+288310,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "288309",
+"cols": [
+"file_code",
+"code",
+"name",
+"date",
+"time",
+"title",
+"file_roc"
+],
+"ncols": 7
+},
+{
+"path": "o_cb_board_runup/replicate_o3/r_navs_v2.parquet",
+"shape": [
+5018,
+6
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"orig|normal",
+"A5|normal",
+"PLAC|normal",
+"orig|stress",
+"A5|stress",
+"PLAC|stress"
+],
+"ncols": 6
+},
+{
+"path": "o_cb_board_runup/replicate_o3/r_navs_v3.parquet",
+"shape": [
+5018,
+6
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"orig|normal",
+"A5|normal",
+"PLAC|normal",
+"orig|stress",
+"A5|stress",
+"PLAC|stress"
+],
+"ncols": 6
+},
+{
+"path": "o_disposal_rejudge/navs_full_A.parquet",
+"shape": [
+5018,
+30
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"E1|n10|normal",
+"E0|n10|normal",
+"E2|n10|normal",
+"E3|n10|normal",
+"E4|n10|normal",
+"E5|n10|normal",
+"E1|n10|stress",
+"E0|n10|stress",
+"E2|n10|stress",
+"E3|n10|stress",
+"E4|n10|stress",
+"E5|n10|stress"
+],
+"ncols": 30
+},
+{
+"path": "o_disposal_rejudge/navs_full_AP.parquet",
+"shape": [
+5018,
+30
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"E1|n10|normal",
+"E0|n10|normal",
+"E2|n10|normal",
+"E3|n10|normal",
+"E4|n10|normal",
+"E5|n10|normal",
+"E1|n10|stress",
+"E0|n10|stress",
+"E2|n10|stress",
+"E3|n10|stress",
+"E4|n10|stress",
+"E5|n10|stress"
+],
+"ncols": 30
+},
+{
+"path": "o_disposal_rejudge/navs_sel_A.parquet",
+"shape": [
+3812,
+28
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2021-09-13",
+"cols": [
+"E1|n10|normal",
+"E0|n10|normal",
+"E2|n10|normal",
+"E3|n10|normal",
+"E4|n10|normal",
+"E5|n10|normal",
+"E3@0.5|n10|normal",
+"E3@0.7|n10|normal",
+"E1|n10|stress",
+"E0|n10|stress",
+"E2|n10|stress",
+"E3|n10|stress"
+],
+"ncols": 28
+},
+{
+"path": "o_disposal_rejudge/navs_sel_AP.parquet",
+"shape": [
+3812,
+28
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2021-09-13",
+"cols": [
+"E1|n10|normal",
+"E0|n10|normal",
+"E2|n10|normal",
+"E3|n10|normal",
+"E4|n10|normal",
+"E5|n10|normal",
+"E3@0.5|n10|normal",
+"E3@0.7|n10|normal",
+"E1|n10|stress",
+"E0|n10|stress",
+"E2|n10|stress",
+"E3|n10|stress"
+],
+"ncols": 28
+},
+{
+"path": "o_hold_buffer_fresh/navs_oos.parquet",
+"shape": [
+5018,
+11
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"BASE|gross",
+"A20|gross",
+"BASE|normal",
+"A20|normal",
+"BASE|stress",
+"A20|stress",
+"BASE|flat",
+"A20|flat",
+"BASE|cap10m",
+"A20|cap10m",
+"EW"
+],
+"ncols": 11
+},
+{
+"path": "o_index_deletion_flow/replicate_o1/sleeve_nav_r.parquet",
+"shape": [
+3867,
+2
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2010-11-29",
+"last": "2026-10-22",
+"cols": [
+"normal",
+"stress"
+],
+"ncols": 2
+},
+{
+"path": "o_index_deletion_flow/sleeve_nav.parquet",
+"shape": [
+3888,
+2
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2010-11-01",
+"last": "2026-10-22",
+"cols": [
+"del_sleeve_normal",
+"del_sleeve_stress"
+],
+"ncols": 2
+},
+{
+"path": "o_infra_v3_rebuild/delist_prices.parquet",
+"shape": [
+15375,
+8
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "15374",
+"cols": [
+"date",
+"code",
+"open",
+"high",
+"close",
+"value",
+"ret",
+"src"
+],
+"ncols": 8
+},
+{
+"path": "o_infra_v3_rebuild/navs_P0.parquet",
+"shape": [
+5018,
+160
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"P0|R0|X0|Dv2|ALL|EW",
+"P0|R0|X0|Dv2|ALL|n10|normal",
+"P0|R0|X0|Dv2|ALL|n10|stress",
+"P0|R0|X0|Dv2|ALL|n30|normal",
+"P0|R0|X0|Dv2|ALL|n30|stress",
+"P0|R0|X1|Dv2|ALL|EW",
+"P0|R0|X1|Dv2|ALL|n10|normal",
+"P0|R0|X1|Dv2|ALL|n10|stress",
+"P0|R0|X1|Dv2|ALL|n30|normal",
+"P0|R0|X1|Dv2|ALL|n30|stress",
+"P0|R0|X0|Dv2|EXFIN|EW",
+"P0|R0|X0|Dv2|EXFIN|n10|normal"
+],
+"ncols": 160
+},
+{
+"path": "o_infra_v3_rebuild/navs_P1.parquet",
+"shape": [
+5018,
+184
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"P1|R0|X0|Dv2|ALL|EW",
+"P1|R0|X0|Dv2|ALL|n10|normal",
+"P1|R0|X0|Dv2|ALL|n10|stress",
+"P1|R0|X0|Dv2|ALL|n30|normal",
+"P1|R0|X0|Dv2|ALL|n30|stress",
+"P1|R0|X1|Dv2|ALL|EW",
+"P1|R0|X1|Dv2|ALL|n10|normal",
+"P1|R0|X1|Dv2|ALL|n10|stress",
+"P1|R0|X1|Dv2|ALL|n30|normal",
+"P1|R0|X1|Dv2|ALL|n30|stress",
+"P1|R0|X0|Dv2|EXFIN|EW",
+"P1|R0|X0|Dv2|EXFIN|n10|normal"
+],
+"ncols": 184
+},
+{
+"path": "o_infra_v3_rebuild/replicate_o3/my_navs_P0.parquet",
+"shape": [
+5018,
+160
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"P0|R0|X0|Dv2|ALL|EW",
+"P0|R0|X0|Dv2|ALL|n10|normal",
+"P0|R0|X0|Dv2|ALL|n10|stress",
+"P0|R0|X0|Dv2|ALL|n30|normal",
+"P0|R0|X0|Dv2|ALL|n30|stress",
+"P0|R0|X1|Dv2|ALL|EW",
+"P0|R0|X1|Dv2|ALL|n10|normal",
+"P0|R0|X1|Dv2|ALL|n10|stress",
+"P0|R0|X1|Dv2|ALL|n30|normal",
+"P0|R0|X1|Dv2|ALL|n30|stress",
+"P0|R0|X0|Dv2|EXFIN|EW",
+"P0|R0|X0|Dv2|EXFIN|n10|normal"
+],
+"ncols": 160
+},
+{
+"path": "o_infra_v3_rebuild/replicate_o3/my_navs_P1.parquet",
+"shape": [
+5018,
+160
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"P1|R0|X0|Dv2|ALL|EW",
+"P1|R0|X0|Dv2|ALL|n10|normal",
+"P1|R0|X0|Dv2|ALL|n10|stress",
+"P1|R0|X0|Dv2|ALL|n30|normal",
+"P1|R0|X0|Dv2|ALL|n30|stress",
+"P1|R0|X1|Dv2|ALL|EW",
+"P1|R0|X1|Dv2|ALL|n10|normal",
+"P1|R0|X1|Dv2|ALL|n10|stress",
+"P1|R0|X1|Dv2|ALL|n30|normal",
+"P1|R0|X1|Dv2|ALL|n30|stress",
+"P1|R0|X0|Dv2|EXFIN|EW",
+"P1|R0|X0|Dv2|EXFIN|n10|normal"
+],
+"ncols": 160
+},
+{
+"path": "o_intraday_momentum/replicate_o1/main_nav.parquet",
+"shape": [
+5018,
+2
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"nav",
+"ew"
+],
+"ncols": 2
+},
+{
+"path": "o_issuance_avoid/oos_navs.parquet",
+"shape": [
+5018,
+10
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"n10|normal|base",
+"n10|normal|V1",
+"n10|stress|base",
+"n10|stress|V1",
+"n10|EW",
+"n30|normal|base",
+"n30|normal|V1",
+"n30|stress|base",
+"n30|stress|V1",
+"n30|EW"
+],
+"ncols": 10
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2007.parquet",
+"shape": [
+137206,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "137205",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2008.parquet",
+"shape": [
+138676,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "138675",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2009.parquet",
+"shape": [
+116322,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "116321",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2010.parquet",
+"shape": [
+115578,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "115577",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2011.parquet",
+"shape": [
+143452,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "143451",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2012.parquet",
+"shape": [
+158120,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "158119",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2013.parquet",
+"shape": [
+150504,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "150503",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2014.parquet",
+"shape": [
+145498,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "145497",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2015.parquet",
+"shape": [
+156338,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "156337",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2016.parquet",
+"shape": [
+151340,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "151339",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2017.parquet",
+"shape": [
+129512,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "129511",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2018.parquet",
+"shape": [
+101554,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "101553",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2019.parquet",
+"shape": [
+89068,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "89067",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2020.parquet",
+"shape": [
+100360,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "100359",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2021.parquet",
+"shape": [
+119618,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "119617",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2022.parquet",
+"shape": [
+139652,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "139651",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2023.parquet",
+"shape": [
+142768,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "142767",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2024.parquet",
+"shape": [
+148388,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "148387",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2025.parquet",
+"shape": [
+162652,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "162651",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_2026.parquet",
+"shape": [
+146388,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "146387",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_issuance_avoid/raw/david_twcb/data/combined/cb_quotes_all.parquet",
+"shape": [
+2692994,
+16
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "2692993",
+"cols": [
+"資料日期",
+"代號",
+"名稱",
+"交易",
+"收市",
+"漲跌",
+"開市",
+"最高",
+"最低",
+"筆數",
+"單位",
+"金額"
+],
+"ncols": 16
+},
+{
+"path": "o_largecap_leg/navs.parquet",
+"shape": [
+5018,
+27
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"MAIN|normal",
+"MAIN|stress3",
+"MAIN|stress_old",
+"TSMC30|normal",
+"TSMC30|stress3",
+"TSMC30|stress_old",
+"COMBO|normal",
+"COMBO|stress3",
+"COMBO|stress_old",
+"MAIN70_TOP1VALUE30|normal",
+"MAIN70_TOP1VALUE30|stress3",
+"MAIN70_TOP1VALUE30|stress_old"
+],
+"ncols": 27
+},
+{
+"path": "o_largecap_leg/replicate_o3/navs_rep.parquet",
+"shape": [
+5018,
+32
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"MAIN|normal",
+"MAIN|stress3",
+"MAIN|zero",
+"MAIN|old05",
+"L|normal",
+"L|stress3",
+"L|zero",
+"L|old05",
+"LX|normal",
+"LX|stress3",
+"LX|zero",
+"LX|old05"
+],
+"ncols": 32
+},
+{
+"path": "o_largecap_leg/replicate_o3/navs_rep2.parquet",
+"shape": [
+5018,
+34
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"MAIN|normal",
+"MAIN|stress3",
+"MAIN|zero",
+"MAIN|old05",
+"L|normal",
+"L|stress3",
+"L|zero",
+"L|old05",
+"LX|normal",
+"LX|stress3",
+"LX|zero",
+"LX|old05"
+],
+"ncols": 34
+},
+{
+"path": "o_msci_inclusion_avoid/navs.parquet",
+"shape": [
+5018,
+28
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"BASE|n10|normal",
+"A1|n10|normal",
+"A2|n10|normal",
+"B1|n10|normal",
+"B2|n10|normal",
+"C1|n10|normal",
+"C2|n10|normal",
+"BASE|n10|stress",
+"A1|n10|stress",
+"A2|n10|stress",
+"B1|n10|stress",
+"B2|n10|stress"
+],
+"ncols": 28
+},
+{
+"path": "o_msci_inclusion_avoid/replicate_o2/navs_rep.parquet",
+"shape": [
+5018,
+2
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"B2",
+"orig"
+],
+"ncols": 2
+},
+{
+"path": "o_rev_event_trigger/navs_oos.parquet",
+"shape": [
+5020,
+15
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-10",
+"last": "2026-10-13",
+"cols": [
+"J+1|nonAB",
+"J+1|AB",
+"J+1|AB_stress",
+"J+1|EW",
+"J0|nonAB",
+"J0|AB",
+"J0|AB_stress",
+"J0|EW",
+"J0N|nonAB",
+"J0N|AB",
+"J0N|AB_stress",
+"J0N|EW"
+],
+"ncols": 15
+},
+{
+"path": "o_rev_survivorship/navs_B05_ALL.parquet",
+"shape": [
+5018,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"AB_ALL|n10|normal",
+"AB_ALL|n10|stress",
+"AB_ALL|n30|normal",
+"AB_ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "o_rev_survivorship/navs_B05_DEL.parquet",
+"shape": [
+5018,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"AB_ALL|n10|normal",
+"AB_ALL|n10|stress",
+"AB_ALL|n30|normal",
+"AB_ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "o_rev_survivorship/navs_B10_ALL.parquet",
+"shape": [
+5018,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"AB_ALL|n10|normal",
+"AB_ALL|n10|stress",
+"AB_ALL|n30|normal",
+"AB_ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "o_rev_survivorship/navs_B10_DEL.parquet",
+"shape": [
+5018,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"AB_ALL|n10|normal",
+"AB_ALL|n10|stress",
+"AB_ALL|n30|normal",
+"AB_ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "o_rev_survivorship/navs_ORIG.parquet",
+"shape": [
+5018,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"AB_ALL|n10|normal",
+"AB_ALL|n10|stress",
+"AB_ALL|n30|normal",
+"AB_ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "o_rev_survivorship/navs_PX_DEL.parquet",
+"shape": [
+5018,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"AB_ALL|n10|normal",
+"AB_ALL|n10|stress",
+"AB_ALL|n30|normal",
+"AB_ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "o_rev_survivorship/navs_PX_ORIG.parquet",
+"shape": [
+5018,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"AB_ALL|n10|normal",
+"AB_ALL|n10|stress",
+"AB_ALL|n30|normal",
+"AB_ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "o_rev_survivorship/navs_R_ALL.parquet",
+"shape": [
+5018,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"AB_ALL|n10|normal",
+"AB_ALL|n10|stress",
+"AB_ALL|n30|normal",
+"AB_ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "o_rev_survivorship/navs_R_DEL.parquet",
+"shape": [
+5018,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"AB_ALL|n10|normal",
+"AB_ALL|n10|stress",
+"AB_ALL|n30|normal",
+"AB_ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress"
+],
+"ncols": 18
+},
+{
+"path": "o_rev_survivorship/price_patch.parquet",
+"shape": [
+11462,
+7
+],
+"idx_type": "Index",
+"idx_dtype": "int64",
+"first": "1058",
+"last": "40602",
+"cols": [
+"date",
+"code",
+"open",
+"high",
+"close",
+"value",
+"ret"
+],
+"ncols": 7
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B05_ALL.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B05_ALL_dl.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B05_DEL.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B05_DEL_dl.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B10_ALL.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B10_ALL_dl.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B10_DEL.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B10_DEL_dl.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B10_DEL_dl_bs2013-02-01.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B10_DEL_dl_bs2013-04-01.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B10_DEL_dl_bs2014-01-01.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B10_DEL_dl_xf.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_B10_DEL_xf.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_ORIG.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_PX_DEL.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_PX_ORIG.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_R_ALL.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_navs_R_DEL.parquet",
+"shape": [
+5018,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"ALL|EW",
+"ALL|n10|normal",
+"ALL|n10|stress",
+"ALL|n30|normal",
+"ALL|n30|stress",
+"EXFIN|EW",
+"EXFIN|n10|normal",
+"EXFIN|n10|stress",
+"EXFIN|n30|normal",
+"EXFIN|n30|stress",
+"AB|n10|normal",
+"AB|n10|stress"
+],
+"ncols": 14
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_tse_px.parquet",
+"shape": [
+40603,
+9
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "40602",
+"cols": [
+"code",
+"date",
+"vol",
+"open",
+"high",
+"low",
+"close",
+"chg",
+"value"
+],
+"ncols": 9
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_yoy_ORIG.parquet",
+"shape": [
+261,
+2109
+],
+"idx_type": "Index",
+"idx_dtype": "str",
+"first": "2005-01",
+"last": "2026-09",
+"cols": [
+"0",
+"1101",
+"1102",
+"1103",
+"1104",
+"1107",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1207"
+],
+"ncols": 2109
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_yoy_R_ALL.parquet",
+"shape": [
+261,
+2222
+],
+"idx_type": "Index",
+"idx_dtype": "str",
+"first": "2005-01",
+"last": "2026-09",
+"cols": [
+"0",
+"1101",
+"1102",
+"1103",
+"1104",
+"1107",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1207"
+],
+"ncols": 2222
+},
+{
+"path": "o_rev_survivorship/replicate_o2/my_yoy_R_DEL.parquet",
+"shape": [
+261,
+2113
+],
+"idx_type": "Index",
+"idx_dtype": "str",
+"first": "2005-01",
+"last": "2026-09",
+"cols": [
+"0",
+"1101",
+"1102",
+"1103",
+"1104",
+"1107",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1207"
+],
+"ncols": 2113
+},
+{
+"path": "o_rev_survivorship/yoy_long_R_ALL.parquet",
+"shape": [
+261,
+2184
+],
+"idx_type": "Index",
+"idx_dtype": "str",
+"first": "2005-01",
+"last": "2026-09",
+"cols": [
+"0",
+"1101",
+"1102",
+"1103",
+"1104",
+"1107",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1207"
+],
+"ncols": 2184
+},
+{
+"path": "o_rev_survivorship/yoy_long_R_DEL.parquet",
+"shape": [
+261,
+2110
+],
+"idx_type": "Index",
+"idx_dtype": "str",
+"first": "2005-01",
+"last": "2026-09",
+"cols": [
+"0",
+"1101",
+"1102",
+"1103",
+"1104",
+"1107",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1207"
+],
+"ncols": 2110
+},
+{
+"path": "o_sbl_foreign_level/fo_panel.parquet",
+"shape": [
+5586,
+1249
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"1101",
+"1102",
+"1103",
+"1104",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1204",
+"1207",
+"1210"
+],
+"ncols": 1249
+},
+{
+"path": "o_sbl_foreign_level/oos_navs.parquet",
+"shape": [
+645,
+8
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2024-02-16",
+"last": "2026-10-12",
+"cols": [
+"main_n10",
+"B1",
+"C2",
+"C1",
+"EW",
+"main_stress",
+"B1_stress",
+"C2_stress"
+],
+"ncols": 8
+},
+{
+"path": "o_sbl_foreign_level/oos_navs_selftest.parquet",
+"shape": [
+543,
+8
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-10-13",
+"last": "2024-02-15",
+"cols": [
+"main_n10",
+"B1",
+"C2",
+"C1",
+"EW",
+"main_stress",
+"B1_stress",
+"C2_stress"
+],
+"ncols": 8
+},
+{
+"path": "o_sbl_foreign_level/raw/bb_inst.parquet",
+"shape": [
+730183,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "730182",
+"cols": [
+"Date",
+"Ticker",
+"Market",
+"Foreign_Net",
+"Foreign_Dealer_Net",
+"Trust_Net",
+"Dealer_Net"
+],
+"ncols": 7
+},
+{
+"path": "o_sbl_foreign_level/raw/bb_margin.parquet",
+"shape": [
+722881,
+11
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "722880",
+"cols": [
+"Date",
+"Ticker",
+"Market",
+"Margin_Balance",
+"Margin_Prev_Balance",
+"Short_Sell",
+"Short_Buy",
+"Short_Stock_Repay",
+"Short_Prev_Balance",
+"Short_Balance",
+"Short_Limit"
+],
+"ncols": 11
+},
+{
+"path": "o_sbl_foreign_level/raw/bb_sbl_twt93u.parquet",
+"shape": [
+63141,
+12
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "63140",
+"cols": [
+"Date",
+"Ticker",
+"Name",
+"Margin_Short_Balance",
+"Margin_Short_Limit",
+"SBL_Prev_Balance",
+"SBL_Daily_Sell",
+"SBL_Daily_Return",
+"SBL_Daily_Adjust",
+"SBL_Balance",
+"SBL_Net_Change",
+"SBL_Next_Day_Limit"
+],
+"ncols": 12
+},
+{
+"path": "o_sbl_foreign_level/raw/vf_twse_flows.parquet",
+"shape": [
+352805,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "352804",
+"cols": [
+"date",
+"code",
+"name",
+"foreign_net",
+"trust_net",
+"dealer_net",
+"market"
+],
+"ncols": 7
+},
+{
+"path": "o_sbl_foreign_level/raw/vf_twse_foreign.parquet",
+"shape": [
+335837,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "335836",
+"cols": [
+"date",
+"code",
+"name",
+"market",
+"total_shares",
+"foreign_shares",
+"foreign_ratio"
+],
+"ncols": 7
+},
+{
+"path": "o_sbl_foreign_level/replicate_o2/my_fo.parquet",
+"shape": [
+1224,
+1088
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-10-08",
+"last": "2026-10-21",
+"cols": [
+"1101",
+"1102",
+"1103",
+"1104",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1210",
+"1213",
+"1215"
+],
+"ncols": 1088
+},
+{
+"path": "o_sbl_foreign_level/replicate_o2/my_navs.parquet",
+"shape": [
+1189,
+22
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-10-12",
+"last": "2026-10-12",
+"cols": [
+"main",
+"main_stress",
+"EW",
+"0050",
+"B1_normal",
+"B1_stress",
+"B1_gross",
+"C2",
+"C_w0.1",
+"C_w0.3",
+"B1_n5",
+"B1_n15"
+],
+"ncols": 22
+},
+{
+"path": "o_sbl_foreign_level/replicate_o2/my_net.parquet",
+"shape": [
+1224,
+1110
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-10-08",
+"last": "2026-10-27",
+"cols": [
+"1101",
+"1102",
+"1103",
+"1104",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1210",
+"1213",
+"1215"
+],
+"ncols": 1110
+},
+{
+"path": "o_sbl_foreign_level/replicate_o2/my_sbl.parquet",
+"shape": [
+59,
+1062
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2026-07-30",
+"last": "2026-10-27",
+"cols": [
+"1101",
+"1102",
+"1103",
+"1104",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1210",
+"1213",
+"1215"
+],
+"ncols": 1062
+},
+{
+"path": "o_sbl_foreign_level/replicate_o2/my_short.parquet",
+"shape": [
+680,
+1069
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2024-01-02",
+"last": "2026-10-27",
+"cols": [
+"1101",
+"1102",
+"1103",
+"1104",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1210",
+"1213",
+"1215"
+],
+"ncols": 1069
+},
+{
+"path": "o_sbl_foreign_level/sbl_panel.parquet",
+"shape": [
+60,
+1249
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2026-07-29",
+"last": "2026-10-27",
+"cols": [
+"1101",
+"1102",
+"1103",
+"1104",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1204",
+"1207",
+"1210"
+],
+"ncols": 1249
+},
+{
+"path": "o_sbl_foreign_level/short_panel.parquet",
+"shape": [
+680,
+1249
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2024-01-02",
+"last": "2026-10-27",
+"cols": [
+"1101",
+"1102",
+"1103",
+"1104",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1204",
+"1207",
+"1210"
+],
+"ncols": 1249
+},
+{
+"path": "o_stagger_tranche/navs_oos.parquet",
+"shape": [
+5035,
+29
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-03-28",
+"last": "2026-10-22",
+"cols": [
+"OFF",
+"EW",
+"OFF_AB0",
+"J-8",
+"J-7",
+"J-6",
+"J-5",
+"J-4",
+"J-3",
+"J-2",
+"J-1",
+"J+0"
+],
+"ncols": 29
+},
+{
+"path": "o_stagger_tranche/replicate_o4/detail_navs.parquet",
+"shape": [
+5018,
+9
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"OFF",
+"J1",
+"V08",
+"V08_gross",
+"V08_flat",
+"V08_p03",
+"J1_flat",
+"J1_p03",
+"J1_gross"
+],
+"ncols": 9
+},
+{
+"path": "o_stagger_tranche/replicate_o4/ind_detail_navs.parquet",
+"shape": [
+5018,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"OFF",
+"J+1",
+"V08",
+"EW"
+],
+"ncols": 4
+},
+{
+"path": "o_stagger_tranche/replicate_o4/ind_jscan_anchor_END.parquet",
+"shape": [
+5019,
+5
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-10",
+"last": "2026-10-12",
+"cols": [
+"J-8",
+"J-1",
+"J+0",
+"J+1",
+"J+12"
+],
+"ncols": 5
+},
+{
+"path": "o_stagger_tranche/replicate_o4/ind_jscan_anchor_next.parquet",
+"shape": [
+5035,
+21
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-03-28",
+"last": "2026-10-22",
+"cols": [
+"J-8",
+"J-7",
+"J-6",
+"J-5",
+"J-4",
+"J-3",
+"J-2",
+"J-1",
+"J+0",
+"J+1",
+"J+2",
+"J+3"
+],
+"ncols": 21
+},
+{
+"path": "o_stagger_tranche/replicate_o4/ind_jscan_signal_END.parquet",
+"shape": [
+5019,
+5
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-10",
+"last": "2026-10-12",
+"cols": [
+"J-8",
+"J-1",
+"J+0",
+"J+1",
+"J+12"
+],
+"ncols": 5
+},
+{
+"path": "o_stagger_tranche/replicate_o4/ind_jscan_signal_next.parquet",
+"shape": [
+5035,
+21
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-03-28",
+"last": "2026-10-22",
+"cols": [
+"J-8",
+"J-7",
+"J-6",
+"J-5",
+"J-4",
+"J-3",
+"J-2",
+"J-1",
+"J+0",
+"J+1",
+"J+2",
+"J+3"
+],
+"ncols": 21
+},
+{
+"path": "o_stagger_tranche/replicate_o4/ind_tr_navs.parquet",
+"shape": [
+5018,
+13
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"J+1",
+"V01",
+"V02",
+"V03",
+"V04",
+"V05",
+"V06",
+"V07",
+"V08",
+"V09",
+"V10",
+"V11"
+],
+"ncols": 13
+},
+{
+"path": "o_stagger_tranche/replicate_o4/jscan_navs.parquet",
+"shape": [
+5019,
+21
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-10",
+"last": "2026-10-12",
+"cols": [
+"J-8",
+"J-7",
+"J-6",
+"J-5",
+"J-4",
+"J-3",
+"J-2",
+"J-1",
+"J+0",
+"J+1",
+"J+2",
+"J+3"
+],
+"ncols": 21
+},
+{
+"path": "o_stagger_tranche/replicate_o4/jscan_navs_anchor_next.parquet",
+"shape": [
+5035,
+21
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-03-28",
+"last": "2026-10-22",
+"cols": [
+"J-8",
+"J-7",
+"J-6",
+"J-5",
+"J-4",
+"J-3",
+"J-2",
+"J-1",
+"J+0",
+"J+1",
+"J+2",
+"J+3"
+],
+"ncols": 21
+},
+{
+"path": "o_stagger_tranche/replicate_o4/jscan_navs_month_END.parquet",
+"shape": [
+5027,
+21
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-03-28",
+"last": "2026-10-12",
+"cols": [
+"J-8",
+"J-7",
+"J-6",
+"J-5",
+"J-4",
+"J-3",
+"J-2",
+"J-1",
+"J+0",
+"J+1",
+"J+2",
+"J+3"
+],
+"ncols": 21
+},
+{
+"path": "o_stagger_tranche/replicate_o4/jscan_navs_month_next.parquet",
+"shape": [
+5035,
+21
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-03-28",
+"last": "2026-10-22",
+"cols": [
+"J-8",
+"J-7",
+"J-6",
+"J-5",
+"J-4",
+"J-3",
+"J-2",
+"J-1",
+"J+0",
+"J+1",
+"J+2",
+"J+3"
+],
+"ncols": 21
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V01.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V01"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V02.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V02"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V03.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V03"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V04.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V04"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V05.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V05"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V06.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V06"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V07.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V07"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V08.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V08"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V09.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V09"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V10.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V10"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V11.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V11"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/nav_V12.parquet",
+"shape": [
+5018,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V12"
+],
+"ncols": 1
+},
+{
+"path": "o_stagger_tranche/replicate_o4/scan_all_navs.parquet",
+"shape": [
+5027,
+84
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-03-28",
+"last": "2026-10-12",
+"cols": [
+"w0.5|normal|J-8",
+"w0.5|normal|J-7",
+"w0.5|normal|J-6",
+"w0.5|normal|J-5",
+"w0.5|normal|J-4",
+"w0.5|normal|J-3",
+"w0.5|normal|J-2",
+"w0.5|normal|J-1",
+"w0.5|normal|J+0",
+"w0.5|normal|J+1",
+"w0.5|normal|J+2",
+"w0.5|normal|J+3"
+],
+"ncols": 84
+},
+{
+"path": "o_v4_revenue_patch_official/navs_v4.parquet",
+"shape": [
+5018,
+46
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"V4|normal",
+"V4|stress",
+"V4|EW",
+"V4_B05|normal",
+"V4_B05|stress",
+"V4_B05|EW",
+"V4_B10|normal",
+"V4_B10|stress",
+"V4_B10|EW",
+"V4_BQ|normal",
+"V4_BQ|stress",
+"V4_BQ|EW"
+],
+"ncols": 46
+},
+{
+"path": "o_v4_revenue_patch_official/raw_news_mentions.parquet",
+"shape": [
+13426,
+11
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "13425",
+"cols": [
+"date",
+"code",
+"who",
+"ym",
+"rev_k",
+"sig",
+"prec",
+"yoy_news",
+"mom_news",
+"lag",
+"snip"
+],
+"ncols": 11
+},
+{
+"path": "o_v4_revenue_patch_official/raw_quarterly.parquet",
+"shape": [
+19387,
+5
+],
+"idx_type": "Index",
+"idx_dtype": "int64",
+"first": "0",
+"last": "19417",
+"cols": [
+"code",
+"q",
+"rev_k",
+"kind",
+"suspect"
+],
+"ncols": 5
+},
+{
+"path": "o_v4_revenue_patch_official/yoy_long_R_FIX.parquet",
+"shape": [
+261,
+2110
+],
+"idx_type": "Index",
+"idx_dtype": "str",
+"first": "2005-01",
+"last": "2026-09",
+"cols": [
+"0",
+"1101",
+"1102",
+"1103",
+"1104",
+"1107",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1207"
+],
+"ncols": 2110
+},
+{
+"path": "o_v4_revenue_patch_official/yoy_qproxy.parquet",
+"shape": [
+72,
+950
+],
+"idx_type": "Index",
+"idx_dtype": "str",
+"first": "2013-01",
+"last": "2018-12",
+"cols": [
+"0",
+"1101",
+"1102",
+"1103",
+"1104",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1210",
+"1213"
+],
+"ncols": 950
+},
+{
+"path": "o_v4_revenue_patch_official/yoy_rev5y_FIX.parquet",
+"shape": [
+70,
+1856
+],
+"idx_type": "Index",
+"idx_dtype": "str",
+"first": "2020-12",
+"last": "2026-09",
+"cols": [
+"1101",
+"1102",
+"1103",
+"1104",
+"1108",
+"1109",
+"1110",
+"1201",
+"1203",
+"1210",
+"1213",
+"1215"
+],
+"ncols": 1856
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_neg.parquet",
+"shape": [
+3938,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3937",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_pos.parquet",
+"shape": [
+3938,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3937",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s0.parquet",
+"shape": [
+3938,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3937",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s1.parquet",
+"shape": [
+4038,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "4037",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s10.parquet",
+"shape": [
+3971,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3970",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s11.parquet",
+"shape": [
+3944,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3943",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s12.parquet",
+"shape": [
+3950,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3949",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s13.parquet",
+"shape": [
+3985,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3984",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s14.parquet",
+"shape": [
+3864,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3863",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s15.parquet",
+"shape": [
+4114,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "4113",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s16.parquet",
+"shape": [
+3922,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3921",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s17.parquet",
+"shape": [
+3929,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3928",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s18.parquet",
+"shape": [
+4013,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "4012",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s19.parquet",
+"shape": [
+3875,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3874",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s2.parquet",
+"shape": [
+4083,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "4082",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s3.parquet",
+"shape": [
+3974,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3973",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s4.parquet",
+"shape": [
+4026,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "4025",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s5.parquet",
+"shape": [
+3846,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3845",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s6.parquet",
+"shape": [
+3937,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3936",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s7.parquet",
+"shape": [
+3914,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "3913",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s8.parquet",
+"shape": [
+4058,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "4057",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "o_v5_pit_revenue/data/fv_mc_s9.parquet",
+"shape": [
+4038,
+3
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "4037",
+"cols": [
+"code",
+"ym",
+"ratio"
+],
+"ncols": 3
+},
+{
+"path": "rev_announce/navs.parquet",
+"shape": [
+5026,
+24
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-22",
+"cols": [
+"BASE_n10|slip0.001",
+"BASE_n10|stress",
+"BASE_n30|slip0.001",
+"BASE_n30|stress",
+"A_exFIN_n10|slip0.001",
+"A_exFIN_n10|stress",
+"A_exFIN_n30|slip0.001",
+"A_exFIN_n30|stress",
+"B_pit_worst_n10|slip0.001",
+"B_pit_worst_n10|stress",
+"B_pit_worst_n30|slip0.001",
+"B_pit_worst_n30|stress"
+],
+"ncols": 24
+},
+{
+"path": "revenue_longhistory/oos_nav.parquet",
+"shape": [
+5018,
+12
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"EW_pool",
+"M2_n30_slip0.001",
+"M2_n30_slip0.003",
+"M2_n30_slipstress",
+"M2_n30_gross",
+"M2_n10_slip0.001",
+"M2_n10_slip0.003",
+"M2_n10_slipstress",
+"M2_n10_gross",
+"DIAG_gap10_everywhere",
+"DIAG_price_leg_only_w52=1",
+"DIAG_revenue_leg_only_w52=0"
+],
+"ncols": 12
+},
+{
+"path": "strategy_ensemble/ensemble_nav.parquet",
+"shape": [
+5018,
+12
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"S_long|E1",
+"S_long|E2",
+"S_long|E3",
+"S_long|E4",
+"S_long|E5",
+"S_long|E6",
+"S_recent|E1",
+"S_recent|E2",
+"S_recent|E3",
+"S_recent|E4",
+"S_recent|E5",
+"S_recent|E6"
+],
+"ncols": 12
+},
+{
+"path": "strategy_ensemble/strategy_nav.parquet",
+"shape": [
+5018,
+13
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"N30",
+"N10",
+"H52",
+"H52K90",
+"TURN_C",
+"MINV",
+"DISP_PX",
+"E0050",
+"E0050_MA",
+"DISP_REAL",
+"SURGE",
+"DISP_PX_cash"
+],
+"ncols": 13
+},
+{
+"path": "tpex_main/navs_n30.parquet",
+"shape": [
+5018,
+6
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"base|TWSE_top300|n30|slip0.001",
+"base|TPEX_top300|n30|slip0.001",
+"base|COMB_top400|n30|slip0.001",
+"exFIN|TWSE_top300|n30|slip0.001",
+"exFIN|TPEX_top300|n30|slip0.001",
+"exFIN|COMB_top400|n30|slip0.001"
+],
+"ncols": 6
+},
+{
+"path": "turnover_buffer/buffer_nav.parquet",
+"shape": [
+5322,
+50
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-11",
+"last": "2026-10-12",
+"cols": [
+"A_P1only_EW",
+"A_P1only_n30_K30_gross",
+"A_P1only_n30_K30_0.001",
+"A_P1only_n30_K30_stress",
+"A_P1only_n30_K45_gross",
+"A_P1only_n30_K45_0.001",
+"A_P1only_n30_K45_stress",
+"A_P1only_n30_K60_gross",
+"A_P1only_n30_K60_0.001",
+"A_P1only_n30_K60_stress",
+"A_P1only_n30_K90_gross",
+"A_P1only_n30_K90_0.001"
+],
+"ncols": 50
+},
+{
+"path": "value_fix/fix_log.parquet",
+"shape": [
+52863,
+13
+],
+"idx_type": "Index",
+"idx_dtype": "int64",
+"first": "695",
+"last": "330831",
+"cols": [
+"date",
+"code",
+"val",
+"val_fix",
+"method",
+"k",
+"q",
+"n_rows",
+"n_ts",
+"last_ts",
+"off_vol",
+"dt_vol"
+],
+"ncols": 13
+},
+{
+"path": "w12_bensdorp_weekly_rotation/nav.parquet",
+"shape": [
+5585,
+16
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool_weekly",
+"EW_pool_monthly",
+"0050",
+"MAIN_52w_rev_n30_0.001",
+"MAIN_52w_rev_n10_0.001",
+"P1_52wHigh_n10_0.001",
+"P1_52wHigh_n30_0.001",
+"A_gross",
+"A_0.0",
+"A_0.001",
+"A_stress",
+"B_gross"
+],
+"ncols": 16
+},
+{
+"path": "w12_betting_against_beta/nav.parquet",
+"shape": [
+4345,
+50
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2009-01-05",
+"last": "2026-10-22",
+"cols": [
+"EW_TAIEX",
+"Q1_EW_TAIEX",
+"Q1_EW_TAIEX_gross",
+"Q1_EW_TAIEX_stress",
+"LOW30_EW_TAIEX",
+"LOW30_EW_TAIEX_gross",
+"LOW30_EW_TAIEX_stress",
+"RW_LOW_TAIEX",
+"RW_LOW_TAIEX_gross",
+"RW_LOW_TAIEX_stress",
+"RW_HIGH_TAIEX",
+"RW_HIGH_TAIEX_gross"
+],
+"ncols": 50
+},
+{
+"path": "w12_broken_board_fanbao/nav_main_h5.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_connors_mdd/nav.parquet",
+"shape": [
+5585,
+22
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"AGG_NT_gross",
+"AGG_NT_rt0.5",
+"AGG_NT_slip0.1",
+"AGG_NT_stress",
+"STD_NT_gross",
+"STD_NT_rt0.5",
+"STD_NT_slip0.1",
+"STD_NT_stress",
+"AGG_T10_gross",
+"AGG_T10_rt0.5"
+],
+"ncols": 22
+},
+{
+"path": "w12_connors_pctb/nav.parquet",
+"shape": [
+5585,
+82
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"P5_1_BASE_NT_shadowEW",
+"P5_1_BASE_NT_gross",
+"P5_1_BASE_NT_0.001",
+"P5_1_BASE_NT_stress",
+"P5_1_BASE_T20_shadowEW",
+"P5_1_BASE_T20_gross",
+"P5_1_BASE_T20_0.001",
+"P5_1_BASE_T20_stress",
+"P5_1_AGG_NT_shadowEW",
+"P5_1_AGG_NT_gross"
+],
+"ncols": 82
+},
+{
+"path": "w12_conservative_formula/nav.parquet",
+"shape": [
+4842,
+26
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-12-29",
+"last": "2026-10-22",
+"cols": [
+"EW_U|gross",
+"EW_LV|gross",
+"CF20|gross",
+"CF20|0.001",
+"CF20|stress",
+"CF30|gross",
+"CF30|0.001",
+"CF30|stress",
+"LV_EW|gross",
+"LV_EW|0.001",
+"LV_EW|stress",
+"LV_NPY20|gross"
+],
+"ncols": 26
+},
+{
+"path": "w12_dogs_of_tw50/nav.parquet",
+"shape": [
+5337,
+25
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-12-31",
+"last": "2026-10-22",
+"cols": [
+"EW50_gross",
+"EW50_net",
+"EW30_gross",
+"EW30_net",
+"main|gross",
+"main|0.001",
+"main|stress",
+"a_small_dogs|gross",
+"a_small_dogs|0.001",
+"a_small_dogs|stress",
+"b_pool30|gross",
+"b_pool30|0.001"
+],
+"ncols": 25
+},
+{
+"path": "w12_first_board_gap_down/nav_primary_A.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_first_board_gap_down/nav_primary_B.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_first_board_gap_down/nav_primary_C.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_foreign_intensity_monthly/nav.parquet",
+"shape": [
+1161,
+49
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-12-01",
+"last": "2026-10-22",
+"cols": [
+"EW_FI20_False_False",
+"FI20_TOP20",
+"FI20_TOP20_gross",
+"FI20_TOP20_stress",
+"EW_FI60_False_False",
+"FI60_TOP20",
+"FI60_TOP20_gross",
+"FI60_TOP20_stress",
+"FI20_D10",
+"FI20_D10_gross",
+"FI20_D10_stress",
+"EW_FI20_True_False"
+],
+"ncols": 49
+},
+{
+"path": "w12_foreign_streak_pullback/nav_BASE.parquet",
+"shape": [
+1383,
+1
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-01-04",
+"last": "2026-10-22",
+"cols": [
+"nav"
+],
+"ncols": 1
+},
+{
+"path": "w12_gap_fill_daytrade/nav_primary.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_limit_hit_lottery/nav.parquet",
+"shape": [
+5336,
+72
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"EW_NET20",
+"NET20_Q1_gross",
+"NET20_Q1",
+"NET20_Q1_stress",
+"NET20_Q5_gross",
+"NET20_Q5",
+"NET20_Q5_stress",
+"NET20_Q2_diag_gross",
+"NET20_Q3_diag_gross",
+"NET20_Q4_diag_gross",
+"NET20_Q1_tie_gross",
+"NET20_Q1_tie"
+],
+"ncols": 72
+},
+{
+"path": "w12_macd_zero_200ema_rush/nav.parquet",
+"shape": [
+5585,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"A_1.5R_gross",
+"A_1.5R_0.0",
+"A_1.5R_0.001",
+"A_1.5R_stress",
+"B_xdn_stop_gross",
+"B_xdn_stop_0.0",
+"B_xdn_stop_0.001",
+"B_xdn_stop_stress",
+"diag_B0_pure_xdn_gross",
+"diag_B0_pure_xdn_0.0"
+],
+"ncols": 18
+},
+{
+"path": "w12_radge_bbo/nav.parquet",
+"shape": [
+5585,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"A_noFilter_gross",
+"A_noFilter_0.001",
+"A_noFilter_stress",
+"B_taiex200_gross",
+"B_taiex200_0.001",
+"B_taiex200_stress",
+"diag_C_0050_200_gross",
+"diag_C_0050_200_0.001",
+"diag_C_0050_200_stress",
+"diag_D_cross_noFilter_gross"
+],
+"ncols": 14
+},
+{
+"path": "w12_residual_momentum/nav.parquet",
+"shape": [
+5012,
+26
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-05-02",
+"last": "2026-10-22",
+"cols": [
+"EW_gross",
+"EW_net",
+"RC_D10",
+"RC_D10_gross",
+"RC_D10_stress",
+"RC_D10_c05",
+"RC_N30",
+"RC_N30_gross",
+"RC_N30_stress",
+"RC_N30_c05",
+"RF_D10",
+"RF_D10_gross"
+],
+"ncols": 26
+},
+{
+"path": "w12_second_board_relay/nav_base_A.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_second_board_relay/nav_base_B.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_second_board_relay/nav_base_C.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_stop_low_next_open_rebound/nav_primary_A.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_stop_low_next_open_rebound/nav_primary_B.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_stop_low_next_open_rebound/nav_primary_C.parquet",
+"shape": [
+5585,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos"
+],
+"ncols": 4
+},
+{
+"path": "w12_trend_factor_hzz/nav.parquet",
+"shape": [
+4330,
+26
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2009-02-02",
+"last": "2026-10-22",
+"cols": [
+"EW_gross",
+"EW_net",
+"TF11_Q20",
+"TF11_Q20_gross",
+"TF11_Q20_stress",
+"TF11_Q20_c05",
+"TF11_N30",
+"TF11_N30_gross",
+"TF11_N30_stress",
+"TF11_N30_c05",
+"S200_Q20",
+"S200_Q20_gross"
+],
+"ncols": 26
+},
+{
+"path": "w1_bull_alignment_rising/nav.parquet",
+"shape": [
+5336,
+10
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"EW_gross",
+"EW_net",
+"SHORT_ALL",
+"SHORT_ALL_gross",
+"SHORT_TOP30",
+"SHORT_TOP30_gross",
+"LONG_ALL",
+"LONG_ALL_gross",
+"LONG_TOP30",
+"LONG_TOP30_gross"
+],
+"ncols": 10
+},
+{
+"path": "w1_canslim_proxy/nav.parquet",
+"shape": [
+978,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2022-09-01",
+"last": "2026-10-22",
+"cols": [
+"EW",
+"EW_Mtiming",
+"main_gross",
+"main_0.001",
+"main_stress",
+"no_stop_gross",
+"no_stop_0.001",
+"no_stop_stress",
+"no_M_gross",
+"no_M_0.001",
+"no_M_stress",
+"no_stop_no_M_gross"
+],
+"ncols": 14
+},
+{
+"path": "w1_minervini_trend_template/nav.parquet",
+"shape": [
+5336,
+31
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"EW_gross",
+"EW_net",
+"BASE_ALL_ME",
+"BASE_ALL_ME_gross",
+"BASE_ALL_MA50",
+"BASE_ALL_MA50_gross",
+"BASE_TOP20_ME",
+"BASE_TOP20_ME_gross",
+"BASE_TOP20_MA50",
+"BASE_TOP20_MA50_gross",
+"STRICT_ALL_ME",
+"STRICT_ALL_ME_gross"
+],
+"ncols": 31
+},
+{
+"path": "w1_pe_river_low/nav.parquet",
+"shape": [
+737,
+8
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2023-09-01",
+"last": "2026-10-22",
+"cols": [
+"ex_cyclical_EW",
+"ex_cyclical_gross",
+"ex_cyclical_0.001",
+"ex_cyclical_stress",
+"incl_cyclical_EW",
+"incl_cyclical_gross",
+"incl_cyclical_0.001",
+"incl_cyclical_stress"
+],
+"ncols": 8
+},
+{
+"path": "w1_rev_13m_high_stop7/nav.parquet",
+"shape": [
+5046,
+4
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-03-13",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"slots30_gross",
+"slots30_0.001",
+"slots30_stress"
+],
+"ncols": 4
+},
+{
+"path": "w1_rev_13m_high_stop7/trades.parquet",
+"shape": [
+11435,
+12
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "11434",
+"cols": [
+"k",
+"d",
+"e",
+"x",
+"code",
+"p0",
+"p1",
+"why",
+"yoy",
+"ret",
+"hold",
+"ew"
+],
+"ncols": 12
+},
+{
+"path": "w1_rev_record_high/nav.parquet",
+"shape": [
+5065,
+12
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-02-13",
+"last": "2026-10-22",
+"cols": [
+"H_all_EW",
+"H_all_gross",
+"H_all_0.001",
+"H_all_stress",
+"H48_EW",
+"H48_gross",
+"H48_0.001",
+"H48_stress",
+"H13_EW",
+"H13_gross",
+"H13_0.001",
+"H13_stress"
+],
+"ncols": 12
+},
+{
+"path": "w1_rev_yoy_turnaround/nav.parquet",
+"shape": [
+5005,
+19
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-05-11",
+"last": "2026-10-22",
+"cols": [
+"EW",
+"A_H1_gross",
+"A_H1_0.001",
+"A_H1_stress",
+"A_H3_gross",
+"A_H3_0.001",
+"A_H3_stress",
+"B_H1_gross",
+"B_H1_0.001",
+"B_H1_stress",
+"B_H3_gross",
+"B_H3_0.001"
+],
+"ncols": 19
+},
+{
+"path": "w1_turtle_donchian/nav.parquet",
+"shape": [
+5585,
+20
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"S1_noPyr_gross",
+"S1_noPyr_0.001",
+"S1_noPyr_stress",
+"S1_pyr_U80_gross",
+"S1_pyr_U80_0.001",
+"S1_pyr_U80_stress",
+"S2_noPyr_gross",
+"S2_noPyr_0.001",
+"S2_noPyr_stress",
+"S2_pyr_U80_gross"
+],
+"ncols": 20
+},
+{
+"path": "w3_52w_low_nearness/navs.parquet",
+"shape": [
+5336,
+15
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"D1_gross",
+"D10_gross",
+"D1_leg_gross",
+"D10_leg_gross",
+"EW_gross",
+"D1_leg_normal",
+"D1_leg_stress",
+"D10_leg_normal",
+"D10_leg_stress",
+"aD1_gross",
+"aD1_normal",
+"aD1_stress"
+],
+"ncols": 15
+},
+{
+"path": "w3_amihud_illiquidity/nav.parquet",
+"shape": [
+5336,
+23
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"EW_gross",
+"EW_net",
+"EW30M_gross",
+"A250_Q5",
+"A250_Q5_gross",
+"A21_Q5",
+"A21_Q5_gross",
+"VC_Q5",
+"VC_Q5_gross",
+"RES_Q5",
+"RES_Q5_gross",
+"A250_TERC_Q5"
+],
+"ncols": 23
+},
+{
+"path": "w3_ath_breakout_duke/nav.parquet",
+"shape": [
+5585,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"ATH_raw_gross",
+"ATH_raw_0.0",
+"ATH_raw_0.001",
+"ATH_raw_stress",
+"ATH_adj_gross",
+"ATH_adj_0.0",
+"ATH_adj_0.001",
+"ATH_adj_stress",
+"H52_raw_gross",
+"H52_raw_0.0"
+],
+"ncols": 18
+},
+{
+"path": "w3_bollinger_squeeze/nav.parquet",
+"shape": [
+5585,
+23
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"MAIN_gross",
+"MAIN_0.001",
+"MAIN_stress",
+"a_NOVOL_gross",
+"a_NOVOL_0.001",
+"a_NOVOL_stress",
+"b_PCT5_gross",
+"b_PCT5_0.001",
+"b_PCT5_stress",
+"c_TTM_gross"
+],
+"ncols": 23
+},
+{
+"path": "w3_clenow_stocks_on_move/nav.parquet",
+"shape": [
+5585,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"EW_pool_weekly",
+"0050",
+"PRIMARY_gross",
+"PRIMARY_0.001",
+"PRIMARY_stress",
+"D1_score_52wHigh_gross",
+"D1_score_52wHigh_0.001",
+"D2_score_ret90_gross",
+"D2_score_ret90_0.001",
+"D3_no_index_filter_gross",
+"D3_no_index_filter_0.001"
+],
+"ncols": 14
+},
+{
+"path": "w3_connors_crsi/nav.parquet",
+"shape": [
+5585,
+43
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool_HV30",
+"EW_liq",
+"0050",
+"F200_c10_E70_A_gross",
+"F200_c10_E70_A_0.001",
+"F200_c10_E70_A_stress",
+"F200_c10_E70_B_gross",
+"F200_c10_E70_B_0.001",
+"F200_c10_E70_B_stress",
+"F200_c10_E50_A_0.001",
+"F200_c10_E50_B_0.001",
+"F200_c10_SMA5_A_0.001"
+],
+"ncols": 43
+},
+{
+"path": "w3_connors_double7/nav.parquet",
+"shape": [
+5585,
+8
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"N7_T20_gross",
+"N7_T20_0.001",
+"N7_T20_stress",
+"N7_NT_gross",
+"N7_NT_0.001",
+"N7_NT_stress"
+],
+"ncols": 8
+},
+{
+"path": "w3_connors_r3/nav.parquet",
+"shape": [
+5585,
+23
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"WHS_T10_gross",
+"WHS_T10_0.001",
+"WHS_T10_stress",
+"WHS_NT_gross",
+"WHS_NT_0.001",
+"WHS_NT_stress",
+"TV_T10_gross",
+"TV_T10_0.001",
+"TV_T10_stress",
+"TV_NT_gross"
+],
+"ncols": 23
+},
+{
+"path": "w3_connors_rsi2_sma5/nav.parquet",
+"shape": [
+5585,
+26
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"th10_A_T10_gross",
+"th10_A_T10_0.001",
+"th10_A_T10_stress",
+"th10_A_NT_gross",
+"th10_A_NT_0.001",
+"th10_A_NT_stress",
+"th10_B_T10_gross",
+"th10_B_T10_0.001",
+"th10_B_T10_stress",
+"th10_B_NT_gross"
+],
+"ncols": 26
+},
+{
+"path": "w3_connors_tps/nav.parquet",
+"shape": [
+5585,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_liq",
+"0050",
+"P_F_T20_gross",
+"P_F_T20_0.001",
+"P_F_T20_stress",
+"P_F_NT_0.001",
+"P_NF_T20_0.001",
+"P_NF_NT_0.001",
+"D_F_T20_gross",
+"D_F_T20_0.001",
+"D_F_T20_stress",
+"D_F_NT_0.001"
+],
+"ncols": 18
+},
+{
+"path": "w3_dividend_lowvol/nav.parquet",
+"shape": [
+4842,
+33
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-12-29",
+"last": "2026-10-22",
+"cols": [
+"EW_divpool|annual|E3",
+"EW_liqpool|annual|E3",
+"annual|ew|E3|pre|gross",
+"annual|ew|E3|pre|0.001",
+"annual|ew|E3|pre|stress",
+"annual|yld|E3|pre|gross",
+"annual|yld|E3|pre|0.001",
+"annual|yld|E3|pre|stress",
+"EW_divpool|semi|E3",
+"EW_liqpool|semi|E3",
+"semi|ew|E3|pre|gross",
+"semi|ew|E3|pre|0.001"
+],
+"ncols": 33
+},
+{
+"path": "w3_frog_in_pan_momentum/nav.parquet",
+"shape": [
+5336,
+23
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"EW_gross",
+"EW_net",
+"0050",
+"FIP20_LOW_H3",
+"FIP20_LOW_H3_gross",
+"FIP20_LOW_H3_stress",
+"FIP20_LOW_H1",
+"FIP20_LOW_H1_gross",
+"FIP20_LOW_H1_stress",
+"FIP10_LOW_H3",
+"FIP10_LOW_H3_gross",
+"FIP10_LOW_H3_stress"
+],
+"ncols": 23
+},
+{
+"path": "w3_high_volume_premium/events_a_GKM_daily_20d.parquet",
+"shape": [
+301522,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "301521",
+"cols": [
+"entry",
+"code",
+"gross",
+"net",
+"ew",
+"ab_net",
+"ab_gross"
+],
+"ncols": 7
+},
+{
+"path": "w3_high_volume_premium/events_b_AV_top10_1w.parquet",
+"shape": [
+55715,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "55714",
+"cols": [
+"entry",
+"code",
+"gross",
+"net",
+"ew",
+"ab_net",
+"ab_gross"
+],
+"ncols": 7
+},
+{
+"path": "w3_high_volume_premium/events_b_AV_top10_5w.parquet",
+"shape": [
+55715,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "55714",
+"cols": [
+"entry",
+"code",
+"gross",
+"net",
+"ew",
+"ab_net",
+"ab_gross"
+],
+"ncols": 7
+},
+{
+"path": "w3_high_volume_premium/events_c_RVOL2_up_20d.parquet",
+"shape": [
+160856,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "160855",
+"cols": [
+"entry",
+"code",
+"gross",
+"net",
+"ew",
+"ab_net",
+"ab_gross"
+],
+"ncols": 7
+},
+{
+"path": "w3_high_volume_premium/events_c_RVOL2_up_5d.parquet",
+"shape": [
+160856,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "160855",
+"cols": [
+"entry",
+"code",
+"gross",
+"net",
+"ew",
+"ab_net",
+"ab_gross"
+],
+"ncols": 7
+},
+{
+"path": "w3_high_volume_premium/events_d_low_volume_20d.parquet",
+"shape": [
+74159,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "74158",
+"cols": [
+"entry",
+"code",
+"gross",
+"net",
+"ew",
+"ab_net",
+"ab_gross"
+],
+"ncols": 7
+},
+{
+"path": "w3_high_volume_premium/events_main_GKM_weekly_20d.parquet",
+"shape": [
+74174,
+7
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "74173",
+"cols": [
+"entry",
+"code",
+"gross",
+"net",
+"ew",
+"ab_net",
+"ab_gross"
+],
+"ncols": 7
+},
+{
+"path": "w3_high_volume_premium/navs.parquet",
+"shape": [
+5336,
+28
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"main_GKM_weekly_20d_EW",
+"main_GKM_weekly_20d_gross",
+"main_GKM_weekly_20d_normal",
+"main_GKM_weekly_20d_stress",
+"d_low_volume_20d_EW",
+"d_low_volume_20d_gross",
+"d_low_volume_20d_normal",
+"d_low_volume_20d_stress",
+"a_GKM_daily_20d_EW",
+"a_GKM_daily_20d_gross",
+"a_GKM_daily_20d_normal",
+"a_GKM_daily_20d_stress"
+],
+"ncols": 28
+},
+{
+"path": "w3_idio_vol/nav.parquet",
+"shape": [
+5336,
+57
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"EW_IVOL21_MKT",
+"MKT21_A_low",
+"MKT21_A_low_gross",
+"MKT21_A_low_stress",
+"MKT21_B_high",
+"MKT21_B_high_gross",
+"MKT21_B_high_stress",
+"EW_IVOL21_IND",
+"IND21_A_low",
+"IND21_A_low_gross",
+"IND21_A_low_stress",
+"IND21_B_high"
+],
+"ncols": 57
+},
+{
+"path": "w3_limitup_pullback/nav_primary.parquet",
+"shape": [
+5585,
+6
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"net",
+"stress",
+"gross",
+"npos",
+"r0050",
+"ew_pool"
+],
+"ncols": 6
+},
+{
+"path": "w3_pead_ttm_eps_proxy/nav.parquet",
+"shape": [
+1173,
+20
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-11-15",
+"last": "2026-10-22",
+"cols": [
+"S_main_EW",
+"S_main_gross",
+"S_main_0.001",
+"S_main_stress",
+"a_hold20_EW",
+"a_hold20_gross",
+"a_hold20_0.001",
+"a_hold20_stress",
+"b_rev_confirm_EW",
+"b_rev_confirm_gross",
+"b_rev_confirm_0.001",
+"b_rev_confirm_stress"
+],
+"ncols": 20
+},
+{
+"path": "w3_price_delay/nav.parquet",
+"shape": [
+5336,
+32
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"EW_gross",
+"EW_net",
+"W_EW_D10",
+"W_EW_D10_gross",
+"W_TX_D10",
+"W_TX_D10_gross",
+"W_EW_D10_ANNUAL",
+"W_EW_D10_ANNUAL_gross",
+"W_EW_D10_TERC",
+"W_EW_D10_TERC_gross",
+"DAILY_EW_D10",
+"DAILY_EW_D10_gross"
+],
+"ncols": 32
+},
+{
+"path": "w3_psy12_cross/nav.parquet",
+"shape": [
+5585,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"monex_gross",
+"monex_0.001",
+"monex_stress",
+"rakuten_gross",
+"rakuten_0.001",
+"rakuten_stress",
+"moomoo_gross",
+"moomoo_0.001",
+"moomoo_stress",
+"idx_monex"
+],
+"ncols": 14
+},
+{
+"path": "w3_radge_weekend_trend/nav.parquet",
+"shape": [
+5585,
+7
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"PRIMARY_gross",
+"PRIMARY_0.001",
+"PRIMARY_stress",
+"D2_10x10pct_0.001",
+"D3_fixed40_stop_0.001"
+],
+"ncols": 7
+},
+{
+"path": "w3_revenue_sue/cross_nav.parquet",
+"shape": [
+5018,
+11
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2006-04-11",
+"last": "2026-10-12",
+"cols": [
+"EW_pool",
+"main_n30",
+"a30",
+"a30_DIAG_ifrs_skip",
+"b30",
+"b30_DIAG_ifrs_skip",
+"main_n10",
+"a10",
+"a10_DIAG_ifrs_skip",
+"b10",
+"b10_DIAG_ifrs_skip"
+],
+"ncols": 11
+},
+{
+"path": "w3_revenue_sue/nav.parquet",
+"shape": [
+4571,
+24
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2008-02-12",
+"last": "2026-10-22",
+"cols": [
+"S_main_EW",
+"S_main_gross",
+"S_main_0.001",
+"S_main_stress",
+"a_noDrift_EW",
+"a_noDrift_gross",
+"a_noDrift_0.001",
+"a_noDrift_stress",
+"b_hold3_EW",
+"b_hold3_gross",
+"b_hold3_0.001",
+"b_hold3_stress"
+],
+"ncols": 24
+},
+{
+"path": "w3_size_rotation_28/navs.parquet",
+"shape": [
+5336,
+26
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-12-31",
+"last": "2026-10-22",
+"cols": [
+"N10_W_filt|exlib_main",
+"N10_W_nofilt|exlib_main",
+"N10_D_filt|exlib_main",
+"N10_D_nofilt|exlib_main",
+"N20_W_filt|exlib_main",
+"N20_W_nofilt|exlib_main",
+"N20_D_filt|exlib_main",
+"N20_D_nofilt|exlib_main",
+"N60_W_filt|exlib_main",
+"N60_W_nofilt|exlib_main",
+"N60_D_filt|exlib_main",
+"N60_D_nofilt|exlib_main"
+],
+"ncols": 26
+},
+{
+"path": "w3_vcp_contraction_breakout/nav.parquet",
+"shape": [
+5585,
+18
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"VCP_gross",
+"VCP_0.0",
+"VCP_0.001",
+"VCP_stress",
+"DRY_T1_gross",
+"DRY_T1_0.0",
+"DRY_T1_0.001",
+"DRY_T1_stress",
+"NO_DRY_gross",
+"NO_DRY_0.0"
+],
+"ncols": 18
+},
+{
+"path": "w3_weekly_reversal/navs.parquet",
+"shape": [
+5331,
+19
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-10",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"main_gross",
+"main_normal",
+"main_stress",
+"a_industry_adj_gross",
+"a_industry_adj_normal",
+"a_industry_adj_stress",
+"b_residual_gross",
+"b_residual_normal",
+"b_residual_stress",
+"c_low_volume_losers_gross",
+"c_low_volume_losers_normal"
+],
+"ncols": 19
+},
+{
+"path": "w3_weinstein_stage2/nav.parquet",
+"shape": [
+5585,
+14
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"V1X1_gross",
+"V1X1_0.001",
+"V1X1_stress",
+"V2X1_gross",
+"V2X1_0.001",
+"V2X1_stress",
+"V1X2_gross",
+"V1X2_0.001",
+"V1X2_stress",
+"V2X2_gross"
+],
+"ncols": 14
+},
+{
+"path": "w4_buffett_roe_pe_screen/nav.parquet",
+"shape": [
+1223,
+49
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-09-01",
+"last": "2026-10-22",
+"cols": [
+"same_pool_EW",
+"roe15_pe15|monthly|gross",
+"roe15_pe15|monthly|0.001",
+"roe15_pe15|monthly|stress",
+"roe15_pe15|quarterly|gross",
+"roe15_pe15|quarterly|0.001",
+"roe15_pe15|quarterly|stress",
+"roe10_pe15|monthly|gross",
+"roe10_pe15|monthly|0.001",
+"roe10_pe15|monthly|stress",
+"roe10_pe15|quarterly|gross",
+"roe10_pe15|quarterly|0.001"
+],
+"ncols": 49
+},
+{
+"path": "w4_daytrade_ratio_screen/events_B.parquet",
+"shape": [
+866,
+11
+],
+"idx_type": "RangeIndex",
+"idx_dtype": "int64",
+"first": "0",
+"last": "865",
+"cols": [
+"date",
+"entry",
+"code",
+"h",
+"raw",
+"ew",
+"r50",
+"dt",
+"dt20p",
+"att",
+"att_known"
+],
+"ncols": 11
+},
+{
+"path": "w4_daytrade_ratio_screen/navs.parquet",
+"shape": [
+1384,
+28
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2020-12-31",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"Q1_gross",
+"Q1_net",
+"Q1_stress",
+"Q2_gross",
+"Q2_net",
+"Q2_stress",
+"Q3_gross",
+"Q3_net",
+"Q3_stress",
+"Q4_gross",
+"Q4_net"
+],
+"ncols": 28
+},
+{
+"path": "w4_daytrade_ratio_screen/navs_gap20.parquet",
+"shape": [
+1384,
+28
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2020-12-31",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"Q1_gross",
+"Q1_net",
+"Q1_stress",
+"Q2_gross",
+"Q2_net",
+"Q2_stress",
+"Q3_gross",
+"Q3_net",
+"Q3_stress",
+"Q4_gross",
+"Q4_net"
+],
+"ncols": 28
+},
+{
+"path": "w4_historical_price_band/nav.parquet",
+"shape": [
+4331,
+54
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2009-01-21",
+"last": "2026-10-22",
+"cols": [
+"EW_K10",
+"EW_K5",
+"EW_K10cap15",
+"A|N7|raw|eq|gross",
+"A|N7|raw|eq|0.001",
+"A|N7|raw|eq|stress",
+"A|N10|raw|eq|gross",
+"A|N10|raw|eq|0.001",
+"A|N10|raw|eq|stress",
+"A|N7|adj|eq|gross",
+"A|N7|adj|eq|0.001",
+"A|N7|adj|eq|stress"
+],
+"ncols": 54
+},
+{
+"path": "w4_lev2_half_rebalance/nav.parquet",
+"shape": [
+5363,
+7
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2005-01-03",
+"last": "2026-10-22",
+"cols": [
+"A|slip0.001|cash1|hybrid_on",
+"B|slip0.001|cash1|hybrid_on",
+"C|slip0.001|cash1|hybrid_on",
+"BENCH_0050",
+"BENCH_L2_100",
+"BENCH_MA200_0050",
+"BENCH_EW_gross"
+],
+"ncols": 7
+},
+{
+"path": "w4_lin_pencil_base_breakout/nav.parquet",
+"shape": [
+5585,
+34
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2004-01-02",
+"last": "2026-10-22",
+"cols": [
+"EW_pool",
+"0050",
+"BASE_gross",
+"BASE_0.0",
+"BASE_0.001",
+"BASE_stress",
+"NO_REV_gross",
+"NO_REV_0.0",
+"NO_REV_0.001",
+"NO_REV_stress",
+"NO_PENCIL_gross",
+"NO_PENCIL_0.0"
+],
+"ncols": 34
+},
+{
+"path": "w4_peg_revenue_growth/nav.parquet",
+"shape": [
+1215,
+16
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2021-09-13",
+"last": "2026-10-22",
+"cols": [
+"same_pool_EW",
+"peg0.75_ttm|gross",
+"peg0.75_ttm|0.001",
+"peg0.75_ttm|stress",
+"peg1.0_ttm|gross",
+"peg1.0_ttm|0.001",
+"peg1.0_ttm|stress",
+"peg0.75_3m|gross",
+"peg0.75_3m|0.001",
+"peg0.75_3m|stress",
+"peg1.0_3m|gross",
+"peg1.0_3m|0.001"
+],
+"ncols": 16
+},
+{
+"path": "w4_roe_yield_compounder/nav.parquet",
+"shape": [
+1022,
+55
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2022-07-01",
+"last": "2026-10-22",
+"cols": [
+"same_pool_EW",
+"main|annual_7|gross",
+"main|annual_7|0.001",
+"main|annual_7|stress",
+"main|quarterly|gross",
+"main|quarterly|0.001",
+"main|quarterly|stress",
+"main|monthly|gross",
+"main|monthly|0.001",
+"main|monthly|stress",
+"main|annual_1|gross",
+"main|annual_1|0.001"
+],
+"ncols": 55
+},
+{
+"path": "w4_sun_7pct_dividend_bible/nav.parquet",
+"shape": [
+4075,
+40
+],
+"idx_type": "DatetimeIndex",
+"idx_dtype": "datetime64[us]",
+"first": "2010-01-29",
+"last": "2026-10-22",
+"cols": [
+"same_pool_EW",
+"E1|hyst|idle_cash|gross",
+"E1|hyst|idle_cash|0.001",
+"E1|hyst|idle_cash|stress",
+"E1|hyst|idle_0050|gross",
+"E1|hyst|idle_0050|0.001",
+"E1|hyst|idle_0050|stress",
+"E1|simple|idle_cash|gross",
+"E1|simple|idle_cash|0.001",
+"E1|simple|idle_cash|stress",
+"E1|simple|idle_0050|gross",
+"E1|simple|idle_0050|0.001"
+],
+"ncols": 40
+}
+]
