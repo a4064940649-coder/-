@@ -1,0 +1,45 @@
+{
+ "note": "本題（o_rev_gap_news_2013）新來源搜尋紀錄（2026-10-28 UTC）。o5 的 sources_log（o_v5_pit_revenue/sources_log.json）已搜過的查詢不重複；網路可達性同 o5（只有 github.com git clone、GitHub MCP 搜尋可用）。所有 raw 視為不可信，只當文字讀，一律 python3 -I。",
+ "github_code_searches": [
+  {"q": "\"矽品\" \"營收\" \"2014\" extension:csv", "total": 1350, "hit": "幾乎全是 aRthur08701244/Intern-in-CTBC（已有）；taiwanan tse_earning_raw_data（季報，已有）"},
+  {"q": "\"[情報]\" \"營收\" \"矽品\"", "total": 30, "hit": "ji08kk44/BDSE26_TEAM3 ptt/ptt_csv(date)（PTT Stock 板 2019-01～2022-08 逐日檔）→ clone；其餘為 2026 年 Google Alert／新聞機器人"},
+  {"q": "\"月營收\" \"年增\" \"2014\" extension:json", "total": 2164, "hit": "joe94113/TW_Active_Tracker（近年）、Sapphirine/...Default-Prediction（2020 年抓的公司新聞，非 PIT 封存）、allenyummy/GoodInfo（2021-08～09 媒體）；無 2013～2018 可用封存"},
+  {"q": "\"日月光\" \"月營收\" \"2013\" extension:csv", "total": 2040, "hit": "CTBC（已有）、nickchengtw（2022 起）"},
+  {"q": "\"矽品\" \"營收\" \"年增\" extension:json", "total": 229, "hit": "全為 2020 年後或 2026 年新聞機器人；BDSE26 PTT"},
+  {"q": "\"晶電\" \"營收\" \"2014\" \"鉅亨\"", "total": 1576, "hit": "CTBC（已有）"},
+  {"q": "\"華亞科\" \"營收\"", "total": 1622, "hit": "CTBC；bofrankbo/LLM-Predict-Stock history_data/tw/stock_news/<代碼>/（逐檔新聞，檔名＝日期）→ clone；0lidaxiang/NLP-for-DP（PTT 斷詞文本，無日期欄）；jasonblog 筆記"},
+  {"q": "\"勝華\" \"月營收\" NOT repo:aRthur08701244/Intern-in-CTBC", "total": 117, "hit": "bofrankbo（6176 等）、BDSE26 PTT、allenyummy（2021）"},
+  {"q": "repo:bofrankbo/LLM-Predict-Stock path:history_data/tw/stock_news 營收 矽品", "total": 42, "hit": "該 repo 只有 55 檔股票的逐檔新聞；與本題 48 檔缺口股只交集 2311 日月光"},
+  {"q": "repo:bofrankbo/LLM-Predict-Stock 月營收 華亞科", "total": 1, "hit": "3264 檔內提及"},
+  {"q": "\"bbs/Stock/M.14\" \"營收\"", "total": 19, "hit": "roccqqck/stock_eland（5pa_article.csv：Yahoo 股市＋PTT 3,086 篇，2016-01～2018-12，post_time 含時間）→ clone；BarryPan/PyconTW2017（模型資料）"},
+  {"q": "\"[情報]\" \"月營收\" \"2015\"", "total": 372, "hit": "jimkhuang/tapioca（2023 年 PTT）、BDSE26、casper1126（o5 已檢查）；無 2013～2018 PTT 情報文封存"},
+  {"q": "\"公司代號\" \"當月營收\" \"去年當月營收\" path:2014", "total": 0, "hit": "0"},
+  {"q": "\"去年當月營收\" \"2325\" extension:csv", "total": 116, "hit": "ch-lai/TWStock-Screener（2018-09～2019-08；完整 git 歷史只有 2019-09-13～14 的提交 → 無 PIT 時間戳）、其餘 2021 年後"},
+  {"q": "\"去年當月營收\" \"華亞科\"", "total": 0, "hit": "0"},
+  {"q": "\"sii_103_\" OR \"sii_104_\" OR \"sii_102_\"", "total": 4, "hit": "無關（蛋白質體學檔）"},
+  {"q": "\"103年\" \"月營收\" \"矽品\" OR \"103年\" \"營業收入\" \"2325\"", "total": 104, "hit": "全是 CTBC"},
+  {"q": "\"營業收入-當月營收\" \"營業收入-去年當月營收\" path:2017", "total": 0, "hit": "0"},
+  {"q": "\"當月營收\" \"去年當月營收\" filename:2016_1.csv OR filename:105_1.csv OR filename:201601.csv", "total": 0, "hit": "0"}
+ ],
+ "github_repo_searches": [
+  {"q": "ptt stock 板 爬蟲 data 2014", "total": 0},
+  {"q": "mops monthly revenue crawler data（sort=updated）", "total": 0},
+  {"q": "台股 月營收 歷史 csv", "total": 0},
+  {"q": "monthly revenue taiwan stock created:<2019-01-01", "total": 0}
+ ],
+ "git_timestamp_mirrors_checked": [
+  {"repo": "/home/user/mickyang12/mops（本機）", "result": "只有 1 個提交 2026-10-13 → 無 2013～2021 PIT 時間戳"},
+  {"repo": "ch-lai/TWStock-Screener（完整歷史 clone 到 raw/chlai_full）", "result": "data/monthly 只有 2019-09-14 一次提交；2018-09～2019-08 月營收全部晚於各訊號日 → 不可當 PIT"},
+  {"repo": "taiwanan/TW_Stock_Exchange_Crawler（o_v4 raw/taiwanan）", "result": "月營收提交 2018-12～2019-09（o5 已查），多數晚於訊號日；季報只用法定期限當時間戳"}
+ ],
+ "cloned_to_raw": {
+  "raw/bofrankbo_LLM-Predict-Stock": {"head": "3d2baa6e1e966b7fe29e53bee806e908e34f910a", "used": "history_data/tw/stock_news/2311/2311_news（551 檔，檔名＝日期，無時間）", "partial_clone": "blob:none，只 checkout 2311"},
+  "raw/ji08kk44_BDSE26_TEAM3": {"head": "13882587753f5db835cd98a1e2f43c8203fc5f11", "used": "ptt/ptt_csv(date)/2019-01-01～2021-12-31（檔名＝發文日，無時間；2019-02-29 等不存在日期的檔整檔不用）"},
+  "raw/roccqqck_stock_eland": {"head": "191e20a5a22082f5a3f556d673a7229da99a8d2f", "used": "5pa_article.csv（post_time 含時間）"},
+  "raw/chlai_full": {"head": "32d598168d8e35406a120e97ebe5080cdc234851", "used": "只查 git log（無 PIT），不進代理"},
+  "raw/0lidaxiang_NLP-for-DP": {"head": "39ce9e9699d4e574de64fde0d503b8368d7f11ef", "used": "不用：PTT 斷詞文本無發文時間欄"},
+  "o_v4 raw/ctbc（唯讀引用，不重 clone）": {"head": "258f42aa4502b458b11fcb96f875cdd80266df3f", "used": "EB_EventExtraction2＋EB_SegAndRawNews（兩者是同一批鉅亨文章的兩種格式，佐證時算同一來源）"}
+ },
+ "quarterly": "o_v4 raw_quarterly.parquet（taiwanan 季營收 2013Q1～2018Q3，903 檔；git 提交時間 2018-12 起，不可當 PIT，改用法定期限 Q1 5/15、Q2 8/14（2013 年 8/31）、Q3 11/14、年報 3/31，日期視為 23:59）",
+ "conclusion_pre": "2013～2021 年可用的 PIT 新聞量只有 CTBC 鉅亨抽樣（約 25 萬篇文章）為主；新增的三個來源（PTT 2019～2021、eland 2016～2018、日月光逐檔新聞）對缺口格貢獻很小。找不到任何 2013～2021 有 PIT 提交時間的 MOPS 月營收鏡像。"
+}

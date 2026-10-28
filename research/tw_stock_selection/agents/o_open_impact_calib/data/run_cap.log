@@ -1,0 +1,25 @@
+[     0s] jobs 9280
+[    14s] done 0
+[   153s] done 500
+[   398s] done 1000
+[   563s] done 1500
+[   683s] done 2000
+[   799s] done 2500
+[   920s] done 3000
+[  1063s] done 3500
+[  1340s] done 4000
+[  1471s] done 4500
+[  1586s] done 5000
+[  1702s] done 5500
+[  1875s] done 6000
+[  2062s] done 6500
+[  2276s] done 7000
+[  2446s] done 7500
+[  2603s] done 8000
+[  2749s] done 8500
+[  2861s] done 9000
+/home/user/-/research/tw_stock_selection/agents/o_open_impact_calib/run_cap.py:100: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  df = pd.concat({k: v for k, v in navs.items()}, axis=1)
+/home/user/-/research/tw_stock_selection/agents/o_open_impact_calib/run_cap.py:102: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  pd.concat({k: pd.Series(v, index=navs[k].index) for k, v in tvs.items()}, axis=1).to_parquet(OUTD / 'cap_tv.parquet')
+[  2964s] sims done 9280

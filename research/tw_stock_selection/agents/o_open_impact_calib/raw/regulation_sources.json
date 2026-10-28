@@ -1,0 +1,95 @@
+{
+ "retrieved": "2026-10-28",
+ "access_note": "WebFetch 對 finance.technews.tw、www.cna.com.tw DNS 失敗；www.twse.com.tw、web.archive.org 經 proxy 403。以下只有搜尋引擎回傳的摘要（引號內為摘要中的原文片段），不是頁面全文；視為不可信、需日後以證交所公告原文核對。",
+ "facts": [
+  {
+   "id": "intraday_oddlot_start",
+   "date": "2020-10-26",
+   "rule": "盤中零股上路：9:00 起申報，9:10 第一次撮合，之後每 3 分鐘集合競價撮合；只限限價當日有效、電子下單；13:30 未成交不留到盤後零股",
+   "quote": "盤中零股交易於2020年10月26日上路…證券商自上午9點起將買賣申報輸入交易所，9點10分第一次撮合…之後每3分鐘以集合競價撮合",
+   "urls": [
+    "https://finance.technews.tw/2020/10/26/taiwanese-stocks-intraday-odd-shares-trading/",
+    "https://technews.tw/2020/11/01/be-a-shareholder-of-tsmc-five-ways-to-deal-with-intraday-odd-shares-trading/",
+    "https://www.wantgoo.com/blog/122835/post/288"
+   ]
+  },
+  {
+   "id": "interval_1min",
+   "date": "2022-12-19",
+   "rule": "盤中零股撮合間隔 3 分鐘 → 1 分鐘",
+   "quote": "將於 111 年 12 月 19 日調整盤中零股交易撮合間隔時間，由現行的 3 分鐘縮短至 1 分鐘",
+   "urls": [
+    "https://www.cna.com.tw/news/afe/202208150262.aspx",
+    "https://finance.technews.tw/2022/08/16/intraday-fractional-trade-matching-interval/"
+   ]
+  },
+  {
+   "id": "trial_quote_5s",
+   "date": "2023-11-27",
+   "rule": "盤中零股試算行情揭露間隔 10 秒 → 5 秒",
+   "urls": [
+    "https://finance.technews.tw/2023/09/21/intraday-odd-lot-trial-market-quotation/"
+   ]
+  },
+  {
+   "id": "interval_5s",
+   "date": "2024-12-02",
+   "rule": "盤中零股撮合間隔 1 分鐘 → 5 秒（第一次撮合仍為 9:10）",
+   "quote": "自12月2日起，交易撮合間隔時間將自1分縮短至5秒",
+   "urls": [
+    "https://finance.technews.tw/2024/11/28/odd-lot-trade-matching-interval-reduced-to-5-seconds-1202/",
+    "https://finance.technews.tw/2024/11/25/odd-lot-trade-matching-interval-reduced-to-5-seconds/"
+   ]
+  },
+  {
+   "id": "planned_9am_open_1s",
+   "date": "規劃中（報導分歧：2026-12-07 或最快 2027-07）",
+   "rule": "盤中零股開盤由 9:10 提前到 9:00 與整股同步；撮合間隔 5 秒 → 1 秒（2027-07）；1000 元以上升降單位 5 元 → 1 元（2027-07）",
+   "quote": "盤中零股開盤時間將自上午 9 時 10 分提前至 9 時，預計於 2026 年 12 月 7 日正式上路。但另一則經濟日報報導則稱…最快將於 2027 年 7 月底前上路",
+   "urls": [
+    "https://money.udn.com/money/story/5607/9616176",
+    "https://money.udn.com/money/story/5607/9614239",
+    "https://news.cnyes.com/news/id/6531352",
+    "https://www.sinotrade.com.tw/richclub/hotstock/-6a4e16ff789e8ae57671d05a"
+   ]
+  },
+  {
+   "id": "postmarket_oddlot",
+   "date": "現行（2020-10-26 以前唯一的零股管道）",
+   "rule": "盤後零股 13:40～14:30 申報，14:30 一次集合競價撮合，1～999 股；同價隨機排序",
+   "quote": "盤後零股 13:40 ~ 14:30 申報，14:30 一次撮合，1 ~ 999 股",
+   "urls": [
+    "https://www.twse.com.tw/downloads/zh/trading/introduce/introduce4-1.pdf",
+    "https://www.pocket.tw/school/articles/4541/"
+   ],
+   "caveat": "部分二手來源寫『以收盤價成交』，與盤後定價（整股）混淆；盤後零股實為漲跌幅內限價的集合競價。本題依規格以次日收盤價＋零股價差代理。2020-10-26 以前的申報時段未查到原文。"
+  },
+  {
+   "id": "continuous_trading",
+   "date": "2020-03-23",
+   "rule": "整股盤中改逐筆交易；開盤與收盤仍為集合競價。之前全日每約 5 秒集合競價一次",
+   "quote": "盤中時段(9:00-13:25)實施逐筆交易，開收盤時段仍維持集合競價…舊制是每5秒撮合一次",
+   "urls": [
+    "https://finance.ettoday.net/news/1250691",
+    "https://finance.ettoday.net/news/1250723"
+   ],
+   "implication": "2020-03-23 以前的『開盤集合競價量』是第一盤 5 秒撮合量，與現制定義不同；回推誤差要加大"
+  },
+  {
+   "id": "broker_min_fee",
+   "date": "2020～2026",
+   "rule": "多數券商整股每筆最低手續費 20 元；盤中零股上路後多家券商（富邦、國泰、新光、永豐金、元富、玉山富果、統一等）零股最低 1 元；群益、凱基等曾維持 20 元。電子下單折扣常見 2.8～6 折，部分為月退",
+   "quote": "零股最低手續費1元的券商已相當普遍…目前包括群益金鼎、凱基等多家券商仍維持最低手續費 20 元的機制",
+   "urls": [
+    "https://finance.technews.tw/2020/10/27/pay-attention-to-the-cost-of-handling-fees-when-buying-odd-shares/",
+    "https://www.money101.com.tw/blog/熱門券商比一比"
+   ],
+   "caveat": "折扣與最低費用逐券商、逐時期不同；2015 年以前 2.8 折電子下單不普遍（未查證），所以情境 B（6 折、最低 20 元）是早期較合理的口徑"
+  },
+  {
+   "id": "tax",
+   "date": "全期",
+   "rule": "現股賣出證交稅 0.3%（本題全期一律 0.3%；當沖減半不適用）"
+  }
+ ]
+}

@@ -1,0 +1,321 @@
+{
+ "note": "α̂ 描述只用 SEL 157 窗；群集用 W_long 相關係數（族群定義，事前登記）",
+ "data_checks": {
+  "non_holiday_nav_gaps": [
+   {
+    "series": "AB_V4",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "AB_V4_B10",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "EXEC_100F",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "AB_V5_B10",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   }
+  ],
+  "long_windows": [
+   {
+    "window_start": "2010-01-11",
+    "weekdays": 30
+   },
+   {
+    "window_start": "2023-12-11",
+    "weekdays": 48
+   }
+  ],
+  "family_windows": 245,
+  "family_first": "2006-04-11",
+  "family_last_start": "2026-09-11",
+  "family_nan_cells_before_fill": 1065,
+  "members_with_filled_windows": 1049,
+  "nan_cells_by_window_top": {
+   "2006-04-11": 1045,
+   "2006-05-11": 8,
+   "2006-06-12": 8,
+   "2026-09-11": 4,
+   "2006-07-11": 0,
+   "2006-09-11": 0,
+   "2006-10-11": 0,
+   "2006-11-13": 0
+  },
+  "window_2023_12_11": {
+   "focus_excess_pp": {
+    "AB": -13.575526796508154,
+    "B10": -13.575526796508175,
+    "EXEC": -13.688899836660816
+   },
+   "r0050_pct": 11.02857831110613,
+   "family_median_excess_pp": -8.571361523722087
+  }
+ },
+ "members": {
+  "n_F_long": 2319,
+  "n_F_main": 410,
+  "source_counts": {
+   "nav_file": 1317,
+   "ensemble_rerun": 1002
+  },
+  "miss_W_long_counts": {
+   "0": 1270,
+   "1": 1041,
+   "3": 8
+  },
+  "cost_note": "每條成員只留該研究自己的一般成本版（SPA 題規則）；主策略鏈＝滑價 0.1%＋手續費 6 折＋稅 0.3%（來回約 0.47%），網路規則與組合多為 BRIEF 一般成本 0.5% 來回；strategy_ensemble 重跑沿用 elib 一般成本。不一致者：miss_W_long>0 的成員（缺值以 0 補）"
+ },
+ "eff": {
+  "LiJi_W_long": 161.00000000002555,
+  "LiJi_SEL": 154.00000000002473
+ },
+ "clusters": {
+  "k": 161,
+  "size_quantiles": {
+   "p5": 1.0,
+   "p10": 1.0,
+   "p25": 1.0,
+   "p50": 2.0,
+   "p75": 4.0,
+   "p90": 12.0,
+   "p95": 33.0
+  },
+  "n_singletons": 66,
+  "largest": 1135,
+  "main_cluster": 114,
+  "main_cluster_size": 228,
+  "main_cluster_medoid": "o_rev_survivorship/navs_R_DEL.parquet::AB_EXFIN|n10|normal",
+  "main_chain_clusters": {
+   "112": 70,
+   "114": 68
+  },
+  "B10_cluster": 114,
+  "main_cluster_folders": {
+   "o_infra_v3_rebuild": 42,
+   "exit_rules": 25,
+   "o_rev_survivorship": 24,
+   "integrate_o4": 17,
+   "o_v4_revenue_patch_official": 14,
+   "strategy_ensemble": 14,
+   "main_v2": 12,
+   "main_refine": 11,
+   "concentration_equity": 9,
+   "o_disposal_rejudge": 9,
+   "integrate_o1": 6,
+   "integrate_o2": 6,
+   "o_msci_inclusion_avoid": 6,
+   "o_largecap_leg": 5,
+   "o_stagger_tranche": 5
+  },
+  "medoid_folders": {
+   "combo_search": 74,
+   "strategy_ensemble": 9,
+   "w3_size_rotation_28": 9,
+   "w12_dogs_of_tw50": 5,
+   "w4_lev2_half_rebalance": 4,
+   "w12_stop_low_next_open_rebound": 3,
+   "w3_psy12_cross": 3,
+   "w12_connors_pctb": 3,
+   "w3_connors_crsi": 3,
+   "w3_ath_breakout_duke": 3,
+   "w1_minervini_trend_template": 3,
+   "w12_second_board_relay": 2,
+   "w3_bollinger_squeeze": 2,
+   "w4_lin_pencil_base_breakout": 2,
+   "w3_clenow_stocks_on_move": 2,
+   "w12_limit_hit_lottery": 2,
+   "momentum_family": 2,
+   "exit_rules": 2,
+   "w12_bensdorp_weekly_rotation": 2,
+   "w3_radge_weekend_trend": 2,
+   "w1_turtle_donchian": 2,
+   "o_stagger_tranche": 2,
+   "w12_gap_fill_daytrade": 1,
+   "w12_first_board_gap_down": 1,
+   "w1_rev_13m_high_stop7": 1
+  },
+  "medoid_mean_pair_corr": 0.3377356907811397,
+  "all_mean_pair_corr": 0.6022583269324281
+ },
+ "SEL": {
+  "n_windows": 157,
+  "all_alpha_pp": {
+   "p5": -0.7630721678639201,
+   "p10": -0.5357733431682458,
+   "p25": -0.08802596957079478,
+   "p50": 0.16673515909777764,
+   "p75": 0.3138235750541323,
+   "p90": 0.5747112933592838,
+   "p95": 0.8068026066352759
+  },
+  "all_se_pp": {
+   "p5": 0.14075970480807554,
+   "p10": 0.15817473461183434,
+   "p25": 0.18885957880010568,
+   "p50": 0.256163651645857,
+   "p75": 0.365148996511827,
+   "p90": 0.4070450590187834,
+   "p95": 0.4409114521355183
+  },
+  "all_t": {
+   "p5": -2.492474759959531,
+   "p10": -1.6433033015512462,
+   "p25": -0.29013463721185434,
+   "p50": 0.8107391710937117,
+   "p75": 1.524857617461174,
+   "p90": 1.989816207559046,
+   "p95": 2.3249756397937817
+  },
+  "all_frac_alpha_pos": 0.7063389391979301,
+  "medoid_alpha_pp": {
+   "p5": -1.800572798058099,
+   "p10": -1.252636095973362,
+   "p25": -0.6451731922901693,
+   "p50": -0.21594871787527112,
+   "p75": 0.09511892556366344,
+   "p90": 0.40324695903765617,
+   "p95": 0.7388450596267682
+  },
+  "medoid_mean_alpha_pp": -0.37139275956432816,
+  "medoid_sd_alpha_pp": 0.8611184236337014,
+  "medoid_frac_pos": 0.34782608695652173,
+  "medoid_naive_se_pp": {
+   "p5": 0.14077826290149104,
+   "p10": 0.16058438124974755,
+   "p25": 0.22521973324194658,
+   "p50": 0.32212468003498596,
+   "p75": 0.39899753309410785,
+   "p90": 0.4802766309725209,
+   "p95": 0.5548972584025821
+  },
+  "medoid_idio_se_pp": {
+   "p5": 0.1657919520406791,
+   "p10": 0.18407344661473246,
+   "p25": 0.22102702738771,
+   "p50": 0.28888993558890075,
+   "p75": 0.3445623247340296,
+   "p90": 0.43679870498964496,
+   "p95": 0.5544391484866512
+  },
+  "common_sd_pp": 0.14566532357864048,
+  "Keff_equiv": 6.301810163798724,
+  "naive_tau2_moment": 0.6078106958586922,
+  "decomp_tau2_moment": 0.6290290823519623,
+  "focus_AB_SEL_alpha_pp": 1.0059007450532715,
+  "focus_AB_SEL_se_naive": 0.3915131769203543,
+  "focus_AB_SEL_se_idio": 0.35254382053716177,
+  "range_all_alpha_pp": [
+   -5.306653627270221,
+   1.135674560857689
+  ]
+ },
+ "winner_curse_in_SEL": {
+  "medoid_slope_h2_on_h1": 0.6238140998020963,
+  "medoid_corr": 0.620088151640309,
+  "top10pct_medoids_h1_mean": 0.9088906160725131,
+  "top10pct_medoids_h2_mean": 0.34373453126920356,
+  "all_top100_h1_mean": 1.1768871389089874,
+  "all_top100_h2_mean": 0.605329548286372,
+  "all_slope": 0.7449605775429572,
+  "AB_h1": 1.1518564537338951,
+  "AB_h2": 0.8580738093382811
+ },
+ "theory_family": {
+  "n_members": 521,
+  "LiJi_W_long": 52.00000000000158,
+  "folders": {
+   "o_infra_v3_rebuild": 100,
+   "o_rev_survivorship": 52,
+   "exit_rules": 50,
+   "main_v2": 24,
+   "o_stagger_tranche": 23,
+   "w12_limit_hit_lottery": 22,
+   "o_disposal_rejudge": 18,
+   "integrate_o4": 17,
+   "concentration_equity": 15,
+   "o_v4_revenue_patch_official": 14,
+   "main_refine": 14,
+   "momentum_family": 14,
+   "w3_idio_vol": 14,
+   "independent_audit": 13,
+   "o_msci_inclusion_avoid": 12,
+   "w12_residual_momentum": 12,
+   "w3_size_rotation_28": 12,
+   "rev_announce": 10,
+   "manual_screen": 8,
+   "o_largecap_leg": 7,
+   "w3_frog_in_pan_momentum": 7,
+   "w3_high_volume_premium": 7,
+   "integrate_o1": 6,
+   "integrate_o2": 6,
+   "w3_amihud_illiquidity": 6,
+   "w3_weekly_reversal": 6,
+   "o_capacity_tsmc_gap": 5,
+   "w3_price_delay": 5,
+   "combo_search": 4,
+   "tpex_main": 4,
+   "w3_52w_low_nearness": 4,
+   "w3_revenue_sue": 4,
+   "o_cb_board_runup": 2,
+   "o_issuance_avoid": 2,
+   "revenue_longhistory": 1,
+   "o_hold_buffer_fresh": 1
+  },
+  "SEL_alpha_pp": {
+   "p5": -0.7586361880452573,
+   "p10": -0.40634096108637835,
+   "p25": 0.2611600268682114,
+   "p50": 0.5266676650980282,
+   "p75": 0.7921542284643607,
+   "p90": 0.9742051070216813,
+   "p95": 1.006100695043791
+  }
+ },
+ "focus_SEL": {
+  "AB": {
+   "mean_pp": 1.0059007450532715,
+   "t": 2.5341667120373423
+  },
+  "B10": {
+   "mean_pp": 0.7817924450086693,
+   "t": 2.1047001408796784
+  },
+  "EXEC": {
+   "mean_pp": 0.6453855323522262,
+   "t": 1.7671387993694276
+  },
+  "EXEC_J": {
+   "mean_pp": 0.2985868966704754,
+   "t": 0.8175647944362961
+  },
+  "AB_stress": {
+   "mean_pp": 0.806684489094386,
+   "t": 2.0343379866294975
+  },
+  "B10_stress": {
+   "mean_pp": 0.5838584081719163,
+   "t": 1.5744933669464336
+  },
+  "EW": {
+   "mean_pp": -0.05998722459540219,
+   "t": -0.22396801885602294
+  },
+  "note": "EXEC_J 的 δ_j 由全期 j-scan 計算（−0.347pp），挑選期均值只是描述"
+ },
+ "focus_resid_SEL": {
+  "sd_pp": 4.973587629366237,
+  "acf1": 0.030928731727770657,
+  "corr_with_r0050": -0.0914028319467973
+ }
+}

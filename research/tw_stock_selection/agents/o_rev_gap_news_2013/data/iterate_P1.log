@@ -1,0 +1,95 @@
+/home/user/-/research/tw_stock_selection/agents/o_rev_gap_news_2013/iterate.py:23: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
+  out = {'iter': IT, 'time_utc': pd.Timestamp.utcnow().isoformat(), 'n_mentions': int(len(M)), 'versions': {}}
+{
+ "N3": {
+  "gap_cov_all": 0.03961748633879782,
+  "gap_cov_B10picks": 0.022556390977443608,
+  "gap_cov_by_type": {
+   "merger": 0.03294117647058824,
+   "deterior": 0.06382978723404255,
+   "nondelist": 0.0
+  },
+  "val_cov": 0.06772581778437037,
+  "val_spearman_pct": 0.9677477403569864,
+  "val_abs_pct_err": {
+   "median": 0.0,
+   "p75": 0.020920868347338945,
+   "p90": 0.0886688444262965
+  },
+  "val_top10_agree_all": 0.9861111111111112,
+  "val_top10_agree_covered": 0.8030303030303031
+ },
+ "N2": {
+  "gap_cov_all": 0.09836065573770492,
+  "gap_cov_B10picks": 0.08270676691729323,
+  "gap_cov_by_type": {
+   "merger": 0.0988235294117647,
+   "deterior": 0.11063829787234042,
+   "nondelist": 0.05555555555555555
+  },
+  "val_cov": 0.1281911156218284,
+  "val_spearman_pct": 0.9587532623312597,
+  "val_abs_pct_err": {
+   "median": 0.008695652173912993,
+   "p75": 0.04641350210970463,
+   "p90": 0.10729613733905578
+  },
+  "val_top10_agree_all": 0.9666666666666669,
+  "val_top10_agree_covered": 0.7791918175720992
+ },
+ "N1": {
+  "gap_cov_all": 0.21994535519125682,
+  "gap_cov_B10picks": 0.21052631578947367,
+  "gap_cov_by_type": {
+   "merger": 0.25176470588235295,
+   "deterior": 0.20425531914893616,
+   "nondelist": 0.08333333333333333
+  },
+  "val_cov": 0.2867515028495589,
+  "val_spearman_pct": 0.8817572458080258,
+  "val_abs_pct_err": {
+   "median": 0.033755274261603366,
+   "p75": 0.1008771929824562,
+   "p90": 0.2088353413654618
+  },
+  "val_top10_agree_all": 0.9083333333333334,
+  "val_top10_agree_covered": 0.6875419719169719
+ },
+ "Q": {
+  "gap_cov_all": 0.5765027322404371,
+  "gap_cov_B10picks": 0.6917293233082706,
+  "gap_cov_by_type": {
+   "merger": 0.6470588235294118,
+   "deterior": 0.46808510638297873,
+   "nondelist": 0.5138888888888888
+  },
+  "val_cov": 0.6332656725739714,
+  "val_spearman_pct": 0.6264255119115681,
+  "val_abs_pct_err": {
+   "median": 0.09956709956709964,
+   "p75": 0.22784810126582283,
+   "p90": 0.41171264966163484
+  },
+  "val_top10_agree_all": 0.7638888888888888,
+  "val_top10_agree_covered": 0.4710180619297161
+ },
+ "NQ": {
+  "gap_cov_all": 0.6502732240437158,
+  "gap_cov_B10picks": 0.7443609022556391,
+  "gap_cov_by_type": {
+   "merger": 0.7035294117647058,
+   "deterior": 0.5702127659574469,
+   "nondelist": 0.5972222222222222
+  },
+  "val_cov": 0.7717620423139979,
+  "val_spearman_pct": 0.7201850886018748,
+  "val_abs_pct_err": {
+   "median": 0.0714285714285714,
+   "p75": 0.17864741641337384,
+   "p90": 0.3514644351464435
+  },
+  "val_top10_agree_all": 0.7398148148148148,
+  "val_top10_agree_covered": 0.5441770478257715
+ }
+}
+selected N1 0.21994535519125682

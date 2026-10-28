@@ -1,0 +1,151 @@
+{
+ "AB_V6|cal_V6grid": {
+  "n_hold": 34,
+  "n_ctrl": 212,
+  "actual": -0.0539,
+  "p_lower_L3": 0.0962,
+  "p_lower_L6": 0.0892,
+  "p_lower_L12": 0.0782
+ },
+ "AB_V6|start_V6grid": {
+  "n_hold": 33,
+  "n_ctrl": 213,
+  "actual": 0.0117,
+  "p_lower_L3": 0.1553,
+  "p_lower_L6": 0.1414,
+  "p_lower_L12": 0.129
+ },
+ "AB_V6|cal_V4grid": {
+  "n_hold": 33,
+  "n_ctrl": 212,
+  "actual": -0.0539,
+  "p_lower_L3": 0.097,
+  "p_lower_L6": 0.0912,
+  "p_lower_L12": 0.0825
+ },
+ "AB_V6_B10|cal_V6grid": {
+  "n_hold": 34,
+  "n_ctrl": 212,
+  "actual": -0.0539,
+  "p_lower_L3": 0.1219,
+  "p_lower_L6": 0.1031,
+  "p_lower_L12": 0.0872
+ },
+ "AB_V6|xEW_cal": {
+  "n_hold": 34,
+  "n_ctrl": 212,
+  "actual": 0.6211,
+  "p_lower_L3": 0.8413,
+  "p_lower_L6": 0.8454,
+  "p_lower_L12": 0.8471
+ },
+ "AB_V4|cal_V4grid(核對)": {
+  "n_hold": 33,
+  "n_ctrl": 212,
+  "actual": -0.1051,
+  "p_lower_L3": 0.0716,
+  "p_lower_L6": 0.0636,
+  "p_lower_L12": 0.0584
+ },
+ "MDE_pp": {
+  "two_sample_HAC": 2.9483,
+  "hold_only_HAC": 2.7834,
+  "hold_only_iid": 3.5456,
+  "boot_L3": 2.3873,
+  "boot_q_L3": 2.429,
+  "boot_L6": 2.3009,
+  "boot_q_L6": 2.3781,
+  "boot_L12": 2.2026,
+  "boot_q_L12": 2.2339
+ },
+ "chow": {
+  "x50|2019-05": {
+   "k": 157,
+   "mean_before": 0.0101,
+   "mean_after": 0.0094,
+   "diff": -0.0007,
+   "se_diff": 0.0077,
+   "wald": 0.0075,
+   "p": 0.9311,
+   "MDE80_two_sided": 0.0217,
+   "n_before": 157,
+   "n_after": 89,
+   "mean_before_pp": 1.0059,
+   "mean_after_pp": 0.939
+  },
+  "x50|2024-01|start": {
+   "k": 213,
+   "mean_before": 0.0109,
+   "mean_after": 0.0031,
+   "diff": -0.0078,
+   "se_diff": 0.0109,
+   "wald": 0.5131,
+   "p": 0.4738,
+   "MDE80_two_sided": 0.0304,
+   "n_before": 213,
+   "n_after": 33,
+   "mean_before_pp": 1.086,
+   "mean_after_pp": 0.3086
+  },
+  "x50|2024-01|cal": {
+   "k": 212,
+   "mean_before": 0.0112,
+   "mean_after": 0.0011,
+   "diff": -0.0101,
+   "se_diff": 0.0107,
+   "wald": 0.8934,
+   "p": 0.3446,
+   "MDE80_two_sided": 0.03,
+   "n_before": 212,
+   "n_after": 34,
+   "mean_before_pp": 1.1214,
+   "mean_after_pp": 0.1103
+  },
+  "xEW|2024-01|start": {
+   "k": 213,
+   "mean_before": 0.0104,
+   "mean_after": 0.0235,
+   "diff": 0.0131,
+   "se_diff": 0.0094,
+   "wald": 1.9267,
+   "p": 0.1651,
+   "MDE80_two_sided": 0.0265,
+   "n_before": 213,
+   "n_after": 33,
+   "mean_before_pp": 1.0437,
+   "mean_after_pp": 2.3543
+  },
+  "xEW|2024-01|cal": {
+   "k": 212,
+   "mean_before": 0.0107,
+   "mean_after": 0.0217,
+   "diff": 0.011,
+   "se_diff": 0.0093,
+   "wald": 1.3784,
+   "p": 0.2404,
+   "MDE80_two_sided": 0.0262,
+   "n_before": 212,
+   "n_after": 34,
+   "mean_before_pp": 1.0679,
+   "mean_after_pp": 2.165
+  }
+ },
+ "tsmc": {
+  "calib_mean_diff": 0.0793,
+  "n": 34,
+  "lag_log(0050-main)": 0.0539,
+  "tsmc_gap_log(0050-ex)": 0.217,
+  "share": 4.0225,
+  "main_minus_ex_log": 0.163,
+  "w_first": 0.4584,
+  "w_last": 0.5829
+ },
+ "gap_window": {
+  "V6(AB_V6)": -2.0929,
+  "V6(V6)": -1.551,
+  "V4(AB_V4)": -2.5469,
+  "V4(V4)": -2.0109,
+  "0050": 11.0286,
+  "2330": 22.0632
+ }
+}

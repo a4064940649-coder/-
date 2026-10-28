@@ -84,9 +84,20 @@ def henry():
         out.append(x)
     return _clean(pd.concat(out, ignore_index=True), 'henry') if out else None
 
+def leochen():
+    out = []
+    for f in sorted((C.RAW / 'leochen1_stock_v' / 'data' / 'history').glob('*.csv')):
+        x = pd.read_csv(f, encoding='utf-8-sig')
+        x.columns = ['date', 'open', 'high', 'low', 'close', 'vol']
+        x['code'] = f.stem; x['date'] = pd.to_datetime(x['date'])
+        out.append(x)
+    d = pd.concat(out, ignore_index=True)
+    d['value'] = np.nan; d['chg'] = np.nan
+    return _clean(d, 'leochen')
+
 LOADERS = {'hschi': lambda: finmind_dir(C.RAW / 'hschi' / 'stock_dayK', name='hschi'),
            'hawan': lambda: finmind_dir(C.RAW / 'hawan' / 'prices', '*_price.csv', name='hawan'),
-           'tasi': tasi, 'bacardi': bacardi, 'history': history, 'henry': henry}
+           'tasi': tasi, 'bacardi': bacardi, 'leochen': leochen, 'history': history, 'henry': henry}
 
 def get(name, refresh=False):
     f = C.DATA / f'src_{name}.parquet'

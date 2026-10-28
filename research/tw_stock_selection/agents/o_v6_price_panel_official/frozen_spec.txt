@@ -1,0 +1,29 @@
+V6 價格面板與 V6 正式數字：凍結規格（o_v6_price_panel_official，PREREG 前寫定）
+
+一、資料（V6 面板，data/ 下 9 檔 parquet；sha256 見 data_freeze_v6.json）
+1. 日期：V4 面板日期（scratchpad/panel，2004-01-02～2026-10-22）∪ TAIEX 交易日 2024-01-02～2025-09-23（新增 2024-01-02～02-05 共 25 日）。欄位＝V4 的 1,249 檔代碼。
+2. 替換窗 W＝2024-01-02～2025-09-23：窗內 close_raw／open／high／low 全部改用官方日 K，窗外沿用 V4（只有窗後每檔第一筆的 ret 依新前收重算）。
+3. 來源與優先序（OHLC）：hschi1106/stock_GA（FinMind TaiwanStockPrice，src 5）＞ bacardi1117-ai/tw-stock-screener data/prices/2025.csv（證交所全市場日 K，market=TWSE，2025-04-01 起，src 7）＞ leochen1/stock_v data/history（證交所 STOCK_DAY 格式上市股，2010～2025-08-19，src 7）＞ shohokuno10/Tasi kbar（src 6）＞ V4 的 Yahoo 5 分 K 近似（src 3，最後備援）。成交量 0 或價格 ≤ 0 的列視為沒有成交。
+   註：事前寫的優先序是「官方 history＞FinMind＞Tasi＞其他官方」；資料迭代（D3／D8）發現 Tasi 在 2024-01、2024-03 有 0.3～0.4% 收盤與其他三個官方來源不一致，依「對另一官方來源一致率」把 Tasi 降到其他官方之後（D7＝事前順序版本並列報告）。
+4. 上市身分過濾：股日必須在 leochen（上市）、bacardi（market=TWSE）或 V4 src 3 任一有值才收；2024-01-02～02-14 另收「V4 在 2023-12-21～29 與 2024-02-15～22 都有值」的股票。FinMind／Tasi 同代碼的上櫃期間價格不收。
+5. value（成交值，元）：hschi Trading_money ＞ bacardi turnover（只在其收盤與所選收盤相同時採用）；其餘＝(開＋高＋低＋收)/4 × 官方成交股數（2020～2023 對官方成交值的中位誤差 0.20%，99.3% 在 2% 內）；最後備援 V4 src 3 value。
+6. ret（含息日報酬）＝收盤 ÷ 參考價 − 1。參考價：exdiv_5y（market=TWSE）的 ref_price 或 corp_actions（減資、變更面額）的 ref_price → flag 2；其餘＝前一筆官方收盤 → flag 0。
+   事件日對齊：事件日該股沒有成交 → 移到 5 個交易日內第一個成交日；exdiv 表的前收≠面板前收但等於事件日收盤 → 表列日是最後含權日，移到下一個成交日。
+   事件參考價使報酬超過 ±10.5%、但對前收在 ±10.5% 內 → 不採用該事件。與前一筆相隔 > 20 個交易日（轉上市、長期停牌）→ flag 4，|報酬| > 10.5% 設缺值。
+   無事件但 |報酬| > 10.5%（上市第 6 個交易日起）→ flag 5、ret 缺值（同 V4）。
+7. adj：窗起點前沿用 V4；之後每檔從最後一個 V4 值（或新上市 1.0）乘 (1+ret)（ret 缺值當 0），只在有收盤的日子有值。
+8. low：窗內官方 low；窗外用 henry／hschi／bacardi／history 的 low（只在其收盤與面板收盤相同時）。
+
+二、策略與引擎（一字不改）
+- 引擎：independent_audit/ia_core.py（只把面板路徑換成本題 data/，以模組名 ia_core 預先載入）→ main_v2/v2_core.py → o_disposal_rejudge/drj_core.py → o_infra_v3_rebuild/o3_core.py → o_v4_revenue_patch_official/v4lib.py。
+- 規格：V4（data_freeze_v4 的營收 R_FIX／Y5_FIX、官方處置名單成交日口徑、P 下市價、X 併購出清、排除金融與 KY／DR）；前 300 流動性池（gapfix V60 ≥ 1,000 萬、價 ≥ 10）；分數＝0.5×52 週高點比百分位＋0.5×近 3 月營收年增率百分位；n=10；每月第一個 ≥ 11 日的面板交易日收盤訊號、次一交易日開盤成交、開盤漲停遞補；正式同分序。
+- AB＝v2_core.make_unavail('mc', seed) seed 0～39 日報酬平均；B10＝缺營收下市股營收百分位固定 1.0 放回。
+- 成本：一般＝滑價 0.1%＋手續費 0.1425%×0.6＋賣出稅 0.3%；壓力＝每邊 0.5%。
+- 年化起點 2006-04-11（第一個訊號日）、終點 2026-10-12；窗＝訊號日收盤→下一訊號日收盤（簡單報酬）。
+- 可執行版：o_exec_capacity_tiers/navs_abavg.parquet 的 main|{30萬,100萬,300萬,1000萬}|{FIX,GROW}|A 減 data/bench.parquet 的 AB_V4|normal 的逐日報酬差加到 V6 欄；2024-01 新增日拖累記 0。
+- j 分布：o_stagger_tranche/st_core.day_for(m, j)（m 月 10 日起第一個加權指數交易日之後第 j 個交易日）、st_core.unavail_for（AB）；錨定月＝V6 正式訊號日月份。
+
+三、保留期與 SPA
+- HOLD 主口徑＝日曆歸屬（V6 格點上窗終點 ≥ 2024-01-02），挑選＋驗證期＝窗起點 ≥ 2006-04-01 且終點 < 2024-01-02。統計量 Σlog((1+r_main)/(1+r_0050))；平穩 bootstrap L＝3/6/12、B＝10,000、種子 5150＋L；p_lower＝模擬值 ≤ 實際值比例；判定 L6。
+- SPA_c：o_main_spa_breaks 的 F_long（2,319 條）× W_long（V4 格點 245 窗）、Politis-Romano 變異、B＝10,000、種子 20261028＋L；14 條 o_v4 成員換成 V6 版；焦點 AB_V6、AB_V6_B10、AB_V6 壓力（第 2,320 條）；判定 L6。
+- 台積電缺口：V6 格點；權重＝ex_tsmc 實際（2025-09-26 起）或「shares_hist 最新股數 × V6 收盤」前 50 大市值占比＋平均校準差；r_ex＝(r0050 − w·r2330)/(1 − w)；占比＝(log W_0050 − log W_0050exTSMC)／(log W_0050 − log W_main)。

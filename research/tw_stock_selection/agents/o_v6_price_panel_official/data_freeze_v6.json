@@ -1,0 +1,174 @@
+{
+ "timestamp": "2026-10-28T05:34:47+00:00",
+ "note": "在任何 2024 年以後的策略報酬之前凍結。V6＝V4 面板（scratchpad/panel，見 data_freeze_v4）在 2024-01-02～2025-09-23 換成官方日 K；營收、處置、下市、併購沿用 V4 凍結版。",
+ "panel_version": "D8",
+ "v6_panel": {
+  "adj": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/adj.parquet",
+   "sha256": "ad9eecc8c74850f0d69f76e64c773aadc56a3df32d16b0ada881dea491f7deaf"
+  },
+  "close_raw": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/close_raw.parquet",
+   "sha256": "f689101a8afec4c23944e13ab376400eeaf35428faebc9abea14f84b08085534"
+  },
+  "open": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/open.parquet",
+   "sha256": "319245434cbf4adbc525969f236c2f3d9aabdc5ef8aa92e9271f4a2dedc3372c"
+  },
+  "high": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/high.parquet",
+   "sha256": "7df58a66f318c2441654c9b4d482d0203e9cb775dff68e6b568fa9e2342b2f0b"
+  },
+  "value": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/value.parquet",
+   "sha256": "655d52451e369de5a6fd2cf0bbb7e03fd6497525e8b20aa73738b5d8316afb64"
+  },
+  "ret": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/ret.parquet",
+   "sha256": "a26522205defc98a277be463d37d292787831fba323026032c228707a14f0da7"
+  },
+  "flag": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/flag.parquet",
+   "sha256": "9381861dbbec1bad18ac33c990177ea0019642d3cf3ef4b6223dc0178b0cd03e"
+  },
+  "src": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/src.parquet",
+   "sha256": "ead34d8ef951238d2b0d0d292d1bebab3f8f380870d7c86ce344200b31b00280"
+  },
+  "low": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/low.parquet",
+   "sha256": "af043ae4059f2ba03e393b9b031c0e0410591c7ac6ba8e51fbb495c41f21cd37"
+  }
+ },
+ "v6_meta": {
+  "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/panel_v6_meta.json",
+  "sha256": "517e845647f28fc8c2a9e78a8100b9e49536213648e8e6e91768b2fcf7ff20ac"
+ },
+ "parsed_sources": {
+  "hschi": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/src_hschi.parquet",
+   "sha256": "fa2e2eb78984c5bd1e7394b0ed23eeba0f43b0954fc2765a94cc99e9686892f1"
+  },
+  "tasi": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/src_tasi.parquet",
+   "sha256": "0391864eea3bf1700eac6f45aaabfde9d5b83e6f69ebfdacf5e708b422b428af"
+  },
+  "bacardi": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/src_bacardi.parquet",
+   "sha256": "d1fbde69a473a12b40ae47982b1d9a7c154595fd770902880d90064278117c9e"
+  },
+  "leochen": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/src_leochen.parquet",
+   "sha256": "6316988c8875465a7c57a607920c8d0fd4af2a73e7f1843cfd2f9519e037901b"
+  },
+  "henry": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/src_henry.parquet",
+   "sha256": "4c30b6927c191470e046c8acc474fd87e899d7c12bb395aa89425319bc974415"
+  },
+  "history": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/src_history.parquet",
+   "sha256": "becc02a3f679b6f622428771e6d7cd6aec015992984bb2ace92d0d1870de5036"
+  },
+  "hawan": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/src_hawan.parquet",
+   "sha256": "0ff10ab9dbcce004c83a0fba88b79f84bd760519468e77166589e24e4fb13b26"
+  }
+ },
+ "raw_manifest": {
+  "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/raw_manifest.tsv",
+  "sha256": "ae4f521e38d56d39066498eb92bb761643a63e57f00ffb93a369944629142753"
+ },
+ "n_raw_files": 5613,
+ "raw_commits": {
+  "henry": "e2c22b5fb8f992e70b0c2ca691f2932ea54b6afe Wed Jan 3 06:42:48 2024 +0800\ncopied from scratchpad tpex_ls/henry (henry753951/finance clone used by tpex_main)",
+  "hawan": "92037ea2d7b97eb18eccd8a35b95b115c859a89b Wed Jun 24 23:08:36 2026 +0800",
+  "hschi": "22573ec6e42d641f17dc2df402636376dc8f57d1 Thu Dec 4 21:18:29 2025 +0800",
+  "leochen1_stock_v": null,
+  "bacardi": "9ee27c8b08074a95730a92225b818b2214b04793 Wed Oct 21 19:44:16 2026 +0800\norigin\thttps://github.com/bacardi1117-ai/tw-stock-screener (fetch) [blob:none]",
+  "tasi": null
+ },
+ "tasi_commit": "25fa21032f65ae39eb9270bbec8b7e407902941f Tue Oct 27 18:16:53 2026 +0800",
+ "leochen_commit": "0f319a125cb2e06b9a92e3688bb76baf5c759fb3 Tue Aug 19 17:04:10 2025 +0800",
+ "external": {
+  "exdiv_5y": {
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/exdiv_5y.csv.gz",
+   "sha256": "c15b27b7ac73863f96b7e5eb8d396cea3a1051cfc09ea89a93c73ee564f47b9f"
+  },
+  "corp_actions": {
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/corp_actions.csv",
+   "sha256": "4d7a2e8ff544d785b20e2e885d94d542c4ae3e8ea7df64ac803ccfc969d785f1"
+  },
+  "shares_hist": {
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/shares_hist.csv",
+   "sha256": "415981eca31577bdf9c12825833086824b17a9df1451cf82d30b69bda3ad88ce"
+  },
+  "ex_tsmc": {
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/ex_tsmc.csv",
+   "sha256": "b18070d6831d1a9ad4856029f6fee006e2d07556e4c95ccf4ac7c9419950e104"
+  },
+  "etf_0050": {
+   "path": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv",
+   "sha256": "771fabfbe0a3165cd1729f8023992acff7bb61a16f078fa082f027ae422bcdab"
+  },
+  "taiex": {
+   "path": "/home/user/jonatw/finlab-txd/data/raw/taiex_twii.csv",
+   "sha256": "648adb5c8c60cf20615403f38659d4d59d8cc6e51bfd3280a3d9199a15c10b20"
+  },
+  "data_freeze_v4": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/data_freeze_v4.json",
+   "sha256": "3a846c50bf7e8a1b5b2ba002271046414e52b7c7cd581a120081e48a6c3068a3"
+  },
+  "navs_v4": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/navs_v4.parquet",
+   "sha256": "92da4105a911638de0d560f356b8186eef2001b62339038b6be55345054de48b"
+  },
+  "plan_V4": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/plan_V4.csv",
+   "sha256": "1e7ff0ea0af6d657b7eb36fe55d92562a65309931715656413dc5d4f91ac0c16"
+  },
+  "v4_panel_scratchpad": {
+   "adj": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/adj.parquet",
+    "sha256": "c5d4707bd7a1966dc74fbbb41b6ad87f0900e6fc91d8e7665d5f1b3fb8542810"
+   },
+   "close_raw": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/close_raw.parquet",
+    "sha256": "f3b158eba86718466e8c5f1f9911212ea0f750f471859bbbc5f4bb7307406beb"
+   },
+   "open": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/open.parquet",
+    "sha256": "9ff204fb1c5217329398a24a87247e7773540a87720f67c97c48ad011fbae2fc"
+   },
+   "high": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/high.parquet",
+    "sha256": "92d8d7bcf8bad451d6affd303fb7aba3a058019446979a998420dde5892dc382"
+   },
+   "value": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/value.parquet",
+    "sha256": "d7280bb511d215ae783aa8cd1a654e9d6cc4736a686e8ab5e2f0a830585074b6"
+   },
+   "ret": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/ret.parquet",
+    "sha256": "e32ffeba2c7ac16b6181dea146f087e088f5e666bf9567fe8aaa1f1664f24cf6"
+   },
+   "flag": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/flag.parquet",
+    "sha256": "3f22b23084c261019c4da3865ac1e1785ab68ca115cc6db1ab5a9d7493f1e697"
+   },
+   "src": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/src.parquet",
+    "sha256": "826e9c5b5795c0555a9904570ab375c12243c2f28b7ff74caf8bf9ebce152988"
+   }
+  }
+ },
+ "gate": {
+  "checks": {
+   "pool_official_ohlc>=99%": true,
+   "2024-01 gap 100%": true,
+   "official_vs_official_close>=99.5%": true,
+   "exdiv_ref_match>=99%": true,
+   "smoke_identical": true
+  },
+  "PASS": true
+ }
+}

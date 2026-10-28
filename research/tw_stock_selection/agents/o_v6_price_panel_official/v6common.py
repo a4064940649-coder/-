@@ -64,3 +64,21 @@ def gaps(dates, cal, a=None, b=None, min_len=6):
         else:
             i += 1
     return out
+
+RES_F = HERE / 'results.json'
+def load_res():
+    return json.loads(RES_F.read_text(encoding='utf-8')) if RES_F.exists() else {}
+
+def check_prereg():
+    """任何報酬計算前的斷言：PREREG 存在、未被改、登記的每個檔案（腳本、引擎庫、輸入、V6 面板）sha256 與登記相同。"""
+    res = load_res()
+    assert 'PREREG' in res and 'PREREG_sha256' in res, 'PREREG 不存在：先跑 prereg.py'
+    assert canon_sha(res['PREREG']) == res['PREREG_sha256'], 'PREREG 被改過'
+    for p, h in res['PREREG']['hashes'].items():
+        assert sha(p) == h, f'{p} 與 PREREG 登記的 sha256 不符'
+    return res
+
+def save_key(key, obj):
+    res = load_res(); assert 'PREREG' in res
+    res[key] = obj
+    jdump(res, RES_F)

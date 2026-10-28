@@ -1,0 +1,260 @@
+{
+ "PREREG": {
+  "topic": "o_rev_gap_news_2013：2013～2021 營收缺口 PIT 新聞代理與首次值擴充",
+  "time_utc": "2026-10-28T05:24:12.499844+00:00",
+  "data_freeze_r_sha256": "5b3c85948ccc8e9588ccfc186db48c93f1ddc25e42bb56ce77ce3eb5943f8de9",
+  "strategy_spec": "主策略 V4 規格完全不改（52 週高點百分位 0.5＋近 3 月營收年增率百分位 0.5、前 300 流動性池、月換 10 檔、排除金融與 KY／DR、處置 trade 口徑、官方換股日、一般／壓力成本）；資料 V4 凍結版。",
+  "gap_universe": "2013-01-01～2021-12-31 每個換股訊號日，前 300 池中營收以外都合格（ok_other）但 V4 非 AB 的 y3 缺值的股月；732 格（併購 425／惡化 235／非下市 72；2013～2020 為 719 格，其中非下市 65 格）。",
+  "pit_rule": "來源時間戳 ≤ 訊號日 13:30；只有日期者視為當日 23:59（訊號日當天不合法）。季報以法定期限（Q1 5/15、Q2 8/14（2013 年 8/31）、Q3 11/14、年報 3/31）為時間戳。",
+  "proxy_versions": [
+   "N3",
+   "N2",
+   "N1",
+   "Q",
+   "NQ"
+  ],
+  "parser_rounds": [
+   "P1",
+   "P2",
+   "P3"
+  ],
+  "selection_rule": "非缺口格（只用新聞／季報重建）代理對真值的百分位 Spearman ≥ 0.80 的版本中，取缺口覆蓋最高者；同分取較嚴格（N3＞N2＞Q＞NQ＞N1）。解析器輪次取選定版本缺口覆蓋最高者，同分取較早。",
+  "selected": {
+   "parser": "P3",
+   "proxy_version": "N1",
+   "iter_G1_cov_seen": 0.2390710382513661
+  },
+  "G1": "選定版本在 732 個缺口格的覆蓋率 ≥ 60%（另報 2013～2020 的 719 格、B10 入選 133 股月，只供描述）",
+  "G2": "2013～2021 年 AB_V4（40 seeds）前 10 名股月中，三個營收月全部有嚴格佐證首次值（≥ 2 個獨立來源一致，或一來源＋git 時間戳）的比例 ≥ 20%；只有最新月有佐證者並報。",
+  "decision_tree": {
+   "G1 不過": "維持 B10，主題結案；只交覆蓋報告與描述，不跑任何策略淨值。首次值寫「覆蓋 x%，無法估計」（< 5% 不得寫任何方向）。",
+   "G1 過、G2 不過": "只做缺口代理（AB_V4R、B10R、AB_V4R_N1；一般與壓力成本；附逐 seed、j 0～12、端點、成本兩平、S1～S4、2014 後 t、可執行版、SPA）；首次值寫「覆蓋 x%，無法估計」。",
+   "G1、G2 都過": "另加首次值欄位。"
+  },
+  "columns_if_G1_pass": [
+   "AB_V4R",
+   "B10R",
+   "AB_V4R_N1"
+  ],
+  "effective_tests": {
+   "iteration_configs": 15,
+   "columns_x_cost": 6,
+   "j_scan": 13,
+   "main_strategy_revisions": "≥ 7",
+   "total_at_least": 41,
+   "note": "G1 不過時第 2～4 項沒有執行，但仍照實列出；SPA 族群沿用 o_main_spa_breaks 的 2,319 條。"
+  },
+  "gate_script_sha256": "777500d43547a48c5eaa3b2220db944563156432723ab225efeb6beec8616f1e",
+  "firstvalue_script_sha256": "3a0b684372d6343c2a4c6cbcad954d5fb68f85d6f9fef8db16f62277f8155f01"
+ },
+ "PREREG_sha256": "8d692fe8cb7baaf4f579003506ad9303dfb653b886198afa03395a9280864d84",
+ "GATE": {
+  "G1": {
+   "version": "P3/N1",
+   "cov_all_732": 0.2390710382513661,
+   "n_cov": 175,
+   "cov_2013_2020": {
+    "n": 719,
+    "cov": 0.22948539638386647
+   },
+   "cov_B10_picks_133": {
+    "n": 133,
+    "cov": 0.21804511278195488
+   },
+   "cov_by_type": {
+    "merger": {
+     "n": 425,
+     "cov": 0.27294117647058824
+    },
+    "deterior": {
+     "n": 235,
+     "cov": 0.225531914893617
+    },
+    "nondelist": {
+     "n": 72,
+     "cov": 0.08333333333333333
+    }
+   },
+   "cov_by_year": {
+    "2013": {
+     "n": 245,
+     "cov": 0.2612244897959184
+    },
+    "2014": {
+     "n": 225,
+     "cov": 0.24
+    },
+    "2015": {
+     "n": 120,
+     "cov": 0.21666666666666667
+    },
+    "2016": {
+     "n": 41,
+     "cov": 0.2682926829268293
+    },
+    "2017": {
+     "n": 21,
+     "cov": 0.14285714285714285
+    },
+    "2018": {
+     "n": 8,
+     "cov": 0.125
+    },
+    "2019": {
+     "n": 17,
+     "cov": 0.0
+    },
+    "2020": {
+     "n": 42,
+     "cov": 0.14285714285714285
+    },
+    "2021": {
+     "n": 13,
+     "cov": 0.7692307692307693
+    }
+   },
+   "cov_all_versions": {
+    "N3": 0.05327868852459016,
+    "N2": 0.11885245901639344,
+    "N1": 0.2390710382513661,
+    "Q": 0.5765027322404371,
+    "NQ": 0.6598360655737705
+   },
+   "cov_B10_picks_all_versions": {
+    "N3": 0.022556390977443608,
+    "N2": 0.08270676691729323,
+    "N1": 0.21804511278195488,
+    "Q": 0.6917293233082706,
+    "NQ": 0.7443609022556391
+   },
+   "threshold": 0.6,
+   "pass": false
+  },
+  "G2": {
+   "coverage": {
+    "strict_all3": 0.000925925925925926,
+    "strict_latest": 0.018125,
+    "loose_all3": 0.017939814814814815,
+    "loose_latest": 0.11694444444444445
+   },
+   "G2_pass": false,
+   "coverage_wilson95_strict_all3": [
+    0.0001634631599744087,
+    0.005226254304274979
+   ],
+   "n_top10_stock_month_seed": 43200,
+   "n_distinct_stock_months": 1187,
+   "n_cells_corroborated_strict": 506,
+   "n_cells_corroborated_loose": 4441,
+   "first_vs_latest": {
+    "n_loose": 3658,
+    "disagree_loose": 189,
+    "rate_loose": 0.05166757791142701,
+    "n_strict": 476,
+    "disagree_strict": 14,
+    "rate_strict_wilson95": [
+     0.017599216128078708,
+     0.04875934886503569
+    ]
+   }
+  },
+  "descriptive_gap_picks_non_AB（名單計數，非報酬；B10 原本 133）": {
+   "N1_ABR": {
+    "covered": 1,
+    "uncovered_worst": 0,
+    "by_type_covered": {
+     "nondelist": 1
+    },
+    "by_type_uncovered": {}
+   },
+   "N1_B10R": {
+    "covered": 1,
+    "uncovered_worst": 119,
+    "by_type_covered": {
+     "nondelist": 1
+    },
+    "by_type_uncovered": {
+     "merger": 80,
+     "nondelist": 9,
+     "deterior": 30
+    }
+   },
+   "NQ_ABR": {
+    "covered": 19,
+    "uncovered_worst": 0,
+    "by_type_covered": {
+     "merger": 8,
+     "deterior": 7,
+     "nondelist": 4
+    },
+    "by_type_uncovered": {}
+   },
+   "NQ_B10R": {
+    "covered": 19,
+    "uncovered_worst": 41,
+    "by_type_covered": {
+     "merger": 8,
+     "deterior": 7,
+     "nondelist": 4
+    },
+    "by_type_uncovered": {
+     "merger": 29,
+     "nondelist": 3,
+     "deterior": 9
+    }
+   }
+  },
+  "decision": "G1 不過：維持 B10 為 SOP 保守口徑，主題結案；不跑 AB_V4R／B10R／AB_V4R_N1 淨值。首次值：覆蓋 0.09%（嚴格、三個月）→ 無法估計。"
+ },
+ "DESCRIBE_B10_PICKS_PROXY_PCT": {
+  "N1": {
+   "n_covered": 29,
+   "pct_median": 0.3168724279835391,
+   "share_pct_ge_0.9": 0.0,
+   "share_pct_lt_0.5": 0.7586206896551724,
+   "by_type_median": {
+    "deterior": 0.27310924369747897,
+    "merger": 0.32233662892952886
+   },
+   "by_type_n": {
+    "deterior": 7,
+    "merger": 22
+   }
+  },
+  "NQ": {
+   "n_covered": 99,
+   "pct_median": 0.559322033898305,
+   "share_pct_ge_0.9": 0.1111111111111111,
+   "share_pct_lt_0.5": 0.46464646464646464,
+   "by_type_median": {
+    "deterior": 0.759825327510917,
+    "merger": 0.5060780772436788
+   },
+   "by_type_n": {
+    "deterior": 27,
+    "merger": 72
+   }
+  },
+  "Q": {
+   "n_covered": 92,
+   "pct_median": 0.5966136535756789,
+   "share_pct_ge_0.9": 0.11956521739130435,
+   "share_pct_lt_0.5": 0.44565217391304346,
+   "by_type_median": {
+    "deterior": 0.8185654008438819,
+    "merger": 0.49356223175965663
+   },
+   "by_type_n": {
+    "deterior": 23,
+    "merger": 69
+   }
+  }
+ },
+ "SELF_CHECK_rep_cov": {
+  "script": "rep/rep_cov.py",
+  "rep_cov_N1": 0.2390710382513661,
+  "diff_pp": 0.0,
+  "cellwise_agree": 1.0,
+  "note": "研究員自查，不是正式獨立複製"
+ }
+}
