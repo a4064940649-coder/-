@@ -1,0 +1,3090 @@
+{
+ "period": [
+  "2006-04-01",
+  "2019-04-30"
+ ],
+ "n_windows_SEL": 157,
+ "E1": {
+  "main_cluster": 114,
+  "b10_cluster": 114,
+  "m_main_cluster": 228,
+  "lij_main_cluster_SEL": 17.000000000000252,
+  "main_rank_in_cluster_SEL": 25.0,
+  "b10_rank_in_cluster_SEL": 127.0,
+  "main_rank_overall_SEL": 28.0,
+  "share_top165_in_main_cluster_SEL": 0.8848484848484849,
+  "main_alpha_SEL": 1.0059007450532715,
+  "cluster_mean_alpha_SEL": 0.7796020442873461,
+  "cluster_medoid": "o_rev_survivorship/navs_R_DEL.parquet::AB_EXFIN|n10|normal",
+  "medoid_alpha_SEL": 0.943643615574665,
+  "cluster_alpha_q": {
+   "0.1": 0.4993964590679726,
+   "0.5": 0.7943883072974955,
+   "0.9": 1.0062924653046128,
+   "1.0": 1.101838449941859
+  },
+  "cluster_folders_top": {
+   "o_infra_v3_rebuild": 42,
+   "exit_rules": 25,
+   "o_rev_survivorship": 24,
+   "integrate_o4": 17,
+   "o_v4_revenue_patch_official": 14,
+   "strategy_ensemble": 14,
+   "main_v2": 12,
+   "main_refine": 11,
+   "concentration_equity": 9,
+   "o_disposal_rejudge": 9,
+   "integrate_o1": 6,
+   "integrate_o2": 6
+  },
+  "cluster_size_dist": {
+   "n_clusters": 161,
+   "singletons": 66,
+   "max": 1135,
+   "q50": 2.0,
+   "q90": 12.0
+  }
+ },
+ "E2": {
+  "n_clusters_m_ge3": 60,
+  "pooled_var_d": 0.042097238922569155,
+  "pooled_noise_var_d": 0.021951283892369496,
+  "sigma_w_mom_pp": 0.10036422427887255,
+  "note": "Var(d)＝2σ_w²（成員與 medoid 各有偏離）＋雜訊；σ_w 以動差法估。",
+  "main_cluster": [
+   {
+    "cluster": 114,
+    "m": 228,
+    "var_d": 0.04056097207360239,
+    "noise_var_d": 0.02177761424120565,
+    "sd_d": 0.20139754733760387
+   }
+  ],
+  "by_size": [
+   {
+    "sz": "(2, 5]",
+    "n": 33.0,
+    "sd_d_med": 0.1218650354070638,
+    "noise_sd_med": 0.18950050154392886
+   },
+   {
+    "sz": "(5, 10]",
+    "n": 10.0,
+    "sd_d_med": 0.16164532778455604,
+    "noise_sd_med": 0.174780079867619
+   },
+   {
+    "sz": "(10, 30]",
+    "n": 7.0,
+    "sd_d_med": 0.22864776675715812,
+    "noise_sd_med": 0.19523640148379431
+   },
+   {
+    "sz": "(30, 100]",
+    "n": 7.0,
+    "sd_d_med": 0.2512457342616723,
+    "noise_sd_med": 0.1839923163561757
+   },
+   {
+    "sz": "(100, 2000]",
+    "n": 3.0,
+    "sd_d_med": 0.20139754733760387,
+    "noise_sd_med": 0.14586795534430647
+   }
+  ]
+ },
+ "E3": {
+  "main_cluster": [
+   {
+    "cluster": 114,
+    "m": 228,
+    "lij": 17.000000000000252,
+    "bias_max_mean": 0.42622816150098103,
+    "bias_max_sd": 0.3336261333629963,
+    "bias_maxdiff_mean": 0.4310853170074611,
+    "bias_maxdiff_sd": 0.22025203984599426,
+    "se_member_med": 0.3829655845921919
+   }
+  ],
+  "corr_bias_logm": 0.8892475365097721,
+  "corr_bias_loglij": 0.8393582903971212,
+  "bias_over_se_med": 0.3670425018933888,
+  "table_by_m": [
+   {
+    "sz": "(1, 3]",
+    "bias_max_mean": 0.07518680819170134,
+    "bias_maxdiff_mean": 0.07708799153984902,
+    "lij": 2.0,
+    "se_member_med": 0.3456578302921332
+   },
+   {
+    "sz": "(3, 10]",
+    "bias_max_mean": 0.14749510090468737,
+    "bias_maxdiff_mean": 0.14795711632094383,
+    "lij": 2.0,
+    "se_member_med": 0.3532486005342174
+   },
+   {
+    "sz": "(10, 30]",
+    "bias_max_mean": 0.2735176058666903,
+    "bias_maxdiff_mean": 0.2728056178730764,
+    "lij": 4.000000000000005,
+    "se_member_med": 0.29202214998796083
+   },
+   {
+    "sz": "(30, 100]",
+    "bias_max_mean": 0.3207071907081476,
+    "bias_maxdiff_mean": 0.31462663375688826,
+    "lij": 8.000000000000032,
+    "se_member_med": 0.3769318759069109
+   },
+   {
+    "sz": "(100, 2000]",
+    "bias_max_mean": 0.36985722883789857,
+    "bias_maxdiff_mean": 0.38242120452367556,
+    "lij": 18.000000000000043,
+    "se_member_med": 0.3578687646223783
+   }
+  ]
+ },
+ "E4": {
+  "n_clusters_m_ge5": 31,
+  "mean_dev1_best": 0.4308784571277836,
+  "mean_dev2_best": 0.1121074040475536,
+  "retention": 0.2601833584228288,
+  "slope": 0.7318977940587218,
+  "main_cluster": [
+   {
+    "cluster": 114,
+    "m": 228,
+    "dev1_best": 0.4996870057999332,
+    "dev2_best": -0.1789746513512075,
+    "best_is_medoid": false
+   }
+  ],
+  "large_clusters_m_ge30": [
+   {
+    "cluster": 30,
+    "m": 65,
+    "dev1_best": 1.2894919406734229,
+    "dev2_best": 0.9617778697266047,
+    "best_is_medoid": false
+   },
+   {
+    "cluster": 34,
+    "m": 33,
+    "dev1_best": 0.48952232568691945,
+    "dev2_best": 0.34787164458745656,
+    "best_is_medoid": false
+   },
+   {
+    "cluster": 36,
+    "m": 143,
+    "dev1_best": 0.8232447581413465,
+    "dev2_best": 0.6753722323647028,
+    "best_is_medoid": false
+   },
+   {
+    "cluster": 40,
+    "m": 52,
+    "dev1_best": 0.5392934267337505,
+    "dev2_best": 0.030700541749785204,
+    "best_is_medoid": false
+   },
+   {
+    "cluster": 47,
+    "m": 31,
+    "dev1_best": 1.3308771942662423,
+    "dev2_best": 0.7651416552322301,
+    "best_is_medoid": false
+   },
+   {
+    "cluster": 84,
+    "m": 70,
+    "dev1_best": 0.9806205136023332,
+    "dev2_best": 0.833512468234467,
+    "best_is_medoid": false
+   },
+   {
+    "cluster": 105,
+    "m": 35,
+    "dev1_best": 0.6070181394675407,
+    "dev2_best": 0.13133789572732482,
+    "best_is_medoid": false
+   },
+   {
+    "cluster": 112,
+    "m": 1135,
+    "dev1_best": 0.6093831198902442,
+    "dev2_best": -0.024264980828540283,
+    "best_is_medoid": false
+   },
+   {
+    "cluster": 114,
+    "m": 228,
+    "dev1_best": 0.4996870057999332,
+    "dev2_best": -0.1789746513512075,
+    "best_is_medoid": false
+   },
+   {
+    "cluster": 143,
+    "m": 48,
+    "dev1_best": 0.5834174461853809,
+    "dev2_best": 0.3970502298089522,
+    "best_is_medoid": false
+   }
+  ],
+  "between_top10pct_medoid": {
+   "first": 0.9330974968437268,
+   "second": 0.29097117913346493
+  }
+ },
+ "E5": {
+  "B10_excess_SEL": {
+   "mean": 0.7817924450086693,
+   "sd": 4.654264552232726,
+   "acf_1_2_3_6_12": [
+    -0.011984372500723714,
+    -0.017812933037660832,
+    -0.04985788728553679,
+    0.10696098092342197,
+    0.09076213208097356
+   ],
+   "kurtosis_excess": 0.6086826251621882,
+   "skew": -0.043482642591521604,
+   "hac_sd_ratio_L6": 0.8970132265851168
+  }
+ },
+ "E6": {
+  "exec_drag_pp_per_window_SEL": {
+   "30萬|FIX": {
+    "drag_SEL": -0.10926354132663561,
+    "impact_part_SEL": -0.021484516226207846
+   },
+   "30萬|GROW": {
+    "drag_SEL": -0.10824230165854343,
+    "impact_part_SEL": -0.12902138027937213
+   },
+   "100萬|FIX": {
+    "drag_SEL": -0.1364069126564431,
+    "impact_part_SEL": -0.13677342999850997
+   },
+   "100萬|GROW": {
+    "drag_SEL": -0.23594387880255227,
+    "impact_part_SEL": -0.30629922463548337
+   },
+   "300萬|FIX": {
+    "drag_SEL": -0.2612066275598857,
+    "impact_part_SEL": -0.31967252603588786
+   },
+   "300萬|GROW": {
+    "drag_SEL": -0.42842470254515225,
+    "impact_part_SEL": -0.5396543298319154
+   },
+   "1000萬|FIX": {
+    "drag_SEL": -0.44582082256355643,
+    "impact_part_SEL": -0.6618985405957858
+   },
+   "1000萬|GROW": {
+    "drag_SEL": -0.6519092033048949,
+    "impact_part_SEL": -0.8896166577087001
+   }
+  },
+  "delta_j_B10_SEL": {
+   "J0": -0.13807166113960176,
+   "J1": -0.06880262133360583,
+   "J2": -0.38650872073983805,
+   "J3": -0.3357456775206512,
+   "J4": -0.1572918672503522,
+   "J5": -0.39443630631882376,
+   "J6": 0.05101057777336757,
+   "J7": 0.16239703636246675,
+   "J8": -0.016380469325477945,
+   "J9": -0.023969245984742586,
+   "J10": 0.04955297749708247,
+   "J11": -0.16505333483247628,
+   "J12": -0.024853049793319152
+  },
+  "delta_j_sd_SEL": 0.1744149974846868
+ },
+ "gaps": {
+  "gaps_gt5_weekdays": [
+   {
+    "series": "0050",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "0050",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "0050",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "0050",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "0050",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "0050",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "0050",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "0050",
+    "from": "2024-02-05",
+    "to": "2024-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "0050",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2024-02-05",
+    "to": "2024-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2024-02-05",
+    "to": "2024-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2024-02-05",
+    "to": "2024-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2024-02-05",
+    "to": "2024-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2024-02-05",
+    "to": "2024-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2024-02-05",
+    "to": "2024-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2024-02-05",
+    "to": "2024-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2024-02-05",
+    "to": "2024-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C50",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C50",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C50",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C50",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C50",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C50",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "CM:C50",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "CM:C50",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C50",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C70",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C70",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C70",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C70",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C70",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:C70",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "CM:C70",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "CM:C70",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:C70",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2007-02-14",
+    "to": "2007-02-26",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2008-02-01",
+    "to": "2008-02-12",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:REP",
+    "from": "2009-01-21",
+    "to": "2009-02-02",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2010-02-10",
+    "to": "2010-02-22",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2011-01-28",
+    "to": "2011-02-08",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:REP",
+    "from": "2012-01-18",
+    "to": "2012-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2013-02-06",
+    "to": "2013-02-18",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2014-01-27",
+    "to": "2014-02-05",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:REP",
+    "from": "2015-02-13",
+    "to": "2015-02-24",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:REP",
+    "from": "2016-02-03",
+    "to": "2016-02-15",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2017-01-24",
+    "to": "2017-02-02",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:REP",
+    "from": "2018-02-12",
+    "to": "2018-02-21",
+    "missing_weekdays": 6
+   },
+   {
+    "series": "CM:REP",
+    "from": "2019-01-30",
+    "to": "2019-02-11",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2020-01-20",
+    "to": "2020-01-30",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2021-02-05",
+    "to": "2021-02-17",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2022-01-26",
+    "to": "2022-02-07",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2023-01-17",
+    "to": "2023-01-30",
+    "missing_weekdays": 8
+   },
+   {
+    "series": "CM:REP",
+    "from": "2023-12-29",
+    "to": "2024-02-15",
+    "missing_weekdays": 33
+   },
+   {
+    "series": "CM:REP",
+    "from": "2025-01-22",
+    "to": "2025-02-03",
+    "missing_weekdays": 7
+   },
+   {
+    "series": "CM:REP",
+    "from": "2026-02-11",
+    "to": "2026-02-23",
+    "missing_weekdays": 7
+   }
+  ],
+  "coverage": [
+   {
+    "series": "0050",
+    "first": "2006-04-03",
+    "last": "2026-10-22",
+    "n_days": 5052
+   },
+   {
+    "series": "V4:AB_V4|normal",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "V4:AB_V4_B10|normal",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "V4:AB_V4|stress",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "V4:AB_V4_B10|stress",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "V4:AB_V4|EW",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "V6:AB_V6|normal",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5043
+   },
+   {
+    "series": "V6:AB_V6_B10|normal",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5043
+   },
+   {
+    "series": "V6:AB_V6_B10|stress",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5043
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J0",
+    "first": "2006-04-10",
+    "last": "2026-10-12",
+    "n_days": 5044
+   },
+   {
+    "series": "JS:AB_V6_B10|normal|J12",
+    "first": "2006-04-26",
+    "last": "2026-10-22",
+    "n_days": 5040
+   },
+   {
+    "series": "JS:AB_V6|normal|J6",
+    "first": "2006-04-18",
+    "last": "2026-10-20",
+    "n_days": 5044
+   },
+   {
+    "series": "EXEC:main|30萬|FIX|A",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "EXEC:main|1000萬|GROW|A",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "EXEC:stress|100萬|FIX|B",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "IO6:M_E50_30|B10|normal",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5043
+   },
+   {
+    "series": "IO6:M_2330_30|B10|normal",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5043
+   },
+   {
+    "series": "CM:F1_K5_N20_sqrt|normal",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "CM:C50",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "CM:C70",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   },
+   {
+    "series": "CM:REP",
+    "first": "2006-04-11",
+    "last": "2026-10-12",
+    "n_days": 5018
+   }
+  ],
+  "notes": [
+   "V4 系列 2023-12-29→2024-02-15 有 33 個工作天無資料（已知；V6 補上），V4 格點窗 2023-12-11 長 48 個工作天。",
+   "V6 格點比 V4 多 2024-01-11 一個訊號日；本題一律用 V4 格點（與族群相同），V6 序列以日頻淨值在 V4 格點取樣。",
+   "0050 的 >5 工作天缺口全部是農曆年休市。"
+  ],
+  "window_coverage": {
+   "0050": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "V4:AB_V4|normal": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "V4:AB_V4_B10|normal": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "V4:AB_V4|stress": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "V4:AB_V4_B10|stress": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "V4:AB_V4|EW": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "V6:AB_V6|normal": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "V6:AB_V6_B10|normal": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "V6:AB_V6_B10|stress": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "JS:AB_V6_B10|normal|J0": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "JS:AB_V6_B10|normal|J12": {
+    "n_win": 244,
+    "first_na": [
+     "2006-04-11"
+    ]
+   },
+   "JS:AB_V6|normal|J6": {
+    "n_win": 244,
+    "first_na": [
+     "2006-04-11"
+    ]
+   },
+   "EXEC:main|30萬|FIX|A": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "EXEC:main|1000萬|GROW|A": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "EXEC:stress|100萬|FIX|B": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "IO6:M_E50_30|B10|normal": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "IO6:M_2330_30|B10|normal": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "CM:F1_K5_N20_sqrt|normal": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "CM:C50": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "CM:C70": {
+    "n_win": 245,
+    "first_na": []
+   },
+   "CM:REP": {
+    "n_win": 245,
+    "first_na": []
+   }
+  },
+  "regime_W_full": {
+   "first": "2004-03-11",
+   "last": "2026-09-11",
+   "n": 270,
+   "grid_overlap": 245,
+   "grid_n": 245
+  },
+  "tsmc_inputs": {
+   "n": 245,
+   "idx_equals_grid": true,
+   "r2330_na": 0
+  },
+  "family": {
+   "n_members": 2319,
+   "n_windows": 245,
+   "n_missing_cells_filled0": 1065,
+   "missing_in_first_window": 1045,
+   "idx_equals_grid": true
+  },
+  "long_windows_gt27_weekdays": [
+   {
+    "window_start": "2010-01-11",
+    "weekdays": 30
+   },
+   {
+    "window_start": "2023-12-11",
+    "weekdays": 48
+   }
+  ]
+ },
+ "conclusion": {
+  "mechanism_visible": true,
+  "note": "SEL 內群內贏家詛咒看得到：m_c ≥ 5 的 31 群，前半群內最佳成員相對 medoid 的偏離 0.43pp 在後半只剩 0.11（保留 26%）；第 114 群最佳成員 0.50 → −0.18。主策略在 SEL 是第 114 群（228 條）的第 25 名、全族群第 28 名；第 114 群 medoid 與主策略 α̂ 幾乎相同（0.94 vs 1.01），群內離散 σ_w 只有 0.10～0.19pp。群內 228 條取最大值的雜訊偏誤（bootstrap）0.43pp（sd 0.22～0.33），約等於成員標準誤的 1.1 倍。"
+ }
+}

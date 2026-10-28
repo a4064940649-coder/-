@@ -1,0 +1,259 @@
+{
+ "timestamp": "2026-10-28T10:20:30+00:00",
+ "note": "V7＝V6 面板在替換窗 2024-01-02～2025-09-23 改用全市場上市身分（listing_master）、颱風停市日事件順延、拿掉 2024-01 前視；營收、處置、下市、併購沿用 V4 凍結版。在任何 2024 年以後的策略報酬之前凍結。",
+ "panel_version": "L1",
+ "v7_panel": {
+  "adj": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/adj.parquet",
+   "sha256": "9d4f0d90b732273b574733ea806cd8989186ae8b870ac0fecf7c1465245ada0d"
+  },
+  "close_raw": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/close_raw.parquet",
+   "sha256": "2a2f7b99b44f19bae9a088141f0d995fd788f8171ec202f45b56ebb6896e2fe3"
+  },
+  "open": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/open.parquet",
+   "sha256": "5f49fdec4b6df09800261279073483f475e05f0cd40ad4d41b59f1dbb8ace013"
+  },
+  "high": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/high.parquet",
+   "sha256": "703d80f2c54aff925f243af5581b2166f7db88ad5af6b091da0f5949f3065ff8"
+  },
+  "value": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/value.parquet",
+   "sha256": "e9c6236ba7aee17b0fb4f84002057540c5bf1a0e56f57bcfafb4c9dfb4de37aa"
+  },
+  "ret": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/ret.parquet",
+   "sha256": "6e70541ac937568317e83dbb894cb49bf2e8086aada132419b8da7992ad03c34"
+  },
+  "flag": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/flag.parquet",
+   "sha256": "014587ef662e724e526dcf166a288d53db2e904776b3fc2549a90b2682b7ed79"
+  },
+  "src": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src.parquet",
+   "sha256": "e47d7f1bb38f7945b83272474a78c1486bd53c9558118ace8c53eeda41c86882"
+  },
+  "low": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/low.parquet",
+   "sha256": "13ef03715723908c4bc1423b10aef2b2c9fe84c2c1108cb19f5c1ec1a489a8f9"
+  }
+ },
+ "v7_meta": {
+  "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/panel_v7_meta.json",
+  "sha256": "81ec93de9a4d724c30615e406303e5894b8f56b4a7f11cabc2e644a802e7e195"
+ },
+ "listing": {
+  "listing_master.csv": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/listing_master.csv",
+   "sha256": "bdb7d6d478c095655c9a9707f550551a128df78839e7a563d81feab09f4988c8"
+  },
+  "listed_twse.parquet": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/listed_twse.parquet",
+   "sha256": "0faa1a996fb5d8e18c8767dd7cda219d41bb81c852bca9e528ebfcf622eacf87"
+  },
+  "listed_twse_strong.parquet": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/listed_twse_strong.parquet",
+   "sha256": "53cc94a9d95bf61e28ac4b65a768074148f602b58b3c43a4b8562941202b3025"
+  },
+  "listing_manual.json": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/listing_manual.json",
+   "sha256": "d9cc7d5371b0208f0e817e98102386c35c6cd3d32da639853e69bb10c3dc6a0b"
+  },
+  "listing_review.json": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/listing_review.json",
+   "sha256": "7d0b3d6a703a39f68a83b23e578eb40fc71a61f2f5ffb9b23e37a50c9645777a"
+  }
+ },
+ "parsed_sources": {
+  "hschi": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src_hschi.parquet",
+   "sha256": "22af4149381d8fbece92b4e5f5d9f2a13bbd0d5a37cd35aa1e71045ce3dded62"
+  },
+  "tasi": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src_tasi.parquet",
+   "sha256": "d6676f6dd4372f1cf3d850f9d7769b75a04d6943531b50495e8363f6ed93a3ac"
+  },
+  "bacardi": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src_bacardi.parquet",
+   "sha256": "e97921334e65efc5c8f2b02a680fe3732d335e21bd089a970745966fabc0ca14"
+  },
+  "bacardi_tpex": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src_bacardi_tpex.parquet",
+   "sha256": "5f151320380251ec8908d0349a7d954d2966bc6769ee71a8092cdce53f3bec11"
+  },
+  "leochen": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src_leochen.parquet",
+   "sha256": "e4be6344e87e5cd15a0e3c9c882276c46a56a759715acb5772b020c1b55383d8"
+  },
+  "history": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src_history.parquet",
+   "sha256": "21675bdf4fabd7ffdd18062584aa92e06d593e7e4b6beaba9f4885a9d70f4445"
+  },
+  "tasi_pbr": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src_tasi_pbr.parquet",
+   "sha256": "22304f4d2b995bff198cf6997d687d970f1a05d8839aa9d52633851ca2b0e459"
+  },
+  "isin": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src_isin.parquet",
+   "sha256": "bc009919900c156e7d528a1cf976e7b428738f56b04238d1c126c4b64a033dc4"
+  },
+  "tasi_rev": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src_tasi_rev.parquet",
+   "sha256": "93ba25f7ea123f9f56ddbe248ed6b5ef90fc50190dcf77aa0e431a9d34c31220"
+  }
+ },
+ "gate_population": {
+  "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/gate_population.parquet",
+  "sha256": "5a3022c41ee0e29d98bde6607125302cdb393450ae19c215604b1ec0343c781f"
+ },
+ "model_spec7": {
+  "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/model_spec7.json",
+  "sha256": "d88c6ea77ceda04b6754fdfffdbd08c4eb18883a056d29e48f74cd789e2c46f6"
+ },
+ "raw_manifest": {
+  "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/raw_manifest.tsv",
+  "sha256": "bcfb97cf08bc93d15ea1d932985344b16272fb8f411523f07ac518b22222c679"
+ },
+ "n_raw_files": 3916,
+ "raw_commits": {
+  "isin": null,
+  "rev": "ae3126d40a9c0fdf9b8198687e46ddbfd80dd15f Sat Oct 17 07:03:20 2026 +0000",
+  "hschi": "22573ec6e42d641f17dc2df402636376dc8f57d1 Thu Dec 4 21:18:29 2025 +0800",
+  "exec_inputs": null,
+  "leochen1_stock_v": null,
+  "bacardi": "9ee27c8b08074a95730a92225b818b2214b04793 Wed Oct 21 19:44:16 2026 +0800\norigin\thttps://github.com/bacardi1117-ai/tw-stock-screener (fetch) [blob:none]",
+  "tasi": null,
+  "screener": "f97d2cd2f43afafa901f10f0b00df3ec37e70ee6 Mon Oct 26 00:42:36 2026 +0000 stevenhsiehsheng-ctrl/tw-stock-screener"
+ },
+ "tasi_commit": "25fa21032f65ae39eb9270bbec8b7e407902941f Tue Oct 27 18:16:53 2026 +0800",
+ "leochen_commit": "0f319a125cb2e06b9a92e3688bb76baf5c759fb3 Tue Aug 19 17:04:10 2025 +0800（o_v6 raw 副本）",
+ "external": {
+  "data_freeze_v6": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data_freeze_v6.json",
+   "sha256": "c6bf11a4d96066349ccc32a4f4f10e941583bce2a465bb0a6b4ba962ef92eb78"
+  },
+  "v6_panel": {
+   "adj": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/adj.parquet",
+    "sha256": "ad9eecc8c74850f0d69f76e64c773aadc56a3df32d16b0ada881dea491f7deaf"
+   },
+   "close_raw": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/close_raw.parquet",
+    "sha256": "f689101a8afec4c23944e13ab376400eeaf35428faebc9abea14f84b08085534"
+   },
+   "open": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/open.parquet",
+    "sha256": "319245434cbf4adbc525969f236c2f3d9aabdc5ef8aa92e9271f4a2dedc3372c"
+   },
+   "high": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/high.parquet",
+    "sha256": "7df58a66f318c2441654c9b4d482d0203e9cb775dff68e6b568fa9e2342b2f0b"
+   },
+   "value": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/value.parquet",
+    "sha256": "655d52451e369de5a6fd2cf0bbb7e03fd6497525e8b20aa73738b5d8316afb64"
+   },
+   "ret": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/ret.parquet",
+    "sha256": "a26522205defc98a277be463d37d292787831fba323026032c228707a14f0da7"
+   },
+   "flag": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/flag.parquet",
+    "sha256": "9381861dbbec1bad18ac33c990177ea0019642d3cf3ef4b6223dc0178b0cd03e"
+   },
+   "src": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/src.parquet",
+    "sha256": "ead34d8ef951238d2b0d0d292d1bebab3f8f380870d7c86ce344200b31b00280"
+   },
+   "low": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/data/low.parquet",
+    "sha256": "af043ae4059f2ba03e393b9b031c0e0410591c7ac6ba8e51fbb495c41f21cd37"
+   }
+  },
+  "navs_v6": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/navs_v6.parquet",
+   "sha256": "9589cf9e315ea7a440301b6c6c0cedafa4ede8455d5ea1966e413650b9d6da04"
+  },
+  "navs_jscan_v6": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/navs_jscan_v6.parquet",
+   "sha256": "1f4120d2eef8b13a83d3c02692e90e202ba456231fa7171d9046256ba78bd943"
+  },
+  "plan_V6": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v6_price_panel_official/plan_V6.csv",
+   "sha256": "f50c954f8bf1722970f541908a1ee31a59d4165d1b5f8f94e9d2e33a0e834b98"
+  },
+  "data_freeze_v4": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/data_freeze_v4.json",
+   "sha256": "3a846c50bf7e8a1b5b2ba002271046414e52b7c7cd581a120081e48a6c3068a3"
+  },
+  "navs_v4": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/navs_v4.parquet",
+   "sha256": "92da4105a911638de0d560f356b8186eef2001b62339038b6be55345054de48b"
+  },
+  "plan_V4": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/plan_V4.csv",
+   "sha256": "1e7ff0ea0af6d657b7eb36fe55d92562a65309931715656413dc5d4f91ac0c16"
+  },
+  "v4_panel_scratchpad": {
+   "adj": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/adj.parquet",
+    "sha256": "c5d4707bd7a1966dc74fbbb41b6ad87f0900e6fc91d8e7665d5f1b3fb8542810"
+   },
+   "close_raw": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/close_raw.parquet",
+    "sha256": "f3b158eba86718466e8c5f1f9911212ea0f750f471859bbbc5f4bb7307406beb"
+   },
+   "open": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/open.parquet",
+    "sha256": "9ff204fb1c5217329398a24a87247e7773540a87720f67c97c48ad011fbae2fc"
+   },
+   "high": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/high.parquet",
+    "sha256": "92d8d7bcf8bad451d6affd303fb7aba3a058019446979a998420dde5892dc382"
+   },
+   "value": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/value.parquet",
+    "sha256": "d7280bb511d215ae783aa8cd1a654e9d6cc4736a686e8ab5e2f0a830585074b6"
+   },
+   "ret": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/ret.parquet",
+    "sha256": "e32ffeba2c7ac16b6181dea146f087e088f5e666bf9567fe8aaa1f1664f24cf6"
+   },
+   "flag": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/flag.parquet",
+    "sha256": "3f22b23084c261019c4da3865ac1e1785ab68ca115cc6db1ab5a9d7493f1e697"
+   },
+   "src": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/src.parquet",
+    "sha256": "826e9c5b5795c0555a9904570ab375c12243c2f28b7ff74caf8bf9ebce152988"
+   }
+  },
+  "etf_0050": {
+   "path": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv",
+   "sha256": "771fabfbe0a3165cd1729f8023992acff7bb61a16f078fa082f027ae422bcdab"
+  },
+  "taiex": {
+   "path": "/home/user/jonatw/finlab-txd/data/raw/taiex_twii.csv",
+   "sha256": "648adb5c8c60cf20615403f38659d4d59d8cc6e51bfd3280a3d9199a15c10b20"
+  },
+  "delist_official": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_infra_v3_rebuild/delist_official.csv",
+   "sha256": "41f51cb7e1aadbf1d28244f26cb6452f3ede20f2fbb594350848ed8f55a1f2bd"
+  },
+  "merger_consideration": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_infra_v3_rebuild/merger_consideration.csv",
+   "sha256": "262e92568a0162e99241c16f1de309df3736c670447b436b91d12b6f69cfd8fd"
+  }
+ },
+ "gate": {
+  "checks": {
+   "pool_official_ohlc>=99.5%(全市場上市母體、保守)": true,
+   "2024-01-02~02-14 100%": true,
+   "typhoon_exdiv_ref_match=100%": true,
+   "smoke_identical": true
+  },
+  "PASS": true
+ }
+}

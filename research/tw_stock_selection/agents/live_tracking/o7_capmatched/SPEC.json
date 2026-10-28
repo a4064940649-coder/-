@@ -1,0 +1,32 @@
+{
+ "spec": {
+  "title": "o7 市值匹配選股（0050 自由流通骨架＋層內 52 週高點×營收替換）前瞻紙上追蹤",
+  "origin": "agents/o_capmatched_selection（PREREG sha256 061c1a5a83540e91997d16218f616d6813f32120c6ba5850f0ed9fa2a16a48e9）",
+  "frozen_version": "F1_K5_N20_sqrt",
+  "combos": {
+   "C50": "0050 50%＋本題 50%",
+   "C70": "0050 70%＋本題 30%"
+  },
+  "start_signal_on_or_after": "2026-11-01",
+  "run": "python3 -I -B research/tw_stock_selection/agents/live_tracking/o7_capmatched/o7_paper.py --data /home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data（每月換股日收盤後；資料先 git pull）",
+  "outputs": [
+   "targets.tsv（訊號日、成交日、代碼、目標權重、0050 複製權重、成分快照日）",
+   "paper_nav.tsv（成交日開盤→下一成交日開盤：F、REP、0050、C50、C70）"
+  ],
+  "why": "2019～2026 大型股報酬都已被看過，2026-11 起才是乾淨樣本。",
+  "sequential_rule": {
+   "primary": "依 agents/o_tier_shrink_sequential 登記的序貫判定規則（本輪 C 題）；以該題 PREREG 為準。",
+   "fallback_until_registered": {
+    "metric": "F、C50、C70 各自對 0050 的成交窗月超額（扣一般成本）",
+    "looks": "每 12 個月檢視一次（2027-11、2028-11、2029-11…）",
+    "upgrade_to_usable": "累積 t ≥ 2.8（第 12 月）／2.4（第 24 月）／2.1（第 36 月起），且 IR > 主策略同期 IR",
+    "stop_as_unusable": "第 24 月起累積平均 ≤ 0 且 t ≤ −1.0；或任一年 TE > 10%",
+    "otherwise": "續追蹤（待觀察）"
+   }
+  },
+  "sha256": {
+   "o7_paper.py": "3a92e77b7da9cf8a82d444d83627f9dd0ba18547b541a1e17d0dfca2517df9ce"
+  }
+ },
+ "frozen_utc": "2026-10-28T09:24:32+00:00"
+}

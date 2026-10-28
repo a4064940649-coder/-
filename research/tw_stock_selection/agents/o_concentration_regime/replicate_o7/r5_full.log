@@ -1,0 +1,57 @@
+V5 sel n=48 wbar=0.4792 annR=0.2226 annS=0.2522 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-0.1489 tS=-0.2582 IR=-0.1291 vsF=-0.1489 tF=-0.2582 vs0=0.5450 t0=0.7004 vsM=-0.8019 tM=-1.0389 sw=11 mddR=-0.3508 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3126 sd=3.9955
+V5 oos n=44 wbar=0.5227 annR=0.6294 annS=0.5227 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=0.6048 tS=1.0803 IR=0.5642 vsF=0.5822 tF=1.0256 vs0=0.8442 t0=1.1352 vsM=0.3242 tM=0.3742 sw=7 mddR=-0.2748 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3370 sd=3.7137
+V5 pre n=152 wbar=0.4671 annR=0.1185 annS=0.1200 annF=0.1187 annM=0.1697 ann0=0.0586 vsS=0.0236 tS=0.1112 IR=0.0312 vsF=0.0349 tF=0.1640 vs0=0.5165 t0=1.6518 vsM=-0.4155 tM=-1.5017 sw=25 mddR=-0.6287 mddM=-0.6351 mdd0=-0.5575 mddS=-0.5818 sd=2.6208
+V5 full n=244 wbar=0.4795 annR=0.2196 annS=0.2106 annF=0.2107 annM=0.2630 ann0=0.1458 vsS=0.0977 tS=0.4843 IR=0.1074 vsF=0.0974 tF=0.4829 vs0=0.5812 t0=2.0731 vsM=-0.3581 tM=-1.2925 sw=43 mddR=-0.6287 mddM=-0.6351 mdd0=-0.5575 mddS=-0.5807 sd=3.1520
+sel MIX30 ann 0.2841 mdd -0.3327 M_E50_30 0.2840 B10 0.3129 EWtop300 win-ann 0.1603 cal-ann 0.1603
+oos MIX30 ann 0.5340 mdd -0.3802 M_E50_30 0.5478 B10 0.5432 EWtop300 win-ann 0.3009 cal-ann 0.2933
+sel decomp d-timing -30.9pp alpha-timing 12.1pp total -18.8pp sum(diffS) -7.1pp
+oos decomp d-timing 0.3pp alpha-timing 27.2pp total 27.4pp sum(diffS) 26.6pp
+sel segments 12
+   block-boot _dS 90% [-1.01, 0.78]
+   block-boot _d0 90% [-0.35, 1.66]
+oos segments 8
+   block-boot _dS 90% [-0.06, 1.20]
+   block-boot _d0 90% [0.06, 1.81]
+MDE80 1.57pp sd 3.71
+drop best 1 ['2025-10-13'] vsS 0.361 vsF 0.360 vs0050 0.366
+   own-best: vsF 0.360 vs0050 0.366
+drop best 3 ['2025-10-13', '2024-09-11', '2023-12-11'] vsS 0.056 vsF 0.025 vs0050 0.383
+   own-best: vsF 0.025 vs0050 -0.068
+drop 2023-12-11->2024-02-15 window: vsS 0.468 vsF 0.431 vs0 0.864
+V5stress oos n=44 wbar=0.5227 annR=0.5960 annS=0.5032 annF=0.5040 annM=0.5044 ann0=0.4859 vsS=0.5347 tS=0.9580 IR=0.5003 vsF=0.5218 tF=0.9224 vs0=0.6603 t0=0.8882 vsM=0.3661 tM=0.4241 sw=7 mddR=-0.2748 mddM=-0.4448 mdd0=-0.2748 mddS=-0.3432 sd=3.7020
+V5_0052 oos n=44 wbar=0.5227 annR=0.6490 annS=0.5476 annF=0.5481 annM=0.5432 ann0=0.5314 vsS=0.5786 tS=0.9620 IR=0.5024 vsF=0.5707 tF=0.9364 vs0=0.6507 t0=0.8114 vsM=0.4689 tM=0.5050 sw=7 mddR=-0.3110 mddM=-0.4347 mdd0=-0.3110 mddS=-0.3555 sd=3.9896
+V5_006208 oos n=44 wbar=0.5227 annR=0.6284 annS=0.5227 annF=0.5252 annM=0.5432 ann0=0.4863 vsS=0.6007 tS=1.0810 IR=0.5645 vsF=0.5782 tF=1.0253 vs0=0.8377 t0=1.1392 vsM=0.3219 tM=0.3719 sw=7 mddR=-0.2745 mddM=-0.4347 mdd0=-0.2745 mddS=-0.3379 sd=3.6861
+plan_V6 same signals/exec as V4: True True
+V5_V6leg oos n=44 wbar=0.5227 annR=0.6374 annS=0.5324 annF=0.5358 annM=0.5633 ann0=0.4859 vsS=0.5918 tS=1.0522 IR=0.5495 vsF=0.5638 tF=0.9921 vs0=0.8912 t0=1.1689 vsM=0.2486 tM=0.2910 sw=7 mddR=-0.2748 mddM=-0.4424 mdd0=-0.2748 mddS=-0.3414 sd=3.7305
+EXEC_main|30萬|GROW|A oos n=44 wbar=0.5227 annR=0.6043 annS=0.5004 annF=0.5009 annM=0.4960 ann0=0.4859 vsS=0.5967 tS=1.0721 IR=0.5599 vsF=0.5860 tF=1.0376 vs0=0.7060 t0=0.9575 vsM=0.4611 tM=0.5320 sw=7 mddR=-0.2748 mddM=-0.4417 mdd0=-0.2748 mddS=-0.3417 sd=3.6918
+EXEC_main|30萬|FIX|A oos n=44 wbar=0.5227 annR=0.6192 annS=0.5135 annF=0.5152 annM=0.5239 ann0=0.4859 vsS=0.6037 tS=1.0797 IR=0.5639 vsF=0.5860 tF=1.0332 vs0=0.7882 t0=1.0638 vsM=0.3826 tM=0.4405 sw=7 mddR=-0.2748 mddM=-0.4351 mdd0=-0.2748 mddS=-0.3373 sd=3.7085
+EXEC_main|100萬|GROW|A oos n=44 wbar=0.5227 annR=0.5831 annS=0.4781 annF=0.4765 annM=0.4501 ann0=0.4859 vsS=0.6158 tS=1.1201 IR=0.5849 vsF=0.6173 tF=1.1102 vs0=0.5911 t0=0.7949 vsM=0.6269 tM=0.7450 sw=7 mddR=-0.2748 mddM=-0.4530 mdd0=-0.2748 mddS=-0.3492 sd=3.6468
+EXEC_main|100萬|FIX|A oos n=44 wbar=0.5227 annR=0.6253 annS=0.5190 annF=0.5211 annM=0.5353 ann0=0.4859 vsS=0.6048 tS=1.0746 IR=0.5612 vsF=0.5841 tF=1.0231 vs0=0.8223 t0=1.1036 vsM=0.3471 tM=0.3973 sw=7 mddR=-0.2748 mddM=-0.4353 mdd0=-0.2748 mddS=-0.3374 sd=3.7329
+EXEC_main|300萬|GROW|A oos n=44 wbar=0.5227 annR=0.5746 annS=0.4612 annF=0.4581 annM=0.4158 ann0=0.4859 vsS=0.6751 tS=1.2367 IR=0.6458 vsF=0.6859 tF=1.2482 vs0=0.5487 t0=0.7219 vsM=0.7969 tM=0.9775 sw=7 mddR=-0.2748 mddM=-0.4726 mdd0=-0.2748 mddS=-0.3612 sd=3.6209
+EXEC_main|300萬|FIX|A oos n=44 wbar=0.5227 annR=0.6196 annS=0.5145 annF=0.5163 annM=0.5259 ann0=0.4859 vsS=0.5980 tS=1.0636 IR=0.5555 vsF=0.5796 tF=1.0154 vs0=0.7905 t0=1.0671 vsM=0.3684 tM=0.4204 sw=7 mddR=-0.2748 mddM=-0.4384 mdd0=-0.2748 mddS=-0.3393 sd=3.7297
+EXEC_main|1000萬|GROW|A oos n=44 wbar=0.5227 annR=0.5661 annS=0.4555 annF=0.4520 annM=0.4046 ann0=0.4859 vsS=0.6631 tS=1.2391 IR=0.6471 vsF=0.6771 tF=1.2604 vs0=0.5021 t0=0.6639 vsM=0.8254 tM=1.0478 sw=7 mddR=-0.2748 mddM=-0.4946 mdd0=-0.2748 mddS=-0.3711 sd=3.5496
+EXEC_main|1000萬|FIX|A oos n=44 wbar=0.5227 annR=0.5995 annS=0.4957 annF=0.4957 annM=0.4862 ann0=0.4859 vsS=0.5976 tS=1.0702 IR=0.5589 vsF=0.5894 tF=1.0397 vs0=0.6792 t0=0.9214 vsM=0.4916 tM=0.5644 sw=7 mddR=-0.2748 mddM=-0.4471 mdd0=-0.2748 mddS=-0.3449 sd=3.7036
+V1 sel n=48 wbar=0.4583 annR=0.1999 annS=0.2560 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-0.2688 tS=-0.5179 IR=-0.2590 vsF=-0.2406 tF=-0.4577 vs0=0.4532 t0=0.5213 vsM=-0.8936 tM=-1.5135 sw=14 mddR=-0.4253 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3150 sd=3.5955
+V1 oos n=44 wbar=0.7045 annR=0.4013 annS=0.5107 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=-0.6225 tS=-1.2921 IR=-0.6748 vsF=-0.7384 tF=-1.2363 vs0=-0.4763 t0=-0.9110 vsM=-0.9963 tM=-0.9665 sw=10 mddR=-0.3287 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3099 sd=3.1957
+V1neg sel n=48 wbar=0.5417 annR=0.2374 annS=0.2409 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-0.0207 tS=-0.0391 IR=-0.0195 vsF=-0.1048 tF=-0.1899 vs0=0.5890 t0=0.9812 vsM=-0.7578 tM=-0.8675 sw=14 mddR=-0.3090 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3069 sd=3.6733
+V1neg oos n=44 wbar=0.2955 annR=0.5870 annS=0.5342 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=0.3736 tS=0.7986 IR=0.4170 vsF=0.4707 tF=0.8418 vs0=0.7328 t0=0.7076 vsM=0.2127 tM=0.4210 sw=10 mddR=-0.3957 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3810 sd=3.1031
+V2 sel n=48 wbar=0.4167 annR=0.1873 annS=0.2634 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-0.4493 tS=-0.8866 IR=-0.4433 vsF=-0.3649 tF=-0.6987 vs0=0.3289 t0=0.3846 vsM=-1.0179 tM=-1.6862 sw=9 mddR=-0.4093 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3197 sd=3.5112
+V2 oos n=44 wbar=0.7273 annR=0.5298 annS=0.5090 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=0.1079 tS=0.2527 IR=0.1320 vsF=-0.0194 tF=-0.0327 vs0=0.2427 t0=0.5654 vsM=-0.2774 tM=-0.2598 sw=1 mddR=-0.2748 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3065 sd=2.8328
+V2neg sel n=48 wbar=0.5833 annR=0.2670 annS=0.2332 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=0.2704 tS=0.5318 IR=0.2659 vsF=0.1303 tF=0.2414 vs0=0.8241 t0=1.3782 vsM=-0.5227 tM=-0.6078 sw=9 mddR=-0.3005 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3057 sd=3.5229
+V2neg oos n=44 wbar=0.2727 annR=0.4948 annS=0.5351 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=-0.1188 tS=-0.2778 IR=-0.1451 vsF=-0.0096 tF=-0.0171 vs0=0.2525 t0=0.2355 vsM=-0.2675 tM=-0.6243 sw=1 mddR=-0.4347 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3853 sd=2.8374
+V3 sel n=48 wbar=0.5208 annR=0.1026 annS=0.2447 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-0.9968 tS=-1.7224 IR=-0.8612 vsF=-1.0529 tF=-1.7677 vs0=-0.3591 t0=-0.5880 vsM=-1.7059 tM=-1.8514 sw=9 mddR=-0.3727 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3082 sd=4.0095
+V3 oos n=44 wbar=0.6818 annR=0.5214 annS=0.5123 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=0.0388 tS=0.0830 IR=0.0433 vsF=-0.0655 tF=-0.1104 vs0=0.1966 t0=0.4097 vsM=-0.3234 tM=-0.3090 sw=1 mddR=-0.2748 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3132 sd=3.1030
+V3neg sel n=48 wbar=0.4792 annR=0.3643 annS=0.2522 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=0.8571 tS=1.4461 IR=0.7231 vsF=0.8571 tF=1.4461 vs0=1.5510 t0=1.6550 vsM=0.2041 tM=0.3319 sw=9 mddR=-0.3635 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3126 sd=4.1062
+V3neg oos n=44 wbar=0.3182 annR=0.5029 annS=0.5332 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=-0.0484 tS=-0.1033 IR=-0.0539 vsF=0.0366 tF=0.0653 vs0=0.2986 t0=0.2853 vsM=-0.2214 tM=-0.4571 sw=1 mddR=-0.4347 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3768 sd=3.1079
+V4 sel n=48 wbar=0.5625 annR=0.1172 annS=0.2370 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-0.8493 tS=-1.7345 IR=-0.8672 vsF=-0.9614 tF=-1.8225 vs0=-0.2676 t0=-0.5043 vsM=-1.6144 tM=-1.8190 sw=7 mddR=-0.3178 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3058 sd=3.3924
+V4 oos n=44 wbar=0.6818 annR=0.5214 annS=0.5123 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=0.0388 tS=0.0830 IR=0.0433 vsF=-0.0655 tF=-0.1104 vs0=0.1966 t0=0.4097 vsM=-0.3234 tM=-0.3090 sw=1 mddR=-0.2748 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3132 sd=3.1030
+V4neg sel n=48 wbar=0.4375 annR=0.3535 annS=0.2597 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=0.7153 tS=1.4375 IR=0.7188 vsF=0.7716 tF=1.4970 vs0=1.4654 t0=1.6350 vsM=0.1186 tM=0.2237 sw=7 mddR=-0.3986 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3173 sd=3.4473
+V4neg oos n=44 wbar=0.3182 annR=0.5029 annS=0.5332 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=-0.0484 tS=-0.1033 IR=-0.0539 vsF=0.0366 tF=0.0653 vs0=0.2986 t0=0.2853 vsM=-0.2214 tM=-0.4571 sw=1 mddR=-0.4347 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3768 sd=3.1079
+V6 sel n=48 wbar=0.3354 annR=0.2578 annS=0.2779 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-0.1124 tS=-0.2805 IR=-0.1403 vsF=0.0821 tF=0.1944 vs0=0.7760 t0=0.9893 vsM=-0.5709 tM=-1.0596 sw=11 mddR=-0.3547 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3288 sd=2.7757
+V6 oos n=44 wbar=0.3659 annR=0.6079 annS=0.5310 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=0.4198 tS=1.0723 IR=0.5600 vsF=0.4793 tF=1.2038 vs0=0.7414 t0=0.9359 vsM=0.2214 tM=0.3649 sw=7 mddR=-0.3035 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3677 sd=2.5966
+V7 sel n=48 wbar=0.4167 annR=0.1142 annS=0.2634 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-1.0790 tS=-1.9647 IR=-0.9823 vsF=-0.9946 tF=-1.9203 vs0=-0.3008 t0=-0.5360 vsM=-1.6476 tM=-1.9191 sw=7 mddR=-0.3555 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3197 sd=3.8051
+V7 oos n=44 wbar=0.4773 annR=0.6638 annS=0.5253 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=0.8414 tS=1.5201 IR=0.7938 vsF=0.8424 tF=1.5207 vs0=1.1045 t0=1.2326 vsM=0.5845 tM=0.8331 sw=5 mddR=-0.3044 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3460 sd=3.6716
+V8 sel n=48 wbar=0.2917 annR=0.1804 annS=0.2855 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-0.7589 tS=-1.9743 IR=-0.9871 vsF=-0.5050 tF=-1.5485 vs0=0.1889 t0=0.3041 vsM=-1.1580 tM=-1.9266 sw=7 mddR=-0.3579 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3337 sd=2.6632
+V8 oos n=44 wbar=0.3341 annR=0.6293 annS=0.5325 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=0.5833 tS=1.5059 IR=0.7864 vsF=0.6598 tF=1.4669 vs0=0.9219 t0=0.9958 vsM=0.4019 tM=0.8176 sw=5 mddR=-0.3450 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3737 sd=2.5694
+CORE50_SAT sel n=48 wbar=0.7396 annR=0.1921 annS=0.2040 annF=0.2522 annM=0.3348 ann0=0.1538 vsS=-0.0741 tS=-0.2583 IR=-0.1292 vsF=-0.4232 tF=-1.0633 vs0=0.2707 t0=0.6952 vsM=-1.0762 tM=-1.3080 sw=11 mddR=-0.3030 mddM=-0.3657 mdd0=-0.3396 mddS=-0.3181 sd=1.9875
+CORE50_SAT oos n=44 wbar=0.7614 annR=0.5605 annS=0.5064 annF=0.5252 annM=0.5432 ann0=0.4859 vsS=0.3035 tS=1.0771 IR=0.5625 vsF=0.1590 tF=0.3521 vs0=0.4211 t0=1.1212 vsM=-0.0989 tM=-0.1044 sw=7 mddR=-0.2748 mddM=-0.4347 mdd0=-0.2748 mddS=-0.3014 sd=1.8692

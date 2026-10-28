@@ -1,0 +1,250 @@
+{
+ "registration": {
+  "topic": "o_tier_shrink_sequential 前瞻盲測序貫判定規則",
+  "forward_start": "2026-11-01",
+  "priors_file": "data/forward_priors.npz",
+  "lines": {
+   "L1_MAIN_B10_EXEC": {
+    "data_key": "L1",
+    "desc": "主策略 B10 可執行（實際帳戶；級距／模式由 --tier --mode 指定）",
+    "allocation": true
+   },
+   "L2_MAIN80_DISP20": {
+    "data_key": "L2_MAIN80_DISP20",
+    "desc": "主策略 80%＋處置 20%（需 ret_disp）",
+    "prior_key": "L2_MAIN80_DISP20",
+    "sigma_pp": 4.8246927237995445,
+    "alpha_min": 0.04138846872271703,
+    "prior_mean_pp": 0.08277693744543406,
+    "prior_P_pos": 0.6111482565449298
+   },
+   "L3_MAIN70_E50_30": {
+    "data_key": "L3_MAIN70_E50_30",
+    "desc": "主策略 70%＋0050 30%",
+    "prior_key": "L3_MAIN70_E50_30",
+    "sigma_pp": 3.689766341973919,
+    "alpha_min": 0.08521566753507911,
+    "prior_mean_pp": 0.17043133507015823,
+    "prior_P_pos": 0.731903084772174
+   },
+   "L4_MAIN70_2330_30": {
+    "data_key": "L4_MAIN70_2330_30",
+    "desc": "主策略 70%＋2330 30%（需 ret_2330；事後觀察，不得升級）",
+    "prior_key": "L4_MAIN70_2330_30",
+    "sigma_pp": 3.503065848628414,
+    "alpha_min": 0.08521566753507927,
+    "prior_mean_pp": 0.17043133507015854,
+    "prior_P_pos": 0.7263333354381091
+   },
+   "L5_CAPM_F": {
+    "data_key": "L5_CAPM_F",
+    "desc": "市值匹配選股凍結版 F1_K5_N20_sqrt",
+    "prior_key": "L5_CAPM_F",
+    "sigma_pp": 1.7863476106809528,
+    "alpha_min": 0.06119527611295013,
+    "prior_mean_pp": 0.12239055222590026,
+    "prior_P_pos": 0.6902490205362725
+   },
+   "L6_CAPM_C50": {
+    "data_key": "L6_CAPM_C50",
+    "desc": "0050 50%＋市值匹配 50%",
+    "prior_key": "L6_CAPM_C50",
+    "sigma_pp": 0.8932418292794491,
+    "alpha_min": 0.03059763805647504,
+    "prior_mean_pp": 0.06119527611295008,
+    "prior_P_pos": 0.689959799917856
+   },
+   "L7_CAPM_C70": {
+    "data_key": "L7_CAPM_C70",
+    "desc": "0050 70%＋市值匹配 30%",
+    "prior_key": "L7_CAPM_C70",
+    "sigma_pp": 0.5359615070070466,
+    "alpha_min": 0.018358582833885525,
+    "prior_mean_pp": 0.03671716566777105,
+    "prior_P_pos": 0.6891816103303083
+   },
+   "L8_REGIME": {
+    "data_key": "L8_REGIME",
+    "desc": "權值集中輪動 V5（對 0050）",
+    "prior_key": "L8_REGIME",
+    "sigma_pp": 3.701661910623022,
+    "alpha_min": 0.25227210785304865,
+    "prior_mean_pp": 0.5045442157060973,
+    "prior_P_pos": 0.9605502347928642
+   },
+   "L9_REGIME_CORE50": {
+    "data_key": "L9_REGIME_CORE50",
+    "desc": "0050 50%＋輪動 50%",
+    "prior_key": "L9_REGIME_CORE50",
+    "sigma_pp": 1.850830955311511,
+    "alpha_min": 0.1261360539265244,
+    "prior_mean_pp": 0.2522721078530488,
+    "prior_P_pos": 0.9603682396254979
+   },
+   "L10_REGIME_D": {
+    "data_key": "L10_REGIME_D",
+    "desc": "輪動 − 同平均權重靜態混合（o_concentration_regime 登記焦點）",
+    "prior_key": "L10_REGIME_D",
+    "sigma_pp": 2.4057228709450165,
+    "alpha_min": 0.0,
+    "prior_mean_pp": -0.08571061085689138,
+    "prior_P_pos": 0.338487332343094
+   }
+  },
+  "lines_L1_variants": {
+   "L1_MAIN_B10_EXEC@30萬|FIX": {
+    "prior_key": "L1_MAIN_B10_EXEC_AT_30萬__FIX",
+    "sigma_pp": 5.288634053255834,
+    "alpha_min": 0.11063892160120649,
+    "prior_mean_pp": 0.22127784320241298,
+    "prior_P_pos": 0.7138454827493409,
+    "allocation": {
+     "favorable": 90,
+     "unfavorable": 0,
+     "favorable_written": "90%",
+     "unfavorable_written": "0%"
+    }
+   },
+   "L1_MAIN_B10_EXEC@30萬|GROW": {
+    "prior_key": "L1_MAIN_B10_EXEC_AT_30萬__GROW",
+    "sigma_pp": 5.279811130884877,
+    "alpha_min": 0.1098099163274154,
+    "prior_mean_pp": 0.2196198326548308,
+    "prior_P_pos": 0.7105991195865817,
+    "allocation": {
+     "favorable": 80,
+     "unfavorable": 0,
+     "favorable_written": "80%",
+     "unfavorable_written": "0%"
+    }
+   },
+   "L1_MAIN_B10_EXEC@100萬|FIX": {
+    "prior_key": "L1_MAIN_B10_EXEC_AT_100萬__FIX",
+    "sigma_pp": 5.2641713361224,
+    "alpha_min": 0.12173666790725592,
+    "prior_mean_pp": 0.24347333581451183,
+    "prior_P_pos": 0.7319907413947855,
+    "allocation": {
+     "favorable": 90,
+     "unfavorable": 0,
+     "favorable_written": "90%",
+     "unfavorable_written": "0%"
+    }
+   },
+   "L1_MAIN_B10_EXEC@100萬|GROW": {
+    "prior_key": "L1_MAIN_B10_EXEC_AT_100萬__GROW",
+    "sigma_pp": 5.339667623859864,
+    "alpha_min": 0.0650272044452042,
+    "prior_mean_pp": 0.1300544088904084,
+    "prior_P_pos": 0.6251926311758788,
+    "allocation": {
+     "favorable": 20,
+     "unfavorable": 0,
+     "favorable_written": "20～100%",
+     "unfavorable_written": "0%"
+    }
+   },
+   "L1_MAIN_B10_EXEC@300萬|FIX": {
+    "prior_key": "L1_MAIN_B10_EXEC_AT_300萬__FIX",
+    "sigma_pp": 5.261305096280209,
+    "alpha_min": 0.09916082724395107,
+    "prior_mean_pp": 0.19832165448790215,
+    "prior_P_pos": 0.6900662354458938,
+    "allocation": {
+     "favorable": 60,
+     "unfavorable": 0,
+     "favorable_written": "60～100%",
+     "unfavorable_written": "0%"
+    }
+   },
+   "L1_MAIN_B10_EXEC@300萬|GROW": {
+    "prior_key": "L1_MAIN_B10_EXEC_AT_300萬__GROW",
+    "sigma_pp": 5.300514050134208,
+    "alpha_min": 0.006861832302579088,
+    "prior_mean_pp": 0.013723664605158175,
+    "prior_P_pos": 0.5144072152581262,
+    "allocation": {
+     "favorable": 0,
+     "unfavorable": 0,
+     "favorable_written": "0～90%",
+     "unfavorable_written": "0%"
+    }
+   },
+   "L1_MAIN_B10_EXEC@1000萬|FIX": {
+    "prior_key": "L1_MAIN_B10_EXEC_AT_1000萬__FIX",
+    "sigma_pp": 5.318575730109245,
+    "alpha_min": 0.043098688246196705,
+    "prior_mean_pp": 0.08619737649239341,
+    "prior_P_pos": 0.5811192701403586,
+    "allocation": {
+     "favorable": 0,
+     "unfavorable": 0,
+     "favorable_written": "0～100%",
+     "unfavorable_written": "0%"
+    }
+   },
+   "L1_MAIN_B10_EXEC@1000萬|GROW": {
+    "prior_key": "L1_MAIN_B10_EXEC_AT_1000萬__GROW",
+    "sigma_pp": 5.292738168785252,
+    "alpha_min": 0.0,
+    "prior_mean_pp": -0.14539054793238046,
+    "prior_P_pos": 0.3725502717408593,
+    "allocation": {
+     "favorable": 0,
+     "unfavorable": 0,
+     "favorable_written": "0%",
+     "unfavorable_written": "0%"
+    }
+   }
+  },
+  "thresholds": {
+   "E_up": 20.0,
+   "up_min_months": 24,
+   "E_down": 10.0,
+   "P_down": 0.25,
+   "P_down_min_months": 18,
+   "change_min_months": 12,
+   "E_review": 20.0,
+   "ratio_review": 0.75,
+   "dead_zone_pp": 20,
+   "max_changes_per_year": 1
+  },
+  "rules_text": {
+   "upgrade": "E_up ≥ 20 且前瞻 ≥ 24 個月 → 主策略第 3 級回第 2 級；新策略由不可用／待觀察升一級的必要條件。2330 30% 線（L4）不得升級（o6 教訓 20）。",
+   "down": "E_down ≥ 10，或（更新後 P(α>0) < 0.25 且前瞻 ≥ 18 個月）→ 該線配置降到配置表不利格（L1：同級距、同模式的壓力成本格）。",
+   "review": "財富比 < 0.75 或 E_down ≥ 20 → 觸發總監審查（不自動停用）。",
+   "constraints": "任何配置變更：前瞻 ≥ 12 個月、±20pp 死區、每年最多一次。",
+   "stats": "x_t＝線窗報酬 − 0050 窗報酬（pp）；E_up／E_down 為以登記先驗截斷混合的常態概似比（σ 固定為歷史長期 sd）；P(α>0) 為格點先驗的常態更新。",
+   "no_refit": "凍結後不得引用 2026-10 以前的報酬調整任何參數；V7 交件後先驗可依 PREREG 的 V7 條款只換輸入重算一次，σ、門檻不變。"
+  },
+  "data_sources": {
+   "MAIN": "live_tracking/main_forward/forward_returns.csv（start,end,ret[,ret_0050][,ret_disp][,ret_2330]）；缺則 live_tracking/o7_regime/main_leg_returns.csv",
+   "TRADES": "live_tracking/main_forward/trades.csv（date,code,side,shares,fill_price,open_price,ticks_from_open,pct_open_volume）",
+   "CAPM": "live_tracking/o7_capmatched/paper_nav.tsv",
+   "REGIME": "live_tracking/o7_regime/paper_nav.csv"
+  },
+  "simulation_summary": {
+   "P_up36_alpha0.2": 0.00075,
+   "P_up36_alpha0.5": 0.00075,
+   "P_down24_alpha-1": 0.0025,
+   "P_false_up_120_alpha0_maxline": 0.01875,
+   "holds": {
+    "up0.2_lt_0.10": true,
+    "up0.5_lt_0.25": true,
+    "down-1_ge_0.70": false,
+    "false_up_le_0.05": true
+   }
+  },
+  "hashes": {
+   "forward_monitor.py": "7ebbfef4d08ed4c12cc9ccca2592864af05175063aaf5eb59358460b2578357c",
+   "seqlib.py": "a858efa1f286c192d5362c989f12803c1f27ba72263eeb4398a42c216e0a4393",
+   "data/forward_priors.npz": "fe9845194afe7acce3b44e23e80ba7a971d18e004332d3005e8496ebc0827e1a",
+   "tier_table.json": "9e575feb6dd1c1e941cc900e804595d2c9fcb7f4c669a22fa8fb5766f08cac9c",
+   "s5_seqsim.py": "54a820cb9d0b7404839b6d0bf5ebf13a16b045386088caddc5f7c9bb716d3d97",
+   "s6_freeze_forward.py": "3b2800ed39f87edb9c146a07a0d0fbb9b4203fd03d06bc893a72d27b28521e62"
+  },
+  "source_PREREG_sha256": "a78aa9380be5ebd2ae1cd8384946da2e0a70becfa5c4052cba610d94ffcab86c",
+  "utc": "2026-10-28T10:23:57.485092+00:00"
+ },
+ "registration_sha256": "1f60e2f31b39058ae0c5ebe41376fc6dfdb62f18e81234cdadc0d39ae8980a95"
+}

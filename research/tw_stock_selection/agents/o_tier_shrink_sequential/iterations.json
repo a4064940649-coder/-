@@ -1,0 +1,1056 @@
+{
+ "n_versions": 7,
+ "versions": {
+  "V1_o6": {
+   "definition": "G2（df 5、c0 0.1、grid 節點、格點 [−8,4] 步 0.02）×MAIN medoids；焦點直接用 α̂（o6 主欄，無群內處理）。",
+   "synthetic": [
+    {
+     "scen": "P_primary",
+     "tag": "rand114",
+     "bias": -0.144,
+     "bias_se": 0.0233,
+     "coverage80": 0.72,
+     "rmse": 0.3593
+    },
+    {
+     "scen": "P_primary",
+     "tag": "randany",
+     "bias": 0.0004,
+     "bias_se": 0.0216,
+     "coverage80": 0.805,
+     "rmse": 0.3045
+    },
+    {
+     "scen": "P_primary",
+     "tag": "sel",
+     "bias": 0.1402,
+     "bias_se": 0.0215,
+     "coverage80": 0.835,
+     "rmse": 0.3337
+    },
+    {
+     "scen": "S_T2",
+     "tag": "rand114",
+     "bias": -0.2173,
+     "bias_se": 0.0308,
+     "coverage80": 0.7,
+     "rmse": 0.3757
+    },
+    {
+     "scen": "S_T2",
+     "tag": "randany",
+     "bias": 0.0233,
+     "bias_se": 0.0309,
+     "coverage80": 0.82,
+     "rmse": 0.3079
+    },
+    {
+     "scen": "S_T2",
+     "tag": "sel",
+     "bias": 0.0492,
+     "bias_se": 0.0255,
+     "coverage80": 0.87,
+     "rmse": 0.2584
+    },
+    {
+     "scen": "S_t3",
+     "tag": "rand114",
+     "bias": -0.1501,
+     "bias_se": 0.0303,
+     "coverage80": 0.78,
+     "rmse": 0.3371
+    },
+    {
+     "scen": "S_t3",
+     "tag": "randany",
+     "bias": -0.0292,
+     "bias_se": 0.0317,
+     "coverage80": 0.83,
+     "rmse": 0.3165
+    },
+    {
+     "scen": "S_t3",
+     "tag": "sel",
+     "bias": 0.0481,
+     "bias_se": 0.0346,
+     "coverage80": 0.76,
+     "rmse": 0.3478
+    },
+    {
+     "scen": "S_w0",
+     "tag": "rand114",
+     "bias": -0.1186,
+     "bias_se": 0.0354,
+     "coverage80": 0.67,
+     "rmse": 0.3715
+    },
+    {
+     "scen": "S_w0",
+     "tag": "randany",
+     "bias": -0.03,
+     "bias_se": 0.0352,
+     "coverage80": 0.74,
+     "rmse": 0.3518
+    },
+    {
+     "scen": "S_w0",
+     "tag": "sel",
+     "bias": 0.2142,
+     "bias_se": 0.03,
+     "coverage80": 0.76,
+     "rmse": 0.3674
+    },
+    {
+     "scen": "S_w25",
+     "tag": "rand114",
+     "bias": -0.1035,
+     "bias_se": 0.0316,
+     "coverage80": 0.76,
+     "rmse": 0.331
+    },
+    {
+     "scen": "S_w25",
+     "tag": "randany",
+     "bias": -0.0296,
+     "bias_se": 0.0302,
+     "coverage80": 0.82,
+     "rmse": 0.3017
+    },
+    {
+     "scen": "S_w25",
+     "tag": "sel",
+     "bias": 0.0155,
+     "bias_se": 0.0291,
+     "coverage80": 0.88,
+     "rmse": 0.2897
+    }
+   ],
+   "cv_sel_sum_logpd": -86.29046819219892
+  },
+  "V2_HN": {
+   "definition": "G2 群間（同 V1）＋群內常態：δ~N(0, 2σ_w²)，δ|d~N(Bd, B s_d²)，B＝2σ_w²/(2σ_w²+s_d²)；α_k 密度＝medoid 事後 ⊛ δ 事後。",
+   "synthetic": [
+    {
+     "scen": "P_primary",
+     "tag": "rand114",
+     "bias": -0.1496,
+     "bias_se": 0.0239,
+     "coverage80": 0.75,
+     "rmse": 0.3684
+    },
+    {
+     "scen": "P_primary",
+     "tag": "randany",
+     "bias": -0.004,
+     "bias_se": 0.0215,
+     "coverage80": 0.83,
+     "rmse": 0.303
+    },
+    {
+     "scen": "P_primary",
+     "tag": "sel",
+     "bias": -0.1404,
+     "bias_se": 0.0258,
+     "coverage80": 0.74,
+     "rmse": 0.3905
+    },
+    {
+     "scen": "S_T2",
+     "tag": "rand114",
+     "bias": -0.2389,
+     "bias_se": 0.0326,
+     "coverage80": 0.72,
+     "rmse": 0.4025
+    },
+    {
+     "scen": "S_T2",
+     "tag": "randany",
+     "bias": 0.0118,
+     "bias_se": 0.0302,
+     "coverage80": 0.81,
+     "rmse": 0.3009
+    },
+    {
+     "scen": "S_T2",
+     "tag": "sel",
+     "bias": -0.2342,
+     "bias_se": 0.0333,
+     "coverage80": 0.69,
+     "rmse": 0.4059
+    },
+    {
+     "scen": "S_t3",
+     "tag": "rand114",
+     "bias": -0.1818,
+     "bias_se": 0.0319,
+     "coverage80": 0.76,
+     "rmse": 0.3658
+    },
+    {
+     "scen": "S_t3",
+     "tag": "randany",
+     "bias": -0.0205,
+     "bias_se": 0.0307,
+     "coverage80": 0.86,
+     "rmse": 0.3066
+    },
+    {
+     "scen": "S_t3",
+     "tag": "sel",
+     "bias": -0.2639,
+     "bias_se": 0.0378,
+     "coverage80": 0.65,
+     "rmse": 0.4594
+    },
+    {
+     "scen": "S_w0",
+     "tag": "rand114",
+     "bias": -0.1347,
+     "bias_se": 0.0361,
+     "coverage80": 0.7,
+     "rmse": 0.3836
+    },
+    {
+     "scen": "S_w0",
+     "tag": "randany",
+     "bias": -0.0271,
+     "bias_se": 0.0343,
+     "coverage80": 0.72,
+     "rmse": 0.3424
+    },
+    {
+     "scen": "S_w0",
+     "tag": "sel",
+     "bias": -0.0954,
+     "bias_se": 0.0377,
+     "coverage80": 0.72,
+     "rmse": 0.3871
+    },
+    {
+     "scen": "S_w25",
+     "tag": "rand114",
+     "bias": -0.111,
+     "bias_se": 0.0311,
+     "coverage80": 0.83,
+     "rmse": 0.3284
+    },
+    {
+     "scen": "S_w25",
+     "tag": "randany",
+     "bias": -0.0352,
+     "bias_se": 0.0312,
+     "coverage80": 0.85,
+     "rmse": 0.3121
+    },
+    {
+     "scen": "S_w25",
+     "tag": "sel",
+     "bias": -0.0864,
+     "bias_se": 0.0316,
+     "coverage80": 0.88,
+     "rmse": 0.3256
+    }
+   ],
+   "cv_sel_sum_logpd": -85.3609728360922
+  },
+  "V3_G2MAX": {
+   "definition": "V1＋群內最大值懲罰：b＝群內 m_c 個成員（各自去均值）以平穩 bootstrap L6 同列重抽、取重抽平均最大值的分布（B 400），α̂′＝α̂−b，事後＝對 b 的 200 個分位點的 G2 事後混合。",
+   "synthetic": [
+    {
+     "scen": "P_primary",
+     "tag": "rand114",
+     "bias": -0.4897,
+     "bias_se": 0.0226,
+     "coverage80": 0.565,
+     "rmse": 0.5846
+    },
+    {
+     "scen": "P_primary",
+     "tag": "randany",
+     "bias": -0.1049,
+     "bias_se": 0.0223,
+     "coverage80": 0.905,
+     "rmse": 0.3314
+    },
+    {
+     "scen": "P_primary",
+     "tag": "sel",
+     "bias": -0.2184,
+     "bias_se": 0.021,
+     "coverage80": 0.87,
+     "rmse": 0.3684
+    },
+    {
+     "scen": "S_T2",
+     "tag": "rand114",
+     "bias": -0.5563,
+     "bias_se": 0.0305,
+     "coverage80": 0.46,
+     "rmse": 0.6336
+    },
+    {
+     "scen": "S_T2",
+     "tag": "randany",
+     "bias": -0.0933,
+     "bias_se": 0.0321,
+     "coverage80": 0.9,
+     "rmse": 0.3326
+    },
+    {
+     "scen": "S_T2",
+     "tag": "sel",
+     "bias": -0.2925,
+     "bias_se": 0.0262,
+     "coverage80": 0.78,
+     "rmse": 0.3921
+    },
+    {
+     "scen": "S_t3",
+     "tag": "rand114",
+     "bias": -0.4916,
+     "bias_se": 0.0297,
+     "coverage80": 0.6,
+     "rmse": 0.5736
+    },
+    {
+     "scen": "S_t3",
+     "tag": "randany",
+     "bias": -0.1352,
+     "bias_se": 0.0325,
+     "coverage80": 0.88,
+     "rmse": 0.3502
+    },
+    {
+     "scen": "S_t3",
+     "tag": "sel",
+     "bias": -0.3079,
+     "bias_se": 0.0346,
+     "coverage80": 0.72,
+     "rmse": 0.4622
+    },
+    {
+     "scen": "S_w0",
+     "tag": "rand114",
+     "bias": -0.4665,
+     "bias_se": 0.0343,
+     "coverage80": 0.59,
+     "rmse": 0.5782
+    },
+    {
+     "scen": "S_w0",
+     "tag": "randany",
+     "bias": -0.1389,
+     "bias_se": 0.0361,
+     "coverage80": 0.77,
+     "rmse": 0.385
+    },
+    {
+     "scen": "S_w0",
+     "tag": "sel",
+     "bias": -0.1405,
+     "bias_se": 0.0293,
+     "coverage80": 0.88,
+     "rmse": 0.3236
+    },
+    {
+     "scen": "S_w25",
+     "tag": "rand114",
+     "bias": -0.4469,
+     "bias_se": 0.031,
+     "coverage80": 0.62,
+     "rmse": 0.5432
+    },
+    {
+     "scen": "S_w25",
+     "tag": "randany",
+     "bias": -0.1466,
+     "bias_se": 0.0321,
+     "coverage80": 0.84,
+     "rmse": 0.3511
+    },
+    {
+     "scen": "S_w25",
+     "tag": "sel",
+     "bias": -0.3508,
+     "bias_se": 0.0287,
+     "coverage80": 0.75,
+     "rmse": 0.4524
+    }
+   ],
+   "cv_sel_sum_logpd": -79.38727056210097
+  },
+  "V4_HNMAX": {
+   "definition": "V2＋群內最大值懲罰：b＝群內差序列（成員減 medoid、去均值）重抽平均最大值的分布，d′＝d−b，δ 事後對 b 混合。",
+   "synthetic": [
+    {
+     "scen": "P_primary",
+     "tag": "rand114",
+     "bias": -0.3731,
+     "bias_se": 0.0241,
+     "coverage80": 0.585,
+     "rmse": 0.5044
+    },
+    {
+     "scen": "P_primary",
+     "tag": "randany",
+     "bias": -0.0565,
+     "bias_se": 0.0213,
+     "coverage80": 0.83,
+     "rmse": 0.3062
+    },
+    {
+     "scen": "P_primary",
+     "tag": "sel",
+     "bias": -0.2843,
+     "bias_se": 0.0241,
+     "coverage80": 0.625,
+     "rmse": 0.4427
+    },
+    {
+     "scen": "S_T2",
+     "tag": "rand114",
+     "bias": -0.4598,
+     "bias_se": 0.0352,
+     "coverage80": 0.49,
+     "rmse": 0.5778
+    },
+    {
+     "scen": "S_T2",
+     "tag": "randany",
+     "bias": -0.0443,
+     "bias_se": 0.0309,
+     "coverage80": 0.82,
+     "rmse": 0.311
+    },
+    {
+     "scen": "S_T2",
+     "tag": "sel",
+     "bias": -0.3654,
+     "bias_se": 0.0322,
+     "coverage80": 0.6,
+     "rmse": 0.486
+    },
+    {
+     "scen": "S_t3",
+     "tag": "rand114",
+     "bias": -0.3995,
+     "bias_se": 0.0346,
+     "coverage80": 0.6,
+     "rmse": 0.5273
+    },
+    {
+     "scen": "S_t3",
+     "tag": "randany",
+     "bias": -0.0711,
+     "bias_se": 0.0312,
+     "coverage80": 0.82,
+     "rmse": 0.3189
+    },
+    {
+     "scen": "S_t3",
+     "tag": "sel",
+     "bias": -0.4252,
+     "bias_se": 0.0378,
+     "coverage80": 0.52,
+     "rmse": 0.5678
+    },
+    {
+     "scen": "S_w0",
+     "tag": "rand114",
+     "bias": -0.221,
+     "bias_se": 0.0358,
+     "coverage80": 0.75,
+     "rmse": 0.4194
+    },
+    {
+     "scen": "S_w0",
+     "tag": "randany",
+     "bias": -0.0494,
+     "bias_se": 0.0346,
+     "coverage80": 0.73,
+     "rmse": 0.3483
+    },
+    {
+     "scen": "S_w0",
+     "tag": "sel",
+     "bias": -0.134,
+     "bias_se": 0.0351,
+     "coverage80": 0.74,
+     "rmse": 0.3737
+    },
+    {
+     "scen": "S_w25",
+     "tag": "rand114",
+     "bias": -0.4449,
+     "bias_se": 0.0314,
+     "coverage80": 0.54,
+     "rmse": 0.5434
+    },
+    {
+     "scen": "S_w25",
+     "tag": "randany",
+     "bias": -0.1427,
+     "bias_se": 0.0331,
+     "coverage80": 0.79,
+     "rmse": 0.3589
+    },
+    {
+     "scen": "S_w25",
+     "tag": "sel",
+     "bias": -0.4064,
+     "bias_se": 0.0306,
+     "coverage80": 0.59,
+     "rmse": 0.5077
+    }
+   ],
+   "cv_sel_sum_logpd": -87.26424043023614
+  },
+  "V5_HT": {
+   "definition": "G2 群間＋群內 t(ν＝3)：δ 先驗 t3、尺度使 sd＝√2σ_w；δ 事後在格點上數值計算。",
+   "synthetic": [
+    {
+     "scen": "P_primary",
+     "tag": "rand114",
+     "bias": -0.1483,
+     "bias_se": 0.0242,
+     "coverage80": 0.74,
+     "rmse": 0.3728
+    },
+    {
+     "scen": "P_primary",
+     "tag": "randany",
+     "bias": -0.0061,
+     "bias_se": 0.0216,
+     "coverage80": 0.82,
+     "rmse": 0.3049
+    },
+    {
+     "scen": "P_primary",
+     "tag": "sel",
+     "bias": -0.1322,
+     "bias_se": 0.0248,
+     "coverage80": 0.775,
+     "rmse": 0.3744
+    },
+    {
+     "scen": "S_T2",
+     "tag": "rand114",
+     "bias": -0.242,
+     "bias_se": 0.0331,
+     "coverage80": 0.71,
+     "rmse": 0.4089
+    },
+    {
+     "scen": "S_T2",
+     "tag": "randany",
+     "bias": 0.012,
+     "bias_se": 0.0301,
+     "coverage80": 0.8,
+     "rmse": 0.2999
+    },
+    {
+     "scen": "S_T2",
+     "tag": "sel",
+     "bias": -0.2114,
+     "bias_se": 0.0315,
+     "coverage80": 0.74,
+     "rmse": 0.3783
+    },
+    {
+     "scen": "S_t3",
+     "tag": "rand114",
+     "bias": -0.1845,
+     "bias_se": 0.0325,
+     "coverage80": 0.75,
+     "rmse": 0.372
+    },
+    {
+     "scen": "S_t3",
+     "tag": "randany",
+     "bias": -0.0198,
+     "bias_se": 0.0305,
+     "coverage80": 0.86,
+     "rmse": 0.3046
+    },
+    {
+     "scen": "S_t3",
+     "tag": "sel",
+     "bias": -0.1935,
+     "bias_se": 0.0332,
+     "coverage80": 0.71,
+     "rmse": 0.3831
+    },
+    {
+     "scen": "S_w0",
+     "tag": "rand114",
+     "bias": -0.1338,
+     "bias_se": 0.0363,
+     "coverage80": 0.7,
+     "rmse": 0.3851
+    },
+    {
+     "scen": "S_w0",
+     "tag": "randany",
+     "bias": -0.0262,
+     "bias_se": 0.0342,
+     "coverage80": 0.72,
+     "rmse": 0.3409
+    },
+    {
+     "scen": "S_w0",
+     "tag": "sel",
+     "bias": -0.0985,
+     "bias_se": 0.0371,
+     "coverage80": 0.72,
+     "rmse": 0.3825
+    },
+    {
+     "scen": "S_w25",
+     "tag": "rand114",
+     "bias": -0.1028,
+     "bias_se": 0.0316,
+     "coverage80": 0.81,
+     "rmse": 0.3309
+    },
+    {
+     "scen": "S_w25",
+     "tag": "randany",
+     "bias": -0.0442,
+     "bias_se": 0.031,
+     "coverage80": 0.86,
+     "rmse": 0.312
+    },
+    {
+     "scen": "S_w25",
+     "tag": "sel",
+     "bias": -0.0834,
+     "bias_se": 0.0304,
+     "coverage80": 0.9,
+     "rmse": 0.3135
+    }
+   ],
+   "cv_sel_sum_logpd": -87.09883124623724
+  },
+  "V6_HNG3": {
+   "definition": "G3（NPMLE）群間＋群內常態（同 V2）。",
+   "synthetic": [
+    {
+     "scen": "P_primary",
+     "tag": "rand114",
+     "bias": -0.1567,
+     "bias_se": 0.0241,
+     "coverage80": 0.68,
+     "rmse": 0.3742
+    },
+    {
+     "scen": "P_primary",
+     "tag": "randany",
+     "bias": -0.0058,
+     "bias_se": 0.0211,
+     "coverage80": 0.81,
+     "rmse": 0.2975
+    },
+    {
+     "scen": "P_primary",
+     "tag": "sel",
+     "bias": -0.1475,
+     "bias_se": 0.0262,
+     "coverage80": 0.69,
+     "rmse": 0.3973
+    },
+    {
+     "scen": "S_T2",
+     "tag": "rand114",
+     "bias": -0.2885,
+     "bias_se": 0.0278,
+     "coverage80": 0.59,
+     "rmse": 0.3994
+    },
+    {
+     "scen": "S_T2",
+     "tag": "randany",
+     "bias": -0.0007,
+     "bias_se": 0.0309,
+     "coverage80": 0.75,
+     "rmse": 0.3076
+    },
+    {
+     "scen": "S_T2",
+     "tag": "sel",
+     "bias": -0.2838,
+     "bias_se": 0.0291,
+     "coverage80": 0.63,
+     "rmse": 0.4055
+    },
+    {
+     "scen": "S_t3",
+     "tag": "rand114",
+     "bias": -0.1886,
+     "bias_se": 0.0318,
+     "coverage80": 0.71,
+     "rmse": 0.3687
+    },
+    {
+     "scen": "S_t3",
+     "tag": "randany",
+     "bias": -0.0181,
+     "bias_se": 0.0313,
+     "coverage80": 0.81,
+     "rmse": 0.3121
+    },
+    {
+     "scen": "S_t3",
+     "tag": "sel",
+     "bias": -0.2706,
+     "bias_se": 0.0375,
+     "coverage80": 0.6,
+     "rmse": 0.4612
+    },
+    {
+     "scen": "S_w0",
+     "tag": "rand114",
+     "bias": -0.1529,
+     "bias_se": 0.0368,
+     "coverage80": 0.61,
+     "rmse": 0.3967
+    },
+    {
+     "scen": "S_w0",
+     "tag": "randany",
+     "bias": -0.0274,
+     "bias_se": 0.0354,
+     "coverage80": 0.65,
+     "rmse": 0.3535
+    },
+    {
+     "scen": "S_w0",
+     "tag": "sel",
+     "bias": -0.1136,
+     "bias_se": 0.0384,
+     "coverage80": 0.59,
+     "rmse": 0.3988
+    },
+    {
+     "scen": "S_w25",
+     "tag": "rand114",
+     "bias": -0.1299,
+     "bias_se": 0.0321,
+     "coverage80": 0.73,
+     "rmse": 0.3448
+    },
+    {
+     "scen": "S_w25",
+     "tag": "randany",
+     "bias": -0.0262,
+     "bias_se": 0.0326,
+     "coverage80": 0.81,
+     "rmse": 0.325
+    },
+    {
+     "scen": "S_w25",
+     "tag": "sel",
+     "bias": -0.1053,
+     "bias_se": 0.0324,
+     "coverage80": 0.79,
+     "rmse": 0.3387
+    }
+   ],
+   "cv_sel_sum_logpd": -88.10269784993167
+  },
+  "V7_HNC": {
+   "definition": "V2，但 m_c ≥ 10 的群用該群自己的動差法 σ_w（下限 0），其他群用合併值。",
+   "synthetic": [
+    {
+     "scen": "P_primary",
+     "tag": "rand114",
+     "bias": -0.1477,
+     "bias_se": 0.0239,
+     "coverage80": 0.745,
+     "rmse": 0.3685
+    },
+    {
+     "scen": "P_primary",
+     "tag": "randany",
+     "bias": -0.0025,
+     "bias_se": 0.0215,
+     "coverage80": 0.83,
+     "rmse": 0.3034
+    },
+    {
+     "scen": "P_primary",
+     "tag": "sel",
+     "bias": -0.1388,
+     "bias_se": 0.0258,
+     "coverage80": 0.73,
+     "rmse": 0.39
+    },
+    {
+     "scen": "S_T2",
+     "tag": "rand114",
+     "bias": -0.2352,
+     "bias_se": 0.0324,
+     "coverage80": 0.73,
+     "rmse": 0.3991
+    },
+    {
+     "scen": "S_T2",
+     "tag": "randany",
+     "bias": 0.0136,
+     "bias_se": 0.0302,
+     "coverage80": 0.81,
+     "rmse": 0.3004
+    },
+    {
+     "scen": "S_T2",
+     "tag": "sel",
+     "bias": -0.2297,
+     "bias_se": 0.0324,
+     "coverage80": 0.67,
+     "rmse": 0.3958
+    },
+    {
+     "scen": "S_t3",
+     "tag": "rand114",
+     "bias": -0.1815,
+     "bias_se": 0.0319,
+     "coverage80": 0.75,
+     "rmse": 0.3657
+    },
+    {
+     "scen": "S_t3",
+     "tag": "randany",
+     "bias": -0.0198,
+     "bias_se": 0.0304,
+     "coverage80": 0.86,
+     "rmse": 0.3032
+    },
+    {
+     "scen": "S_t3",
+     "tag": "sel",
+     "bias": -0.267,
+     "bias_se": 0.0368,
+     "coverage80": 0.59,
+     "rmse": 0.4528
+    },
+    {
+     "scen": "S_w0",
+     "tag": "rand114",
+     "bias": -0.1322,
+     "bias_se": 0.0359,
+     "coverage80": 0.71,
+     "rmse": 0.3808
+    },
+    {
+     "scen": "S_w0",
+     "tag": "randany",
+     "bias": -0.0218,
+     "bias_se": 0.0346,
+     "coverage80": 0.73,
+     "rmse": 0.3451
+    },
+    {
+     "scen": "S_w0",
+     "tag": "sel",
+     "bias": -0.0889,
+     "bias_se": 0.0375,
+     "coverage80": 0.7,
+     "rmse": 0.3835
+    },
+    {
+     "scen": "S_w25",
+     "tag": "rand114",
+     "bias": -0.1113,
+     "bias_se": 0.0311,
+     "coverage80": 0.83,
+     "rmse": 0.3286
+    },
+    {
+     "scen": "S_w25",
+     "tag": "randany",
+     "bias": -0.0387,
+     "bias_se": 0.0317,
+     "coverage80": 0.84,
+     "rmse": 0.318
+    },
+    {
+     "scen": "S_w25",
+     "tag": "sel",
+     "bias": -0.0878,
+     "bias_se": 0.0316,
+     "coverage80": 0.87,
+     "rmse": 0.3266
+    }
+   ],
+   "cv_sel_sum_logpd": -85.3609728360922
+  }
+ },
+ "disclosures": [
+  "冒煙：s2b_synth.py 主情境 r＝0 一次（合成，非真實焦點）；看到 σ_w 估計偏低，登記 PREREG_DESIGN_AMEND1 修正動差估計式後才跑全量合成。",
+  "σ_w 新估計式在 8 次只含 σ_w 的模擬確認（0／0.10／0.25 → 0.03／0.095／0.25）。",
+  "登記的合成主情境把焦點群真值限定在 g_true 右尾 10%：以真值為條件時，任何以資料為條件才校準的貝氏事後都會往下偏（同群隨機成員 V1／V2 偏誤約 −0.14）。這是閘門設計的缺陷；選版仍照登記規則機械執行，另跑 STEP1_SYNTH_POSTHOC（事後診斷）揭露。",
+  "o6 重現（V1）：差 ≤ 1e-15，通過。",
+  "CV 的 B 期含 2019～2026（已看過）；後期成員超額更分散，所有版本的預測涵蓋都偏低。"
+ ],
+ "selection": {
+  "selected": "V5_HT",
+  "rule_applied": "全部未過閘門：涵蓋率 ∈ [0.70,0.90] 中主情境 |偏誤| 最小",
+  "status": "驗收未過",
+  "passed_primary_gate": []
+ },
+ "posthoc_synthetic": [
+  {
+   "scen": "D_select",
+   "ver": "V1_o6",
+   "bias": 0.2064962511609098,
+   "bias_se": 0.021692330558596692,
+   "coverage80": 0.745,
+   "raw_bias": 0.36151883900391335,
+   "rmse": 0.3691633588956679,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_select",
+   "ver": "V2_HN",
+   "bias": 0.05783550436608958,
+   "bias_se": 0.023116375535223384,
+   "coverage80": 0.76,
+   "raw_bias": 0.36151883900391335,
+   "rmse": 0.3311856614113741,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_select",
+   "ver": "V3_G2MAX",
+   "bias": -0.06360617205004403,
+   "bias_se": 0.022363164471157104,
+   "coverage80": 0.89,
+   "raw_bias": 0.36151883900391335,
+   "rmse": 0.321819606348806,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_select",
+   "ver": "V4_HNMAX",
+   "bias": -0.06788852542937775,
+   "bias_se": 0.02285919738619893,
+   "coverage80": 0.745,
+   "raw_bias": 0.36151883900391335,
+   "rmse": 0.3295373878759053,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_select",
+   "ver": "V5_HT",
+   "bias": 0.05755503793886848,
+   "bias_se": 0.023163901169248505,
+   "coverage80": 0.755,
+   "raw_bias": 0.36151883900391335,
+   "rmse": 0.3317970457229967,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_select",
+   "ver": "V6_HNG3",
+   "bias": 0.05162834200578477,
+   "bias_se": 0.023019011561615624,
+   "coverage80": 0.7,
+   "raw_bias": 0.36151883900391335,
+   "rmse": 0.32880174795726264,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_select",
+   "ver": "V7_HNC",
+   "bias": 0.056673892512753614,
+   "bias_se": 0.024175709935550908,
+   "coverage80": 0.765,
+   "raw_bias": 0.36151883900391335,
+   "rmse": 0.345717305495745,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_uncond",
+   "ver": "V1_o6",
+   "bias": 0.2410154778042425,
+   "bias_se": 0.02253575114199008,
+   "coverage80": 0.69,
+   "raw_bias": 0.3139176697113724,
+   "rmse": 0.39893936427534327,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_uncond",
+   "ver": "V2_HN",
+   "bias": -0.0019017621329046972,
+   "bias_se": 0.026528319287099082,
+   "coverage80": 0.78,
+   "raw_bias": 0.3139176697113724,
+   "rmse": 0.3742328283497674,
+   "n": 200,
+   "would_pass_gate": true
+  },
+  {
+   "scen": "D_uncond",
+   "ver": "V3_G2MAX",
+   "bias": -0.0864871649866713,
+   "bias_se": 0.022999561056637988,
+   "coverage80": 0.88,
+   "raw_bias": 0.3139176697113724,
+   "rmse": 0.33577821796274615,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_uncond",
+   "ver": "V4_HNMAX",
+   "bias": -0.13619712216683952,
+   "bias_se": 0.025698861383367976,
+   "coverage80": 0.745,
+   "raw_bias": 0.3139176697113724,
+   "rmse": 0.3872667296456537,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_uncond",
+   "ver": "V5_HT",
+   "bias": 0.016807268313255307,
+   "bias_se": 0.025614813790798403,
+   "coverage80": 0.8,
+   "raw_bias": 0.3139176697113724,
+   "rmse": 0.361732086895912,
+   "n": 200,
+   "would_pass_gate": true
+  },
+  {
+   "scen": "D_uncond",
+   "ver": "V6_HNG3",
+   "bias": -0.005066944223681492,
+   "bias_se": 0.027344540596521933,
+   "coverage80": 0.725,
+   "raw_bias": 0.3139176697113724,
+   "rmse": 0.3857754918476526,
+   "n": 200,
+   "would_pass_gate": false
+  },
+  {
+   "scen": "D_uncond",
+   "ver": "V7_HNC",
+   "bias": 0.002783566562002174,
+   "bias_se": 0.02633606473903682,
+   "coverage80": 0.775,
+   "raw_bias": 0.3139176697113724,
+   "rmse": 0.3715263397453996,
+   "n": 200,
+   "would_pass_gate": true
+  }
+ ]
+}
