@@ -23,7 +23,7 @@ for t in ['30萬','100萬','300萬','1000萬']:
         print(key,'mine mean',round((th*p).sum(),4),'P',round(p[th>0].sum()+0.5*p[th==0].sum(),4),'sigma',round(sig,3),'| npz mean',round((th*pz).sum(),4),'reg sigma',round(reg['sigma_pp'],3),'maxabs pmf diff',np.abs(p-pz).max())
         lines[key]=dict(prior=p,sigma=sig,amin=0.5*max((th*p).sum(),0),up_ok=True)
 for k,v in REG['lines'].items():
-    if k.startswith('L1'): continue
+    if k.startswith('L1_'): continue
     pz=Z[v['prior_key']]; pz=pz/pz.sum()
     lines[k]=dict(prior=pz,sigma=v['sigma_pp'] if k!='L2_MAIN80_DISP20' else v['sigma_pp'],amin=v['alpha_min'],up_ok=not k.startswith('L4'))
 def run(L,alpha,B=4000,H=120,seed=1):
