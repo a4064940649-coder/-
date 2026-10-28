@@ -1,0 +1,16 @@
+import sys, time; sys.path.insert(0, '/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/replicate_o4')
+t0=time.time()
+import rcore as K
+print('load', time.time()-t0, 'FIN2', K.FIN2, 'nforeign', K.FORMASK.sum(), 'LF', K.LF_L, K.LF_5, 'reuse', K.REUSE)
+sd = K.signal_dates(); print('nsig', len(sd), K.IDX[sd[0][0]], K.IDX[sd[-1][0]])
+pl = K.build_plan(); print('plan', len(pl), time.time()-t0)
+b,s = K.rates()
+nav, st = K.run(pl, b, s); print(st, time.time()-t0)
+w = K.win_ret(nav, pl)
+print('CAGR', K.cagr(nav), 't', K.tstat(w), 'n', len(w), w.mean()*100, w.std()*100, 'mdd', K.mdd(nav))
+import pandas as pd
+e = pd.Series(K.E50, index=K.IDX)
+print('0050', K.cagr(e))
+ew, st2 = K.run(pl, 0, 0, ew=True); print('EW', K.cagr(ew), st2)
+print('t vs EW', K.tstat(K.win_ret(nav, pl, bench=ew)))
+import pickle; pickle.dump(dict(pl=pl, nav=nav, ew=ew), open('/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/rep_o4_main.pkl','wb'))

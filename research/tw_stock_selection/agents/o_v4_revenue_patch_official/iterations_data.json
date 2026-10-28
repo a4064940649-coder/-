@@ -1,0 +1,251 @@
+{
+ "timestamp": "2026-10-27T23:11:55+00:00",
+ "note": "只用資料品質（重疊月一致率）與覆蓋率選版，不看任何報酬。選版規則在跑任何版本之前寫在本檔 docstring。",
+ "rule": "重疊月水準一致率（差 < 0.5%）≥ 99%；用新聞年增率者，年增率一致率（差 < 0.5pp）≥ 99%；通過者取池內缺口新增覆蓋最多者，同分取新增格子較少者",
+ "versions": [
+  {
+   "version": "M1",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "cons",
+    "yoy_only": false,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 1532,
+    "level_agree_0.5pct": 0.9921671018276762
+   },
+   "passed": true,
+   "n_news_months_accepted": 1739,
+   "n_cells_added": 19,
+   "cells_by_how": {
+    "level": 19
+   },
+   "n_codes_patched": 8,
+   "pool_gap_stockmonths": 1194,
+   "pool_gap_newly_covered": 0,
+   "newly_covered_by_year": {}
+  },
+  {
+   "version": "M2",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "cons_or_int",
+    "yoy_only": false,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 5419,
+    "level_agree_0.5pct": 0.9926185643107585
+   },
+   "passed": true,
+   "n_news_months_accepted": 5923,
+   "n_cells_added": 45,
+   "cells_by_how": {
+    "level": 45
+   },
+   "n_codes_patched": 14,
+   "pool_gap_stockmonths": 1194,
+   "pool_gap_newly_covered": 6,
+   "newly_covered_by_year": {
+    "2013": 2,
+    "2014": 3,
+    "2019": 1
+   }
+  },
+  {
+   "version": "M3",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "cons_or_int",
+    "yoy_only": true,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 5419,
+    "level_agree_0.5pct": 0.9926185643107585,
+    "n_overlap_yoy": 4687,
+    "yoy_agree_0.5pp": 0.9468743332622146
+   },
+   "passed": false,
+   "n_news_months_accepted": 5923,
+   "n_cells_added": 66,
+   "cells_by_how": {
+    "level": 45,
+    "news_yoy": 21
+   },
+   "n_codes_patched": 17,
+   "pool_gap_stockmonths": 1194,
+   "pool_gap_newly_covered": 10,
+   "newly_covered_by_year": {
+    "2013": 2,
+    "2014": 5,
+    "2019": 1,
+    "2020": 2
+   }
+  },
+  {
+   "version": "M4",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "cons_or_int",
+    "yoy_only": true,
+    "ifrs": true
+   },
+   "gate": {
+    "n_overlap_level": 5419,
+    "level_agree_0.5pct": 0.9926185643107585,
+    "n_overlap_yoy": 4687,
+    "yoy_agree_0.5pp": 0.9468743332622146
+   },
+   "passed": false,
+   "n_news_months_accepted": 5923,
+   "n_cells_added": 66,
+   "cells_by_how": {
+    "level": 26,
+    "news_yoy_ifrs2013": 21,
+    "news_yoy": 19
+   },
+   "n_codes_patched": 17,
+   "pool_gap_stockmonths": 1194,
+   "pool_gap_newly_covered": 10,
+   "newly_covered_by_year": {
+    "2013": 2,
+    "2014": 5,
+    "2019": 1,
+    "2020": 2
+   }
+  },
+  {
+   "version": "M5",
+   "cfg": {
+    "prec": 0.005,
+    "rule": "cons_or_int",
+    "yoy_only": false,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 6076,
+    "level_agree_0.5pct": 0.988973008558262
+   },
+   "passed": false,
+   "n_news_months_accepted": 6721,
+   "n_cells_added": 54,
+   "cells_by_how": {
+    "level": 54
+   },
+   "n_codes_patched": 16,
+   "pool_gap_stockmonths": 1194,
+   "pool_gap_newly_covered": 7,
+   "newly_covered_by_year": {
+    "2013": 3,
+    "2014": 3,
+    "2019": 1
+   }
+  },
+  {
+   "version": "M6",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "all",
+    "yoy_only": false,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 6494,
+    "level_agree_0.5pct": 0.9836772405297197
+   },
+   "passed": false,
+   "n_news_months_accepted": 7582,
+   "n_cells_added": 95,
+   "cells_by_how": {
+    "level": 95
+   },
+   "n_codes_patched": 18,
+   "pool_gap_stockmonths": 1194,
+   "pool_gap_newly_covered": 6,
+   "newly_covered_by_year": {
+    "2013": 2,
+    "2014": 3,
+    "2019": 1
+   }
+  }
+ ],
+ "selected": "M2",
+ "fin_delisted_not_patched": [
+  "2802",
+  "2803",
+  "2805",
+  "2806",
+  "2807",
+  "2808",
+  "2810",
+  "2811",
+  "2813",
+  "2814",
+  "2815",
+  "2817",
+  "2818",
+  "2819",
+  "2821",
+  "2822",
+  "2823",
+  "2824",
+  "2825",
+  "2826",
+  "2827",
+  "2828",
+  "2829",
+  "2830",
+  "2831",
+  "2833",
+  "2835",
+  "2837",
+  "2839",
+  "2840",
+  "2841",
+  "2842",
+  "2843",
+  "2844",
+  "2846",
+  "2847",
+  "2848",
+  "2854",
+  "2856",
+  "5854",
+  "6004",
+  "6012"
+ ],
+ "foreign_delisted_not_patched": [
+  "1262",
+  "1592",
+  "2936",
+  "3638",
+  "3697",
+  "4141",
+  "4144",
+  "4984",
+  "5264",
+  "5280",
+  "6422",
+  "6452",
+  "8427",
+  "8480",
+  "9101",
+  "9102",
+  "9104",
+  "9106",
+  "9151",
+  "9157",
+  "9188"
+ ],
+ "R_FIX": {
+  "file": "yoy_long_R_FIX.parquet",
+  "sha256": "759a6831f18954f333b0acb3882bf9a31a64210a550a8c8b9e093790d77c20c2"
+ },
+ "Y5_FIX": {
+  "file": "yoy_rev5y_FIX.parquet",
+  "sha256": "216941c6c0e6da832407ddda28b75cfa55087d92247d555a1e7f688e8c471a6b",
+  "cells_added": 0
+ }
+}

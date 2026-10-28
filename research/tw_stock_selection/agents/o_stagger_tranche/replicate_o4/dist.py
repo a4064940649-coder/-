@@ -1,0 +1,13 @@
+import sys, pathlib, json; sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import numpy as np, pandas as pd
+r = json.load(open(pathlib.Path(__file__).parent / 'jscan_anchor_next.json'))
+T = np.array([r[str(j)]['t'] for j in range(-8, 13)]); CG = np.array([r[str(j)]['CAGR'] for j in range(-8, 13)])
+S = np.array([r[str(j)]['t_SEL'] for j in range(-8, 13)]); MD = np.array([r[str(j)]['mdd'] for j in range(-8, 13)])
+q = lambda x, p: round(float(np.percentile(x, p)), 3)
+print('t ALL min/p10/p25/med/p75/p90/max', [q(T, p) for p in (0, 10, 25, 50, 75, 90, 100)], 'sd', round(T.std(ddof=1), 3), round(T.std(ddof=0), 3))
+print('CAGR p10/med/p90', [q(CG, p) for p in (10, 50, 90)])
+print('SEL t median/min/max', q(S, 50), S.min().round(3), S.max().round(3), 'pctile of 2.375', (S < 2.375).mean().round(3), 'of 2.27', (S < 2.27).mean().round(3), 'of my OFFAB SEL mean 2.224', (S < 2.224).mean().round(3))
+print('OFF t pctile', (T < 2.5486).mean())
+print('J0..J4 t', np.round(T[8:13], 3), 'median', np.median(T[8:13]).round(3), 'J-8..-1 median', np.median(T[:8]).round(3))
+print('MDD range', MD.min().round(1), MD.max().round(1))
+print('tcommon sd', round(np.std([r[str(j)]['t_common'] for j in range(-8, 13)], ddof=1), 3))

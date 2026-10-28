@@ -1,0 +1,45 @@
+# -*- coding: utf-8 -*-
+"""替代題「主策略 70／0050 30 的再平衡頻率與追蹤誤差預算」：規則族、期間、成本、選版規則、判定條件的事前列出。
+在任何兩腿報酬統計之前執行（只讀 main_plan.json 的日期，不讀淨值）。輸出 plan.json（sha256＋UTC 時間）。"""
+import json, hashlib, datetime
+from pathlib import Path
+HERE = Path(__file__).resolve().parent
+FEE = 0.001425 * 0.6
+PL = dict(
+    question='主策略（V3：o_disposal_rejudge v3run 的 R_DEL|E1、排除金融、n10）與 0050 兩條腿的配置，再平衡頻率怎麼選、追蹤誤差預算怎麼給',
+    legs=dict(A='主策略 V3 日淨值（本資料夾 build_main.py 逐日重建，與 v3_results.json 斷言一致；已含其每月換股成本）',
+              B='0050 含息（finlab-txd etf_0050.csv）', B_alt='2330 含息（面板 GROW 連乘；只當對照）'),
+    weights_w0050=[0.20, 0.30, 0.40],
+    rules={'M': '每月（每個主策略換股訊號日）回到目標', 'Q': '每季（訊號日月份 1、4、7、10）', 'H': '每半年（1、7 月）', 'A': '每年（1 月）',
+           'NONE': '不再平衡（期初配置後自然漂移）', 'B5': '帶狀 ±5pp（只在訊號日檢查，超出就回到目標）', 'B10': '帶狀 ±10pp', 'B15': '帶狀 ±15pp',
+           'MOM12': '相對動能條件：每個訊號日檢查；超配那條腿過去 12 個訊號窗相對另一條腿的累積報酬 > 0 就延後（不調），否則回到目標'},
+    n_rules_per_w=9, n_cells=27,
+    execution='決策用訊號日收盤的兩腿市值；轉移在訊號日收盤記帳（近似隔日開盤併入主策略換股；敏感度：換股成交日收盤記帳）',
+    cost=dict(normal=dict(stock_buy=FEE + 0.001, stock_sell=FEE + 0.003 + 0.001, etf_buy=FEE + 0.0005, etf_sell=FEE + 0.001 + 0.0005,
+                          note='主策略部位只計移轉金額的單邊邊際成本（併入當月換股）；0050 證交稅 0.1%、手續費 0.1425%×0.6、滑價 0.05%'),
+              stress=dict(stock_buy=FEE + 0.004, stock_sell=FEE + 0.003 + 0.004, etf_buy=FEE + 0.0035, etf_sell=FEE + 0.001 + 0.0035,
+                          note='每邊再加 0.3% 滑價；主策略腿用 MAIN|stress3 淨值')),
+    periods=dict(SEL='2006-04 首個訊號日～2019-01 訊號日（挑選期，定參數）', VAL='2019-01 訊號日～2023-12-31（只報告）',
+                 HOLD='2024-01-01～2026-10-12（只報告）', POST='2019-01 訊號日～2026-10-12', ALL='2006-04～2026-10-12', S1='2006-04～2013-12', S2='2014-01～2019-01'),
+    start_convention='每個評估期間都從該期間起點以目標權重重新開始（新投資人觀點）；SEL、ALL 即 2006-04 起的連續路徑。另報 2006 起連續路徑的分段數字（敏感度）。',
+    stats=dict(paired='規則淨值減「每月同 w」淨值的訊號窗報酬差：均值、t（簡單）、NW t（lag 6）；年化差＝兩者日頻年化相減',
+               te='追蹤誤差＝對 0050 訊號窗報酬差的標準差×√12', lag='最長落後月數＝淨值／0050 比值低於前高的最長連續訊號窗數',
+               roll36='滾動 36 個訊號窗累積報酬落後 0050 的視窗比例', mdd='日頻最大回撤'),
+    selection=dict(rule='w＝30% 下，SEL 期間 9 條規則中，對「每月 70／30」的配對年化差最大者；與最大者相差 ≤ 0.05pp／年的規則中選移轉次數最少者。w＝20%、40% 也各自用同規則選頻率（計入多重檢定帳）。',
+                   budget='追蹤誤差預算表：w ∈ {0,10,20,30,40,50}% × 9 條規則，在 SEL 追蹤誤差 ≤ 目標（10、12、15、18%）中選 SEL 年化最高者；凍結後報告 2019+。'),
+    judgment=dict(config_option='選中規則（w＝30%）同時滿足：SEL 配對年化差 ≥ 0；2019+（POST）配對 t > −1；SEL 拿掉配對差最好的一個日曆年後年化差不翻負；壓力成本下前三條結論不變。全部滿足才列為 SOP「配置選項」，級別上限待觀察。',
+                  budget_table='不論成敗都交付'),
+    multiple_testing='27 格＋迭代版本（iterations.json）全部計入；報告 Bonferroni 調整',
+    mechanism_tests=dict(P1='SEL 相對報酬 lag 1～12 自相關為正（動能）→ 年度或寬帶勝過每月；若 1～12 不顯著、36～60 為負 → 月或季最好',
+                         P2='任何頻率對「不再平衡」的年化差在 −0.5～+0.8pp；若 NONE 在 SEL 勝過所有再平衡規則 > 0.3pp／年 → 分散報酬機制在這對腿上被否定',
+                         P3='帶狀 ±5／±10 交易次數比每月少 > 50%，對每月的溢酬差在 0.1pp 以內',
+                         P4='追蹤誤差大致按 (1−w) 線性下降；每降 1pp 追蹤誤差，年化代價約 0.15～0.25pp',
+                         P5='放棄風險代理在 w＝30～40% 大幅下降；2024～2026 改善最大、S1 最小'),
+    also_report='主策略 100%、2330 30%（每月）、0050 30%（每月）三者跨循環年化、對 0050 t、最大回撤、2024～2026；同池等權；100 萬、300 萬資金的整張與零股可行性；成本損益兩平點；實盤打折（0050＋0.5×超額）。',
+)
+txt = json.dumps(PL, ensure_ascii=False, sort_keys=True)
+out = dict(PLAN=PL, sha256=hashlib.sha256(txt.encode()).hexdigest(), time_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'))
+p = HERE / 'plan.json'
+assert not p.exists()
+p.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding='utf-8')
+print(out['sha256'], out['time_utc'])

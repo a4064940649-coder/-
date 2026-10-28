@@ -1,0 +1,165 @@
+{
+ "note": "策略規格完全不動；可迭代的只有資料合併規則。共 6 版（M1～M6），只用重疊月一致率與覆蓋率選版，沒有看任何報酬。另有一次冒煙測試（只重現已發布的 o3 26.95%／2.55，不跑 V4）。",
+ "n_versions": 6,
+ "rule": "重疊月水準一致率（差 < 0.5%）≥ 99%；用新聞年增率者，年增率一致率（差 < 0.5pp）≥ 99%；通過者取池內缺口新增覆蓋最多者，同分取新增格子較少者",
+ "selected": "M2",
+ "versions": [
+  {
+   "version": "M1",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "cons",
+    "yoy_only": false,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 1532,
+    "level_agree_0.5pct": 0.9921671018276762
+   },
+   "passed": true,
+   "n_news_months_accepted": 1739,
+   "n_cells_added": 19,
+   "n_codes_patched": 8,
+   "pool_gap_newly_covered": 0,
+   "newly_covered_by_year": {}
+  },
+  {
+   "version": "M2",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "cons_or_int",
+    "yoy_only": false,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 5419,
+    "level_agree_0.5pct": 0.9926185643107585
+   },
+   "passed": true,
+   "n_news_months_accepted": 5923,
+   "n_cells_added": 45,
+   "n_codes_patched": 14,
+   "pool_gap_newly_covered": 6,
+   "newly_covered_by_year": {
+    "2013": 2,
+    "2014": 3,
+    "2019": 1
+   }
+  },
+  {
+   "version": "M3",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "cons_or_int",
+    "yoy_only": true,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 5419,
+    "level_agree_0.5pct": 0.9926185643107585,
+    "n_overlap_yoy": 4687,
+    "yoy_agree_0.5pp": 0.9468743332622146
+   },
+   "passed": false,
+   "n_news_months_accepted": 5923,
+   "n_cells_added": 66,
+   "n_codes_patched": 17,
+   "pool_gap_newly_covered": 10,
+   "newly_covered_by_year": {
+    "2013": 2,
+    "2014": 5,
+    "2019": 1,
+    "2020": 2
+   }
+  },
+  {
+   "version": "M4",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "cons_or_int",
+    "yoy_only": true,
+    "ifrs": true
+   },
+   "gate": {
+    "n_overlap_level": 5419,
+    "level_agree_0.5pct": 0.9926185643107585,
+    "n_overlap_yoy": 4687,
+    "yoy_agree_0.5pp": 0.9468743332622146
+   },
+   "passed": false,
+   "n_news_months_accepted": 5923,
+   "n_cells_added": 66,
+   "n_codes_patched": 17,
+   "pool_gap_newly_covered": 10,
+   "newly_covered_by_year": {
+    "2013": 2,
+    "2014": 5,
+    "2019": 1,
+    "2020": 2
+   }
+  },
+  {
+   "version": "M5",
+   "cfg": {
+    "prec": 0.005,
+    "rule": "cons_or_int",
+    "yoy_only": false,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 6076,
+    "level_agree_0.5pct": 0.988973008558262
+   },
+   "passed": false,
+   "n_news_months_accepted": 6721,
+   "n_cells_added": 54,
+   "n_codes_patched": 16,
+   "pool_gap_newly_covered": 7,
+   "newly_covered_by_year": {
+    "2013": 3,
+    "2014": 3,
+    "2019": 1
+   }
+  },
+  {
+   "version": "M6",
+   "cfg": {
+    "prec": 0.0025,
+    "rule": "all",
+    "yoy_only": false,
+    "ifrs": false
+   },
+   "gate": {
+    "n_overlap_level": 6494,
+    "level_agree_0.5pct": 0.9836772405297197
+   },
+   "passed": false,
+   "n_news_months_accepted": 7582,
+   "n_cells_added": 95,
+   "n_codes_patched": 18,
+   "pool_gap_newly_covered": 6,
+   "newly_covered_by_year": {
+    "2013": 2,
+    "2014": 3,
+    "2019": 1
+   }
+  }
+ ],
+ "rejected_sources": {
+  "quarterly_IS_revenue_as_monthly": "季損益表營收 vs 月營收三月合計一致率（差 < 0.5%）84.6%，沒過 99% 閘門 → 不進 R_FIX，只做 B_Q 估計",
+  "news_reported_yoy": "新聞自報年增率對面板年增率一致率（差 < 0.5pp）94.7%，沒過 → M3／M4 不選",
+  "web.archive.org／MOPS／goodinfo": "連不到（proxy 403、DNS 失敗）"
+ },
+ "smoke_test": {
+  "CAGR": 26.945918746008978,
+  "t": 2.5486212673374764,
+  "o3_CAGR": 26.945918746008978,
+  "o3_t": 2.5486212673374764,
+  "match": true
+ },
+ "timeline_utc": {
+  "R_FIX_built": "2026-10-27T23:11:55+00:00",
+  "data_freeze_v4": "2026-10-27T23:12:09+00:00",
+  "logged": "2026-10-27T23:14:50+00:00"
+ }
+}
