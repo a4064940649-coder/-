@@ -1,0 +1,489 @@
+{
+ "note": "事後比對（PREREG 後新增腳本，只讀結果）；容許值與「超過取不利方向」均為事前登記",
+ "cells": {
+  "agree": {
+   "adj": 1.0,
+   "open": 1.0,
+   "close_raw": 1.0,
+   "high": 1.0,
+   "value": 1.0,
+   "ret": 1.0,
+   "flag": 1.0,
+   "low_window(V7 只重建窗內；窗外沿用 V6、不在本題重建範圍)": 1.0,
+   "low_all(參考)": 0.6047118634440058,
+   "listing_ALL": 1.0,
+   "listing_2019-2026": 1.0,
+   "listing_window": 1.0
+  },
+  "threshold": 0.999,
+  "pass": true
+ },
+ "nav": {
+  "max_rel_diff": {
+   "AB_V7": 7.327471962526033e-15,
+   "AB_V7_B10": 5.995204332975845e-15,
+   "V7": 6.8833827526759706e-15
+  },
+  "threshold": 1e-08,
+  "pass": true,
+  "signal_days_identical": true
+ },
+ "spa": {
+  "AB|L3": {
+   "researcher": 0.2403,
+   "replicator_same_family": 0.2388,
+   "replicator_own_family": 0.236,
+   "diff_same_family": 0.0015000000000000013,
+   "pass(≤0.02)": true,
+   "adopted(不利＝較大 p)": 0.2403,
+   "t_researcher": 2.659388572753018,
+   "t_replicator": 2.6477879462485165
+  },
+  "AB|L6": {
+   "researcher": 0.1972,
+   "replicator_same_family": 0.2182,
+   "replicator_own_family": 0.2146,
+   "diff_same_family": 0.02100000000000002,
+   "pass(≤0.02)": false,
+   "adopted(不利＝較大 p)": 0.2182,
+   "t_researcher": 2.745383546800752,
+   "t_replicator": 2.714923006138372
+  },
+  "AB|L12": {
+   "researcher": 0.1371,
+   "replicator_same_family": 0.1358,
+   "replicator_own_family": 0.1327,
+   "diff_same_family": 0.0012999999999999956,
+   "pass(≤0.02)": true,
+   "adopted(不利＝較大 p)": 0.1371,
+   "t_researcher": 2.9106501285763158,
+   "t_replicator": 2.910650128576321
+  },
+  "B10|L3": {
+   "researcher": 0.4019,
+   "replicator_same_family": 0.4072,
+   "replicator_own_family": 0.4013,
+   "diff_same_family": 0.005300000000000027,
+   "pass(≤0.02)": true,
+   "adopted(不利＝較大 p)": 0.4019,
+   "t_researcher": 2.33010097088152,
+   "t_replicator": 2.319186440438409
+  },
+  "B10|L6": {
+   "researcher": 0.3378,
+   "replicator_same_family": 0.36,
+   "replicator_own_family": 0.3556,
+   "diff_same_family": 0.022199999999999998,
+   "pass(≤0.02)": false,
+   "adopted(不利＝較大 p)": 0.36,
+   "t_researcher": 2.452123392201275,
+   "t_replicator": 2.421996767363088
+  },
+  "B10|L12": {
+   "researcher": 0.2411,
+   "replicator_same_family": 0.2498,
+   "replicator_own_family": 0.2449,
+   "diff_same_family": 0.008699999999999986,
+   "pass(≤0.02)": true,
+   "adopted(不利＝較大 p)": 0.2411,
+   "t_researcher": 2.608697343681168,
+   "t_replicator": 2.6086973436811713
+  }
+ },
+ "hold": {
+  "AB|L3|raw": {
+   "researcher": 0.101,
+   "replicator": 0.1009,
+   "diff": 0.00010000000000000286,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.101
+  },
+  "AB|L3|shrink50": {
+   "researcher": 0.2437,
+   "replicator": 0.2433,
+   "diff": 0.00040000000000001146,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.2437
+  },
+  "AB|L3|zero": {
+   "researcher": 0.4531,
+   "replicator": 0.4502,
+   "diff": 0.0029000000000000137,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.4531
+  },
+  "AB|L6|raw": {
+   "researcher": 0.094,
+   "replicator": 0.0927,
+   "diff": 0.0012999999999999956,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.094
+  },
+  "AB|L6|shrink50": {
+   "researcher": 0.2427,
+   "replicator": 0.2378,
+   "diff": 0.004899999999999988,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.2427
+  },
+  "AB|L6|zero": {
+   "researcher": 0.4494,
+   "replicator": 0.4464,
+   "diff": 0.0030000000000000027,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.4494
+  },
+  "AB|L12|raw": {
+   "researcher": 0.0823,
+   "replicator": 0.0846,
+   "diff": 0.0022999999999999965,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.0823
+  },
+  "AB|L12|shrink50": {
+   "researcher": 0.2265,
+   "replicator": 0.2298,
+   "diff": 0.0032999999999999974,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.2265
+  },
+  "AB|L12|zero": {
+   "researcher": 0.4432,
+   "replicator": 0.4398,
+   "diff": 0.0033999999999999586,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.4432
+  },
+  "AB|cumlog": {
+   "researcher": -0.04583764104447213,
+   "replicator": -0.04583764104447413
+  },
+  "B10|L3|raw": {
+   "researcher": 0.1282,
+   "replicator": 0.1289,
+   "diff": 0.0006999999999999784,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.1282
+  },
+  "B10|L3|shrink50": {
+   "researcher": 0.2624,
+   "replicator": 0.2627,
+   "diff": 0.00029999999999996696,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.2624
+  },
+  "B10|L3|zero": {
+   "researcher": 0.4504,
+   "replicator": 0.45,
+   "diff": 0.00040000000000001146,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.4504
+  },
+  "B10|L6|raw": {
+   "researcher": 0.11,
+   "replicator": 0.108,
+   "diff": 0.0020000000000000018,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.11
+  },
+  "B10|L6|shrink50": {
+   "researcher": 0.2557,
+   "replicator": 0.2498,
+   "diff": 0.005899999999999989,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.2557
+  },
+  "B10|L6|zero": {
+   "researcher": 0.4522,
+   "replicator": 0.4431,
+   "diff": 0.009099999999999997,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.4522
+  },
+  "B10|L12|raw": {
+   "researcher": 0.0926,
+   "replicator": 0.0924,
+   "diff": 0.00020000000000000573,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.0926
+  },
+  "B10|L12|shrink50": {
+   "researcher": 0.2444,
+   "replicator": 0.243,
+   "diff": 0.0014000000000000123,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.2444
+  },
+  "B10|L12|zero": {
+   "researcher": 0.4505,
+   "replicator": 0.4513,
+   "diff": 0.0007999999999999674,
+   "pass(≤0.02)": true,
+   "adopted(對策略不利＝較小 p)": 0.4505
+  },
+  "B10|cumlog": {
+   "researcher": -0.04583764104447288,
+   "replicator": -0.04583764104447413
+  }
+ },
+ "exec": {
+  "K5T|30萬|FIX": {
+   "researcher_j_median": 19.54787017477799,
+   "replicator_j_median": 19.498820409116576,
+   "diff_pp": 0.04904976566141528,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.05508761978135368,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 19.54787017477799
+  },
+  "TICK|30萬|FIX": {
+   "researcher_j_median": 19.581419894904894,
+   "replicator_j_median": 19.53235636399684,
+   "diff_pp": 0.04906353090805382,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.05548027950207057,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 19.581419894904894
+  },
+  "K5T|30萬|GROW": {
+   "researcher_j_median": 18.496243606367436,
+   "replicator_j_median": 18.443968707987295,
+   "diff_pp": 0.052274898380140655,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.09787969754420267,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 18.496243606367436
+  },
+  "TICK|30萬|GROW": {
+   "researcher_j_median": 19.46961028129135,
+   "replicator_j_median": 19.373438341260837,
+   "diff_pp": 0.0961719400305121,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.16134599762605006,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 19.46961028129135
+  },
+  "K5T|100萬|FIX": {
+   "researcher_j_median": 19.045567917916316,
+   "replicator_j_median": 19.03052509932425,
+   "diff_pp": 0.015042818592064577,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.04677116786364266,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 19.045567917916316
+  },
+  "TICK|100萬|FIX": {
+   "researcher_j_median": 19.90455241267737,
+   "replicator_j_median": 19.89350915437913,
+   "diff_pp": 0.011043258298236935,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.04750386038565324,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 19.90455241267737
+  },
+  "K5T|100萬|GROW": {
+   "researcher_j_median": 17.309542267724343,
+   "replicator_j_median": 17.30594271264509,
+   "diff_pp": 0.0035995550792513598,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.15231431540542673,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 17.309542267724343
+  },
+  "TICK|100萬|GROW": {
+   "researcher_j_median": 19.540131081232182,
+   "replicator_j_median": 19.511950082576135,
+   "diff_pp": 0.028180998656047507,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.09931466012982781,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 19.540131081232182
+  },
+  "K5T|300萬|FIX": {
+   "researcher_j_median": 17.192944479654603,
+   "replicator_j_median": 17.155328176074065,
+   "diff_pp": 0.03761630358053836,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.05584140942078619,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 17.192944479654603
+  },
+  "TICK|300萬|FIX": {
+   "researcher_j_median": 19.403035348274898,
+   "replicator_j_median": 19.401624057218086,
+   "diff_pp": 0.0014112910568115922,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.04880654114693783,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 19.403035348274898
+  },
+  "K5T|300萬|GROW": {
+   "researcher_j_median": 15.43050907307586,
+   "replicator_j_median": 15.442687245338902,
+   "diff_pp": 0.012178172263041631,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.16645169253594716,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 15.43050907307586
+  },
+  "TICK|300萬|GROW": {
+   "researcher_j_median": 18.838790568486342,
+   "replicator_j_median": 18.839091156185404,
+   "diff_pp": 0.0003005876990620493,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.16205816618722224,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 18.838790568486342
+  },
+  "K5T|1000萬|FIX": {
+   "researcher_j_median": 15.011944433414426,
+   "replicator_j_median": 15.024424495403508,
+   "diff_pp": 0.012480061989082358,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.05675535162230361,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 15.011944433414426
+  },
+  "TICK|1000萬|FIX": {
+   "researcher_j_median": 19.196399914040807,
+   "replicator_j_median": 19.208043470522455,
+   "diff_pp": 0.011643556481647721,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.060296786137708835,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 19.196399914040807
+  },
+  "K5T|1000萬|GROW": {
+   "researcher_j_median": 13.128810100145106,
+   "replicator_j_median": 13.167723363879034,
+   "diff_pp": 0.038913263733928005,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.1531861484081638,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 13.128810100145106
+  },
+  "TICK|1000萬|GROW": {
+   "researcher_j_median": 18.792894453328234,
+   "replicator_j_median": 18.831143125933636,
+   "diff_pp": 0.03824867260540188,
+   "n_j_replicated": 13,
+   "max_diff_by_j_pp": 0.1360406768507616,
+   "pass(≤0.2pp)": true,
+   "adopted(不利＝較低年化)": 18.792894453328234
+  }
+ },
+ "exec_complete": true,
+ "decision": {
+  "gate_pass": true,
+  "data_replication_pass(逐格＋淨值)": true,
+  "stat_replication_all_within_tol": false,
+  "exec_replication_all_within_tol": true,
+  "dCAGR_ALL_AB_V7_minus_V4_pp": 0.36764428937998517,
+  "V7_replaces_V4": true,
+  "SOP_numbers": "直接換成 V7",
+  "SPA_focus_L6_adopted": {
+   "AB": 0.2182,
+   "B10": 0.36,
+   "stress": 0.4958
+  },
+  "grade": "維持第 3 級",
+  "live_expect_table_adopted": {
+   "30萬|FIX": {
+    "CAGR_K5T": 19.54787017477799,
+    "CAGR_TICK": 19.581419894904894,
+    "0050": 14.373302030539413,
+    "excess_K5T_pp": 5.174568144238577,
+    "excess_TICK_pp": 5.20811786436548,
+    "p10_K5T": 14.776168287890574,
+    "p10_TICK": 14.821887710048296,
+    "stress_K5T": 10.388714718438852,
+    "stress_TICK": 10.434329918949437,
+    "beat_0050": "贏"
+   },
+   "30萬|GROW": {
+    "CAGR_K5T": 18.496243606367436,
+    "CAGR_TICK": 19.46961028129135,
+    "0050": 14.373302030539413,
+    "excess_K5T_pp": 4.122941575828023,
+    "excess_TICK_pp": 5.096308250751935,
+    "p10_K5T": 14.128918698273184,
+    "p10_TICK": 15.018062155754244,
+    "stress_K5T": 10.246677120534686,
+    "stress_TICK": 10.303589687569104,
+    "beat_0050": "贏"
+   },
+   "100萬|FIX": {
+    "CAGR_K5T": 19.045567917916316,
+    "CAGR_TICK": 19.90455241267737,
+    "0050": 14.373302030539413,
+    "excess_K5T_pp": 4.672265887376902,
+    "excess_TICK_pp": 5.531250382137955,
+    "p10_K5T": 14.206307433719125,
+    "p10_TICK": 15.114681650741687,
+    "stress_K5T": 10.26355949477329,
+    "stress_TICK": 11.099754447103138,
+    "beat_0050": "贏"
+   },
+   "100萬|GROW": {
+    "CAGR_K5T": 17.309542267724343,
+    "CAGR_TICK": 19.540131081232182,
+    "0050": 14.373302030539413,
+    "excess_K5T_pp": 2.936240237184929,
+    "excess_TICK_pp": 5.166829050692769,
+    "p10_K5T": 12.779982977892864,
+    "p10_TICK": 14.873327957135247,
+    "stress_K5T": 9.651700461763912,
+    "stress_TICK": 11.17149901904968,
+    "beat_0050": "贏"
+   },
+   "300萬|FIX": {
+    "CAGR_K5T": 17.192944479654603,
+    "CAGR_TICK": 19.403035348274898,
+    "0050": 14.373302030539413,
+    "excess_K5T_pp": 2.8196424491151895,
+    "excess_TICK_pp": 5.029733317735484,
+    "p10_K5T": 12.481634478892598,
+    "p10_TICK": 14.71169449103306,
+    "stress_K5T": 9.149558803996083,
+    "stress_TICK": 11.256926977747227,
+    "beat_0050": "贏"
+   },
+   "300萬|GROW": {
+    "CAGR_K5T": 15.43050907307586,
+    "CAGR_TICK": 18.838790568486342,
+    "0050": 14.373302030539413,
+    "excess_K5T_pp": 1.0572070425364473,
+    "excess_TICK_pp": 4.4654885379469285,
+    "p10_K5T": 11.256717463564218,
+    "p10_TICK": 14.794361372439218,
+    "stress_K5T": 8.90852622913676,
+    "stress_TICK": 11.679667380387148,
+    "beat_0050": "贏"
+   },
+   "1000萬|FIX": {
+    "CAGR_K5T": 15.011944433414426,
+    "CAGR_TICK": 19.196399914040807,
+    "0050": 14.373302030539413,
+    "excess_K5T_pp": 0.6386424028750124,
+    "excess_TICK_pp": 4.823097883501394,
+    "p10_K5T": 11.052839889140618,
+    "p10_TICK": 15.06451119109701,
+    "stress_K5T": 7.640181646475708,
+    "stress_TICK": 11.36961356088202,
+    "beat_0050": "贏"
+   },
+   "1000萬|GROW": {
+    "CAGR_K5T": 13.128810100145106,
+    "CAGR_TICK": 18.792894453328234,
+    "0050": 14.373302030539413,
+    "excess_K5T_pp": -1.2444919303943074,
+    "excess_TICK_pp": 4.419592422788821,
+    "p10_K5T": 9.043787144417381,
+    "p10_TICK": 14.123675089504527,
+    "stress_K5T": 6.972118722757559,
+    "stress_TICK": 11.598440529570775,
+    "beat_0050": "無法判斷"
+   }
+  }
+ }
+}
