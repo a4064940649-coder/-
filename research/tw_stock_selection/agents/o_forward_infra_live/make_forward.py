@@ -12,6 +12,12 @@
 - F-D 成本＝V7X K5T：xlive.py 逐字載入 o_exec_engine_rewrite_v7x/x_exec.py（零股、2% 現金、參與上限 20%、處置期收盤減一跳賣出、
   開盤漲跌停鎖死整股零股都不成交順延、F1～F4），GROW 100 萬（2026 幣值）；另報壓力成本與參與上限 10%（SOP）。
 名單規格：與 main_picks_today.py（sha256 0897787f…，2026-11-02 版）--ex-fin 相同；官方日線直接呼叫 MP.score_on／MP.execute。
+bugfix（2026-11-03，見 bugfix_log.md）
+- BF-1 官方日線的月營收改用「成交日開盤前可得」：rev_cutoff＝成交日（凍結時鐘早於成交日 09:00 時；否則＝訊號日），
+  因為 rev_hist 的 ann_date 是上游抓取首見日（訊號日晚上公告、凌晨才抓到的會被記成成交日），用 ann_date ≤ 訊號日
+  會剔除 main_picks_today 實際用到的營收（2026-10-12：71 筆）。J 線規則不變。
+- BF-2 正式模式（不帶 --asof）依台北實際時鐘推算應有的最後交易日（fwd_data.expected_last_day）；來源資料
+  （history 或處置 warnings_hist）不夠新 → DATA_STALE、回傳碼 2、不寫名單，stderr 提示改跑 fallback_manual.sh。
 時程：錨定月 m 的 D_m＝m 月 10 日起第一個交易日＝J0；J{j}＝D_m 之後第 j 個交易日；官方日＝第一個 ≥ 11 日的交易日。
 用法（每日第 0 步，資料 git pull 之後）：
   python3 -I -B make_forward.py [--asof YYYY-MM-DD] [--out <live_tracking/main_forward>]
@@ -56,13 +62,15 @@ def ts_str(t):
 # ---------------------------------------------------------------- 資料視圖
 class View:
     """截斷到 d 的資料（MP.load_prices 的回傳＋營收＋處置＋公告日表）。"""
-    def __init__(self, src, d, work, keep=False):
+    def __init__(self, src, d, work, keep=False, rev_cutoff=None):
         self.d = pd.Timestamp(d)
-        self.dir = Path(work) / f'asof_{self.d:%Y%m%d}'
-        self.man = src.build_asof(self.d, self.dir)
+        self.rc = self.d if rev_cutoff is None else pd.Timestamp(rev_cutoff)     # 月營收截斷日（BF-1；預設＝d）
+        tag = '' if self.rc == self.d else f'_rev{self.rc:%Y%m%d}'
+        self.dir = Path(work) / f'asof_{self.d:%Y%m%d}{tag}'
+        self.man = src.build_asof(self.d, self.dir, rev_cutoff=None if self.rc == self.d else self.rc)
         self.man_sha = sha(self.dir / 'MANIFEST.json')
         pnl = src.panel_pre(work)
-        self.dir_check = {**FD.assert_dir_asof(self.dir, self.d), **FD.assert_panel_asof(pnl, self.d)}
+        self.dir_check = {**FD.assert_dir_asof(self.dir, self.d, rev_cutoff=self.rc), **FD.assert_panel_asof(pnl, self.d)}
         self.data = MP.load_prices(self.dir, self.d, pnl)
         self.YOY, self.YOY3, _ = MP.load_revenue(self.dir)
         self.dsp = MP.load_disposal(self.dir)
@@ -71,9 +79,16 @@ class View:
         self.ann = {(c, y): pd.Timestamp(a) for c, y, a in zip(r.code, r.ym, r.ann_date)}
         self.e50 = pd.read_csv(self.dir / 'etf_0050.csv', parse_dates=['date']).set_index('date')['adj'].sort_index()
         dd = self.data
-        self.loaded = FD.assert_asof(self.d, C=dd['C'], O=dd['O'], H=dd['H'], V=dd['V'], R=dd['R'], ADJ=dd['ADJ'],
-                                     disposal=self.dsp, e50=self.e50, ann=pd.DataFrame({'date': list(self.ann.values())}))
-        assert self.YOY.index.max() <= pd.Period(self.d, 'M') - 1, 'A1 失敗：營收月份超過 asof 前一月'
+        ann_df = pd.DataFrame({'date': list(self.ann.values())})
+        if self.rc == self.d:
+            self.loaded = FD.assert_asof(self.d, C=dd['C'], O=dd['O'], H=dd['H'], V=dd['V'], R=dd['R'], ADJ=dd['ADJ'],
+                                         disposal=self.dsp, e50=self.e50, ann=ann_df)
+            self.rev_loaded = None
+        else:   # BF-1：價格、處置 ≤ d；營收公告日 ≤ rev_cutoff
+            self.loaded = FD.assert_asof(self.d, C=dd['C'], O=dd['O'], H=dd['H'], V=dd['V'], R=dd['R'], ADJ=dd['ADJ'],
+                                         disposal=self.dsp, e50=self.e50)
+            self.rev_loaded = dict(FD.assert_asof(self.rc, ann=ann_df), rev_cutoff=str(self.rc.date()))
+        assert self.YOY.index.max() <= pd.Period(self.rc, 'M') - 1, 'A1 失敗：營收月份超過營收截斷日前一月'
         self.loaded['revenue_max_ym'] = str(self.YOY.index.max())
         if not keep: self.drop()
 
@@ -156,6 +171,8 @@ def main():
     ap.add_argument('--replay', action='store_true', help='重播：時戳用 --sim-clock，不要求 PREREG')
     ap.add_argument('--sim-clock')
     ap.add_argument('--recheck', type=int, default=20, help='重算比對最近幾個交易日的訊號日名單')
+    ap.add_argument('--ready-hour', type=int, default=FD.READY_HOUR, help='正式模式：台北幾點後要求當天收盤資料已在來源中（BF-2）')
+    ap.add_argument('--expect-now', help='只供測試 BF-2：用這個台北時間推算應有的最後交易日（不影響凍結時戳）')
     a = ap.parse_args()
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     pl_dir = out / 'paper_lists'; pl_dir.mkdir(exist_ok=True)
@@ -165,9 +182,11 @@ def main():
     else:
         clock, ckind = pd.Timestamp.now(tz=TZ), 'wall'
         assert out.resolve() != (HERE / 'replay').resolve()
-    prereg = None
+    prereg = None; bugfixes = []
     rj = HERE / 'results.json'
-    if rj.exists(): prereg = json.loads(rj.read_text(encoding='utf-8')).get('PREREG_FORWARD')
+    if rj.exists():
+        rjd = json.loads(rj.read_text(encoding='utf-8'))
+        prereg = rjd.get('PREREG_FORWARD'); bugfixes = rjd.get('bugfix_log', [])
     if not a.replay:
         assert prereg is not None, 'PREREG_FORWARD 不存在：凍結前不得寫入正式前瞻資料夾（只能 --replay）'
     src = FD.Source(a.src, a.e50, a.taiex, a.panel)
@@ -180,16 +199,42 @@ def main():
                script_sha256=sha(__file__), lib_sha256={p: sha(HERE / p) for p in ('fwd_data.py', 'xlive.py', 'disp_sat.py')},
                mp_sha256=sha(TW / 'main_picks_today.py'), engine_sha256=sha(XL.XEXEC), src_last=str(src.hcal[-1].date()))
     if prereg:
-        reg = prereg.get('file_sha256', {})
+        reg = dict(prereg.get('file_sha256', {}))
+        for b in bugfixes: reg.update(b.get('new_sha256', {}))           # bugfix_log 登記的新 sha（PREREG 修 bug 規則）
         cur = {'make_forward.py': rec['script_sha256'], **rec['lib_sha256'], 'main_picks_today.py': rec['mp_sha256'], 'x_exec.py': rec['engine_sha256']}
         rec['sha_matches_prereg'] = {k: (reg.get(k) == v) for k, v in cur.items()}
-    want = pd.Timestamp(a.asof) if a.asof else src.hcal[-1]
-    if want > src.hcal[-1]:
-        if src.is_trading(want) or want - src.hcal[-1] > pd.Timedelta(days=4):
-            rec.update(status='DATA_STALE', asof=str(want.date()),
-                       note=f'來源資料只到 {src.hcal[-1].date()}，asof {want.date()} 的資料不存在；不寫任何名單（請先 git pull）')
+    stale_note = None
+    if a.asof:
+        want = pd.Timestamp(a.asof)
+    elif a.replay:
+        want = src.hcal[-1]
+    else:
+        # BF-2：正式模式依台北實際時鐘推算「應該已經有」的最後交易日；來源不夠新就是資料過期
+        now = pd.Timestamp(a.expect_now).tz_localize(TZ) if a.expect_now else clock
+        want = FD.expected_last_day(now, src.is_trading, a.ready_hour)
+        wh_last = pd.to_datetime(src.wh['date']).max() if len(src.wh) else pd.NaT
+        upd = {}
+        try:
+            upd = json.loads((Path(a.src) / 'extras/updated.json').read_text())
+        except Exception:
+            pass
+        rec.update(expected_last_day=str(want.date()), expect_clock=now.isoformat(), ready_hour=a.ready_hour,
+                   warnings_hist_last=None if pd.isna(wh_last) else str(wh_last.date()), updated_json_date=upd.get('date'))
+        if want <= src.hcal[-1] and (pd.isna(wh_last) or wh_last < want) and str(upd.get('date', '')) < str(want.date()):
+            stale_note = (f'處置來源 warnings_hist 只到 {None if pd.isna(wh_last) else wh_last.date()}（updated.json {upd.get("date")}），'
+                          f'早於應有的 {want.date()}；處置排除可能不完整')
+    if want > src.hcal[-1] or stale_note:
+        if stale_note or src.is_trading(want) or want - src.hcal[-1] > pd.Timedelta(days=4):
+            note = stale_note or f'來源資料只到 {src.hcal[-1].date()}，asof {want.date()} 的資料不存在'
+            rec.update(status='DATA_STALE', asof=str(want.date()), note=note + '；不寫任何名單（請先 git fetch；訊號日改跑 fallback_manual.sh）')
             with open(out / 'runs.jsonl', 'a', encoding='utf-8') as fh: fh.write(json.dumps(rec, ensure_ascii=False) + '\n')
-            print(json.dumps(rec, ensure_ascii=False)); sys.exit(2)
+            print(json.dumps(rec, ensure_ascii=False))
+            shown = pd.Timestamp(rec.get('expect_clock', clock.isoformat())).tz_convert(TZ)
+            print(f'【資料過期，未寫任何名單】台北時間 {shown.strftime("%Y-%m-%d %H:%M")}：{note}。\n'
+                  f'  上游可能延遲或 git fetch 失敗。若 {want.date()} 是訊號日（J0 或官方日，例如 2026-11-10、11-11），請立刻改跑：\n'
+                  f'    bash {HERE}/fallback_manual.sh\n'
+                  f'  並到證交所處置公告人工核對；上游補上資料後再重跑 daily_step0.sh（名單會在第一次資料到齊的執行凍結）。', file=sys.stderr)
+            sys.exit(2)
     asof = src.hcal[src.hcal <= want][-1]
     rec['asof'] = str(asof.date())
     work = Path(a.work)
@@ -199,13 +244,15 @@ def main():
     start = pd.Period(a.start, 'M')
     months = [m for m in pd.period_range(start, pd.Period(asof, 'M'), freq='M')]
     MD = {m: month_days(cal, m) for m in months}
-    diffs, frozen_now, views = [], [], {asof: V}
+    diffs, frozen_now, views = [], [], {(asof, None): V}
+    late_frozen = []
 
-    def view(d):
-        if d not in views:
-            for k in [k for k in views if k != asof]: del views[k]     # 只留一個舊視圖，控制記憶體
-            views[d] = View(src, d, work)
-        return views[d]
+    def view(d, rc=None):
+        key = (d, None if rc is None or rc == d else rc)
+        if key not in views:
+            for k in [k for k in views if k != (asof, None)]: del views[k]     # 只留一個舊視圖，控制記憶體
+            views[key] = View(src, d, work, rev_cutoff=key[1])
+        return views[key]
     # ---- 1. 名單快照（訊號日當晚凍結） ----
     recent = set(cal[-a.recheck:])
     for m in months:
@@ -216,9 +263,20 @@ def main():
             if sd is None or sd > asof: continue
             snap = pl_dir / f'{line}_{m.strftime("%Y%m")}.csv'; meta = snap.with_suffix('.meta.json')
             if snap.exists() and sd not in recent: continue
-            v = view(sd)
-            if line == 'official': order, full, info = rank_official(v, sd)
-            else: order, full, info = rank_j(v, sd, m, int(line[1:]))
+            exec_est = src.next_trading(sd)
+            open_ts = pd.Timestamp(exec_est.date()).tz_localize(TZ) + pd.Timedelta(hours=9)
+            if line == 'official':
+                # BF-1：官方日線用「成交日開盤前可得」的營收（凍結時鐘早於成交日 09:00 → 截到成交日；否則截到訊號日）。
+                # 重算比對沿用快照登記的截斷日（舊快照沒有登記＝訊號日）。
+                if snap.exists():
+                    rc_ = pd.Timestamp(json.loads(meta.read_text()).get('rev_cutoff', str(sd.date())))
+                else:
+                    rc_ = exec_est if clock < open_ts else sd
+                v = view(sd, rc_)
+                order, full, info = rank_official(v, sd)
+            else:
+                v = view(sd)
+                order, full, info = rank_j(v, sd, m, int(line[1:]))
             tab = snapshot_frame(v, order, full, line, m, sd)
             if snap.exists():
                 old = pd.read_csv(snap, dtype={'code': str})
@@ -227,17 +285,21 @@ def main():
                     diffs.append(dict(kind='list', line=line, anchor=str(m), signal=str(sd.date()), asof=str(asof.date()),
                                       snapshot=','.join(o1), recomputed=','.join(o2)))
                 continue
-            exec_est = src.next_trading(sd)
-            open_ts = pd.Timestamp(exec_est.date()).tz_localize(TZ) + pd.Timedelta(hours=9)
             sha_tab = FD.write_csv(tab, snap, gz=False)
             mt = dict(line=line, anchor=str(m), signal=str(sd.date()), freeze_asof=str(asof.date()), freeze_on_signal_day=bool(sd == asof),
                       frozen_ts=clock.isoformat(), clock_kind=ckind, wall_utc=rec['utc'], exec_day_est=str(exec_est.date()),
                       exec_open_ts=open_ts.isoformat(), ts_ok=bool(clock < open_ts), data_head=head, view_manifest_sha=v.man_sha,
                       view_max_dates=v.loaded, snapshot_sha256=sha_tab, script_sha256=rec['script_sha256'], mp_sha256=rec['mp_sha256'],
                       n_eligible=int(len(tab)), top10=list(tab.code[:NPICK]), j0_ann_info=info)
+            if line == 'official':
+                mt.update(rev_cutoff=str(v.rc.date()), rev_loaded=v.rev_loaded,
+                          rev_cutoff_rule='BF-1：凍結時鐘早於成交日 09:00 → 月營收截到成交日（成交日開盤前已抓到）；否則截到訊號日')
+            if not mt['ts_ok']: late_frozen.append(f'{line}_{m.strftime("%Y%m")}')
             meta.write_text(json.dumps(mt, ensure_ascii=False, indent=1, sort_keys=True))
             frozen_now.append(f'{line}_{m.strftime("%Y%m")}')
-    views = {asof: V}
+    views = {(asof, None): V}
+    if late_frozen:
+        print(f'【警告】以下名單凍結時間晚於成交日 09:00（ts_ok＝false，該月不符前瞻時戳條件）：{late_frozen}', file=sys.stderr)
     # ---- 2. 成交（隔日開盤，M2 遞補，依凍結排序） ----
     lines = ['official'] + [f'j{j}' for j in range(NJ)]
     ent = {ln: [] for ln in lines}
@@ -401,7 +463,7 @@ def main():
         FD.write_csv(pd.concat([old, pd.DataFrame(diffs).astype(str)]).drop_duplicates(), f, gz=False)
     outs = {p.name: sha(p) for p in sorted(out.glob('*.csv'))}
     outs.update({f'paper_lists/{p.name}': sha(p) for p in sorted(pl_dir.glob('*'))})
-    rec.update(status='OK', months=[str(m) for m in months], frozen_now=frozen_now, n_list_diffs=len(diffs), n_fills=len(TRD),
+    rec.update(status='OK', months=[str(m) for m in months], frozen_now=frozen_now, late_frozen=late_frozen, n_list_diffs=len(diffs), n_fills=len(TRD),
                n_ledger_new=n_new, disp_start=str(dstart.date()), outputs=outs)
     with open(out / 'runs.jsonl', 'a', encoding='utf-8') as fh:
         fh.write(json.dumps(rec, ensure_ascii=False) + '\n')

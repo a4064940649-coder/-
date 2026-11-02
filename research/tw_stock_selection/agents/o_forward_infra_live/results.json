@@ -176,5 +176,33 @@
  "verdict": {
   "topic": "待觀察（重播驗收 A1～A6 全過；判「可用」的另一條件——2026-11-10／11-11 真實運行快照早於成交日開盤——要到 2026-11-12 09:00 才能確認）",
   "next_check": "2026-11-11 06:49 後檢查 live_tracking/main_forward/paper_lists/j0_202611.meta.json ts_ok；2026-11-12 06:49 後檢查 official_202611、j1_202611"
- }
+ },
+ "bugfix_log": [
+  {
+   "id": "BF-1..BF-4",
+   "date_taipei": "2026-11-03",
+   "mandate": "original_o9/DIRECTOR_REPORT.md 第 4 節第 3 點 (a)(b)(d)；第 3.3 節審查推翻 1、2、4",
+   "old_sha256": {
+    "make_forward.py": "ffcaabfbe04b4af2d1056db4f3ec8ebc7416184dd68574c83dddd9c8a735e0cd",
+    "fwd_data.py": "807a6f824da7c885b262d701091601919dbb575f92d10b2b41b036ac75f6e020",
+    "daily_step0.sh": "92f30c9657ad445507ac6ff41b6ced0f3f3fa48ac728630140b2029382c2a59f",
+    "fallback_manual.sh": "8e13565ef212058669fd1550791fc6d37e4eddc46b185ffdead05c3fd930edf3"
+   },
+   "new_sha256": {
+    "make_forward.py": "c53457abd91991ae5d28334d052d294c2789735f0663b455470be22191b63cd6",
+    "fwd_data.py": "1d92540f13f9374d68e775740f27db160151b6009000d2cee88528e9b53a1b5f",
+    "daily_step0.sh": "bcd8b7b2c6c4de07bc5c05a1a7265023439cd11d8b48a03f68b14e7d49e6fdef",
+    "fallback_manual.sh": "bf3d03ba3c4c921c38c647855cb75ec86f763a58330d8e5874df1a46a642d4dd"
+   },
+   "summary": {
+    "BF-1": "官方日線月營收改用成交日開盤前可得（rev_cutoff＝成交日；凍結晚於開盤則＝訊號日），與 main_picks_today --ex-fin 一致；J 線不變",
+    "BF-2": "正式模式不帶 --asof 時依台北時鐘推算應有最後交易日（18:00 後＝當天）；history 或 warnings_hist 不夠新 → DATA_STALE rc 2，提示 fallback_manual.sh",
+    "BF-3": "daily_step0.sh 磁碟檢查（< 1GB 先清 work/asof_* 等可重建快取，仍不足 rc 3）；回傳碼正確傳出（原本永遠 0）",
+    "BF-4": "fallback_manual.sh 另產生處置聯集版 main_picks_union_*.txt（disposal_5y 停更會漏排處置股）"
+   },
+   "forward_returns_diff": "live_tracking/main_forward/forward_returns.csv 修正前後都沒有資料列（第一個錨定月 2026-11 還沒有訊號日）→ 差異 0；重播 replay/seq 只是驗收產物，未重產（官方 2026-10 名單尾端由 6691、6196 變 2395、6691）",
+   "verification": "out/accept_a2_pit.json：5 個 10-12 真實快照，產生器官方名單 vs main_picks_today --ex-fin（同 commit、處置聯集）5/5 都 10/10 同順序；預設路徑 asof 2026-11-02 MANIFEST sha 不變（20bff401…）",
+   "log": "bugfix_log.md"
+  }
+ ]
 }

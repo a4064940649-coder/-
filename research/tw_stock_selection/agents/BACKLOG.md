@@ -6,7 +6,13 @@
 專案期間：2026-10-27～2027-01-27（3 個月）。每日排程：「台股研究中心每日研究」，每天台北時間 06:49（trigger id trig_018uxTz588Aup718qjUU2SD3），到期後自動停用。每天的排程依這份清單派工；做完的題目移到「已完成」，新想到的題目加到「待辦」。
 
 ## 每日流程
-0. 每月換股日（每月第一個 ≥ 11 日的交易日）收盤後：執行 `python3 -I research/tw_stock_selection/main_picks_today.py --data /home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data --n 10` 產生主策略名單，記錄到 agents/live_tracking/（真實樣本外追蹤），並回報使用者。資料要先更新（tw-stock-screener repo `git pull`）。
+0. **每日第 0 步：前瞻追蹤（2026-11-03 起，o9 第 4 節 3(c)）**：每天台北 06:49 執行 `bash research/tw_stock_selection/agents/o_forward_infra_live/daily_step0.sh`（磁碟檢查 → fetch 上游 → make_forward.py 凍結訊號日名單 → 更新處置帳本；輸出在 agents/live_tracking/main_forward/）。
+   - 訊號日（每月 J0＝10 日起第一個交易日、官方日＝第一個 ≥ 11 日的交易日；2026-11 是 11-10、11-11）當晚 22:30 再加跑一次。
+   - 回傳碼：0＝正常；**2＝資料過期、未寫名單 → 立刻 `bash research/tw_stock_selection/agents/o_forward_infra_live/fallback_manual.sh`**，上游補上後重跑；3＝磁碟 < 1GB，先清空間（同樣先跑 fallback）；其他＝程式錯誤，看 o_forward_infra_live/logs/。
+   - 訊號日隔天早上核對時戳與名單：`python3 -I -B research/tw_stock_selection/agents/o_forward_infra_live/check_official.py --signal <官方日>`；2026-11 的步驟見 agents/live_tracking/main_forward/CHECK_1110_1111.md。
+   - 排程由使用者設定（研究中心不自行建立排程）。
+0b. 每月換股日（每月第一個 ≥ 11 日的交易日）收盤後：執行 `python3 -I research/tw_stock_selection/main_picks_today.py --data /home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data --n 10` 產生主策略名單，記錄到 agents/live_tracking/（真實樣本外追蹤），並回報使用者。資料要先更新（tw-stock-screener repo `git pull`）。
+   - 注意：main_picks_today 只讀 disposal_5y（2026-10-05 起停更），會漏排處置股（2026-10-12 的 2466、6213）。名單以前瞻快照 paper_lists/official_<YYYYMM>.csv 或 fallback_manual.sh 的「處置聯集」版（main_picks_union_*.txt）為準。
 1. 環境檢查：`/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/adj.parquet` 不存在時，先執行 `bash research/tw_stock_selection/restore_env.sh`。
 2. 收回昨天還在跑的工作：FINDINGS 存進各資料夾，提交推送。
 3. **主要工作：自主研究**。執行 `.claude/workflows/tw-original-research.js`（用 Workflow 的 scriptPath），輪次 o1、o2…，流程是：先研究長期贏家靠什麼賺錢 → 總監定題 → 研究員探索、迭代、凍結後做樣本外 → 雙審查加獨立複製 → 與主策略整合 → 總監報告。下一輪題目用上一輪總監報告的建議（args.extra 帶入，可用 skip_winners 沿用贏家研究）。

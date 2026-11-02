@@ -1,0 +1,77 @@
+{
+ "signal": "2026-10-12",
+ "exec_day": "2026-10-13",
+ "status": "corrected",
+ "corrected_at_taipei": "2026-11-03T06:23:32.143099+08:00",
+ "reason": "SOP 原名單用 main_picks_today.py 原始資料（處置只讀 disposal_5y，2026-10-05 起停更），漏排 2466 冠西電（處置 2026-10-08～10-15）、6213 聯茂（處置 2026-10-08～10-19），兩筆都在 2026-10-07 公告、當晚快照的 warnings_hist 已有。另外以成交日開盤前最後一個排程快照為準，納入 10-13 03:48 才抓到的 71 筆 9 月營收（2395 研華因此入榜）。",
+ "source": {
+  "repo": "github.com/stevenhsiehsheng-ctrl/tw-stock-screener",
+  "commit": "50bda154",
+  "commit_time": "2026-10-13T03:48:26+08:00",
+  "why": "2026-10-13 06:49 排程執行前最後一個 commit；到成交日 09:00 前（84c7943 08:47）名單相同",
+  "git_blob_sha1": {
+   "history.csv.gz": "00d02d9010194c18852b48587ea0852228fddb04",
+   "stock_list.csv": "40b1a79a2e34ef00a05ff2857fde95cc4f0e224d",
+   "extras/rev_5y.csv.gz": "e7a9e3777d793fcdf65af9bebb90818e4deb9b61",
+   "extras/rev_hist.csv.gz": "8ec65e332ee119acf3106d649313391df4ff7f83",
+   "extras/disposal_5y.csv.gz": "0b1b621644a7a7f5654571461ade3d31ee61c7cb",
+   "extras/warnings_hist.csv.gz": "641d405a3bbab543ad6d61b5cebb58e73a380623",
+   "extras/exdiv_5y.csv.gz": "c064fa162177180117197be81469f4429328f44f"
+  }
+ },
+ "method": "make_forward.py（BF-1 後，sha256 見 o_forward_infra_live/bugfix_log.md）--replay --sim-clock 2026-10-13T03:48:26+08:00 --asof 2026-10-12；處置＝disposal_5y ∪ warnings_hist；與 main_picks_today.py --ex-fin（同一 commit、處置聯集）10/10 同順序",
+ "top10_corrected": [
+  "2305",
+  "2347",
+  "6834",
+  "2408",
+  "2383",
+  "3653",
+  "1312",
+  "3231",
+  "2395",
+  "6691"
+ ],
+ "top10_sop_original": [
+  "2305",
+  "2347",
+  "2466",
+  "6834",
+  "2408",
+  "6213",
+  "2383",
+  "3653",
+  "1312",
+  "3231"
+ ],
+ "removed": [
+  "2466",
+  "6213"
+ ],
+ "added": [
+  "2395",
+  "6691"
+ ],
+ "unchanged_rank_shift": "3231 由第 10 名升為第 8 名",
+ "m2_exec_20261013": {
+  "picks": [
+   "2305",
+   "2347",
+   "6834",
+   "2408",
+   "2383",
+   "3653",
+   "1312",
+   "3231",
+   "2395",
+   "6691"
+  ],
+  "skipped": [],
+  "note": "開盤無漲停鎖死、無停牌；held＝∅"
+ },
+ "tie_note": "6691（0.8580246914）與 6196 同分，依營收 3 月年增率高者（6691 +168.3% > 6196 +91.2%）入選",
+ "freeze_time_sensitivity": "同一晚較早的快照（10-12 17:40、22:38、10-13 03:18）9 月營收還少 71 筆，名單尾端是 3231、6691、6196；03:48 之後是 3231、2395、6691",
+ "supersedes": "o_forward_infra_live/FINDINGS.md 寫的「第 9、10 名改為 6691、6196」（舊規則：營收截到訊號日，被 o9 審查推翻）",
+ "g8_scope": "前瞻 G8 紀錄從 2026-11 錨定月開始；本更正只影響 2026-10 的 SOP 名單與紙上帳本，不進 forward_returns.csv",
+ "csv_sha256": "4af28d9ff9fdec6d019e5fe4ee5605946b35a4cb8afcdfc516778752abc766db"
+}

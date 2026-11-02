@@ -3,7 +3,8 @@
 
 截斷規則（A1，事前寫定）
 - history.csv.gz、exdiv_5y、attention_5y、oddlot_hist、warnings_hist：date ≤ asof。
-- 月營收（rev_5y、rev_hist）：保留 ann_eff ≤ asof 的列。ann_eff＝rev_hist 的 ann_date；缺值時＝法定期限日
+- 月營收（rev_5y、rev_hist）：保留 ann_eff ≤ rev_cutoff 的列（rev_cutoff 預設＝asof；
+  bugfix 2026-11-03：官方日線改用 rev_cutoff＝成交日，即「成交日開盤前已抓到」的營收，見 bugfix_log.md BF-1）。ann_eff＝rev_hist 的 ann_date；缺值時＝法定期限日
   （ym 次月 10 日起第一個交易日，交易日依 history 日曆，超出日曆時用平日扣 tw_holidays.json）。
   J0 線另外把「m−1 月 ann_date 缺值」視為未公告（make_forward.score_j），不在這裡處理。
 - 處置名單：disposal_5y ∪ warnings_hist（flag＝處置）去重（code、start、end，保留最早公告日），公告日 date ≤ asof；
@@ -145,11 +146,14 @@ class Source:
         return out
 
     # ---- 截斷資料夾 ----
-    def build_asof(self, asof, out_dir):
-        """寫出截斷到 asof 的資料夾；回傳 manifest。已存在而且來源 sha 相同時直接沿用。"""
+    def build_asof(self, asof, out_dir, rev_cutoff=None):
+        """寫出截斷到 asof 的資料夾；回傳 manifest。已存在而且來源 sha 相同時直接沿用。
+        rev_cutoff：月營收的截斷日（預設＝asof）；價格、處置等其他資料一律截斷到 asof。"""
         asof = pd.Timestamp(asof); out = Path(out_dir)
+        rc = asof if rev_cutoff is None else pd.Timestamp(rev_cutoff)
         man_p = out / 'MANIFEST.json'
         key = dict(asof=str(asof.date()), source=self.files)
+        if rc != asof: key['rev_cutoff'] = str(rc.date())
         if man_p.exists():
             m = json.loads(man_p.read_text())
             if m.get('key') == key: return m
@@ -160,8 +164,8 @@ class Source:
         h = self.hist[self.hist['date'] <= asof].copy(); h['date'] = h['date'].dt.strftime('%Y-%m-%d')
         F['history.csv.gz'] = write_csv(h, out / 'history.csv.gz')
         shutil.copyfile(self.stock_list_path, out / 'stock_list.csv'); F['stock_list.csv'] = sha(out / 'stock_list.csv')
-        F['extras/rev_5y.csv.gz'] = write_csv(self._rev_trunc(self.r5, asof), out / 'extras/rev_5y.csv.gz')
-        rh = self._rev_trunc(self.rh, asof)
+        F['extras/rev_5y.csv.gz'] = write_csv(self._rev_trunc(self.r5, rc), out / 'extras/rev_5y.csv.gz')
+        rh = self._rev_trunc(self.rh, rc)
         F['extras/rev_hist.csv.gz'] = write_csv(rh, out / 'extras/rev_hist.csv.gz')
         dp = self.disposal(); dp = dp[pd.to_datetime(dp['date']) <= asof].drop(columns='_src')
         F['extras/disposal_5y.csv.gz'] = write_csv(dp, out / 'extras/disposal_5y.csv.gz')
@@ -197,9 +201,10 @@ def assert_asof(asof, **frames):
     return rep
 
 
-def assert_dir_asof(d, asof):
-    """讀回截斷資料夾的每個檔案，斷言最大日期 ≤ asof（營收另斷言 ym ≤ asof 前一月、ann_date ≤ asof）。"""
+def assert_dir_asof(d, asof, rev_cutoff=None):
+    """讀回截斷資料夾的每個檔案，斷言最大日期 ≤ asof（營收另斷言 ym ≤ rev_cutoff 前一月、ann_date ≤ rev_cutoff；rev_cutoff 預設＝asof）。"""
     d = Path(d); asof = pd.Timestamp(asof); rep = {}
+    rc = asof if rev_cutoff is None else pd.Timestamp(rev_cutoff)
     for f in ['history.csv.gz', 'extras/disposal_5y.csv.gz', 'extras/exdiv_5y.csv.gz', 'extras/attention_5y.csv.gz',
               'extras/warnings_hist.csv.gz', 'extras/oddlot_hist.csv.gz', 'etf_0050.csv', 'taiex_twii.csv']:
         if (d / f).exists():
@@ -208,8 +213,8 @@ def assert_dir_asof(d, asof):
     for f in ['extras/rev_5y.csv.gz', 'extras/rev_hist.csv.gz']:
         x = pd.read_csv(d / f, dtype={'code': str})
         mx = pd.Period(x['ym'].max(), 'M')
-        assert mx <= pd.Period(asof, 'M') - 1, f'A1 失敗：{f} 最新營收月份 {mx} 不早於 asof 月份'
-        if 'ann_date' in x.columns: assert_asof(asof, **{f: x[['ann_date']]})
+        assert mx <= pd.Period(rc, 'M') - 1, f'A1 失敗：{f} 最新營收月份 {mx} 不早於營收截斷日 {rc.date()} 的月份'
+        if 'ann_date' in x.columns: assert_asof(rc, **{f: x[['ann_date']]})
         rep[f] = f'ym≤{mx}'
     return rep
 
@@ -221,3 +226,19 @@ def assert_panel_asof(pdir, asof):
             p = pd.read_parquet(Path(pdir) / f'{f}.parquet', columns=[])
             rep[f'panel/{f}'] = assert_asof(asof, **{f: p})[f]
     return rep
+
+
+# ---------------- 實際時鐘推算「應有的最後交易日」（bugfix 2026-11-03 BF-2） ----------------
+READY_HOUR = 18     # 上游「每日資料」約 15:25、17:40 提交；台北 18:00 以後才要求當天收盤資料已在來源中
+
+
+def expected_last_day(now, is_trading, ready_hour=READY_HOUR):
+    """依台北時鐘 now 推算來源資料「應該已經有」的最後交易日：
+    now 當天是交易日而且已過 ready_hour → 當天；否則 → now 之前最近的交易日。is_trading(d) 為交易日判斷（history 日曆＋tw_holidays.json）。"""
+    now = pd.Timestamp(now)
+    if now.tzinfo is not None: now = now.tz_convert('Asia/Taipei').tz_localize(None)
+    d = now.normalize()
+    if not (is_trading(d) and now.hour >= ready_hour):
+        d -= pd.Timedelta(days=1)
+        while not is_trading(d): d -= pd.Timedelta(days=1)
+    return d

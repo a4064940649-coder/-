@@ -1,17 +1,40 @@
 #!/bin/bash
-# 每日流程第 0 步（o_forward_infra_live；PREREG_FORWARD 登記本檔 sha256）
+# 每日流程第 0 步（o_forward_infra_live；PREREG_FORWARD 登記本檔 sha256；2026-11-03 bugfix BF-2、BF-3 見 bugfix_log.md）
 # 排程：每天台北 06:49（既有每日排程開頭第一件事；週末也跑，週一前會補上週五的名單）。
+#   訊號日（2026-11-10 J0、11-11 官方日）當晚 22:30 再加跑一次（上游約 21:55 提交）。
+#   0) 磁碟檢查：剩餘 < 1GB 先清可重建快取（work/asof_*、work/check_official、work/mp_union），仍不足就中止（回傳碼 3）
 #   1) 資料 git fetch（本題自建稀疏 clone，不動共用的 /home/user/stevenhsiehsheng-ctrl/tw-stock-screener）
-#   2) make_forward.py（asof＝資料最後交易日）：訊號日的名單在這一步凍結，時間早於成交日 09:00
+#   2) make_forward.py（不帶 --asof）：依台北實際時鐘推算應有的最後交易日（18:00 後＝當天，否則＝前一交易日）；
+#      來源資料不夠新 → 回傳碼 2、不寫名單（DATA_STALE）；資料到齊 → 訊號日名單在這一步凍結，時間早於成交日 09:00
 #   3) 處置帳本每天更新（make_forward.py 內含）
-# 失敗時：git 被擋 → 依 read_documentation（environment.network）查網路設定；當月改用 fallback_manual.sh。
+# 回傳碼：0＝正常；2＝資料過期（改跑 fallback_manual.sh）；3＝磁碟不足；其他＝程式錯誤（看 logs/）。
+# 失敗時：git 被擋 → 依 read_documentation（environment.network）查網路設定；當天是訊號日就改跑 fallback_manual.sh。
 set -u
 F=/home/user/-/research/tw_stock_selection/agents/o_forward_infra_live
-LOG=$F/logs/daily_$(TZ=Asia/Taipei date +%Y%m%d_%H%M).log
 mkdir -p $F/logs
+LOG=$F/logs/daily_$(TZ=Asia/Taipei date +%Y%m%d_%H%M%S).log
+MIN_KB=${FWD_MIN_KB:-$((1024 * 1024))}          # 1GB：低於此值中止（FWD_MIN_KB 只供測試）
+WARN_KB=$((2 * 1024 * 1024))                    # 2GB：低於此值警告
+avail_kb() { df -Pk "$F" | awk 'NR==2 {print $4}'; }
+
+# ---- 0) 磁碟檢查（BF-3） ----
+A=$(avail_kb)
+if [ "$A" -lt "$MIN_KB" ]; then
+  echo "磁碟剩餘 $((A / 1024))MB < 1GB：清除本題可重建的快取（work/asof_*、work/check_official、work/mp_union）" | tee -a "$LOG"
+  rm -rf "$F"/work/asof_* "$F"/work/check_official "$F"/work/mp_union
+  A=$(avail_kb)
+fi
+if [ "$A" -lt "$MIN_KB" ]; then
+  MSG="【磁碟不足，中止】剩餘 $((A / 1024))MB < 1GB（每次執行約寫 25MB 以上，s6_forward.py 也需要空間）。請先清出至少 1GB（不要刪別人的資料）；今天若是訊號日，空間清出前先跑：bash $F/fallback_manual.sh"
+  echo "$MSG" | tee -a "$LOG" >&2
+  exit 3
+elif [ "$A" -lt "$WARN_KB" ]; then
+  echo "【警告】磁碟剩餘 $((A / 1024))MB < 2GB" | tee -a "$LOG"
+fi
+
+rc=1; ok=1
 {
-  echo "start $(TZ=Asia/Taipei date -Iseconds)"
-  ok=1
+  echo "start $(TZ=Asia/Taipei date -Iseconds)；磁碟剩餘 $((A / 1024))MB"
   # 容器回收後 raw/ 不在 repo（.gitignore）：自動重建稀疏 clone
   if [ ! -d $F/raw/screener/.git ]; then
     ( mkdir -p $F/raw && cd $F/raw && timeout 900 git clone -q --filter=blob:none --no-checkout https://github.com/stevenhsiehsheng-ctrl/tw-stock-screener screener \
@@ -34,9 +57,20 @@ mkdir -p $F/logs
   echo "screener $(git -C $F/raw/screener log -1 --format='%H %cI')"
   echo "finlab   $(git -C $F/raw/finlab_repo log -1 --format='%H %cI')"
   if [ $ok -ne 1 ]; then echo "DATA_FETCH_FAILED：git 失敗，請查網路設定；今天若是訊號日改跑 fallback_manual.sh"; fi
-  cd $F && python3 -I -B make_forward.py
+  # FWD_EXTRA_ARGS 只供測試（例如 --out <scratch> --expect-now 2026-11-11T22:30）；正式排程不要設
+  cd $F && python3 -I -B make_forward.py ${FWD_EXTRA_ARGS:-}
   rc=$?
-  echo "make_forward rc=$rc（2＝資料未更新到應有日期，未寫名單）"
+  echo "make_forward rc=$rc（0＝正常；2＝資料未更新到應有日期，未寫名單）"
   echo "end $(TZ=Asia/Taipei date -Iseconds)"
 } >> "$LOG" 2>&1
 tail -3 "$LOG"
+grep -h '^【' "$LOG" || true
+if [ $rc -eq 2 ]; then
+  MSG="【資料過期，未寫名單】daily_step0 回傳碼 2（詳見 $LOG）。今天若是訊號日（2026-11-10 J0、11-11 官方日），請立刻改跑：bash $F/fallback_manual.sh ，並在上游補上資料後重跑本檔。"
+  echo "$MSG" >&2
+elif [ $rc -ne 0 ]; then
+  echo "【執行失敗】make_forward rc=$rc（詳見 $LOG）；今天若是訊號日改跑 bash $F/fallback_manual.sh" >&2
+elif [ $ok -ne 1 ]; then
+  echo "【警告】git fetch 失敗，但現有資料已夠新（rc=0）；請查網路設定" >&2
+fi
+exit $rc
