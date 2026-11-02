@@ -1,0 +1,61 @@
+{
+ "denominator": {
+  "n_stock_months": 22289,
+  "n_anchors": 90,
+  "anchors": [
+   "2019-05",
+   "2026-10"
+  ],
+  "kydr_removed": 0,
+  "o8_check": {
+   "o8_n": 22042,
+   "ours_le_2026_09": 22042,
+   "o8_overlap": 22042
+  },
+  "sig_day_2026_10": "2026-10-12"
+ },
+ "coverage": {
+  "tasi_seen": 0.3270222979945264,
+  "tasi_valid": 0.1984386917313473,
+  "up_seen": 0.7858584952218584,
+  "up_valid": 0.009780609269146215,
+  "union_valid": 0.1984386917313473,
+  "threshold": 0.6
+ },
+ "reasons": {
+  "tasi": {
+   "ok": 4423,
+   "gap_gt_36h": 2196,
+   "file_add_no_prev": 670
+  },
+  "up": {
+   "file_add_no_prev": 17270,
+   "ok": 218,
+   "gap_gt_36h": 28
+  }
+ },
+ "cross_check": {
+  "tasi_vs_up": {
+   "n": 192,
+   "interval_agree": 0.5625,
+   "same_announce_day": 0.11458333333333333
+  },
+  "tasi_vs_ann": {
+   "n": 187,
+   "agree": 1.0
+  },
+  "up_vs_ann": {
+   "n": 210,
+   "agree": 1.0
+  }
+ },
+ "sources_counted": {
+  "tasi": true,
+  "upstream": false
+ },
+ "upper_bound": {
+  "tasi_window_anchor_share": 0.32186280227915115,
+  "note": "即使 Tasi 期間（錨定 2024-06～2026-10）每個股月都有合格時間戳，覆蓋也只有這個比例；2019-05～2024-05 沒有任何逐次 commit 來源。"
+ },
+ "verdict": "合計覆蓋 19.8%（< 60%）→ 分支 A：不做任何歷史報酬檢定，只做不看報酬的描述統計與前瞻紀錄。"
+}

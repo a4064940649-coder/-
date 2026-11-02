@@ -1,0 +1,61 @@
+{
+ "note": "分支 A：沒有任何報酬檢定；以下 4 版只比較周轉與成本（不看報酬），選版規則見 results.json A1_PLAN。",
+ "versions": {
+  "V1": {
+   "K_out": 15,
+   "delta": 0.0,
+   "reconcile": true
+  },
+  "V2": {
+   "K_out": 20,
+   "delta": 0.05,
+   "reconcile": true
+  },
+  "V3": {
+   "K_out": 30,
+   "delta": 0.1,
+   "reconcile": true
+  },
+  "V4": {
+   "K_out": 20,
+   "delta": 0.05,
+   "reconcile": false
+  }
+ },
+ "results": {
+  "V1": {
+   "mean_extra": 2.1785714285714284,
+   "mean_ec": 8.392857142857142,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 4.107142857142857,
+   "early_buy_hit_official": 0.591304347826087,
+   "n_months": 28
+  },
+  "V2": {
+   "mean_extra": 1.8928571428571428,
+   "mean_ec": 8.107142857142858,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 3.7142857142857144,
+   "early_buy_hit_official": 0.5865384615384616,
+   "n_months": 28
+  },
+  "V3": {
+   "mean_extra": 1.5714285714285714,
+   "mean_ec": 7.785714285714286,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 3.142857142857143,
+   "early_buy_hit_official": 0.5795454545454546,
+   "n_months": 28
+  },
+  "V4": {
+   "mean_extra": -0.39285714285714285,
+   "mean_ec": 5.821428571428571,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 3.7142857142857144,
+   "early_buy_hit_official": 0.5865384615384616,
+   "n_months": 28
+  }
+ },
+ "selected": "V2",
+ "n_versions": 4
+}

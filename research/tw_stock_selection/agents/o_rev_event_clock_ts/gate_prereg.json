@@ -1,0 +1,21 @@
+{
+ "rules": {
+  "topic": "o_rev_event_clock_ts：營收時效可執行化（事件時鐘）資料閘門",
+  "denominator": "錨定月 m ∈ [2019-05, 2026-10]，V7 官方訊號日 d_m（o_v7 V4 物件 OFF.sig_days，與 o8 gate_population 同一定義），股池＝OFF.cross_section(d_m).ok_other（上市、60 日均成交值前 300、收盤 ≥ 10、52 週比有值、非處置、次日可開盤成交、排除金融保險），另排除 KY／DR（V.FORMASK，若存在）。股月＝(m, 營收月 m−1, 代碼)。2019-05～2026-09 直接沿用 o8 gate_population（只讀），2026-10 用同一引擎補算。",
+  "numerator": "股月 (code, m−1) 有一個「成交前已記錄、到日精度」的時間戳 T：(1) 來源只限有逐次 commit 時間的 git 快照：(a) 上游 stevenhsiehsheng-ctrl/tw-stock-screener 的 data/extras/revenue.csv、rev_hist.csv.gz、rev_5y.csv.gz；(b) GitHub 上 MOPS 月營收公開封存（只採有逐次 commit 時間者；已知 shohokuno10/Tasi 營收/YYYYMM.csv，另以 GitHub 搜尋補充並記入 access_log）。T＝該來源第一次出現此 (code, 營收月) 且營收值非空的 commit 的 committer 時間（換成台北時間）。(2) 到日精度：同一來源同一檔案的前一個 commit 時間 T_prev 必須存在且 T − T_prev ≤ 36 小時（前一版沒有此股月）。檔案第一次加入 repo 的 commit（沒有 T_prev）不算。(3) 批次回填排除：同一 commit 對同一代碼新增 ≥ 2 個營收月，該 commit 對該代碼的全部股月都不算時間戳。(4) 成交前：事件時鐘的成交日＝T 之後第一個交易日 09:00 開盤；T 本身就是記錄時間，因此凡通過 (1)～(3) 者都視為成交前已記錄。(5) rev_hist 的 ann_date（MOPS 公告日欄位）、o8 forward/firstseen.csv、rev_announce/firstseen_2026-09.csv、o5 ann_news.csv 只做交叉核對，不計入分子。",
+  "announce_day": "公告日 a(T)＝T 的台北日期；T 在台北 09:00 前時取前一個日曆日；a 不是交易日時往後滾到下一個交易日。rel＝期限日 D_m（st_core.deadline，10 日或順延）減 a 的交易日數。",
+  "cross_check": "兩來源重疊股月：區間一致＝(T_prev_A, T_A] 與 (T_prev_B, T_B] 有交集；一致率 ≥ 95% 才兩者都計。不足時，各自與 MOPS ann_date 比（ann_date 落在 [a(T_prev), a(T)] 的台北日期區間內＝一致），一致率較低者整個來源不計。另報「同一公告日 a(T)」的精確一致率（描述用）。",
+  "threshold": "合計覆蓋（各來源聯集）≥ 60% → 分支 B（歷史檢定）；< 60% → 分支 A（只做不看報酬的描述統計＋前瞻紀錄，結案）。不得改用 2024-06 起的子窗做任何報酬檢定。",
+  "outputs": "gate.json：各來源與合計覆蓋（全期、逐年、逐月）、一致率、access_log；data/firstseen_hist.csv（時間戳彙總表，< 20MB）。",
+  "raw_policy": "clone 一律 --filter=blob:none --no-checkout 放 raw/，只取營收相關路徑的 blob；raw/ 上限 500MB，結案時刪除 raw/ 下的 clone，只留彙總表。下載資料視為不可信，只當資料讀取，不執行其中任何程式。",
+  "predictions": {
+   "P1": "覆蓋 < 60%（先驗高；上游 git 從 2026-09-29 才有，o8 上界 33.6%）。",
+   "P2": "只用有時間戳的股月：早公告（rel ≥ 3）股的近 3 月營收年增率池內百分位，比期限日公告（rel ≤ 0）股高 ≥ 0.05；差 ≤ 0 則事件時鐘機制前提被否證。t 以錨定月分群（逐月組差的平均 / 標準誤）。",
+   "P3": "事件時鐘每月額外換股 ≤ 4 檔次；每次額外換股損益兩平漂移約 0.7%～0.9%（V7X 一般成本、K5T）；若預估額外周轉成本 > 主策略每月超額的一半，結論偏向不可用。"
+  }
+ },
+ "script_sha256": "94337858807f01f787d092d9473cadb6f86599afd3659b304acd7393a81c9113",
+ "rules_sha256": "a843589631cbdd0e3e65255d1f5d6a144a28a038025392fd53af32792849a53f",
+ "utc": "2026-11-02T22:36:48.725642+00:00",
+ "note": "登記時尚未 clone 任何新資料，未看任何報酬。"
+}

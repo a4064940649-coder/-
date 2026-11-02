@@ -1,0 +1,133 @@
+{
+ "P2": {
+  "strict": {
+   "label": "合格時間戳（閘門口徑）",
+   "n_stock_months": 4276,
+   "n_early": 770,
+   "n_deadline": 1465,
+   "share_early": 0.18007483629560336,
+   "share_deadline": 0.34260991580916744,
+   "pooled_early_minus_deadline": 0.07186925950757189,
+   "monthly_mean_diff": 0.07814000400179583,
+   "t_by_anchor": 3.389645849094176,
+   "n_anchors": 22
+  },
+  "lenient_tasi_all_seen": {
+   "label": "Tasi 所有首見（敏感度，非閘門口徑）",
+   "n_stock_months": 7129,
+   "n_early": 1205,
+   "n_deadline": 3420,
+   "share_early": 0.16902791415345772,
+   "share_deadline": 0.47973067751437787,
+   "pooled_early_minus_deadline": 0.07045286464351813,
+   "monthly_mean_diff": 0.08860071139259829,
+   "t_by_anchor": 7.230206554119242,
+   "n_anchors": 27
+  }
+ },
+ "ec": {
+  "V1": {
+   "mean_extra": 2.1785714285714284,
+   "mean_ec": 8.392857142857142,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 4.107142857142857,
+   "early_buy_hit_official": 0.591304347826087,
+   "n_months": 28
+  },
+  "V2": {
+   "mean_extra": 1.8928571428571428,
+   "mean_ec": 8.107142857142858,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 3.7142857142857144,
+   "early_buy_hit_official": 0.5865384615384616,
+   "n_months": 28
+  },
+  "V3": {
+   "mean_extra": 1.5714285714285714,
+   "mean_ec": 7.785714285714286,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 3.142857142857143,
+   "early_buy_hit_official": 0.5795454545454546,
+   "n_months": 28
+  },
+  "V4": {
+   "mean_extra": -0.39285714285714285,
+   "mean_ec": 5.821428571428571,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 3.7142857142857144,
+   "early_buy_hit_official": 0.5865384615384616,
+   "n_months": 28
+  }
+ },
+ "P3": {
+  "selected_version": "V2",
+  "mean_extra_trades_per_month": 1.8928571428571428,
+  "P3_turnover_ok": true,
+  "breakeven_drift_per_extra_trade": {
+   "1000000_normal": {
+    "n": 135,
+    "median_rt": 0.008131699561465231,
+    "mean_rt": 0.008339069143837809,
+    "p90_rt": 0.009631580302245344
+   },
+   "1000000_stress": {
+    "n": 135,
+    "median_rt": 0.02118457627118642,
+    "mean_rt": 0.02066923231536313,
+    "p90_rt": 0.0232502027496182
+   },
+   "3000000_normal": {
+    "n": 135,
+    "median_rt": 0.008796564981622207,
+    "mean_rt": 0.009331613427002367,
+    "p90_rt": 0.011521198447490165
+   },
+   "3000000_stress": {
+    "n": 135,
+    "median_rt": 0.021184576271186417,
+    "mean_rt": 0.020421171083368005,
+    "p90_rt": 0.02330217911058751
+   },
+   "10000000_normal": {
+    "n": 135,
+    "median_rt": 0.011145106485945331,
+    "mean_rt": 0.011681256211803962,
+    "p90_rt": 0.01582369953124403
+   },
+   "10000000_stress": {
+    "n": 135,
+    "median_rt": 0.02158676796014565,
+    "mean_rt": 0.021890897026114048,
+    "p90_rt": 0.026211260387909534
+   }
+  },
+  "extra_cost_pp_per_month": {
+   "1000000_normal": 0.15784666593692998,
+   "1000000_stress": 0.3912390402550878,
+   "3000000_normal": 0.1766341112968305,
+   "3000000_stress": 0.38654359550660866,
+   "10000000_normal": 0.221109492580575,
+   "10000000_stress": 0.4143634079943016
+  },
+  "main_excess": {
+   "full_period_pp_per_month": [
+    0.1358333333333334,
+    0.20250000000000012
+   ],
+   "since2019_pp_per_month": [
+    -0.8166666666666668,
+    -0.30833333333333335
+   ],
+   "source": "original_o8 DIRECTOR_REPORT／報告 13.35（V7X、K5T、j 中位數）"
+  },
+  "cost_vs_half_main_full_period": {
+   "1000000_normal": true,
+   "1000000_stress": true,
+   "3000000_normal": true,
+   "3000000_stress": true,
+   "10000000_normal": true,
+   "10000000_stress": true
+  },
+  "note": "「損益兩平漂移」＝每次額外換股的來回成本（新買股相對被賣股，在官方日前必須多賺的幅度）。2019 年起主策略月超額為負，任何正成本都大於其一半。"
+ }
+}

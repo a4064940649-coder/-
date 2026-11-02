@@ -1,0 +1,37 @@
+{
+ "A1_PLAN": {
+  "versions": {
+   "V1": {
+    "K_out": 15,
+    "delta": 0.0,
+    "reconcile": true
+   },
+   "V2": {
+    "K_out": 20,
+    "delta": 0.05,
+    "reconcile": true
+   },
+   "V3": {
+    "K_out": 30,
+    "delta": 0.1,
+    "reconcile": true
+   },
+   "V4": {
+    "K_out": 20,
+    "delta": 0.05,
+    "reconcile": false
+   }
+  },
+  "default": "V2",
+  "n": 10,
+  "max_trades_per_stock_month": 1,
+  "select_rule": "預設 V2（K_out 20、δ 0.05、每檔每月最多進出各 1 次、官方日全名單校正）。若 V2 每月平均額外換股 > 4 檔次，改選 reconcile＝是 且每月額外換股 ≤ 4 的版本中額外換股最少者；全部 > 4 則仍用 V2 並在結論寫明 P3 不成立。選版不看任何報酬。",
+  "tiers": [
+   1000000,
+   3000000,
+   10000000
+  ],
+  "utc": "2026-11-02T22:46:06.425049+00:00",
+  "sha256": "065b510c54ad1c62a6be1799bec44abc3e7b164fb62727f96b0fc4a06bce8044"
+ }
+}

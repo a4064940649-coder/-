@@ -1,0 +1,2807 @@
+{
+ "P2": {
+  "strict": {
+   "label": "合格時間戳（閘門口徑）",
+   "n_stock_months": 4276,
+   "n_early": 770,
+   "n_deadline": 1465,
+   "share_early": 0.18007483629560336,
+   "share_deadline": 0.34260991580916744,
+   "pooled_early_minus_deadline": 0.07186925950757189,
+   "monthly_mean_diff": 0.07814000400179583,
+   "t_by_anchor": 3.389645849094176,
+   "n_anchors": 22,
+   "rel_hist": {
+    "-1": 626,
+    "0": 839,
+    "1": 1096,
+    "2": 945,
+    "3": 458,
+    "4": 251,
+    "5": 49,
+    "6": 12
+   }
+  },
+  "lenient_tasi_all_seen": {
+   "label": "Tasi 所有首見（敏感度，非閘門口徑）",
+   "n_stock_months": 7129,
+   "n_early": 1205,
+   "n_deadline": 3420,
+   "share_early": 0.16902791415345772,
+   "share_deadline": 0.47973067751437787,
+   "pooled_early_minus_deadline": 0.07045286464351813,
+   "monthly_mean_diff": 0.08860071139259829,
+   "t_by_anchor": 7.230206554119242,
+   "n_anchors": 27,
+   "rel_hist": {
+    "-24": 255,
+    "-3": 254,
+    "-2": 71,
+    "-1": 703,
+    "0": 2137,
+    "1": 1286,
+    "2": 1218,
+    "3": 692,
+    "4": 325,
+    "5": 151,
+    "6": 37
+   }
+  },
+  "by_year_lenient": {
+   "2024": {
+    "label": "2024",
+    "n_stock_months": 2022,
+    "n_early": 394,
+    "n_deadline": 957,
+    "share_early": 0.19485657764589515,
+    "share_deadline": 0.4732937685459941,
+    "pooled_early_minus_deadline": 0.025255211469120853,
+    "monthly_mean_diff": 0.045163304368178364,
+    "t_by_anchor": 2.80370448758555,
+    "n_anchors": 6
+   },
+   "2025": {
+    "label": "2025",
+    "n_stock_months": 2951,
+    "n_early": 537,
+    "n_deadline": 1399,
+    "share_early": 0.18197221280921722,
+    "share_deadline": 0.4740765842087428,
+    "pooled_early_minus_deadline": 0.09370213200161664,
+    "monthly_mean_diff": 0.10792962377833522,
+    "t_by_anchor": 5.358357886361195,
+    "n_anchors": 12
+   },
+   "2026": {
+    "label": "2026",
+    "n_stock_months": 2156,
+    "n_early": 274,
+    "n_deadline": 1064,
+    "share_early": 0.12708719851576994,
+    "share_deadline": 0.4935064935064935,
+    "pooled_early_minus_deadline": 0.08512058555123875,
+    "monthly_mean_diff": 0.09178709956122899,
+    "t_by_anchor": 4.639326314069786,
+    "n_anchors": 9
+   }
+  }
+ },
+ "distribution": {
+  "lenient_day_of_month": {
+   "1": 6,
+   "2": 51,
+   "3": 81,
+   "4": 139,
+   "5": 334,
+   "6": 557,
+   "7": 645,
+   "8": 932,
+   "9": 964,
+   "10": 1461,
+   "11": 867,
+   "12": 330,
+   "13": 251,
+   "14": 511
+  },
+  "strict_rel": {
+   "-1": 626,
+   "0": 839,
+   "1": 1096,
+   "2": 945,
+   "3": 458,
+   "4": 251,
+   "5": 49,
+   "6": 12
+  },
+  "lenient_rel": {
+   "-24": 255,
+   "-3": 254,
+   "-2": 71,
+   "-1": 703,
+   "0": 2137,
+   "1": 1286,
+   "2": 1218,
+   "3": 692,
+   "4": 325,
+   "5": 151,
+   "6": 37
+  }
+ },
+ "ec_sim": {
+  "V1": {
+   "mean_extra": 2.1785714285714284,
+   "mean_ec": 8.392857142857142,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 4.107142857142857,
+   "early_buy_hit_official": 0.591304347826087,
+   "n_months": 28
+  },
+  "V2": {
+   "mean_extra": 1.8928571428571428,
+   "mean_ec": 8.107142857142858,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 3.7142857142857144,
+   "early_buy_hit_official": 0.5865384615384616,
+   "n_months": 28
+  },
+  "V3": {
+   "mean_extra": 1.5714285714285714,
+   "mean_ec": 7.785714285714286,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 3.142857142857143,
+   "early_buy_hit_official": 0.5795454545454546,
+   "n_months": 28
+  },
+  "V4": {
+   "mean_extra": -0.39285714285714285,
+   "mean_ec": 5.821428571428571,
+   "mean_off": 6.214285714285714,
+   "mean_window_buys": 3.7142857142857144,
+   "early_buy_hit_official": 0.5865384615384616,
+   "n_months": 28
+  }
+ },
+ "ec_sim_months": {
+  "V1": [
+   {
+    "anchor": "2024-07",
+    "n_ann_valid": 195,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 2,
+    "n_ec": 7,
+    "n_off": 6,
+    "extra": 1,
+    "early_buys_in_official": 4,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "3047",
+     "2348"
+    ],
+    "reconcile_buys": [
+     "6442",
+     "2455"
+    ]
+   },
+   {
+    "anchor": "2024-08",
+    "n_ann_valid": 192,
+    "n_window_buys": 8,
+    "n_reconcile_buys": 4,
+    "n_ec": 12,
+    "n_off": 9,
+    "extra": 3,
+    "early_buys_in_official": 5,
+    "n_early_buys": 8,
+    "reconcile_sells": [
+     "3535",
+     "8112",
+     "3010",
+     "1808"
+    ],
+    "reconcile_buys": [
+     "2520",
+     "3019",
+     "1101",
+     "2615"
+    ]
+   },
+   {
+    "anchor": "2024-09",
+    "n_ann_valid": 110,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 6,
+    "n_ec": 11,
+    "n_off": 8,
+    "extra": 3,
+    "early_buys_in_official": 2,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "2520",
+     "2543",
+     "3019",
+     "2383",
+     "3008",
+     "2439"
+    ],
+    "reconcile_buys": [
+     "6409",
+     "6873",
+     "2497",
+     "3413",
+     "2603",
+     "2467"
+    ]
+   },
+   {
+    "anchor": "2024-10",
+    "n_ann_valid": 204,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 3,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "6409",
+     "6215",
+     "6873",
+     "2497",
+     "2467"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "4956",
+     "3013",
+     "3413",
+     "1476"
+    ]
+   },
+   {
+    "anchor": "2024-11",
+    "n_ann_valid": 191,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 3,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "3167",
+     "8021",
+     "6215"
+    ],
+    "reconcile_buys": [
+     "2059",
+     "2345",
+     "8028"
+    ]
+   },
+   {
+    "anchor": "2024-12",
+    "n_ann_valid": 191,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 5,
+    "n_ec": 10,
+    "n_off": 8,
+    "extra": 2,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "2603",
+     "3706",
+     "2330",
+     "2609",
+     "1101"
+    ],
+    "reconcile_buys": [
+     "8114",
+     "6805",
+     "3029",
+     "3563",
+     "6691"
+    ]
+   },
+   {
+    "anchor": "2025-01",
+    "n_ann_valid": 213,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 3,
+    "n_ec": 9,
+    "n_off": 5,
+    "extra": 4,
+    "early_buys_in_official": 4,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "1442",
+     "6669",
+     "2603"
+    ],
+    "reconcile_buys": [
+     "6691",
+     "1101",
+     "2383"
+    ]
+   },
+   {
+    "anchor": "2025-02",
+    "n_ann_valid": 122,
+    "n_window_buys": 2,
+    "n_reconcile_buys": 4,
+    "n_ec": 6,
+    "n_off": 5,
+    "extra": 1,
+    "early_buys_in_official": 1,
+    "n_early_buys": 2,
+    "reconcile_sells": [
+     "6215",
+     "2330",
+     "1101",
+     "6515"
+    ],
+    "reconcile_buys": [
+     "2468",
+     "6206",
+     "6442",
+     "3019"
+    ]
+   },
+   {
+    "anchor": "2025-03",
+    "n_ann_valid": 83,
+    "n_window_buys": 2,
+    "n_reconcile_buys": 5,
+    "n_ec": 7,
+    "n_off": 7,
+    "extra": 0,
+    "early_buys_in_official": 2,
+    "n_early_buys": 2,
+    "reconcile_sells": [
+     "3450",
+     "2345",
+     "3645",
+     "6206",
+     "6670"
+    ],
+    "reconcile_buys": [
+     "2429",
+     "1101",
+     "2603",
+     "8114",
+     "2379"
+    ]
+   },
+   {
+    "anchor": "2025-04",
+    "n_ann_valid": 204,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 4,
+    "n_ec": 9,
+    "n_off": 6,
+    "extra": 3,
+    "early_buys_in_official": 4,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "3563",
+     "2429",
+     "2603",
+     "2474"
+    ],
+    "reconcile_buys": [
+     "8222",
+     "1316",
+     "2383",
+     "2059"
+    ]
+   },
+   {
+    "anchor": "2025-05",
+    "n_ann_valid": 123,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 4,
+    "n_ec": 9,
+    "n_off": 6,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "1101",
+     "2379",
+     "2468",
+     "2429"
+    ],
+    "reconcile_buys": [
+     "3090",
+     "8210",
+     "8222",
+     "8072"
+    ]
+   },
+   {
+    "anchor": "2025-06",
+    "n_ann_valid": 95,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 3,
+    "n_ec": 4,
+    "n_off": 4,
+    "extra": 0,
+    "early_buys_in_official": 1,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "3056",
+     "3528",
+     "8072"
+    ],
+    "reconcile_buys": [
+     "3563",
+     "3653",
+     "2330"
+    ]
+   },
+   {
+    "anchor": "2025-07",
+    "n_ann_valid": 177,
+    "n_window_buys": 2,
+    "n_reconcile_buys": 3,
+    "n_ec": 5,
+    "n_off": 4,
+    "extra": 1,
+    "early_buys_in_official": 1,
+    "n_early_buys": 2,
+    "reconcile_sells": [
+     "3563",
+     "2330",
+     "3515"
+    ],
+    "reconcile_buys": [
+     "3017",
+     "6625",
+     "6691"
+    ]
+   },
+   {
+    "anchor": "2025-08",
+    "n_ann_valid": 175,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 4,
+    "n_ec": 5,
+    "n_off": 4,
+    "extra": 1,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "3017",
+     "8210",
+     "6691",
+     "2374"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "6215",
+     "6442",
+     "3030"
+    ]
+   },
+   {
+    "anchor": "2025-09",
+    "n_ann_valid": 121,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 5,
+    "n_ec": 9,
+    "n_off": 5,
+    "extra": 4,
+    "early_buys_in_official": 2,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3167",
+     "6442",
+     "3030",
+     "2208",
+     "2376"
+    ],
+    "reconcile_buys": [
+     "3515",
+     "6669",
+     "2368",
+     "2451",
+     "3653"
+    ]
+   },
+   {
+    "anchor": "2025-10",
+    "n_ann_valid": 101,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 3,
+    "n_ec": 9,
+    "n_off": 7,
+    "extra": 2,
+    "early_buys_in_official": 4,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "2345",
+     "8996",
+     "3231"
+    ],
+    "reconcile_buys": [
+     "6209",
+     "2408",
+     "3535"
+    ]
+   },
+   {
+    "anchor": "2025-11",
+    "n_ann_valid": 158,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 2,
+    "n_ec": 5,
+    "n_off": 3,
+    "extra": 2,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2059",
+     "2383"
+    ],
+    "reconcile_buys": [
+     "8271",
+     "2368"
+    ]
+   },
+   {
+    "anchor": "2025-12",
+    "n_ann_valid": 189,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 5,
+    "n_ec": 11,
+    "n_off": 5,
+    "extra": 6,
+    "early_buys_in_official": 1,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3535",
+     "3167",
+     "3231",
+     "2449",
+     "6691"
+    ],
+    "reconcile_buys": [
+     "6139",
+     "2485",
+     "2345",
+     "6805",
+     "8021"
+    ]
+   },
+   {
+    "anchor": "2026-01",
+    "n_ann_valid": 65,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 6,
+    "n_ec": 10,
+    "n_off": 7,
+    "extra": 3,
+    "early_buys_in_official": 1,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "6209",
+     "2345",
+     "6805",
+     "2383",
+     "3231",
+     "3535"
+    ],
+    "reconcile_buys": [
+     "2406",
+     "8271",
+     "2360",
+     "6515",
+     "6531",
+     "2449"
+    ]
+   },
+   {
+    "anchor": "2026-02",
+    "n_ann_valid": 173,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 4,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 3,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "2406",
+     "2449",
+     "6139",
+     "2383"
+    ],
+    "reconcile_buys": [
+     "2368",
+     "2542",
+     "2467",
+     "2337"
+    ]
+   },
+   {
+    "anchor": "2026-03",
+    "n_ann_valid": 159,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "6515",
+     "2360",
+     "2542",
+     "2337",
+     "3535"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "2485",
+     "8112",
+     "6805",
+     "2406"
+    ]
+   },
+   {
+    "anchor": "2026-04",
+    "n_ann_valid": 148,
+    "n_window_buys": 7,
+    "n_reconcile_buys": 5,
+    "n_ec": 12,
+    "n_off": 8,
+    "extra": 4,
+    "early_buys_in_official": 5,
+    "n_early_buys": 7,
+    "reconcile_sells": [
+     "3017",
+     "2345",
+     "2368",
+     "2383",
+     "2382"
+    ],
+    "reconcile_buys": [
+     "4989",
+     "3443",
+     "2485",
+     "6426",
+     "8021"
+    ]
+   },
+   {
+    "anchor": "2026-05",
+    "n_ann_valid": 117,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 5,
+    "n_ec": 11,
+    "n_off": 8,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3028",
+     "6426",
+     "2383",
+     "4576",
+     "6669"
+    ],
+    "reconcile_buys": [
+     "3006",
+     "6531",
+     "2345",
+     "2347",
+     "2542"
+    ]
+   },
+   {
+    "anchor": "2026-06",
+    "n_ann_valid": 173,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 6,
+    "n_ec": 9,
+    "n_off": 8,
+    "extra": 1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2451",
+     "3006",
+     "2360",
+     "2376",
+     "2345",
+     "2368"
+    ],
+    "reconcile_buys": [
+     "2406",
+     "8112",
+     "8021",
+     "2404",
+     "2059",
+     "6446"
+    ]
+   },
+   {
+    "anchor": "2026-07",
+    "n_ann_valid": 183,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 1,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "8926",
+     "2406",
+     "6446",
+     "8016",
+     "2476"
+    ],
+    "reconcile_buys": [
+     "3702",
+     "4916",
+     "2395",
+     "8046",
+     "6139"
+    ]
+   },
+   {
+    "anchor": "2026-08",
+    "n_ann_valid": 150,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 2,
+    "n_ec": 5,
+    "n_off": 5,
+    "extra": 0,
+    "early_buys_in_official": 3,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "4916",
+     "6139"
+    ],
+    "reconcile_buys": [
+     "6691",
+     "2383"
+    ]
+   },
+   {
+    "anchor": "2026-09",
+    "n_ann_valid": 219,
+    "n_window_buys": 7,
+    "n_reconcile_buys": 5,
+    "n_ec": 12,
+    "n_off": 7,
+    "extra": 5,
+    "early_buys_in_official": 3,
+    "n_early_buys": 7,
+    "reconcile_sells": [
+     "2542",
+     "3167",
+     "2465",
+     "6426",
+     "6214"
+    ],
+    "reconcile_buys": [
+     "2305",
+     "1709",
+     "3653",
+     "3231",
+     "2395"
+    ]
+   },
+   {
+    "anchor": "2026-10",
+    "n_ann_valid": 192,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 7,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "2305",
+     "4967",
+     "3653",
+     "2347",
+     "3231",
+     "2395",
+     "6196"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "8996",
+     "2383",
+     "2360",
+     "8046",
+     "2451",
+     "2376"
+    ]
+   }
+  ],
+  "V2": [
+   {
+    "anchor": "2024-07",
+    "n_ann_valid": 195,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 2,
+    "n_ec": 7,
+    "n_off": 6,
+    "extra": 1,
+    "early_buys_in_official": 4,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "3047",
+     "2348"
+    ],
+    "reconcile_buys": [
+     "6442",
+     "2455"
+    ]
+   },
+   {
+    "anchor": "2024-08",
+    "n_ann_valid": 192,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 6,
+    "n_ec": 12,
+    "n_off": 9,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3535",
+     "3712",
+     "2330",
+     "8112",
+     "3010",
+     "1808"
+    ],
+    "reconcile_buys": [
+     "2520",
+     "3019",
+     "1101",
+     "5534",
+     "3583",
+     "2615"
+    ]
+   },
+   {
+    "anchor": "2024-09",
+    "n_ann_valid": 110,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 6,
+    "n_ec": 11,
+    "n_off": 8,
+    "extra": 3,
+    "early_buys_in_official": 2,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "2520",
+     "2543",
+     "3019",
+     "2383",
+     "3008",
+     "2439"
+    ],
+    "reconcile_buys": [
+     "6409",
+     "6873",
+     "2497",
+     "3413",
+     "2603",
+     "2467"
+    ]
+   },
+   {
+    "anchor": "2024-10",
+    "n_ann_valid": 204,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 3,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "6409",
+     "6215",
+     "6873",
+     "2497",
+     "2467"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "4956",
+     "3013",
+     "3413",
+     "1476"
+    ]
+   },
+   {
+    "anchor": "2024-11",
+    "n_ann_valid": 191,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 4,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 2,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3167",
+     "1101",
+     "8021",
+     "6215"
+    ],
+    "reconcile_buys": [
+     "2059",
+     "2382",
+     "2345",
+     "8028"
+    ]
+   },
+   {
+    "anchor": "2024-12",
+    "n_ann_valid": 191,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 5,
+    "n_ec": 10,
+    "n_off": 8,
+    "extra": 2,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "2603",
+     "3706",
+     "2330",
+     "2609",
+     "1101"
+    ],
+    "reconcile_buys": [
+     "8114",
+     "6805",
+     "3029",
+     "3563",
+     "6691"
+    ]
+   },
+   {
+    "anchor": "2025-01",
+    "n_ann_valid": 213,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 3,
+    "n_ec": 8,
+    "n_off": 5,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "1442",
+     "6669",
+     "2603"
+    ],
+    "reconcile_buys": [
+     "6691",
+     "2330",
+     "1101"
+    ]
+   },
+   {
+    "anchor": "2025-02",
+    "n_ann_valid": 122,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 5,
+    "n_ec": 6,
+    "n_off": 5,
+    "extra": 1,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "6691",
+     "6215",
+     "2330",
+     "1101",
+     "6515"
+    ],
+    "reconcile_buys": [
+     "2468",
+     "6206",
+     "6442",
+     "6670",
+     "3019"
+    ]
+   },
+   {
+    "anchor": "2025-03",
+    "n_ann_valid": 83,
+    "n_window_buys": 2,
+    "n_reconcile_buys": 5,
+    "n_ec": 7,
+    "n_off": 7,
+    "extra": 0,
+    "early_buys_in_official": 2,
+    "n_early_buys": 2,
+    "reconcile_sells": [
+     "3450",
+     "2345",
+     "3645",
+     "6206",
+     "6670"
+    ],
+    "reconcile_buys": [
+     "2429",
+     "1101",
+     "2603",
+     "8114",
+     "2379"
+    ]
+   },
+   {
+    "anchor": "2025-04",
+    "n_ann_valid": 204,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 4,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 3,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3563",
+     "2429",
+     "2603",
+     "2474"
+    ],
+    "reconcile_buys": [
+     "8222",
+     "1316",
+     "2059",
+     "1736"
+    ]
+   },
+   {
+    "anchor": "2025-05",
+    "n_ann_valid": 123,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 4,
+    "n_ec": 9,
+    "n_off": 6,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "1101",
+     "2379",
+     "2468",
+     "2429"
+    ],
+    "reconcile_buys": [
+     "3090",
+     "8210",
+     "8222",
+     "8072"
+    ]
+   },
+   {
+    "anchor": "2025-06",
+    "n_ann_valid": 95,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 3,
+    "n_ec": 4,
+    "n_off": 4,
+    "extra": 0,
+    "early_buys_in_official": 1,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "3056",
+     "3528",
+     "8072"
+    ],
+    "reconcile_buys": [
+     "3563",
+     "3653",
+     "2330"
+    ]
+   },
+   {
+    "anchor": "2025-07",
+    "n_ann_valid": 177,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 3,
+    "n_ec": 4,
+    "n_off": 4,
+    "extra": 0,
+    "early_buys_in_official": 1,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "3563",
+     "3653",
+     "2330"
+    ],
+    "reconcile_buys": [
+     "3017",
+     "6625",
+     "6691"
+    ]
+   },
+   {
+    "anchor": "2025-08",
+    "n_ann_valid": 175,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 4,
+    "n_ec": 5,
+    "n_off": 4,
+    "extra": 1,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "3017",
+     "8210",
+     "6691",
+     "2374"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "6215",
+     "6442",
+     "3030"
+    ]
+   },
+   {
+    "anchor": "2025-09",
+    "n_ann_valid": 121,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 5,
+    "n_ec": 9,
+    "n_off": 5,
+    "extra": 4,
+    "early_buys_in_official": 2,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3167",
+     "6442",
+     "3030",
+     "2208",
+     "2376"
+    ],
+    "reconcile_buys": [
+     "3515",
+     "6669",
+     "2368",
+     "2451",
+     "3653"
+    ]
+   },
+   {
+    "anchor": "2025-10",
+    "n_ann_valid": 101,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 3,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 4,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "2345",
+     "3515",
+     "8996"
+    ],
+    "reconcile_buys": [
+     "6209",
+     "2408",
+     "3535"
+    ]
+   },
+   {
+    "anchor": "2025-11",
+    "n_ann_valid": 158,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 2,
+    "n_ec": 5,
+    "n_off": 3,
+    "extra": 2,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2059",
+     "2383"
+    ],
+    "reconcile_buys": [
+     "8271",
+     "2368"
+    ]
+   },
+   {
+    "anchor": "2025-12",
+    "n_ann_valid": 189,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 5,
+    "n_ec": 11,
+    "n_off": 5,
+    "extra": 6,
+    "early_buys_in_official": 1,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3535",
+     "3167",
+     "3231",
+     "2449",
+     "6691"
+    ],
+    "reconcile_buys": [
+     "6139",
+     "2485",
+     "2345",
+     "3443",
+     "8021"
+    ]
+   },
+   {
+    "anchor": "2026-01",
+    "n_ann_valid": 65,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 6,
+    "n_ec": 9,
+    "n_off": 7,
+    "extra": 2,
+    "early_buys_in_official": 1,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "6209",
+     "2345",
+     "6669",
+     "6805",
+     "2383",
+     "3231"
+    ],
+    "reconcile_buys": [
+     "2406",
+     "8271",
+     "2360",
+     "6515",
+     "6531",
+     "2449"
+    ]
+   },
+   {
+    "anchor": "2026-02",
+    "n_ann_valid": 173,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 4,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 3,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3443",
+     "2449",
+     "6139",
+     "2383"
+    ],
+    "reconcile_buys": [
+     "2368",
+     "2542",
+     "2467",
+     "2337"
+    ]
+   },
+   {
+    "anchor": "2026-03",
+    "n_ann_valid": 159,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "6515",
+     "2360",
+     "2542",
+     "2337",
+     "3535"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "2485",
+     "8112",
+     "6805",
+     "2406"
+    ]
+   },
+   {
+    "anchor": "2026-04",
+    "n_ann_valid": 148,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 5,
+    "n_ec": 11,
+    "n_off": 8,
+    "extra": 3,
+    "early_buys_in_official": 4,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3017",
+     "2345",
+     "2368",
+     "2383",
+     "2382"
+    ],
+    "reconcile_buys": [
+     "4739",
+     "3443",
+     "2485",
+     "6426",
+     "8021"
+    ]
+   },
+   {
+    "anchor": "2026-05",
+    "n_ann_valid": 117,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 5,
+    "n_ec": 11,
+    "n_off": 8,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3028",
+     "6426",
+     "2383",
+     "4576",
+     "6669"
+    ],
+    "reconcile_buys": [
+     "3006",
+     "6531",
+     "2345",
+     "2347",
+     "2542"
+    ]
+   },
+   {
+    "anchor": "2026-06",
+    "n_ann_valid": 173,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 6,
+    "n_ec": 9,
+    "n_off": 8,
+    "extra": 1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2451",
+     "3006",
+     "2360",
+     "2376",
+     "2345",
+     "2368"
+    ],
+    "reconcile_buys": [
+     "2406",
+     "8112",
+     "8021",
+     "2404",
+     "2059",
+     "6446"
+    ]
+   },
+   {
+    "anchor": "2026-07",
+    "n_ann_valid": 183,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 1,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "8926",
+     "2406",
+     "6446",
+     "8016",
+     "2476"
+    ],
+    "reconcile_buys": [
+     "3702",
+     "4916",
+     "2395",
+     "8046",
+     "6139"
+    ]
+   },
+   {
+    "anchor": "2026-08",
+    "n_ann_valid": 150,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 2,
+    "n_ec": 5,
+    "n_off": 5,
+    "extra": 0,
+    "early_buys_in_official": 3,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "4916",
+     "6139"
+    ],
+    "reconcile_buys": [
+     "6691",
+     "2383"
+    ]
+   },
+   {
+    "anchor": "2026-09",
+    "n_ann_valid": 219,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 4,
+    "n_ec": 10,
+    "n_off": 7,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "2542",
+     "3167",
+     "2465",
+     "6426"
+    ],
+    "reconcile_buys": [
+     "2305",
+     "1709",
+     "3653",
+     "3231"
+    ]
+   },
+   {
+    "anchor": "2026-10",
+    "n_ann_valid": 192,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 7,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "2305",
+     "4967",
+     "3653",
+     "2347",
+     "3231",
+     "2395",
+     "6196"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "8996",
+     "2383",
+     "2360",
+     "8046",
+     "2451",
+     "2376"
+    ]
+   }
+  ],
+  "V3": [
+   {
+    "anchor": "2024-07",
+    "n_ann_valid": 195,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 2,
+    "n_ec": 7,
+    "n_off": 6,
+    "extra": 1,
+    "early_buys_in_official": 4,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "3047",
+     "2348"
+    ],
+    "reconcile_buys": [
+     "6442",
+     "2455"
+    ]
+   },
+   {
+    "anchor": "2024-08",
+    "n_ann_valid": 192,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 7,
+    "n_ec": 12,
+    "n_off": 9,
+    "extra": 3,
+    "early_buys_in_official": 2,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "3535",
+     "2542",
+     "3712",
+     "2330",
+     "8112",
+     "3010",
+     "1808"
+    ],
+    "reconcile_buys": [
+     "6215",
+     "2520",
+     "3019",
+     "1101",
+     "5534",
+     "3583",
+     "2615"
+    ]
+   },
+   {
+    "anchor": "2024-09",
+    "n_ann_valid": 110,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 7,
+    "n_ec": 10,
+    "n_off": 8,
+    "extra": 2,
+    "early_buys_in_official": 1,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2520",
+     "2543",
+     "3019",
+     "2365",
+     "2548",
+     "2383",
+     "3008"
+    ],
+    "reconcile_buys": [
+     "6515",
+     "6409",
+     "6873",
+     "2497",
+     "3413",
+     "2603",
+     "2467"
+    ]
+   },
+   {
+    "anchor": "2024-10",
+    "n_ann_valid": 204,
+    "n_window_buys": 2,
+    "n_reconcile_buys": 6,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 2,
+    "reconcile_sells": [
+     "1540",
+     "6409",
+     "6215",
+     "6873",
+     "2497",
+     "2467"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "2330",
+     "4956",
+     "3013",
+     "3413",
+     "1476"
+    ]
+   },
+   {
+    "anchor": "2024-11",
+    "n_ann_valid": 191,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 1,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "3167",
+     "3583",
+     "1101",
+     "8021",
+     "6215"
+    ],
+    "reconcile_buys": [
+     "3706",
+     "2059",
+     "2382",
+     "2345",
+     "8028"
+    ]
+   },
+   {
+    "anchor": "2024-12",
+    "n_ann_valid": 191,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 5,
+    "n_ec": 9,
+    "n_off": 8,
+    "extra": 1,
+    "early_buys_in_official": 3,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "2603",
+     "3706",
+     "3450",
+     "2330",
+     "2609"
+    ],
+    "reconcile_buys": [
+     "8114",
+     "6805",
+     "3029",
+     "3563",
+     "6691"
+    ]
+   },
+   {
+    "anchor": "2025-01",
+    "n_ann_valid": 213,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 3,
+    "n_ec": 8,
+    "n_off": 5,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "1442",
+     "6669",
+     "2603"
+    ],
+    "reconcile_buys": [
+     "6691",
+     "2330",
+     "1101"
+    ]
+   },
+   {
+    "anchor": "2025-02",
+    "n_ann_valid": 122,
+    "n_window_buys": 0,
+    "n_reconcile_buys": 5,
+    "n_ec": 5,
+    "n_off": 5,
+    "extra": 0,
+    "early_buys_in_official": 0,
+    "n_early_buys": 0,
+    "reconcile_sells": [
+     "8114",
+     "6691",
+     "6215",
+     "2330",
+     "1101"
+    ],
+    "reconcile_buys": [
+     "2468",
+     "6206",
+     "6442",
+     "6670",
+     "3019"
+    ]
+   },
+   {
+    "anchor": "2025-03",
+    "n_ann_valid": 83,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 6,
+    "n_ec": 7,
+    "n_off": 7,
+    "extra": 0,
+    "early_buys_in_official": 1,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "3450",
+     "2345",
+     "3645",
+     "6206",
+     "6670",
+     "3019"
+    ],
+    "reconcile_buys": [
+     "3563",
+     "2429",
+     "1101",
+     "2603",
+     "8114",
+     "2379"
+    ]
+   },
+   {
+    "anchor": "2025-04",
+    "n_ann_valid": 204,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 4,
+    "n_ec": 7,
+    "n_off": 6,
+    "extra": 1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "3563",
+     "2429",
+     "2603",
+     "2474"
+    ],
+    "reconcile_buys": [
+     "8222",
+     "1316",
+     "1736",
+     "2330"
+    ]
+   },
+   {
+    "anchor": "2025-05",
+    "n_ann_valid": 123,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 5,
+    "n_ec": 9,
+    "n_off": 6,
+    "extra": 3,
+    "early_buys_in_official": 2,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "1101",
+     "2379",
+     "2330",
+     "2468",
+     "2429"
+    ],
+    "reconcile_buys": [
+     "2368",
+     "3090",
+     "8210",
+     "8222",
+     "8072"
+    ]
+   },
+   {
+    "anchor": "2025-06",
+    "n_ann_valid": 95,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 3,
+    "n_ec": 4,
+    "n_off": 4,
+    "extra": 0,
+    "early_buys_in_official": 1,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "3056",
+     "3528",
+     "8072"
+    ],
+    "reconcile_buys": [
+     "3563",
+     "3653",
+     "2330"
+    ]
+   },
+   {
+    "anchor": "2025-07",
+    "n_ann_valid": 177,
+    "n_window_buys": 0,
+    "n_reconcile_buys": 4,
+    "n_ec": 4,
+    "n_off": 4,
+    "extra": 0,
+    "early_buys_in_official": 0,
+    "n_early_buys": 0,
+    "reconcile_sells": [
+     "3563",
+     "3653",
+     "3090",
+     "2330"
+    ],
+    "reconcile_buys": [
+     "6669",
+     "3017",
+     "6625",
+     "6691"
+    ]
+   },
+   {
+    "anchor": "2025-08",
+    "n_ann_valid": 175,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 4,
+    "n_ec": 5,
+    "n_off": 4,
+    "extra": 1,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "3017",
+     "8210",
+     "6691",
+     "2374"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "6215",
+     "6442",
+     "3030"
+    ]
+   },
+   {
+    "anchor": "2025-09",
+    "n_ann_valid": 121,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 4,
+    "n_ec": 8,
+    "n_off": 5,
+    "extra": 3,
+    "early_buys_in_official": 2,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3231",
+     "6442",
+     "2208",
+     "2376"
+    ],
+    "reconcile_buys": [
+     "3515",
+     "2368",
+     "2451",
+     "3653"
+    ]
+   },
+   {
+    "anchor": "2025-10",
+    "n_ann_valid": 101,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 3,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 4,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "2345",
+     "3515",
+     "8996"
+    ],
+    "reconcile_buys": [
+     "6209",
+     "2408",
+     "3535"
+    ]
+   },
+   {
+    "anchor": "2025-11",
+    "n_ann_valid": 158,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 2,
+    "n_ec": 5,
+    "n_off": 3,
+    "extra": 2,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2059",
+     "2383"
+    ],
+    "reconcile_buys": [
+     "8271",
+     "2368"
+    ]
+   },
+   {
+    "anchor": "2025-12",
+    "n_ann_valid": 189,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 4,
+    "n_ec": 8,
+    "n_off": 5,
+    "extra": 3,
+    "early_buys_in_official": 1,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3017",
+     "3535",
+     "3167",
+     "3231"
+    ],
+    "reconcile_buys": [
+     "6139",
+     "2485",
+     "2345",
+     "8021"
+    ]
+   },
+   {
+    "anchor": "2026-01",
+    "n_ann_valid": 65,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 6,
+    "n_ec": 9,
+    "n_off": 7,
+    "extra": 2,
+    "early_buys_in_official": 1,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2345",
+     "6669",
+     "2467",
+     "2368",
+     "2383",
+     "3231"
+    ],
+    "reconcile_buys": [
+     "2406",
+     "8271",
+     "2360",
+     "6515",
+     "6531",
+     "2449"
+    ]
+   },
+   {
+    "anchor": "2026-02",
+    "n_ann_valid": 173,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 4,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 3,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3443",
+     "2449",
+     "6139",
+     "2383"
+    ],
+    "reconcile_buys": [
+     "2368",
+     "2542",
+     "2467",
+     "2337"
+    ]
+   },
+   {
+    "anchor": "2026-03",
+    "n_ann_valid": 159,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "6515",
+     "2360",
+     "2542",
+     "2337",
+     "3535"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "2485",
+     "8112",
+     "6805",
+     "2406"
+    ]
+   },
+   {
+    "anchor": "2026-04",
+    "n_ann_valid": 148,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 6,
+    "n_ec": 11,
+    "n_off": 8,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "3017",
+     "2345",
+     "6805",
+     "2368",
+     "2383",
+     "2382"
+    ],
+    "reconcile_buys": [
+     "4739",
+     "2467",
+     "3443",
+     "2485",
+     "6426",
+     "8021"
+    ]
+   },
+   {
+    "anchor": "2026-05",
+    "n_ann_valid": 117,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 5,
+    "n_ec": 11,
+    "n_off": 8,
+    "extra": 3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3028",
+     "6426",
+     "2383",
+     "4576",
+     "6669"
+    ],
+    "reconcile_buys": [
+     "3006",
+     "6531",
+     "2345",
+     "2347",
+     "2542"
+    ]
+   },
+   {
+    "anchor": "2026-06",
+    "n_ann_valid": 173,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 6,
+    "n_ec": 9,
+    "n_off": 8,
+    "extra": 1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2451",
+     "3006",
+     "2360",
+     "2376",
+     "2345",
+     "2368"
+    ],
+    "reconcile_buys": [
+     "2406",
+     "8112",
+     "8021",
+     "2404",
+     "2059",
+     "6446"
+    ]
+   },
+   {
+    "anchor": "2026-07",
+    "n_ann_valid": 183,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 6,
+    "extra": 2,
+    "early_buys_in_official": 1,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "8926",
+     "2406",
+     "6446",
+     "8016",
+     "3006"
+    ],
+    "reconcile_buys": [
+     "3702",
+     "4916",
+     "2395",
+     "8046",
+     "6139"
+    ]
+   },
+   {
+    "anchor": "2026-08",
+    "n_ann_valid": 150,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 2,
+    "n_ec": 5,
+    "n_off": 5,
+    "extra": 0,
+    "early_buys_in_official": 3,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "4916",
+     "6139"
+    ],
+    "reconcile_buys": [
+     "6691",
+     "2383"
+    ]
+   },
+   {
+    "anchor": "2026-09",
+    "n_ann_valid": 219,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 5,
+    "n_ec": 9,
+    "n_off": 7,
+    "extra": 2,
+    "early_buys_in_official": 2,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "8112",
+     "2542",
+     "8271",
+     "3167",
+     "6426"
+    ],
+    "reconcile_buys": [
+     "2305",
+     "4967",
+     "1709",
+     "3653",
+     "3231"
+    ]
+   },
+   {
+    "anchor": "2026-10",
+    "n_ann_valid": 192,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 7,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "2305",
+     "4967",
+     "3653",
+     "2347",
+     "3231",
+     "2395",
+     "6196"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "8996",
+     "2383",
+     "2360",
+     "8046",
+     "2451",
+     "2376"
+    ]
+   }
+  ],
+  "V4": [
+   {
+    "anchor": "2024-07",
+    "n_ann_valid": 195,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 2,
+    "n_ec": 7,
+    "n_off": 6,
+    "extra": 1,
+    "early_buys_in_official": 4,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "3047",
+     "2348"
+    ],
+    "reconcile_buys": [
+     "6442",
+     "2455"
+    ]
+   },
+   {
+    "anchor": "2024-08",
+    "n_ann_valid": 192,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 5,
+    "n_ec": 11,
+    "n_off": 9,
+    "extra": 2,
+    "early_buys_in_official": 3,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3712",
+     "2330",
+     "8112",
+     "3010",
+     "1808"
+    ],
+    "reconcile_buys": [
+     "2520",
+     "3019",
+     "1101",
+     "5534",
+     "3583"
+    ]
+   },
+   {
+    "anchor": "2024-09",
+    "n_ann_valid": 110,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 2,
+    "n_ec": 7,
+    "n_off": 8,
+    "extra": -1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "2520",
+     "2543"
+    ],
+    "reconcile_buys": [
+     "6409",
+     "6873"
+    ]
+   },
+   {
+    "anchor": "2024-10",
+    "n_ann_valid": 204,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 2,
+    "n_ec": 5,
+    "n_off": 7,
+    "extra": -2,
+    "early_buys_in_official": 3,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2497",
+     "2467"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "4956"
+    ]
+   },
+   {
+    "anchor": "2024-11",
+    "n_ann_valid": 191,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 2,
+    "n_ec": 6,
+    "n_off": 6,
+    "extra": 0,
+    "early_buys_in_official": 2,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3167",
+     "8021"
+    ],
+    "reconcile_buys": [
+     "2059",
+     "2382"
+    ]
+   },
+   {
+    "anchor": "2024-12",
+    "n_ann_valid": 191,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 0,
+    "n_ec": 5,
+    "n_off": 8,
+    "extra": -3,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [],
+    "reconcile_buys": []
+   },
+   {
+    "anchor": "2025-01",
+    "n_ann_valid": 213,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 1,
+    "n_ec": 6,
+    "n_off": 5,
+    "extra": 1,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "1442"
+    ],
+    "reconcile_buys": [
+     "6691"
+    ]
+   },
+   {
+    "anchor": "2025-02",
+    "n_ann_valid": 122,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 2,
+    "n_ec": 3,
+    "n_off": 5,
+    "extra": -2,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "6215",
+     "6515"
+    ],
+    "reconcile_buys": [
+     "2468",
+     "6206"
+    ]
+   },
+   {
+    "anchor": "2025-03",
+    "n_ann_valid": 83,
+    "n_window_buys": 2,
+    "n_reconcile_buys": 4,
+    "n_ec": 6,
+    "n_off": 7,
+    "extra": -1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 2,
+    "reconcile_sells": [
+     "3450",
+     "3645",
+     "6206",
+     "6670"
+    ],
+    "reconcile_buys": [
+     "2429",
+     "1101",
+     "2603",
+     "8114"
+    ]
+   },
+   {
+    "anchor": "2025-04",
+    "n_ann_valid": 204,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 2,
+    "n_ec": 6,
+    "n_off": 6,
+    "extra": 0,
+    "early_buys_in_official": 3,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "2429",
+     "2474"
+    ],
+    "reconcile_buys": [
+     "8222",
+     "1316"
+    ]
+   },
+   {
+    "anchor": "2025-05",
+    "n_ann_valid": 123,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 1,
+    "n_ec": 6,
+    "n_off": 6,
+    "extra": 0,
+    "early_buys_in_official": 3,
+    "n_early_buys": 5,
+    "reconcile_sells": [
+     "2379"
+    ],
+    "reconcile_buys": [
+     "3090"
+    ]
+   },
+   {
+    "anchor": "2025-06",
+    "n_ann_valid": 95,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 0,
+    "n_ec": 1,
+    "n_off": 4,
+    "extra": -3,
+    "early_buys_in_official": 1,
+    "n_early_buys": 1,
+    "reconcile_sells": [],
+    "reconcile_buys": []
+   },
+   {
+    "anchor": "2025-07",
+    "n_ann_valid": 177,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 0,
+    "n_ec": 1,
+    "n_off": 4,
+    "extra": -3,
+    "early_buys_in_official": 1,
+    "n_early_buys": 1,
+    "reconcile_sells": [],
+    "reconcile_buys": []
+   },
+   {
+    "anchor": "2025-08",
+    "n_ann_valid": 175,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 0,
+    "n_ec": 1,
+    "n_off": 4,
+    "extra": -3,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [],
+    "reconcile_buys": []
+   },
+   {
+    "anchor": "2025-09",
+    "n_ann_valid": 121,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 5,
+    "n_ec": 9,
+    "n_off": 5,
+    "extra": 4,
+    "early_buys_in_official": 2,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "3167",
+     "6442",
+     "3030",
+     "2208",
+     "2376"
+    ],
+    "reconcile_buys": [
+     "3515",
+     "6669",
+     "2368",
+     "2451",
+     "3653"
+    ]
+   },
+   {
+    "anchor": "2025-10",
+    "n_ann_valid": 101,
+    "n_window_buys": 5,
+    "n_reconcile_buys": 0,
+    "n_ec": 5,
+    "n_off": 7,
+    "extra": -2,
+    "early_buys_in_official": 4,
+    "n_early_buys": 5,
+    "reconcile_sells": [],
+    "reconcile_buys": []
+   },
+   {
+    "anchor": "2025-11",
+    "n_ann_valid": 158,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 1,
+    "n_ec": 4,
+    "n_off": 3,
+    "extra": 1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2383"
+    ],
+    "reconcile_buys": [
+     "8271"
+    ]
+   },
+   {
+    "anchor": "2025-12",
+    "n_ann_valid": 189,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 1,
+    "n_ec": 7,
+    "n_off": 5,
+    "extra": 2,
+    "early_buys_in_official": 1,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3535"
+    ],
+    "reconcile_buys": [
+     "6139"
+    ]
+   },
+   {
+    "anchor": "2026-01",
+    "n_ann_valid": 65,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 5,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 1,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "6209",
+     "6669",
+     "6805",
+     "2383",
+     "3231"
+    ],
+    "reconcile_buys": [
+     "2406",
+     "8271",
+     "2360",
+     "6515",
+     "6531"
+    ]
+   },
+   {
+    "anchor": "2026-02",
+    "n_ann_valid": 173,
+    "n_window_buys": 4,
+    "n_reconcile_buys": 1,
+    "n_ec": 5,
+    "n_off": 7,
+    "extra": -2,
+    "early_buys_in_official": 3,
+    "n_early_buys": 4,
+    "reconcile_sells": [
+     "6139"
+    ],
+    "reconcile_buys": [
+     "2368"
+    ]
+   },
+   {
+    "anchor": "2026-03",
+    "n_ann_valid": 159,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 2,
+    "n_ec": 5,
+    "n_off": 6,
+    "extra": -1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2360",
+     "2337"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "2485"
+    ]
+   },
+   {
+    "anchor": "2026-04",
+    "n_ann_valid": 148,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 2,
+    "n_ec": 8,
+    "n_off": 8,
+    "extra": 0,
+    "early_buys_in_official": 4,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "2368",
+     "2383"
+    ],
+    "reconcile_buys": [
+     "4739",
+     "3443"
+    ]
+   },
+   {
+    "anchor": "2026-05",
+    "n_ann_valid": 117,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 2,
+    "n_ec": 8,
+    "n_off": 8,
+    "extra": 0,
+    "early_buys_in_official": 3,
+    "n_early_buys": 6,
+    "reconcile_sells": [
+     "3028",
+     "2383"
+    ],
+    "reconcile_buys": [
+     "3006",
+     "6531"
+    ]
+   },
+   {
+    "anchor": "2026-06",
+    "n_ann_valid": 173,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 6,
+    "n_ec": 9,
+    "n_off": 8,
+    "extra": 1,
+    "early_buys_in_official": 2,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "2451",
+     "3006",
+     "2360",
+     "2376",
+     "2345",
+     "2368"
+    ],
+    "reconcile_buys": [
+     "2406",
+     "8112",
+     "8021",
+     "2404",
+     "2059",
+     "6446"
+    ]
+   },
+   {
+    "anchor": "2026-07",
+    "n_ann_valid": 183,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 3,
+    "n_ec": 6,
+    "n_off": 6,
+    "extra": 0,
+    "early_buys_in_official": 1,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "8926",
+     "8016",
+     "2476"
+    ],
+    "reconcile_buys": [
+     "3702",
+     "4916",
+     "2395"
+    ]
+   },
+   {
+    "anchor": "2026-08",
+    "n_ann_valid": 150,
+    "n_window_buys": 3,
+    "n_reconcile_buys": 1,
+    "n_ec": 4,
+    "n_off": 5,
+    "extra": -1,
+    "early_buys_in_official": 3,
+    "n_early_buys": 3,
+    "reconcile_sells": [
+     "6139"
+    ],
+    "reconcile_buys": [
+     "6691"
+    ]
+   },
+   {
+    "anchor": "2026-09",
+    "n_ann_valid": 219,
+    "n_window_buys": 6,
+    "n_reconcile_buys": 0,
+    "n_ec": 6,
+    "n_off": 7,
+    "extra": -1,
+    "early_buys_in_official": 3,
+    "n_early_buys": 6,
+    "reconcile_sells": [],
+    "reconcile_buys": []
+   },
+   {
+    "anchor": "2026-10",
+    "n_ann_valid": 192,
+    "n_window_buys": 1,
+    "n_reconcile_buys": 7,
+    "n_ec": 8,
+    "n_off": 7,
+    "extra": 1,
+    "early_buys_in_official": 0,
+    "n_early_buys": 1,
+    "reconcile_sells": [
+     "2305",
+     "4967",
+     "3653",
+     "2347",
+     "3231",
+     "2395",
+     "6196"
+    ],
+    "reconcile_buys": [
+     "3167",
+     "8996",
+     "2383",
+     "2360",
+     "8046",
+     "2451",
+     "2376"
+    ]
+   }
+  ]
+ },
+ "P3": {
+  "selected_version": "V2",
+  "mean_extra_trades_per_month": 1.8928571428571428,
+  "P3_turnover_ok": true,
+  "breakeven_drift_per_extra_trade": {
+   "1000000_normal": {
+    "n": 135,
+    "median_rt": 0.008131699561465231,
+    "mean_rt": 0.008339069143837809,
+    "p90_rt": 0.009631580302245344
+   },
+   "1000000_stress": {
+    "n": 135,
+    "median_rt": 0.02118457627118642,
+    "mean_rt": 0.02066923231536313,
+    "p90_rt": 0.0232502027496182
+   },
+   "3000000_normal": {
+    "n": 135,
+    "median_rt": 0.008796564981622207,
+    "mean_rt": 0.009331613427002367,
+    "p90_rt": 0.011521198447490165
+   },
+   "3000000_stress": {
+    "n": 135,
+    "median_rt": 0.021184576271186417,
+    "mean_rt": 0.020421171083368005,
+    "p90_rt": 0.02330217911058751
+   },
+   "10000000_normal": {
+    "n": 135,
+    "median_rt": 0.011145106485945331,
+    "mean_rt": 0.011681256211803962,
+    "p90_rt": 0.01582369953124403
+   },
+   "10000000_stress": {
+    "n": 135,
+    "median_rt": 0.02158676796014565,
+    "mean_rt": 0.021890897026114048,
+    "p90_rt": 0.026211260387909534
+   }
+  },
+  "extra_cost_pp_per_month": {
+   "1000000_normal": 0.15784666593692998,
+   "1000000_stress": 0.3912390402550878,
+   "3000000_normal": 0.1766341112968305,
+   "3000000_stress": 0.38654359550660866,
+   "10000000_normal": 0.221109492580575,
+   "10000000_stress": 0.4143634079943016
+  },
+  "main_excess": {
+   "full_period_pp_per_month": [
+    0.1358333333333334,
+    0.20250000000000012
+   ],
+   "since2019_pp_per_month": [
+    -0.8166666666666668,
+    -0.30833333333333335
+   ],
+   "source": "original_o8 DIRECTOR_REPORT／報告 13.35（V7X、K5T、j 中位數）"
+  },
+  "cost_vs_half_main_full_period": {
+   "1000000_normal": true,
+   "1000000_stress": true,
+   "3000000_normal": true,
+   "3000000_stress": true,
+   "10000000_normal": true,
+   "10000000_stress": true
+  },
+  "note": "「損益兩平漂移」＝每次額外換股的來回成本（新買股相對被賣股，在官方日前必須多賺的幅度）。2019 年起主策略月超額為負，任何正成本都大於其一半。"
+ },
+ "anchors_used": [
+  "2024-07",
+  "2024-08",
+  "2024-09",
+  "2024-10",
+  "2024-11",
+  "2024-12",
+  "2025-01",
+  "2025-02",
+  "2025-03",
+  "2025-04",
+  "2025-05",
+  "2025-06",
+  "2025-07",
+  "2025-08",
+  "2025-09",
+  "2025-10",
+  "2025-11",
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05",
+  "2026-06",
+  "2026-07",
+  "2026-08",
+  "2026-09",
+  "2026-10"
+ ]
+}
