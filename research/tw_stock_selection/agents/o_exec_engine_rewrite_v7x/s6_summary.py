@@ -44,6 +44,26 @@ def verdict(s):
     return '無可辨識差異'
 
 
+def formal_table(SM, ACC, rn):
+    formal = {}
+    for t in XR.TIERS:
+        for v in ('FIX', 'GROW'):
+            k = f'K5T|normal|{t}|{v}'; s = SM[rn][k]; s0 = SM['R0'][k]
+            kt = f'TICK|normal|{t}|{v}'; st = SM[rn][f'K5T|stress|{t}|{v}']
+            pa = ACC[rn]
+            part = np.median([pa[c]['part_median'] for c in pa if c.endswith(f'|K5T|normal|{t}|{v}') and '|J' in c])
+            formal[f'{t}|{v}'] = dict(CAGR_K5T=s['CAGR'], CAGR_p10_K5T=s['CAGR_p10'], exc_med=s['exc'], exc_p10=s['exc_p10'], t_med=s['t_0050'],
+                                      exc_SEL=s['exc_SEL'], t_SEL=s['t_SEL'], exc_Y19on=s['exc_Y19on'], t_Y19on=s['t_Y19on'], CAGR_Y19on=s['CAGR_Y19on'],
+                                      exc_VAL=s['exc_VAL'], t_VAL=s['t_VAL'], exc_HOLD=s['exc_HOLD'], CAGR_HOLD=s['CAGR_HOLD'], maxDD=s['maxDD'],
+                                      E50_CAGR=s['E50_CAGR'], n_j_exc_Y19on_pos=s['n_j_exc_Y19on_pos'],
+                                      stress_CAGR=st['CAGR'], stress_exc=st['exc'], TICK_sens_CAGR=SM[rn][kt]['CAGR'], TICK_sens_exc=SM[rn][kt]['exc'],
+                                      TICK_sens_exc_Y19on=SM[rn][kt]['exc_Y19on'],
+                                      part_Q_over_OA_median=float(part), TICK_not_lower_bound=bool(part > 0.10),
+                                      orig_setting_CAGR=s0['CAGR'], delta_vs_orig=s['CAGR'] - s0['CAGR'],
+                                      verdict=verdict(s), verdict_orig_setting=verdict(s0), verdict_TICK_sens=verdict(SM[rn][kt]))
+    return formal
+
+
 def load(name):
     p = OUT / f'navs_oos_{name}.parquet'
     return pd.read_parquet(p) if p.exists() else None
@@ -51,8 +71,9 @@ def load(name):
 
 if __name__ == '__main__':
     res = {}
-    runs = {n: load(n) for n in ('R0', 'R1', 'R2', 'R3', 'R4', 'S_F3', 'S_F4', 'R4_z025', 'R4_z100')}
-    SM = {n: summ(per_j(df)) for n, df in runs.items() if df is not None}
+    runs = {n: load(n) for n in ('R0', 'R1', 'R2', 'R3', 'R4', 'S_F3', 'S_F4', 'R4_z025', 'R4_z100', 'R2c', 'R4c')}
+    PJ = {n: per_j(df) for n, df in runs.items() if df is not None}
+    SM = {n: summ(pj) for n, pj in PJ.items()}
     ACC = {n: json.loads((OUT / f'acc_oos_{n}.json').read_text()) for n in runs if (OUT / f'acc_oos_{n}.json').exists()}
     # ---- 對帳：R0 對 V7 原表 ----
     orig = summ(per_j(NX[[c for c in NX.columns if c.startswith('B10|J')]]))
@@ -80,41 +101,31 @@ if __name__ == '__main__':
     res['RECON_OFF'] = dict(cells=off, max_abs_diff=float(max(abs(x['diff']) for x in off.values())) if off else None)
     # ---- 逐步修正 ----
     steps = [('F1', 'R0', 'R1'), ('F2', 'R1', 'R2'), ('F3', 'R2', 'R3'), ('F4', 'R3', 'R4'), ('ALL', 'R0', 'R4'),
-             ('F3_alone', 'R0', 'S_F3'), ('F4_alone', 'R0', 'S_F4'),
+             ('F3_alone', 'R0', 'S_F3'), ('F2c_posthoc', 'R1', 'R2c'), ('ALL_c_posthoc', 'R0', 'R4c'), ('R4c_vs_R4', 'R4', 'R4c'), ('F4_alone', 'R0', 'S_F4'),
              ('F3_z025_vs_R4', 'R4', 'R4_z025'), ('F3_z100_vs_R4', 'R4', 'R4_z100')]
     dec = {}
     for nm, a, b in steps:
         if a not in SM or b not in SM: continue
-        dec[nm] = {k: {kk: SM[b][k][kk] - SM[a][k][kk] for kk in ('CAGR', 'CAGR_SEL', 'CAGR_Y19on', 'CAGR_PREODD', 'CAGR_POSTODD', 't_0050')}
-                   for k in CELLS16 + CELLS_ST if k in SM[a] and k in SM[b]}
+        dec[nm] = {k: {kk: float(np.median([PJ[b][k][j][kk] - PJ[a][k][j][kk] for j in range(13)]))
+                       for kk in ('CAGR', 'CAGR_SEL', 'CAGR_Y19on', 'CAGR_PREODD', 'CAGR_POSTODD', 't_0050')}
+                   for k in CELLS16 + CELLS_ST if k in PJ[a] and k in PJ[b]}
+        for k in dec[nm]:
+            v = [PJ[b][k][j]['CAGR'] - PJ[a][k][j]['CAGR'] for j in range(13)]
+            dec[nm][k]['CAGR_min_j'] = float(min(v)); dec[nm][k]['CAGR_max_j'] = float(max(v)); dec[nm][k]['n_j_positive'] = int(sum(x > 0 for x in v))
     res['DECOMP'] = dec
     res['FALSIFY'] = {nm: [k for k, v in d.items() if v['CAGR'] > 0.05] for nm, d in dec.items() if nm in ('F1', 'F2', 'F3', 'F4', 'ALL')}
     # ---- 每步 16 格摘要 ----
     res['STEP_TABLES'] = {n: {k: {kk: s[k][kk] for kk in ('CAGR', 'CAGR_p10', 'exc', 'exc_p10', 't_0050', 'CAGR_SEL', 'exc_SEL', 't_SEL', 'CAGR_Y19on', 'exc_Y19on',
                                                          't_Y19on', 'exc_VAL', 't_VAL', 'CAGR_HOLD', 'exc_HOLD', 'maxDD', 'E50_CAGR', 'n_j_exc_Y19on_pos')}
-                              for k in CELLS16 + CELLS_ST} for n, s in SM.items()}
+                              for k in CELLS16 + CELLS_ST if k in s} for n, s in SM.items()}
     # ---- 正式表與判定（R4 = V7X）----
-    formal = {}
-    for t in XR.TIERS:
-        for v in ('FIX', 'GROW'):
-            k = f'K5T|normal|{t}|{v}'; s = SM['R4'][k]; s0 = SM['R0'][k]
-            kt = f'TICK|normal|{t}|{v}'; st = SM['R4'][f'K5T|stress|{t}|{v}']
-            pa = ACC['R4']
-            part = np.median([pa[c]['part_median'] for c in pa if c.endswith(f'|K5T|normal|{t}|{v}') and '|J' in c])
-            formal[f'{t}|{v}'] = dict(CAGR_K5T=s['CAGR'], CAGR_p10_K5T=s['CAGR_p10'], exc_med=s['exc'], exc_p10=s['exc_p10'], t_med=s['t_0050'],
-                                      exc_SEL=s['exc_SEL'], t_SEL=s['t_SEL'], exc_Y19on=s['exc_Y19on'], t_Y19on=s['t_Y19on'], CAGR_Y19on=s['CAGR_Y19on'],
-                                      exc_VAL=s['exc_VAL'], t_VAL=s['t_VAL'], exc_HOLD=s['exc_HOLD'], CAGR_HOLD=s['CAGR_HOLD'], maxDD=s['maxDD'],
-                                      E50_CAGR=s['E50_CAGR'], n_j_exc_Y19on_pos=s['n_j_exc_Y19on_pos'],
-                                      stress_CAGR=st['CAGR'], stress_exc=st['exc'], TICK_sens_CAGR=SM['R4'][kt]['CAGR'], TICK_sens_exc=SM['R4'][kt]['exc'],
-                                      TICK_sens_exc_Y19on=SM['R4'][kt]['exc_Y19on'],
-                                      part_Q_over_OA_median=float(part), TICK_not_lower_bound=bool(part > 0.10),
-                                      orig_setting_CAGR=s0['CAGR'], delta_vs_orig=s['CAGR'] - s0['CAGR'],
-                                      verdict=verdict(s), verdict_orig_setting=verdict(s0), verdict_TICK_sens=verdict(SM['R4'][kt]))
+    formal = formal_table(SM, ACC, 'R4')
+    if 'R4c' in SM: res['FORMAL_V7Xc_posthoc'] = formal_table(SM, ACC, 'R4c')
     res['FORMAL_V7X'] = formal
-    res['Y19_ALL16_LOSE'] = {n: all(SM[n][k]['exc_Y19on'] < 0 for k in CELLS16) for n in SM}
+    res['Y19_ALL16_LOSE'] = {n: all(SM[n][k]['exc_Y19on'] < 0 for k in CELLS16) for n in SM if all(k in SM[n] for k in CELLS16)}
     # 1,000 萬 FIX：原設定 vs V7X
     res['P4_1000FIX'] = {n: dict(K5T=verdict(SM[n]['K5T|normal|1000萬|FIX']), TICK=verdict(SM[n]['TICK|normal|1000萬|FIX']),
-                                 exc_K5T=SM[n]['K5T|normal|1000萬|FIX']['exc'], t=SM[n]['K5T|normal|1000萬|FIX']['t_0050']) for n in SM}
+                                 exc_K5T=SM[n]['K5T|normal|1000萬|FIX']['exc'], t=SM[n]['K5T|normal|1000萬|FIX']['t_0050']) for n in SM if 'TICK|normal|1000萬|FIX' in SM[n]}
     # 逐年（V7X 正式 30萬 FIX、1000萬 GROW；13 j 中位數）
     yr = {}
     for k in ('K5T|normal|30萬|FIX', 'K5T|normal|1000萬|GROW', 'K5T|normal|100萬|FIX'):
