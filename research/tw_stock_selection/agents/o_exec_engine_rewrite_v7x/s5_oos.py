@@ -20,8 +20,9 @@ bad = [k for k, v in R['PREREG']['hashes'].items() if k not in ('s5_oos.py', 's6
 assert not bad, f'雜湊不符：{bad}'
 base = dict(R['PREREG']['orig_cfg'])
 RUNS = [('R0', {}), ('R1', dict(f1=True)), ('R2', dict(f1=True, f2=True)), ('R3', dict(f1=True, f2=True, f3=0.5)),
-        ('R4', dict(f1=True, f2=True, f3=0.5, f4=True)), ('S_F2', dict(f2=True)), ('S_F3', dict(f3=0.5)), ('S_F4', dict(f4=True)),
+        ('R4', dict(f1=True, f2=True, f3=0.5, f4=True)), ('S_F3', dict(f3=0.5)), ('S_F4', dict(f4=True)),
         ('R4_z025', dict(f1=True, f2=True, f3=0.25, f4=True)), ('R4_z100', dict(f1=True, f2=True, f3=1.0, f4=True))]
+K5T_ONLY = ('S_F3', 'S_F4', 'R4_z025', 'R4_z100')   # 單項與敏感度只跑 K5T（一般＋壓力）以省時間
 
 if __name__ == '__main__':
     only = sys.argv[1:] or [r for r, _ in RUNS]
@@ -29,6 +30,7 @@ if __name__ == '__main__':
         if name not in only: continue
         if (HERE / 'out' / f'navs_oos_{name}.parquet').exists(): print('skip', name); continue
         cfg = dict(base); cfg.update(ex)
-        XR.run_grid('oos_' + name, js=range(13), seeds=range(20), extra=cfg)
+        XR.run_grid('oos_' + name, js=range(13), seeds=range(20), extra=cfg,
+                    cl=XR.cells(models=('K5T',)) if name in K5T_ONLY else None)
         if name in ('R0', 'R4'):
             XR.run_grid('oos_' + name + '_OFF', seeds=range(40), extra=cfg, official=True)

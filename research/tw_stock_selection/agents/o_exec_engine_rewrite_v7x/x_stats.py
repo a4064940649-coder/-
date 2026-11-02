@@ -56,9 +56,27 @@ def stats(nav, strat, j):
                CAGR_Y19on=cagr(nav, s19, e), E50_CAGR_Y19on=cagr(E50, s19, e), t_Y19on=tstat(x[x.index >= '2019-01-01']),
                CAGR_HOLD=cagr(nav, s24, e), E50_CAGR_HOLD=cagr(E50, s24, e), t_HOLD=tstat(x[x.index >= '2024-01-01']),
                CAGR_FROM2008=cagr(nav, s08, e), t_FROM2008=tstat(x[x.index >= '2008-01-01']),
-               CAGR_SELVAL=cagr(nav, a, nav.index[nav.index <= '2019-04-30'][-1]))
-    for k in ('', '_SEL', '_Y19on', '_HOLD'):
+               CAGR_SELVAL=cagr(nav, a, nav.index[nav.index <= '2019-04-30'][-1]),
+               CAGR_PREODD=cagr(nav, a, nav.index[nav.index <= '2020-10-23'][-1]), E50_CAGR_PREODD=cagr(E50, a, nav.index[nav.index <= '2020-10-23'][-1]),
+               CAGR_POSTODD=cagr(nav, nav.index[nav.index >= '2020-10-26'][0], e), E50_CAGR_POSTODD=cagr(E50, nav.index[nav.index >= '2020-10-26'][0], e),
+               CAGR_VAL=cagr(nav, nav.index[nav.index >= '2019-05-01'][0], nav.index[nav.index <= '2023-12-29'][-1]),
+               E50_CAGR_VAL=cagr(E50, nav.index[nav.index >= '2019-05-01'][0], nav.index[nav.index <= '2023-12-29'][-1]),
+               t_VAL=tstat(x[(x.index >= '2019-05-01') & (x.index < '2024-01-01')]))
+    for k in ('', '_SEL', '_Y19on', '_HOLD', '_PREODD', '_POSTODD', '_VAL'):
         out['exc' + k] = out['CAGR' + k] - out['E50_CAGR' + k]
+    return out
+
+
+def yearly_exc(nav, strat, j):
+    """逐年（日曆年）超額 0050，pp。"""
+    e = end_day(strat, j); nav = nav.loc[:e].dropna()
+    out = {}
+    for y in range(nav.index[0].year, e.year + 1):
+        s = nav[(nav.index.year == y)]
+        if len(s) < 5: continue
+        prev = nav[nav.index < s.index[0]]
+        a = prev.index[-1] if len(prev) else s.index[0]
+        out[y] = float((nav[s.index[-1]] / nav[a] - E50[s.index[-1]] / E50[a]) * 100)
     return out
 
 

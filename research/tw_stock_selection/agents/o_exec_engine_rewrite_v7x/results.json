@@ -1,0 +1,75 @@
+{
+ "PREREG": {
+  "topic": "o_exec_engine_rewrite_v7x：V7 可執行引擎獨立重寫（V7X）",
+  "time_utc": "2026-11-02T13:09:14+00:00",
+  "chosen_version": "v4",
+  "orig_cfg": {
+   "stress_odd_extra": true,
+   "rank_right": true
+  },
+  "final_cfg": {
+   "stress_odd_extra": true,
+   "rank_right": true,
+   "f1": true,
+   "f2": true,
+   "f3": 0.5,
+   "f4": true
+  },
+  "frozen_spec": "V7X 可執行引擎（獨立重寫）凍結規格（o_exec_engine_rewrite_v7x；PREREG 前寫定，複製員只看本檔與 interp_register.json 即可重做）\n\n〇、範圍與獨立性\n- 選定版本：iterations v4（v1～v4 共 4 版，判準＝挑選期 SEL 年化 j 中位數對原表的最大絕對差；v4＝0.0783pp、32 格全部 ≤ 0.10pp）。設定：stress_odd_extra＝true、rank_right＝true、disp_lim＝false。\n- 依 o_v7_listing_exec_engine/data/model_spec7.json、frozen_spec.txt、FINDINGS 文字，以及 o5（o_exec_capacity_tiers FINDINGS 第六節）、o6（o_open_impact_calib/frozen_spec.txt）的規格文字重寫。\n- 沒有讀 ecore7.py、run_exec7*.py、gen_model7.py，也沒有讀前身 ecore6.py、ecore_o5.py、o5 ecore.py、xlib*.py、replicate/r6_exec.py。零衝擊引擎的語意參考 replicate_o7/rb_core.py（獨立複製員自寫，不是 V7 原碼），本題程式另寫（目標金額用排序斷點精確解）。\n- 名單一律用 V7 凍結檔：B10 主欄 plans_j7.csv（strat=AB_V7_B10、j 0～12、seeds 0～19）；官方日 plans_ab7.csv（seeds 0～39，只報告）。\n- 程式：x_data.py（資料）、x_ideal.py（零衝擊）、x_exec.py（可執行）、x_stats.py（統計）、x_run.py（批次）。\n\n一、資料（V7 凍結面板，data_freeze_v7.json）\n- close_raw、open、value、ret、flag；P 下市價只補面板缺值格；TR＝收盤有值；G＝1＋ret（無成交＝1）；CF＝收盤前值補；PC＝前一筆收盤；ADJ_t＝G·PC/C（無成交＝1）。\n- GOOD 日＝有值檔數 ≥ 300。V60＝60 個 GOOD 日平均成交值（窗內不得缺值，豁免 2017-08-03、2018-07-12、2024-02-15～03-15）；σ60＝60 個 GOOD 日 ret 標準差（≥40 筆，向後補值）；\n  vrank＝V60 ≥ 1e7 且收盤 ≥ 10 的股票依 V60 由大到小名次；成交日 t 一律用 t−1 值。十分位 dec＝ceil(vrank/30)，名次 >300 或缺值＝10。\n- 處置名單：V4 凍結官方名單（o_disposal_rejudge in_panel ＋ disposal_5y 補缺），處置期間＝start ≤ t ≤ end。\n- X 出清規則與 O3 現金對價併購（merger_consideration type=cash）同零衝擊引擎；0050 含息 etf_0050.csv。\n\n二、帳戶與級距\n- 級距 30 萬／100 萬／300 萬／1,000 萬（2026 幣值），當年幣值＝級距×CPI[年]/CPI[2026]（cpi_tw.json index_2006_100）。\n- GROW：第一個訊號日收盤持有現金 級距×CPI[2006]/CPI[2026]，之後不提領不加碼。\n- FIX（原設定）：每個換股日開盤前把全部股數、現金、待撥款乘 sc＝級距×CPI[換股年]/CPI[2026]/權益_pre，不計成本；權益_pre＝可交易持股×開盤＋凍結持股×前收＋現金＋待撥款。\n- 淨值時間加權：換股日 unit×＝(權益_pre/前日收盤權益)×(收盤權益/(權益_pre＋flow))；其他日 unit×＝收盤權益/前日收盤權益。\n\n三、逐日流程與換股（原設定）\n- 每日：0050 待撥款計值（再投入當日不計）→ 股數×ADJ。\n- 換股日：清掉順延委託 → 凍結股處理（現金對價併購：換股日 t ≥ 下市日時，前收×對價比×當日 0050 報酬 轉為 0050 計值待撥款；撥款日＝下市日＋20 交易日；撥款後到再投入前仍以 0050 計值，再投入的換股日以前一日收盤值併入現金；其他 X 規則照零衝擊。此解讀以零衝擊 navs_ideal7 mdelay 欄 2006～2018 對到 1e−14）→ FIX 縮放 → 小數股以開盤轉現金 → 換股。\n- 換股：hi＝(Σ可交易持股×開盤＋現金)/k×0.98；目標股數＝1000·floor(T/(1000·前收))＋floor(餘額/前收)；need(T)＝Σ 單檔成本估計（整股衝擊用全部張數、不考慮上限，用實際開收盤）；\n  need(hi) ≤ 現金則 T＝hi，否則 [0,hi] 二分 40 次。依 delta 由小到大執行（賣先）；買單成本 > 現金＋1e−9 整筆順延；每檔先零股後整股。\n- 整股：價格＝開盤×(1±imp)；參與上限 max(1, floor(0.20×OA/(1000×前收))) 張，超過順延；OA＝share_dec×當日成交值（原設定，有前視）。\n- 衝擊：K5T（正式）＝max(0.001＋0.5·σ60·√(Q/OA), tick(開盤)/開盤)，Q＝成交張數×1000×前收；TICK（敏感度）＝tick/開盤；壓力時再加 0.4%（加在 max 之後）。\n- 零股：2020-10-26 前＝收盤（盤後零股），之後＝開盤×(1＋drift(跳空桶))；成本 c 依前收價格桶 [50,100,300]×vrank 桶 [150]（兩者都以 searchsorted 'right'：前收恰 50 歸第 2 桶、名次恰 150 歸第 2 桶，iterations v4）；賣出 c 下限 0（ODD0）；\n  2020-10-26 起量上限 floor(1.0×zcap_dec×V60_{t−1}/零股價) 股，超過順延；之前無上限（原設定）。\n- 手續費：2015-01-01 前 0.1425%×0.6、之後 ×0.28，每筆（每檔每日整股、零股各一筆）最低 20 元；賣出稅 0.3%。\n- LIM：開盤 ≥ 漲停（買）／≤ 跌停（賣）該檔當日不成交、順延；漲跌幅 2015-06-01 前 7%、後 10%，參考價＝C/G（flag 1 用前收），依升降單位取整。\n- 處置期賣出（原設定）：以收盤−一跳成交（整股與零股），無衝擊、無上限、不受 LIM，款項當日可用。\n- 順延日：依待成交股數由小到大（賣先）；賣量＝min(待賣, round(持股))；買的張數上限 floor(現金/(開盤×1000×1.05))，零股成本 > 現金−張數×開盤×1050 時當日不下零股；先零股後整股；到下一個換股日清掉。\n- 壓力成本：整股與零股每邊都再加 0.4%（iterations v2：只加整股時壓力格 SEL 差達 5pp）、全期手續費 6 折、零股買成本×2、FEEMIX 關。\n\n四、四項修正（事前登記順序，一次加一項）\n- F1 FIX 縮放成本：flow＝目標−權益_pre 加進現金（可為負），換股以 權益_pre＋flow 求解，股數不縮放；提領靠賣股、注資靠買股，照常付稅、手續費、衝擊。\n- F2 處置期上限：處置期賣出（整股＋零股合計）當日 ≤ floor(0.20×當日成交值/收盤) 股，超過順延（仍在處置期同規則）；處置賣出款項隔日才可用（換股求解不計處置賣出款）。\n- F3 2020 前盤後零股量上限（代理）：2020-10-26 前每檔每日 ≤ floor(0.5×zcap_dec×V60_{t−1}/收盤) 股，超過順延；敏感度 0.25、1.0。證交所 TWT53U 逐檔歷史在本環境被擋、GitHub 找不到封存，oddlot_hist 只有 2026-07 起，無法用 2020-10～2021 校準：標為代理。\n- F4 開盤量前視：參與上限改用事前 OA_pred＝share_dec×V60_{t−1}；衝擊仍以實際 OA（share_dec×當日成交值）計算。\n- V7X 正式＝F1＋F2＋F3(0.5)＋F4、K5T、一般成本；TICK 只放敏感度欄；壓力成本另列。\n\n五、統計（與原表口徑相同，已在 912 格對到 1e−13）\n- 每格 20 seeds 日報酬平均成一條淨值；年化＝該 j 第一個訊號日收盤→jscan_end_days 終點；t＝訊號日窗（最後一窗到終點）超額對 0050；\n  分段：SEL 年化至 2018-12-28、窗起點 ≤ 2018-12-31；2019 年起 [2019-01-02, 終點]、窗起點 ≥ 2019-01-01；保留期 [2024-01-02, 終點]；FROM2008。\n- j 中位數＝13 個 j 的中位數；超額以「每個 j 的 (年化−同窗 0050) 的中位數」為準（不是兩個中位數相減）。\n\n六、判定（事前登記）\n- 零衝擊閘門：80 條官方日 seed 淨值與 13 j×2 策略×2 成本 seed 平均淨值，逐日相對差 ≤ 1e−9。\n- 原設定對帳：16 格（4 級距×FIX/GROW×K5T/TICK，一般成本）j 中位數年化差 ≤ 0.10pp；壓力 16 格另報。超過者逐 j、逐月追到第一個分歧，寫明規格模糊或實作錯誤，採不利值（o6 教訓 22）。\n- 引擎「可用」：零衝擊 ≤ 1e−9，且原表每格 ≤ 0.10pp 或差異已追到規格模糊並採不利值。\n- 策略「贏 0050」：該格 j 中位數超額 > 0、全期 j 中位數 t ≥ 1.5、2019 年起超額點估計 ≥ 0；否則寫「輸」（超額 ≤ 0）或「無可辨識差異」。\n- 否證：任一修正讓 16 格的 j 中位數年化變好（符號相反且 > 0.05pp）→ 先查清楚再凍結結論（報告中逐格列出）。\n- 參與率（Q/OA）中位數 > 10% 的格子，TICK 不得當下界（o7 教訓 7），表上標註。\n- 研究員判定上限：引擎「可用」；策略含義「待觀察」。\n",
+  "interp_register_sha256": "bf409a5739d7234bb5be32fae51832f91b2b95380879635906ed19f518920faf",
+  "n_versions_tried": 4,
+  "hashes": {
+   "x_data.py": "0cb307fb75e46d951d0d9239b3419252dcad75afc05f4e366109efc3b6794919",
+   "x_ideal.py": "de803e04c746ba517f02ad8ee6ac701684613e4c944a6e4026a7f1a45c1363ee",
+   "x_exec.py": "7e5b62d83f2fd06886578f5e7bd4de22d31f1fe3cdb38759b27eec79b96882c7",
+   "x_stats.py": "4e82856e201f3dddc644a97f63039f4ca313bd4c0dfd7ae54f2b94727253ad2d",
+   "x_run.py": "399c2c04b27e4d005b273bae2dfc5220ae9cf48a3c3ce1cc1aecc58ce82af499",
+   "s0_interp.py": "f1052642f3900e0cf74b1c999bacdd04468d62b77b81cb8f92d165137bf30bb6",
+   "s1_gate_zero.py": "338a78c2c61b2e2f025e3fb075256ae22a482cb616339aae6aec32fdef1fae94",
+   "s2_explore.py": "4ff4f17f6fb7ec4cdfd36e727c875eaff2c1ac4723c0fbc0291d0c56440f492c",
+   "s3_iterate.py": "fac23a214b1db294d1aa5686572e4b6ceda2dd1b9d72e15ebe91a24050d54818",
+   "s4_prereg.py": "ca6b7b82c7b673fff4c253aaf5e6a94f6e8b6b8e7754a102ffa5f7342c4cdd30",
+   "s5_oos.py": "ba02f0870e8a4f878671adca984aa3fab47f6d11557d5ac8d61e51f61290e015",
+   "s6_summary.py": "90ed55a3ae07d245deffbab1eb7327c50fb5ba09041541015fe691598a6f6013",
+   "s7_apply.py": "beec45d86a5ea8b54744d25d84301662264ce3ebae61bef957ad3336f434096a",
+   "s8_forward_calib.py": "320e1e6f8236c9084f5c55dbff182b98864957d6583dbc1cedefdbf00b16534d",
+   "frozen_spec.txt": "2b76c112a0dc31b91e48d1d4b777c9f78526b53184b0c1e3cf44513717b406d9",
+   "interp_register.json": "21e21bef7f9daddfaf1b4a46c2cf1bc1a505e8059ab65524112cf6fd1357f59d",
+   "explore.json": "9000e29eaac14fda01043908f8f9dd01cdb0aff151fbe552209ba22e987fa991",
+   "iterations.json": "e5a9051842edcd43c83b18740bd6327fd63dbd5e0c52ba3ffea3e056db5bab41",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/close_raw.parquet": "2a2f7b99b44f19bae9a088141f0d995fd788f8171ec202f45b56ebb6896e2fe3",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/open.parquet": "5f49fdec4b6df09800261279073483f475e05f0cd40ad4d41b59f1dbb8ace013",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/value.parquet": "e9c6236ba7aee17b0fb4f84002057540c5bf1a0e56f57bcfafb4c9dfb4de37aa",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/ret.parquet": "6e70541ac937568317e83dbb894cb49bf2e8086aada132419b8da7992ad03c34",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/flag.parquet": "014587ef662e724e526dcf166a288d53db2e904776b3fc2549a90b2682b7ed79",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/model_spec7.json": "d88c6ea77ceda04b6754fdfffdbd08c4eb18883a056d29e48f74cd789e2c46f6",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/plans_j7.csv": "20d38d03dabfd319c0bdddd1a851505380754903ef596bf94b296569ae4e83ac",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/plans_ab7.csv": "75a088592e4c1b35c7a7bf558a489313ce0bc25c853e7059991e3d451e600208",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/jscan_end_days.json": "3c561e7cfe4ee3a3a524a7ede67c496e2de5696416271e73aa182dafee08208d",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/raw/exec_inputs/cpi_tw.json": "afb556ae5b72b7ba21fad2e8080850b7bc088d7b7cf2cb4755524c19d3daef79",
+   "/home/user/-/research/tw_stock_selection/agents/o_infra_v3_rebuild/delist_prices.parquet": "bc4526b4424eaf9b0d13dcc378ce1ccf54a3f3a35e57d414101ea587aa6abf04",
+   "/home/user/-/research/tw_stock_selection/agents/o_infra_v3_rebuild/merger_consideration.csv": "262e92568a0162e99241c16f1de309df3736c670447b436b91d12b6f69cfd8fd",
+   "/home/user/-/research/tw_stock_selection/agents/o_infra_v3_rebuild/delist_official.csv": "41f51cb7e1aadbf1d28244f26cb6452f3ede20f2fbb594350848ed8f55a1f2bd",
+   "/home/user/-/research/tw_stock_selection/agents/o_disposal_rejudge/disposal_hist_rejudge.csv": "2c171924096ecf4c0d1da9c3c0db12002c38ace46864dede615496cbb1abe20d",
+   "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/disposal_5y.csv.gz": "be06c807e4dfcc26ae7d1da2de37775185cfbbd0ed50d9c0b72d255fc16439e2",
+   "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv": "771fabfbe0a3165cd1729f8023992acff7bb61a16f078fa082f027ae422bcdab",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/navs_exec7.parquet": "04c1e94d71c048538734937eaf569674e4dee286bd0c01691aa99bac1646028d",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/results.json": "b4589907bbe5dd80b7aac462dde8a8bfd28c4f87e0f55e438ebc2410d71027d4"
+  }
+ },
+ "PREREG_sha256": "faacf2bde2f13242dec52ca5ba5efa8e1eb0c000939cf584f27334b59f94a956",
+ "PREDICTIONS_PREREG": {
+  "time_utc": "2026-11-02T13:09:25+00:00",
+  "note": "在任何全期／2019 年後 V7X 數字之前寫入（PREREG 之後、s5 之前）；內容照題目事前預測",
+  "P1": "零衝擊路徑：80 條 seed、13 個 j 逐日相對差 ≤ 1e−9（已過：1.7e−14／5.1e−14）",
+  "P2": "原設定 16 格（一般成本）j 中位數年化差 ≤ 0.10pp；超過逐筆追分歧",
+  "P3": {
+   "F1": "FIX 才有，−0.1～−0.3pp／年",
+   "F2": "300 萬以下 > −0.05pp；1,000 萬 GROW −0.1～−0.4pp",
+   "F3": "30 萬、100 萬在 2006～2020 期間 −0.5～−2pp／年；2020-10 後 0",
+   "F4": "1,000 萬 −0.1～−0.5pp；30 萬約 0"
+  },
+  "P4": "合併後：2019 年起 16 格（含 TICK）全輸 0050 不變；2006～2018 正超額縮小；1,000 萬 FIX 由無法判斷偏向輸",
+  "P5": "否證：任一修正讓報酬變好（> +0.05pp）→ 先查清楚"
+ }
+}

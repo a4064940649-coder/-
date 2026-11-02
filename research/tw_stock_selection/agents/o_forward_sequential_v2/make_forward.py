@@ -360,6 +360,7 @@ def enrich_trades(out_dir, px, spec):
 
 
 def decision_log(out_dir, fr, rule_f):
+    """PREREG_FORWARD 登記後才寫。rule.name 為 None（OC 未過、規則未凍結）時只記描述統計（z、後驗機率），state＝DESCRIPTIVE_ONLY。"""
     if not rule_f.exists(): return 'no_rule'
     res = json.loads(rule_f.read_text(encoding='utf-8'))
     if 'PREREG_FORWARD' not in res: return 'no_rule'
@@ -367,23 +368,28 @@ def decision_log(out_dir, fr, rule_f):
     z = np.load(HERE / R['prior_file'])
     th, prior = z['theta'], z['prior']
     d = fr[(fr.line == 'JMED') & (fr.status == 'complete')].sort_values('anchor')
-    d = d[d.anchor >= R['forward_start']]
+    d = d[d.anchor.astype(str) >= R['forward_start']]
     rows = []
     x = d.excess_pp.to_numpy()
     sigma = R['sigma_design']
+    par = dict(R['params'])
     for n in range(1, len(x) + 1):
         X = x[None, :n]
         sd_fwd = float(np.std(x[:n], ddof=1)) if n >= 2 else np.nan
         sig = sigma
         if n >= 12 and sd_fwd > 1.5 * sigma: sig = sd_fwd           # 唯一允許的 refit（升級邊界只能變嚴：見 PREREG_FORWARD）
-        par = dict(R['params']); up, dn = Q.raw_triggers(R['name'], np.pad(X, ((0, 0), (0, 0))), sig, par, prior, th)
-        u, dd = Q.first_events(up, dn)
         pp = Q.post_probs(X, sig, prior, th, [n], par.get('alpha_min', 0.25))[n]
-        rows.append(dict(month=d.anchor.iloc[n - 1], n=n, S=float(x[:n].sum()), z=float(x[:n].sum() / (sig * math.sqrt(n))), sigma_used=sig, sd_forward=sd_fwd,
-                         P_alpha_gt_min=float(pp[0][0]), P_alpha_lt0=float(pp[1][0]), upgrade=int(u[0] > 0), downgrade=int(dd[0] > 0),
-                         state='UPGRADE' if u[0] > 0 else ('DOWNGRADE' if dd[0] > 0 else 'CONTINUE')))
-    pd.DataFrame(rows).to_csv(out_dir / 'decision_log.csv', index=False)
-    return f'{len(rows)} months'
+        row = dict(month=d.anchor.iloc[n - 1], n=n, S=float(x[:n].sum()), z=float(x[:n].sum() / (sig * math.sqrt(n))), sigma_used=sig, sd_forward=sd_fwd,
+                   P_alpha_gt_min=float(pp[0][0]), P_alpha_lt0=float(pp[1][0]))
+        if R.get('name'):
+            up, dn = Q.raw_triggers(R['name'], X, sig, par, prior, th)
+            u, dd = Q.first_events(up, dn)
+            row.update(upgrade=int(u[0] > 0), downgrade=int(dd[0] > 0), state='UPGRADE' if u[0] > 0 else ('DOWNGRADE' if dd[0] > 0 else 'CONTINUE'))
+        else:
+            row.update(upgrade=0, downgrade=0, state='DESCRIPTIVE_ONLY')
+        rows.append(row)
+    pd.DataFrame(rows, columns=['month', 'n', 'S', 'z', 'sigma_used', 'sd_forward', 'P_alpha_gt_min', 'P_alpha_lt0', 'upgrade', 'downgrade', 'state']).to_csv(out_dir / 'decision_log.csv', index=False)
+    return f'{len(rows)} months' + ('' if R.get('name') else '（規則未凍結，只記描述）')
 
 
 def main():
@@ -449,7 +455,7 @@ def main():
     FR = pd.DataFrame(rows + jm + E50 + mixes + ext).reindex(columns=cols)
     FR = FR.sort_values(['line', 'anchor'], na_position='last').reset_index(drop=True)
     FR.to_csv(out_dir / 'forward_returns.csv', index=False, float_format='%.10g')
-    pd.DataFrame([dict(start=r['start'], end=r['end'], ret=r['ret']) for r in off]).to_csv(out_dir / 'main_leg_returns.csv', index=False, float_format='%.10g')
+    pd.DataFrame([dict(start=r['start'], end=r['end'], ret=r['ret']) for r in off], columns=['start', 'end', 'ret']).to_csv(out_dir / 'main_leg_returns.csv', index=False, float_format='%.10g')
     if diffs:
         f = out_dir / 'list_diffs.csv'
         old = pd.read_csv(f, dtype=str) if f.exists() else pd.DataFrame()
