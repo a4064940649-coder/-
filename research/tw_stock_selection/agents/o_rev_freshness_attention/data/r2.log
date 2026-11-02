@@ -1,0 +1,24 @@
+/home/user/-/research/tw_stock_selection/agents/o_rev_freshness_attention/s6_r2.py:135: RuntimeWarning: Mean of empty slice
+  m = np.nanmean([x[5][(st,) + cell] for x in rr], axis=0)
+zero|normal {'CAGR_diff': 1.147, 'diff_t': 0.935, 'diff_post_mean_pp': 0.539, 'CAGR_R2': 20.065, 'CAGR_B10': 20.631}
+zero|stress {'CAGR_diff': 0.011, 'diff_t': 0.253, 'diff_post_mean_pp': 0.452, 'CAGR_R2': 16.013, 'CAGR_B10': 17.654}
+zero|extra15 {'CAGR_diff': 0.108, 'diff_t': 0.313, 'diff_post_mean_pp': 0.459, 'CAGR_R2': 16.368, 'CAGR_B10': 17.916}
+K5T|normal|30萬|FIX {'CAGR_diff': 0.676, 'diff_t': 0.593, 'diff_post_mean_pp': 0.375, 'CAGR_R2': 17.195, 'CAGR_B10': 19.098}
+K5T|normal|30萬|GROW {'CAGR_diff': 1.203, 'diff_t': 0.903, 'diff_post_mean_pp': 0.417, 'CAGR_R2': 17.881, 'CAGR_B10': 18.094}
+K5T|normal|100萬|FIX {'CAGR_diff': 1.607, 'diff_t': 1.108, 'diff_post_mean_pp': 0.478, 'CAGR_R2': 17.839, 'CAGR_B10': 18.532}
+K5T|normal|100萬|GROW {'CAGR_diff': 0.956, 'diff_t': 0.739, 'diff_post_mean_pp': 0.391, 'CAGR_R2': 15.969, 'CAGR_B10': 16.932}
+K5T|normal|300萬|FIX {'CAGR_diff': 0.759, 'diff_t': 0.708, 'diff_post_mean_pp': 0.453, 'CAGR_R2': 15.912, 'CAGR_B10': 16.824}
+K5T|normal|300萬|GROW {'CAGR_diff': 0.261, 'diff_t': 0.366, 'diff_post_mean_pp': 0.367, 'CAGR_R2': 13.937, 'CAGR_B10': 14.959}
+K5T|normal|1000萬|FIX {'CAGR_diff': 0.088, 'diff_t': 0.213, 'diff_post_mean_pp': 0.421, 'CAGR_R2': 13.481, 'CAGR_B10': 14.829}
+K5T|normal|1000萬|GROW {'CAGR_diff': -0.127, 'diff_t': 0.107, 'diff_post_mean_pp': 0.379, 'CAGR_R2': 11.617, 'CAGR_B10': 12.765}
+K5T|stress|30萬|FIX {'CAGR_diff': -2.872, 'diff_t': -1.589, 'diff_post_mean_pp': 0.099, 'CAGR_R2': 5.244, 'CAGR_B10': 9.779}
+K5T|stress|30萬|GROW {'CAGR_diff': -2.91, 'diff_t': -1.624, 'diff_post_mean_pp': 0.107, 'CAGR_R2': 5.264, 'CAGR_B10': 9.738}
+K5T|stress|100萬|FIX {'CAGR_diff': -1.886, 'diff_t': -1.019, 'diff_post_mean_pp': 0.184, 'CAGR_R2': 6.102, 'CAGR_B10': 9.713}
+K5T|stress|100萬|GROW {'CAGR_diff': -1.663, 'diff_t': -0.882, 'diff_post_mean_pp': 0.191, 'CAGR_R2': 6.248, 'CAGR_B10': 9.239}
+K5T|stress|300萬|FIX {'CAGR_diff': -2.236, 'diff_t': -1.169, 'diff_post_mean_pp': 0.179, 'CAGR_R2': 5.095, 'CAGR_B10': 8.67}
+K5T|stress|300萬|GROW {'CAGR_diff': -2.229, 'diff_t': -1.293, 'diff_post_mean_pp': 0.165, 'CAGR_R2': 5.185, 'CAGR_B10': 8.519}
+K5T|stress|1000萬|FIX {'CAGR_diff': -2.668, 'diff_t': -1.615, 'diff_post_mean_pp': 0.17, 'CAGR_R2': 3.576, 'CAGR_B10': 7.492}
+K5T|stress|1000萬|GROW {'CAGR_diff': -2.099, 'diff_t': -1.157, 'diff_post_mean_pp': 0.189, 'CAGR_R2': 3.582, 'CAGR_B10': 6.878}
+TICK|normal|100萬|FIX {'CAGR_diff': 1.773, 'diff_t': 1.231, 'diff_post_mean_pp': 0.49, 'CAGR_R2': 18.823, 'CAGR_B10': 19.394}
+TICK|normal|1000萬|FIX {'CAGR_diff': 1.038, 'diff_t': 0.768, 'diff_post_mean_pp': 0.469, 'CAGR_R2': 18.601, 'CAGR_B10': 19.038}
+{"cond": {"(1) 配對差>0 且 t≥1.5": false, "(2) 2019-05 起點估計≥0": true, "(3) 壓力成本配對差≥0": false, "(4) 每邊+0.15% 配對差≥0": true}, "verdict": "不可用", "info_j1": {"nA": 245.0, "nA_trade": 242.0, "size_mean": 9.709917355371903, "size_min": 5.0, "size_max": 15.0, "turn_R2": 0.7251763029202054, "turn_B10": 0.6169918699186991}}

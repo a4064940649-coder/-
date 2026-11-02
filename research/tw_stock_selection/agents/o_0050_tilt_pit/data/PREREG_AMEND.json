@@ -1,0 +1,8 @@
+{
+ "amend_v1_utc": "2026-11-02T12:34:45.042577+00:00",
+ "code_sha256": {
+  "s8_robust.py": "c7bb0ef762c503f15214ad1ef26e344307c127a6db6c8e67e71272b6d3a5cad6"
+ },
+ "reason": "s8_robust.py 在 POST2019 某月 T1 非金融股全部沒有已公告營收（營收資料空窗）時 np.percentile 對空陣列報錯。修正：該月營收分散度記缺值（不參與高／低分組）。另加入讀取本修正檔的 sha 檢查。不影響任何判定門檻（a～f 在 s6/s7 計算）。",
+ "old_sha256": "95c7e62e8b0ccf434cf15d6a4512395473e2f1b3d80d8b2f3f49f447d81dcc73"
+}

@@ -1,0 +1,53 @@
+/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/tcore.py:331: RuntimeWarning: invalid value encountered in divide
+  wv = np.zeros(N); wv[U] = wb; wv[frz | ~tr] = 0.0; wv /= wv.sum()
+/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/tcore.py:352: RuntimeWarning: invalid value encountered in divide
+  WV = WV / WV.sum(axis=1, keepdims=True)
+{'T1_PIT': {'mean_pp_jmed': 0.09318418076870642, 't_jmed': 0.6658418665094749}, 'T2_PIT': {'mean_pp_jmed': 0.22361569495626898, 't_jmed': 1.6671650059179235}, 'T1_o7shares': {'mean_pp_jmed': 0.14820278050835178, 't_jmed': 1.0021362616670961}, 'T2_o7shares': {'mean_pp_jmed': 0.22543067318719717, 't_jmed': 1.5415082699303584}}
+{
+ "note": "事後、未事前登記",
+ "P7_vs_random_POST2019_PIT_vs_o7shares": {
+  "T1_PIT": {
+   "mean_pp_jmed": 0.09318418076870642,
+   "t_jmed": 0.6658418665094749
+  },
+  "T2_PIT": {
+   "mean_pp_jmed": 0.22361569495626898,
+   "t_jmed": 1.6671650059179235
+  },
+  "T1_o7shares": {
+   "mean_pp_jmed": 0.14820278050835178,
+   "t_jmed": 1.0021362616670961
+  },
+  "T2_o7shares": {
+   "mean_pp_jmed": 0.22543067318719717,
+   "t_jmed": 1.5415082699303584
+  }
+ },
+ "random_tilt_active_weight_slope_on_logmcap": {
+  "T1_R6_50": {
+   "mean": 0.0013539008197376644,
+   "share_negative": 0.26881720430107525,
+   "n": 93
+  },
+  "T1_R2_5": {
+   "mean": -0.1090913795021742,
+   "share_negative": 0.9791666666666666,
+   "n": 48
+  },
+  "T2_R6_50": {
+   "mean": -0.0005913613617955171,
+   "share_negative": 0.5376344086021505,
+   "n": 93
+  },
+  "T2_R51p": {
+   "mean": -0.002016874641482909,
+   "share_negative": 0.7096774193548387,
+   "n": 93
+  },
+  "T2_R2_5": {
+   "mean": -0.11576606585233473,
+   "share_negative": 1.0,
+   "n": 47
+  }
+ }
+}

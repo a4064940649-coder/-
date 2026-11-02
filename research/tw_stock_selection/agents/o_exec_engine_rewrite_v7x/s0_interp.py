@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+"""步驟一：寫程式前的規格解讀登錄。逐條列出 model_spec7.json／frozen_spec.txt／FINDINGS 文字的模糊處與 V7X 採用的解讀（v0）。
+來源文字只有：o_v7 model_spec7.json、frozen_spec.txt、FINDINGS.md；o5 FINDINGS 第六節凍結規格（文字）；o6 frozen_spec.txt（文字）。
+沒有讀 ecore7.py、run_exec7*.py、gen_model7.py（也沒有讀它們的前身 ecore6.py、ecore_o5.py、ecore.py、xlib*.py）。
+原研究員無法聯絡（子代理），所以「原研究員只回答規格文字意思」這一步改為：只以上述文字為準，文字沒寫的項目在 iterations 裡用挑選期（≤2019-04）對帳選解讀。"""
+import json, hashlib, datetime
+from pathlib import Path
+HERE = Path(__file__).resolve().parent
+
+ITEMS = [
+ ("A01 FIX 縮放時點", "每個換股日開盤前、X 出清與小數股轉現金之前，把全部股數與現金乘 sc＝tier×CPI[換股年]/CPI[2026]/權益_pre；權益_pre＝可交易持股×開盤＋凍結持股×前收＋現金＋待撥款。不計成本（原設定）。淨值時間加權：unit×＝(權益_pre/前日收盤權益)×(收盤權益/(權益_pre＋flow))。"),
+ ("A02 參與上限範圍", "單檔、單日、只限整股：當日最多 max(1, floor(0.20×OA/(1000×前收))) 張；OA＝share[ceil(vrank_{t−1}/30)]×當日成交值（名次 >300 或缺值用第 10 十分位）。不是全帳戶上限。"),
+ ("A03 跨日分批順序", "順延日：依待成交股數由小到大（賣單先）；賣量＝min(待賣, round(S))；買的張數上限 floor(現金/(O×1000×1.05))；零股成本 > 現金−張數×O×1050 時當日不下零股；先零股後整股；下一個換股日清掉未成交。"),
+ ("A04 零股與整股拆單", "目標股數＝1000·floor(T/(1000·前收))＋floor(餘額/前收)；delta 的 |delta|//1000 為整股、|delta| mod 1000 為零股；每檔先下零股再下整股；整股與零股各算一筆手續費（各自最低 20 元）。"),
+ ("A05 零股價格與成本", "2020-10-26 前：盤後零股＝當日收盤×(1±c)；之後：盤中零股＝開盤×(1＋drift(跳空桶))×(1±c)。c 依前收價格桶 [50,100,300]×vrank_{t−1} 桶 [150]（缺值當 1e9）；ODD0：賣出 c 下限 0（不給有利價）。零股不加 0.1% 基礎滑價、不加衝擊。"),
+ ("A06 零股量上限 Z", "2020-10-26 起每檔每日零股股數 ≤ floor(part×s_dec×V60_{t−1}/零股價)，s_dec＝zcap.share_by_dec（名次 >300 或缺值用 share_default），part＝1.0；超過的順延。2020-10-26 前不設上限（原設定）。"),
+ ("A07 GROW 的 CPI 起點", "2006-04-11（第一個官方訊號日）收盤持有現金 tier×CPI[2006]/CPI[2026]（×0.7649）。j 名單一律在其第一個訊號日收盤起算（j0 為 2006-04-10）。"),
+ ("A08 j 的平移定義", "直接用 V7 凍結 plans_j7.csv（st_core.day_for、unavail_for 產生）；每個 j 的 t 用該 j 自己的訊號日窗；年化起點＝該 j 第一個訊號日收盤、終點＝2026-10-12 前最後一個該 j 訊號日收盤（以 iterations 對帳原表確定）。"),
+ ("A09 seed 合併", "每格 20 seeds（0～19）日報酬平均成一條淨值，再算年化與 t；j 中位數＝13 個 j 年化的中位數。"),
+ ("A10 K5T 衝擊", "整股每邊 imp＝max(base＋κ·σ_{t−1}·√(Q/OA), tick(O_t)/O_t)，base 0.1%、κ 0.5、Q＝實際成交張數×1000×前收；OA 或 σ 缺值時省略平方根項。成交價＝O_t×(1±imp)。"),
+ ("A11 TICK 衝擊", "整股每邊 imp＝tick(O_t)/O_t。"),
+ ("A12 壓力成本", "整股 imp 再加 0.4%（加在 max 之後）；全期手續費 B（0.6 折、最低 20 元）；零股買成本×2、賣成本下限 0；FEEMIX 關。零股是否加 0.4% 在 iterations 中決定（v0：不加）。"),
+ ("A13 手續費", "一般：2015-01-01 前 0.1425%×0.6，之後 ×0.28（FEEMIX），每筆最低 20 元；證交稅賣出 0.3%（整股與零股）。"),
+ ("A14 漲跌停順延 LIM", "開盤 ≥ 漲停（買）或 ≤ 跌停（賣）時該檔整筆（整股＋零股）當日不成交、順延；漲跌幅 2015-06-01 前 7%、後 10%，參考價＝C/G（flag 1 用前收），漲停價依升降單位向下取整、跌停價向上取整。"),
+ ("A15 處置期賣出", "賣出日 t 落在 V4 凍結官方處置名單 start ≤ t ≤ end：整股與零股都以 C_t − tick(C_t) 成交，無衝擊、無參與上限、無零股價差、不受 LIM；手續費與稅照算；款項當日可用（原設定）。"),
+ ("A16 合併下市延遲", "O3 type=cash 的事件（含金額缺值者，缺值時對價＝最後收盤）：下市日（delist_date，缺值＝最後交易日＋14 天）起，凍結持股價值×對價比轉為 0050 含息計值的待撥款；撥款日＝下市日＋20 個交易日，撥款日之後的第一個換股日才併入現金再投入。其他 X 規則照零衝擊引擎。"),
+ ("A17 2% 現金", "CASH2：每檔目標金額上限＝(Σ可交易持股×開盤＋現金)/k×0.98。"),
+ ("A18 目標金額求解", "need(T)＝Σ 單檔 cost(delta(T))（整股衝擊用全部張數、不考慮上限，用當日實際開收盤價）；need(hi) ≤ 現金則 T＝hi，否則在 [0,hi] 二分 40 次。"),
+ ("A19 執行順序", "依 delta 由小到大（賣先）；買單若 cost > 現金＋1e−9 整筆順延。"),
+ ("A20 vrank 宇宙", "面板全部股票（含金融）中 V60≥1e7 且收盤≥10，依 V60 由大到小；一律用 t−1。σ60＝60 個 GOOD 日 ret 標準差（至少 40 筆，向後補值）。"),
+ ("A21 小數股", "換股日先把可交易持股的小數股（S−floor(S+1e−9)）以 O_t 轉現金，不計成本。"),
+ ("A22 名單", "B10 主欄：plans_j7.csv strat=AB_V7_B10、j 0～12、seeds 0～19；官方日 plans_ab7.csv seeds 0～39（只報告）。"),
+]
+
+FIXES = [
+ ("F1 FIX 縮放成本", "flow＝目標權益−權益_pre 直接加進現金（可為負），換股求解用 權益_pre＋flow；股數不縮放，提領靠賣股（付稅、手續費、衝擊），注資靠買股。"),
+ ("F2 處置期上限", "處置期賣出（整股＋零股合計）當日最多 floor(0.20×當日成交值/C_t) 股，超過的順延到次日（仍在處置期就同規則，處置期結束後回到開盤規則）；處置賣出款項當日不可用於開盤買單（換股日的買單求解不含處置賣出款）。"),
+ ("F3 2020 前零股量上限（代理）", "2020-10-26 前盤後零股每檔每日 ≤ floor(ratio_pre×s_dec×V60_{t−1}/C_t) 股，ratio_pre＝0.5（事前寫死的保守代理：2020 前盤後零股為單一集合競價，量不會高於 2026 盤中零股的占比；GitHub 找不到 TWT53U 逐檔歷史封存，證交所網站被擋）；超過順延。敏感度 ratio_pre＝0.25、1.0。價格維持當日收盤（規格原本就是收盤代理）。"),
+ ("F4 開盤量前視", "參與上限改用事前預測 OA_pred＝share_dec×V60_{t−1}（share 是十分位常數，所以『前 20 日開盤量占比中位數』＝share_dec）；衝擊仍用實際 OA＝share_dec×當日成交值計算（下單量事前決定，衝擊事後實現）。"),
+]
+
+if __name__ == '__main__':
+    reg = {'version': 'v0', 'time_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'),
+           'sources_read': ['o_v7_listing_exec_engine/data/model_spec7.json', 'o_v7_listing_exec_engine/frozen_spec.txt',
+                            'o_v7_listing_exec_engine/FINDINGS.md', 'o_exec_capacity_tiers/FINDINGS.md 第六節（文字）',
+                            'o_open_impact_calib/frozen_spec.txt（文字）', 'replicate_o7/rb_core.py（零衝擊獨立複製，非 V7 引擎）'],
+           'not_read': ['ecore7.py', 'run_exec7.py', 'run_exec7_ckpt.py', 'gen_model7.py', 'ecore6.py', 'ecore_o5.py', 'o_exec_capacity_tiers/ecore.py', 'xlib*.py', 'replicate/r6_exec.py'],
+           'items': [{'id': a, 'interpretation': b} for a, b in ITEMS],
+           'fixes_order': [{'id': a, 'spec': b} for a, b in FIXES]}
+    s = json.dumps(reg, ensure_ascii=False, indent=1)
+    reg['sha256'] = hashlib.sha256(s.encode()).hexdigest()
+    (HERE / 'interp_register.json').write_text(json.dumps(reg, ensure_ascii=False, indent=1))
+    print(reg['sha256'], reg['time_utc'])

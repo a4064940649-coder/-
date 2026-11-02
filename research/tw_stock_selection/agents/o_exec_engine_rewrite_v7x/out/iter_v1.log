@@ -1,0 +1,11 @@
+iter_v1 done 416 cells 587.5 s
+Traceback (most recent call last):
+  File "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/s3_iterate.py", line 24, in <module>
+    mine = XR.table(df, sel_only=True); ref = orig_sel()
+  File "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/x_run.py", line 80, in table
+    out['|'.join(k)] = S.jsumm([d[x] for x in js])
+                       ~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/x_stats.py", line 71, in jsumm
+    o['CAGR_by_j'] = [p['CAGR'] for p in per_j]
+                      ~^^^^^^^^
+KeyError: 'CAGR'
