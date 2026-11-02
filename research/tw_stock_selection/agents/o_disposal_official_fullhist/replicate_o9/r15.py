@@ -1,0 +1,12 @@
+import sys,json; sys.path.insert(0,'.')
+from ev import *
+p=pd.read_csv(A+'o_disposal_official_fullhist/placebo_events.csv.gz',dtype={'code':str},parse_dates=['date'])
+m=pd.read_csv('my_p3.csv.gz',dtype={'code':str},parse_dates=['s'])
+o=pd.read_csv('my_oos_feat.csv.gz',dtype={'code':str},parse_dates=['s'])
+cuts=np.array(json.load(open('ptests.json'))['run6_cuts'])
+x=p[p.seg=='OOS'].merge(m,left_on=['code','date'],right_on=['code','s']).merge(o[['code','s','run6']],on=['code','s'])
+x['myb']=np.searchsorted(cuts,x.run6,side='right')
+print(len(x),(x.bucket!=x.myb).sum())
+print(pd.crosstab(x.pl_mode,x['mode']))
+x['d']=(x.pl_raw-x.pl).abs()
+print(x[(x.d>1e-6)|(x.pl_raw.isna()!=x.pl.isna())][['code','date','bucket','myb','run6','pl_raw','pl','pl_n','nc','pl_mode','mode']].head(30).to_string())
