@@ -33,5 +33,130 @@
   ],
   "utc": "2026-11-02T22:46:06.425049+00:00",
   "sha256": "065b510c54ad1c62a6be1799bec44abc3e7b164fb62727f96b0fc4a06bce8044"
+ },
+ "PREREG": {
+  "topic": "o_rev_event_clock_ts",
+  "branch": "A（時間戳覆蓋 19.8% < 60%）",
+  "utc": "2026-11-02T22:51:50.824571+00:00",
+  "frozen_version": "V2",
+  "version_params": {
+   "K_out": 20,
+   "delta": 0.05,
+   "reconcile": true
+  },
+  "rule_text": "o_rev_event_clock_ts 前瞻紀錄器：營收事件時鐘（EC）對官方日主策略（OFF）的配對紀錄（規則凍結於 results.json PREREG_FORWARD）。\n\n建議執行時點：每日流程第 0 步（o_forward_infra_live/daily_step0.sh）之後，台北 06:49～08:50（成交日開盤前），每天一次；\n可在晚上 22:40 後再跑一次（只會多記首見、不會重複決策）。\n  python3 -I -B research/tw_stock_selection/agents/o_rev_event_clock_ts/forward/event_clock_log.py\n預設資料（只讀）：o_forward_infra_live/raw/screener/data（第 0 步每天 fetch 的上游稀疏 clone）、live_tracking/main_forward（官方日名單）。\n本程式只寫自己的 --out（預設本資料夾），絕不修改 o_forward_infra_live 與 live_tracking/main_forward。\n\n凍結規則（V2；選版只看周轉，未看任何報酬）：\n- 錨定月 m：營收月 m−1 的公告窗＝上一個官方成交日之後到本月官方成交日之前。官方訊號日 s_m＝m 月第一個 ≥ 11 日的交易日，官方成交日＝s_m 的下一個交易日。\n- 每次執行：成交日 e＝執行時鐘之後第一個交易日 09:00 開盤。事件＝本次第一次看到的 (代碼, m−1) 營收（首見＝本機執行時鐘；同時記上游 rev 檔最後 commit 時間與 MOPS ann_date）。\n- 分數：資料最後一個交易日 t 收盤；已首見 m−1 營收者用 m−1..m−3 平均年增率，其餘沿用 m−2..m−4；0.5×52 週比百分位＋0.5×營收百分位；\n  股池＝main_picks_today.score_on（前 300、收盤 ≥ 10、排除金融、非處置；處置＝disposal_5y ∪ warnings_hist 處置）。\n- 只有事件股可以觸發交易：(1) 持有中的事件股名次 > 20 或不在股池 → 賣；(2) 未持有的事件股名次 ≤ 10，依名次：持股 < 10 檔直接買；\n  否則與「本月尚未交易過、分數最低的持股」比較，分數差 ≥ 0.05 才換；(3) 仍有空位 → 用全池名次 ≤ 10 的最佳未持有股補。每檔每月最多買 1 次、賣 1 次。\n- 官方成交日：EC 校正成官方名單（OFF 同日換成官方名單）。官方名單優先讀 live_tracking/main_forward/paper_lists/official_YYYYMM.csv（in_top10＝1），\n  再來是 corrections/official_YYYYMM_corrected.csv，都沒有才用 main_picks_today 自算（並註記）。\n- 成交：隔日開盤。買進遇開盤漲停（未持有）→ 不成交、留空位等下次補；賣出遇開盤跌停或停牌 → 不成交、續抱到官方日校正。\n- 成本（紙上）：一般＝手續費 0.1425%×0.28＋K5T 衝擊 max(0.1%＋0.5·σ60·√(Q/OA_pred), 一跳/開盤)，賣方加稅 0.3%；壓力＝手續費 ×0.6、每邊再加 0.4%。\n  Q＝級距/10（100 萬為主欄，另記 300 萬、1,000 萬的整張／零股股數與衝擊估計）；OA_pred＝成交值十分位開盤占比×V60（V7 model_spec7）。\n- 漏跑：成交日開盤前沒有執行到的交易日記入 ec_missing.csv，不回補；之後才首見的事件照常在當次成交，並記錄延遲。\n輸出（--out）：ec_firstseen.csv、ec_decisions.csv、ec_state.json、ec_nav.csv、ec_monthly.csv、ec_missing.csv、ec_runs.jsonl。\n",
+  "start": "2026-11 錨定月（2026-11-03 開盤起第一筆決策）；初始持股＝2026-10-12 官方名單更正版（live_tracking/main_forward/corrections/official_202610_corrected.csv）",
+  "statistic": "事件時鐘（EC）減官方日主策略（OFF）的月配對淨報酬差（官方訊號日收盤到下一個官方訊號日收盤）；一般成本與壓力成本兩欄；j 固定為公告隔日（成交日＝首見後第一個開盤）；100 萬級距為主欄。",
+  "judge_12m": "滿 12 個錨定月（2027-10）：只報告配對差平均、t、壓力成本差、最大回撤差、漏跑天數、事件延遲分布、早買命中官方名單比例、P5 的價格漂移，不做任何判定。",
+  "judge_24m": "滿 24 個錨定月（2028-10）：以下全部成立才可提請把主策略執行改為事件時鐘：(1) 一般成本月配對差平均 > 0 且 t ≥ 1.5（月份為單位，不重疊）；(2) 壓力成本月配對差平均 > 0；(3) EC 淨值最大回撤不比 OFF 多 5pp 以上；(4) 漏跑成交日 ≤ 10%。否則維持官方日。主策略本身的投資判定（不可投資）不因本規則改變。",
+  "P5": "2026-11 起 12 個月：事件股（is_event＝1 的買進）實際開盤成交價，比官方日名單同檔成交價平均便宜 ≥ 1%（＝更早吃到漂移）；計算＝同一錨定月內 EC 早買的股票若也在官方名單，比較 EC 成交開盤價與官方成交開盤價（含息還原）；≤ 0 表示時效優勢已在公告當晚被定價完。",
+  "power": {
+   "mde_full_pp": 0.51,
+   "n_full": 240,
+   "implied_sd_diff_pp": 2.82174500937969,
+   "se_24m_pp": 0.5759862881020978,
+   "mde_24m_pp": 1.6127616066858739,
+   "prob_t_ge_1p5_at_true_mean": {
+    "0.00pp": 0.06680720126885809,
+    "0.10pp": 0.09235614277026105,
+    "0.20pp": 0.12450250072330449,
+    "0.30pp": 0.1637518805772089,
+    "0.50pp": 0.2637183419834608,
+    "1.00pp": 0.593342808744418
+   },
+   "note": "以歷史 J0 對 J+1 配對差的 MDE（全期約 0.51pp／月、約 240 個月）推回月配對差標準差約 2.8pp；24 個月 MDE 約 1.6pp／月，合理效果 ≤ 0.3pp／月時 t ≥ 1.5 的機率只有約 16%（真實效果 0 時約 7% 誤升級）。前瞻紀錄主要是在累積資料，不太可能給出肯定結論。"
+  },
+  "expected_cost": {
+   "extra_trades_per_month": 1.8928571428571428,
+   "breakeven_drift": {
+    "1000000_normal": {
+     "n": 135,
+     "median_rt": 0.008131699561465231,
+     "mean_rt": 0.008339069143837809,
+     "p90_rt": 0.009631580302245344
+    },
+    "1000000_stress": {
+     "n": 135,
+     "median_rt": 0.02118457627118642,
+     "mean_rt": 0.02066923231536313,
+     "p90_rt": 0.0232502027496182
+    },
+    "3000000_normal": {
+     "n": 135,
+     "median_rt": 0.008796564981622207,
+     "mean_rt": 0.009331613427002367,
+     "p90_rt": 0.011521198447490165
+    },
+    "3000000_stress": {
+     "n": 135,
+     "median_rt": 0.021184576271186417,
+     "mean_rt": 0.020421171083368005,
+     "p90_rt": 0.02330217911058751
+    },
+    "10000000_normal": {
+     "n": 135,
+     "median_rt": 0.011145106485945331,
+     "mean_rt": 0.011681256211803962,
+     "p90_rt": 0.01582369953124403
+    },
+    "10000000_stress": {
+     "n": 135,
+     "median_rt": 0.02158676796014565,
+     "mean_rt": 0.021890897026114048,
+     "p90_rt": 0.026211260387909534
+    }
+   },
+   "extra_cost_pp_per_month": {
+    "1000000_normal": 0.15784666593692998,
+    "1000000_stress": 0.3912390402550878,
+    "3000000_normal": 0.1766341112968305,
+    "3000000_stress": 0.38654359550660866,
+    "10000000_normal": 0.221109492580575,
+    "10000000_stress": 0.4143634079943016
+   }
+  },
+  "hashes": {
+   "prereg_gate.py": "94337858807f01f787d092d9473cadb6f86599afd3659b304acd7393a81c9113",
+   "gate_prereg.json": "82ae7e4eab865896b6613b6fcebf2d55c088faee3f137f9dfcaafe908806404d",
+   "ts_common.py": "3759da7780bde73c547b7ba60936614c9787a81940b9bb5e3f92eb39d7440508",
+   "gate.py": "bf3fd708a0456da9f3028819f73e31bd760c90e2c059360cb7b1cbf8947fe6a1",
+   "gate.json": "829ceaf9ec963c54613f8d68d6d15a5b0c2a678bcea7ff4cb49f5c13d9c80b55",
+   "a1_describe.py": "aae189064c39a3f01fdde9f4e8ff3d9709d7ee6dd7b5706c41611463f69ed886",
+   "explore.json": "e14ea2ddff7acec526065944ddccc4358ecf24a5bd0ade490605d31acd39dc12",
+   "iterations.json": "f45fd24a9cb35a1e5e0c869d373995951af54652b896d6295eca586986d150d7",
+   "forward/event_clock_log.py": "30e7c504b056c16a6063c9e95a933449ca553b3991f3629f7e156dfe9dc9bb32",
+   "prereg_forward.py": "b3dcd1be0b67a801c30b06b5d4df7c4dafeecba6e708fdebc328179133d884a2",
+   "../../main_picks_today.py": "0897787f617cec3b70ca92ab9a327cd095edbaf2c554730fa7ec67ab3f8d8dc3",
+   "../o_v7_listing_exec_engine/data/model_spec7.json": "d88c6ea77ceda04b6754fdfffdbd08c4eb18883a056d29e48f74cd789e2c46f6"
+  }
+ },
+ "PREREG_sha256": "f9c74524f03d1081dfd4b863f01a2df61801b44ff72192d7ce23179692528e7e",
+ "PREREG_FORWARD": {
+  "file_sha256": {
+   "forward/event_clock_log.py": "30e7c504b056c16a6063c9e95a933449ca553b3991f3629f7e156dfe9dc9bb32"
+  },
+  "prereg_sha256": "f9c74524f03d1081dfd4b863f01a2df61801b44ff72192d7ce23179692528e7e",
+  "utc": "2026-11-02T22:51:50.824571+00:00"
+ },
+ "FINAL": {
+  "verdict": "無法測試（歷史）；前瞻紀錄已啟動",
+  "branch": "A",
+  "coverage_union": 0.1984386917313473,
+  "tasi_valid_in_window": 0.6165319208252021,
+  "mechanism": "部分支持（P2 成立：早公告股營收百分位高 0.078，t 3.39；漂移能否在成本後吃到未檢定）",
+  "P1": "成立（覆蓋 19.8% < 60%）",
+  "P2": "成立",
+  "P3": "周轉成立（額外 1.89 檔次／月 ≤ 4），成本條件觸發「偏向不可用」（0.16～0.22pp／月 > 主策略月超額一半 0.07～0.10pp）",
+  "P4": "不做（分支 A）",
+  "P5": "前瞻 2026-11～2027-10",
+  "forward_first_run": "2026-11-03T06:51:51+08:00",
+  "raw_deleted": [
+   "raw/screener",
+   "raw/tasi"
+  ],
+  "reclone": [
+   "git clone --filter=blob:none --no-checkout https://github.com/stevenhsiehsheng-ctrl/tw-stock-screener raw/screener",
+   "git clone --filter=blob:none --no-checkout https://github.com/shohokuno10/Tasi raw/tasi"
+  ]
  }
 }
