@@ -201,9 +201,8 @@ def main():
     already = (S['last_exec'] == str(e.date()))
     x_a = cal.next_td(cal.signal_day(anchor))
     if stale:
-        run['decision'] = f'資料過期（最後 {t_last.date()} < 應有 {need.date()}）：本次不做決策，{e.date()} 記為缺漏'
-        if str(e.date()) not in set(miss.exec_date):
-            miss = pd.concat([miss, pd.DataFrame([(str(e.date()), clock.isoformat(), '資料過期，不決策')], columns=miss.columns)]); miss.to_csv(miss_f, index=False)
+        # 不在這裡記缺漏：同一成交日開盤前若有較晚的執行拿到新資料，仍可決策；沒有的話下一次執行的缺口檢查會記入 ec_missing.csv
+        run['decision'] = f'資料過期（最後 {t_last.date()} < 應有 {need.date()}）：本次不做決策；{e.date()} 開盤前請在上游更新後重跑'
     elif already:
         run['decision'] = '本成交日已決策過，只更新首見與成交資料'
     elif e == x_a:
