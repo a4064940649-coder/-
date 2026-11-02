@@ -1,0 +1,180 @@
+{
+ "PREREG_FORWARD": {
+  "frozen_utc": "2026-11-02T20:34:11.231030+00:00",
+  "frozen_taipei": "2026-11-03T04:34:11+08:00",
+  "deadline": "2026-11-09 23:59（台北）",
+  "file_sha256": {
+   "make_forward.py": "ffcaabfbe04b4af2d1056db4f3ec8ebc7416184dd68574c83dddd9c8a735e0cd",
+   "fwd_data.py": "807a6f824da7c885b262d701091601919dbb575f92d10b2b41b036ac75f6e020",
+   "xlive.py": "b331197afc028a2921ef6d5f30743c68da7f26772cdfd40a83f6fb131642d830",
+   "disp_sat.py": "602a1cb361087f2d2d7b82acf0cce75deabf565fd4c2108b1cdc4c61394a444d",
+   "daily_step0.sh": "92f30c9657ad445507ac6ff41b6ced0f3f3fa48ac728630140b2029382c2a59f",
+   "fallback_manual.sh": "8e13565ef212058669fd1550791fc6d37e4eddc46b185ffdead05c3fd930edf3",
+   "calib_real.py": "eea10e44e82607ee1a5af8e73362a313b39342934303426abde860208a04471c",
+   "replay.py": "ebcccb0e73b3b42a76ec3fcbde13d234f1f9bb535d41f59f3bd40df6ba9cf772",
+   "accept.py": "a0105869a4e0dc3d4d45d942c22cf0dd0ddfdf1cccdaddaa7023d2bb6722582d",
+   "a3_v7x_compare.py": "400470da1a8b84cf7f5bebdcf83b4a105fc8edaa39cdb669ffceb4544a7d4706",
+   "main_picks_today.py": "0897787f617cec3b70ca92ab9a327cd095edbaf2c554730fa7ec67ab3f8d8dc3",
+   "disposal_today.py": "a95cf1d8f4da254fde0614f247d3e670dd2cff6dad8b87e562626fa4bcf2b1d3",
+   "x_exec.py": "7e5b62d83f2fd06886578f5e7bd4de22d31f1fe3cdb38759b27eec79b96882c7",
+   "x_data.py（A3 對照，只讀）": "0cb307fb75e46d951d0d9239b3419252dcad75afc05f4e366109efc3b6794919",
+   "frozen_spec_v7x.txt": "2b76c112a0dc31b91e48d1d4b777c9f78526b53184b0c1e3cf44513717b406d9",
+   "model_spec7.json": "d88c6ea77ceda04b6754fdfffdbd08c4eb18883a056d29e48f74cd789e2c46f6",
+   "s8_forward_calib.py": "320e1e6f8236c9084f5c55dbff182b98864957d6583dbc1cedefdbf00b16534d",
+   "o_forward_sequential_v2/make_forward.py（舊版，只讀）": "ec95c20507f2ddba585f9b5ece840f462c466480078683edae89796faa829ccd",
+   "frozen_spec.txt": "9ec9197f8855534393605ba9c2d9b727a79223b3c75a96e33284edb6bedb798e"
+  },
+  "data": {
+   "screener": "raw/screener（github stevenhsiehsheng-ctrl/tw-stock-screener 稀疏 clone，每日 fetch＋reset 到 origin/main）",
+   "finlab": "raw/finlab_repo（github jonatw/finlab-txd 稀疏 clone）→ raw/finlab/etf_0050.csv、taiex_twii.csv",
+   "panel": "scratchpad/panel 的 [2025-01-01, history 起日) 子集（work/panel_pre；只在 history 不足 252 日時拼接）"
+  },
+  "truncation": "fwd_data.py 文件字串（A1）：價格 date ≤ asof；營收 ann_eff ≤ asof（ann_date，缺值＝法定期限日）；處置公告日 ≤ asof；0050、加權指數 ≤ asof；每個資料框載入後 assert",
+  "costs": {
+   "main": "V7X K5T（x_exec.py 逐字）：{\"tier\": 1000000, \"mode\": \"GROW\", \"model\": \"K5T\", \"f1\": true, \"f2\": true, \"f3\": 0.5, \"f4\": true, \"rank_right\": true, \"stress_odd_extra\": true, \"cap\": 0.2, \"base\": 0.001, \"kappa\": 0.5, \"cash_buffer\": 0.02, \"fee\": \"0.1425%×0.28（最低 20 元）\", \"tax_sell\": 0.003, \"stress\": \"每邊＋0.4%、手續費 6 折、零股買成本×2\"}",
+   "cap10": "同上，但參與上限 0.10（SOP 建議，報告用）",
+   "disposal": "處置可執行層 v1_cap20（disp_sat.py 文件字串）：每邊 手續費＋max(一跳/收盤, 0.1%)＋0.5σ√(q/Qref)；賣出 0.3%；Qref＝V×match_min/270；上限 20%×Qref；閒置 0050（買賣 0050 手續費＋賣出 0.1%）",
+   "mix_rebalance": "窗初再平衡，漂移流量×0.5%"
+  },
+  "lines": {
+   "MAIN_OFFICIAL": "官方日（第一個 ≥ 11 日的交易日）收盤訊號＝main_picks_today.py --ex-fin 前 10 名排序；隔日開盤 M2 遞補；V7X K5T GROW 100 萬",
+   "J0..J12": "D_m（10 日起第一個交易日）後第 j 個交易日的同一分數；m−1 月營收只用已公告（J0 缺 ann_date＝未公告；J≥1 缺＝已公告）；同引擎",
+   "JMED": "每個錨定月 13 個 J 窗（訊號日收盤→下月同 j 訊號日收盤）超額（pp）的中位數；13 窗全部完成才定稿",
+   "E50": "0050 含息（finlab adj），官方日窗",
+   "DISP_TWSE": "處置衛星（上市），disposal_today.py 規則＋v1_cap20 可執行層，10 槽、100 萬、閒置 0050；官方日窗計報酬",
+   "DISP_TWSE_FIRST": "同上，只做第一次處置（排除 30 個交易日內再處置）",
+   "DISP_TPEX": "上櫃另列（同規則）",
+   "MIX_C70": "0050 70%＋MAIN_OFFICIAL 30%（官方日窗初再平衡）",
+   "MIX_D80": "0050 80%＋DISP_TWSE 20%（官方日窗初再平衡）"
+  },
+  "snapshot_rule": "名單快照在訊號日（含）以前的資料下寫入，寫入後不覆寫；frozen_ts 必須早於成交日 09:00（台北）；最近 20 個交易日的訊號日每天重算前 20 名，不同寫 list_diffs.csv",
+  "G8": {
+   "first_anchor": "2026-11",
+   "n_anchors": 12,
+   "last_anchor": "2027-10",
+   "lines": [
+    "JMED",
+    "DISP_TWSE",
+    "MIX_C70",
+    "MIX_D80"
+   ],
+   "rule": "每條線各自判定：2026-11～2027-10 共 12 個錨定月的「完成」窗超額（excess_pp，一般成本）加總 > 0 → 該線過 G8；JMED 用每月 13 個 J 窗的中位數（必須 13 窗都完成）。",
+   "decision_dates": "官方日窗最後一窗結束 2027-11-11 前後；JMED 在 2027-10 錨定月的 J12 窗結束（約 2027-11-26）後定稿。",
+   "descriptive": [
+    "MAIN_OFFICIAL",
+    "DISP_TWSE_FIRST",
+    "DISP_TPEX",
+    "壓力成本欄",
+    "參與上限 10% 欄",
+    "幾何累積超額"
+   ],
+   "timestamp_flaw": "任何一個月的快照 ts_ok＝false（凍結晚於成交日開盤）：該月照算但標註；若有 fallback_manual 的較早存檔則改用存檔名單重算；12 個月中有 ≥2 個月時戳不合格的線，G8 寫「時戳瑕疵，不判定」。"
+  },
+  "power_warning": {
+   "sigma_design_pp": 6.141373712658076,
+   "p_pass_given_alpha": {
+    "alpha_-1.0pp": 0.286,
+    "alpha_-0.5pp": 0.389,
+    "alpha_-0.4pp": 0.411,
+    "alpha_-0.3pp": 0.433,
+    "alpha_+0.0pp": 0.5,
+    "alpha_+0.3pp": 0.567,
+    "alpha_+0.5pp": 0.611,
+    "alpha_+1.0pp": 0.714
+   },
+   "text": "o8 檢定力警告：12 個月無法在統計上區分每月 −0.3～−0.5pp 的落後。以 σ＝6.14pp／月，真實 α＝−0.3／−0.5pp 時 12 個月加總仍 > 0 的機率約 43%／39%；α＝0 時 50%。G8 通過只是必要條件，不是 α>0 的證據。"
+  },
+  "bugfix_rule": "凍結後只准修 bug：每次修改記錄於 results.json bugfix_log（舊新 sha256、diff 摘要、重算前後 forward_returns 差異），不得改規則、線定義、成本參數或 G8。",
+  "topic_verdict_rule": "基礎建設「可用」＝A1～A6 全過，且 2026-11-10（J0）與 11-11（官方日＝J1）的真實運行快照 frozen_ts 都早於各自成交日 09:00（台北）；任一項沒過＝不可用，首月改用 fallback_manual.sh。"
+ },
+ "acceptance_replay": {
+  "a1": {
+   "pass_": true,
+   "summary": "28 份快照全部在訊號日當晚（模擬 06:49）寫入、早於成交日 09:00；載入資料最大日期 ≤ asof：True；成交日估計正確 28/28"
+  },
+  "a2": {
+   "pass_": true,
+   "summary": "2026-09-11 10/10；2026-10-12 10/10"
+  },
+  "a4": {
+   "pass_": true,
+   "summary": "同 asof 重跑 92 個檔案 sha256 不變：True；資料修訂後快照不覆寫：True，list_diffs 12 列"
+  },
+  "a5": {
+   "pass_": true,
+   "summary": "重播期間公告 101 筆，時戳合格 101；紙上買進 84 筆全部時戳合格：True"
+  },
+  "a6": {
+   "pass_": "True",
+   "summary": "forward_returns 線 21 條，缺 []；trades 紙上成交 454 筆"
+  },
+  "stale": {
+   "pass_": true,
+   "summary": "asof 11-10／11-11（資料只到 2026-11-02）：回傳碼 [2, 2]，未寫入快照：True"
+  },
+  "a3": {
+   "pass_": true,
+   "summary": "18 窗（官方日、J0、J6 × 一般／壓力／上限10% × 2 窗）V7X 原引擎 vs 前瞻引擎最大差 4.4e-14pp；舊 K5T-lite 減 V7X：[1.2148, -1.9901, 0.6811, -0.4234, 0.1316, -0.0431]"
+  }
+ },
+ "replay_2026_09_window": {
+  "DISP_TPEX": {
+   "excess_pp": -1.869,
+   "excess_stress_pp": -3.554
+  },
+  "DISP_TWSE": {
+   "excess_pp": 5.526,
+   "excess_stress_pp": 3.462
+  },
+  "DISP_TWSE_FIRST": {
+   "excess_pp": 3.896,
+   "excess_stress_pp": 2.407
+  },
+  "E50": {
+   "excess_pp": 0.0,
+   "excess_stress_pp": null
+  },
+  "JMED": {
+   "excess_pp": 1.801,
+   "excess_stress_pp": 1.03
+  },
+  "MAIN_OFFICIAL": {
+   "excess_pp": 14.45,
+   "excess_stress_pp": 13.726
+  },
+  "MIX_C70": {
+   "excess_pp": 4.335,
+   "excess_stress_pp": 4.118
+  },
+  "MIX_D80": {
+   "excess_pp": 1.105,
+   "excess_stress_pp": 0.692
+  }
+ },
+ "replay_2026_09_J_excess_pp": {
+  "J0": 8.527,
+  "J1": 13.938,
+  "J10": 4.847,
+  "J11": -0.095,
+  "J12": -3.158,
+  "J2": 13.115,
+  "J3": 9.449,
+  "J4": 5.376,
+  "J5": -1.62,
+  "J6": -2.219,
+  "J7": 1.671,
+  "J8": -2.691,
+  "J9": 1.801
+ },
+ "findings_data": {
+  "sop_20261012_disposal": "SOP 2026-10-12 名單第 3 名 2466、第 6 名 6213 在訊號日處於處置期（warnings_hist：10-07 公告，2466 10-08～10-15、6213 10-08～10-19）；disposal_5y 停在 10-05 所以 main_picks_today 沒排除。PIT 修正後官方名單改為 …6691、6196（A2 10/10 為截斷資料夾上的一致）。",
+  "rev_ann_late": "2026-09 營收 1,795 筆有 ann_date，103 筆（5.7%）晚於法定期限 10-12（多為 10-13，疑為抓取首見日）；J0 與官方日（10-12 同日）都視為未公告。",
+  "j0_ann_missing": "2026-09 錨定（m−1＝2026-08，ann_date 尚未開始記錄）：股池 266 檔缺 ann_date，J0 前 10 名改判 2 檔（1709、3231 → 2542、6214）；2026-10 錨定：15 檔缺，前 10 名不變。",
+  "history_window": "上游 history.csv.gz 只保留約 260 個交易日（2025-10-02 起）；2026-11-10 起 history 單獨模式。",
+  "disk": "容器磁碟只剩約 0.1～0.5GB（其他工作佔用）；本題改用共用 panel_pre 並在載入後刪除截斷資料夾。"
+ },
+ "verdict": {
+  "topic": "待觀察（重播驗收 A1～A6 全過；判「可用」的另一條件——2026-11-10／11-11 真實運行快照早於成交日開盤——要到 2026-11-12 09:00 才能確認）",
+  "next_check": "2026-11-11 06:49 後檢查 live_tracking/main_forward/paper_lists/j0_202611.meta.json ts_ok；2026-11-12 06:49 後檢查 official_202611、j1_202611"
+ }
+}

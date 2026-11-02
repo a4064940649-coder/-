@@ -1,0 +1,28 @@
+{
+ "spec": {
+  "title": "o_tpex_pool_extension 合併池（上市＋上櫃）主策略與上櫃衛星前瞻紙上追蹤（G8）",
+  "origin": "agents/o_tpex_pool_extension（PREREG sha256 702b13fe41be1692285eddc636f9f8d494bce5b9243a220efa24e21ca8c4b8a5，frozen_spec.txt sha256 57ebfbc28ba3581c1eab5392a5b0383ddad3cc6530b6c1b0f6d0d3bfbcb8e4bf）",
+  "versions": {
+   "M": "合併池前 400、n10、上櫃 ≤ 5 檔（主版本）",
+   "R2": "只上櫃前 300、n10（衛星）",
+   "BASE": "上市前 300、n10（對照）"
+  },
+  "combos": {
+   "C70": "0050 70%＋R2 30%",
+   "C50": "0050 50%＋R2 50%"
+  },
+  "start_signal_on_or_after": "2026-12-01",
+  "signal_day": "每月 10 日起第一個交易日（j0）收盤後；隔日開盤限價買進（≤ 前收＋2 跳），開盤漲停不買改用備取",
+  "run": "python3 -I -B research/tw_stock_selection/agents/o_tpex_pool_extension/s6_live_picks.py --data /home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data --signal <訊號日> --out research/tw_stock_selection/agents/live_tracking/o_tpex_pool_extension",
+  "outputs": [
+   "targets.tsv（訊號日、版本、名次、代碼、正選／備取）",
+   "paper_nav.tsv（成交日開盤→下一成交日開盤：M、R2、BASE、0050、C70、C50；扣 0.3% 稅＋手續費 2.8 折＋每邊 0.1% 滑價）"
+  ],
+  "G8_rule": "2026-12 換股日起滿 12 個月，M 對 0050 含息的成交窗累積超額 > 0 才算 G8 通過；同時記錄 C70 對 0050 與追蹤誤差。",
+  "dry_run_check": "2026-09-10 訊號日：live 腳本與回測名單重合 M 9/10、R2 8/10、BASE 10/10（差異來自成交日開盤漲停遞補與新上市股 52 週筆數）",
+  "sha256": {
+   "s6_live_picks.py": "1c49c2cac0fcaf53382bbbcffe5712b82b7839df9d900ed45b3e80b37a5a187c"
+  }
+ },
+ "frozen_utc": "2026-11-02T20:23:02.016457+00:00"
+}

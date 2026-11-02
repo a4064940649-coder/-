@@ -1,0 +1,91 @@
+{
+ "n_events_in_replay": 101,
+ "n_ts_ok": 101,
+ "by_market_regime": {
+  "TPEX_new5": 63,
+  "TWSE_new5": 38
+ },
+ "n_first_only_twse": 25,
+ "n_take_twse": 35,
+ "decisions": [
+  {
+   "line": "DISP_TPEX",
+   "decision": "BUY",
+   "n": 37
+  },
+  {
+   "line": "DISP_TPEX",
+   "decision": "LATE（決策時戳晚於進場日 13:30）",
+   "n": 11
+  },
+  {
+   "line": "DISP_TPEX",
+   "decision": "SKIP 收盤漲幅 ≥ 9%",
+   "n": 11
+  },
+  {
+   "line": "DISP_TPEX",
+   "decision": "SKIP 流動性",
+   "n": 5
+  },
+  {
+   "line": "DISP_TWSE",
+   "decision": "BUY",
+   "n": 27
+  },
+  {
+   "line": "DISP_TWSE",
+   "decision": "LATE（決策時戳晚於進場日 13:30）",
+   "n": 7
+  },
+  {
+   "line": "DISP_TWSE",
+   "decision": "SKIP 收盤漲幅 ≥ 9%",
+   "n": 2
+  },
+  {
+   "line": "DISP_TWSE",
+   "decision": "SKIP 槽滿",
+   "n": 4
+  },
+  {
+   "line": "DISP_TWSE",
+   "decision": "SKIP 流動性",
+   "n": 2
+  },
+  {
+   "line": "DISP_TWSE_FIRST",
+   "decision": "BUY",
+   "n": 20
+  },
+  {
+   "line": "DISP_TWSE_FIRST",
+   "decision": "LATE（決策時戳晚於進場日 13:30）",
+   "n": 4
+  },
+  {
+   "line": "DISP_TWSE_FIRST",
+   "decision": "SKIP 收盤漲幅 ≥ 9%",
+   "n": 2
+  },
+  {
+   "line": "DISP_TWSE_FIRST",
+   "decision": "SKIP 槽滿",
+   "n": 1
+  },
+  {
+   "line": "DISP_TWSE_FIRST",
+   "decision": "SKIP 流動性",
+   "n": 2
+  }
+ ],
+ "all_traded_events_ts_ok": true,
+ "n_buys": 84,
+ "lines_present": [
+  "DISP_TPEX",
+  "DISP_TWSE",
+  "DISP_TWSE_FIRST"
+ ],
+ "pass": true,
+ "summary": "重播期間公告 101 筆，時戳合格 101；紙上買進 84 筆全部時戳合格：True"
+}

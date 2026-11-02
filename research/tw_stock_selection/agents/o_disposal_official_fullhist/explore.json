@@ -1,0 +1,447 @@
+{
+ "period": [
+  "2021-10-01",
+  "2023-12-31"
+ ],
+ "run6_cuts_all_records_pct": [
+  4.3,
+  30.9,
+  40.4,
+  49.5
+ ],
+ "counts": {
+  "n": 82,
+  "reconcile_disposal_v2": "81 筆 +3.07% t_month 1.74（disposal_5y＋共用面板）"
+ },
+ "P1_verbatim_SEL": {
+  "net": {
+   "n": 82,
+   "mean_pct": 3.37,
+   "median_pct": 3.33,
+   "hit": 0.561,
+   "t_month": 2.13,
+   "n_months": 17,
+   "t_event": 2.43,
+   "ex_top5pct_mean_pct": 1.75
+  },
+  "gross": {
+   "n": 82,
+   "mean_pct": 4.24,
+   "median_pct": 4.25,
+   "hit": 0.573,
+   "t_month": 2.55,
+   "n_months": 17,
+   "t_event": 3.06,
+   "ex_top5pct_mean_pct": 2.62
+  },
+  "net50": {
+   "n": 82,
+   "mean_pct": 3.92,
+   "median_pct": 4.03,
+   "hit": 0.598,
+   "t_month": 2.02,
+   "n_months": 17,
+   "t_event": 2.7,
+   "ex_top5pct_mean_pct": 2.22
+  },
+  "raw_net": {
+   "n": 82,
+   "mean_pct": 4.07,
+   "median_pct": 2.8,
+   "hit": 0.598,
+   "t_month": 2.23,
+   "n_months": 17,
+   "t_event": 2.77,
+   "ex_top5pct_mean_pct": 2.36
+  },
+  "net_cost0.012": {
+   "n": 82,
+   "mean_pct": 3.04,
+   "median_pct": 3.05,
+   "hit": 0.561,
+   "t_month": 1.95,
+   "n_months": 17,
+   "t_event": 2.19,
+   "ex_top5pct_mean_pct": 1.42
+  },
+  "net_cost0.02": {
+   "n": 82,
+   "mean_pct": 2.24,
+   "median_pct": 2.25,
+   "hit": 0.537,
+   "t_month": 1.55,
+   "n_months": 17,
+   "t_event": 1.61,
+   "ex_top5pct_mean_pct": 0.62
+  }
+ },
+ "path_SEL": {
+  "early": {
+   "n": 82,
+   "mean_pct": 2.06,
+   "median_pct": 1.16,
+   "hit": 0.61,
+   "t_month": 2.11,
+   "n_months": 17,
+   "t_event": 2.24,
+   "ex_top5pct_mean_pct": 0.81
+  },
+  "late": {
+   "n": 82,
+   "mean_pct": 2.32,
+   "median_pct": 1.54,
+   "hit": 0.524,
+   "t_month": 1.97,
+   "n_months": 17,
+   "t_event": 2.13,
+   "ex_top5pct_mean_pct": 1.07
+  },
+  "late_minus_early": {
+   "n": 82,
+   "mean_pct": 0.26,
+   "median_pct": 1.93,
+   "hit": 0.524,
+   "t_month": -0.27,
+   "n_months": 17,
+   "t_event": 0.18,
+   "ex_top5pct_mean_pct": -1.25
+  },
+  "N_dist": {
+   "8": 6,
+   "9": 53,
+   "10": 1,
+   "11": 22
+  }
+ },
+ "subgroups_SEL_gross": {
+  "f_second": {
+   "diff_pct": -2.96,
+   "t_cluster_month": -1.06,
+   "n1": 14,
+   "n0": 68,
+   "n_clusters": 17
+  },
+  "f_vdrop_big": {
+   "diff_pct": -5.06,
+   "t_cluster_month": -2.49,
+   "n1": 41,
+   "n0": 41,
+   "n_clusters": 17
+  },
+  "f_q5": {
+   "diff_pct": -1.86,
+   "t_cluster_month": -0.56,
+   "n1": 19,
+   "n0": 63,
+   "n_clusters": 17
+  },
+  "20min_minus_5min": {
+   "diff_pct": -3.81,
+   "t_cluster_month": -1.18,
+   "n1": 10,
+   "n0": 71,
+   "n_clusters": 17
+  },
+  "match_min_counts": {
+   "5.0": 71,
+   "20.0": 10,
+   "10.0": 1
+  },
+  "vdrop_median_pct": -59.1
+ },
+ "above_ma_SEL_nobear": {
+  "diff": {
+   "diff_pct": 2.74,
+   "t_cluster_month": 0.76,
+   "n1": 82,
+   "n0": 29,
+   "n_clusters": 26
+  },
+  "n_below": 29
+ },
+ "placebo_SEL": {
+  "ev_minus_pl": {
+   "n": 42,
+   "mean_pct": 6.47,
+   "median_pct": 4.94,
+   "hit": 0.667,
+   "t_month": 2.99,
+   "n_months": 13,
+   "t_event": 3.24,
+   "ex_top5pct_mean_pct": 4.45
+  },
+  "coverage": 0.512,
+  "mode_counts": {
+   "nan": 40,
+   "bucket": 39,
+   "pm5": 3
+  },
+  "median_n_controls": 1.0,
+  "pl_raw_mean_pct": -1.42,
+  "ev_raw_mean_pct": 4.94
+ },
+ "daytrade_ratio_SEL": {
+  "n": 74,
+  "share_events_with_any_daytrade_record_during": 0.0,
+  "pre30d_median_of_medians_pct": 41.83,
+  "during_median_of_medians_pct": 0.0
+ },
+ "value_drop_SEL": {
+  "mean_pct": -44.6,
+  "median_pct": -59.1
+ },
+ "capacity_SEL": {
+  "slot_10萬": {
+   "fill_median": 1.0,
+   "fill_mean": 1.0,
+   "share_capped": 0.0,
+   "cost_x_mean_pct": 1.46,
+   "net_x": {
+    "n": 82,
+    "mean_pct": 2.78,
+    "median_pct": 2.6,
+    "hit": 0.537,
+    "t_month": 1.82,
+    "n_months": 17,
+    "t_event": 2.03,
+    "ex_top5pct_mean_pct": 1.21
+   }
+  },
+  "slot_30萬": {
+   "fill_median": 1.0,
+   "fill_mean": 0.98,
+   "share_capped": 0.085,
+   "cost_x_mean_pct": 1.73,
+   "net_x": {
+    "n": 82,
+    "mean_pct": 2.5,
+    "median_pct": 2.48,
+    "hit": 0.537,
+    "t_month": 1.62,
+    "n_months": 17,
+    "t_event": 1.86,
+    "ex_top5pct_mean_pct": 0.94
+   }
+  },
+  "slot_100萬": {
+   "fill_median": 1.0,
+   "fill_mean": 0.802,
+   "share_capped": 0.439,
+   "cost_x_mean_pct": 2.22,
+   "net_x": {
+    "n": 82,
+    "mean_pct": 2.02,
+    "median_pct": 0.92,
+    "hit": 0.512,
+    "t_month": 1.44,
+    "n_months": 17,
+    "t_event": 1.51,
+    "ex_top5pct_mean_pct": 0.44
+   }
+  }
+ },
+ "timing_grid_SEL": {
+  "C1xCL": {
+   "flat": {
+    "n": 82,
+    "mean_pct": 3.37,
+    "median_pct": 3.33,
+    "hit": 0.561,
+    "t_month": 2.13,
+    "n_months": 17,
+    "t_event": 2.43,
+    "ex_top5pct_mean_pct": 1.75
+   },
+   "exec": {
+    "n": 82,
+    "mean_pct": 2.78,
+    "median_pct": 2.6,
+    "hit": 0.537,
+    "t_month": 1.82,
+    "n_months": 17,
+    "t_event": 2.03,
+    "ex_top5pct_mean_pct": 1.21
+   }
+  },
+  "C1xCL1": {
+   "flat": {
+    "n": 82,
+    "mean_pct": 3.72,
+    "median_pct": 1.98,
+    "hit": 0.61,
+    "t_month": 2.59,
+    "n_months": 17,
+    "t_event": 3.13,
+    "ex_top5pct_mean_pct": 2.25
+   },
+   "exec": {
+    "n": 82,
+    "mean_pct": 3.03,
+    "median_pct": 1.4,
+    "hit": 0.573,
+    "t_month": 2.22,
+    "n_months": 17,
+    "t_event": 2.57,
+    "ex_top5pct_mean_pct": 1.6
+   }
+  },
+  "C1xOA": {
+   "flat": {
+    "n": 82,
+    "mean_pct": 3.64,
+    "median_pct": 3.1,
+    "hit": 0.573,
+    "t_month": 2.22,
+    "n_months": 17,
+    "t_event": 2.59,
+    "ex_top5pct_mean_pct": 1.94
+   },
+   "exec": {
+    "n": 82,
+    "mean_pct": 3.32,
+    "median_pct": 2.74,
+    "hit": 0.573,
+    "t_month": 2.06,
+    "n_months": 17,
+    "t_event": 2.39,
+    "ex_top5pct_mean_pct": 1.65
+   }
+  },
+  "O2xCL": {
+   "flat": {
+    "n": 86,
+    "mean_pct": 3.55,
+    "median_pct": 3.2,
+    "hit": 0.581,
+    "t_month": 1.76,
+    "n_months": 17,
+    "t_event": 2.47,
+    "ex_top5pct_mean_pct": 1.74
+   },
+   "exec": {
+    "n": 86,
+    "mean_pct": 2.91,
+    "median_pct": 2.45,
+    "hit": 0.57,
+    "t_month": 1.45,
+    "n_months": 17,
+    "t_event": 2.05,
+    "ex_top5pct_mean_pct": 1.14
+   }
+  },
+  "O2xCL1": {
+   "flat": {
+    "n": 86,
+    "mean_pct": 3.72,
+    "median_pct": 2.67,
+    "hit": 0.581,
+    "t_month": 2.43,
+    "n_months": 17,
+    "t_event": 3.07,
+    "ex_top5pct_mean_pct": 2.23
+   },
+   "exec": {
+    "n": 86,
+    "mean_pct": 2.99,
+    "median_pct": 2.21,
+    "hit": 0.57,
+    "t_month": 1.97,
+    "n_months": 17,
+    "t_event": 2.48,
+    "ex_top5pct_mean_pct": 1.52
+   }
+  },
+  "O2xOA": {
+   "flat": {
+    "n": 86,
+    "mean_pct": 3.75,
+    "median_pct": 3.4,
+    "hit": 0.57,
+    "t_month": 1.9,
+    "n_months": 17,
+    "t_event": 2.63,
+    "ex_top5pct_mean_pct": 1.99
+   },
+   "exec": {
+    "n": 86,
+    "mean_pct": 3.37,
+    "median_pct": 2.95,
+    "hit": 0.57,
+    "t_month": 1.71,
+    "n_months": 17,
+    "t_event": 2.4,
+    "ex_top5pct_mean_pct": 1.65
+   }
+  },
+  "C2xCL": {
+   "flat": {
+    "n": 81,
+    "mean_pct": 3.65,
+    "median_pct": 1.56,
+    "hit": 0.58,
+    "t_month": 2.3,
+    "n_months": 17,
+    "t_event": 2.54,
+    "ex_top5pct_mean_pct": 1.77
+   },
+   "exec": {
+    "n": 81,
+    "mean_pct": 2.99,
+    "median_pct": 1.21,
+    "hit": 0.543,
+    "t_month": 1.92,
+    "n_months": 17,
+    "t_event": 2.11,
+    "ex_top5pct_mean_pct": 1.14
+   }
+  },
+  "C2xCL1": {
+   "flat": {
+    "n": 81,
+    "mean_pct": 4.11,
+    "median_pct": 1.92,
+    "hit": 0.654,
+    "t_month": 3.32,
+    "n_months": 17,
+    "t_event": 3.49,
+    "ex_top5pct_mean_pct": 2.59
+   },
+   "exec": {
+    "n": 81,
+    "mean_pct": 3.35,
+    "median_pct": 1.08,
+    "hit": 0.593,
+    "t_month": 2.73,
+    "n_months": 17,
+    "t_event": 2.86,
+    "ex_top5pct_mean_pct": 1.84
+   }
+  },
+  "C2xOA": {
+   "flat": {
+    "n": 81,
+    "mean_pct": 3.84,
+    "median_pct": 1.89,
+    "hit": 0.556,
+    "t_month": 2.48,
+    "n_months": 17,
+    "t_event": 2.74,
+    "ex_top5pct_mean_pct": 2.06
+   },
+   "exec": {
+    "n": 81,
+    "mean_pct": 3.45,
+    "median_pct": 1.57,
+    "hit": 0.556,
+    "t_month": 2.25,
+    "n_months": 17,
+    "t_event": 2.49,
+    "ex_top5pct_mean_pct": 1.7
+   }
+  }
+ },
+ "timing_grid_SEL_summary": {
+  "median_pct": 3.03,
+  "p10_pct": 2.884
+ }
+}

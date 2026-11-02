@@ -1,0 +1,13 @@
+{
+ "note": "確認性檢定：模型（F1_K5_N20_sqrt 名單規則、隨機分數安慰劑、統計量）照 o7 凍結版，不迭代、不挑版本。下列『版本』是事前寫死的輸入替換順序（P2 拆解），全部報告；判定只看 (a)、(b) 兩版 j 中位數 t 的較小者，不在版本間挑選。結果數字在 PREREG 之後才算出，見 results.json['main']['P2']。",
+ "versions": [
+  {"id": "o7", "shares": "o7 shares_est（2025-10 MI_QFIIS 錨點往回推）", "delisted": "排除（無股數）", "memb_pre2015": "o7 規則重建", "role": "重現閘門與 P2 起點"},
+  {"id": "i", "shares": "o8 shares_pit（只在 shares_est 有值的格子）", "delisted": "排除", "memb_pre2015": "o8 membership_pit", "role": "P2 (i)"},
+  {"id": "ii", "shares": "(i)＋4763 TDCC 修正＋2317 減資日修正", "delisted": "排除", "memb_pre2015": "o8 membership_pit", "role": "P2 (ii)"},
+  {"id": "a", "shares": "shares_pit 全部格子＋修正", "delisted": "納入：delist_prices 補 2019-05-17～2023 價格、V7 上市身分遮罩", "memb_pre2015": "o8 membership_pit", "role": "P2 (iii)＝PIT 版本 (a)，判定用"},
+  {"id": "b", "shares": "版本 (a) 股數落後 63 個交易日", "delisted": "同 (a)", "memb_pre2015": "o8 membership_pit", "role": "PIT 版本 (b)，判定用"},
+  {"id": "c（複製者）", "shares": "replicate/r_shares.py 從原始股本自建：季報股本在法定公告期限才生效＋除權／分割事件＋TDCC／weihautin 快照＋MI_QFIIS", "delisted": "納入", "memb_pre2015": "不適用（只跑 MAIN）", "role": "G6 獨立複製，不參與判定"}
+ ],
+ "n_versions": 6,
+ "selection": "無挑選；(iv) 官方日 → j 中位數是統計口徑替換，不是模型版本"
+}

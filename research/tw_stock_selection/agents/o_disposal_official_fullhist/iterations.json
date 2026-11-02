@@ -1,0 +1,728 @@
+{
+ "time_utc": "2026-11-02T19:40:32Z",
+ "criterion": "（寫在跑之前，存進 iterations.json 的 criterion）：\n  以 v1（PLAN 原設定）為預設；其他版本只有在「挑選期 100 萬 FIX 衛星對 0050 月超額 t 比 v1 高 ≥ 0.3，\n  且逐筆可執行淨超額（每槽 10 萬）平均 ≥ v1，且 1,000 萬 GROW 對 0050 月超額 ≥ v1」三項同時成立時才取代 v1；\n  多個符合時取 t 最高者。",
+ "period": [
+  "2021-10-01",
+  "2023-12-31"
+ ],
+ "versions": {
+  "v1_cap20_shrink_defer": {
+   "cfg": {
+    "build": {},
+    "cap": 0.2,
+    "min_fill": 0.0,
+    "defer": true
+   },
+   "n": 82,
+   "event_flat": {
+    "n": 82,
+    "mean_pct": 3.37,
+    "median_pct": 3.33,
+    "hit": 0.561,
+    "t_month": 2.13,
+    "n_months": 17,
+    "t_event": 2.43,
+    "ex_top5pct_mean_pct": 1.75
+   },
+   "event_exec_slot10萬": {
+    "n": 82,
+    "mean_pct": 2.78,
+    "median_pct": 2.6,
+    "hit": 0.537,
+    "t_month": 1.82,
+    "n_months": 17,
+    "t_event": 2.03,
+    "ex_top5pct_mean_pct": 1.21
+   },
+   "event_exec_slot100萬": {
+    "n": 82,
+    "mean_pct": 2.02,
+    "median_pct": 0.92,
+    "hit": 0.512,
+    "t_month": 1.44,
+    "n_months": 17,
+    "t_event": 1.51,
+    "ex_top5pct_mean_pct": 0.44
+   },
+   "sleeve": {
+    "100萬|FIX": {
+     "ann": 16.09,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.902,
+     "t_vs_0050": 1.53,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.126
+    },
+    "100萬|GROW": {
+     "ann": 15.65,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.886,
+     "t_vs_0050": 1.34,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.144
+    },
+    "300萬|FIX": {
+     "ann": 14.28,
+     "ann_0050": 3.88,
+     "mdd": -32.2,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.763,
+     "t_vs_0050": 1.37,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 7,
+     "zero_cap": 0,
+     "mean_invested": 0.126
+    },
+    "300萬|GROW": {
+     "ann": 13.82,
+     "ann_0050": 3.88,
+     "mdd": -32.3,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.741,
+     "t_vs_0050": 1.21,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 10,
+     "zero_cap": 0,
+     "mean_invested": 0.14
+    },
+    "1000萬|FIX": {
+     "ann": 10.39,
+     "ann_0050": 3.88,
+     "mdd": -33.3,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.508,
+     "t_vs_0050": 1.09,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 36,
+     "zero_cap": 0,
+     "mean_invested": 0.109
+    },
+    "1000萬|GROW": {
+     "ann": 9.88,
+     "ann_0050": 3.88,
+     "mdd": -33.4,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.471,
+     "t_vs_0050": 0.99,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 37,
+     "zero_cap": 0,
+     "mean_invested": 0.115
+    }
+   }
+  },
+  "v2_cap10": {
+   "cfg": {
+    "build": {},
+    "cap": 0.1,
+    "min_fill": 0.0,
+    "defer": true
+   },
+   "n": 82,
+   "event_flat": {
+    "n": 82,
+    "mean_pct": 3.37,
+    "median_pct": 3.33,
+    "hit": 0.561,
+    "t_month": 2.13,
+    "n_months": 17,
+    "t_event": 2.43,
+    "ex_top5pct_mean_pct": 1.75
+   },
+   "event_exec_slot10萬": {
+    "n": 82,
+    "mean_pct": 2.85,
+    "median_pct": 2.84,
+    "hit": 0.537,
+    "t_month": 1.85,
+    "n_months": 17,
+    "t_event": 2.1,
+    "ex_top5pct_mean_pct": 1.27
+   },
+   "event_exec_slot100萬": {
+    "n": 82,
+    "mean_pct": 2.25,
+    "median_pct": 1.54,
+    "hit": 0.524,
+    "t_month": 1.59,
+    "n_months": 17,
+    "t_event": 1.66,
+    "ex_top5pct_mean_pct": 0.59
+   },
+   "sleeve": {
+    "100萬|FIX": {
+     "ann": 15.89,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.885,
+     "t_vs_0050": 1.53,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 2,
+     "zero_cap": 0,
+     "mean_invested": 0.126
+    },
+    "100萬|GROW": {
+     "ann": 15.38,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.862,
+     "t_vs_0050": 1.34,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 3,
+     "zero_cap": 0,
+     "mean_invested": 0.143
+    },
+    "300萬|FIX": {
+     "ann": 13.64,
+     "ann_0050": 3.88,
+     "mdd": -32.7,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.737,
+     "t_vs_0050": 1.45,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 19,
+     "zero_cap": 0,
+     "mean_invested": 0.119
+    },
+    "300萬|GROW": {
+     "ann": 12.86,
+     "ann_0050": 3.88,
+     "mdd": -32.8,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.682,
+     "t_vs_0050": 1.27,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 21,
+     "zero_cap": 0,
+     "mean_invested": 0.13
+    },
+    "1000萬|FIX": {
+     "ann": 9.24,
+     "ann_0050": 3.88,
+     "mdd": -33.6,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.431,
+     "t_vs_0050": 1.06,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 54,
+     "zero_cap": 0,
+     "mean_invested": 0.088
+    },
+    "1000萬|GROW": {
+     "ann": 8.68,
+     "ann_0050": 3.88,
+     "mdd": -33.6,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.387,
+     "t_vs_0050": 0.98,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 55,
+     "zero_cap": 0,
+     "mean_invested": 0.09
+    }
+   }
+  },
+  "v3_cap30": {
+   "cfg": {
+    "build": {},
+    "cap": 0.3,
+    "min_fill": 0.0,
+    "defer": true
+   },
+   "n": 82,
+   "event_flat": {
+    "n": 82,
+    "mean_pct": 3.37,
+    "median_pct": 3.33,
+    "hit": 0.561,
+    "t_month": 2.13,
+    "n_months": 17,
+    "t_event": 2.43,
+    "ex_top5pct_mean_pct": 1.75
+   },
+   "event_exec_slot10萬": {
+    "n": 82,
+    "mean_pct": 2.78,
+    "median_pct": 2.6,
+    "hit": 0.537,
+    "t_month": 1.82,
+    "n_months": 17,
+    "t_event": 2.04,
+    "ex_top5pct_mean_pct": 1.22
+   },
+   "event_exec_slot100萬": {
+    "n": 82,
+    "mean_pct": 1.89,
+    "median_pct": 1.13,
+    "hit": 0.524,
+    "t_month": 1.34,
+    "n_months": 17,
+    "t_event": 1.43,
+    "ex_top5pct_mean_pct": 0.35
+   },
+   "sleeve": {
+    "100萬|FIX": {
+     "ann": 16.12,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.904,
+     "t_vs_0050": 1.53,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.126
+    },
+    "100萬|GROW": {
+     "ann": 15.62,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.884,
+     "t_vs_0050": 1.33,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.144
+    },
+    "300萬|FIX": {
+     "ann": 14.41,
+     "ann_0050": 3.88,
+     "mdd": -32.1,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.775,
+     "t_vs_0050": 1.35,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 2,
+     "zero_cap": 0,
+     "mean_invested": 0.127
+    },
+    "300萬|GROW": {
+     "ann": 13.6,
+     "ann_0050": 3.88,
+     "mdd": -32.2,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.727,
+     "t_vs_0050": 1.15,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 3,
+     "zero_cap": 0,
+     "mean_invested": 0.143
+    },
+    "1000萬|FIX": {
+     "ann": 11.19,
+     "ann_0050": 3.88,
+     "mdd": -33.1,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.554,
+     "t_vs_0050": 1.12,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 24,
+     "zero_cap": 0,
+     "mean_invested": 0.119
+    },
+    "1000萬|GROW": {
+     "ann": 10.23,
+     "ann_0050": 3.88,
+     "mdd": -33.2,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.482,
+     "t_vs_0050": 0.94,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 24,
+     "zero_cap": 0,
+     "mean_invested": 0.128
+    }
+   }
+  },
+  "v4_first_only": {
+   "cfg": {
+    "build": {
+     "first_only": true
+    },
+    "cap": 0.2,
+    "min_fill": 0.0,
+    "defer": true
+   },
+   "n": 68,
+   "event_flat": {
+    "n": 68,
+    "mean_pct": 3.94,
+    "median_pct": 3.45,
+    "hit": 0.574,
+    "t_month": 2.55,
+    "n_months": 17,
+    "t_event": 2.51,
+    "ex_top5pct_mean_pct": 2.34
+   },
+   "event_exec_slot10萬": {
+    "n": 68,
+    "mean_pct": 3.25,
+    "median_pct": 2.6,
+    "hit": 0.544,
+    "t_month": 2.22,
+    "n_months": 17,
+    "t_event": 2.1,
+    "ex_top5pct_mean_pct": 1.69
+   },
+   "event_exec_slot100萬": {
+    "n": 68,
+    "mean_pct": 2.42,
+    "median_pct": 0.92,
+    "hit": 0.515,
+    "t_month": 1.82,
+    "n_months": 17,
+    "t_event": 1.59,
+    "ex_top5pct_mean_pct": 0.88
+   },
+   "sleeve": {
+    "100萬|FIX": {
+     "ann": 15.08,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.818,
+     "t_vs_0050": 1.55,
+     "n_months": 26,
+     "entered": 68,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.106
+    },
+    "100萬|GROW": {
+     "ann": 14.73,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.805,
+     "t_vs_0050": 1.36,
+     "n_months": 26,
+     "entered": 68,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.121
+    },
+    "300萬|FIX": {
+     "ann": 13.34,
+     "ann_0050": 3.88,
+     "mdd": -32.2,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.684,
+     "t_vs_0050": 1.37,
+     "n_months": 26,
+     "entered": 68,
+     "capped": 7,
+     "zero_cap": 0,
+     "mean_invested": 0.106
+    },
+    "300萬|GROW": {
+     "ann": 13.05,
+     "ann_0050": 3.88,
+     "mdd": -32.3,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.671,
+     "t_vs_0050": 1.23,
+     "n_months": 26,
+     "entered": 68,
+     "capped": 10,
+     "zero_cap": 0,
+     "mean_invested": 0.117
+    },
+    "1000萬|FIX": {
+     "ann": 9.75,
+     "ann_0050": 3.88,
+     "mdd": -33.3,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.452,
+     "t_vs_0050": 1.12,
+     "n_months": 26,
+     "entered": 68,
+     "capped": 33,
+     "zero_cap": 0,
+     "mean_invested": 0.09
+    },
+    "1000萬|GROW": {
+     "ann": 9.32,
+     "ann_0050": 3.88,
+     "mdd": -33.4,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.42,
+     "t_vs_0050": 1.01,
+     "n_months": 26,
+     "entered": 68,
+     "capped": 34,
+     "zero_cap": 0,
+     "mean_invested": 0.094
+    }
+   }
+  },
+  "v5_skip_if_fill_lt50": {
+   "cfg": {
+    "build": {},
+    "cap": 0.2,
+    "min_fill": 0.5,
+    "defer": true
+   },
+   "n": 82,
+   "event_flat": {
+    "n": 82,
+    "mean_pct": 3.37,
+    "median_pct": 3.33,
+    "hit": 0.561,
+    "t_month": 2.13,
+    "n_months": 17,
+    "t_event": 2.43,
+    "ex_top5pct_mean_pct": 1.75
+   },
+   "event_exec_slot10萬": {
+    "n": 82,
+    "mean_pct": 2.78,
+    "median_pct": 2.6,
+    "hit": 0.537,
+    "t_month": 1.82,
+    "n_months": 17,
+    "t_event": 2.03,
+    "ex_top5pct_mean_pct": 1.21
+   },
+   "event_exec_slot100萬": {
+    "n": 82,
+    "mean_pct": 2.02,
+    "median_pct": 0.92,
+    "hit": 0.512,
+    "t_month": 1.44,
+    "n_months": 17,
+    "t_event": 1.51,
+    "ex_top5pct_mean_pct": 0.44
+   },
+   "sleeve": {
+    "100萬|FIX": {
+     "ann": 16.09,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.902,
+     "t_vs_0050": 1.53,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.126
+    },
+    "100萬|GROW": {
+     "ann": 15.65,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.886,
+     "t_vs_0050": 1.34,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.144
+    },
+    "300萬|FIX": {
+     "ann": 13.97,
+     "ann_0050": 3.88,
+     "mdd": -32.2,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.737,
+     "t_vs_0050": 1.33,
+     "n_months": 26,
+     "entered": 81,
+     "capped": 7,
+     "zero_cap": 1,
+     "mean_invested": 0.125
+    },
+    "300萬|GROW": {
+     "ann": 13.52,
+     "ann_0050": 3.88,
+     "mdd": -32.3,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.715,
+     "t_vs_0050": 1.18,
+     "n_months": 26,
+     "entered": 81,
+     "capped": 10,
+     "zero_cap": 1,
+     "mean_invested": 0.14
+    },
+    "1000萬|FIX": {
+     "ann": 9.83,
+     "ann_0050": 3.88,
+     "mdd": -33.5,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.506,
+     "t_vs_0050": 1.13,
+     "n_months": 26,
+     "entered": 66,
+     "capped": 36,
+     "zero_cap": 16,
+     "mean_invested": 0.102
+    },
+    "1000萬|GROW": {
+     "ann": 9.15,
+     "ann_0050": 3.88,
+     "mdd": -33.5,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.453,
+     "t_vs_0050": 1.0,
+     "n_months": 26,
+     "entered": 65,
+     "capped": 37,
+     "zero_cap": 17,
+     "mean_invested": 0.106
+    }
+   }
+  },
+  "v6_no_exit_defer": {
+   "cfg": {
+    "build": {},
+    "cap": 0.2,
+    "min_fill": 0.0,
+    "defer": false
+   },
+   "n": 82,
+   "event_flat": {
+    "n": 82,
+    "mean_pct": 3.37,
+    "median_pct": 3.33,
+    "hit": 0.561,
+    "t_month": 2.13,
+    "n_months": 17,
+    "t_event": 2.43,
+    "ex_top5pct_mean_pct": 1.75
+   },
+   "event_exec_slot10萬": {
+    "n": 82,
+    "mean_pct": 2.79,
+    "median_pct": 2.6,
+    "hit": 0.537,
+    "t_month": 1.83,
+    "n_months": 17,
+    "t_event": 2.04,
+    "ex_top5pct_mean_pct": 1.22
+   },
+   "event_exec_slot100萬": {
+    "n": 82,
+    "mean_pct": 1.86,
+    "median_pct": 1.28,
+    "hit": 0.537,
+    "t_month": 1.33,
+    "n_months": 17,
+    "t_event": 1.37,
+    "ex_top5pct_mean_pct": 0.3
+   },
+   "sleeve": {
+    "100萬|FIX": {
+     "ann": 16.15,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.906,
+     "t_vs_0050": 1.53,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.126
+    },
+    "100萬|GROW": {
+     "ann": 15.65,
+     "ann_0050": 3.88,
+     "mdd": -31.9,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.886,
+     "t_vs_0050": 1.33,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 0,
+     "zero_cap": 0,
+     "mean_invested": 0.144
+    },
+    "300萬|FIX": {
+     "ann": 13.91,
+     "ann_0050": 3.88,
+     "mdd": -32.2,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.734,
+     "t_vs_0050": 1.31,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 7,
+     "zero_cap": 0,
+     "mean_invested": 0.126
+    },
+    "300萬|GROW": {
+     "ann": 13.35,
+     "ann_0050": 3.88,
+     "mdd": -32.3,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.704,
+     "t_vs_0050": 1.15,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 10,
+     "zero_cap": 0,
+     "mean_invested": 0.14
+    },
+    "1000萬|FIX": {
+     "ann": 10.2,
+     "ann_0050": 3.88,
+     "mdd": -33.0,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.491,
+     "t_vs_0050": 1.02,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 36,
+     "zero_cap": 0,
+     "mean_invested": 0.108
+    },
+    "1000萬|GROW": {
+     "ann": 9.65,
+     "ann_0050": 3.88,
+     "mdd": -33.1,
+     "mdd_0050": -34.0,
+     "ex_month_mean_pp": 0.451,
+     "t_vs_0050": 0.91,
+     "n_months": 26,
+     "entered": 82,
+     "capped": 37,
+     "zero_cap": 0,
+     "mean_invested": 0.114
+    }
+   }
+  }
+ },
+ "selected": "v1_cap20_shrink_defer",
+ "n_versions": 6
+}

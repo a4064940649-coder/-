@@ -1,0 +1,108 @@
+{
+ "created_utc": "2026-11-02T19:41:43.777028+00:00",
+ "rule": "成分名單完整率 ≥90%、規模月資料覆蓋 ≥90%；整體規模覆蓋 <70% → 資料不足",
+ "etf": {
+  "TW50": {
+   "den_desc": "季度（3/6/9/12），2006～2026-09",
+   "reviews_expected": 83,
+   "reviews_with_list": 47,
+   "reviews_complete": 47,
+   "list_completeness": 0.566,
+   "aum_monthly_coverage": 0.0,
+   "aum_points": "未取得",
+   "pass_list": false,
+   "pass_aum": false,
+   "note": "2015-09 起有完整成分（o8 tw50_members.json，每步 50 檔核對）；2006～2015-06 無名單 → 全期完整率不到 90%；2015-09～2026-09 子期完整",
+   "sub_2015_2026_completeness": 1.0
+  },
+  "0056": {
+   "den_desc": "2007～2012 半年（6/12）＋2013 起季度（新聞 2013-03 季度審核為證）至 2026-09",
+   "reviews_expected": 67,
+   "reviews_with_list": 10,
+   "reviews_complete": 9,
+   "list_completeness": 0.134,
+   "aum_monthly_coverage": 0.0,
+   "aum_points": "5 個新聞規模點（2017-12、2021-10、2022-10、2026-03、2026-07）",
+   "pass_list": false,
+   "pass_aum": false,
+   "note": "2022-12 起 9 次審核名稱完整率約 92%（2024-06 刪除 5 檔只查到 2 檔），但沒有任何成分快照，無法重建成分 → precision 不可算"
+  },
+  "00878": {
+   "den_desc": "半年（5/11）2020-11～2026-05",
+   "reviews_expected": 12,
+   "reviews_with_list": 7,
+   "reviews_complete": 7,
+   "list_completeness": 0.583,
+   "aum_monthly_coverage": 0.0,
+   "aum_points": "未取得",
+   "pass_list": false,
+   "pass_aum": false
+  },
+  "00919": {
+   "den_desc": "半年（5/12）2022-12～2026-06",
+   "reviews_expected": 8,
+   "reviews_with_list": 4,
+   "reviews_complete": 1,
+   "list_completeness": 0.125,
+   "aum_monthly_coverage": 0.0,
+   "aum_points": "未取得",
+   "pass_list": false,
+   "pass_aum": false
+  },
+  "00713": {
+   "den_desc": "半年／季，2017 起；只抄到 2025-12 一次",
+   "reviews_expected": 18,
+   "reviews_with_list": 0,
+   "reviews_complete": 0,
+   "list_completeness": 0.0,
+   "aum_monthly_coverage": 0.0,
+   "aum_points": "未取得",
+   "pass_list": false,
+   "pass_aum": false
+  },
+  "00918": {
+   "den_desc": "季度，2022-12 起；只抄到 1 次",
+   "reviews_expected": 15,
+   "reviews_with_list": 0,
+   "reviews_complete": 0,
+   "list_completeness": 0.0,
+   "aum_monthly_coverage": 0.0,
+   "aum_points": "未取得",
+   "pass_list": false,
+   "pass_aum": false
+  },
+  "00929": {
+   "den_desc": "半年／季，2023-06 起；只抄到 1～2 次",
+   "reviews_expected": 7,
+   "reviews_with_list": 0,
+   "reviews_complete": 0,
+   "list_completeness": 0.0,
+   "aum_monthly_coverage": 0.0,
+   "aum_points": "未取得",
+   "pass_list": false,
+   "pass_aum": false
+  },
+  "00940": {
+   "den_desc": "半年（5/11），2024-03 掛牌；只抄到 2025-11 一次",
+   "reviews_expected": 5,
+   "reviews_with_list": 0,
+   "reviews_complete": 0,
+   "list_completeness": 0.0,
+   "aum_monthly_coverage": 0.0,
+   "aum_points": "未取得",
+   "pass_list": false,
+   "pass_aum": false
+  }
+ },
+ "aum_sources_tried": {
+  "SITCA 投信投顧公會月報（www.sitca.org.tw）": "DNS 不在允許網域（WebFetch ENOTFOUND）",
+  "TWSE ETF 專區（www.twse.com.tw）": "proxy CONNECT 403",
+  "FinMind API（TaiwanStockHoldingSharesPer 含 ETF 集保股數）": "proxy CONNECT 403",
+  "TDCC 集保週資料封存（wirelessr/tdcc-opendata-archive）": "只有 2021-07～09 與 2026-04 起 39 週，覆蓋 < 10%",
+  "GitHub code search（受益權單位數、ETF 規模、0056 holdings、TaiwanStockHoldingSharesPer 等 20 組關鍵字）": "只找到爬蟲程式與單日快照（nuts-has-been-taken 前 5 大持股、erichuang2013 兩個月 SITCA xls），沒有歷史封存",
+  "z-Wind/stockTools extraData": "只有指數與基金價格（臺灣高股息報酬指數日線 2007 起），沒有成分與規模"
+ },
+ "overall_aum_coverage": 0.0,
+ "decision": "整體規模月資料覆蓋 0% < 70% → 依事前失敗條件結案為「資料不足」；P1（不需規模）仍照計畫做，供下一輪決策。",
+ "sha256": "1b499bb95aae450e9ea27619a76b39905cc6d77767285e0ea6c78a7dcc10712a"
+}

@@ -1,0 +1,709 @@
+{
+ "PREREG": {
+  "created_utc": "2026-11-02T19:44:17.973763+00:00",
+  "spec_sha256": "84e3dc6dc95f91f5ca7ff59fea373e4a6bb1fab0fa948b34c84f1468157afd6e",
+  "code_sha256": {
+   "eflib.py": "38dcf9356b0c3470d96bb118475a2efa3993e4d91d176497ccca3f80f10c0698",
+   "s1_gate.py": "ccbb22678cee25a847e060fc3b320310587e67228f7449ffc7e28b273bbbd819",
+   "s2_tw50_p1.py": "e72dbf9eaef1d5c1fd31b8afc6260100f3a4fedf131c5a0248945b56250c7403",
+   "s3_0056_p1.py": "1e6264d55df195a1662dc11d81a34edff2a02f2ea5ee6751bc26822026125639",
+   "s4_tw50_control.py": "d43b0a9cb9b3186735377676e282a3ababdbd2a0932bbcb19c118792fce9ed8f",
+   "s5_dose_overlap_mde.py": "3caf2f119327d6530de7df1bbc6d1fb5fac29c22ab10be35598fa73957742d29",
+   "s6_forward.py": "db5c1ec0cd8e976cc4816e5251e905bdf09b5f6375aebc9d2896b00c4d6eadbf"
+  },
+  "gate_sha256": "1b499bb95aae450e9ea27619a76b39905cc6d77767285e0ea6c78a7dcc10712a",
+  "spec": "o_etf_flow_predict 凍結規格（PREREG，前瞻專用；本題在資料閘門結案，沒有衛星進入樣本外）\n\n〇、結案依據（事前失敗條件）\n- 規模月資料：8 支 ETF（TW50、0056、00878、00919、00713、00918、00929、00940）的覆蓋率都是 0%，整體 0% < 70%，所以結案為「資料不足」。來源與被擋原因記在 gate.json。\n- 成分名單完整率（2006-01～2026-10 應有的審核次數）：TW50 0.566（2015-09 起的子期是 1.0）、0056 0.134、00878 0.583、00919 0.125，其餘都是 0。沒有任何一支 ≥ 0.90。\n- P1（precision ≥ 70%、recall ≥ 60%）：\n  - TW50 v4 通過：納入 precision 0.889、recall 0.755；刪除 0.800／0.906。\n  - 0056 不通過：最佳代理 y4 的納入 recall@35 只有 0.323，precision 因為沒有成分快照算不出來。\n  - 00878 沒有重建器：MSCI ESG 分數不公開。\n  - 00919 沒有重建器：母體含上櫃股，名單只有 1/8 完整。\n- 依計畫，「P1 沒過的 ETF 不看報酬」。0056、00878、00919 和其他高股息 ETF 的事件報酬一律沒有計算。\n\n一、P1 規則重建器（凍結，不再改）\nA. 臺灣50（v4_pit_fix4763）\n- 截止日 C：生效日（第三個星期五）往前 25 天的週一；不是交易日時取 ≤ C 的最後交易日。\n- 市值：C 日收盤（close_raw）× o8 PIT 股數（o_0050_tilt_pit/data/shares_pit.parquet 中 ≤ C 的最後一列）。\n  - 修正：4763 在 2025-05-02 以前的股數 × 0.1（面額由 10 元改為 1 元，o8 股數在變更前就已用變更後口徑）。\n- 母體：四位數代碼、非 0 開頭、非 91 開頭（排除 ETF 與 DR），C 日有收盤且市值 > 0 的上市股。以全市值排名，method=first。\n- 成分：o8 tw50_members.json，取 C 日適用的名單（最後一次生效日 ≤ C 之後的名單）。\n- 預測納入：非成分且名次 ≤ 40。\n- 預測刪除：成分且名次 ≥ 61 或不在母體。若保留成分＋納入 > 50，再刪掉保留成分中名次最差的幾檔，使總數回到 50。\nB. 0056（y4，只做 P1 前瞻檢驗，不交易）\n- 母體：C 日 PIT 市值前 150 名（作法同 A）。\n- y4 ＝ 配發率 ÷ PE_now × 100。\n  - 配發率 ＝ 最近年度股利 ÷ 一年前的近四季 EPS，限制在 0～1.5。\n  - 最近年度股利 ＝ pe_5y 月初殖利率 × 月初收盤。\n  - 一年前的近四季 EPS ＝ 一年前的收盤 ÷ 一年前的 PE（pe_5y 中 ≤ C 的最後一個月，以及 ≤ 該月−360 天的月份）。\n- 名次 ≤ 35 的非成分預測為納入，名次 ≥ 66 的成分預測為刪除。0056 沒有成分快照，所以前瞻時只報實際納入股與實際刪除股的名次。\n\n二、前瞻追蹤（G8 只用來檢驗機制，不交易）\n- 2026-12 審核：截止 2026-11-23，公告約 2026-12-04，生效 2026-12-18 收盤。\n- 2026-11-02 已用 asof 2026-10-22 的資料產生初步名單：live_tracking/tw50_2026-12_pred_asof2026-10-22.csv、0056_2026-12_y4rank_asof2026-10-22.csv，sha256 記在 forward_log.json。\n- 截止日 2026-11-23 收盤後（晚上）再跑一次 `python3 -I -B s6_forward.py --asof 2026-11-23`，產出正式凍結名單。程式斷言建立時間早於截止日 13:30（台北）。\n- 公告後記錄：\n  - 兩支 ETF 的 P1 命中情形（TW50 的 precision／recall；0056 實際事件股的 y4 名次）。\n  - TW50 預測納入股的三窗報酬。W1 ＝ C+1 開盤 → 公告前一日收盤；W2 ＝ C+1 開盤 → 公告日收盤；W3 ＝ C+1 開盤 → 生效前一日收盤。\n  - 報酬對照組：C 日流動性合格（60 日均成交值 ≥ 1,000 萬、價 ≥ 10）、非成分、非事件股中，52 週比與 20 日報酬標準化距離最近的 3 檔，等權。\n  - 成本用 K5T 近似：每邊 max(0.1%＋0.5·σ60·√(Q/(0.05·V60)), 一跳／開盤)＋手續費 0.1425%×0.28；賣出另加稅 0.3%；壓力情境每邊再加 0.4%。Q ＝ 100 萬元。\n  - 事前預期：W2 淨超額 ≤ 0（歷史描述值是 −4.1%，按審核期分群 t −2.07，已被看過）。前瞻 4 次審核的平均 > +1% 才重新開題。\n\n三、重啟條件（事前寫死；沒達成前不得用本題名義測報酬）\n1. 允許 www.sitca.org.tw、www.twse.com.tw 或 api.finmindtrade.com 其中一個網域，取得 2007 年起各 ETF 每月規模或受益權單位數，且覆蓋率 ≥ 90%。\n2. 取得 0056 歷史成分快照：至少每年一次，2007～2022 涵蓋率 ≥ 90%。或者找到 FTSE 預測殖利率的公開替代，使 2022-12 以後 9 次審核的納入 recall@35 ≥ 60%。\n3. 00919：取得 2022 年起的上櫃日 K 與已宣告股利，名單完整率 ≥ 90%。\n- 重啟後沿用原計畫的 P2～P4 與窗口定義：D ＝ 預估權重 × ETF 規模 ÷ 個股 20 日均成交值；最高三分位淨值 > 0 且 t ≥ 2；分群 t 以審核期為單位。\n- 挑選期：0056 在 2007～2019 的審核，以及 00878、00919 在 2024 年以前的審核。\n- 驗證期：2024-01～2026-10。2019 年以後的事件集合已被看過，判定上限是待觀察。\n\n四、判定（本次）\n- 研究員判定：不可用。0056 的 P1 沒過；TW50 雖可預測，但公告前窗口為負；其餘 ETF 資料不足。\n- 機制：無法判斷。劑量反應因為沒有規模月資料而無法檢驗；「散戶能和自營商在同一時點算出高股息名單」這個前提，在 0056 被否定。\n"
+ },
+ "incident": "2026-11-02T19:43Z 磁碟滿，第一次 PREREG 後的 results.json 寫入被截斷；刪除後以相同 frozen_spec.txt 與程式重新凍結（spec sha 相同），前瞻名單同日重產。",
+ "verdict": "不可用",
+ "mechanism_supported": "無法判斷",
+ "summary": {
+  "gate": {
+   "TW50": {
+    "reviews_expected": 83,
+    "reviews_complete": 47,
+    "list_completeness": 0.566,
+    "aum_monthly_coverage": 0.0,
+    "pass_list": false,
+    "pass_aum": false
+   },
+   "0056": {
+    "reviews_expected": 67,
+    "reviews_complete": 9,
+    "list_completeness": 0.134,
+    "aum_monthly_coverage": 0.0,
+    "pass_list": false,
+    "pass_aum": false
+   },
+   "00878": {
+    "reviews_expected": 12,
+    "reviews_complete": 7,
+    "list_completeness": 0.583,
+    "aum_monthly_coverage": 0.0,
+    "pass_list": false,
+    "pass_aum": false
+   },
+   "00919": {
+    "reviews_expected": 8,
+    "reviews_complete": 1,
+    "list_completeness": 0.125,
+    "aum_monthly_coverage": 0.0,
+    "pass_list": false,
+    "pass_aum": false
+   },
+   "00713": {
+    "reviews_expected": 18,
+    "reviews_complete": 0,
+    "list_completeness": 0.0,
+    "aum_monthly_coverage": 0.0,
+    "pass_list": false,
+    "pass_aum": false
+   },
+   "00918": {
+    "reviews_expected": 15,
+    "reviews_complete": 0,
+    "list_completeness": 0.0,
+    "aum_monthly_coverage": 0.0,
+    "pass_list": false,
+    "pass_aum": false
+   },
+   "00929": {
+    "reviews_expected": 7,
+    "reviews_complete": 0,
+    "list_completeness": 0.0,
+    "aum_monthly_coverage": 0.0,
+    "pass_list": false,
+    "pass_aum": false
+   },
+   "00940": {
+    "reviews_expected": 5,
+    "reviews_complete": 0,
+    "list_completeness": 0.0,
+    "aum_monthly_coverage": 0.0,
+    "pass_list": false,
+    "pass_aum": false
+   }
+  },
+  "P1_tw50": {
+   "v1_pit": {
+    "add": {
+     "TP": 40,
+     "FP": 13,
+     "FN": 13,
+     "precision": 0.7547,
+     "recall": 0.7547
+    },
+    "del": {
+     "TP": 49,
+     "FP": 16,
+     "FN": 4,
+     "precision": 0.7538,
+     "recall": 0.9245
+    }
+   },
+   "v2_pit_lag63": {
+    "add": {
+     "TP": 40,
+     "FP": 13,
+     "FN": 13,
+     "precision": 0.7547,
+     "recall": 0.7547
+    },
+    "del": {
+     "TP": 43,
+     "FP": 20,
+     "FN": 10,
+     "precision": 0.6825,
+     "recall": 0.8113
+    }
+   },
+   "v3_pit_liq300": {
+    "add": {
+     "TP": 40,
+     "FP": 14,
+     "FN": 13,
+     "precision": 0.7407,
+     "recall": 0.7547
+    },
+    "del": {
+     "TP": 44,
+     "FP": 23,
+     "FN": 9,
+     "precision": 0.6567,
+     "recall": 0.8302
+    }
+   },
+   "v4_pit_fix4763": {
+    "add": {
+     "TP": 40,
+     "FP": 5,
+     "FN": 13,
+     "precision": 0.8889,
+     "recall": 0.7547
+    },
+    "del": {
+     "TP": 48,
+     "FP": 12,
+     "FN": 5,
+     "precision": 0.8,
+     "recall": 0.9057
+    }
+   },
+   "v5_pit_fix4763_lag63": {
+    "add": {
+     "TP": 40,
+     "FP": 5,
+     "FN": 13,
+     "precision": 0.8889,
+     "recall": 0.7547
+    },
+    "del": {
+     "TP": 41,
+     "FP": 17,
+     "FN": 12,
+     "precision": 0.7069,
+     "recall": 0.7736
+    }
+   }
+  },
+  "P1_0056": {
+   "y1": {
+    "n_add": 62,
+    "add_recall_top35": 0.306,
+    "add_recall_top50": 0.419,
+    "add_rank_median": 54.0,
+    "n_del": 36,
+    "del_recall_rank66_or_out": 0.556
+   },
+   "y2": {
+    "n_add": 62,
+    "add_recall_top35": 0.21,
+    "add_recall_top50": 0.419,
+    "add_rank_median": 58.0,
+    "n_del": 36,
+    "del_recall_rank66_or_out": 0.583
+   },
+   "y3": {
+    "n_add": 62,
+    "add_recall_top35": 0.21,
+    "add_recall_top50": 0.419,
+    "add_rank_median": 57.0,
+    "n_del": 36,
+    "del_recall_rank66_or_out": 0.556
+   },
+   "y4": {
+    "n_add": 62,
+    "add_recall_top35": 0.323,
+    "add_recall_top50": 0.5,
+    "add_rank_median": 47.5,
+    "n_del": 36,
+    "del_recall_rank66_or_out": 0.639
+   },
+   "y5": {
+    "n_add": 62,
+    "add_recall_top35": 0.29,
+    "add_recall_top50": 0.468,
+    "add_rank_median": 50.5,
+    "n_del": 36,
+    "del_recall_rank66_or_out": 0.639
+   }
+  },
+  "D_0056": {
+   "n": 62,
+   "median": 8.95,
+   "p25": 4.6625000000000005,
+   "p75": 14.565,
+   "max": 65.1,
+   "by_review": {
+    "2022-12": 6.3,
+    "2023-06": 8.75,
+    "2023-12": 11.73,
+    "2024-06": 25.08,
+    "2024-12": 10.21,
+    "2025-06": 12.18,
+    "2025-12": 13.03,
+    "2026-06": 1.9
+   }
+  },
+  "D_tw50": {
+   "n": 45,
+   "median": 0.111,
+   "w_median": 0.0067
+  },
+  "overlap_main": {
+   "tw50_pred_add": {
+    "hit": 11,
+    "n": 45,
+    "rate": 0.244
+   },
+   "tw50_pred_del": {
+    "hit": 0,
+    "n": 60,
+    "rate": 0.0
+   },
+   "0056_add": {
+    "hit": 1,
+    "n": 62,
+    "rate": 0.016
+   },
+   "0056_del": {
+    "hit": 1,
+    "n": 36,
+    "rate": 0.028
+   }
+  },
+  "P4_MDE": {
+   "sigma_monthly_excess_random30_of150": 2.081,
+   "MDE_pct_per_month_80pow_5pct": {
+    "36": 0.971,
+    "48": 0.841,
+    "90": 0.614
+   },
+   "note": "T＝36（2023～2025 申購潮）、48、90（2019～2026）。月規模資料不可得，P4 無法估計。"
+  },
+  "tw50_control": {
+   "add|all|W1|gross_ex": {
+    "n_ev": 42,
+    "n_rev": 23,
+    "mean": -2.562,
+    "median": -2.984,
+    "rev_mean": -2.226,
+    "t": -1.36
+   },
+   "add|all|W1|net_ex": {
+    "n_ev": 42,
+    "n_rev": 23,
+    "mean": -3.515,
+    "median": -3.893,
+    "rev_mean": -3.189,
+    "t": -1.96
+   },
+   "add|all|W1|stress_ex": {
+    "n_ev": 42,
+    "n_rev": 23,
+    "mean": -4.315,
+    "median": -4.693,
+    "rev_mean": -3.989,
+    "t": -2.45
+   },
+   "add|all|W2|gross_ex": {
+    "n_ev": 42,
+    "n_rev": 23,
+    "mean": -3.17,
+    "median": -4.396,
+    "rev_mean": -2.824,
+    "t": -1.54
+   },
+   "add|all|W2|net_ex": {
+    "n_ev": 42,
+    "n_rev": 23,
+    "mean": -4.119,
+    "median": -5.349,
+    "rev_mean": -3.782,
+    "t": -2.07
+   },
+   "add|all|W2|stress_ex": {
+    "n_ev": 42,
+    "n_rev": 23,
+    "mean": -4.919,
+    "median": -6.149,
+    "rev_mean": -4.582,
+    "t": -2.51
+   },
+   "add|all|W3|gross_ex": {
+    "n_ev": 42,
+    "n_rev": 23,
+    "mean": 0.956,
+    "median": -1.885,
+    "rev_mean": 1.846,
+    "t": 0.71
+   },
+   "add|all|W3|net_ex": {
+    "n_ev": 42,
+    "n_rev": 23,
+    "mean": 0.009,
+    "median": -2.776,
+    "rev_mean": 0.89,
+    "t": 0.34
+   },
+   "add|all|W3|stress_ex": {
+    "n_ev": 42,
+    "n_rev": 23,
+    "mean": -0.791,
+    "median": -3.576,
+    "rev_mean": 0.09,
+    "t": 0.03
+   },
+   "add|sel_le2019-04|W1|gross_ex": {
+    "n_ev": 4,
+    "n_rev": 3,
+    "mean": 4.147,
+    "median": 0.833,
+    "rev_mean": 5.252,
+    "t": 0.8
+   },
+   "add|sel_le2019-04|W1|net_ex": {
+    "n_ev": 4,
+    "n_rev": 3,
+    "mean": 2.993,
+    "median": -0.174,
+    "rev_mean": 4.049,
+    "t": 0.63
+   },
+   "add|sel_le2019-04|W1|stress_ex": {
+    "n_ev": 4,
+    "n_rev": 3,
+    "mean": 2.193,
+    "median": -0.974,
+    "rev_mean": 3.249,
+    "t": 0.5
+   },
+   "add|sel_le2019-04|W2|gross_ex": {
+    "n_ev": 4,
+    "n_rev": 3,
+    "mean": 0.274,
+    "median": -5.499,
+    "rev_mean": 2.198,
+    "t": 0.27
+   },
+   "add|sel_le2019-04|W2|net_ex": {
+    "n_ev": 4,
+    "n_rev": 3,
+    "mean": -0.878,
+    "median": -6.506,
+    "rev_mean": 0.998,
+    "t": 0.12
+   },
+   "add|sel_le2019-04|W2|stress_ex": {
+    "n_ev": 4,
+    "n_rev": 3,
+    "mean": -1.678,
+    "median": -7.306,
+    "rev_mean": 0.198,
+    "t": 0.02
+   },
+   "add|sel_le2019-04|W3|gross_ex": {
+    "n_ev": 4,
+    "n_rev": 3,
+    "mean": 1.405,
+    "median": -2.58,
+    "rev_mean": 4.34,
+    "t": 0.43
+   },
+   "add|sel_le2019-04|W3|net_ex": {
+    "n_ev": 4,
+    "n_rev": 3,
+    "mean": 0.241,
+    "median": -3.72,
+    "rev_mean": 3.14,
+    "t": 0.31
+   },
+   "add|sel_le2019-04|W3|stress_ex": {
+    "n_ev": 4,
+    "n_rev": 3,
+    "mean": -0.559,
+    "median": -4.52,
+    "rev_mean": 2.34,
+    "t": 0.23
+   },
+   "add|post2019|W1|gross_ex": {
+    "n_ev": 38,
+    "n_rev": 20,
+    "mean": -3.269,
+    "median": -3.25,
+    "rev_mean": -3.348,
+    "t": -2.17
+   },
+   "add|post2019|W1|net_ex": {
+    "n_ev": 38,
+    "n_rev": 20,
+    "mean": -4.2,
+    "median": -4.123,
+    "rev_mean": -4.275,
+    "t": -2.77
+   },
+   "add|post2019|W1|stress_ex": {
+    "n_ev": 38,
+    "n_rev": 20,
+    "mean": -5.0,
+    "median": -4.923,
+    "rev_mean": -5.075,
+    "t": -3.28
+   },
+   "add|post2019|W2|gross_ex": {
+    "n_ev": 38,
+    "n_rev": 20,
+    "mean": -3.533,
+    "median": -3.467,
+    "rev_mean": -3.577,
+    "t": -2.0
+   },
+   "add|post2019|W2|net_ex": {
+    "n_ev": 38,
+    "n_rev": 20,
+    "mean": -4.46,
+    "median": -4.32,
+    "rev_mean": -4.499,
+    "t": -2.51
+   },
+   "add|post2019|W2|stress_ex": {
+    "n_ev": 38,
+    "n_rev": 20,
+    "mean": -5.26,
+    "median": -5.12,
+    "rev_mean": -5.299,
+    "t": -2.96
+   },
+   "add|post2019|W3|gross_ex": {
+    "n_ev": 38,
+    "n_rev": 20,
+    "mean": 0.909,
+    "median": -1.885,
+    "rev_mean": 1.472,
+    "t": 0.54
+   },
+   "add|post2019|W3|net_ex": {
+    "n_ev": 38,
+    "n_rev": 20,
+    "mean": -0.015,
+    "median": -2.776,
+    "rev_mean": 0.552,
+    "t": 0.2
+   },
+   "add|post2019|W3|stress_ex": {
+    "n_ev": 38,
+    "n_rev": 20,
+    "mean": -0.815,
+    "median": -3.576,
+    "rev_mean": -0.248,
+    "t": -0.09
+   },
+   "del|all|W1|gross_ex": {
+    "n_ev": 50,
+    "n_rev": 30,
+    "mean": 0.145,
+    "median": -0.254,
+    "rev_mean": 0.351,
+    "t": 0.35
+   },
+   "del|all|W1|net_ex": {
+    "n_ev": 50,
+    "n_rev": 30,
+    "mean": -0.823,
+    "median": -1.124,
+    "rev_mean": -0.634,
+    "t": -0.63
+   },
+   "del|all|W1|stress_ex": {
+    "n_ev": 50,
+    "n_rev": 30,
+    "mean": -1.623,
+    "median": -1.924,
+    "rev_mean": -1.434,
+    "t": -1.43
+   },
+   "del|all|W2|gross_ex": {
+    "n_ev": 50,
+    "n_rev": 30,
+    "mean": 0.107,
+    "median": -0.352,
+    "rev_mean": 0.344,
+    "t": 0.34
+   },
+   "del|all|W2|net_ex": {
+    "n_ev": 50,
+    "n_rev": 30,
+    "mean": -0.861,
+    "median": -1.217,
+    "rev_mean": -0.642,
+    "t": -0.62
+   },
+   "del|all|W2|stress_ex": {
+    "n_ev": 50,
+    "n_rev": 30,
+    "mean": -1.661,
+    "median": -2.017,
+    "rev_mean": -1.442,
+    "t": -1.4
+   },
+   "del|all|W3|gross_ex": {
+    "n_ev": 50,
+    "n_rev": 30,
+    "mean": -0.24,
+    "median": -0.762,
+    "rev_mean": 0.141,
+    "t": 0.12
+   },
+   "del|all|W3|net_ex": {
+    "n_ev": 50,
+    "n_rev": 30,
+    "mean": -1.216,
+    "median": -1.719,
+    "rev_mean": -0.848,
+    "t": -0.73
+   },
+   "del|all|W3|stress_ex": {
+    "n_ev": 50,
+    "n_rev": 30,
+    "mean": -2.016,
+    "median": -2.519,
+    "rev_mean": -1.648,
+    "t": -1.43
+   },
+   "del|sel_le2019-04|W1|gross_ex": {
+    "n_ev": 6,
+    "n_rev": 5,
+    "mean": -2.174,
+    "median": -0.069,
+    "rev_mean": -1.658,
+    "t": -0.3
+   },
+   "del|sel_le2019-04|W1|net_ex": {
+    "n_ev": 6,
+    "n_rev": 5,
+    "mean": -3.172,
+    "median": -1.055,
+    "rev_mean": -2.662,
+    "t": -0.49
+   },
+   "del|sel_le2019-04|W1|stress_ex": {
+    "n_ev": 6,
+    "n_rev": 5,
+    "mean": -3.972,
+    "median": -1.855,
+    "rev_mean": -3.462,
+    "t": -0.63
+   },
+   "del|sel_le2019-04|W2|gross_ex": {
+    "n_ev": 6,
+    "n_rev": 5,
+    "mean": -2.09,
+    "median": 0.87,
+    "rev_mean": -1.592,
+    "t": -0.29
+   },
+   "del|sel_le2019-04|W2|net_ex": {
+    "n_ev": 6,
+    "n_rev": 5,
+    "mean": -3.093,
+    "median": -0.099,
+    "rev_mean": -2.601,
+    "t": -0.47
+   },
+   "del|sel_le2019-04|W2|stress_ex": {
+    "n_ev": 6,
+    "n_rev": 5,
+    "mean": -3.893,
+    "median": -0.899,
+    "rev_mean": -3.401,
+    "t": -0.62
+   },
+   "del|sel_le2019-04|W3|gross_ex": {
+    "n_ev": 6,
+    "n_rev": 5,
+    "mean": -0.211,
+    "median": 0.031,
+    "rev_mean": 1.513,
+    "t": 0.44
+   },
+   "del|sel_le2019-04|W3|net_ex": {
+    "n_ev": 6,
+    "n_rev": 5,
+    "mean": -1.219,
+    "median": -1.082,
+    "rev_mean": 0.494,
+    "t": 0.14
+   },
+   "del|sel_le2019-04|W3|stress_ex": {
+    "n_ev": 6,
+    "n_rev": 5,
+    "mean": -2.019,
+    "median": -1.882,
+    "rev_mean": -0.306,
+    "t": -0.09
+   },
+   "del|post2019|W1|gross_ex": {
+    "n_ev": 44,
+    "n_rev": 25,
+    "mean": 0.461,
+    "median": -0.254,
+    "rev_mean": 0.752,
+    "t": 1.17
+   },
+   "del|post2019|W1|net_ex": {
+    "n_ev": 44,
+    "n_rev": 25,
+    "mean": -0.503,
+    "median": -1.124,
+    "rev_mean": -0.228,
+    "t": -0.35
+   },
+   "del|post2019|W1|stress_ex": {
+    "n_ev": 44,
+    "n_rev": 25,
+    "mean": -1.303,
+    "median": -1.924,
+    "rev_mean": -1.028,
+    "t": -1.6
+   },
+   "del|post2019|W2|gross_ex": {
+    "n_ev": 44,
+    "n_rev": 25,
+    "mean": 0.407,
+    "median": -0.352,
+    "rev_mean": 0.731,
+    "t": 1.03
+   },
+   "del|post2019|W2|net_ex": {
+    "n_ev": 44,
+    "n_rev": 25,
+    "mean": -0.557,
+    "median": -1.217,
+    "rev_mean": -0.25,
+    "t": -0.35
+   },
+   "del|post2019|W2|stress_ex": {
+    "n_ev": 44,
+    "n_rev": 25,
+    "mean": -1.357,
+    "median": -2.017,
+    "rev_mean": -1.05,
+    "t": -1.47
+   },
+   "del|post2019|W3|gross_ex": {
+    "n_ev": 44,
+    "n_rev": 25,
+    "mean": -0.244,
+    "median": -0.762,
+    "rev_mean": -0.133,
+    "t": -0.11
+   },
+   "del|post2019|W3|net_ex": {
+    "n_ev": 44,
+    "n_rev": 25,
+    "mean": -1.216,
+    "median": -1.719,
+    "rev_mean": -1.117,
+    "t": -0.91
+   },
+   "del|post2019|W3|stress_ex": {
+    "n_ev": 44,
+    "n_rev": 25,
+    "mean": -2.016,
+    "median": -2.519,
+    "rev_mean": -1.917,
+    "t": -1.56
+   }
+  }
+ },
+ "G": {
+  "G1": "無法判定（沒有可建構的衛星）",
+  "G2": "不過",
+  "G3": "未跑；6 格報酬描述併入 SPA 族群",
+  "G4": "無法判定",
+  "G5": "P1 用 PIT 股數（修正 4763、落後 63 日穩健）；部分名單來自新聞與維基",
+  "G6": "未做（只提供凍結規格）",
+  "G7": "不適用",
+  "G8": "前瞻名單已於 2026-11-02 寫入（早於 2026-11-23 截止）"
+ }
+}

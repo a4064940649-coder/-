@@ -1,0 +1,222 @@
+{
+ "n_versions": 11,
+ "note": "P1 版本只以名單命中率為目標、不看報酬；C1 為唯一碰報酬的描述格（6 格），沒有選版。SPA 族群新增 16 條（10 個 P1 版本不計入報酬族群，6 格 C1 計入）。",
+ "versions": [
+  {
+   "id": "T1",
+   "etf": "TW50",
+   "spec": "v1 PIT 股數當日",
+   "objective": "P1（不看報酬）",
+   "result": {
+    "TP": 40,
+    "FP": 13,
+    "FN": 13,
+    "precision": 0.7547,
+    "recall": 0.7547,
+    "del": {
+     "TP": 49,
+     "FP": 16,
+     "FN": 4,
+     "precision": 0.7538,
+     "recall": 0.9245
+    }
+   }
+  },
+  {
+   "id": "T2",
+   "etf": "TW50",
+   "spec": "v2 PIT 股數落後 63 日",
+   "objective": "P1",
+   "result": {
+    "TP": 40,
+    "FP": 13,
+    "FN": 13,
+    "precision": 0.7547,
+    "recall": 0.7547,
+    "del": {
+     "TP": 43,
+     "FP": 20,
+     "FN": 10,
+     "precision": 0.6825,
+     "recall": 0.8113
+    }
+   }
+  },
+  {
+   "id": "T3",
+   "etf": "TW50",
+   "spec": "v3 v1＋60 日均值前 300 流動性",
+   "objective": "P1",
+   "result": {
+    "TP": 40,
+    "FP": 14,
+    "FN": 13,
+    "precision": 0.7407,
+    "recall": 0.7547,
+    "del": {
+     "TP": 44,
+     "FP": 23,
+     "FN": 9,
+     "precision": 0.6567,
+     "recall": 0.8302
+    }
+   }
+  },
+  {
+   "id": "T4",
+   "etf": "TW50",
+   "spec": "v4 v1＋修正 4763 股數（凍結）",
+   "objective": "P1",
+   "result": {
+    "TP": 40,
+    "FP": 5,
+    "FN": 13,
+    "precision": 0.8889,
+    "recall": 0.7547,
+    "del": {
+     "TP": 48,
+     "FP": 12,
+     "FN": 5,
+     "precision": 0.8,
+     "recall": 0.9057
+    }
+   }
+  },
+  {
+   "id": "T5",
+   "etf": "TW50",
+   "spec": "v5 v4＋落後 63 日",
+   "objective": "P1",
+   "result": {
+    "TP": 40,
+    "FP": 5,
+    "FN": 13,
+    "precision": 0.8889,
+    "recall": 0.7547,
+    "del": {
+     "TP": 41,
+     "FP": 17,
+     "FN": 12,
+     "precision": 0.7069,
+     "recall": 0.7736
+    }
+   }
+  },
+  {
+   "id": "H1",
+   "etf": "0056",
+   "spec": "y1",
+   "objective": "P1 recall（precision 不可算）",
+   "result": {
+    "add_recall_top35": 0.306,
+    "add_recall_top50": 0.419,
+    "add_rank_median": 54.0,
+    "del_recall_rank66_or_out": 0.556
+   }
+  },
+  {
+   "id": "H2",
+   "etf": "0056",
+   "spec": "y2",
+   "objective": "P1 recall（precision 不可算）",
+   "result": {
+    "add_recall_top35": 0.21,
+    "add_recall_top50": 0.419,
+    "add_rank_median": 58.0,
+    "del_recall_rank66_or_out": 0.583
+   }
+  },
+  {
+   "id": "H3",
+   "etf": "0056",
+   "spec": "y3",
+   "objective": "P1 recall（precision 不可算）",
+   "result": {
+    "add_recall_top35": 0.21,
+    "add_recall_top50": 0.419,
+    "add_rank_median": 57.0,
+    "del_recall_rank66_or_out": 0.556
+   }
+  },
+  {
+   "id": "H4",
+   "etf": "0056",
+   "spec": "y4",
+   "objective": "P1 recall（precision 不可算）",
+   "result": {
+    "add_recall_top35": 0.323,
+    "add_recall_top50": 0.5,
+    "add_rank_median": 47.5,
+    "del_recall_rank66_or_out": 0.639
+   }
+  },
+  {
+   "id": "H5",
+   "etf": "0056",
+   "spec": "y5",
+   "objective": "P1 recall（precision 不可算）",
+   "result": {
+    "add_recall_top35": 0.29,
+    "add_recall_top50": 0.468,
+    "add_rank_median": 50.5,
+    "del_recall_rank66_or_out": 0.639
+   }
+  },
+  {
+   "id": "C1",
+   "etf": "TW50",
+   "spec": "低劑量對照：預測納入 W1/W2/W3 × 預測刪除 W1/W2/W3（6 格，描述性，未選版）",
+   "objective": "對照（etf_rebalance 一致性）",
+   "result": {
+    "add|all|W1|net_ex": {
+     "n_ev": 42,
+     "n_rev": 23,
+     "mean": -3.515,
+     "median": -3.893,
+     "rev_mean": -3.189,
+     "t": -1.96
+    },
+    "add|all|W2|net_ex": {
+     "n_ev": 42,
+     "n_rev": 23,
+     "mean": -4.119,
+     "median": -5.349,
+     "rev_mean": -3.782,
+     "t": -2.07
+    },
+    "add|all|W3|net_ex": {
+     "n_ev": 42,
+     "n_rev": 23,
+     "mean": 0.009,
+     "median": -2.776,
+     "rev_mean": 0.89,
+     "t": 0.34
+    },
+    "del|all|W1|net_ex": {
+     "n_ev": 50,
+     "n_rev": 30,
+     "mean": -0.823,
+     "median": -1.124,
+     "rev_mean": -0.634,
+     "t": -0.63
+    },
+    "del|all|W2|net_ex": {
+     "n_ev": 50,
+     "n_rev": 30,
+     "mean": -0.861,
+     "median": -1.217,
+     "rev_mean": -0.642,
+     "t": -0.62
+    },
+    "del|all|W3|net_ex": {
+     "n_ev": 50,
+     "n_rev": 30,
+     "mean": -1.216,
+     "median": -1.719,
+     "rev_mean": -0.848,
+     "t": -0.73
+    }
+   }
+  }
+ ]
+}

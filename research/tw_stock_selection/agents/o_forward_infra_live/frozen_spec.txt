@@ -1,0 +1,53 @@
+前瞻追蹤基礎建設 v3 凍結規格（o_forward_infra_live；複製員只看本檔即可重做 A1、A2、A4 的截斷重播）
+凍結時戳與全部 sha256 見 results.json 的 PREREG_FORWARD。選股規格不改：以 main_picks_today.py（sha256 0897787f617cec3b70ca92ab9a327cd095edbaf2c554730fa7ec67ab3f8d8dc3，2026-11-02 版）--ex-fin 為準。
+
+一、資料與截斷（A1）
+1. 來源：tw-stock-screener（github stevenhsiehsheng-ctrl/tw-stock-screener）data/ 下 history.csv.gz、stock_list.csv、extras/{rev_5y,rev_hist,disposal_5y,warnings_hist,exdiv_5y,attention_5y}；
+   0050 含息與加權指數＝github jonatw/finlab-txd data/raw/{etf_0050.csv,taiex_twii.csv}；研究面板 scratchpad/panel。
+2. 截斷到 asof（每個訊號日的名單一律用截斷到「該訊號日」的資料計算）：
+   - history、exdiv_5y、attention_5y、warnings_hist、0050、加權指數：date ≤ asof。
+   - 月營收：每列 ann_eff ≤ asof 才保留。ann_eff＝rev_hist 的 ann_date（同 code、ym）；缺值＝法定期限日（ym 次月 10 日起第一個交易日；日曆＝history 交易日，超出時用平日扣 tw_holidays.json）。
+   - 處置：disposal_5y ∪ warnings_hist（flag＝處置），依 (code,start,end) 去重留最早公告日；公告日 date ≤ asof。
+   - 面板：只取 [2025-01-01, history 起日) 子集（最大日期 < history 起日 ≤ asof）；history 在訊號日前不足 252 個交易日時由 main_picks_today.load_prices 拼接。
+3. 斷言：載入後 C、O、H、V、R、ADJ、處置、0050、公告日表的最大日期 ≤ asof；營收最新月份 ≤ asof 前一月；違反即中止。
+4. asof 晚於來源最後交易日（且 asof 為交易日或差 > 4 日）→ 狀態 DATA_STALE、回傳碼 2、不寫任何名單。
+
+二、時程與名單
+1. 錨定月 m：D_m＝m 月 10 日起第一個交易日＝J0；J_j＝D_m 後第 j 個交易日（j＝0..12）；官方日＝m 月第一個 ≥ 11 日的交易日。
+   2026-11：J0＝11-10、官方日＝J1＝11-11、官方成交 11-12 開盤、J12＝11-26；12 月 J12＝12-29（JMED 11 月定稿）。
+2. 官方日線：MP.score_on(data, YOY3, 處置, sd, ex_fin=True) 的排序（同分：營收 3 月年增率高、代號小）。
+3. J 線：同一分數，但 m−1 月營收只在「已公告」時使用，否則該檔用 m−2 月的 3 月平均年增率：
+   已公告＝ann_date ≤ sd；ann_date 缺值時 J0＝未公告、J≥1＝已公告（法定期限已過）；m−1 月營收不在截斷資料中＝未公告。
+4. 快照：每個 (線, 月) 在第一次執行到 asof ≥ sd 時寫 paper_lists/{line}_{YYYYMM}.csv（全部合格股的完整排序：rank、code、score、s52、yoy3、rev_month、close、v60）
+   與 .meta.json（frozen_ts、clock_kind、exec_day_est、exec_open_ts＝成交日 09:00 台北、ts_ok＝frozen_ts < exec_open_ts、資料 head、各資料框最大日期、J0 的公告缺值統計）。
+   寫入後不覆寫。之後每次執行，對最近 20 個交易日（--recheck）內的訊號日重算，前 20 名不同就寫 list_diffs.csv。
+5. 成交：成交日資料存在時，依凍結排序套 main_picks_today.execute（隔日無開盤價不買；開盤 ≥ 漲停價而且上月未持有不買，由下一名遞補，取 10 檔），
+   寫 .exec.json（picks、skipped、held_before），寫入後不覆寫。持有集合＝同一條線上月的 picks。
+
+三、紙上淨值（A3）
+1. 主策略各線：逐字載入 o_exec_engine_rewrite_v7x/x_exec.py，資料模組由截斷資料建立（xlive.build_module：V＝成交股數×收盤；收盤有值但報酬缺值的格 F＝1；處置矩陣＝截斷處置名單 start ≤ t ≤ end；
+   無下市／併購事件；cpi_scale≡1）。設定 V7X 正式：GROW、100 萬、K5T、F1、F2、F3＝0.5、F4、rank_right、stress_odd_extra、一般成本；另跑壓力成本與參與上限 0.10。
+   每條線一個帳戶：第一個訊號日收盤持有現金，plans＝[(成交日, picks, 訊號日)]。
+2. 窗＝訊號日收盤 → 同線下一個訊號日收盤（最後一窗到 asof，status＝open；尚未成交＝pending_exec）；0050 同窗。
+3. JMED＝同錨定月 13 個 J 窗超額的中位數；13 窗都完成才 status＝complete。
+4. 處置衛星（disp_sat.py）：事件＝處置記錄（4 碼普通股）；s＝第一個 ≥ start 的交易日、e＝最後一個 ≤ end 的交易日；
+   鏈：同檔 start ≤ 上一筆採用的 end＋3 日曆日 → 不採用；second＝同檔先前記錄的 e 在 [s−30, s) 個交易日內；新制＝start ≥ 2026-08-10（match_min＝2），舊制 5／20。
+   進場 s 收盤：決策時戳 ts_ok、加權指數前一交易日收盤 ≥ 200 日均（含該日）、未持有同檔、持有 < 10、s 有價且收盤報酬 < 9%、V60(t−1) ≥ 1e7 且前收 ≥ 10；
+   金額＝min(淨值/10, 0.2×V60(t−1)×mm/270, 0.2×V_s×mm/270)；價＝收盤×(1＋c)，c＝max(一跳/收盤, 0.1%)＋0.5σ60(t−1)√(金額/Qref)（壓力＋0.4%）；手續費 max(20, 0.1425%×0.28×值)（壓力 0.6）。
+   出場 e 收盤（報酬 ≤ −9% 或無價 → 順延到第一個可賣日）；賣量 ≤ 0.2×Qref/收盤（Qref＝處置期內 V×mm/270、期外 0.25V），剩餘順延；賣出加 0.3% 稅。
+   閒置資金放 0050（每日 0050 含息報酬；進場賣 0050 付手續費＋0.1% 稅；出場款買回付手續費）。線：DISP_TWSE、DISP_TWSE_FIRST（second＝false）、DISP_TPEX。
+5. 帳本（A5）：disposal_ledger.csv 每個已公告事件一列，first_seen_ts＝第一次被帳本看到的時鐘（寫入後不改）；announce_ts＝公告日 14:30 台北；
+   entry_deadline_ts＝start 13:30 台北；ts_ok＝announce_ts ≤ first_seen_ts ≤ entry_deadline_ts；ts_ok 不成立的事件 LATE，不進淨值。
+6. 混合：MIX_C70＝0.7×0050＋0.3×MAIN_OFFICIAL、MIX_D80＝0.8×0050＋0.2×DISP_TWSE，官方日窗初再平衡，上一窗漂移流量 |w′−w|×0.5% 當成本。
+7. 輸出（--out）：forward_returns.csv（line, anchor, start, end, status, n_j, ret, ret_0050, excess_pp, ret_stress, excess_stress_pp, ret_cap10, excess_cap10_pp, cost, n_hold, source, note）、
+   trades.csv（kind＝paper_whole／paper_odd／paper_disp_close／paper_disp／real；成交價、開盤價、前收、距開盤跳數＝side×(成交−開盤)/一跳、占開盤量＝股數×前收/(share_dec×V60(t−1))、
+   另附實際量口徑）、paper_lists/、disposal_ledger.csv、disposal_decisions.csv、disp_nav.csv、decision_log.csv（G8 累積）、main_leg_returns.csv、list_diffs.csv、runs.jsonl。
+   CSV 一律 float '%.10g'、固定排序；同一來源、同一 asof 重跑輸出 sha256 相同（runs.jsonl 除外）。
+
+四、時鐘與排程
+- 正式：wall clock（台北）。每日 06:49 daily_step0.sh：git fetch＋reset 稀疏 clone → make_forward.py（asof＝資料最後交易日）。訊號日 sd 的名單在 sd 隔天 06:49 凍結，早於成交日 09:00。
+- 重播：--replay --sim-clock＝asof 隔日 06:49（+08:00），輸出到 replay/。
+- 真錢成交寫 fills_input.csv（date,code,side,order_time,limit_px,fill_px,shares,is_odd,list）；κ 校準只用 kind＝real（calib_real.py → s8_forward_calib.update）。
+
+五、G8（見 PREREG_FORWARD.G8）：JMED、DISP_TWSE、MIX_C70、MIX_D80 各自 2026-11～2027-10 共 12 個完成窗的 excess_pp 加總 > 0 → 該線過 G8。檢定力警告：σ＝6.14pp／月時，α＝−0.3／−0.5pp 仍有約 43%／39% 機率通過。
+六、修 bug：只准修 bug，記 bugfix_log（舊新 sha256、diff、重算前後差異），不得改規則。

@@ -1,0 +1,44 @@
+{
+ "note": "本題是基礎建設，不是報酬模型；「版本」＝產生器修正循環（修正 → 截斷重播 → 對帳 → 再修正）。每版記 sha256 與 diff 摘要。選股規格與成本參數從未改動。",
+ "n_versions": 4,
+ "versions": [
+  {
+   "v": "v0（基準，o_forward_sequential_v2/make_forward.py，只讀）",
+   "sha256": "5a29d71b39070304810cd987c430eae7b481c7081b533a493ce4d4bdf463f6d3（PREREG 登記值；現檔 ec95c205…）",
+   "result": "o8 審查：訊號日當晚不寫名單、--asof 不截斷、J0 ann_date 缺值視為已公告、K5T-lite 偏樂觀 0.3～0.6pp"
+  },
+  {
+   "v": "v1",
+   "sha256": {
+    "make_forward.py": "83ea96f5327cd4f64bf627522bfcc329fe4e6f56bd4010863727a4eb0a1d9795"
+   },
+   "diff": "新寫 fwd_data.py（截斷資料夾＋斷言）、xlive.py（V7X x_exec 逐字載入）、disp_sat.py（處置帳本與淨值）；快照只需訊號日資料；J0 缺值＝未公告",
+   "result": "截斷重播 2026-09-10 第一次執行在處置事件表當掉（pandas 布林欄位以 .loc 指派到不存在欄位的 dtype 錯誤）；快照已寫入（凍結在處置步驟之前）"
+  },
+  {
+   "v": "v2",
+   "sha256": {
+    "disp_sat.py": "602a1cb361087f2d2d7b82acf0cce75deabf565fd4c2108b1cdc4c61394a444d"
+   },
+   "diff": "disp_sat.events：chain_take、second 先建 Series 再指派",
+   "result": "09-10～09-14 三天重播通過；第 4 天磁碟滿（每個 asof 複製完整研究面板 139MB）"
+  },
+  {
+   "v": "v3",
+   "sha256": {
+    "make_forward.py": "ffcaabfbe04b4af2d1056db4f3ec8ebc7416184dd68574c83dddd9c8a735e0cd",
+    "fwd_data.py": "807a6f824da7c885b262d701091601919dbb575f92d10b2b41b036ac75f6e020",
+    "xlive.py": "b331197afc028a2921ef6d5f30743c68da7f26772cdfd40a83f6fb131642d830",
+    "disp_sat.py": "602a1cb361087f2d2d7b82acf0cce75deabf565fd4c2108b1cdc4c61394a444d"
+   },
+   "diff": "面板改為共用 panel_pre（[2025-01-01, history 起日)，最大日期 < history 起日 ≤ 任何 asof）；asof 資料夾載入後即刪（只留 MANIFEST sha）；不寫 oddlot_hist；--recheck 參數化（正式 20，重播 2）",
+   "result": "panel_pre 與完整面板在 2026-10-12 的前 10 名逐檔相同（前 30 名略異，explore.json）；全程重播見 accept_*.json"
+  },
+  {
+   "v": "v3（驗收腳本修正，產生器不變）",
+   "diff": "a3_v7x_compare.py 的截斷資料夾改名 a3_asof_*（原與重播共用 work/asof_20261022，A3 刪資料夾時讓重播 10-22 那次執行找不到 stock_list.csv 而中止；重播續跑後該日正常）；accept.py A4 竄改來源改用符號連結（磁碟只剩約 0.1～0.4GB）",
+   "result": "A1～A6、stale 全過（out/accept_*.json）；A3 每窗差 ≤ 4.4e−14pp"
+  }
+ ],
+ "disclosure": "產生器 3 版（v1～v3），驗收腳本 1 次修正；沒有任何版本是依報酬結果挑選（本題不比較報酬）。"
+}
