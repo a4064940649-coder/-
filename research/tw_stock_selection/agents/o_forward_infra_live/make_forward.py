@@ -18,6 +18,15 @@ bugfix（2026-11-03，見 bugfix_log.md）
   會剔除 main_picks_today 實際用到的營收（2026-10-12：71 筆）。J 線規則不變。
 - BF-2 正式模式（不帶 --asof）依台北實際時鐘推算應有的最後交易日（fwd_data.expected_last_day）；來源資料
   （history 或處置 warnings_hist）不夠新 → DATA_STALE、回傳碼 2、不寫名單，stderr 提示改跑 fallback_manual.sh。
+- BF-5 月營收覆蓋率（--official-rev、--rev-cov-min）：
+  · --official-rev <raw/official_rev>：上游月營收缺值時用 rev_official_fetch.py 抓到的官方值補（fwd_data.Source.official_fill；
+    可得時點＝抓取完成時間，官方日線須早於成交日 09:00，J 線須抓取日期 ≤ 訊號日）。選股規則、排名公式、J 線定義都不變。
+  · 覆蓋率閘門：m*＝法定期限日 ≤ asof 的最新營收月份。J≥1（期限日之後）或官方日（例如 2026-10-12 同時是 J0 與官方日）：股池（前 300 大、收盤 ≥ 10、52 週有值、非處置、
+    非金融，而且上游有 m*−1、m*−2 月營收）中有 m* 月營收的比例 < --rev-cov-min（預設 0.99）→ 回傳碼 4（名單照常處理），
+    stderr 提示改跑 fallback_manual.sh。J0（期限日當天）：只檢查「官方已公告」的部分；沒有官方抓取資料時記為 UNVERIFIED，不回傳 4。
+  · 覆蓋率不足、而且執行時鐘還在官方日當天（晚上那次）：官方日線本次不凍結（official_deferred），留給成交日開盤前的
+    下一次執行（06:49 排程）凍結；成交日早上那次不論覆蓋率都凍結（避免錯過 09:00）。--no-defer-official 可關閉。
+    重播（--replay）只記錄覆蓋率，不延後、不回傳 4（--rev-gate-replay 可開啟，測試用）。
 時程：錨定月 m 的 D_m＝m 月 10 日起第一個交易日＝J0；J{j}＝D_m 之後第 j 個交易日；官方日＝第一個 ≥ 11 日的交易日。
 用法（每日第 0 步，資料 git pull 之後）：
   python3 -I -B make_forward.py [--asof YYYY-MM-DD] [--out <live_tracking/main_forward>]
@@ -39,6 +48,8 @@ import xlive as XL              # noqa: E402
 import disp_sat as DS           # noqa: E402
 
 NJ, NPICK, TOPCHK = 13, 10, 20
+REV_COV_MIN = 0.99          # BF-5 覆蓋率門檻
+RC_REV_COVERAGE = 4         # BF-5 回傳碼（3 已用於 daily_step0.sh 磁碟不足）
 TZ = 'Asia/Taipei'
 LIVE_OUT = AG / 'live_tracking/main_forward'
 MIX_REB_COST = 0.005
@@ -69,6 +80,9 @@ class View:
         self.dir = Path(work) / f'asof_{self.d:%Y%m%d}{tag}'
         self.man = src.build_asof(self.d, self.dir, rev_cutoff=None if self.rc == self.d else self.rc)
         self.man_sha = sha(self.dir / 'MANIFEST.json')
+        of = self.man.get('official_fill')
+        if of and of.get('n_filled'):                       # BF-5：官方補值的抓取時間必須早於使用期限（快取的 MANIFEST 也再驗一次）
+            assert pd.Timestamp(of['max_fetched_ts']) < pd.Timestamp(of['t_off']), f'A1 失敗：官方補值 {of}'
         pnl = src.panel_pre(work)
         self.dir_check = {**FD.assert_dir_asof(self.dir, self.d, rev_cutoff=self.rc), **FD.assert_panel_asof(pnl, self.d)}
         self.data = MP.load_prices(self.dir, self.d, pnl)
@@ -156,6 +170,44 @@ def snapshot_frame(v, order, full, line, m, sd):
     return pd.DataFrame(rows)
 
 
+def rev_gate(src, V, asof, clock, thr):
+    """BF-5 月營收覆蓋率閘門（只讀；不影響選股）。m*＝法定期限日 ≤ asof 的最新營收月份；j＝期限日之後的交易日數。"""
+    cal = V.data['cal']
+    m = pd.Period(asof, 'M') - 1
+    if src.deadline(str(m)) > asof: m -= 1
+    dl = src.deadline(str(m))
+    j = int(((cal > dl) & (cal <= asof)).sum())
+    off_day = MP.rebalance_day(cal, asof.year, asof.month) == asof     # 官方日：MP 規則缺 m−1 就剔除，沒有「未公告」可言 → 一律全檢
+    _, df, _, _ = MP.score_on(V.data, V.YOY3, V.dsp, asof, ex_fin=True)
+    base = df.index[(df['t300'] & df['s52'].notna() & ~df['inD'] & ~is_fin(V.data, df.index)).to_numpy()]
+    Y = V.YOY
+    hist_ok = pd.Series(True, index=base)
+    for p in (m - 1, m - 2):
+        hist_ok &= Y.loc[p].reindex(base).notna() if p in Y.index else False
+    den = list(base[hist_ok.to_numpy()])
+    up, off = src.rev_present(str(m), clock)
+    names = V.data['names']
+    g = dict(ym=str(m), deadline=str(dl.date()), j=j, official_day=bool(off_day), mode='J0_announced' if (j == 0 and not off_day) else 'full', threshold=thr, n_pool=int(len(base)), n_den=len(den),
+             n_struct_absent=int(len(base) - len(den)), official_loaded=src.off is not None and len(src.off) > 0,
+             n_official_ym=len(off), cut_ts=pd.Timestamp(clock).tz_convert(TZ).isoformat())
+    chk = den
+    if g['mode'] == 'J0_announced':      # J0（而且不是官方日）：只看「官方已公告」的部分
+        d0 = chk = [c for c in den if c in off]
+        if not g['official_loaded'] or not len(off):
+            g.update(status='J0_UNVERIFIED', n_up_announced=sum(c in up for c in den))
+            return g
+        have = [c for c in d0 if c in up or c in off]
+        g.update(status='PASS' if len(have) >= thr * len(d0) else 'LOW', n_den=len(d0), n_have=len(have),
+                 coverage=len(have) / len(d0) if d0 else 1.0, n_official_only=sum(c not in up for c in d0))
+    else:
+        have = [c for c in den if c in up or c in off]
+        cov = len(have) / len(den) if den else 1.0
+        g.update(status='PASS' if cov >= thr else 'LOW', n_have=len(have), coverage=cov, n_official_only=sum(c not in up for c in have))
+    miss = [c for c in chk if c not in up and c not in off]
+    g.update(n_missing=len(miss), missing_sample=[(c, str(names.get(c, ''))) for c in sorted(miss)[:60]])
+    return g
+
+
 # ---------------------------------------------------------------- 主流程
 def main():
     ap = argparse.ArgumentParser()
@@ -173,6 +225,10 @@ def main():
     ap.add_argument('--recheck', type=int, default=20, help='重算比對最近幾個交易日的訊號日名單')
     ap.add_argument('--ready-hour', type=int, default=FD.READY_HOUR, help='正式模式：台北幾點後要求當天收盤資料已在來源中（BF-2）')
     ap.add_argument('--expect-now', help='只供測試 BF-2：用這個台北時間推算應有的最後交易日（不影響凍結時戳）')
+    ap.add_argument('--official-rev', help='BF-5：官方月營收抓取根目錄（rev_official_fetch.py 的輸出，例如 raw/official_rev）；不給＝不補值')
+    ap.add_argument('--rev-cov-min', type=float, default=REV_COV_MIN, help='BF-5：m* 月營收覆蓋率門檻（預設 0.99）')
+    ap.add_argument('--no-defer-official', action='store_true', help='BF-5：覆蓋率不足時也照常在官方日晚上凍結官方日線')
+    ap.add_argument('--rev-gate-replay', action='store_true', help='BF-5 測試用：重播模式也套用延後凍結與回傳碼 4')
     a = ap.parse_args()
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     pl_dir = out / 'paper_lists'; pl_dir.mkdir(exist_ok=True)
@@ -189,7 +245,8 @@ def main():
         prereg = rjd.get('PREREG_FORWARD'); bugfixes = rjd.get('bugfix_log', [])
     if not a.replay:
         assert prereg is not None, 'PREREG_FORWARD 不存在：凍結前不得寫入正式前瞻資料夾（只能 --replay）'
-    src = FD.Source(a.src, a.e50, a.taiex, a.panel)
+    src = FD.Source(a.src, a.e50, a.taiex, a.panel, official=a.official_rev)
+    src.official_clock = clock                       # BF-5：官方補值不得晚於執行時鐘（重播＝sim-clock）
     head = ''
     try:
         head = subprocess.run(['git', '-C', str(Path(a.src).parent), 'log', '-1', '--format=%H %cI'], capture_output=True, text=True).stdout.strip()
@@ -198,6 +255,9 @@ def main():
     rec = dict(clock=clock.isoformat(), clock_kind=ckind, utc=datetime.datetime.now(datetime.timezone.utc).isoformat(), data_head=head,
                script_sha256=sha(__file__), lib_sha256={p: sha(HERE / p) for p in ('fwd_data.py', 'xlive.py', 'disp_sat.py')},
                mp_sha256=sha(TW / 'main_picks_today.py'), engine_sha256=sha(XL.XEXEC), src_last=str(src.hcal[-1].date()))
+    if a.official_rev:
+        rec['official_rev'] = dict(root=str(a.official_rev), n_rows=int(len(src.off)), dirs=src.off_info[-5:], n_dirs=len(src.off_info),
+                                   rev_official_fetch_sha256=sha(HERE / 'rev_official_fetch.py'))
     if prereg:
         reg = dict(prereg.get('file_sha256', {}))
         for b in bugfixes: reg.update(b.get('new_sha256', {}))           # bugfix_log 登記的新 sha（PREREG 修 bug 規則）
@@ -241,6 +301,10 @@ def main():
     V = View(src, asof, work, keep=True)
     rec['loaded_max_dates'] = V.loaded; rec['dir_check'] = V.dir_check; rec['asof_manifest_sha'] = V.man_sha
     cal = V.data['cal']
+    gate = rev_gate(src, V, asof, clock, a.rev_cov_min)
+    rec['rev_gate'] = gate
+    gate_live = (not a.replay) or a.rev_gate_replay
+    rec['official_deferred'] = []
     start = pd.Period(a.start, 'M')
     months = [m for m in pd.period_range(start, pd.Period(asof, 'M'), freq='M')]
     MD = {m: month_days(cal, m) for m in months}
@@ -265,6 +329,10 @@ def main():
             if snap.exists() and sd not in recent: continue
             exec_est = src.next_trading(sd)
             open_ts = pd.Timestamp(exec_est.date()).tz_localize(TZ) + pd.Timedelta(hours=9)
+            if (line == 'official' and not snap.exists() and gate_live and gate['status'] == 'LOW' and not a.no_defer_official
+                    and sd == asof and clock.tz_convert(TZ).date() == sd.date()):
+                rec['official_deferred'].append(f'{line}_{m.strftime("%Y%m")}')     # BF-5：留給成交日開盤前的下一次執行凍結
+                continue
             if line == 'official':
                 # BF-1：官方日線用「成交日開盤前可得」的營收（凍結時鐘早於成交日 09:00 → 截到成交日；否則截到訊號日）。
                 # 重算比對沿用快照登記的截斷日（舊快照沒有登記＝訊號日）。
@@ -290,7 +358,8 @@ def main():
                       frozen_ts=clock.isoformat(), clock_kind=ckind, wall_utc=rec['utc'], exec_day_est=str(exec_est.date()),
                       exec_open_ts=open_ts.isoformat(), ts_ok=bool(clock < open_ts), data_head=head, view_manifest_sha=v.man_sha,
                       view_max_dates=v.loaded, snapshot_sha256=sha_tab, script_sha256=rec['script_sha256'], mp_sha256=rec['mp_sha256'],
-                      n_eligible=int(len(tab)), top10=list(tab.code[:NPICK]), j0_ann_info=info)
+                      n_eligible=int(len(tab)), top10=list(tab.code[:NPICK]), j0_ann_info=info,
+                      official_fill=v.man.get('official_fill'), rev_gate={k: gate.get(k) for k in ('status', 'ym', 'j', 'coverage', 'n_den', 'n_missing')})
             if line == 'official':
                 mt.update(rev_cutoff=str(v.rc.date()), rev_loaded=v.rev_loaded,
                           rev_cutoff_rule='BF-1：凍結時鐘早於成交日 09:00 → 月營收截到成交日（成交日開盤前已抓到）；否則截到訊號日')
@@ -468,6 +537,16 @@ def main():
     with open(out / 'runs.jsonl', 'a', encoding='utf-8') as fh:
         fh.write(json.dumps(rec, ensure_ascii=False) + '\n')
     print(json.dumps({k: v for k, v in rec.items() if k not in ('outputs', 'dir_check', 'loaded_max_dates')}, ensure_ascii=False))
+    if gate['status'] == 'J0_UNVERIFIED':
+        print(f'【注意】{gate["ym"]} 營收今天是法定期限日（J0），沒有官方抓取資料可核對已公告部分（rev_official_fetch.py 失敗或未執行）。', file=sys.stderr)
+    if gate['status'] == 'LOW' and gate_live:
+        miss = ' '.join(f'{c}{n}' for c, n in gate['missing_sample'][:30])
+        print(f'【月營收覆蓋率不足】{gate["ym"]} 月營收（期限日 {gate["deadline"]}，J{gate["j"]}）在股池的覆蓋率 {gate["coverage"]:.1%}'
+              f'（{gate["n_have"]}/{gate["n_den"]}，門檻 {a.rev_cov_min:.0%}；官方補值 {gate["n_official_only"]} 檔），缺：{miss}\n'
+              f'  官方日線缺 m−1 營收的股票會被剔除（main_picks_today 規則），J 線改用 m−2。'
+              + (f'本次官方日線未凍結：{rec["official_deferred"]}（留給成交日 09:00 前的下一次執行）。' if rec['official_deferred'] else '') +
+              f'\n  請執行：bash {HERE}/fallback_manual.sh （會先抓官方月營收再產生備援名單），並到公開資訊觀測站核對缺的公司。', file=sys.stderr)
+        sys.exit(RC_REV_COVERAGE)
 
 
 if __name__ == '__main__':

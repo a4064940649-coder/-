@@ -13,6 +13,15 @@
 - oddlot_hist 不需要，不寫（省磁碟）。
 - 0050 含息、加權指數：date ≤ asof。
 - stock_list.csv 原樣複製（名稱、市場、產業為現況，不是 PIT；已知限制）。
+- 官方月營收補值（選用；bugfix 2026-11-03 BF-5，見 bugfix_log.md）：Source(official=<raw/official_rev>) 時，
+  讀 rev_official_fetch.py 的抓取目錄（驗 sha256），在「上游截斷後仍缺」的 (code, ym) 用官方值補進 rev_hist：
+  · 可得時點＝抓取完成時間 fetched_ts（不得往回套）。使用期限 t_off：
+      rev_cutoff > asof（官方日線，截到成交日）→ t_off＝成交日 09:00（台北），抓取完成須早於開盤；
+      否則 → t_off＝rev_cutoff 隔天 00:00（抓取日期 ≤ rev_cutoff，與 rev_hist ann_date 的「日」粒度一致）；
+      另外不晚於 official_clock（make_forward 設成執行時鐘／重播 sim-clock）。
+  · 補進的列 ann_date＝最早一次抓到的日期（台北），數值＝t_off 前最後一次抓取的值。
+  · 只補上游有營收歷史的股票（ym 前 3 個月內上游至少有一筆），不把上游從來沒有的股票（例如 KY 公司）帶進股池。
+  · 官方值只補缺，不覆蓋上游已有的列；沒有補到任何列時，截斷資料夾與 MANIFEST 和不開這個選項時完全相同（A4）。
 gzip 輸出 mtime＝0，同一來源、同一 asof 重建的檔案 sha256 相同（A4）。
 """
 import gzip, hashlib, io, json, shutil
@@ -51,7 +60,7 @@ def write_csv(df, path, gz=None):
 
 class Source:
     """來源資料（只讀一次）。"""
-    def __init__(self, src=SRC, e50=E50_SRC, taiex=TAIEX_SRC, panel=PANEL_SRC):
+    def __init__(self, src=SRC, e50=E50_SRC, taiex=TAIEX_SRC, panel=PANEL_SRC, official=None):
         self.src, self.panel = Path(src), Path(panel)
         D = self.src
         self.hist = pd.read_csv(D / 'history.csv.gz', dtype={'code': str}, parse_dates=['date'])
@@ -81,6 +90,9 @@ class Source:
         self.files['etf_0050.csv'] = sha(e50); self.files['taiex_twii.csv'] = sha(taiex)
         self._ann = None
         self._disp = None
+        self.official_root = Path(official) if official else None
+        self.official_clock = None          # make_forward 設定：官方補值不得晚於這個時鐘（重播用 sim-clock）
+        self.off, self.off_info = load_official(self.official_root) if self.official_root else (None, None)
 
     # ---- 日曆 ----
     def is_trading(self, d):
@@ -115,6 +127,34 @@ class Source:
         ann, dl = self.ann_eff()
         eff = [ann.get((c, y), dl[y]) for c, y in zip(df['code'], df['ym'])]
         return df[np.array([e <= asof for e in eff], bool)]
+
+    # ---- 官方月營收補值（BF-5） ----
+    def official_t_off(self, asof, rc):
+        asof, rc = pd.Timestamp(asof), pd.Timestamp(rc)
+        t = (rc + pd.Timedelta(hours=9)) if rc > asof else (rc + pd.Timedelta(days=1))
+        t = t.tz_localize(TZ)
+        if self.official_clock is not None: t = min(t, pd.Timestamp(self.official_clock).tz_convert(TZ))
+        return t
+
+    def official_fill(self, r5t, rht, asof, rc):
+        """回傳 (要補進 rev_hist 的列, 摘要)。r5t、rht＝已截斷到 rc 的上游營收。沒有官方資料時回傳 (空表, None)。"""
+        if self.off is None or not len(self.off): return pd.DataFrame(columns=OFF_COLS), None
+        return official_fill_rows(self.off, r5t, rht, self.official_t_off(asof, rc), str(pd.Period(rc, 'M') - 1))
+
+    def rev_present(self, ym, cut_ts):
+        """cut_ts（台北）時點已存在 ym 月營收列的股票：上游 ann_eff（日）≤ cut_ts 的日期，加官方抓取完成 < cut_ts。"""
+        cut_ts = pd.Timestamp(cut_ts).tz_convert(TZ)
+        d = pd.Timestamp(cut_ts.date())
+        ann, dl = self.ann_eff()
+        have = set()
+        for df in (self.r5, self.rh):
+            x = df[df['ym'] == ym]
+            have |= {c for c in x['code'] if ann.get((c, ym), dl.get(ym, self.deadline(ym))) <= d}
+        off = set()
+        if self.off is not None and len(self.off):
+            o = self.off[(self.off['ym'] == ym) & (self.off['fetched_ts'] < cut_ts)]
+            off = set(o['code'])
+        return have, off
 
     # ---- 處置 ----
     def disposal(self):
@@ -154,6 +194,11 @@ class Source:
         man_p = out / 'MANIFEST.json'
         key = dict(asof=str(asof.date()), source=self.files)
         if rc != asof: key['rev_cutoff'] = str(rc.date())
+        r5t, rh = self._rev_trunc(self.r5, rc), self._rev_trunc(self.rh, rc)
+        add, off_info = self.official_fill(r5t, rh, asof, rc)
+        if len(add):                                     # BF-5：有補到列才改 key（沒補到＝與不開選項完全相同）
+            key['official_fill'] = dict(sha256=off_info['filled_sha256'], t_off=off_info['t_off'])
+            rh = pd.concat([rh, add.astype({'ym': str})], ignore_index=True)
         if man_p.exists():
             m = json.loads(man_p.read_text())
             if m.get('key') == key: return m
@@ -164,8 +209,7 @@ class Source:
         h = self.hist[self.hist['date'] <= asof].copy(); h['date'] = h['date'].dt.strftime('%Y-%m-%d')
         F['history.csv.gz'] = write_csv(h, out / 'history.csv.gz')
         shutil.copyfile(self.stock_list_path, out / 'stock_list.csv'); F['stock_list.csv'] = sha(out / 'stock_list.csv')
-        F['extras/rev_5y.csv.gz'] = write_csv(self._rev_trunc(self.r5, rc), out / 'extras/rev_5y.csv.gz')
-        rh = self._rev_trunc(self.rh, rc)
+        F['extras/rev_5y.csv.gz'] = write_csv(r5t, out / 'extras/rev_5y.csv.gz')
         F['extras/rev_hist.csv.gz'] = write_csv(rh, out / 'extras/rev_hist.csv.gz')
         dp = self.disposal(); dp = dp[pd.to_datetime(dp['date']) <= asof].drop(columns='_src')
         F['extras/disposal_5y.csv.gz'] = write_csv(dp, out / 'extras/disposal_5y.csv.gz')
@@ -178,8 +222,73 @@ class Source:
         n_hist = int((self.hcal <= asof).sum())
         with_panel = False
         m = dict(key=key, files=F, n_hist_days=n_hist, panel=bool(with_panel))
+        if off_info is not None and len(add): m['official_fill'] = off_info
         man_p.write_text(json.dumps(m, ensure_ascii=False, indent=1, sort_keys=True))
         return m
+
+
+# ---------------- 官方月營收抓取目錄（BF-5） ----------------
+TZ = 'Asia/Taipei'
+
+
+OFF_COLS = ['code', 'ym', 'revenue', 'yoy', 'mom', 'ann_date']
+
+
+def official_fill_rows(off, r5t, rht, t_off, max_ym):
+    """官方補值（BF-5）：off＝load_official 的表；r5t、rht＝上游營收（已截斷）；只用抓取完成 < t_off、ym ≤ max_ym 的官方列，
+    補上游缺的 (code, ym)，而且只補上游 ym 前 3 個月內有營收的股票。回傳 (補進 rev_hist 的列, 摘要)。"""
+    cols = OFF_COLS
+    t_off = pd.Timestamp(t_off)
+    o = off[(off['fetched_ts'] < t_off) & (off['ym'] <= max_ym)]
+    info = dict(t_off=t_off.isoformat(), n_official_rows=int(len(o)), fetch_dirs=sorted(set(o['fetch_dir'])), n_filled=0)
+    if not len(o): return pd.DataFrame(columns=cols), info
+    have = set(zip(r5t['code'], r5t['ym'])) | set(zip(rht['code'], rht['ym']))
+    up = pd.concat([r5t[['code', 'ym']], rht[['code', 'ym']]]).drop_duplicates()
+    up_p = {}
+    for c, y in zip(up['code'], up['ym']): up_p.setdefault(c, set()).add(pd.Period(y, 'M'))
+    o = o.sort_values(['code', 'ym', 'fetched_ts'])
+    g = o.groupby(['code', 'ym'], sort=True)
+    first, last = g['fetched_ts'].min(), g.tail(1).set_index(['code', 'ym'])
+    rows, no_hist = [], 0
+    for (c, y), r in last.iterrows():
+        if (c, y) in have: continue
+        p = pd.Period(y, 'M')
+        if not (up_p.get(c, set()) & {p - 1, p - 2, p - 3}):
+            no_hist += 1; continue                        # 上游沒有營收歷史：不擴大股池
+        rows.append(dict(code=c, ym=y, revenue=r['revenue'], yoy=r['yoy'], mom=r['mom'],
+                         ann_date=first[(c, y)].tz_convert(TZ).strftime('%Y-%m-%d')))
+    add = pd.DataFrame(rows, columns=cols)
+    if len(add):
+        mx = max(first[(c, y)] for c, y in zip(add['code'], add['ym']))
+        assert mx < t_off, f'A1 失敗：官方補值抓取時間 {mx} 不早於使用期限 {t_off}'
+        info.update(max_fetched_ts=mx.isoformat())
+    info.update(n_filled=int(len(add)), n_skipped_no_upstream_history=int(no_hist), filled_by_ym={k: int(v) for k, v in add.groupby('ym').size().items()} if len(add) else {},
+                filled_sample=sorted(add['code'].tolist())[:40], filled_sha256=sha_bytes(add.to_csv(index=False).encode()) if len(add) else None)
+    return add, info
+
+
+def load_official(root):
+    """讀 root 底下所有 rev_official_fetch.py 抓取目錄（sha256 不符的整個目錄不用）。
+    回傳 (DataFrame[code, ym, revenue, yoy, mom, fetched_ts（台北 tz）, source, fetch_dir], 各目錄摘要)。"""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('rev_official_fetch', HERE / 'rev_official_fetch.py')
+    ROF = importlib.util.module_from_spec(spec); spec.loader.exec_module(ROF)
+    cols = ['code', 'ym', 'revenue', 'yoy', 'mom', 'fetched_ts', 'source', 'fetch_dir']
+    rows, info = [], []
+    root = Path(root)
+    for d in sorted(p for p in root.glob('*') if p.is_dir() and (p / 'FETCH.json').is_file()) if root.exists() else []:
+        try:
+            rr, meta = ROF.parse_dir(d)
+        except Exception as e:
+            info.append(dict(dir=d.name, error=f'{type(e).__name__}: {e}')); continue
+        info.append(dict(dir=d.name, n_rows=len(rr), rejected=bool(meta.get('rejected')), fetch_json_sha256=sha(d / 'FETCH.json'),
+                         errors=meta.get('parse_errors') or None))
+        rows += rr
+    df = pd.DataFrame(rows, columns=cols)
+    if len(df):
+        df['fetched_ts'] = pd.to_datetime(df['fetched_ts'], utc=True).dt.tz_convert(TZ)
+        for c in ('revenue', 'yoy', 'mom'): df[c] = pd.to_numeric(df[c], errors='coerce')
+    return df, info
 
 
 # ---------------- 斷言（A1） ----------------
@@ -242,3 +351,19 @@ def expected_last_day(now, is_trading, ready_hour=READY_HOUR):
         d -= pd.Timedelta(days=1)
         while not is_trading(d): d -= pd.Timedelta(days=1)
     return d
+
+
+def fill_dir_official(D, out_rev_hist, root, t_cut):
+    """fallback／check_official 用：資料夾 D（未截斷的上游快照）的 rev_hist 加上官方補值（抓取完成 < t_cut），寫到 out_rev_hist。
+    回傳摘要（沒有可用官方資料時 n_filled＝0，仍照原樣寫出 rev_hist）。"""
+    D = Path(D)
+    r5 = pd.read_csv(D / 'extras/rev_5y.csv.gz', dtype={'code': str})
+    rh = pd.read_csv(D / 'extras/rev_hist.csv.gz', dtype={'code': str})
+    off, dirs = load_official(root)
+    t_cut = pd.Timestamp(t_cut)
+    add, info = official_fill_rows(off, r5, rh, t_cut, str(pd.Period(t_cut.tz_convert(TZ).tz_localize(None), 'M') - 1)) if len(off) \
+        else (pd.DataFrame(columns=OFF_COLS), dict(t_off=t_cut.isoformat(), n_official_rows=0, fetch_dirs=[], n_filled=0))
+    out = pd.concat([rh, add], ignore_index=True) if len(add) else rh
+    info['rev_hist_sha256'] = write_csv(out, out_rev_hist)
+    info['official_dirs'] = dirs
+    return info

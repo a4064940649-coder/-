@@ -7,7 +7,12 @@
 #   2) make_forward.py（不帶 --asof）：依台北實際時鐘推算應有的最後交易日（18:00 後＝當天，否則＝前一交易日）；
 #      來源資料不夠新 → 回傳碼 2、不寫名單（DATA_STALE）；資料到齊 → 訊號日名單在這一步凍結，時間早於成交日 09:00
 #   3) 處置帳本每天更新（make_forward.py 內含）
-# 回傳碼：0＝正常；2＝資料過期（改跑 fallback_manual.sh）；3＝磁碟不足；其他＝程式錯誤（看 logs/）。
+#   BF-5（2026-11-03）：1b) 每月 9～20 日（台北）先抓官方月營收（rev_official_fetch.py → raw/official_rev/<時戳>/；
+#      FWD_OFFICIAL_FETCH=1 強制抓、=0 不抓）；抓不到不中止。2) make_forward 帶 --official-rev：上游缺的月營收用官方值補，
+#      並檢查 m* 月營收在股池的覆蓋率（J≥1 與官方日全檢；J0 只檢查官方已公告的部分）。
+# 回傳碼：0＝正常；2＝資料過期（改跑 fallback_manual.sh）；3＝磁碟不足；
+#   4＝月營收覆蓋率不足（官方補值後仍 < 99%；名單照常處理，但官方日晚上那次不凍結官方日線、留給成交日 06:49 那次；
+#      請執行 fallback_manual.sh，並到公開資訊觀測站核對缺的公司）；其他＝程式錯誤（看 logs/）。
 # 失敗時：git 被擋 → 依 read_documentation（environment.network）查網路設定；當天是訊號日就改跑 fallback_manual.sh。
 set -u
 F=/home/user/-/research/tw_stock_selection/agents/o_forward_infra_live
@@ -57,16 +62,24 @@ rc=1; ok=1
   echo "screener $(git -C $F/raw/screener log -1 --format='%H %cI')"
   echo "finlab   $(git -C $F/raw/finlab_repo log -1 --format='%H %cI')"
   if [ $ok -ne 1 ]; then echo "DATA_FETCH_FAILED：git 失敗，請查網路設定；今天若是訊號日改跑 fallback_manual.sh"; fi
+  # 1b) 官方月營收（BF-5）
+  DOM=$((10#$(TZ=Asia/Taipei date +%d)))
+  if [ "${FWD_OFFICIAL_FETCH:-auto}" = "1" ] || { [ "${FWD_OFFICIAL_FETCH:-auto}" = "auto" ] && [ $DOM -ge 9 ] && [ $DOM -le 20 ]; }; then
+    python3 -I -B $F/rev_official_fetch.py --out-root $F/raw/official_rev || echo "OFFICIAL_REV_FETCH_FAILED：官方月營收抓不到（不中止；只用上游月營收）"
+  fi
   # FWD_EXTRA_ARGS 只供測試（例如 --out <scratch> --expect-now 2026-11-11T22:30）；正式排程不要設
-  cd $F && python3 -I -B make_forward.py ${FWD_EXTRA_ARGS:-}
+  cd $F && python3 -I -B make_forward.py --official-rev $F/raw/official_rev ${FWD_EXTRA_ARGS:-}
   rc=$?
-  echo "make_forward rc=$rc（0＝正常；2＝資料未更新到應有日期，未寫名單）"
+  echo "make_forward rc=$rc（0＝正常；2＝資料未更新到應有日期，未寫名單；4＝月營收覆蓋率不足）"
   echo "end $(TZ=Asia/Taipei date -Iseconds)"
 } >> "$LOG" 2>&1
 tail -3 "$LOG"
 grep -h '^【' "$LOG" || true
 if [ $rc -eq 2 ]; then
   MSG="【資料過期，未寫名單】daily_step0 回傳碼 2（詳見 $LOG）。今天若是訊號日（2026-11-10 J0、11-11 官方日），請立刻改跑：bash $F/fallback_manual.sh ，並在上游補上資料後重跑本檔。"
+  echo "$MSG" >&2
+elif [ $rc -eq 4 ]; then
+  MSG="【月營收覆蓋率不足】daily_step0 回傳碼 4（詳見 $LOG）。官方補值後 m* 月營收在股池仍 < 99%。請執行：bash $F/fallback_manual.sh ，並到公開資訊觀測站核對缺的公司；今天是官方日（例如 2026-11-11）時，官方日線留給明天 06:49 那次凍結，請確認排程會跑（或 08:30 前手動再跑一次本檔）。"
   echo "$MSG" >&2
 elif [ $rc -ne 0 ]; then
   echo "【執行失敗】make_forward rc=$rc（詳見 $LOG）；今天若是訊號日改跑 bash $F/fallback_manual.sh" >&2

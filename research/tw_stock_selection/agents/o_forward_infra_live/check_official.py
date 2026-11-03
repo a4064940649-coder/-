@@ -9,7 +9,10 @@
 用法：
   python3 -I -B check_official.py --signal 2026-11-11            # 官方日（預設 line＝official）
   python3 -I -B check_official.py --signal 2026-11-10 --line j0  # 只看 J0 快照時戳（J 線沒有 main_picks_today 對照）
-  python3 -I -B check_official.py --make-union <data 目錄> <輸出目錄>   # 只建「處置聯集」資料夾（fallback_manual.sh 用）
+  python3 -I -B check_official.py --make-union <data 目錄> <輸出目錄> [<官方月營收根目錄>]
+      # 只建「處置聯集」資料夾（fallback_manual.sh 用）；給第三個參數時，rev_hist 另外補上「現在之前抓到」的官方月營收（BF-5）
+BF-5（2026-11-03）：快照 meta 有 official_fill（產生器用官方月營收補過值）時，main_picks_today 對照也用同一個使用期限
+  t_off 之前抓到的官方月營收補值，口徑和產生器相同。
 """
 import argparse, json, shutil, sys
 from pathlib import Path
@@ -21,17 +24,28 @@ OUT = HERE.parent / 'live_tracking/main_forward'
 TZ = 'Asia/Taipei'
 
 
-def make_union(D, U):
+def make_union(D, U, official=None, t_cut=None):
     import a2_pit as A
     U = Path(U)
     if U.exists(): shutil.rmtree(U)
     A.union_dir(Path(D).resolve(), U)
-    return U
+    info = None
+    if official:                       # BF-5：rev_hist 換成「上游＋官方補值」的實體檔（原本是 symlink）
+        t_cut = pd.Timestamp.now(tz=TZ) if t_cut is None else pd.Timestamp(t_cut)
+        (U / 'extras/rev_hist.csv.gz').unlink()
+        info = A.FD.fill_dir_official(Path(D).resolve(), U / 'extras/rev_hist.csv.gz', official, t_cut)
+        (U / 'OFFICIAL_FILL.json').write_text(json.dumps(info, ensure_ascii=False, indent=1, default=str))
+    return U, info
 
 
 def main():
     if sys.argv[1:2] == ['--make-union']:
-        print(make_union(sys.argv[2], sys.argv[3])); return
+        U, info = make_union(sys.argv[2], sys.argv[3], sys.argv[4] if len(sys.argv) > 4 else None)
+        print(U)
+        if info is not None:
+            print(f'官方月營收補值：{info["n_filled"]} 列（抓取完成早於 {info["t_off"]}；各月 {info.get("filled_by_ym", {})}；'
+                  f'可用的官方列 {info["n_official_rows"]}）', file=sys.stderr)
+        return
     import a2_pit as A
     ap = argparse.ArgumentParser()
     ap.add_argument('--signal', required=True)
@@ -39,6 +53,7 @@ def main():
     ap.add_argument('--out', default=str(OUT))
     ap.add_argument('--commit', help='預設＝快照 meta 的 data_head（凍結當時的資料）')
     ap.add_argument('--work', default=str(HERE / 'work/check_official'))
+    ap.add_argument('--official-rev', default=str(HERE / 'raw/official_rev'), help='BF-5：官方月營收抓取根目錄（快照有 official_fill 時用）')
     a = ap.parse_args()
     sd = pd.Timestamp(a.signal); ym = f'{sd:%Y%m}'
     out = Path(a.out); pl = out / 'paper_lists'
@@ -71,7 +86,14 @@ def main():
                 raise SystemExit('快照沒有記錄 data_head（不是從 git 資料夾執行）；請用 --commit 指定凍結當時的上游 commit')
             W = Path(a.work) / f'{ym}_{commit[:8]}'
             if W.exists(): shutil.rmtree(W)
-            A.extract(commit, W / 'data'); A.union_dir(W / 'data', W / 'data_union')
+            A.extract(commit, W / 'data')
+            of = mt.get('official_fill') or {}
+            if of.get('n_filled'):
+                _, finfo = make_union(W / 'data', W / 'data_union', a.official_rev, of['t_off'])
+                rep['official_fill_check'] = dict(snapshot_n_filled=of['n_filled'], recheck_n_filled=finfo['n_filled'], t_off=of['t_off'])
+                print(f'  官方月營收補值：快照 {of["n_filled"]} 列；對照資料夾 {finfo["n_filled"]} 列（t_off {of["t_off"]}）')
+            else:
+                A.union_dir(W / 'data', W / 'data_union')
             raw, uni = A.mp_cli(W / 'data', str(sd.date())), A.mp_cli(W / 'data_union', str(sd.date()))
             rep.update(commit=commit, mp_raw=raw, mp_union=uni, cmp_union=A.cmp(rep['snapshot_top10'], uni['top10']),
                        cmp_raw=A.cmp(rep['snapshot_top10'], raw['top10']))

@@ -117,3 +117,106 @@
 - live_tracking/main_forward/CORRECTIONS.md C-1：2026-10-12 名單更正（刪 2466、6213；尾端是 3231、2395、6691）。
 - BACKLOG.md 每日流程新增第 0 步（對應 (c)）。排程由使用者設定。
 - live_tracking/main_forward/CHECK_1110_1111.md：11-10、11-11 兩晚人工核對清單（對應 (f)）。
+
+---
+
+## 2026-11-03（台北）BF-5｜月營收覆蓋率：官方補值＋覆蓋率閘門
+
+> 編號說明：交辦時寫「BF-2」，但 BF-2 已用於「資料過期偵測」（見上），所以本次記為 BF-5。交辦的「回傳碼 3」也已被 BF-3（磁碟不足）使用，本次新回傳碼為 **4**。
+
+### sha256
+
+| 檔案 | 修改前（BF-1～BF-4 後） | 修改後 |
+|---|---|---|
+| make_forward.py | c53457abd91991ae5d28334d052d294c2789735f0663b455470be22191b63cd6 | 6d7e5d20102674b5935511e56337302680996a21868e727dcb13c8d8ca6e39b6 |
+| fwd_data.py | 1d92540f13f9374d68e775740f27db160151b6009000d2cee88528e9b53a1b5f | 903591b9f8640f29c4609db42eff54c8d606c17a75253009a2d44128291f84b7 |
+| daily_step0.sh | bcd8b7b2c6c4de07bc5c05a1a7265023439cd11d8b48a03f68b14e7d49e6fdef | fb9b442044be955915a98ae7b068c55d0944fc32503ecf3b7cba6b942aeafe46 |
+| fallback_manual.sh | bf3d03ba3c4c921c38c647855cb75ec86f763a58330d8e5874df1a46a642d4dd | 9b47df7bcb59cfd2a947db0bc3ece1047154f81779ecbeb4a615eceea2ac4f30 |
+
+- 新增 rev_official_fetch.py（不在 PREREG，sha256 0a0adc00db422bba28e277816b39a2f5de4da37bc8f8cd8ea17366efd7fd44f3）。
+- 工具 check_official.py 改版（不在 PREREG）：8ffa53f2… → ae0597aeff628a4a2708727442dcef1bcc1e16bf6c7cb014af5baab1a477ec7f。
+- results.json 的 `bugfix_log` 已加 BF-5 的新 sha，make_forward 比對 PREREG 時會用到。
+- 沒有修改：xlive.py、disp_sat.py、main_picks_today.py、x_exec.py、frozen_spec.txt、a2_pit.py。
+
+### 問題（量化見 out/accept_bf5_rev_coverage.json）
+
+- **交辦前提要修正**：rev_5y 的 2026-09 確實只有 319 檔，但產生器和 main_picks_today 都會用 rev_hist 補缺月（rev_hist 9 月有 1,864 檔），所以「只看 rev_5y」的缺口不是實際缺口。另外，「m−1 缺就沿用 m−2」只適用於 J 線；官方日線照 main_picks_today 的規則，m−1 缺值的股票會被**剔除**。
+- **2026-10-12 訊號日的實際缺口**：
+  - 股池 258 檔（前 300 大、收盤 ≥ 10、52 週有值、非處置、非金融）。
+  - 其中 14 檔上游從來沒有營收（1590、2637、3661、3673、4763、4927、4958、5871、6415、6451、6456、6525、6781、6933，幾乎都是 KY 公司）。回測用的是同一份上游資料，所以這 14 檔本來就不在策略股池，不算缺口，分母剩 244 檔。
+  - 10-12 17:40、22:38 和 10-13 03:18 的快照：244 檔中缺 14 檔的 9 月營收（覆蓋率 94.3%）：1402、1519、1795、2105、2312、2332、2371、2404、2412、3033、3045、4904、9904、9914。
+  - 10-13 03:48（50bda15）以後：0 檔缺，覆蓋率 100%。
+- **風險**：照 CHECK_1110_1111.md，官方日是晚上 22:30 凍結。如果上游那時還沒抓齊 m−1 營收，官方日線會凍結一份「缺營收股票被剔除」的名單，而且快照不會覆寫。10-12 就是這樣：22:30 的名單尾端是 3231、6691、6196，不是 C-1 更正後的 3231、2395、6691。
+
+### 修正
+
+1. **rev_official_fetch.py（新增）**
+   - 抓證交所 OpenAPI t187ap05_L 和櫃買 OpenAPI mopsfin_t187ap05_O。某個市場的 OpenAPI 失敗時，改抓公開資訊觀測站 t21sc03 的靜態彙總頁（上個月；國內＋外國公司）。
+   - 每次執行開一個新目錄 `raw/official_rev/<台北 YYYYMMDDTHHMMSS+0800>/`：原始回應原樣存檔，另有 FETCH.json（URL、HTTP 狀態、開始／完成時間、sha256、錯誤）和 SHA256SUMS。
+   - 每列的可得時點＝該請求的**完成時間**，不往回套成公告日。
+   - 下載內容視為不可信資料：只用 json 和 html.parser 解析，逐欄驗證；讀取時 sha256 不符的整個目錄不用。
+   - 程式放在 raw/ 之外，用 `python3 -I -B` 執行，並以參數傳路徑。
+2. **fwd_data.py**
+   - `Source(official=…)` 讀所有抓取目錄。`build_asof` 在「上游截斷後仍缺」的 (code, ym) 才用官方值補進 rev_hist：ann_date＝最早抓到的日期，數值＝期限前最後一次抓到的值。
+   - 使用期限 t_off：
+     - 官方日線（rev_cutoff＝成交日）：抓取完成須早於成交日 09:00；
+     - J 線與主視圖：抓取日期 ≤ 截斷日；
+     - 兩者都不晚於執行時鐘（重播＝sim-clock）。
+   - 只補「上游在 ym 前 3 個月內有營收」的股票，不會把 KY 等上游從來沒有的公司帶進股池。
+   - 補到列時 MANIFEST 的 key 加上 `official_fill`，並在 build 和 View 斷言 max_fetched_ts < t_off。沒補到任何列時，資料夾與 MANIFEST 和 BF-5 前完全相同（asof 2026-11-02 仍是 20bff401…）。
+   - 新增 `rev_present`（覆蓋率用）和 `fill_dir_official`（fallback／check_official 用）。
+3. **make_forward.py**
+   - 新增參數 `--official-rev`、`--rev-cov-min`（預設 0.99）、`--no-defer-official`、`--rev-gate-replay`。
+   - 閘門 `rev_gate`：m*＝法定期限日 ≤ asof 的最新營收月份。
+     - J≥1，或當天是官方日：股池（扣掉上游沒有 m*−1、m*−2 營收的股票）中，有 m* 營收的比例 < 99% → 回傳碼 4。
+     - J0（不是官方日）：只檢查「官方已公告」的部分。沒有官方資料時記為 J0_UNVERIFIED，不回傳 4。
+   - 覆蓋率不足，而且時鐘還在官方日當天時，官方日線本次不凍結（`official_deferred`），留給成交日 09:00 前的下一次執行（06:49 排程）。成交日早上那次不論覆蓋率都會凍結。
+   - 重播只記錄覆蓋率，不延後也不回傳 4，所以 a2_pit 等既有驗收不受影響。
+   - 快照 meta 新增 `official_fill`、`rev_gate` 兩個欄位；runs.jsonl 新增 `rev_gate`、`official_deferred`、`official_rev`。
+   - 選股規則、排名公式、J 線定義都沒有改：補值只填資料缺口，score_on／rank_j 沒有動。
+4. **daily_step0.sh**
+   - git fetch 之後，每月 9～20 日（台北）先跑 rev_official_fetch.py。抓不到不中止。`FWD_OFFICIAL_FETCH=1` 強制抓，`=0` 不抓。
+   - make_forward 帶 `--official-rev raw/official_rev`。
+   - 回傳碼 4 時，用中文提示改跑 fallback_manual.sh。
+5. **fallback_manual.sh**
+   - 第一步先跑 rev_official_fetch.py，輸出記錄寫入 fallback/official_rev_fetch_<時戳>.txt，並加進 SHA256SUMS。
+   - 聯集版的 rev_hist 補上「現在之前抓到」的官方月營收。檔頭會寫抓取回傳碼和補值列數。
+6. **check_official.py**
+   - `--make-union D U [官方根目錄]`。
+   - 快照 meta 有 official_fill 時，main_picks_today 對照也用同一個 t_off 補值。另新增 `--official-rev` 參數。
+
+### 官方來源連線結果（照實記錄）
+
+- 2026-11-03 14:33（台北）從本容器執行：openapi.twse.com.tw、www.tpex.org.tw、mopsov.twse.com.tw 都被代理以 CONNECT 403 拒絕（政策擋下）。另外試過 mops.twse.com.tw、www.twse.com.tw、data.gov.tw、web.archive.org，也都不通；只有 GitHub 可以連線。
+- 失敗紀錄保留在 raw/official_rev/20261103T143314+0800/FETCH.json（以及 14:49、14:51 兩次測試）。
+- 要讓補值實際生效，需要在環境的 Network access 設定把上述主機加進 Allowed domains，或者在能連官方網站的機器上跑 rev_official_fetch.py，再把抓取目錄整個複製進 raw/official_rev/。
+- **MOPS HTML 解析器**沒有用真實回應實測過。**OpenAPI 解析**是依公開欄名（公司代號、資料年月、營業收入-當月營收、營業收入-去年同月增減(%)…）寫的，同樣沒有用真實回應實測。
+- raw/ 在根 .gitignore 裡（`agents/*/raw/*/`），所以 raw/official_rev 不會進 git。若要保存抓取證據，請另外加例外規則。
+
+### 2026-10-12 名單重算（對應交辦第 5 點）
+
+- 用目前上游資料（aad3fc2），營收截到成交日 10-13：股池缺 9 月營收 0 檔，前 10 名＝C-1 紀錄（2305、2347、6834、2408、2383、3653、1312、3231、2395、6691）。
+- 事後把所有 9 月營收（不論抓取時間）都算進去：名單也相同。
+- 官方值是 11-03 才抓（而且沒有抓到），依時點規則本來就不能用於 10-12 訊號。
+- 結論：**名單不變，CORRECTIONS.md 不新增更正**。
+
+### 測試（scratch；輸出不寫入正式資料夾）
+
+| 測試 | 結果 |
+|---|---|
+| 83f11fc（10-12 17:40 快照），模擬時鐘 10-12 22:30 | rev_gate LOW 94.3%（230/244）；`--rev-gate-replay` 時 rc 4，official_202610 延後、J0 照常凍結 |
+| 同上＋測試夾具（上游 9 月營收排成 OpenAPI 格式、標記 22:00 抓到；**不是官方資料**，只測程式路徑） | 補 58 列（股池 14 檔），PASS，官方名單＝C-1 紀錄；check_official.py PASS（10/10 同順序） |
+| 83f11fc，時鐘 10-13 08:00，夾具標記 10-13 09:30 抓到 | 抓取晚於時鐘不用；rc 4；成交日早上不延後，照常凍結 |
+| 50bda15，時鐘 10-13 03:48 | PASS 100%，名單＝C-1 紀錄；check_official.py PASS |
+| 夾具竄改 1 個位元組 | sha256 不符，整個目錄不用 |
+| 抓取時間＝t_off／t_off＋1 秒 | 0 列／995 列（嚴格「早於」） |
+| a2_pit 6 個案例用新程式重跑 | 產生器名單與 out/accept_a2_pit.json 完全相同；與 main_picks_today --ex-fin（處置聯集）6/6 同順序 |
+| A1 斷言（loaded_max_dates、dir_check、rev_loaded ≤ rev_cutoff、官方 max_fetched_ts < t_off ≤ 開盤／凍結時鐘） | 全部成立 |
+| asof 2026-11-02 截斷資料夾（開／不開 --official-rev） | MANIFEST sha 都是 20bff401…（A4 不變） |
+| daily_step0.sh 實跑（`FWD_EXTRA_ARGS=--out <scratch>`） | rc 0（9 月營收 J13 覆蓋率 100%，256/256）；加 `--rev-cov-min 1.01` → rc 4，提示正確 |
+| fallback_manual.sh（OUT 改到 scratch） | 官方抓取 rc 1 照常產生名單；聯集版 10-12 名單＝C-1 紀錄 |
+
+### 重算前後 forward_returns 的差異
+
+- live_tracking/main_forward/forward_returns.csv 修改前後都沒有資料列，差異為 0。
+- 2026-10 的 SOP 名單重算後不變。

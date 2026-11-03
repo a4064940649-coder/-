@@ -203,6 +203,31 @@
    "forward_returns_diff": "live_tracking/main_forward/forward_returns.csv 修正前後都沒有資料列（第一個錨定月 2026-11 還沒有訊號日）→ 差異 0；重播 replay/seq 只是驗收產物，未重產（官方 2026-10 名單尾端由 6691、6196 變 2395、6691）",
    "verification": "out/accept_a2_pit.json：5 個 10-12 真實快照，產生器官方名單 vs main_picks_today --ex-fin（同 commit、處置聯集）5/5 都 10/10 同順序；預設路徑 asof 2026-11-02 MANIFEST sha 不變（20bff401…）",
    "log": "bugfix_log.md"
+  },
+  {
+   "id": "BF-5",
+   "date_taipei": "2026-11-03",
+   "mandate": "月營收覆蓋率缺口（2026-11-10 J0 前）；選股規則、排名公式、J 線定義不變",
+   "old_sha256": {
+    "make_forward.py": "c53457abd91991ae5d28334d052d294c2789735f0663b455470be22191b63cd6",
+    "fwd_data.py": "1d92540f13f9374d68e775740f27db160151b6009000d2cee88528e9b53a1b5f",
+    "daily_step0.sh": "bcd8b7b2c6c4de07bc5c05a1a7265023439cd11d8b48a03f68b14e7d49e6fdef",
+    "fallback_manual.sh": "bf3d03ba3c4c921c38c647855cb75ec86f763a58330d8e5874df1a46a642d4dd"
+   },
+   "new_sha256": {
+    "make_forward.py": "6d7e5d20102674b5935511e56337302680996a21868e727dcb13c8d8ca6e39b6",
+    "fwd_data.py": "903591b9f8640f29c4609db42eff54c8d606c17a75253009a2d44128291f84b7",
+    "daily_step0.sh": "fb9b442044be955915a98ae7b068c55d0944fc32503ecf3b7cba6b942aeafe46",
+    "fallback_manual.sh": "9b47df7bcb59cfd2a947db0bc3ece1047154f81779ecbeb4a615eceea2ac4f30"
+   },
+   "tools_sha256": {
+    "rev_official_fetch.py（新增，不在 PREREG）": "0a0adc00db422bba28e277816b39a2f5de4da37bc8f8cd8ea17366efd7fd44f3",
+    "check_official.py（工具，不在 PREREG）": "ae0597aeff628a4a2708727442dcef1bcc1e16bf6c7cb014af5baab1a477ec7f"
+   },
+   "summary": "官方月營收補值選項（--official-rev；可得時點＝抓取完成時間；官方日線須早於成交日 09:00、J 線抓取日 ≤ 訊號日；只補上游缺的列、只補上游有營收歷史的股票）；覆蓋率閘門（J≥1 與官方日全檢、J0 只檢官方已公告部分；< 99% → 回傳碼 4；官方日晚上那次不凍結官方日線，留給成交日早上）；fallback_manual.sh 先抓官方月營收",
+   "forward_returns_diff": "live_tracking/main_forward/forward_returns.csv 仍無資料列 → 差異 0；2026-10-12 官方名單重算不變（out/accept_bf5_rev_coverage.json）",
+   "verification": "out/accept_bf5_rev_coverage.json；a2_pit 案例重跑名單不變；asof 2026-11-02 MANIFEST sha 不變",
+   "log": "bugfix_log.md"
   }
  ]
 }
