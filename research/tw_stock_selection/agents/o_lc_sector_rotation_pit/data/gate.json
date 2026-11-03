@@ -1,0 +1,908 @@
+{
+ "rule": "D1 資料閘門（看任何報酬之前）：PIT 股數 2006～2012 回推、閘門檢核、PIT 產業表統計、前 100 大下市股價格完整度。\n只用價格（市值名次）、除權因子、公開股本；不算任何策略或基準報酬。\n\nD1 事前寫死的通過條件：\n (a) 「假裝不知道」檢核：以 2021-03-31 的 o8 股數為錨點，用同一套除權因子規則回推到 2014-01；\n     2014Q1～2020Q4 共 28 個季末，與 o8 真值比：真值前 100 名股數對數誤差（絕對值）合併中位數 ≤ 3%，\n     且回推市值前 100 與真值前 100 的重疊檔數：中位數 ≥ 95、最小 ≥ 93。（錨點日沒有真值的股票一律改 ADV 插補，模擬 2013 年以前已下市股的處境）\n (b) 2006～2012 獨立粗檢：twsec 年度 EPS、純益率 × 月營收年合計 → 隱含股數；回推股數與隱含股數的對數差，\n     中位數（絕對值）≤ 10%（隱含股數本身有 EPS 四捨五入與加權平均股數誤差，門檻放寬）。\n (a)(b) 都過 → 2006～2012 標「近似 PIT」並計入 G2／G4；否則 2006～2012 只報描述（改用 120 日均成交值前 100 代理池，標「非 PIT 市值」）。\n",
+ "D1a": {
+  "pooled_med_abs_log": 0.02140455739114893,
+  "pooled_p90": 0.21846032189582135,
+  "overlap_median": 95.5,
+  "overlap_min": 91,
+  "by_q": [
+   {
+    "q": "2014-03-31",
+    "overlap": 95,
+    "med_abs_log": 0.06466301769913055,
+    "p90": 0.30807591551339186,
+    "n_imputed_in_true_top100": 5,
+    "years_back": 7.0
+   },
+   {
+    "q": "2014-06-30",
+    "overlap": 95,
+    "med_abs_log": 0.05952115515747057,
+    "p90": 0.34070080167560496,
+    "n_imputed_in_true_top100": 5,
+    "years_back": 6.8
+   },
+   {
+    "q": "2014-09-30",
+    "overlap": 95,
+    "med_abs_log": 0.060627308250650686,
+    "p90": 0.2820319020637131,
+    "n_imputed_in_true_top100": 5,
+    "years_back": 6.5
+   },
+   {
+    "q": "2014-12-31",
+    "overlap": 96,
+    "med_abs_log": 0.054219020121118885,
+    "p90": 0.2820319020637129,
+    "n_imputed_in_true_top100": 5,
+    "years_back": 6.2
+   },
+   {
+    "q": "2015-03-31",
+    "overlap": 96,
+    "med_abs_log": 0.06062730825065074,
+    "p90": 0.29616222369064504,
+    "n_imputed_in_true_top100": 5,
+    "years_back": 6.0
+   },
+   {
+    "q": "2015-06-30",
+    "overlap": 95,
+    "med_abs_log": 0.04620240856326929,
+    "p90": 0.2764921952290333,
+    "n_imputed_in_true_top100": 5,
+    "years_back": 5.7
+   },
+   {
+    "q": "2015-09-30",
+    "overlap": 95,
+    "med_abs_log": 0.04292090122573723,
+    "p90": 0.27563076808969034,
+    "n_imputed_in_true_top100": 5,
+    "years_back": 5.5
+   },
+   {
+    "q": "2015-12-31",
+    "overlap": 91,
+    "med_abs_log": 0.03881308970533763,
+    "p90": 0.24364650211861597,
+    "n_imputed_in_true_top100": 5,
+    "years_back": 5.2
+   },
+   {
+    "q": "2016-03-31",
+    "overlap": 92,
+    "med_abs_log": 0.03750542357493606,
+    "p90": 0.24364650211861597,
+    "n_imputed_in_true_top100": 4,
+    "years_back": 5.0
+   },
+   {
+    "q": "2016-06-30",
+    "overlap": 94,
+    "med_abs_log": 0.03587394510095533,
+    "p90": 0.24145671112922826,
+    "n_imputed_in_true_top100": 5,
+    "years_back": 4.7
+   },
+   {
+    "q": "2016-09-30",
+    "overlap": 95,
+    "med_abs_log": 0.03510994613017339,
+    "p90": 0.22825529369924016,
+    "n_imputed_in_true_top100": 4,
+    "years_back": 4.5
+   },
+   {
+    "q": "2016-12-31",
+    "overlap": 92,
+    "med_abs_log": 0.030578789503382338,
+    "p90": 0.2282552936992402,
+    "n_imputed_in_true_top100": 3,
+    "years_back": 4.2
+   },
+   {
+    "q": "2017-03-31",
+    "overlap": 94,
+    "med_abs_log": 0.032377540135961703,
+    "p90": 0.24138863019084553,
+    "n_imputed_in_true_top100": 2,
+    "years_back": 4.0
+   },
+   {
+    "q": "2017-06-30",
+    "overlap": 92,
+    "med_abs_log": 0.03237754013596165,
+    "p90": 0.24138863019084553,
+    "n_imputed_in_true_top100": 2,
+    "years_back": 3.7
+   },
+   {
+    "q": "2017-09-30",
+    "overlap": 95,
+    "med_abs_log": 0.02314401173712479,
+    "p90": 0.21079596713493906,
+    "n_imputed_in_true_top100": 3,
+    "years_back": 3.5
+   },
+   {
+    "q": "2017-12-31",
+    "overlap": 96,
+    "med_abs_log": 0.02491380323736321,
+    "p90": 0.17157285381820614,
+    "n_imputed_in_true_top100": 3,
+    "years_back": 3.2
+   },
+   {
+    "q": "2018-03-31",
+    "overlap": 97,
+    "med_abs_log": 0.025759111976317098,
+    "p90": 0.17157285381820617,
+    "n_imputed_in_true_top100": 3,
+    "years_back": 3.0
+   },
+   {
+    "q": "2018-06-30",
+    "overlap": 95,
+    "med_abs_log": 0.024660442124386072,
+    "p90": 0.15851663632570617,
+    "n_imputed_in_true_top100": 0,
+    "years_back": 2.7
+   },
+   {
+    "q": "2018-09-30",
+    "overlap": 97,
+    "med_abs_log": 0.005161392162016041,
+    "p90": 0.11654355134886206,
+    "n_imputed_in_true_top100": 1,
+    "years_back": 2.5
+   },
+   {
+    "q": "2018-12-31",
+    "overlap": 97,
+    "med_abs_log": 0.00302361679180218,
+    "p90": 0.09721261074225135,
+    "n_imputed_in_true_top100": 1,
+    "years_back": 2.2
+   },
+   {
+    "q": "2019-03-31",
+    "overlap": 98,
+    "med_abs_log": 0.005937659971055576,
+    "p90": 0.09631505399794502,
+    "n_imputed_in_true_top100": 0,
+    "years_back": 2.0
+   },
+   {
+    "q": "2019-06-30",
+    "overlap": 98,
+    "med_abs_log": 0.008869423782939012,
+    "p90": 0.08364359794348523,
+    "n_imputed_in_true_top100": 0,
+    "years_back": 1.7
+   },
+   {
+    "q": "2019-09-30",
+    "overlap": 99,
+    "med_abs_log": 0.000840302034212953,
+    "p90": 0.06936943126808005,
+    "n_imputed_in_true_top100": 0,
+    "years_back": 1.5
+   },
+   {
+    "q": "2019-12-31",
+    "overlap": 97,
+    "med_abs_log": 0.0,
+    "p90": 0.054848553162235865,
+    "n_imputed_in_true_top100": 0,
+    "years_back": 1.2
+   },
+   {
+    "q": "2020-03-31",
+    "overlap": 98,
+    "med_abs_log": 1.6289388700013353e-06,
+    "p90": 0.055715070170015826,
+    "n_imputed_in_true_top100": 0,
+    "years_back": 1.0
+   },
+   {
+    "q": "2020-06-30",
+    "overlap": 99,
+    "med_abs_log": 0.0,
+    "p90": 0.04851252804806956,
+    "n_imputed_in_true_top100": 0,
+    "years_back": 0.8
+   },
+   {
+    "q": "2020-09-30",
+    "overlap": 99,
+    "med_abs_log": 0.0,
+    "p90": 0.008687166182301049,
+    "n_imputed_in_true_top100": 0,
+    "years_back": 0.5
+   },
+   {
+    "q": "2020-12-31",
+    "overlap": 99,
+    "med_abs_log": 0.0,
+    "p90": 0.0011056637279616601,
+    "n_imputed_in_true_top100": 0,
+    "years_back": 0.2
+   }
+  ],
+  "n_events_with_m": 1653,
+  "pass": false
+ },
+ "shares_full": {
+  "file": "data/shares_full.parquet",
+  "sha256": "32b89fb4681a7afe1a971cb1c39ae44667c82ab022bf16337c7e57267017ec4f",
+  "n_anchor": 802,
+  "n_events_with_m": 2311
+ },
+ "imputed_top100": {
+  "by_year": [
+   {
+    "y": "2006",
+    "n_imp": 9.75,
+    "w_imp": 0.0483
+   },
+   {
+    "y": "2007",
+    "n_imp": 5.1667,
+    "w_imp": 0.0168
+   },
+   {
+    "y": "2008",
+    "n_imp": 3.6667,
+    "w_imp": 0.0202
+   },
+   {
+    "y": "2009",
+    "n_imp": 4.0833,
+    "w_imp": 0.016
+   },
+   {
+    "y": "2010",
+    "n_imp": 1.9167,
+    "w_imp": 0.0052
+   },
+   {
+    "y": "2011",
+    "n_imp": 2.0833,
+    "w_imp": 0.0068
+   },
+   {
+    "y": "2012",
+    "n_imp": 2.25,
+    "w_imp": 0.0164
+   },
+   {
+    "y": "2013",
+    "n_imp": 2.0,
+    "w_imp": 0.008
+   },
+   {
+    "y": "2014",
+    "n_imp": 0.1667,
+    "w_imp": 0.0005
+   },
+   {
+    "y": "2015",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2016",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2017",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2018",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2019",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2020",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2021",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2022",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2023",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2024",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2025",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   },
+   {
+    "y": "2026",
+    "n_imp": 0.0,
+    "w_imp": 0.0
+   }
+  ],
+  "codes_count": {
+   "3009": 51,
+   "8078": 47,
+   "5854": 40,
+   "3697": 34,
+   "2315": 30,
+   "2446": 24,
+   "3534": 24,
+   "2854": 23,
+   "3061": 20,
+   "3007": 14,
+   "2350": 11,
+   "3214": 10,
+   "3012": 9,
+   "2418": 8,
+   "2394": 6,
+   "3063": 6,
+   "6004": 6,
+   "3367": 5,
+   "2391": 4,
+   "3638": 1
+  }
+ },
+ "D1b": {
+  "n": 475,
+  "med_abs_log": 0.06288089193225309,
+  "med_signed": 0.026955651460160737,
+  "p75_abs": 0.1612603035776432,
+  "by_year": {
+   "2006": [
+    0.0549,
+    0.1082,
+    70
+   ],
+   "2007": [
+    0.0386,
+    0.1042,
+    79
+   ],
+   "2008": [
+    0.0265,
+    0.0619,
+    55
+   ],
+   "2009": [
+    0.0545,
+    0.0624,
+    65
+   ],
+   "2010": [
+    0.0313,
+    0.051,
+    75
+   ],
+   "2011": [
+    0.0032,
+    0.038,
+    67
+   ],
+   "2012": [
+    0.0061,
+    0.0238,
+    64
+   ]
+  },
+  "worst": [
+   {
+    "y": 2008,
+    "code": "2357",
+    "logdiff": -2.015
+   },
+   {
+    "y": 2009,
+    "code": "2357",
+    "logdiff": -1.926
+   },
+   {
+    "y": 2007,
+    "code": "2357",
+    "logdiff": -1.871
+   },
+   {
+    "y": 2006,
+    "code": "2357",
+    "logdiff": -1.862
+   },
+   {
+    "y": 2007,
+    "code": "2885",
+    "logdiff": 1.745
+   },
+   {
+    "y": 2006,
+    "code": "2408",
+    "logdiff": 1.742
+   },
+   {
+    "y": 2009,
+    "code": "2887",
+    "logdiff": 1.326
+   },
+   {
+    "y": 2009,
+    "code": "2885",
+    "logdiff": 1.267
+   },
+   {
+    "y": 2007,
+    "code": "2887",
+    "logdiff": 1.257
+   },
+   {
+    "y": 2010,
+    "code": "2357",
+    "logdiff": -1.238
+   },
+   {
+    "y": 2007,
+    "code": "3481",
+    "logdiff": 1.215
+   },
+   {
+    "y": 2012,
+    "code": "2885",
+    "logdiff": 1.207
+   }
+  ],
+  "pass": true
+ },
+ "D1_pass": false,
+ "label_2006_2012": "非 PIT 市值（只報描述；不計入 G2／G4）",
+ "delisted_top100": {
+  "n": 40,
+  "n_gap_gt7d": 28,
+  "n_miss_last120_gt5": 0,
+  "focus": [
+   {
+    "code": "2311",
+    "panel_last": "2018-04-17",
+    "last_listed": "2018-04-27",
+    "miss_last120": 0,
+    "gap_days": 10
+   },
+   {
+    "code": "2325",
+    "panel_last": "2018-04-17",
+    "last_listed": "2018-04-27",
+    "miss_last120": 0,
+    "gap_days": 10
+   },
+   {
+    "code": "2448",
+    "panel_last": "2020-12-23",
+    "last_listed": "2021-01-05",
+    "miss_last120": 0,
+    "gap_days": 13
+   },
+   {
+    "code": "2823",
+    "panel_last": "2021-12-17",
+    "last_listed": "2021-12-29",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "2888",
+    "panel_last": "2025-07-11",
+    "last_listed": "2025-07-11",
+    "miss_last120": 0,
+    "gap_days": 0
+   },
+   {
+    "code": "3009",
+    "panel_last": "2010-03-05",
+    "last_listed": "2010-03-17",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "3474",
+    "panel_last": "2016-11-29",
+    "last_listed": "2016-12-05",
+    "miss_last120": 0,
+    "gap_days": 6
+   }
+  ],
+  "problems": [
+   {
+    "code": "2311",
+    "panel_last": "2018-04-17",
+    "last_listed": "2018-04-27",
+    "miss_last120": 0,
+    "gap_days": 10
+   },
+   {
+    "code": "2315",
+    "panel_last": "2013-08-30",
+    "last_listed": "2013-09-11",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "2325",
+    "panel_last": "2018-04-17",
+    "last_listed": "2018-04-27",
+    "miss_last120": 0,
+    "gap_days": 10
+   },
+   {
+    "code": "2384",
+    "panel_last": "2014-11-18",
+    "last_listed": "2015-07-06",
+    "miss_last120": 0,
+    "gap_days": 230
+   },
+   {
+    "code": "2391",
+    "panel_last": "2010-08-03",
+    "last_listed": "2010-08-13",
+    "miss_last120": 0,
+    "gap_days": 10
+   },
+   {
+    "code": "2394",
+    "panel_last": "2006-11-20",
+    "last_listed": "2006-11-30",
+    "miss_last120": 0,
+    "gap_days": 10
+   },
+   {
+    "code": "2418",
+    "panel_last": "2007-05-04",
+    "last_listed": "2008-01-11",
+    "miss_last120": 0,
+    "gap_days": 252
+   },
+   {
+    "code": "2446",
+    "panel_last": "2009-11-18",
+    "last_listed": "2009-11-30",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "2448",
+    "panel_last": "2020-12-23",
+    "last_listed": "2021-01-05",
+    "miss_last120": 0,
+    "gap_days": 13
+   },
+   {
+    "code": "2823",
+    "panel_last": "2021-12-17",
+    "last_listed": "2021-12-29",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "2833",
+    "panel_last": "2015-10-01",
+    "last_listed": "2015-10-14",
+    "miss_last120": 0,
+    "gap_days": 13
+   },
+   {
+    "code": "2847",
+    "panel_last": "2016-03-09",
+    "last_listed": "2016-03-21",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "2854",
+    "panel_last": "2011-09-20",
+    "last_listed": "2011-09-30",
+    "miss_last120": 0,
+    "gap_days": 10
+   },
+   {
+    "code": "3009",
+    "panel_last": "2010-03-05",
+    "last_listed": "2010-03-17",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "3012",
+    "panel_last": "2006-09-19",
+    "last_listed": "2006-09-29",
+    "miss_last120": 0,
+    "gap_days": 10
+   },
+   {
+    "code": "3063",
+    "panel_last": "2010-03-19",
+    "last_listed": "2010-03-31",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "3214",
+    "panel_last": "2007-02-08",
+    "last_listed": "2007-02-27",
+    "miss_last120": 0,
+    "gap_days": 19
+   },
+   {
+    "code": "3367",
+    "panel_last": "2011-09-28",
+    "last_listed": "2011-10-06",
+    "miss_last120": 0,
+    "gap_days": 8
+   },
+   {
+    "code": "3514",
+    "panel_last": "2018-09-17",
+    "last_listed": "2018-09-28",
+    "miss_last120": 1,
+    "gap_days": 11
+   },
+   {
+    "code": "3534",
+    "panel_last": "2011-09-22",
+    "last_listed": "2011-09-30",
+    "miss_last120": 0,
+    "gap_days": 8
+   },
+   {
+    "code": "3682",
+    "panel_last": "2022-12-30",
+    "last_listed": "2023-12-14",
+    "miss_last120": 0,
+    "gap_days": 349
+   },
+   {
+    "code": "3697",
+    "panel_last": "2014-01-15",
+    "last_listed": "2014-01-27",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "5264",
+    "panel_last": "2021-01-06",
+    "last_listed": "2021-01-14",
+    "miss_last120": 1,
+    "gap_days": 8
+   },
+   {
+    "code": "5854",
+    "panel_last": "2011-11-18",
+    "last_listed": "2011-11-30",
+    "miss_last120": 0,
+    "gap_days": 12
+   },
+   {
+    "code": "6004",
+    "panel_last": "2007-03-20",
+    "last_listed": "2007-03-30",
+    "miss_last120": 0,
+    "gap_days": 10
+   },
+   {
+    "code": "6286",
+    "panel_last": "2016-04-20",
+    "last_listed": "2016-04-28",
+    "miss_last120": 0,
+    "gap_days": 8
+   },
+   {
+    "code": "6452",
+    "panel_last": "2020-08-17",
+    "last_listed": "2021-03-31",
+    "miss_last120": 0,
+    "gap_days": 226
+   },
+   {
+    "code": "8078",
+    "panel_last": "2014-02-14",
+    "last_listed": "2014-02-26",
+    "miss_last120": 0,
+    "gap_days": 12
+   }
+  ]
+ },
+ "industry_pit": {
+  "sha256": "e00f0890511d67950b5b2dbbe56718a1dacc1c723625f122e48157d604af73a7",
+  "n_ever_top100": 267,
+  "n_rows": 278,
+  "n_reclassified": 11,
+  "n_manual": 21,
+  "n_prefix": 0,
+  "n_unclassified": 0,
+  "reclassified": [
+   {
+    "code": "1319",
+    "start": "2004-01-01",
+    "end": "2023-01-16",
+    "industry": "塑膠工業",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "1319",
+    "start": "2023-01-16",
+    "end": NaN,
+    "industry": "汽車工業",
+    "source": "證交所 ISIN 2023-01-16（較晚觀測日起生效）"
+   },
+   {
+    "code": "1536",
+    "start": "2004-01-01",
+    "end": "2023-01-16",
+    "industry": "電機機械",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "1536",
+    "start": "2023-01-16",
+    "end": NaN,
+    "industry": "汽車工業",
+    "source": "證交所 ISIN 2023-01-16（較晚觀測日起生效）"
+   },
+   {
+    "code": "1736",
+    "start": "2004-01-01",
+    "end": "2023-07-03",
+    "industry": "生技醫療業",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "1736",
+    "start": "2023-07-03",
+    "end": NaN,
+    "industry": "運動休閒",
+    "source": "tw-stock-screener stock_list 2026-10（2023-07-03 產業別調整生效）"
+   },
+   {
+    "code": "2231",
+    "start": "2004-01-01",
+    "end": "2023-01-16",
+    "industry": "電機機械",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "2231",
+    "start": "2023-01-16",
+    "end": NaN,
+    "industry": "汽車工業",
+    "source": "證交所 ISIN 2023-01-16（較晚觀測日起生效）"
+   },
+   {
+    "code": "2385",
+    "start": "2004-01-01",
+    "end": "2016-04-01",
+    "industry": "電腦及週邊設備業",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "2385",
+    "start": "2016-04-01",
+    "end": NaN,
+    "industry": "電子零組件業",
+    "source": "快照 2016-04-01（weihautin StockList.csv-old，以 3008/2227 收盤比對定日）（較晚觀測日起生效）"
+   },
+   {
+    "code": "8454",
+    "start": "2004-01-01",
+    "end": "2023-07-03",
+    "industry": "貿易百貨業",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "8454",
+    "start": "2023-07-03",
+    "end": NaN,
+    "industry": "數位雲端",
+    "source": "tw-stock-screener stock_list 2026-10（2023-07-03 產業別調整生效）"
+   },
+   {
+    "code": "8464",
+    "start": "2004-01-01",
+    "end": "2023-07-03",
+    "industry": "其他業",
+    "source": "回溯：沿用最早觀測（快照 2016-04-01（weihautin StockList.csv-old，以 3008/2227 收盤比對定日））"
+   },
+   {
+    "code": "8464",
+    "start": "2023-07-03",
+    "end": NaN,
+    "industry": "居家生活",
+    "source": "tw-stock-screener stock_list 2026-10（2023-07-03 產業別調整生效）"
+   },
+   {
+    "code": "9904",
+    "start": "2004-01-01",
+    "end": "2023-07-03",
+    "industry": "其他業",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "9904",
+    "start": "2023-07-03",
+    "end": NaN,
+    "industry": "運動休閒",
+    "source": "tw-stock-screener stock_list 2026-10（2023-07-03 產業別調整生效）"
+   },
+   {
+    "code": "9910",
+    "start": "2004-01-01",
+    "end": "2023-07-03",
+    "industry": "其他業",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "9910",
+    "start": "2023-07-03",
+    "end": NaN,
+    "industry": "運動休閒",
+    "source": "tw-stock-screener stock_list 2026-10（2023-07-03 產業別調整生效）"
+   },
+   {
+    "code": "9914",
+    "start": "2004-01-01",
+    "end": "2023-07-03",
+    "industry": "其他業",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "9914",
+    "start": "2023-07-03",
+    "end": NaN,
+    "industry": "運動休閒",
+    "source": "tw-stock-screener stock_list 2026-10（2023-07-03 產業別調整生效）"
+   },
+   {
+    "code": "9921",
+    "start": "2004-01-01",
+    "end": "2023-07-03",
+    "industry": "其他業",
+    "source": "回溯：沿用最早觀測（快照 2015-05-22（weihautin StockList））"
+   },
+   {
+    "code": "9921",
+    "start": "2023-07-03",
+    "end": NaN,
+    "industry": "運動休閒",
+    "source": "tw-stock-screener stock_list 2026-10（2023-07-03 產業別調整生效）"
+   }
+  ]
+ },
+ "data_sha256": {
+  "shares_full.parquet": "32b89fb4681a7afe1a971cb1c39ae44667c82ab022bf16337c7e57267017ec4f",
+  "industry_pit.csv": "e00f0890511d67950b5b2dbbe56718a1dacc1c723625f122e48157d604af73a7",
+  "o8 shares_pit.parquet": "901801d80a30a629f68dc6d578fbe29c5118554e702849872c4a9ce4795bc603",
+  "lclib.py": "b9fd05b008516080a6d95d14b1880eff4a5ad101056d1c0a98f01d3c337e7840",
+  "s1_gate.py": "fcf1daf96f3533eca55508bfc9aea075c156b3154d88800621a46b8dbb451672"
+ }
+}

@@ -1,0 +1,203 @@
+{
+ "body": {
+  "mode": "T1",
+  "mode_params": {
+   "k": 3,
+   "sbuf": 2
+  },
+  "topic": "o_lc_sector_strong_stocks：產業輪動＋強勢大型股（題 2）",
+  "frozen_utc": "2026-11-03T04:31:40Z",
+  "topic1_status": "題 1（o_lc_sector_rotation_pit）凍結檔：{\"path\": \"/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/data/PREREG.json\", \"sha256\": \"73efe56a66d390d3a7cd9f8a363f6b525e4edea6de81d58acf2ecba1f81904e0\"}",
+  "topic1_prereg_sha256": "73efe56a66d390d3a7cd9f8a363f6b525e4edea6de81d58acf2ecba1f81904e0",
+  "universe": "訊號日 d 收盤 PIT 市值前 100（股數：2013-01-02 起 o8 shares_pit＋4763／2317 修正；2014-01 起過 o8 閘門。2006-04～2012-12 用 o7 shares_est（由 2025 年往回推，非 PIT、缺部分下市股），只作描述）。排除 91 開頭 DR；近 6 日有成交；V7 上市身分遮罩。2330 一樣參與。",
+  "industry": "PIT 證交所產業別：2023-07-03 起用現行 stock_list；2007-07-02～2023-07-02 用 ISIN 2023-01-16 快照（觀光事業→觀光餐旅；快照外而現行屬新 4 類者→其他業）；2007-07-02 前電子 8 類→電子工業、化學／生技醫療→化學生技醫療業、油電燃氣→其他業。下市股：11 檔大型股手動、傳產依代碼前兩碼。個別公司在 2007～2023 之間的改類無法 PIT。",
+  "sector_rule": {
+   "name": "題 1 事前預設版 COMP、k=5（本題實作）",
+   "min_members": 2,
+   "signals": "REV＝成員近 3 月營收年增率（V4 已公告，縮尾 [-80%,300%]）市值加權；RS＝(63、126、252 日扣最近 21 日) 三個市值加權報酬的跨產業百分位平均；H52＝成員 52 週比（gapfix）市值加權；NH＝近 21 個交易日創 52 週新高的成員比例；金融產業無 REV。",
+   "comp": "四者跨產業百分位的平均（缺值略過）；排序同分比產業市值",
+   "k": 5,
+   "buffer": "無"
+  },
+  "stock_score": "(1/3)·宇宙內 52 週比百分位＋(1/3)·6-1 月相對強度（126 日到 21 日）百分位＋(1/3)·近 3 月營收年增率百分位（V4 已公告）；金融保險股＝前兩者平均；至少 2 項有值才算分；同分先比營收、再比代碼",
+  "grid": "IND：n∈{1,2,3} × 權重{cap,eq} × 上限{15%,25%} × 載體{PURE,SAT(0.7B+0.3PURE)} 共 24；CTRL 同格點 24；IND_ONLY（PURE、SAT）；B＝宇宙 PIT 市值加權",
+  "buffer": "IND：已持有且產業內名次 ≤ n+buf、產業仍在前 k → 續抱；CTRL：已持有且宇宙名次 ≤ k·(n+buf) → 續抱",
+  "cap_rule": "prop：超過上限依比例分給其他未觸頂選中股；K·cap<1 時有效上限＝1/K（等權）",
+  "timing": "訊號日 J0～J12（營收期限日後第 j 個面板交易日），d 收盤算、d+1 開盤成交；月換股；主欄＝13 個 j 的中位數",
+  "periods": {
+   "SEL": "2014-01～2016-12（D1：2006～2013 沒有可核對 PIT 股數）",
+   "VAL": "2017-01～2026-10",
+   "DESC": "2006-04～2013-12（非 PIT 股數，只作描述）"
+  },
+  "costs": "紙上：一般（買 0.1855%、賣 0.4855%）、壓力（每邊再加 0.5%）、零成本；可執行：K5T（lc_exec.py，移植 o8 s7_exec＋處置期收盤減一跳賣出），30 萬／100 萬／300 萬／1,000 萬，FIX／GROW",
+  "iterations": {
+   "n_versions_per_mode": 4,
+   "modes": [
+    "COMP（切換前）",
+    "T1"
+   ],
+   "versions": [
+    "v1",
+    "v2",
+    "v3",
+    "v4"
+   ],
+   "n_grid_per_version": 48,
+   "total_configs_evaluated": 390
+  },
+  "selection": {
+   "rule_result": "沒有候選同時滿足「鄰域同號且 ≥ 最佳 50%」與「Q7(b) 扣成本前 ≥ p90」→ 選定版＝事前預設版（v1：SAT、n=2、市值加權、上限 15%）",
+   "selected": "v1:IND_n2_cap_c15_SAT",
+   "selected_spec": {
+    "kind": "IND",
+    "n": 2,
+    "wt": "cap",
+    "cap": 0.15,
+    "carrier": "SAT",
+    "buf": 1,
+    "overflow": "prop"
+   },
+   "best_by_IR": "v3:IND_n1_cap_c15_PURE"
+  },
+  "preswitch": {
+   "mode": "COMP",
+   "selection": {
+    "rule_result": "沒有候選同時滿足「鄰域同號且 ≥ 最佳 50%」與「Q7(b) 扣成本前 ≥ p90」→ 選定版＝事前預設版（v1：SAT、n=2、市值加權、上限 15%）",
+    "selected": "v1:IND_n2_cap_c15_SAT",
+    "selected_spec": {
+     "kind": "IND",
+     "n": 2,
+     "wt": "cap",
+     "cap": 0.15,
+     "carrier": "SAT",
+     "buf": 1,
+     "overflow": "prop"
+    },
+    "best_by_IR": "v4:IND_n1_cap_c25_PURE"
+   },
+   "S2": {
+    "spec": "IND_n2_cap_c15_SAT",
+    "TE_used": 0.034757610415603,
+    "turnover": 0.1259082646118973,
+    "note": "IR 為扣成本後可執行尺度；G5（PIT 只到 2014）與 G6、G7、G8 不在模擬內（G5 全期段落本題已知不成立）",
+    "by_IR": {
+     "0.3": {
+      "G1": 0.8005,
+      "G2": 0.013,
+      "G3a": 0.00775,
+      "G3b": 0.0,
+      "G4": 0.01075,
+      "all": 0.0,
+      "all_noDSR": 0.00375
+     },
+     "0.5": {
+      "G1": 0.97325,
+      "G2": 0.1025,
+      "G3a": 0.08725,
+      "G3b": 0.0,
+      "G4": 0.1115,
+      "all": 0.0,
+      "all_noDSR": 0.05325
+     },
+     "0.66": {
+      "G1": 0.997,
+      "G2": 0.315,
+      "G3a": 0.326,
+      "G3b": 0.0,
+      "G4": 0.36925,
+      "all": 0.0,
+      "all_noDSR": 0.21075
+     }
+    }
+   },
+   "note": "切換前（題 1 事前預設 COMP、k=5）的挑選期結果與選定，照報"
+  },
+  "S2": {
+   "spec": "IND_n2_cap_c15_SAT",
+   "TE_used": 0.04680263399918011,
+   "turnover": 0.10091719166081704,
+   "note": "IR 為扣成本後可執行尺度；G5（PIT 只到 2014）與 G6、G7、G8 不在模擬內（G5 全期段落本題已知不成立）",
+   "by_IR": {
+    "0.3": {
+     "G1": 0.8005,
+     "G2": 0.013,
+     "G3a": 0.00775,
+     "G3b": 0.0,
+     "G4": 0.01075,
+     "all": 0.0,
+     "all_noDSR": 0.00375
+    },
+    "0.5": {
+     "G1": 0.97325,
+     "G2": 0.1025,
+     "G3a": 0.08725,
+     "G3b": 0.0,
+     "G4": 0.1115,
+     "all": 0.0,
+     "all_noDSR": 0.05325
+    },
+    "0.66": {
+     "G1": 0.997,
+     "G2": 0.315,
+     "G3a": 0.326,
+     "G3b": 0.0,
+     "G4": 0.36925,
+     "all": 0.0,
+     "all_noDSR": 0.21075
+    }
+   }
+  },
+  "selected_spec": {
+   "kind": "IND",
+   "n": 2,
+   "wt": "cap",
+   "cap": 0.15,
+   "carrier": "SAT",
+   "buf": 1,
+   "overflow": "prop"
+  },
+  "default_spec": {
+   "kind": "IND",
+   "n": 2,
+   "wt": "cap",
+   "cap": 0.15,
+   "carrier": "SAT"
+  },
+  "placebo_rho": {
+   "rho_sec": 0.8,
+   "rho_stk": 0.9
+  },
+  "placebo": "Q7 (a)(b)(c) 各 1,000 次（4×250，seed 20261103+1000c+j），PIT 段 2014 起連續模擬，驗證期取 2017 起；扣成本前與後都要 > p95",
+  "right_tail": "拿掉 2021 年航運業持股、2025 年電子零組件業＋電腦及週邊設備業持股（以 0050 報酬替代其貢獻），以及拿掉累積貢獻最大的 10 檔",
+  "q4_subsamples": "產業 REV 跨產業標準差高於中位數的月份；j0～j4 vs j8～j12；主題擴散期 2020～2021、2023～2025（2009～2010 非 PIT 描述）；空頭後反彈：0050 自高點回落 ≥20% 的谷底後 3 窗；主題結束：2022-01～2022-12（航運）、2024-07～2024-08（AI）",
+  "g3": "族群 (i) 2,334 條（o_g2_feasibility_stoprule.g2lib.family）＋本題 48 格＋IND_ONLY 2 條；(ii) F_main＋同樣格點。官方日窗格；SPA_c（平穩 bootstrap L=6、B=10,000、seed 20261103）；DSR（全族群 SR 變異數、試驗數＝族群數）",
+  "predictions": {
+   "plan_preregistered": "Q1 差中差 >0（挑選期 t≥2；t<1 機制不成立）；Q2 前 k 產業內強勢股對產業整體超額 >0（t≥1.5）；Q3 本題對 0050 超額 > 不分產業對照，差額 t 約 1.0～1.5；Q5 主策略前 20 個股票-年中屬前 k 產業 ≥60%；Q6 SAT 超額與主策略相關 <0.6、對 (2330−0050) β≥0；Q7 扣成本前後都贏 p95",
+   "researcher_point_after_SEL": "挑選期（2014～2016）：切換前（COMP k5）全部格點對 0050 為負、Q1 差中差 t 0.09；切換後（題 1 H52 k3）選定版 SAT n2 對 0050 IR −0.44（t −0.77）、對 B t +0.20、Q1 差中差 t −0.13，只有 n=1 PURE 為正（IR 0.35）。研究員點預測驗證期：選定版（SAT n2）對 0050 j 中位數 t 介於 −0.5～+1.0（不顯著），主要正貢獻集中在 2021 航運與 2025 AI；IND−CTRL 差額 t 約 0～1.0；G1～G7 不會全過；判定「不可用」的機率 > 80%。"
+  },
+  "contamination": "2017 年以後大型強勢股的報酬在 o3（大型股腿）、o7 與 o9（C 候選）已部分看過；本題驗證期不是乾淨樣本外。",
+  "code_sha256": {
+   "lc_lib.py": "9bc12f0cb6efd2d5e874ab617bf097b7e788588991be80abc634998350209c06",
+   "lc_run.py": "751be992e947c90c8a095a55f4aed761e1ef123f9ac027bbab146beaecfda552",
+   "lc_exec.py": "523e41b25982a89236956a321b23890a533900f49555757a503b77cea49d0708",
+   "lc_placebo.py": "7f9cb4c4ae1df6ddb7335b24d638e772c082b97ea3516bb7d6f2e77d9cfda771",
+   "s4_oos.py": "e0b7fe2918c7d8ffa4783bc7eb889faf2b88a5cd62e775aa2cbc8914ad24db89"
+  },
+  "data_sha256": {
+   "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/data/shares_pit.parquet": "901801d80a30a629f68dc6d578fbe29c5118554e702849872c4a9ce4795bc603",
+   "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/agents/capmatched_shares_est.parquet": "c60a9209b992288819c06d0f4dd65edb4df381ff15708cb9477cb4a5dfcd1b61",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/listed_twse.parquet": "0faa1a996fb5d8e18c8767dd7cda219d41bb81c852bca9e528ebfcf622eacf87",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/raw/isin/snap/isin_02_64993c2e1699ae56b9752b47e87f90721be5fd50.txt": "33c4eefa09d9554b44b49e25a59dd427a9f82536a22cb0d5fbb1d3f872ab207b",
+   "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/screener/stock_list.csv": "06111252bee0f002a85434a71623e93acc74a597f36412c4a3871d243cca695e",
+   "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/agents/yoy_long_R_FIX.parquet": "759a6831f18954f333b0acb3882bf9a31a64210a550a8c8b9e093790d77c20c2",
+   "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/agents/yoy_rev5y_FIX.parquet": "216941c6c0e6da832407ddda28b75cfa55087d92247d555a1e7f688e8c471a6b",
+   "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/bench/etf_0050.csv": "771fabfbe0a3165cd1729f8023992acff7bb61a16f078fa082f027ae422bcdab",
+   "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/close_raw.parquet": "2a2f7b99b44f19bae9a088141f0d995fd788f8171ec202f45b56ebb6896e2fe3",
+   "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_strong_stocks/data/t1_sector_order.json": "fae50d208c95c70756e89d2a22511ec3e1077ac4e3bcbba3c226e904467db762",
+   "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/lclib.py": "1f9da61db11edc05d762a0eca46a9b15d09dc4f4b0a2aa322114ebc291d7642c",
+   "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/raw/industry_pit.csv": "e00f0890511d67950b5b2dbbe56718a1dacc1c723625f122e48157d604af73a7",
+   "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/data/shares_full.parquet": "32b89fb4681a7afe1a971cb1c39ae44667c82ab022bf16337c7e57267017ec4f"
+  }
+ },
+ "_sha256_body": "3c329aa85330badd6051f46ddb57b5b2447f057b81984fb1709305d2329ab373"
+}

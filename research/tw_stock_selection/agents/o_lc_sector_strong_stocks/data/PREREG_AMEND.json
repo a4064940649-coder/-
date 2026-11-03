@@ -1,0 +1,18 @@
+{
+ "version": 1,
+ "base_prereg_sha256": "3c329aa85330badd6051f46ddb57b5b2447f057b81984fb1709305d2329ab373",
+ "time_utc": "2026-11-03T04:41:53Z",
+ "reason": "資料錯誤（研究計畫三、允許的類別）：j=2 的 2018-01 訊號日 2018-01-12 的成交日 e＝2018-01-13 是週六殘列（只有 46 檔有值，BRIEF 第 2 輪補充已記載），紙上引擎因而把該月持股限制在 46 檔內、可執行引擎權重和為 0 → NaN。修正：e 不是 GOOD 日的訊號日不換股（同 pcore.jdays 規則）；可執行引擎權重和為 0 時持現金（防呆）。只影響 j=2 的 2018-01 一窗；挑選期（2014～2016）不受影響、選定不變。發現時點：exec 階段的 RuntimeWarning，尚未看任何彙總統計。",
+ "changed": [
+  "lc_lib.py（sig_days）",
+  "lc_exec.py（權重和 0 防呆）",
+  "s4_oos.py（讀 AMEND 的雜湊）"
+ ],
+ "code_sha256": {
+  "lc_lib.py": "350ea3682bcd9d4b4f9eb1236a1cb914ba7a47bac7c07310ec0c4fc84e07f912",
+  "lc_run.py": "751be992e947c90c8a095a55f4aed761e1ef123f9ac027bbab146beaecfda552",
+  "lc_exec.py": "675b48b7fc46d7d3fa7d1eebd1af63ca40681d81861e4323cef321e9f87ef159",
+  "lc_placebo.py": "7f9cb4c4ae1df6ddb7335b24d638e772c082b97ea3516bb7d6f2e77d9cfda771",
+  "s4_oos.py": "f8f3191f11c54cca644888e4e606b12b66b343fe25ebfb6e002ba22710c177f3"
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "note": "本題不另外下載資料；全部原地引用（唯讀）。題 1 的 raw/ 與凍結產業訊號見 o_lc_sector_rotation_pit/。網路查核：證交所 2023-07-03 新增 4 類（GVM、商周報導）。",
+ "files": {
+  "V7 凍結面板（價格；52 週比 gapfix 由 o8 tcore 計算）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/close_raw.parquet",
+   "sha256": "2a2f7b99b44f19bae9a088141f0d995fd788f8171ec202f45b56ebb6896e2fe3"
+  },
+  "V7 上市身分": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/listed_twse.parquet",
+   "sha256": "0faa1a996fb5d8e18c8767dd7cda219d41bb81c852bca9e528ebfcf622eacf87"
+  },
+  "PIT 股數 2013 起（o8）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/data/shares_pit.parquet",
+   "sha256": "901801d80a30a629f68dc6d578fbe29c5118554e702849872c4a9ce4795bc603"
+  },
+  "非 PIT 股數 2006～2012（o7 shares_est，只作描述）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/agents/capmatched_shares_est.parquet",
+   "sha256": "c60a9209b992288819c06d0f4dd65edb4df381ff15708cb9477cb4a5dfcd1b61"
+  },
+  "月營收年增率 V4 已公告（長歷史）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/agents/yoy_long_R_FIX.parquet",
+   "sha256": "759a6831f18954f333b0acb3882bf9a31a64210a550a8c8b9e093790d77c20c2"
+  },
+  "月營收年增率 V4 已公告（2021 起）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/agents/yoy_rev5y_FIX.parquet",
+   "sha256": "216941c6c0e6da832407ddda28b75cfa55087d92247d555a1e7f688e8c471a6b"
+  },
+  "0050 含息": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/bench/etf_0050.csv",
+   "sha256": "771fabfbe0a3165cd1729f8023992acff7bb61a16f078fa082f027ae422bcdab"
+  },
+  "ISIN 2023-01-16 快照（2007-07～2023-07 產業別）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/raw/isin/snap/isin_02_64993c2e1699ae56b9752b47e87f90721be5fd50.txt",
+   "sha256": "33c4eefa09d9554b44b49e25a59dd427a9f82536a22cb0d5fbb1d3f872ab207b"
+  },
+  "現行產業別 stock_list": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_0050_tilt_pit/raw/screener/stock_list.csv",
+   "sha256": "06111252bee0f002a85434a71623e93acc74a597f36412c4a3871d243cca695e"
+  },
+  "題 1 產業表（切換後版本）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/raw/industry_pit.csv",
+   "sha256": "e00f0890511d67950b5b2dbbe56718a1dacc1c723625f122e48157d604af73a7"
+  },
+  "題 1 程式（產業排名）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/lclib.py",
+   "sha256": "962bda1c30f3b5441f55c9e64cfb7b2c9af8b4c490a04790069f5d7d7389e6c1"
+  },
+  "主策略 V7X 可執行淨值": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/out/navs_oos_R4.parquet",
+   "sha256": "88f7c5daa25216da1b6573afc2abb7a63ceb555243cc4ab0d6e69b1534943a74"
+  },
+  "主策略名單（V7 plans_j7）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/plans_j7.csv",
+   "sha256": "20d38d03dabfd319c0bdddd1a851505380754903ef596bf94b296569ae4e83ac"
+  },
+  "處置名單": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_disposal_rejudge/disposal_hist_rejudge.csv",
+   "sha256": "2c171924096ecf4c0d1da9c3c0db12002c38ace46864dede615496cbb1abe20d"
+  },
+  "G3 族群（o_main_spa_breaks）": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_main_spa_breaks/data/family_excess.parquet",
+   "sha256": "c70aaf17cde1fa56bb58ca4d229558fdc994dc68525d84faf910852f05930aa5"
+  }
+ }
+}
