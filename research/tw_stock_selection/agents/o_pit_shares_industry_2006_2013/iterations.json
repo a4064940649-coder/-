@@ -1,0 +1,581 @@
+{
+ "rule": "探索與迭代（非閘門診斷）：建構規則三版 V1／V2／V3 只在「校準窗」2014Q1～2020Q4（閘門窗 2006～2013 之外）比較，\n診斷＝(a) 全錨點留一（季末）、(b) 稀疏錨點留一（只留 12 月錨點，模擬下市股只有 goodinfo 年底股本的處境）。\n選版規則（事前定）：(b) 合併 |對數誤差| 中位數最小者；差 < 0.1pp 時看 (a)，再相同取較簡單（V3＞V1＞V2）。\n輸出 iterations.json（每版本結果、程式 sha、時間）。不讀 adj、ret；不算任何報酬。",
+ "created_utc": "2026-11-03T23:31:52.369165+00:00",
+ "code_sha": {
+  "plib.py": "82be1585b4492ab2a28b30eaafe562d03caf159d58d5e2fc8711cf75f1665c37",
+  "pbuild.py": "258b3c4127f9a60a4953a2908c381fa580a347bfe8970d7725d2b7f0710abb5d",
+  "s2_iterate.py": "fb9352d1f968f6526e16692105fb4d1ce3a27d3dcf28f49d25d9bda9fcac47cb"
+ },
+ "n_event_mult": 4205,
+ "versions": {
+  "V1": {
+   "a_all_anchors": {
+    "pooled_med_abs_log": 0.0,
+    "pooled_p90": 0.0002,
+    "overlap_med": 100.0,
+    "overlap_min": 99
+   },
+   "b_dec_only": {
+    "pooled_med_abs_log": 0.0,
+    "pooled_p90": 0.0249,
+    "overlap_med": 99.0,
+    "overlap_min": 98
+   },
+   "b_by_q": [
+    {
+     "d": "2014-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2014-06-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2014-09-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2014-12-31",
+     "overlap": 99,
+     "med_abs_log": 0.004383706935676046,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2015-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2015-06-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 2
+    },
+    {
+     "d": "2015-09-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 3
+    },
+    {
+     "d": "2015-12-31",
+     "overlap": 98,
+     "med_abs_log": 0.00038772037359276505,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2016-03-31",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2016-06-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2016-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2016-12-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-06-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-12-29",
+     "overlap": 98,
+     "med_abs_log": 0.00043620853931307656,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-06-29",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-09-28",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-12-28",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-03-29",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-06-28",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-09-27",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-12-31",
+     "overlap": 98,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-06-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-12-31",
+     "overlap": 99,
+     "med_abs_log": 3.094762570763112e-05,
+     "n_truthless_in_top": 0
+    }
+   ]
+  },
+  "V2": {
+   "a_all_anchors": {
+    "pooled_med_abs_log": 0.0,
+    "pooled_p90": 0.0005,
+    "overlap_med": 100.0,
+    "overlap_min": 99
+   },
+   "b_dec_only": {
+    "pooled_med_abs_log": 0.0,
+    "pooled_p90": 0.0237,
+    "overlap_med": 100.0,
+    "overlap_min": 98
+   },
+   "b_by_q": [
+    {
+     "d": "2014-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0004207378506249017,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2014-06-30",
+     "overlap": 99,
+     "med_abs_log": 0.00020934889909773923,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2014-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.00015825284488579167,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2014-12-31",
+     "overlap": 99,
+     "med_abs_log": 0.004539366191639707,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2015-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.00020279878194535256,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2015-06-30",
+     "overlap": 100,
+     "med_abs_log": 5.047156045913779e-05,
+     "n_truthless_in_top": 2
+    },
+    {
+     "d": "2015-09-30",
+     "overlap": 100,
+     "med_abs_log": 3.466148961661945e-05,
+     "n_truthless_in_top": 3
+    },
+    {
+     "d": "2015-12-31",
+     "overlap": 98,
+     "med_abs_log": 0.0006338033364134664,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2016-03-31",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2016-06-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2016-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2016-12-30",
+     "overlap": 98,
+     "med_abs_log": 2.9817581929107182e-05,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-06-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-12-29",
+     "overlap": 98,
+     "med_abs_log": 0.00043620853931307656,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-06-29",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-09-28",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-12-28",
+     "overlap": 99,
+     "med_abs_log": 0.00012049669532556578,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-03-29",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-06-28",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-09-27",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-12-31",
+     "overlap": 98,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-06-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-12-31",
+     "overlap": 99,
+     "med_abs_log": 0.00037154886314256163,
+     "n_truthless_in_top": 0
+    }
+   ]
+  },
+  "V3": {
+   "a_all_anchors": {
+    "pooled_med_abs_log": 0.0,
+    "pooled_p90": 0.0005,
+    "overlap_med": 100.0,
+    "overlap_min": 99
+   },
+   "b_dec_only": {
+    "pooled_med_abs_log": 0.0,
+    "pooled_p90": 0.0318,
+    "overlap_med": 99.0,
+    "overlap_min": 98
+   },
+   "b_by_q": [
+    {
+     "d": "2014-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0005446698103190942,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2014-06-30",
+     "overlap": 99,
+     "med_abs_log": 0.000329335763394362,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2014-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.0007392924122314275,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2014-12-31",
+     "overlap": 98,
+     "med_abs_log": 0.0045962925224702494,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2015-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.00020279878194535256,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2015-06-30",
+     "overlap": 99,
+     "med_abs_log": 2.181484316290563e-05,
+     "n_truthless_in_top": 2
+    },
+    {
+     "d": "2015-09-30",
+     "overlap": 99,
+     "med_abs_log": 1.54255328208334e-05,
+     "n_truthless_in_top": 3
+    },
+    {
+     "d": "2015-12-31",
+     "overlap": 98,
+     "med_abs_log": 0.0005082024400390964,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2016-03-31",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2016-06-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2016-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 1
+    },
+    {
+     "d": "2016-12-30",
+     "overlap": 98,
+     "med_abs_log": 5.483162615897995e-05,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-06-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-09-30",
+     "overlap": 100,
+     "med_abs_log": 2.982767930441298e-09,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2017-12-29",
+     "overlap": 98,
+     "med_abs_log": 0.0003577040514751496,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-06-29",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-09-28",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2018-12-28",
+     "overlap": 99,
+     "med_abs_log": 3.7698988520324994e-05,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-03-29",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-06-28",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-09-27",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2019-12-31",
+     "overlap": 98,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-03-31",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-06-30",
+     "overlap": 99,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-09-30",
+     "overlap": 100,
+     "med_abs_log": 0.0,
+     "n_truthless_in_top": 0
+    },
+    {
+     "d": "2020-12-31",
+     "overlap": 98,
+     "med_abs_log": 0.0005556975146805104,
+     "n_truthless_in_top": 0
+    }
+   ]
+  }
+ },
+ "rounds": [
+  {
+   "round": 1,
+   "rule": "(b) 中位數（取到 0.1pp）→ (a) 中位數 → 較簡單",
+   "selected": "V3",
+   "finding": "三版 (a)(b) 中位數全部 = 0（2014～2020 大型股多數一年內沒有股數變動），規則退化成「取最簡單」→ V3（純內插）。V3 在 (b) 的 p90 最差（3.18%），且 2006～2008 配股頻繁，純內插不適用。"
+  },
+  {
+   "round": 2,
+   "rule": "中位數退化 → 改看 (b) p90 → (a) p90（只用校準窗、非閘門診斷；屬於看過第 1 輪結果後的規則修改，照實揭露）",
+   "selected": "V2"
+  }
+ ],
+ "selected": "V2",
+ "n_versions_tried": 3,
+ "n_rounds": 2,
+ "note": "3 個建構版本、2 輪選版規則；校準窗 2014～2020 不與閘門窗 2006～2013 重疊。"
+}

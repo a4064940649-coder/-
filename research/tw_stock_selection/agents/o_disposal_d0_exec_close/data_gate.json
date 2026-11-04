@@ -1,0 +1,578 @@
+{
+ "raw_sha256": {
+  "disposal_hist_rejudge.csv": "2c171924096ecf4c0d1da9c3c0db12002c38ace46864dede615496cbb1abe20d",
+  "fwd_disposal_decisions.csv": "c5332184366cd6d1cde2a56f1cd7b77ef168eee661c1055744d76b1c5da60c26",
+  "fwd_disposal_ledger.csv": "25e53aa0729e82c60a170a8cbac559e3cfeabcaf90b438f37ef57f2580021a62",
+  "o9_frozen_spec.txt": "773330b943a566a68a6a07caff1973f17960c05d5ab1cf1ce9114c10830a9592",
+  "official_trades_twse.csv": "21785ff71f5d67048b115d93650c012c3ca5fd11364a7b1b4055e706c903d1a2",
+  "yahoo5m_daily_features.parquet": "de51ca0904526122b017f63c50f5a4cba1883a2a673faa588b7c3ffb5beda551",
+  "yahoo5m_download_log.json": "0b4608001c8e1734581d34c2989588eeda478e120d934d3b32749ccc24a52ae2"
+ },
+ "regime_timeline": {
+  "2002": {
+   "n_records": 2,
+   "regime": {
+    "periodic_match": 1,
+    "prepay_only": 1
+   },
+   "match_min": {
+    "-1.0": 1,
+    "0.0": 1
+   },
+   "nth2_share": 0.0,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "只預收期：收足五成或全部款券（連續撮合）"
+  },
+  "2003": {
+   "n_records": 113,
+   "regime": {
+    "prepay_only": 109,
+    "periodic_match": 4
+   },
+   "match_min": {
+    "0.0": 109,
+    "-1.0": 4
+   },
+   "nth2_share": 0.274,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "只預收期：收足五成或全部款券（連續撮合）"
+  },
+  "2004": {
+   "n_records": 59,
+   "regime": {
+    "prepay_only": 55,
+    "periodic_match": 4
+   },
+   "match_min": {
+    "0.0": 55,
+    "-1.0": 4
+   },
+   "nth2_share": 0.169,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "只預收期：收足五成或全部款券（連續撮合）"
+  },
+  "2005": {
+   "n_records": 26,
+   "regime": {
+    "prepay_only": 20,
+    "periodic_match": 6
+   },
+   "match_min": {
+    "0.0": 20,
+    "-1.0": 6
+   },
+   "nth2_share": 0.077,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "只預收期：收足五成或全部款券（連續撮合）"
+  },
+  "2006": {
+   "n_records": 45,
+   "regime": {
+    "prepay_only": 45
+   },
+   "match_min": {
+    "0.0": 45
+   },
+   "nth2_share": 0.044,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "只預收期：收足五成或全部款券（連續撮合）"
+  },
+  "2007": {
+   "n_records": 79,
+   "regime": {
+    "prepay_only": 72,
+    "periodic_match": 7
+   },
+   "match_min": {
+    "0.0": 72,
+    "-1.0": 7
+   },
+   "nth2_share": 0.329,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "只預收期：收足五成或全部款券（連續撮合）"
+  },
+  "2008": {
+   "n_records": 26,
+   "regime": {
+    "prepay_only": 25,
+    "periodic_match": 1
+   },
+   "match_min": {
+    "0.0": 25,
+    "-1.0": 1
+   },
+   "nth2_share": 0.115,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "只預收期：收足五成或全部款券（連續撮合）"
+  },
+  "2009": {
+   "n_records": 109,
+   "regime": {
+    "prepay_only": 97,
+    "periodic_match": 12
+   },
+   "match_min": {
+    "0.0": 97,
+    "-1.0": 12
+   },
+   "nth2_share": 0.22,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "只預收期：收足五成或全部款券（連續撮合）"
+  },
+  "2010": {
+   "n_records": 53,
+   "regime": {
+    "prepay_only": 36,
+    "periodic_match": 17
+   },
+   "match_min": {
+    "0.0": 36,
+    "-1.0": 17
+   },
+   "nth2_share": 0.415,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "只預收期：收足五成或全部款券（連續撮合）"
+  },
+  "2011": {
+   "n_records": 65,
+   "regime": {
+    "periodic_match": 65
+   },
+   "match_min": {
+    "20.0": 41,
+    "-1.0": 16,
+    "5.0": 7,
+    "10.0": 1
+   },
+   "nth2_share": 0.862,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2012": {
+   "n_records": 61,
+   "regime": {
+    "periodic_match": 61
+   },
+   "match_min": {
+    "20.0": 45,
+    "5.0": 11,
+    "30.0": 3,
+    "45.0": 2
+   },
+   "nth2_share": 0.787,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2013": {
+   "n_records": 79,
+   "regime": {
+    "periodic_match": 79
+   },
+   "match_min": {
+    "20.0": 34,
+    "5.0": 20,
+    "45.0": 9,
+    "25.0": 7,
+    "10.0": 6,
+    "60.0": 3
+   },
+   "nth2_share": 0.582,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖未開放",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2014": {
+   "n_records": 57,
+   "regime": {
+    "periodic_match": 57
+   },
+   "match_min": {
+    "20.0": 32,
+    "5.0": 18,
+    "45.0": 4,
+    "10.0": 3
+   },
+   "nth2_share": 0.579,
+   "limit": "7%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖（2014-01-06 起）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2015": {
+   "n_records": 55,
+   "regime": {
+    "periodic_match": 55
+   },
+   "match_min": {
+    "5.0": 31,
+    "20.0": 18,
+    "10.0": 3,
+    "25.0": 2,
+    "45.0": 1
+   },
+   "nth2_share": 0.364,
+   "limit": "7%→10%（2015-06-01）",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖（2014-01-06 起）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2016": {
+   "n_records": 39,
+   "regime": {
+    "periodic_match": 39
+   },
+   "match_min": {
+    "5.0": 25,
+    "20.0": 11,
+    "45.0": 3
+   },
+   "nth2_share": 0.282,
+   "limit": "10%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖（2014-01-06 起）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2017": {
+   "n_records": 66,
+   "regime": {
+    "periodic_match": 66
+   },
+   "match_min": {
+    "5.0": 47,
+    "20.0": 14,
+    "45.0": 2,
+    "10.0": 2,
+    "25.0": 1
+   },
+   "nth2_share": 0.227,
+   "limit": "10%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2018": {
+   "n_records": 84,
+   "regime": {
+    "periodic_match": 84
+   },
+   "match_min": {
+    "5.0": 58,
+    "20.0": 23,
+    "25.0": 1,
+    "10.0": 1,
+    "45.0": 1
+   },
+   "nth2_share": 0.286,
+   "limit": "10%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2019": {
+   "n_records": 31,
+   "regime": {
+    "periodic_match": 31
+   },
+   "match_min": {
+    "5.0": 19,
+    "45.0": 7,
+    "60.0": 3,
+    "10.0": 1,
+    "20.0": 1
+   },
+   "nth2_share": 0.129,
+   "limit": "10%",
+   "odd_lot": "只有盤後零股（14:30 單次撮合）",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2020": {
+   "n_records": 187,
+   "regime": {
+    "periodic_match": 187
+   },
+   "match_min": {
+    "5.0": 103,
+    "20.0": 45,
+    "60.0": 15,
+    "10.0": 11,
+    "45.0": 10,
+    "25.0": 3
+   },
+   "nth2_share": 0.337,
+   "limit": "10%",
+   "odd_lot": "2020-10-26 起盤中零股（3 分鐘）",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2021": {
+   "n_records": 167,
+   "regime": {
+    "periodic_match": 167
+   },
+   "match_min": {
+    "5.0": 124,
+    "20.0": 33,
+    "10.0": 5,
+    "45.0": 3,
+    "60.0": 2
+   },
+   "nth2_share": 0.21,
+   "limit": "10%",
+   "odd_lot": "盤中零股 3 分鐘；2022-12-19 起 1 分鐘",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2022": {
+   "n_records": 76,
+   "regime": {
+    "periodic_match": 76
+   },
+   "match_min": {
+    "5.0": 54,
+    "20.0": 9,
+    "60.0": 7,
+    "45.0": 6
+   },
+   "nth2_share": 0.211,
+   "limit": "10%",
+   "odd_lot": "盤中零股 3 分鐘；2022-12-19 起 1 分鐘",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2023": {
+   "n_records": 79,
+   "regime": {
+    "periodic_match": 79
+   },
+   "match_min": {
+    "5.0": 62,
+    "20.0": 12,
+    "10.0": 3,
+    "45.0": 1,
+    "60.0": 1
+   },
+   "nth2_share": 0.165,
+   "limit": "10%",
+   "odd_lot": "盤中零股 1 分鐘；2024-12-02 起 5 秒",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2024": {
+   "n_records": 148,
+   "regime": {
+    "periodic_match": 148
+   },
+   "match_min": {
+    "5.0": 117,
+    "20.0": 24,
+    "10.0": 3,
+    "45.0": 2,
+    "25.0": 2
+   },
+   "nth2_share": 0.176,
+   "limit": "10%",
+   "odd_lot": "盤中零股 1 分鐘；2024-12-02 起 5 秒",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2025": {
+   "n_records": 94,
+   "regime": {
+    "periodic_match": 94
+   },
+   "match_min": {
+    "5.0": 70,
+    "20.0": 18,
+    "45.0": 3,
+    "10.0": 2,
+    "25.0": 1
+   },
+   "nth2_share": 0.202,
+   "limit": "10%",
+   "odd_lot": "盤中零股 5 秒",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收"
+  },
+  "2026": {
+   "n_records": 403,
+   "regime": {
+    "periodic_match": 403
+   },
+   "match_min": {
+    "5.0": 199,
+    "20.0": 126,
+    "2.0": 64,
+    "10.0": 5,
+    "60.0": 4,
+    "25.0": 4,
+    "45.0": 1
+   },
+   "nth2_share": 0.392,
+   "limit": "10%",
+   "odd_lot": "盤中零股 5 秒",
+   "daytrade": "現股當沖（2017-04-28 起證交稅減半）",
+   "prepay": "第一次處置：約 5 分鐘撮合，單筆 ≥ 10 張或當日累計 ≥ 30 張預收；第二次：約 20 分鐘撮合，全部預收；2026-08-10 新制：5 日、2 分鐘撮合"
+  }
+ },
+ "regime_sources": {
+  "disposal_list": "TWSE rwd punish 封存（o_disposal_rejudge），measure 欄：收足五成款券／收足全部款券（≤2010）、第一次處置（5 分）、第二次處置（20 分）、人工管制撮合（10～60 分）、新制 2 分",
+  "oddlot_and_continuous": "o_exec_capacity_tiers/raw/regulation_sources.json（搜尋摘要，未見原文）",
+  "github_search": "gh search code（2026-11-03）：查無證交所「公布或通知注意交易資訊暨處置作業要點」歷年條文封存 repo；只找到二手片段：kiang/bribes_map 判決書（2009 年處置「每日委託買賣數量達一定交易單位時應收取全部買進價金」）、Chris-WenYuan/taiwan-stock-analyzer 與 aRthur08701244/Intern-in-CTBC 的鉅亨新聞（2021 第二次處置「約每 20 分鐘撮合一次…收取全部買進價金」）。沒有可 add_repo 的條文封存，改用事前登記參數網格（零股每邊 0.2／0.4／0.8%，主欄 0.4%）。",
+  "unverified": [
+   "處置期間盤中零股撮合間隔（本題假設與整股相同，以最後一盤價＋零股價差成交）",
+   "新制 2026-08-10 預收門檻（沿用 10／30 張）"
+  ]
+ },
+ "build_stats_C1xCL": {
+  "records": 2218,
+  "kind": 0,
+  "chain_R1": 359,
+  "first_only_drop": 0,
+  "not_in_panel": 13,
+  "invalid": 106,
+  "busy": 2,
+  "bear": 247,
+  "unfilled_lock": 94,
+  "illiquid": 445,
+  "no_exit": 0,
+  "kept": 952,
+  "delayed": 47,
+  "ann_late": 0
+ },
+ "event_level": {
+  "n_candidates_after_rules_FULL": 1029,
+  "n_filled_FULL": 938,
+  "lead_tdays_s_minus_announce": {
+   "1": 1029
+  },
+  "share_announce_le_s_minus_2": 0.0,
+  "share_T2_fundable_C1 (ann ≤ s−3)": 0.0,
+  "share_T2_fundable_O2 (ann ≤ s−2)": 0.0,
+  "second_share": 0.2128,
+  "nth2_share": 0.1924,
+  "s_close_locked_limitup_share": 0.0884,
+  "s_open_and_close_at_limitup_share": 0.0292,
+  "e_close_locked_limitdown_share": 0.0525,
+  "s_lock_by_era": {
+   "2014+": 0.0745,
+   "2006-2013": 0.153
+  }
+ },
+ "oddlot_by_tier": {
+  "30萬": {
+   "needs_oddlot_share": 1.0,
+   "odd_only_share": 0.8086,
+   "lots_ge_10_share (第一次處置也要預收)": 0.0,
+   "median_lots": 0.0
+  },
+  "100萬": {
+   "needs_oddlot_share": 1.0,
+   "odd_only_share": 0.4179,
+   "lots_ge_10_share (第一次處置也要預收)": 0.0,
+   "median_lots": 1.0
+  },
+  "300萬": {
+   "needs_oddlot_share": 1.0,
+   "odd_only_share": 0.1885,
+   "lots_ge_10_share (第一次處置也要預收)": 0.1914,
+   "median_lots": 4.0
+  },
+  "1000萬": {
+   "needs_oddlot_share": 1.0,
+   "odd_only_share": 0.0389,
+   "lots_ge_10_share (第一次處置也要預收)": 0.5821,
+   "median_lots": 14.0
+  }
+ },
+ "gate": {
+  "price_coverage": {
+   "FULL": {
+    "n_events": 1029,
+    "cell_coverage": 0.99785
+   },
+   "SEL": {
+    "n_events": 88,
+    "cell_coverage": 0.99239
+   },
+   "VAL": {
+    "n_events": 480,
+    "cell_coverage": 0.99978
+   },
+   "OOS_o9": {
+    "n_events": 461,
+    "cell_coverage": 0.99682
+   }
+  },
+  "announce_before_decision_all": true,
+  "pass": true
+ },
+ "crosscheck_official_trades_twse": {
+  "n_official_trades": 567,
+  "official_in_o9_rules": 0.8765,
+  "official_in_exec_rules": 0.8765,
+  "note": "差異來自面板（V7 對共用面板）與 R3 改成交規則；只核對 (code, 進場日)"
+ },
+ "forward_ledger": {
+  "n_rows": 2201,
+  "n_twse": 894,
+  "matched_to_list": 878,
+  "announce_equal_share": 1.0,
+  "ts_ok_share": 0.0,
+  "decisions": [
+   {
+    "line": "DISP_TPEX",
+    "event_id": "8291_20261103_20261109",
+    "decision": "LATE（決策時戳晚於進場日 13:30）"
+   }
+  ],
+  "clock_kinds": {
+   "wall": 894
+  },
+  "announce_ts_hour": {
+   "14:30": 894
+  }
+ },
+ "calib5m": {
+  "last_2": 0.1153,
+  "first_2": 0.0393,
+  "src_2": "pooled_disposal",
+  "last_5": 0.1071,
+  "first_5": 0.0301,
+  "src_5": "group",
+  "last_10": 0.1153,
+  "first_10": 0.0393,
+  "src_10": "pooled_disposal",
+  "last_20": 0.1342,
+  "first_20": 0.0802,
+  "src_20": "group",
+  "last_long": 0.1153,
+  "first_long": 0.0393,
+  "src_long": "pooled_disposal",
+  "close_norm": 0.1296,
+  "open_norm": 0.0437
+ }
+}

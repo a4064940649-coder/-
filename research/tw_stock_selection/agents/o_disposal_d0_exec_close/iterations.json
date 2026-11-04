@@ -1,0 +1,309 @@
+{
+ "created": "2026-11-03T23:12:52.814800Z",
+ "script_sha256": "cd8e2d7626058778bfe17057183536cec46836f44673ce9aaed00f34226a8e7a",
+ "dlib_sha256": "bf3918ef30b18011496b5915d3ffc293587ce8182d1fa87aa0e577784aa3684e",
+ "calib_sha256": "3a616abb0f6d1d92488ceaa9cfc0a1d8e65fca41415406110a24a5aa6dd65d62",
+ "versions": [
+  {
+   "id": "E1",
+   "desc": "o9 V7X 層原樣（K.build＋K.exec_cost_event）",
+   "anchor_counts": {
+    "OOS_2006-04_2021-09": 402,
+    "FULL_2006-04_2026-10": 926,
+    "SEL": 82
+   },
+   "anchor_expected": {
+    "OOS": 402,
+    "FULL": 926
+   },
+   "sel_v7x_fill_10萬": 1.0,
+   "anchor_ok": true
+  },
+  {
+   "id": "E2",
+   "desc": "E1 事件＋最後一盤成交、參與上限 20%×V×最後一盤占比、零股拆單（漲停限價下單、股數＝預算÷限價）",
+   "exec": {
+    "slot_30000": {
+     "n": 82,
+     "mean_fill": 0.887,
+     "capped_share": 0.0,
+     "odd_only_share": 0.841,
+     "mean_sell_days": 1.0,
+     "zero_fill": 0
+    },
+    "slot_100000": {
+     "n": 82,
+     "mean_fill": 0.888,
+     "capped_share": 0.0,
+     "odd_only_share": 0.354,
+     "mean_sell_days": 1.0,
+     "zero_fill": 0
+    },
+    "slot_300000": {
+     "n": 82,
+     "mean_fill": 0.889,
+     "capped_share": 0.0,
+     "odd_only_share": 0.11,
+     "mean_sell_days": 1.01,
+     "zero_fill": 0
+    },
+    "slot_1000000": {
+     "n": 82,
+     "mean_fill": 0.886,
+     "capped_share": 0.024,
+     "odd_only_share": 0.012,
+     "mean_sell_days": 1.12,
+     "zero_fill": 0
+    }
+   },
+   "ledger_none": {
+    "decided": 82,
+    "entered": 82,
+    "no_slot": 0,
+    "cash_skip": 0,
+    "cash_partial": 0,
+    "unfilled_lock": 0,
+    "cash_skip_rate": 0.0,
+    "mean_invested": 0.1249,
+    "mean_cash_share": 0.0,
+    "min_settled_cash": 0.0
+   }
+  },
+  {
+   "id": "E3",
+   "desc": "E2＋嚴格預收款券、T+2 逐日現金帳（現金池 k 槽，主欄 k=2）",
+   "ledger_strict": {
+    "k1": {
+     "decided": 82,
+     "entered": 74,
+     "no_slot": 0,
+     "cash_skip": 8,
+     "cash_partial": 3,
+     "unfilled_lock": 0,
+     "cash_skip_rate": 0.0976,
+     "mean_invested": 0.112,
+     "mean_cash_share": 0.1554,
+     "min_settled_cash": 0.0
+    },
+    "k2": {
+     "decided": 82,
+     "entered": 79,
+     "no_slot": 0,
+     "cash_skip": 3,
+     "cash_partial": 0,
+     "unfilled_lock": 0,
+     "cash_skip_rate": 0.0366,
+     "mean_invested": 0.1202,
+     "mean_cash_share": 0.2586,
+     "min_settled_cash": 0.0
+    },
+    "k3": {
+     "decided": 82,
+     "entered": 80,
+     "no_slot": 0,
+     "cash_skip": 2,
+     "cash_partial": 0,
+     "unfilled_lock": 0,
+     "cash_skip_rate": 0.0244,
+     "mean_invested": 0.1221,
+     "mean_cash_share": 0.3579,
+     "min_settled_cash": 0.0
+    }
+   },
+   "ledger_threshold": {
+    "decided": 82,
+    "entered": 81,
+    "no_slot": 0,
+    "cash_skip": 1,
+    "cash_partial": 0,
+    "unfilled_lock": 0,
+    "cash_skip_rate": 0.0122,
+    "mean_invested": 0.1241,
+    "mean_cash_share": 0.2583,
+    "min_settled_cash": 0.0
+   }
+  },
+  {
+   "id": "E4",
+   "desc": "E3＋R3 改「漲停價掛最後一盤、收盤鎖漲停未成交」、R5 改「跌停價掛單、收盤鎖跌停順延」；所有過濾只用 s−1 資訊",
+   "n_filled": 82,
+   "n_unfilled_lock": 6,
+   "overlap_with_E1": 82,
+   "only_E4": 0,
+   "only_E1": 0,
+   "build_stats_full": {
+    "records": 2218,
+    "kind": 0,
+    "chain_R1": 359,
+    "first_only_drop": 0,
+    "not_in_panel": 13,
+    "invalid": 106,
+    "busy": 2,
+    "bear": 247,
+    "unfilled_lock": 94,
+    "illiquid": 445,
+    "no_exit": 0,
+    "kept": 952,
+    "delayed": 47,
+    "ann_late": 0
+   },
+   "exec": {
+    "slot_30000": {
+     "n": 82,
+     "mean_fill": 0.887,
+     "capped_share": 0.0,
+     "odd_only_share": 0.841,
+     "mean_sell_days": 1.0,
+     "zero_fill": 0
+    },
+    "slot_100000": {
+     "n": 82,
+     "mean_fill": 0.888,
+     "capped_share": 0.0,
+     "odd_only_share": 0.354,
+     "mean_sell_days": 1.0,
+     "zero_fill": 0
+    },
+    "slot_300000": {
+     "n": 82,
+     "mean_fill": 0.889,
+     "capped_share": 0.0,
+     "odd_only_share": 0.11,
+     "mean_sell_days": 1.01,
+     "zero_fill": 0
+    },
+    "slot_1000000": {
+     "n": 82,
+     "mean_fill": 0.886,
+     "capped_share": 0.024,
+     "odd_only_share": 0.012,
+     "mean_sell_days": 1.11,
+     "zero_fill": 0
+    }
+   },
+   "ledger_strict": {
+    "k1": {
+     "decided": 88,
+     "entered": 74,
+     "no_slot": 0,
+     "cash_skip": 8,
+     "cash_partial": 3,
+     "unfilled_lock": 6,
+     "cash_skip_rate": 0.0976,
+     "mean_invested": 0.1117,
+     "mean_cash_share": 0.1565,
+     "min_settled_cash": 0.0
+    },
+    "k2": {
+     "decided": 88,
+     "entered": 79,
+     "no_slot": 0,
+     "cash_skip": 3,
+     "cash_partial": 0,
+     "unfilled_lock": 6,
+     "cash_skip_rate": 0.0366,
+     "mean_invested": 0.1198,
+     "mean_cash_share": 0.2594,
+     "min_settled_cash": 0.0
+    },
+    "k3": {
+     "decided": 88,
+     "entered": 80,
+     "no_slot": 0,
+     "cash_skip": 2,
+     "cash_partial": 0,
+     "unfilled_lock": 6,
+     "cash_skip_rate": 0.0244,
+     "mean_invested": 0.1217,
+     "mean_cash_share": 0.3589,
+     "min_settled_cash": 0.0
+    }
+   },
+   "ledger_feasibility_2006_2023": {
+    "entered": 461,
+    "cash_skip": 11,
+    "cash_skip_rate": 0.0233,
+    "mean_cash_share": 0.2535,
+    "min_settled_cash": 0.0
+   },
+   "timings_sel": {
+    "O1xCL1": {
+     "n_filled": 88,
+     "n_unfilled_lock": 0,
+     "entered": 84,
+     "cash_skip_rate": 0.0345,
+     "no_slot": 1
+    },
+    "O1xCL": {
+     "n_filled": 88,
+     "n_unfilled_lock": 0,
+     "entered": 84,
+     "cash_skip_rate": 0.0345,
+     "no_slot": 1
+    },
+    "O1xOA": {
+     "n_filled": 88,
+     "n_unfilled_lock": 0,
+     "entered": 83,
+     "cash_skip_rate": 0.0349,
+     "no_slot": 2
+    },
+    "C1xCL1": {
+     "n_filled": 82,
+     "n_unfilled_lock": 6,
+     "entered": 79,
+     "cash_skip_rate": 0.0366,
+     "no_slot": 0
+    },
+    "C1xCL": {
+     "n_filled": 82,
+     "n_unfilled_lock": 6,
+     "entered": 79,
+     "cash_skip_rate": 0.0366,
+     "no_slot": 0
+    },
+    "C1xOA": {
+     "n_filled": 82,
+     "n_unfilled_lock": 6,
+     "entered": 78,
+     "cash_skip_rate": 0.037,
+     "no_slot": 1
+    },
+    "O2xCL1": {
+     "n_filled": 86,
+     "n_unfilled_lock": 2,
+     "entered": 84,
+     "cash_skip_rate": 0.0233,
+     "no_slot": 0
+    },
+    "O2xCL": {
+     "n_filled": 86,
+     "n_unfilled_lock": 2,
+     "entered": 83,
+     "cash_skip_rate": 0.0235,
+     "no_slot": 1
+    },
+    "O2xOA": {
+     "n_filled": 86,
+     "n_unfilled_lock": 2,
+     "entered": 83,
+     "cash_skip_rate": 0.0235,
+     "no_slot": 1
+    }
+   }
+  }
+ ],
+ "forward_ledger_check": {
+  "n_twse_newreg_rows": 72,
+  "matched": 69,
+  "chain_take_agree": 1.0,
+  "second_agree": 0.942,
+  "match_min_agree": 0.9275,
+  "announce_agree": 1.0,
+  "note": "帳本沒有成交價欄，無法比對價格；帳本 announce_ts 一律 14:30（推定），first_seen_ts 為回填，ts_ok=0。"
+ },
+ "selected": "E4",
+ "selection_rule": "事前寫死：E4 為可執行全模型；E1～E3 為拆解步驟。只看非報酬診斷。",
+ "n_versions": 4,
+ "n_rounds_used": 3
+}

@@ -1,0 +1,277 @@
+{
+ "PREREG": {
+  "file": "data/GATE_SPEC.json",
+  "sha256": "56e36098ae9bf31357fdfbbc8cf0a254b9306ecee86a291e3ed24399ba13b2f8",
+  "created_utc": "2026-11-03T23:32:58.325920+00:00",
+  "selected_version": "V2"
+ },
+ "posthoc": {
+  "o12_vs_dated_fixed": {
+   "n_stock_months": 369,
+   "share": 0.0233,
+   "n_stocks": 22,
+   "pairs": [
+    {
+     "code": "2474",
+     "o12": "其他電子業",
+     "ind": "電腦及週邊設備業",
+     "0": "53"
+    },
+    {
+     "code": "2601",
+     "o12": "貿易百貨業",
+     "ind": "航運業",
+     "0": "48"
+    },
+    {
+     "code": "2402",
+     "o12": "電子零組件業",
+     "ind": "通信網路業",
+     "0": "43"
+    },
+    {
+     "code": "8163",
+     "o12": "電腦及週邊設備業",
+     "ind": "電子零組件業",
+     "0": "42"
+    },
+    {
+     "code": "6197",
+     "o12": "電子零組件業",
+     "ind": "其他電子業",
+     "0": "36"
+    },
+    {
+     "code": "2473",
+     "o12": "資訊服務業",
+     "ind": "半導體業",
+     "0": "34"
+    },
+    {
+     "code": "1737",
+     "o12": "食品工業",
+     "ind": "化學工業",
+     "0": "26"
+    },
+    {
+     "code": "6145",
+     "o12": "電子通路業",
+     "ind": "半導體業",
+     "0": "26"
+    },
+    {
+     "code": "4164",
+     "o12": "生技醫療業",
+     "ind": "化學生技醫療",
+     "0": "11"
+    },
+    {
+     "code": "4915",
+     "o12": "電腦及週邊設備業",
+     "ind": "電子工業",
+     "0": "10"
+    },
+    {
+     "code": "5264",
+     "o12": "電腦及週邊設備業",
+     "ind": "電子工業",
+     "0": "8"
+    },
+    {
+     "code": "9943",
+     "o12": "觀光餐旅",
+     "ind": "其他業",
+     "0": "8"
+    },
+    {
+     "code": "4722",
+     "o12": "化學工業",
+     "ind": "化學生技醫療",
+     "0": "7"
+    },
+    {
+     "code": "2371",
+     "o12": "電機機械",
+     "ind": "其他電子業",
+     "0": "4"
+    },
+    {
+     "code": "3583",
+     "o12": "半導體業",
+     "ind": "電子工業",
+     "0": "4"
+    },
+    {
+     "code": "3052",
+     "o12": "建材營造業",
+     "ind": "其他電子業",
+     "0": "2"
+    },
+    {
+     "code": "3682",
+     "o12": "通信網路業",
+     "ind": "電子工業",
+     "0": "2"
+    },
+    {
+     "code": "1516",
+     "o12": "其他業",
+     "ind": "電機機械",
+     "0": "1"
+    },
+    {
+     "code": "3706",
+     "o12": "電腦及週邊設備業",
+     "ind": "電子工業",
+     "0": "1"
+    },
+    {
+     "code": "3367",
+     "o12": "通信網路業",
+     "ind": "其他電子業",
+     "0": "1"
+    },
+    {
+     "code": "5269",
+     "o12": "半導體業",
+     "ind": "電子工業",
+     "0": "1"
+    },
+    {
+     "code": "8199",
+     "o12": "未分類",
+     "ind": "光電業",
+     "0": "1"
+    }
+   ]
+  },
+  "scan_adj_ret": {
+   "files": [
+    "pbuild.py",
+    "plib.py",
+    "s0_collect.py",
+    "s0_search.py",
+    "s1_inventory.py",
+    "s2_iterate.py",
+    "s3_freeze.py",
+    "s4_gate.py",
+    "s5_posthoc.py"
+   ],
+   "hits": {},
+   "ok": true
+  },
+  "plib_change_after_freeze": "凍結後 plib.py 只改一行：SCR 目錄加 mkdir（讓複製員在乾淨環境可跑；不影響任何數字）。GATE_SPEC 記的是改前 sha；改後 sha 見 output_files。",
+  "scratch_cleanup": "scratchpad/opit（git 物件、henry 日檔、TEJ 43MB xlsx、中間表）已於題目結束時刪除；重建所需資料全在 raw/。"
+ },
+ "verdict": {
+  "label": "2006～2013 仍非 PIT",
+  "D1a_2006_pass": true,
+  "D1c_pass": false,
+  "D2_pass": false,
+  "overall_pass": false,
+  "research_verdict": "不可用（資料閘門不通過；只存檔 raw/ 與 data/gate.json）",
+  "mechanism": "部分支持",
+  "G_applicability": "本題無策略報酬：G1～G4、G7、G8 不適用；G5 未證實（D1c、D2 不過）；G6 待獨立複製"
+ },
+ "key_numbers": {
+  "D1a_2006": {
+   "pooled_med_abs_log": 0.0,
+   "p90": 0.0075662699328603675,
+   "overlap_median": 100.0,
+   "overlap_min": 99,
+   "truthless_in_top100_mean": 7.65625
+  },
+  "D1c": {
+   "mean_imputed": 0.8854166666666666,
+   "max_from_2008": 1,
+   "by_year": {
+    "2006": 3.75,
+    "2007": 1.0,
+    "2008": 0.75,
+    "2009": 0.917,
+    "2010": 0.667,
+    "2011": 0.0,
+    "2012": 0.0,
+    "2013": 0.0
+   }
+  },
+  "D2": {
+   "dated_share": 0.554154406613423,
+   "by_year": {
+    "2006": 0.0,
+    "2007": 0.0,
+    "2008": 0.0,
+    "2009": 0.424,
+    "2010": 0.9886,
+    "2011": 1.0,
+    "2012": 1.0,
+    "2013": 1.0
+   },
+   "fin_mismatch_stocks": 2,
+   "fin_mismatch_stock_months": 52,
+   "undeterminable_stock_months": 12728,
+   "undeterminable_fin_main_stock_months": 861
+  },
+  "D1_retro": {
+   "pathB_official": {
+    "pooled_med_abs_log": 0.0026588779949468875,
+    "overlap_median": 96.0,
+    "overlap_min": 92
+   },
+   "open_factor_o12_rule": {
+    "pooled_med_abs_log": 0.019802452348105338,
+    "overlap_median": 95.5,
+    "overlap_min": 91
+   },
+   "pathB_official_oracle_noanchor": {
+    "pooled_med_abs_log": 0.0008996890806311018,
+    "overlap_median": 96.0,
+    "overlap_min": 94
+   },
+   "open_factor_oracle_noanchor": {
+    "pooled_med_abs_log": 0.014002770505536192,
+    "overlap_median": 96.0,
+    "overlap_min": 93
+   }
+  },
+  "P2": {
+   "by_bucket": {
+    "1-20": 0.06766,
+    "21-59": 0.07753,
+    "60-120": 0.04924
+   },
+   "by_year": {
+    "2006": 0.15996,
+    "2007": 0.11263,
+    "2008": 0.08544,
+    "2009": 0.0691,
+    "2010": 0.04956,
+    "2011": 0.02234,
+    "2012": 0.00015
+   }
+  },
+  "P3": {
+   "coverage_le_1q": 0.93,
+   "coverage_le_1y": 0.9706,
+   "survivors_le_1q": 0.9982,
+   "delisted_le_1q": 0.4206
+  }
+ },
+ "predictions": {
+  "P1": "否證：TWT49U 官方事件版回推重疊最小 92（o12 91）；把 2021-03-31 沒錨點的股票換成真值後 94 → 缺口主要來自「錨點日前已下市股」而非事件遺漏（現增／CB／減資事件來源本身找不到）",
+  "P2": "否證：o12 舊回推 2006～2012 誤差中位數 前 20 名 6.8%、21～59 名 7.8%、60～120 名 4.9%；誤差集中在年代越早越大（2006 16%），不是集中在邊界股",
+  "P3": "部分成立：找到季／年股本封存，覆蓋（ADV 前 150 股月）≤1 季 93.0%、≤1 年 97.1%（存活股 99.8%、下市股 42.1%）；留一檢核誤差中位數 0、重疊最小 99 → D1a 過，但 D1c 不過",
+  "P4": "部分：dated 股月中金融旗標不一致只有 2 檔（2841 台開、5854 合庫）≤10；但 2006-01～2009-07 沒有任何 dated 快照，dated 覆蓋只有 55.4%（門檻 98%），44.6% 股月無法判定（其中 861 股月主策略判為金融）",
+  "P5": "不做（找不到 2006～2013 臺灣50 審核名單）"
+ },
+ "output_files": {
+  "data/GATE_SPEC.json": "56e36098ae9bf31357fdfbbc8cf0a254b9306ecee86a291e3ed24399ba13b2f8",
+  "data/gate.json": "737cccc9717c1c03e4ca8190e4f7a305a294b791ef45de95a8023146ba3adbd8",
+  "explore.json": "39e5cb3df615b8e65084084ee952665ad9660b55b9ad6ba15efb5f49c247c051",
+  "iterations.json": "9d9aad1d5c2fd09a5b0bb39c57819c6fb4d067e9d22c3edaa86e784982024320",
+  "raw/manifest.json": "fc76cdf8954c8dbbca9b6a19de35a37df2501824036eae70c76bd652438536cf",
+  "plib.py": "95aa14a52327477ff1eb7a22ed3dcce4e3563c49236058a1db638602be6afe6b",
+  "pbuild.py": "258b3c4127f9a60a4953a2908c381fa580a347bfe8970d7725d2b7f0710abb5d",
+  "s4_gate.py": "74eecc47c0e6e17459edea412f8929b0ea7ddd3480f84bc0815a782eb4dded52"
+ }
+}
