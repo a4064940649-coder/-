@@ -1,0 +1,97 @@
+{
+ "n_versions": 3,
+ "rule": "取各閘門通過數最多；同分取最簡單（凍結於 GATE_SPEC）",
+ "versions": {
+  "V1": {
+   "definition": "只用原始餘額（TEJ 存活股逐日、BlackBoxOP、margin_hist、月形成日官方快照只在當日）",
+   "n_pass_of_10": 4,
+   "verdict": "不通過",
+   "coverage": {
+    "S1": [
+     0.877,
+     0.8738,
+     0.0635
+    ],
+    "S2": [
+     0.932,
+     0.9272,
+     0.1803
+    ],
+    "S3": [
+     0.9771,
+     0.9859,
+     0.4987
+    ]
+   },
+   "CONSIST": {
+    "identity": false,
+    "local_overlap": true,
+    "range": true,
+    "pass": false
+   }
+  },
+  "V2": {
+   "definition": "V1＋FinBrain 日增減向前累加：錨點＝同股資料日 ≤ T 的最近原始餘額（TEJ 或官方月快照）；上市首日 ≥ 2007-04-23 者以 0 起算；不准向後倒推",
+   "n_pass_of_10": 5,
+   "verdict": "不通過",
+   "coverage": {
+    "S1": [
+     0.8888,
+     0.8918,
+     0.1821
+    ],
+    "S2": [
+     0.9841,
+     0.9858,
+     0.8837
+    ],
+    "S3": [
+     0.9862,
+     0.9933,
+     0.9113
+    ]
+   },
+   "CONSIST": {
+    "identity": false,
+    "local_overlap": true,
+    "range": false,
+    "pass": false
+   }
+  },
+  "V3": {
+   "definition": "V2＋每個官方月快照日重設錨點（只向前），並把連續 ≤ 2 個交易日的單點缺值以前值延續（只向前）",
+   "n_pass_of_10": 5,
+   "verdict": "不通過",
+   "coverage": {
+    "S1": [
+     0.8891,
+     0.8919,
+     0.1822
+    ],
+    "S2": [
+     0.9842,
+     0.9858,
+     0.8838
+    ],
+    "S3": [
+     0.9862,
+     0.9933,
+     0.9125
+    ]
+   },
+   "CONSIST": {
+    "identity": false,
+    "local_overlap": true,
+    "range": false,
+    "pass": false
+   }
+  }
+ },
+ "selected": "V2",
+ "implementation_notes": [
+  "建構中發現 FinBrain 欄位語意是淨買賣（不是餘額增減）；V2/V3 仍照凍結規格建出並計分，由一致性副閘門（FinBrain Δ 對 TEJ Δ 69.2% < 99.9%、餘額出現負值）否決，沒有改規格",
+  "一致性檢查實作修正（閘門計算前）：TEJ 不等式與 BlackBoxOP 連續性只比「前一交易日」，避免跨缺漏日比較；結果 99.70% 與 99.30%",
+  "選版：V2 以 5/10 勝 V1 的 4/10，但 V2 多出的覆蓋來自被一致性否決的衍生值；三版判定都是「不通過」，選哪一版不影響結論"
+ ],
+ "amend": []
+}

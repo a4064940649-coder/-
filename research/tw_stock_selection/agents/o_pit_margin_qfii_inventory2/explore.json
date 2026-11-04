@@ -1,0 +1,492 @@
+{
+ "note": "盤點階段只看資料品質，不看任何報酬或報酬相關統計",
+ "n_search_queries": 119,
+ "n_repos_probed": 32,
+ "inventory": [
+  {
+   "repo": "FinBrain-tw/twstock_database",
+   "commit": "a41851b3",
+   "type": "MARGN",
+   "fields": "融資買進−賣出、融券賣出−買進（張，淨額；不含現償）",
+   "range": "2007-04-23～2021-07-09",
+   "rows": "寬表 3,509 日 × 1,782 檔",
+   "delisted": "是（2311、2325、5854 至 2011-11-18）",
+   "date_basis": "內容日期（index）；commit 2021-07-16 一次性",
+   "used": "只作交叉核對；版本 V2/V3 的累加被一致性否決",
+   "reason": "欄位是淨買賣不是餘額增減：與 TEJ 買進−賣出一致 99.90%，與 TEJ Δ餘額只一致 69.2%"
+  },
+  {
+   "repo": "Yuan-Hsi/SALL_Agency",
+   "commit": "715cc770",
+   "type": "MARGN",
+   "fields": "TEJ 匯出：融資餘額、融資買進、融資賣出、融券餘額/買進/賣出（無現償、無限額）",
+   "range": "1994-09～2024-04-03",
+   "rows": "982 檔普通股（stock_0406）",
+   "delisted": "否（存活股；2311、2325、5854 皆缺）",
+   "date_basis": "內容日期欄；commit 2024-07-22 一次性",
+   "used": "是（存活股逐日餘額、交叉核對）",
+   "reason": "TEJ 付費資料轉貼，授權不明"
+  },
+  {
+   "repo": "joeycchen72/taiwan-market-history",
+   "commit": "0a270d50",
+   "type": "MARGN＋QFIIS＋分母",
+   "fields": "官方 MI_MARGN 融資/融券餘額；MI_QFIIS 發行股數、外資持股、比率；MI_INDEX 全市場日檔",
+   "range": "MARGN/QFIIS：2014-01～2026-10 每月 1 日（11 日起第一個交易日）；MI_INDEX：2014-01-02～2026-11-04 逐日",
+   "rows": "154 個形成日 × 約 1,300～1,360 檔；MI_INDEX 3,122 日",
+   "delisted": "是（按日期抓全市場）",
+   "date_basis": "檔名＝查詢日；2026-10/11 GitHub Actions 回溯抓官方按日端點",
+   "used": "是（月快照、2014 起分母）",
+   "reason": "只到 2014-01；日頻只有 MI_INDEX"
+  },
+  {
+   "repo": "wenchiehlee/Python-Actions.FinMind",
+   "commit": "495cb78e",
+   "type": "MARGN",
+   "fields": "FinMind 個股融資融券（含現償、使用率）",
+   "range": "2021-01-04～2026-11-04",
+   "rows": "126 檔",
+   "delisted": "否",
+   "date_basis": "內容日期",
+   "used": "否",
+   "reason": "只有 126 檔、2021 起"
+  },
+  {
+   "repo": "voidful/tw-institutional-stocker",
+   "commit": "e10066f3",
+   "type": "QFIIS",
+   "fields": "發行股數、外資股數、比率",
+   "range": "2025-10-07～2026-10-21（o2 已用）",
+   "rows": "約 1,088 檔",
+   "delisted": "是",
+   "date_basis": "內容日期",
+   "used": "是（本機副本，日頻 2025-10 起）",
+   "reason": "太短"
+  },
+  {
+   "repo": "twcs-analysis/tw-institutional-stocker",
+   "commit": "1d28e342",
+   "type": "QFIIS",
+   "fields": "同 voidful（fork）",
+   "range": "2025-10～2025-12",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "voidful 的 fork"
+  },
+  {
+   "repo": "oid87/PersonalFiance",
+   "commit": "4465a42d",
+   "type": "市場層",
+   "fields": "大盤融資餘額（億元、張）、融券（FinMind TaiwanStockTotalMarginPurchaseShortSale）；大盤維持率重建 2022-12 起",
+   "range": "2008-01-02～2026-11-04",
+   "rows": "市場總額",
+   "delisted": "不適用",
+   "date_basis": "內容日期",
+   "used": "否（只記錄；M1 市場連鎖條件可用，但 2006～2007 缺）",
+   "reason": "非個股；FinMind 衍生"
+  },
+  {
+   "repo": "willychen0924/tw-margin-rate",
+   "commit": "5a85f2af",
+   "type": "市場層",
+   "fields": "大盤融資金額",
+   "range": "2017-07-03 起",
+   "rows": "市場總額",
+   "delisted": "不適用",
+   "date_basis": "內容日期",
+   "used": "否",
+   "reason": "太短"
+  },
+  {
+   "repo": "dylanlu0604-dot/taiwan-margin-maintenance-rate",
+   "commit": "4f56aff3",
+   "type": "MAINT",
+   "fields": "大盤維持率（推估）",
+   "range": "近年",
+   "rows": "市場",
+   "delisted": "不適用",
+   "date_basis": "內容日期",
+   "used": "否",
+   "reason": "非官方推估、非個股"
+  },
+  {
+   "repo": "3B132016/tws",
+   "commit": "e3835b1d",
+   "type": "MARGN",
+   "fields": "個股融資、外資持股（張、比例）",
+   "range": "2021-09～2024-11",
+   "rows": "112 檔",
+   "delisted": "否",
+   "date_basis": "內容日期",
+   "used": "否",
+   "reason": "檔數太少、太短"
+  },
+  {
+   "repo": "acronhuang/TW_STOCK",
+   "commit": "11f76132",
+   "type": "—",
+   "fields": "只有程式（Mongo）",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無資料檔"
+  },
+  {
+   "repo": "Jarry6304/StockHelper4me",
+   "commit": "c5a0a166",
+   "type": "—",
+   "fields": "只有程式",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無資料檔"
+  },
+  {
+   "repo": "jerry102102102/FIN_mind_data",
+   "commit": "e06a0d15",
+   "type": "—",
+   "fields": "只有 FinMind 抓取程式與 venv",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無資料檔"
+  },
+  {
+   "repo": "galaxyh/twstock-to-db",
+   "commit": "369e19e2",
+   "type": "—",
+   "fields": "只有程式",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無資料檔"
+  },
+  {
+   "repo": "kaija/taiwan_stockloader",
+   "commit": "637244c3",
+   "type": "價格",
+   "fields": "日 K（stock-parser/data）",
+   "range": "2015 前後",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無融資／外資持股"
+  },
+  {
+   "repo": "olycats/twse",
+   "commit": "5b2f3acf",
+   "type": "價格",
+   "fields": "MI_5MINS、FMTQIK",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無融資／外資持股"
+  },
+  {
+   "repo": "williamlikesweet/twstock_database",
+   "commit": "50f1ca94",
+   "type": "—",
+   "fields": "公司基本資料 1 檔",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無"
+  },
+  {
+   "repo": "voidful/tw_stocker",
+   "commit": "facb2be9",
+   "type": "價格",
+   "fields": "個股價格檔 1,214 個",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無融資／外資持股"
+  },
+  {
+   "repo": "end9981/tw_stocker",
+   "commit": "4b405433",
+   "type": "價格",
+   "fields": "同上（fork＋策略）",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無"
+  },
+  {
+   "repo": "appr1ciat1/tst_wocker",
+   "commit": "f4997f88",
+   "type": "價格",
+   "fields": "同上（fork）",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無"
+  },
+  {
+   "repo": "chenyicheng2008/TWSTOCK",
+   "commit": "e21596fd",
+   "type": "價格",
+   "fields": "daily/weekly 價格",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無"
+  },
+  {
+   "repo": "jieterli/jtl-data",
+   "commit": "7205d058",
+   "type": "籌碼",
+   "fields": "chips/（2026 前瞻）",
+   "range": "近年",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "前瞻、太短"
+  },
+  {
+   "repo": "Yuan-Hsi 以外的 TEJ 範例（YiMin1117/monday、JokerRW/ETF_python、wayne70211/FinLookup）",
+   "commit": "—",
+   "type": "MARGN/QFIIS",
+   "fields": "FinMind 範例單檔",
+   "range": "2019～2022",
+   "rows": "1～3 檔",
+   "delisted": "否",
+   "date_basis": "內容日期",
+   "used": "否",
+   "reason": "單檔範例"
+  },
+  {
+   "repo": "gsinvest005/margin-dashboard",
+   "commit": "92c10c27",
+   "type": "—",
+   "fields": "只有網頁",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無"
+  },
+  {
+   "repo": "0301kenny/wfnt-snapshot-data",
+   "commit": "53bd579d",
+   "type": "—",
+   "fields": "只有程式與報告",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無"
+  },
+  {
+   "repo": "penguin72487/stockAgent",
+   "commit": "0551f6d2",
+   "type": "—",
+   "fields": "只有下載程式",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無資料檔"
+  },
+  {
+   "repo": "Justinsheep/stock-chips",
+   "commit": "41871dbe",
+   "type": "價格/營收",
+   "fields": "data/prices、revenue",
+   "range": "近年",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無融資"
+  },
+  {
+   "repo": "david26984741-cell/tw-cb-data",
+   "commit": "b4c0a6da",
+   "type": "可轉債",
+   "fields": "CB 報價 2007 起",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "不是融資／外資持股"
+  },
+  {
+   "repo": "ntuaha/TWFS",
+   "commit": "32387e24",
+   "type": "總體",
+   "fields": "金融統計",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "不是個股"
+  },
+  {
+   "repo": "hh4832/taiwan-margin-short-0050-research",
+   "commit": "88d9f267",
+   "type": "—",
+   "fields": "notebook",
+   "range": "—",
+   "rows": "—",
+   "delisted": "—",
+   "date_basis": "—",
+   "used": "否",
+   "reason": "無資料檔"
+  },
+  {
+   "repo": "BlackBoxOP/tw_stock（本機副本，o2）",
+   "commit": "5074c181",
+   "type": "MARGN",
+   "fields": "融資餘額、前日餘額、融券各欄",
+   "range": "2024-01-02～2026-10-27",
+   "rows": "約 1,069 檔",
+   "delisted": "是",
+   "date_basis": "內容日期",
+   "used": "是（本機只讀）",
+   "reason": "—"
+  },
+  {
+   "repo": "tw-stock-screener extras/margin_hist（本機）",
+   "commit": "—",
+   "type": "MARGN",
+   "fields": "融資餘額、增減、融券、使用率",
+   "range": "2025-09-24 起",
+   "rows": "—",
+   "delisted": "是",
+   "date_basis": "內容日期",
+   "used": "是（本機只讀）",
+   "reason": "—"
+  }
+ ],
+ "semantics_finding": "FinBrain margin_buy＝融資買進−融資賣出（與 TEJ 買進−賣出完全一致 99.90%；與 TEJ Δ餘額一致只 69.2%），不是餘額增減，累加會漏掉現金償還而漂移",
+ "revision_finding": "TEJ 存活股餘額與官方按日端點（2026 回溯抓）在 2014～2024 月快照上一致 98.42%；不一致集中在少數日期（2021 年 570 筆、2019 年 509 筆，中位比 0.99996），像官方事後更正或 TEJ 修正，T 當時公布的是哪個值無法判定",
+ "consistency": {
+  "TEJ_ineq_dbal_le_buy_minus_sell": {
+   "n": 3547235,
+   "rate": 0.996989486177262,
+   "rate_eq": 0.6979799759531015
+  },
+  "BB_prev_continuity": {
+   "n": 696142,
+   "rate": 0.9929870629842762
+  },
+  "FinBrain_vs_TEJ_delta": {
+   "n": 2717491,
+   "rate": 0.6924008211986719
+  },
+  "FinBrain_vs_TEJ_buy_minus_sell": {
+   "n": 2718755,
+   "rate": 0.999009105270611,
+   "note": "欄位語意判定：FinBrain margin_buy＝融資買進−融資賣出（不含現金償還），不是餘額增減；累加無法還原餘額"
+  },
+  "TEJ_vs_BlackBoxOP_level": {
+   "n": 57268,
+   "rate": 0.9923517496682266,
+   "dates": [
+    "2024-01-02",
+    "2024-04-03"
+   ]
+  },
+  "joeyc_vs_TEJ_level": {
+   "n": 107185,
+   "rate": 0.9841582310957689,
+   "dates": [
+    "2014-01-13",
+    "2024-03-11"
+   ]
+  },
+  "joeyc_vs_BlackBoxOP_level": {
+   "n": 34544,
+   "rate": 1.0,
+   "dates": [
+    "2024-01-11",
+    "2026-10-12"
+   ]
+  },
+  "joeyc_vs_margin_hist_level": {
+   "n": 13555,
+   "rate": 1.0,
+   "dates": [
+    "2025-10-13",
+    "2026-10-12"
+   ]
+  },
+  "BlackBoxOP_vs_margin_hist_level": {
+   "n": 271112,
+   "rate": 1.0,
+   "dates": [
+    "2025-09-24",
+    "2026-10-22"
+   ]
+  },
+  "range_nonneg_V1": 1.0,
+  "range_nonneg_V2": 0.9999669184591271,
+  "range_nonneg_V3": 0.9999729813832414,
+  "joeyc_vs_voidful_qfii": {
+   "n": 17116,
+   "ratio_eq_rate": 1.0,
+   "issued_eq_rate": 1.0,
+   "held_eq_rate": 1.0
+  },
+  "qfii_range": {
+   "pct_in_0_100": 1.0,
+   "held_le_issued": 1.0,
+   "n": 168580
+  }
+ },
+ "shares_check_2014plus": {
+  "n_pairs": 73332,
+  "median_abs_logdiff_pct": 0.0001,
+  "p90_abs_logdiff_pct": 0.021,
+  "share_within_0.1pct": 0.9174,
+  "by_year_median_pct": {
+   "2014": 0.0002,
+   "2015": 0.0002,
+   "2016": 0.0002,
+   "2017": 0.0002,
+   "2018": 0.0001,
+   "2019": 0.0001,
+   "2020": 0.0002,
+   "2021": 0.0001,
+   "2022": 0.0001,
+   "2023": 0.0001,
+   "2024": 0.0001,
+   "2025": 0.0001,
+   "2026": 0.0001
+  },
+  "delisted_pairs": 118,
+  "delisted_median_pct": 0.0,
+  "qfii_delisted_codes_without_TEJ_anchor": 77,
+  "note": "比對＝形成日（約 11 日）官方發行股數 vs TEJ 前月底流通股數；只到 2014 起；o13 D1（2006～2013）無法用 MI_QFIIS 重算"
+ }
+}

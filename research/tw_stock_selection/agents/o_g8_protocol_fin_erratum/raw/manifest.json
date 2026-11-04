@@ -1,0 +1,158 @@
+{
+ "note": "本題沒有下載任何新資料；全部是 BRIEF 範圍內既有檔案的路徑與 sha256（不複製，避免佔用磁碟）。",
+ "utc": "2026-11-04T23:22:23.406721+00:00",
+ "files": {
+  "agents/o_forward_sequential_v2/raw/v7/navs_exec7.parquet": {
+   "sha256": "04c1e94d71c048538734937eaf569674e4dee286bd0c01691aa99bac1646028d",
+   "use": "歷史決策線（V7 可執行 K5T，13 j）；只取殘差形狀與 σ"
+  },
+  "agents/o_forward_sequential_v2/fslib.py": {
+   "sha256": "df36da2998b193e71d7cfe2d8639056fd89a62a7fb959c262c20dbbc3e92444f",
+   "use": "o8 函式庫（只 import）"
+  },
+  "agents/o_forward_sequential_v2/raw/v7/plans_j7.csv": {
+   "sha256": "20d38d03dabfd319c0bdddd1a851505380754903ef596bf94b296569ae4e83ac",
+   "use": "j 訊號日"
+  },
+  "agents/o_forward_sequential_v2/raw/v7/jscan_end_days.json": {
+   "sha256": "3c561e7cfe4ee3a3a524a7ede67c496e2de5696416271e73aa182dafee08208d",
+   "use": "j 窗終點"
+  },
+  "agents/o_forward_sequential_v2/data/forward_prior_main.npz": {
+   "sha256": "6259b0426097e7fe5fd5dfea6a580cee595165affd411f7464ff40d7ced7fd81",
+   "use": "o8 校準先驗（R-E 混合分布）"
+  },
+  "agents/o_forward_sequential_v2/results.json": {
+   "sha256": "f31ed975cebac2cadb948dbd86ae7fee4b943d7bac7b1f7c4e9eca49ad92c4b6",
+   "use": "o8 OC 參考"
+  },
+  "agents/o_forward_infra_live/results.json": {
+   "sha256": "91afdb87426bde7617cce71c7d2162ce8ffd78b00ca0c0cb643af5da265c1b3a",
+   "use": "o9 PREREG_FORWARD（σ_d、G8 檢定力表）"
+  },
+  "agents/o_forward_infra_live/frozen_spec.txt": {
+   "sha256": "9ec9197f8855534393605ba9c2d9b727a79223b3c75a96e33284edb6bedb798e",
+   "use": "前瞻產生器規格（只讀）"
+  },
+  "agents/o_forward_infra_live/make_forward.py": {
+   "sha256": "6d7e5d20102674b5935511e56337302680996a21868e727dcb13c8d8ca6e39b6",
+   "use": "前瞻產生器（只讀欄位與 meta 定義）"
+  },
+  "agents/o_forward_infra_live/replay/seq/forward_returns.csv": {
+   "sha256": "df95c3d30863e74bc455cbc9ce6e059fb98ef34f80430f0ab0f0f7cd8958715d",
+   "use": "o9 重播（線可計算性測試）"
+  },
+  "agents/o_forward_infra_live/replay/seq/trades.csv": {
+   "sha256": "c9633b61d56e13209b657fe390781114b9973cb01bacaa866b52d02ae0dea60f",
+   "use": "o9 重播成交"
+  },
+  "agents/live_tracking/main_forward/forward_returns.csv": {
+   "sha256": "89724d6dba8619400995ca55144b60478b513c2f6561d4bd901365086a304269",
+   "use": "前瞻帳本（只讀表頭；0 列）"
+  },
+  "agents/live_tracking/main_forward/trades.csv": {
+   "sha256": "642e83d98cc32708d2f9f269b25bd5f1c41b9ff20bc648b73925178ea7dd036e",
+   "use": "前瞻成交（只讀表頭；0 列）"
+  },
+  "agents/live_tracking/main_forward/fills_input.csv": {
+   "sha256": "65970ba03c98d30edfec9db11aaf346788041e2a5c027ae371c23202d2bce137",
+   "use": "真錢成交輸入（只讀表頭）"
+  },
+  "agents/main_v2/v2_core.py": {
+   "sha256": "30741b58276f8278057648b1e7302c7d335d593546a5587970a3f22021e96fc3",
+   "use": "主策略正式版 v2 核心（只 import）"
+  },
+  "agents/independent_audit/ia_core.py": {
+   "sha256": "0e4a3265743af32593f57d50fa445eaafaff891de78e47a3fb589abfcaacb208",
+   "use": "面板與引擎（只 import）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/manifest.json": {
+   "sha256": "fc76cdf8954c8dbbca9b6a19de35a37df2501824036eae70c76bd652438536cf",
+   "use": "o13 產業快照來源與 commit"
+  },
+  "agents/o_pit_shares_industry_2006_2013/data/gate.json": {
+   "sha256": "737cccc9717c1c03e4ca8190e4f7a305a294b791ef45de95a8023146ba3adbd8",
+   "use": "o13 閘門（861 股月參考）"
+  },
+  "agents/o_v7_listing_exec_engine/listing_master.csv": {
+   "sha256": "bdb7d6d478c095655c9a9707f550551a128df78839e7a563d81feab09f4988c8",
+   "use": "上市下市日（事後補充）"
+  },
+  "/home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv": {
+   "sha256": "02657e7c415783020f16255d42f66b0d40d69823fa294113557be6f4584a3898",
+   "use": "長期月營收"
+  },
+  "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/stock_list.csv": {
+   "sha256": "06111252bee0f002a85434a71623e93acc74a597f36412c4a3871d243cca695e",
+   "use": "現行產業別（C0）與名稱（C2）"
+  },
+  "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/value.parquet": {
+   "sha256": "d7280bb511d215ae783aa8cd1a654e9d6cc4736a686e8ab5e2f0a830585074b6",
+   "use": "面板成交值（修正版）"
+  },
+  "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/adj.parquet": {
+   "sha256": "c5d4707bd7a1966dc74fbbb41b6ad87f0900e6fc91d8e7665d5f1b3fb8542810",
+   "use": "面板還原價"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/industry_snap/goristock_d9d8662c_grs_stock_no.csv": {
+   "sha256": "92474e7c0153ba450b1cd991cee154da45672cfdd5c13125db15ae8f4fbba220",
+   "src": "toomore/goristock@d9d8662c77760ca0276b67fd4aaf5eb62de5cec8:grs/stock_no.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/industry_snap/goristock_14393dd2_grs_stock_no.csv": {
+   "sha256": "ffd9050122ec49ef057b6675059c4316d63f575ee97669a60355189fe118f2a8",
+   "src": "toomore/goristock@14393dd23224aa6c72d4f26e38eb5f9e3cfb5a30:grs/stock_no.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/industry_snap/goristock_235da71f_grs_old_stock_no.csv": {
+   "sha256": "0004e426427221be3f4f4e66ec45d2d19768b71f2490a2471ff5aa74b71b8c9d",
+   "src": "toomore/goristock@235da71fe160e64b556c70e8340db882f03d3125:grs_old/stock_no.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/industry_snap/goristock_c3c718ab_grs_stock_no.csv": {
+   "sha256": "df09d5a32b700dfc08d1903c348ac02f961d7cab140fdff96b88ee50e6db3965",
+   "src": "toomore/goristock@c3c718ab16af15823ae4fb69fcd6c7f8aad014c4:grs/stock_no.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/industry_snap/grs_893c8772_grs_stock_no.csv": {
+   "sha256": "52c68861590dfaef1ec0deac7807e4ee90a93d82ab3f6439e454249c59946d09",
+   "src": "toomore/grs@893c87724f253053c65078a030813939f52b71f5:grs/stock_no.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/industry_snap/grs_568e6685_tools_twse_list.csv": {
+   "sha256": "00fa81b5d85a17687c575f6825741f517a5931f441e249a05de087d676c04534",
+   "src": "toomore/grs@568e6685a742dad6d5f8557a173b7e6593765cc1:tools/twse_list.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/industry_snap/goristock_c3c718ab_grs_industry_code.csv": {
+   "sha256": "1c367f539e04b54e7d8474c8e25f2156c699a335793992a77291e7b76eb5a294",
+   "src": "toomore/goristock@c3c718ab16af15823ae4fb69fcd6c7f8aad014c4:grs/industry_code.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/industry_snap/grs_568e6685_grs_industry_code.csv": {
+   "sha256": "10030d0c4aa8f588458d64a8036a8c9d091680dbc9f10fb3b07dca017e598cc2",
+   "src": "toomore/grs@568e6685a742dad6d5f8557a173b7e6593765cc1:grs/industry_code.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/center/isin_20230116_listed.csv": {
+   "sha256": "37107c39666e272ee6f5af355e4248c866e8b0c85c40bf1827337d28a2558eae",
+   "src": "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/raw/snap/isin_20230116_listed.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/center/StockList_20150522.csv": {
+   "sha256": "73dfca4f109ef083f0022c9cb02a08b4b6e26b9fa1b1fb3997ebf6a044dc8362",
+   "src": "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/raw/snap/StockList_20150522.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/center/StockList_20160401.csv": {
+   "sha256": "72a640a8e0fe1255ccc3220c352ac27bbbc6c6225f34fabcd8ce70dedff25292",
+   "src": "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/raw/snap/StockList_20160401.csv",
+   "use": "產業快照（C1/C1B/und）"
+  },
+  "agents/o_pit_shares_industry_2006_2013/raw/center/StockList_20170706.csv": {
+   "sha256": "26e485f8d0f33dac1baee32a962e7b33a496c01e5fea1cbac752afb6615e0349",
+   "src": "/home/user/-/research/tw_stock_selection/agents/o_lc_sector_rotation_pit/raw/snap/StockList_20170706.csv",
+   "use": "產業快照（C1/C1B/und）"
+  }
+ }
+}

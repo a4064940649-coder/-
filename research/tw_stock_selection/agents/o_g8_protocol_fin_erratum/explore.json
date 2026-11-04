@@ -1,0 +1,303 @@
+{
+ "utc": "2026-11-04T23:05:03.332585+00:00",
+ "inventory": {
+  "live_forward_returns_columns": [
+   "line",
+   "anchor",
+   "start",
+   "end",
+   "status",
+   "n_j",
+   "ret",
+   "ret_0050",
+   "excess_pp",
+   "ret_stress",
+   "excess_stress_pp",
+   "ret_cap10",
+   "excess_cap10_pp",
+   "cost",
+   "n_hold",
+   "source",
+   "note"
+  ],
+  "live_trades_columns": [
+   "kind",
+   "line",
+   "date",
+   "code",
+   "side",
+   "is_odd",
+   "shares",
+   "fill_px",
+   "open_px",
+   "prev_close",
+   "close_px",
+   "ticks_from_open",
+   "sigma60_prev",
+   "V60_prev",
+   "dec",
+   "oa_share_dec",
+   "OA_pred",
+   "share_of_open_vol",
+   "share_of_open_vol_actual",
+   "in_disposal",
+   "event_id",
+   "cost_rate",
+   "share_of_qref",
+   "order_time",
+   "limit_px"
+  ],
+  "live_fills_input_columns": [
+   "date",
+   "code",
+   "side",
+   "order_time",
+   "limit_px",
+   "fill_px",
+   "shares",
+   "is_odd",
+   "list"
+  ],
+  "live_n_rows": {
+   "forward_returns": 0,
+   "trades": 0
+  },
+  "replay_lines": [
+   "DISP_TPEX",
+   "DISP_TWSE",
+   "DISP_TWSE_FIRST",
+   "E50",
+   "J0",
+   "J1",
+   "J10",
+   "J11",
+   "J12",
+   "J2",
+   "J3",
+   "J4",
+   "J5",
+   "J6",
+   "J7",
+   "J8",
+   "J9",
+   "JMED",
+   "MAIN_OFFICIAL",
+   "MIX_C70",
+   "MIX_D80"
+  ],
+  "replay_trade_kinds": {
+   "paper_disp": 167,
+   "paper_disp_close": 4,
+   "paper_odd": 399,
+   "paper_whole": 55
+  },
+  "lines": {
+   "JMED（主欄，V7X K5T GROW 100 萬，一般成本）": {
+    "ok": true,
+    "how": "forward_returns line=JMED, excess_pp；status=complete 且 n_j=13",
+    "replay_2026_09": 1.801400245,
+    "recompute_median_J0_J12": 1.801400245,
+    "diff": 0.0
+   },
+   "JMED 壓力成本": {
+    "ok": true,
+    "how": "line=JMED, excess_stress_pp",
+    "replay_2026_09": 1.030422704
+   },
+   "JMED 參與上限 10%": {
+    "ok": true,
+    "how": "line=JMED, excess_cap10_pp",
+    "replay_2026_09": 1.801400245
+   },
+   "j 的 p10（G1 前瞻版）": {
+    "ok": true,
+    "how": "同錨定月 line=J0..J12 的 excess_pp 取 numpy percentile 10（線性內插）",
+    "replay_2026_09": -2.5967027517999997
+   },
+   "MAIN_OFFICIAL": {
+    "ok": true,
+    "how": "line=MAIN_OFFICIAL, excess_pp",
+    "replay_2026_09": 14.44980445
+   },
+   "E50（0050 含息）": {
+    "ok": true,
+    "how": "line=E50, ret",
+    "replay_2026_09": 0.06745307335
+   },
+   "C_E50_70＝MIX_C70（0050 70%＋MAIN_OFFICIAL 30%）": {
+    "ok": true,
+    "how": "line=MIX_C70；可由 MAIN_OFFICIAL.ret、E50.ret 與上一窗漂移流量×0.5% 重算",
+    "replay_2026_09": 0.1108024867,
+    "recompute": 0.110802486715,
+    "diff": 1.5000001241105565e-11
+   },
+   "M_E50_30（主策略 70%＋0050 30%）": {
+    "ok": true,
+    "how": "衍生：0.7×MAIN_OFFICIAL.ret＋0.3×E50.ret − |w′−w|×0.5%（與 MIX_C70 同法），不在 forward_returns 內，需離線計算",
+    "replay_2026_09_ret": 0.16860170453499998,
+    "replay_2026_09_excess_pp": 10.114863118499997
+   },
+   "100 萬 FIX": {
+    "ok": false,
+    "how": "缺口：前瞻引擎只跑 GROW 100 萬（x_exec 設定 mode＝GROW），forward_returns 沒有 FIX 欄；24 個月內 GROW 100 萬與 FIX 100 萬只差淨值規模（零股化程度），以 GROW 代替並標註"
+   },
+   "300 萬 GROW（G7 前瞻）": {
+    "ok": false,
+    "how": "缺口：forward_returns 沒有 300 萬欄；需離線以 x_exec.py 讀凍結 paper_lists 與 .exec.json 重算（描述用，不得作為 G8 判定線）"
+   },
+   "1,000 萬 GROW（G7 前瞻）": {
+    "ok": false,
+    "how": "缺口：同上"
+   }
+  },
+  "n_gaps": 3
+ },
+ "sigma_design": 6.141373712658076,
+ "sigma_reproduced": 6.141373712658076,
+ "decision_line": "o8 fslib：B10 K5T 100 萬 FIX 一般成本，13 個 j 的錨定月窗超額中位數（V7 navs_exec7）；前瞻線為 V7X GROW 100 萬",
+ "resid_post2019": {
+  "n": 89,
+  "first": "2019-05",
+  "last": "2026-09"
+ },
+ "resid_2024": {
+  "n": 33,
+  "first": "2024-01",
+  "last": "2026-09"
+ },
+ "desc": {
+  "post2019": {
+   "n": 89,
+   "first": null,
+   "sd": 6.507632208608044,
+   "hac_sd": {
+    "3": 6.396686933496382,
+    "6": 6.141373712658076,
+    "12": 4.945149697786294
+   },
+   "acf": {
+    "1": -0.034222400011118655,
+    "2": 0.05549644594200339,
+    "3": -0.05397938594328183,
+    "4": 0.06530026449563618,
+    "5": -0.06105120227312307,
+    "6": -0.2774899476225917
+   },
+   "kurt_excess": 2.2359508930337912,
+   "skew": 1.1009255856367985
+  },
+  "sel_2006_2019": {
+   "n": 157,
+   "first": null,
+   "sd": 3.9264409064243297,
+   "hac_sd": {
+    "3": 4.137823083952286,
+    "6": 4.110316081676382,
+    "12": 4.356838480114779
+   },
+   "acf": {
+    "1": 0.09674172364051821,
+    "2": -0.03521339823563702,
+    "3": 0.015578504802084264,
+    "4": -0.130377239304321,
+    "5": 0.05815041379685616,
+    "6": 0.16820553979424313
+   },
+   "kurt_excess": 1.0876366950496483,
+   "skew": 0.20713430620954548
+  },
+  "2024_2026": {
+   "n": 33,
+   "first": null,
+   "sd": 6.220445000403637,
+   "hac_sd": {
+    "3": 4.642622777686398,
+    "6": 5.214306500308021,
+    "12": 5.256910608970841
+   },
+   "acf": {
+    "1": -0.17183809929232055,
+    "2": -0.21006059389268278,
+    "3": 0.08452388381541806,
+    "4": 0.2453704257788905,
+    "5": 0.1980490454699117,
+    "6": -0.35278087137080266
+   },
+   "kurt_excess": 0.4414140908915076,
+   "skew": 0.9040345535415952
+  }
+ },
+ "inflation_c2_candidates": {
+  "plain_sd": 1.1228324323964305,
+  "hac_L3": 1.0848735991225367,
+  "hac_L6": 1.0,
+  "hac_L12": 0.6483773490526281,
+  "boot_L6_var_S12": 0.9617125883930889,
+  "boot_L6_var_S24": 0.9047977294472948,
+  "boot_L3_var_S24": 1.045545372251765,
+  "boot_L12_var_S24": 0.7443298911625802,
+  "boot2024_L6_var_S24": 0.7148494559168608
+ },
+ "cost_shifts_pp": {
+  "stress_minus_normal_FIX100_sel": -0.5769618693715921,
+  "stress_minus_normal_FIX100_post2019_desc": -0.7824835670648057,
+  "stress_minus_normal_GROW100_sel": -0.48238025105258137,
+  "GROW100_minus_FIX100_sel": -0.11816941727097462,
+  "GROW300_minus_GROW100_sel": -0.0881912165047465,
+  "GROW1000_minus_GROW100_sel": -0.21293537806658905
+ },
+ "corr_FIX_GROW_100": 0.9982551670492198,
+ "o9_power_repro": {
+  "alpha_-1.0pp": {
+   "o9": 0.286,
+   "sim": 0.28656,
+   "analytic": 0.28635674055143867,
+   "diff": 0.0005600000000000049
+  },
+  "alpha_-0.5pp": {
+   "o9": 0.389,
+   "sim": 0.390375,
+   "analytic": 0.3889603047046091,
+   "diff": 0.001375000000000015
+  },
+  "alpha_-0.4pp": {
+   "o9": 0.411,
+   "sim": 0.409125,
+   "analytic": 0.41074697798693915,
+   "diff": 0.00187499999999996
+  },
+  "alpha_-0.3pp": {
+   "o9": 0.433,
+   "sim": 0.431705,
+   "analytic": 0.4328126175327114,
+   "diff": 0.0012949999999999906
+  },
+  "alpha_+0.0pp": {
+   "o9": 0.5,
+   "sim": 0.4999725,
+   "analytic": 0.5,
+   "diff": 2.7500000000013625e-05
+  },
+  "alpha_+0.3pp": {
+   "o9": 0.567,
+   "sim": 0.566715,
+   "analytic": 0.5671873824672886,
+   "diff": 0.0002849999999999797
+  },
+  "alpha_+0.5pp": {
+   "o9": 0.611,
+   "sim": 0.61113,
+   "analytic": 0.6110396952953909,
+   "diff": 0.00012999999999996348
+  },
+  "alpha_+1.0pp": {
+   "o9": 0.714,
+   "sim": 0.7123275,
+   "analytic": 0.7136432594485613,
+   "diff": 0.0016724999999999657
+  }
+ },
+ "o9_power_repro_maxdiff": 0.00187499999999996,
+ "o9_power_repro_ok": true,
+ "note": "平均超額（α̂）沒有被任何設計步驟使用；殘差一律去均值。壓力成本平移只用挑選期估計。"
+}
