@@ -1,0 +1,61 @@
+{
+ "OFFICIAL": false,
+ "official_call": true,
+ "label": "INVALID（不得引用）",
+ "argv": [
+  "status",
+  "--official"
+ ],
+ "flags": {
+  "cmd": "status",
+  "official": true,
+  "test_forward": null,
+  "test_registry": null,
+  "test_protocol": null,
+  "test_manifest": null,
+  "test_now": null,
+  "test_first_anchor": null,
+  "out": null,
+  "test_skip_anchor": false,
+  "quiet": false
+ },
+ "utc": "2026-11-05T23:32:33.929591+00:00",
+ "now_used": "2026-11-05T23:32:33.112306+00:00",
+ "protocol_path": "/home/user/-/research/tw_stock_selection/agents/o_g8p2_protocol_refreeze/G8_PROTOCOL_v2.json",
+ "protocol_sha256": "dcab4dbd255fb11e0ad8f4508397ae109cae9a47090eee17ab2ec7952981b993",
+ "manifest_sha256": "23f45ce8ee8040a1fa8e721f76241d377f36e573e32a882d9e63c64aa4ed5c30",
+ "evaluator_sha256": "1e4c0a16ab627e9418fef688bda4e27dfbb0540a53c6eacb954c7e6cfe22c38f",
+ "registry_path": "/home/user/-/research/tw_stock_selection/agents/o_g8p2_protocol_refreeze/calib_registry.jsonl",
+ "registry_sha256": "8e523798f56cc9566137251c9990b2cdb28bf94ec4d1c9a7c1d0cfb302ed98c3",
+ "registry_n_entries": 1,
+ "registry_types": [
+  "GENESIS"
+ ],
+ "calibs_applied": [],
+ "ledger": "/home/user/-/research/tw_stock_selection/agents/live_tracking/main_forward",
+ "ledger_sha256": {
+  "forward_returns.csv": "89724d6dba8619400995ca55144b60478b513c2f6561d4bd901365086a304269",
+  "trades.csv": "642e83d98cc32708d2f9f269b25bd5f1c41b9ff20bc648b73925178ea7dd036e",
+  "fills_input.csv": "65970ba03c98d30edfec9db11aaf346788041e2a5c027ae371c23202d2bce137"
+ },
+ "meta_sha256_combined": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+ "n_meta": 0,
+ "anchor": {
+  "backlog_ok": false,
+  "git": {
+   "ok": false,
+   "reason": "NOT_COMMITTED"
+  }
+ },
+ "effective_first_anchor": null,
+ "problems": [
+  "ANCHOR_BACKLOG_MISSING",
+  "ANCHOR_GIT_MISSING"
+ ],
+ "state": null,
+ "state_if_valid": null,
+ "state_text": "INVALID：完整性或外部錨定檢查未過，本輸出不得引用",
+ "by_mode": {},
+ "scope": "S1 例外 (i) 證據只適用「100 萬 GROW」這一個資金點；100 萬 FIX、300 萬、1,000 萬、30 萬都不涵蓋，不得外推。",
+ "historical_gate_note": "(e) G1～G7 歷史部分不過時，即使字面 G8 過了，也只能寫「前瞻 12 個月超額 > 0，但歷史門檻未過，不可投資」；G1～G7 全過且字面 G8 過，才可寫「可投資」；只有字面 G8 過不得寫 α>0"
+}

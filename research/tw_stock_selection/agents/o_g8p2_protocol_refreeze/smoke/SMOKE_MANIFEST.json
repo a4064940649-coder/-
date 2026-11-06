@@ -1,0 +1,9 @@
+{
+ "utc": "2026-11-05T23:07:58.587126+00:00",
+ "files": {
+  "smoke/smoke0.out": "ef54a06dfa7fcf9eddd4b29677067b3a415fcc8fbe7247d4de81b8cbf6b71949",
+  "smoke/smoke0.py": "53ef1476f9cac3ea608f059103055f865ecc65e54f735f8bd1a9410a3b78f5f2",
+  "smoke/smoke0_run1_before_fix.out": "5151c998b3164d3f500a81c56e8327f561d5e5e1f3b56f63ad3395905ef1e3b9"
+ },
+ "note": "smoke0.py 第 1 次執行（smoke0_run1_before_fix.out）發現 t→z 轉換在負尾不對稱（isf(sf(−50)) 精度不足），已改成以 |t| 計算再補號；第 2 次執行（smoke0.out）全部一致。G8P1 原樣在 σ_d、P＝20,000 的誤升級 0.0392（與 G8P-1 公開的 0.0389 一致）。煙霧測試沒有計算 V1～V4 的任何誤升級或檢定力。"
+}

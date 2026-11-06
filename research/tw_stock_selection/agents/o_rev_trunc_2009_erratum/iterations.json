@@ -1,0 +1,44 @@
+{
+ "note": "本題沒有模型參數可調；唯一允許的改版是資料來源（補到新封存，或來源被一致性否決）。判定只用凍結規格的 U_opt 口徑。全部版本都在凍結前記錄，沒有看任何名次。",
+ "n_versions": 4,
+ "versions": [
+  {
+   "v": "D0",
+   "utc": "2026-11-05T23:04Z（explore.json）",
+   "source": "現行 tw_revenue.csv（無補值）",
+   "change": "基準",
+   "coverage_delisted": 0.0,
+   "consistency": "不適用",
+   "used_for_judgement": true
+  },
+  {
+   "v": "D1",
+   "utc": "2026-11-05T23:1xZ（ChiJiun 檢查；確切時間見 raw/search_log.jsonl 22:59～23:25Z）",
+   "source": "ChiJiun/tuc-6274-financial-forecast 的 t21sc03_98～101 頁",
+   "change": "候選補值來源",
+   "result": "否決（未進一致性比對）：是上櫃 otc 頁，manifest 擷取時間 2026-10-10（重新產生頁），100_6 頁沒有任何目標上市代碼",
+   "coverage_delisted": 0.0,
+   "used_for_judgement": false
+  },
+  {
+   "v": "D2",
+   "utc": "2026-11-05T23:1xZ（同上）",
+   "source": "FinMind 逐檔營收複本（hawan0228/fintech_ai、wenchiehlee/python-actions.finmind）",
+   "change": "候選補值來源",
+   "result": "否決：沒有任何 TRUNC／19 檔的代碼（只有現存股）",
+   "coverage_delisted": 0.0,
+   "used_for_judgement": false
+  },
+  {
+   "v": "D3",
+   "utc": "2026-11-05T23:0x～23:25Z（同上）",
+   "source": "其他候選（jkzhong、litefunc、angel870326、henry753951、koreal6803、taiwanan）",
+   "change": "候選補值來源",
+   "result": "否決：沒有月營收表、只有季財報／搜尋熱度、或只有 2015 起（taiwanan）；koreal6803 是 pickle 不開啟",
+   "coverage_delisted": 0.0,
+   "used_for_judgement": false
+  }
+ ],
+ "final": "D0（沒有任何通過一致性的封存值；U_opt 全部用樂觀假設）",
+ "timestamp_erratum": "初版 iterations.json 把 D1～D3 的時間誤寫成 23:40～23:50Z（晚於凍結 23:27:47Z，屬筆誤）；已於凍結後改成實際時間（依 search_log.jsonl）。內容與判斷沒有改變，iterations.json 不在 ERRATUM2_SPEC 的雜湊範圍內。"
+}
