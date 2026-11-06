@@ -1,0 +1,119 @@
+[    38s] A C0
+[    41s] A U_opt
+[    43s] A U_p90
+[    48s] A U_carry
+[    50s] A U_opt_ALL
+[    50s] A 核對通過 {'U_opt': {'U_2006_2012': 119, 'U_2006_2013': 162, 'changed_after_2013': 0, 'slot_sha': 'a8e5a55cec06a57b7006ca9c385df919370a85f1123e97a4cb565a29b0e3cf45'}, 'U_p90': {'U_2006_2012': 76, 'U_2006_2013': 105, 'changed_after_2013': 0, 'slot_sha': 'be006cbe848d8e7885430e405cf3b5fc3ffb095f548b2a24778a6f80a9468fb1'}, 'U_carry': {'U_2006_2012': 16, 'U_2006_2013': 18, 'changed_after_2013': 0, 'slot_sha': 'c3279d87220441e5552a2a7ce2fe301e08564f79b66ed7d7810e11dc32b845a7'}, 'U_opt_ALL': {'U_2006_2012': 151, 'U_2006_2013': 228, 'changed_after_2013': 0, 'slot_sha': '8808f8e31fe140e8ec4b86889407975acd4a16bc43397cb8b965dfff4934a678'}}
+[    83s] A 完成
+[    83s] C 完成 True
+/home/user/-/research/tw_stock_selection/agents/integrate_o15/run.py:302: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
+  RJ.write_text(json.dumps(dict(R, RESULTS=RES, DECISION=DEC, RUN_UTC=pd.Timestamp.utcnow().isoformat()), ensure_ascii=False, indent=1, default=str), encoding='utf-8')
+[    83s] 寫入 results.json
+{
+ "A": {
+  "diffs": {
+   "U_opt": {
+    "normal|freeze": {
+     "d_ann": -4.182854401320135,
+     "d_t": -0.6913803341587881,
+     "seg1_gex": 8.05394908308772,
+     "seg1_gex_C0": 13.165554179676953,
+     "seg1_t": 1.270965311607063,
+     "seg1_sign_same": true,
+     "all_t": 1.9512126919523822
+    },
+    "stress|freeze": {
+     "d_ann": -4.049124215787714,
+     "d_t": -0.7286872041017933,
+     "seg1_gex": 5.844029040161125,
+     "seg1_gex_C0": 10.494188194626663,
+     "seg1_t": 0.945939012630532,
+     "seg1_sign_same": true,
+     "all_t": 1.39453015694567
+    },
+    "normal|dzero": {
+     "d_ann": -4.230791123628187,
+     "d_t": -0.7093317918987003,
+     "seg1_gex": 2.5610149675663996,
+     "seg1_gex_C0": 13.165554179676953,
+     "seg1_t": 0.5072524811061265,
+     "seg1_sign_same": true,
+     "all_t": 1.93326123421247
+    }
+   },
+   "U_p90": {
+    "normal|freeze": {
+     "d_ann": -2.906799789427364,
+     "d_t": -0.46843411903562693,
+     "seg1_gex": 10.216894126108688,
+     "seg1_gex_C0": 13.165554179676953,
+     "seg1_t": 1.5358792055323915,
+     "seg1_sign_same": true,
+     "all_t": 2.1741589070755434
+    },
+    "stress|freeze": {
+     "d_ann": -2.838023594123129,
+     "d_t": -0.4907221455771671,
+     "seg1_gex": 7.7368813763667,
+     "seg1_gex_C0": 10.494188194626663,
+     "seg1_t": 1.2117878565076716,
+     "seg1_sign_same": true,
+     "all_t": 1.6324952154702963
+    },
+    "normal|dzero": {
+     "d_ann": -2.9376149675498304,
+     "d_t": -0.5019491853556848,
+     "seg1_gex": 6.528222840850217,
+     "seg1_gex_C0": 13.165554179676953,
+     "seg1_t": 1.0276912414662749,
+     "seg1_sign_same": true,
+     "all_t": 2.1406438407554855
+    }
+   },
+   "U_carry": {
+    "normal|freeze": {
+     "d_ann": -0.8689291050104622,
+     "d_t": -0.1564266217047705,
+     "seg1_gex": 11.639598424928522,
+     "seg1_gex_C0": 13.165554179676953,
+     "seg1_t": 1.6673875314708249,
+     "seg1_sign_same": true,
+     "all_t": 2.4861664044064
+    },
+    "stress|freeze": {
+     "d_ann": -0.8606406214741931,
+     "d_t": -0.16073023360531447,
+     "seg1_gex": 9.0409460468025,
+     "seg1_gex_C0": 10.494188194626663,
+     "seg1_t": 1.3476895889773646,
+     "seg1_sign_same": true,
+     "all_t": 1.962487127442149
+    },
+    "normal|dzero": {
+     "d_ann": -0.8689291050104622,
+     "d_t": -0.1564266217047705,
+     "seg1_gex": 11.639598424928522,
+     "seg1_gex_C0": 13.165554179676953,
+     "seg1_t": 1.6673875314708249,
+     "seg1_sign_same": true,
+     "all_t": 2.4861664044064
+    }
+   }
+  },
+  "tier": "R2 方向不變",
+  "text": "報酬敏感度不可忽略但第一段超額方向不變：G4 第一段仍標「未證實」，加註 U 口徑的年化差與 t 差區間",
+  "G4_seg1": "未證實（依 ER2 事前規則，整合結果不得推翻）",
+  "G5_seg1": "存活者偏誤未排除",
+  "sop": "不改 SOP（現行月營收資料對當下名單是完整的；截斷只影響 2009-12～2013 歷史）"
+ },
+ "C": {
+  "consistent_with_hist_demo": true,
+  "V1_worse_S1": 0.0,
+  "V1_worse_FAILED": 0.6547085201793722,
+  "G8P1_normal_S1": 0.013452914798206279,
+  "statement": "以歷史實際報酬看，G8P-2 的 24 個月 S1 翻案路徑走不通",
+  "protocol_change": "不改協定（描述性）"
+ },
+ "B": "不做（PREREG.B_mix）：本輪兩題都沒有報酬序列；0050 固定比例混合在「不再開」清單，integrate_o14 已全部不可用",
+ "overall": "主策略與所有變體都不可投資；SOP 不改；真錢維持 100% 0050"
+}
