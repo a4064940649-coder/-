@@ -1,0 +1,209 @@
+{
+ "utc": "2026-11-06T23:09:16.513050Z",
+ "title": "FINMASK 下市金融股 PIT 勘誤計數，加上 ER2 與 o14 文字更正（只計數、不重算報酬）",
+ "prereg_design": {
+  "file": "PREREG_DESIGN.json",
+  "sha256": "6908bb5e4f5ef9774f579af677113476e94baef8639a247de785a2ed65116763",
+  "utc": "2026-11-06T23:03:32.311213Z"
+ },
+ "no_returns": "任何程式不得計算報酬、淨值或 t 值；只產名單、槽位、股月計數與文字更正",
+ "scope": "主策略 2006-01～2013-12 名單；只計數。不產生新選股訊號，不重算報酬（符合 S1）",
+ "pipeline": {
+  "engine": "main_v2/v2_core.V2('gapfix', YL, Y5, exfin=True, unavail=None)；plan(10, 'official')（同分：分數高→y3 高→欄位順序小；開盤漲停且上期未持有→遞補）",
+  "signal_days": "V2.sig_days 落在 2006-01-01～2013-12-31 者：93 日（2006-04-11～2013-12-11）；2006～2012 為 81 日",
+  "pool": "top300(d)＝60 日均成交值 V60 ≥ 1,000 萬且收盤 ≥ 10 的股票，依 V60 由大到小（stable）取前 300",
+  "eligible": "el＝top300 ∩ y3 有值（且非遮罩） ∩ 52 週分數有值 ∩ 非處置 ∩ 隔日有開盤成交",
+  "mask_injection": "只把 exfin 用的遮罩（v2_core.FINMASK；V2.y3 與 erlib.VU 的 el0 都讀它）在每個訊號日 d 換成待測遮罩 mask_F(d)；其他參數不動",
+  "U_opt": {
+   "affected_set": {
+    "pool": "換股日 d：前 300 流動性（60 日均成交值 ≥ 1,000 萬、收盤 ≥ 10，依 V60 排序取前 300）∩ 52 週分數有值 ∩ 非處置 ∩ 隔日有開盤成交 ∩ 非 C0 金融（V.FINMASK）",
+    "missing": "該池內近 3 月營收年增率 y3（m−1～m−3 三個月年增率平均，需 m−13～m−15 基期）為缺值的股票",
+    "cause": "對 m−1～m−3 與 m−13～m−15 六個月中「沒有營收水準」（或基期 ≤ 0）的月份 x 分類（erlib.cause）：FOREIGN＝代號 91xx 或任一名稱含 KY／DR／以 F- 開頭；NEVER_DOM＝國內股但 tw_revenue 從未出現；x > 營收最後月份 且 面板最後交易月落在 2009-12～2012-12 → TRUNC；x ≥ 2013-01 且營收最後月份 ≥ 2012-12 → IFRS13；其他 x > 最後月份 → PRE12；x < 營收第一個月份 → NEWLIST；介於第一與最後月份之間 → HOLE；水準存在但基期 ≤ 0 → BASE_LE0。一個股月有多種原因時依 TRUNC > IFRS13 > PRE12 > HOLE > NEWLIST > BASE_LE0 取第一個。",
+    "governing_causes": [
+     "TRUNC",
+     "IFRS13",
+     "PRE12",
+     "HOLE",
+     "NEVER_DOM"
+    ],
+    "excluded_causes": {
+     "FOREIGN": "SOP 明文排除 KY／DR（股池定義，不是存活者偏誤）",
+     "NEWLIST": "新上市缺基期（主策略設計上不算，存活與下市股一視同仁）",
+     "BASE_LE0": "基期 ≤ 0（設計上不算）"
+    },
+    "descriptive_ALL": "另報 which=ALL（所有缺值原因都放回）的 U_opt，只描述"
+   },
+   "U_opt": {
+    "definition": "每個換股日：受影響股（governing 原因）加入合格集合 el′＝el ∪ A；52 週分數百分位在 el′ 內重算（pandas rank pct，average）；營收百分位：A 內股票設為 1.0，其他股票＝其 y3 在「el′ 內非 A 股」的 average rank ÷ |el′|；合成分數＝0.5×兩者；同分次序沿用 official（分數高→y3 高（A 股 y3 視為 +∞）→欄位順序小）；之後照 V2.plan 選 10 檔（開盤漲停遞補、held 集合）。",
+    "count": "U_opt 槽位＝Σ_d |新名單 ∩ A(d)|；另報 changed＝Σ_d |原名單 − 新名單|（含 held 連鎖效應）",
+    "archive_override": "補回的封存值若通過一致性（重疊月份 ≤ 2009-11 逐檔誤差 ≤ 0.5%、代碼名稱相符；否則整份來源一票否決）就以真值取代樂觀假設；本次凍結時（本次 70 次搜尋、9 個 repo 內找不到含 2009-12～2012-12 已下市上市公司月營收的公開封存；通過一致性的補值 0 筆，下市股覆蓋 0%。）沒有任何通過的值，故 U_opt 全部用樂觀假設"
+   },
+   "note": "遮罩替換後，受影響集合 A 的「非金融」條件也改用 mask_F(d)"
+  },
+  "validity": [
+   "C0 遮罩原樣重跑：93 日 930 槽與 o14 ERRATUM.json lists_C0 逐檔相同（0 差異），否則管線不可用，先修再算",
+   "U_opt 以 C0 遮罩原樣重跑：放回槽位清單與 ERRATUM2.json 的 U_opt_slot_list（162 筆）逐筆相同",
+   "5 個訊號日抽樣：用不經 V2.cross_section 的獨立寫法（直接由 S52、V60、y3、遮罩算百分位與排序）重建名單，與管線相同"
+  ],
+  "sample_days": [
+   "2006-04-11",
+   "2008-04-11",
+   "2009-11-11",
+   "2011-07-11",
+   "2013-12-11"
+  ]
+ },
+ "classifiers": {
+  "F1": {
+   "role": "主口徑（PIT）",
+   "rule": "d 日：取生效日 ≤ d、且含該代號的最新 dated 快照（o13 industry_snap 6 份；生效日＝UPDATE 列，否則 commit 日；twse_list＝2013-12-18），TSE 產業別 17＝金融 → FIN，否則 NONFIN（標 PIT）",
+   "fallback": "沒有這樣的快照（d < 2011-07-28，或代號不在任何 ≤ d 的快照）：取「最後已知分類」＝時間上最接近 d 之後、含該代號的機器可讀分類來源（依序：o13 快照、center StockList 2015-05-22／2016-04-01／2017-07-06、ISIN 2023-01-16、stock_list 2026-10）；listing_master 沒有產業欄，因此改用上述來源（標「最後已知分類，準 PIT」）。人工推定列（industry_pit「人工推定」「無資料」）不是資料，不採用。準 PIT 分類還要與「證據」＝代號前綴 28／58／60 或名稱關鍵字（同 F2 關鍵字）一致：分類 FIN 且有證據 → FIN；分類 NONFIN 且無證據 → NONFIN；不一致或完全沒有分類來源 → UNKNOWN"
+  },
+  "F2": {
+   "role": "敏感度（靜態、非 PIT）",
+   "rule": "代號前 2 碼 ∈ {28, 58, 60}，或任一名稱來源（stock_list 2026、o13 快照、center StockList、ISIN 2023、tw_revenue、delist_official）含關鍵字 銀行／商銀／金控／金融／證券／證／票券／保險／人壽／產險／期貨／投信 → FIN；減去人工排除清單（前綴命中但名稱明確非金融者、關鍵字明顯誤配者），排除清單在看任何名次前依名稱寫死於 ERRATUM_SPEC_FM"
+  },
+  "F3": {
+   "role": "描述",
+   "rule": "F1 的 FIN ∪ F2 的 FIN"
+  },
+  "UNKNOWN": "F1 判為 UNKNOWN 的代號另列，只報數量（股月、名單槽位），不併入任何口徑；遮罩值沿用 C0（即不改變）",
+  "mask": "mask_F(d)[c]＝F 對 (c, d) 的判定（FIN＝True、NONFIN＝False、UNKNOWN＝C0[c]）。F1 是完整 PIT 替換（也可能把 C0 遮掉、但當時不是金融的現存股放回）；F2 是靜態替換",
+  "final_version": "v3",
+  "keywords": [
+   "銀行",
+   "商銀",
+   "金控",
+   "金融",
+   "證券",
+   "證",
+   "票券",
+   "保險",
+   "人壽",
+   "產險",
+   "期貨",
+   "投信"
+  ],
+  "f2_manual_exclusion": [],
+  "name_exclusion": [],
+  "snapshot_effective_dates": {
+   "industry_snap/goristock_14393dd2_grs_stock_no.csv": "2011-07-28",
+   "industry_snap/goristock_d9d8662c_grs_stock_no.csv": "2011-08-17",
+   "industry_snap/goristock_235da71f_grs_old_stock_no.csv": "2011-09-26",
+   "industry_snap/goristock_c3c718ab_grs_stock_no.csv": "2012-03-28",
+   "industry_snap/grs_893c8772_grs_stock_no.csv": "2012-07-31",
+   "industry_snap/grs_568e6685_tools_twse_list.csv": "2013-12-18"
+  },
+  "later_sources_dates": {
+   "center/StockList_20150522.csv": "2015-05-22",
+   "center/StockList_20160401.csv": "2016-04-01",
+   "center/StockList_20170706.csv": "2017-07-06",
+   "center/isin_20230116_listed.csv": "2023-01-16"
+  },
+  "fin_labels": [
+   "金融保險業",
+   "金融保險",
+   "金融業"
+  ],
+  "tse_fin_code": 17,
+  "name_sources": "stock_list 2026、o13 快照、center StockList 2015／2016／2017、ISIN 2023、tw_revenue、delist_official 的名稱聯集",
+  "delisted_def": "已下市＝不在 2026 stock_list，或 listing_master 下市日不空白",
+  "fingerprint": {
+   "desc": "對 1,249 檔 × 93 日，列出 F1 或 F2 遮罩值與 C0 不同的 [訊號日, 代號, C0, F1, F2, F1 狀態]（依訊號日、欄位順序）後 json.dumps(ensure_ascii=False) 的 sha256",
+   "n_rows": 401,
+   "sha256": "1a2a0b3c517c91f2829e5dc962cdce437c5a63161a6949d34df9d036e89c2f09",
+   "codes_F1_diff": [
+    "2841",
+    "5854"
+   ],
+   "codes_F2_diff": [
+    "5854",
+    "5871",
+    "6004",
+    "6012"
+   ]
+  }
+ },
+ "units": {
+  "a": "股池：前 300 流動性池（V2.cross_section 的 top）中，C0 沒遮、F 判 FIN、且已下市（不在 2026 stock_list 或 listing_master 有下市日）的股票月數；另報其中進入合格集合 el（y3 有值）的股月",
+  "b": "直接污染：上述下市金融股出現在 C0 名單（與 U_opt 名單）的槽位數",
+  "c": "總異動：每個訊號日 |名單_X 對稱差 名單_X_F| ÷ 2（一出一入算 1 槽），X ∈ {C0, U_opt}",
+  "denominators": "2006～2013：930 槽（93 日 × 10）；2006～2012：810 槽（81 日 × 10）"
+ },
+ "judgement": {
+  "ratios": "{C0, U_opt} × {F1, F2} × {930, 810} 共 8 個比例（總異動 c ÷ 分母）",
+  "M": "8 個比例的最大值（往不利方向）",
+  "threshold": 0.05,
+  "strict": "M > 0.05 才算超過；= 0.05 算 ≤",
+  "le_5pct": "只加註：main_v2 正式數字旁與報告第 0 節加一句（由研究中心執行；本題只產出文字）",
+  "gt_5pct": "G5 第一段再加一條「金融遮罩非 PIT，未排除」；下一輪另立題在可執行引擎以 F1 遮罩重跑報酬（凍結與收購／換股對價兩口徑），本輪不做",
+  "no_override": "F3、去掉最大貢獻股、分年、拆解（下市股新增 vs 現存股改判）都只描述，不得推翻 M 的判定"
+ },
+ "descriptive": {
+  "F3": "F3 遮罩下同樣 4 個名單組合 × 2 分母",
+  "ex_top": "對每個 (名單, 分類器)：遮罩差異代號逐一單獨套用（其他代號維持 C0），異動槽位最多者＝最大貢獻股（同數取代碼小者）；把它還原成 C0 後重跑，報比例",
+  "decomposition": "(i) 只加入「C0 未遮、F 判金融、已下市」的代號；(ii) 只改其他遮罩差異代號（現存股改判，例如 2841、5871）；各自重跑報異動",
+  "by_year": "總異動依訊號日年份",
+  "unknown": "UNKNOWN_EVID／UNKNOWN_NOEVID 代號數、池內股月、出現在名單的槽位",
+  "direct": "直接污染：C0 未遮、F 判金融、已下市的代號在 C0、U_opt 名單（C0 遮罩）中的槽位；另報 F1＝UNKNOWN 但 F2＝金融者",
+  "executability": "直接污染槽位的進場日、開盤漲停、持有期內是否停止交易、距最後交易日的交易日數（只描述）",
+  "P4_measure": "異動集中在 2007～2008 與 2009；2010～2013 的異動 ≤ 異動總數的 30%（以 8 個判定組合中 930 槽口徑的 C0、U_opt × F1、F2 合計衡量）"
+ },
+ "predictions": {
+  "P1": "2006～2013 前 300 池中被 C0 漏遮的已下市金融股（F1）共 3～10 檔；5854、6004、6012 占漏遮股票月數 ≥ 60%",
+  "P2": "直接污染在 930 槽中有 1～4 槽（≤ 0.5%），含 6012 的 2008-04-11；5854 在 C0 名單 0 次",
+  "P3": "C0 總異動 ≤ 2%（≤ 18／930），2006～2012 ≤ 2%；U_opt 總異動 ≤ 3%；任何判定口徑 > 5% → 本預測被否定",
+  "P4": "異動集中在 2007～2008 與 2009；2010～2013 的異動 ≤ 異動總數的 30%（以 8 個判定組合中 930 槽口徑的 C0、U_opt × F1、F2 合計衡量）",
+  "P5": "文字更正重現 o15 審查數字：TRUNC 53／810＝6.5%、扣 5854 後 5.31%、2006～2013 4.62%；全部金融代碼剔除後 U_opt 107／810、150／930；3454、2915 在 listing_master 與 ER2 的 IFRS13／HOLE 標籤至少 1 處矛盾，改標後 U_opt 總數變動 ≤ 2 槽；處置資料最早日 ≥ 2021-09-01；營收期限＝訊號當天的訊號日恰好 33 個。任何一項不同 → 照實更正並在 ERRATA_TEXT 標「審查數字亦需更正」"
+ },
+ "errata": {
+  "E1": "ER2 FINDINGS 第 8 節：重新計數 只放回 TRUNC（含／不含 5854，2006～2012／2006～2013），並以 F1、F2 遮罩各算一次。實作：erlib.SURV 只留 TRUNC；不含 5854＝5854 不放回（原因改 DROPPED）；另報不含 5854 與 2473；比例＝放回股進榜槽位 ÷ 810／930",
+  "E2": "IFRS13 與 HOLE 標籤：逐檔比對 U_opt 放回股的 listing_master 上市日、下市日與營收最後月份；listing_master 下市日空白（仍上市）者，其缺值不是存活者型，改標 LISTED_GAP（非判定原因）；重報 U_opt 依原因分解，並以改標後的原因集合重跑 U_opt，總數照實寫。改標規則：受影響股若 listing_master 下市日空白且在 2026 stock_list（仍上市），其任何 SURV 原因都改為 LISTED_GAP（不放回）；以 drop＝這些代號重跑 U_opt",
+  "E3": "處置資料起日：讀 ia_core 使用的 disposal_5y.csv.gz 與 disposal_reconcile 正式事件表的最早日期",
+  "E4": "營收公告期限＝訊號當天（v2_core.deadline_case＝D=S）的 2006～2013 訊號日清單與受影響槽位數（只標註，不重算）",
+  "E5": "o14「5854 0 次」補註（C0／C1 遮罩下成立；C0 沒遮 5854、6004、6012；C1 在 2011-07-28 前沿用 C0）＋本題 F1／F2 下的計數",
+  "E6": "ER2「全部金融代碼剔除後 107／810、150／930」重算（審查者的作法：28／58／60 代碼不放回），並與本題 F2 遮罩下的 U_opt 放回數對齊。實作同 o15 審查：28／58／60 開頭代號原因改 DROPPED 後重跑 U_opt（C0 遮罩）；另報 F2 遮罩下 U_opt 放回槽位（相對 C0_F2 基準）",
+  "format": "ERRATA_TEXT.json：每條含 target_file、target_sha256、原文摘錄、更正文、證據（計數與來源檔 sha）、提出者；不改原檔"
+ },
+ "files": {
+  "code": {
+   "freg.py": "b56d1d1ce2b0607528b66431e5dfc48921bff0e68d8a5774d7b2670d84736133",
+   "fclass.py": "18211bf380c46653b14279b4e5df3e60b3a66dcd2b07595b296dff459feba36b",
+   "flib.py": "0be697275c996207700c9dba864099bfb03ee5cc249cc54350ffd56659a57148",
+   "s0_prereg_design.py": "014c007354936f6ac7f94ce1b4276c13b45e7f795edc167c5b6a31d252fcaa0b",
+   "s1_explore.py": "24c16c166fc9d762404a4dca6e8f3cce9165b800f3af90d53d33961f0e0eb970",
+   "s2_iterate.py": "9a58cee229b6511c75ee2791579197748b31139629715f0342283b05bf0d0420",
+   "s3_freeze.py": "74b2a857476381f4c99b4c1b2779f1c2b71e257a2e4ca362f610a6c1dd750f8a"
+  },
+  "engine": {
+   "v2_core": "30741b58276f8278057648b1e7302c7d335d593546a5587970a3f22021e96fc3",
+   "ia_core": "0e4a3265743af32593f57d50fa445eaafaff891de78e47a3fb589abfcaacb208",
+   "erlib": "5a3b22675a23fdb70e46795665070801a77f3427d902753e315265cb5b7c30d7"
+  },
+  "refs": {
+   "ERRATUM2_json": "560019883d46d1a23b6f8db6633ad29bef08e819482776a1bdfc7c8cf6168ce3",
+   "ERRATUM2_SPEC": "722f7d56eec3674980445d179996c8d3f04226d91fe502b7a0f14260c846126e",
+   "o14_ERRATUM_json": "9f1603c34fe21bcaedb10928aa6022617515bea758f03a059a2e4d6095801d5a",
+   "explore_json": "33dfefa5771d24c44dfedd35f43ec8377969d5fca02aadad4913fa8e1860f4a7",
+   "iterations_json": "c60def7bcb93125e41887fe0b9a09ca2d134af15147cadd30066799974395dd5"
+  },
+  "sources": {
+   "o13/industry_snap/goristock_14393dd2_grs_stock_no.csv": "ffd9050122ec49ef057b6675059c4316d63f575ee97669a60355189fe118f2a8",
+   "o13/industry_snap/goristock_d9d8662c_grs_stock_no.csv": "92474e7c0153ba450b1cd991cee154da45672cfdd5c13125db15ae8f4fbba220",
+   "o13/industry_snap/goristock_235da71f_grs_old_stock_no.csv": "0004e426427221be3f4f4e66ec45d2d19768b71f2490a2471ff5aa74b71b8c9d",
+   "o13/industry_snap/goristock_c3c718ab_grs_stock_no.csv": "df09d5a32b700dfc08d1903c348ac02f961d7cab140fdff96b88ee50e6db3965",
+   "o13/industry_snap/grs_893c8772_grs_stock_no.csv": "52c68861590dfaef1ec0deac7807e4ee90a93d82ab3f6439e454249c59946d09",
+   "o13/industry_snap/grs_568e6685_tools_twse_list.csv": "00fa81b5d85a17687c575f6825741f517a5931f441e249a05de087d676c04534",
+   "o13/center/StockList_20150522.csv": "73dfca4f109ef083f0022c9cb02a08b4b6e26b9fa1b1fb3997ebf6a044dc8362",
+   "o13/center/StockList_20160401.csv": "72a640a8e0fe1255ccc3220c352ac27bbbc6c6225f34fabcd8ce70dedff25292",
+   "o13/center/StockList_20170706.csv": "26e485f8d0f33dac1baee32a962e7b33a496c01e5fea1cbac752afb6615e0349",
+   "o13/center/isin_20230116_listed.csv": "37107c39666e272ee6f5af355e4248c866e8b0c85c40bf1827337d28a2558eae",
+   "stock_list.csv(2026)": "06111252bee0f002a85434a71623e93acc74a597f36412c4a3871d243cca695e",
+   "tw_revenue.csv": "02657e7c415783020f16255d42f66b0d40d69823fa294113557be6f4584a3898",
+   "listing_master.csv(V7)": "bdb7d6d478c095655c9a9707f550551a128df78839e7a563d81feab09f4988c8",
+   "delist_official.csv": "41f51cb7e1aadbf1d28244f26cb6452f3ede20f2fbb594350848ed8f55a1f2bd",
+   "industry_pit_o12.csv(不採用，只記錄)": "e00f0890511d67950b5b2dbbe56718a1dacc1c723625f122e48157d604af73a7"
+  }
+ },
+ "replication": "複製員只讀本檔：自行從原始檔重建 F1／F2（比對 fingerprint），自行寫遮罩替換、名單比對與計數；可 import v2_core／ia_core 的面板與滾動訊號原語；cache 放 scratchpad，結束時刪除。8 個比例與異動槽位清單要逐筆相同。"
+}

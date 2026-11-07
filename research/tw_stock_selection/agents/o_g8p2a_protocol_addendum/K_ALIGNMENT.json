@@ -1,0 +1,125 @@
+{
+ "canonical": "G8_PROTOCOL_v2a.json known_defects（K1～K20）是唯一正本",
+ "v2_protocol_to_v2a": {
+  "K1": {
+   "v2_text": "K1 嚴格口徑（真實成本比壓力成本再多 s，s 直接加在判定線上）不在合格條件內：V1 最差格誤升級 0.0852（D1|8.0|0.78）。主口徑只保護到「真實成本 ≤ 一般成本＋0.78pp／月」＝壓力成本＋0.253pp／月。",
+   "v2a": "K1"
+  },
+  "K2": {
+   "v2_text": "K2 σ > 10.4 不在 OC 格內：判定器在升級觸發時若樣本 sd 或滾動 12／24 個月 sd > 10.4 → 標 OUT_OF_GRID，升級證據附缺陷。",
+   "v2a": "K2"
+  },
+  "K3": {
+   "v2_text": "K3 D3（2019 年起殘差區塊 bootstrap）的保護一部分來自 2021-05（+26.1pp）離群月與 lag 6 負自相關；去掉 2021-05（D3x）後 V1 最差格 0.0120，G8P1 原樣最高 0.1032。",
+   "v2a": "K3"
+  },
+  "K4": {
+   "v2_text": "K4 檢定力極低：α_net＝+1pp／月、σ 6.51、真實成本＝壓力成本時，24 個月升級 D1／D2／D3＝0.106／0.088／0.046。S1 翻案路徑實務上不可行；前瞻主要只能做否定。",
+   "v2a": "K4"
+  },
+  "K5": {
+   "v2_text": "K5 下修 c_d 在 s＝0（真實成本＝一般成本，判定線漂移 −1 − Δ_w）校準；若真實成本＝壓力成本，α_net＝−1 的下修只有 0.379～0.411；σ 8.4 以上、s＝0 時 D1 降到 0.50 以下。",
+   "v2a": "K5"
+  },
+  "K6": {
+   "v2_text": "K6 α_net＝0 的誤下修只在 σ_d 受 ≤ 0.30 約束；D3 在 σ ≥ 7.5 時 0.332（> 0.30）。",
+   "v2a": "K6"
+  },
+  "K7": {
+   "v2_text": "K7 Δ_w＝0.527（V7X GROW100 挑選期；V7 FIX100 為 0.578）。V7X 只有 91.0% 的 J 窗是壓力線較差（GROW 路徑相依），所以逐窗取較差者有意義。",
+   "v2a": "K7"
+  },
+  "K8": {
+   "v2_text": "K8 J0 窗：官方月營收抓取目前 0 列，J0（非官方日）的 rev_gate 會是 J0_UNVERIFIED、沒有 coverage → V2 機械作廢；修好以前判定線實際是 J1～J12 的中位數。",
+   "v2a": "K8"
+  },
+  "K9": {
+   "v2_text": "K9 沒有真錢成交時，下列參數永遠校準不到（見 cost_calibration.uncalibratable_without_real_fills）；成本保護只靠「一般與壓力取較差」與 OC 的 s 格。",
+   "v2a": "K9"
+  },
+  "K10": {
+   "v2_text": "K10 S1 證據只適用 100 萬 GROW；100 萬 FIX、300 萬、1,000 萬、30 萬都不涵蓋。",
+   "v2a": "K10"
+  },
+  "K11": {
+   "v2_text": "K11 外部錨定要靠主研究員：BACKLOG.md 追加錨定行並 git commit FREEZE_MANIFEST_v2.json；兩者缺一，判定器 --official 輸出 INVALID。git 首次 commit 晚於 2026-11-10T05:30Z → v2 自之後第一個完整錨定月起生效，之前照 G8P-1。",
+   "v2a": "K11"
+  },
+  "K12": {
+   "v2_text": "K12 b、c_d 是蒙地卡羅校準（集 A，P＝200,000／400,000）；獨立複製應在 2 倍 MC 標準誤內。b 不一致 → 列為缺陷。",
+   "v2a": "K12"
+  },
+  "K13": {
+   "v2_text": "K13 in-sample 示範：歷史 V7X 較差成本線 2006-04～2026-09 月均 -0.449pp（一般成本線 0.109）；V1 在 223 個 24 個月起點升級 0.0000、前瞻失敗 0.655。",
+   "v2a": "K18"
+  }
+ },
+ "v2_findings_to_v2a": {
+  "K1": {
+   "v2_findings": "嚴格成本口徑最高 8.5%",
+   "v2a": "K1",
+   "note": "一致（v2 V1 0.0852）"
+  },
+  "K2": {
+   "v2_findings": "σ > 10.4 判 OUT_OF_GRID",
+   "v2a": "K2",
+   "note": "一致"
+  },
+  "K3": {
+   "v2_findings": "D3 的保護部分來自離群值（正文 D3x：G8P-1 原樣在 s＝0 最高 3.2%）",
+   "v2a": "K3",
+   "correction": "口徑不同而非矛盾：FINDINGS 3.2% 是 G8P-1 原樣 D3x 在 s＝0 的最高（σ 7.5，0.0318）；協定 10.32% 是 G8P-1 原樣 D3x 45 格最高（σ 7.0、s 0.78，0.1032）；V1 D3x 最差 0.0120。v2a K3 兩個口徑並列。"
+  },
+  "K4": {
+   "v2_findings": "檢定力極低",
+   "v2a": "K4",
+   "note": "v2a 以新數字更新"
+  },
+  "K5": {
+   "v2_findings": "真實成本＝壓力成本時下修 0.38～0.43（協定 K5 寫 0.379～0.411）",
+   "v2a": "K5",
+   "correction": "依 G8P-2 oc_final.json down 表重算：s＝Δ_w、α＝−1、V1 在 9σ×D1～D3 的下修為 0.343～0.431（D1 σ 10.4 0.343；D3 σ 7.5 0.431）；FINDINGS 與協定兩個下限都錯，統計審查的 0.343～0.431 正確。"
+  },
+  "K6": {
+   "v2_findings": "D3 在 σ ≥ 7 時 α＝0 誤下修 0.31～0.33（協定 K6 寫 σ ≥ 7.5 時 0.332）",
+   "v2a": "K6",
+   "correction": "依 G8P-2 oc_final.json：D3、s＝0、α＝0 的 V1 誤下修 σ 7.0 為 0.308、σ 7.5～10.4 為 0.319～0.332；> 0.30 從 σ 7.0 開始，FINDINGS 的 σ ≥ 7 正確、協定的 σ ≥ 7.5 偏窄。"
+  },
+  "K7": {
+   "v2_findings": "Δ_w 取兩條線中較小的 0.527",
+   "v2a": "K7",
+   "note": "一致"
+  },
+  "K8": {
+   "v2_findings": "J0 窗機械作廢",
+   "v2a": "K8",
+   "note": "一致"
+  },
+  "K9": {
+   "v2_findings": "7 項參數永遠校準不到（含 stress_odd_extra）",
+   "v2a": "K9",
+   "correction": "stress_odd_extra 描述更正：前瞻產生器 xlive.py CFG_V7X 與 R4 實際為 True（v2 協定「預設關閉」有誤）；v2a 另加 NO_REAL_CALIB"
+  },
+  "K10": {
+   "v2_findings": "證據只涵蓋 100 萬 GROW",
+   "v2a": "K10",
+   "note": "一致"
+  },
+  "K11": {
+   "v2_findings": "外部錨定靠主研究員（git commit 時間）",
+   "v2a": "K11",
+   "correction": "v2a 改用 origin 伺服器端 push 時間；本機 %cI 只作輔助"
+  },
+  "K12": {
+   "v2_findings": "b 是蒙地卡羅校準",
+   "v2a": "K12",
+   "note": "v2a 指 b_a"
+  },
+  "K13": {
+   "v2_findings": "校準登錄簿 input_trades_sha256 只能證明登錄當時的帳本",
+   "v2a": "K15",
+   "correction": "v2 FINDINGS K13 與 v2 協定 K13（in-sample 示範）內容不同；v2a 把前者編為 K15、後者編為 K18"
+  }
+ },
+ "machine_check": "凍結前由 s9_freeze.py 比對：v2a FINDINGS 引用的每個數字都要能在協定（known_defects、oc、params、hist_demo_in_sample）或 oc_final.json summary 找到"
+}

@@ -1,0 +1,310 @@
+{
+ "A_consistency": {
+  "n_paths": 300,
+  "n_mismatch": 0,
+  "mismatches": [],
+  "n_pathwise_violations": 0,
+  "n_36": 50,
+  "n_ext": 11,
+  "n_oc_compared": 289,
+  "states": {
+   "FORWARD_VALIDATING_NO_REJECTION_24": 132,
+   "FORWARD_FAILED": 130,
+   "S1_EXCEPTION_EVIDENCE": 38
+  },
+  "v2_states": {
+   "FORWARD_FAILED": 130,
+   "FORWARD_VALIDATING_NO_REJECTION_24": 117,
+   "S1_EXCEPTION_EVIDENCE": 53
+  },
+  "n_v2a_stricter_than_v2": 15
+ },
+ "C_monthly_sim": {
+  "n_paths": 30,
+  "n_calls": 780,
+  "n_mismatch": 0,
+  "bad": [],
+  "states": {
+   "S1_EXCEPTION_EVIDENCE": 13,
+   "FORWARD_FAILED": 12,
+   "FORWARD_VALIDATING_NO_REJECTION_24": 5
+  }
+ },
+ "B_governance": {
+  "B1_retro_correction": {
+   "v2_before": "FORWARD_FAILED",
+   "v2_after": "FORWARD_VALIDATING",
+   "v2_changed": true,
+   "v2a_before": "FORWARD_FAILED",
+   "v2a_after": "FORWARD_FAILED",
+   "v2a_changed": false,
+   "v2a_flags": [
+    "REMOTE_SKIPPED_TEST",
+    "RETRO_CHANGE"
+   ],
+   "retro": [
+    "STATE FORWARD_FAILED→FORWARD_VALIDATING",
+    "LITERAL FAIL→PASS",
+    "MONTHS ['2026-12']"
+   ],
+   "literal": "FAIL",
+   "ok": true
+  },
+  "B2a_open_insert_within_deadline": {
+   "v2": {
+    "t1": "FORWARD_VALIDATING",
+    "t1_lit": "PASS",
+    "t2": "FORWARD_FAILED",
+    "t2_lit": "FAIL"
+   },
+   "v2a": {
+    "t1": "FORWARD_VALIDATING",
+    "t1_lit": null,
+    "t1_deferred": "2027-09",
+    "t2": "FORWARD_FAILED",
+    "t2_lit": "FAIL",
+    "t2_flags": [
+     "REMOTE_SKIPPED_TEST"
+    ]
+   },
+   "v2_issued_decision_reversed": true,
+   "v2a_issued_decision_reversed": false,
+   "ok": true
+  },
+  "B2b_open_overdue_V3": {
+   "v2": {
+    "t1": "FORWARD_VALIDATING",
+    "t2": "FORWARD_FAILED",
+    "changed": true
+   },
+   "v2a": {
+    "t1": "FORWARD_VALIDATING",
+    "t2": "FORWARD_FAILED",
+    "changed": true
+   },
+   "month2_after_insert": {
+    "anchor": "2026-12",
+    "state": "void",
+    "void_kind": "V3",
+    "deadline_utc": "2027-03-25T16:00:00+00:00",
+    "ledger_complete": true
+   },
+   "v2a_honest": "FORWARD_FAILED",
+   "ok": true,
+   "v2_honest": "FORWARD_FAILED",
+   "permanent_open_gain_v2": true,
+   "permanent_open_gain_v2a": true,
+   "insert_after_deadline_gain_v2a": false
+  },
+  "B3_adj_max": {
+   "x_v2a_retro": [
+    1.68,
+    1.683168316831683,
+    1.6863052641897853
+   ],
+   "expect_month1": 1.68,
+   "ok": true,
+   "problems": []
+  },
+  "B4a_S1_no_real_calib": {
+   "state": "S1_EXCEPTION_EVIDENCE",
+   "flags": [
+    "REMOTE_SKIPPED_TEST",
+    "NO_REAL_CALIB"
+   ],
+   "text": "S1 例外 (i) 證據在統計上成立，但不得引用（NO_REAL_CALIB）",
+   "ok": true
+  },
+  "B4b_S1_with_real_calib": {
+   "state": "S1_EXCEPTION_EVIDENCE",
+   "flags": [
+    "REMOTE_SKIPPED_TEST"
+   ],
+   "shas": [
+    "b8dd0f4316f19048ea902c7f65016bf438f825241240f8d78cc2fc47ee854b8c"
+   ],
+   "text": "S1 例外 (i) 證據成立（只適用 100 萬 GROW）：可重新評估主策略；仍須 G1～G7 歷史門檻全過才可寫「可投資」",
+   "ok": true
+  },
+  "B4c_V3_present": {
+   "state": "S1_EXCEPTION_EVIDENCE",
+   "flags": [
+    "REMOTE_SKIPPED_TEST",
+    "V3_PRESENT"
+   ],
+   "text": "S1 例外 (i) 證據在統計上成立，但不得引用（V3_PRESENT）",
+   "ok": true
+  },
+  "B5a_registry_tamper": {
+   "problems": [
+    "REGISTRY_ENTRY_SHA_1"
+   ],
+   "ok": true
+  },
+  "B5b_registry_late": {
+   "problems": [
+    "REGISTRY_LATE_2027-02-12"
+   ],
+   "ok": true,
+   "v2_problems": []
+  },
+  "B5c_registry_duplicate": {
+   "problems": [
+    "REGISTRY_DUPLICATE_SCHED_2027-02-12"
+   ],
+   "ok": true
+  },
+  "B6a_chain_tamper": {
+   "problems": [
+    "CHAIN_ENTRY_SHA_1"
+   ],
+   "ok": true
+  },
+  "B6b_chain_missing": {
+   "problems": [
+    "CHAIN_MISSING"
+   ],
+   "ok": true
+  },
+  "B6c_chain_utc_backwards": {
+   "problems": [
+    "CHAIN_UTC_BACKWARDS_2"
+   ],
+   "ok": true
+  },
+  "B7a_extra_flags_non_official": {
+   "label": "NON_OFFICIAL（不得引用）",
+   "ok": true
+  },
+  "B7b_protocol_tamper": {
+   "problems": [
+    "PROTOCOL_SHA_MISMATCH"
+   ],
+   "ok": true
+  },
+  "B8_late_effective": {
+   "state": "FORWARD_FAILED",
+   "components": {
+    "retro": [
+     "FORWARD_FAILED",
+     "FORWARD_VALIDATING",
+     "FORWARD_VALIDATING"
+    ],
+    "forward": [
+     "FORWARD_FAILED",
+     "FORWARD_VALIDATING",
+     "FORWARD_VALIDATING"
+    ]
+   },
+   "ok": true
+  },
+  "R1_normal": {
+   "problems": [],
+   "flags": [],
+   "eff": "2026-11",
+   "eff_v2": "2026-11",
+   "push": [
+    "2026-11-09T12:00:00+00:00",
+    "ef0d41d0d642a4d37bca30ec5d191963bdf01ba6",
+    null
+   ],
+   "ok": true
+  },
+  "R2_forged_committer_date": {
+   "local_cI": "2026-11-08T00:00:00+00:00",
+   "push": [
+    "2026-11-12T03:00:00+00:00",
+    "63ebde91e8fe5b10b46059d764510f8cd39f1476",
+    null
+   ],
+   "flags": [
+    "ANCHOR_AFTER_DEADLINE"
+   ],
+   "eff": "2026-12",
+   "ok": true
+  },
+  "R3_not_pushed": {
+   "problems": [
+    "ANCHOR_MANIFEST_NOT_ON_ORIGIN"
+   ],
+   "ok": true
+  },
+  "R4_backlog_not_pushed": {
+   "problems": [
+    "ANCHOR_BACKLOG_REMOTE_MISSING"
+   ],
+   "ok": true
+  },
+  "R5_chain_truncated_vs_remote": {
+   "problems": [
+    "CHAIN_NOT_EXTENSION_OF_REMOTE"
+   ],
+   "ok": true
+  },
+  "R6_remote_unreachable": {
+   "flags": [
+    "REMOTE_UNVERIFIED RuntimeError: git ls-remote rc=128 fatal: '/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/o16_g8p2a/evtest/nonexistent.git' does not appear to be a git repository\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists."
+   ],
+   "label": "NON_OFFICIAL（不得引用）",
+   "ok": true
+  },
+  "R7a_witness_pushed_before_deadline": {
+   "row": {
+    "anchor": "2026-11",
+    "state": "valid",
+    "n_valid_j": 12,
+    "voids": {
+     "J0": "V2 沒有營收覆蓋率（含 J0_UNVERIFIED）"
+    },
+    "x": 0.5,
+    "j_p10": 0.5
+   },
+   "problems": [],
+   "ok": true
+  },
+  "R7b_witness_pushed_after_deadline": {
+   "row": {
+    "anchor": "2026-11",
+    "state": "void",
+    "void_kind": "V3",
+    "deadline_utc": "2027-02-25T16:00:00+00:00",
+    "ledger_complete": true
+   },
+   "deadline": "2027-02-25 16:00:00+00:00",
+   "problems": [],
+   "ok": true
+  }
+ },
+ "attack_summary": {
+  "retro_correction": {
+   "v2_changed": true,
+   "v2a_changed": false
+  },
+  "open_insert_within_deadline": {
+   "v2_reversed": true,
+   "v2a_reversed": false
+  },
+  "open_insert_after_deadline": {
+   "v2_changed": true,
+   "v2a_favorable_change": false
+  },
+  "permanent_open_residual": {
+   "v2_gain": true,
+   "v2a_gain": true,
+   "note": "永久不補完：v2 不計作廢；v2a 計 V3 作廢、S1 加 V3_PRESENT 不得引用，但字面 G8 仍可能受益（K14）"
+  },
+  "n_attacks_change_v2": 3,
+  "n_attacks_change_v2a": 0,
+  "n_residual_v2a": 1
+ },
+ "summary": {
+  "n_synthetic_ledger_paths": 342,
+  "n_evaluator_calls_approx": 1140,
+  "consistency_mismatch": 0,
+  "pathwise_violations": 0,
+  "governance_tests_ok": "24/24",
+  "evaluator_sha256": "734f9fc4a3ff33f2bfc6580b2375183817d2551d3bb58faa0d6d81bf671712c5",
+  "protocol_sha256": "13972450a2b21938fe892b4e8659c89c8ade56372ce3a2fff678300642ad9d33",
+  "utc": "2026-11-06T23:57:19.722776+00:00"
+ }
+}

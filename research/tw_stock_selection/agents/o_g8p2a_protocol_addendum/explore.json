@@ -1,0 +1,240 @@
+{
+ "utc_start": "2026-11-06T23:08:24.675833+00:00",
+ "E1_acf": {
+  "sel_V7X_worse": {
+   "name": "sel 2006-04～2019-04 V7X GROW100 較差成本 JMED",
+   "n": 157,
+   "acf": [
+    0.0988,
+    -0.0554,
+    0.006,
+    -0.1356,
+    0.0592,
+    0.1626,
+    -0.0375,
+    0.0191,
+    0.1029,
+    -0.063,
+    -0.0143,
+    -0.0183
+   ],
+   "acf1": 0.0988,
+   "acf6": 0.1626,
+   "se_acf": 0.08,
+   "VR24_trunc11": 1.222,
+   "VR24_trunc23": 1.254,
+   "VR24_circular_empirical": 1.098
+  },
+  "post_V7X_worse": {
+   "name": "2019-05～2026-09 V7X GROW100 較差成本 JMED（只描述，不新增使用）",
+   "n": 89,
+   "acf": [
+    -0.0029,
+    0.0463,
+    -0.0409,
+    0.0723,
+    -0.0756,
+    -0.2829,
+    -0.1304,
+    -0.073,
+    0.1169,
+    0.0015,
+    -0.0004,
+    0.1616
+   ],
+   "acf1": -0.0029,
+   "acf6": -0.2829,
+   "se_acf": 0.106,
+   "VR24_trunc11": 0.45,
+   "VR24_trunc23": 0.446,
+   "VR24_circular_empirical": 0.459
+  },
+  "post_protocol_resid": {
+   "name": "G8P-2 協定內嵌 resid_post2019（D3 來源，89 個月）",
+   "n": 89,
+   "acf": [
+    -0.0342,
+    0.0555,
+    -0.054,
+    0.0653,
+    -0.0611,
+    -0.2775,
+    -0.1289,
+    -0.0735,
+    0.1165,
+    0.0002,
+    -0.0016,
+    0.1565
+   ],
+   "acf1": -0.0342,
+   "acf6": -0.2775,
+   "se_acf": 0.106,
+   "VR24_trunc11": 0.401,
+   "VR24_trunc23": 0.395,
+   "VR24_circular_empirical": 0.402
+  },
+  "note": "只取去均值後的形狀；平均超額沒有輸出、沒有用於任何設計步驟",
+  "d5_file_sha256": "211fe423a15f402efb21c5e3197ff8e9714c24bc2299df910b492ba0941b10b3",
+  "d5_n": 157
+ },
+ "E2_overlap_theta": {
+  "method": "x_m 近似為 13 個 J 窗報酬的平均；日超額 iid 等變異時，ρ1＝Cov(x_m, x_{m+1})／Var，以實際 J 窗起訖交易日的重疊天數計；θ 解 θ/(1+θ²)＝ρ1",
+  "n_pairs": 157,
+  "rho1_theory": 0.1347,
+  "rho1_p10_p90": [
+   0.1219,
+   0.1582
+  ],
+  "theta_theory": 0.1372,
+  "theta_from_max_rho1": 0.1981,
+  "j12_window_len_tdays_median": 21.0,
+  "j12_end_minus_next_j0_start_tdays_median": 12.0,
+  "grid_rule": "事前規則：估計 θ > 0.3 → 網格擴到該值；θ ≤ 0.3 → 網格 {0.1, 0.2, 0.3} 涵蓋",
+  "grid_extended": false,
+  "empirical_acf1_sel": 0.0988,
+  "note": "中位數取代平均、J0 作廢（判定線實際 J1～J12）只會讓重疊比例小幅變動；經驗 acf1 0.099 含真實報酬相關與重疊兩者"
+ },
+ "E3_v2_false_up_s078": {
+  "P": 200000,
+  "seed": "SeedSequence([2026110700, DGP_ID, σ 序, 4, 2, 0])",
+  "table": {
+   "ARN057": {
+    "8.4": 0.05647,
+    "9.5": 0.05607
+   },
+   "ARN08": {
+    "8.4": 0.06072,
+    "9.5": 0.0615
+   },
+   "ARN10": {
+    "8.4": 0.06546,
+    "9.5": 0.06495
+   },
+   "AR057": {
+    "8.4": 0.05247,
+    "9.5": 0.05421
+   },
+   "AR08": {
+    "8.4": 0.05584,
+    "9.5": 0.05978
+   },
+   "AR10": {
+    "8.4": 0.05937,
+    "9.5": 0.06277
+   },
+   "MA3": {
+    "8.4": 0.09298,
+    "9.5": 0.09351
+   },
+   "MAT3": {
+    "8.4": 0.08681,
+    "9.5": 0.09095
+   },
+   "D5": {
+    "8.4": 0.04187,
+    "9.5": 0.04634
+   },
+   "D3": {
+    "8.4": 0.00989,
+    "9.5": 0.00907
+   },
+   "D1": {
+    "8.4": 0.0466,
+    "9.5": 0.04856
+   }
+  },
+  "review_numbers": {
+   "AR057": "5.64～5.83%（σ 8.4／9.5）",
+   "AR08": "6.1%",
+   "AR10": "6.5%",
+   "MA3": "9.1～9.4%",
+   "D5": "約 4.5%（σ 9.5）",
+   "D3": "約 1.1%"
+  },
+  "note": "ARN＝常態創新 AR（審查口徑，只作敏感度）；AR＝t5 創新（本題 OC 口徑）；MA＝常態創新（本題 OC 口徑，較 t5 保守）；MAT＝t5 MA（敏感度）"
+ },
+ "E4_governance": {
+  "code_lines": {
+   "adj_overwrite_lines": [
+    144
+   ],
+   "open_skip_lines": [
+    130,
+    162
+   ],
+   "void_count_only_void": [
+    159
+   ],
+   "committer_date_lines": [
+    68
+   ],
+   "backlog_text_search": [
+    243
+   ],
+   "status_recompute_no_chain": true,
+   "s1_requires_real_calib": false,
+   "registry_utc_check": true
+  },
+  "attack_retro_correction": {
+   "before": "FORWARD_FAILED",
+   "after_correction": "FORWARD_VALIDATING",
+   "works_in_v2": true
+  },
+  "attack_open_month": {
+   "all_complete": "FORWARD_FAILED",
+   "month2_open": "FORWARD_VALIDATING",
+   "month2_row": {
+    "anchor": "2026-12",
+    "state": "open"
+   },
+   "g8": {
+    "n_void_before_12th_valid": 0,
+    "S12": 1.1999999999999986,
+    "passed": true
+   },
+   "works_in_v2": true
+  },
+  "adj_overwrite": {
+   "x_retro_v2": [
+    1.5,
+    1.5,
+    1.5
+   ],
+   "expected_if_last": 1.5,
+   "expected_if_max": 1.5,
+   "note": "excess_pp＝2.0、壓力＝1.5、換手 0.8：adj(last)＝0.08 → min(1.92,1.5)＝1.5（壓力仍較差，覆寫不顯形）；改用壓力不較差的情境再測",
+   "x_retro_v2_stress_high": [
+    1.92,
+    1.9207920792079207,
+    1.9215763160474464
+   ],
+   "expected_last": 1.92,
+   "expected_max": 1.68,
+   "v2_uses_last_month1": true,
+   "v2_would_be_max_month1": 1.68,
+   "note2": "第 1 個月換手＝0.8（GROW 淨值起算 100 萬）；之後月份淨值成長、換手略降。v2 retro 取最後一筆 Δ＝0.001 而非最大 0.004"
+  },
+  "committer_date_forgery": {
+   "local_cI": "2026-11-01T00:00:00+00:00",
+   "real_utc_now": "2026-11-06T23:08:45.308229+00:00",
+   "works_in_v2": true,
+   "note": "v2 git_anchor() 以 %cI 判生效月：偽造 committer date 即可讓晚於期限的 commit 看起來早於期限"
+  },
+  "n_attacks_change_v2": 2
+ },
+ "E5_stress_odd_extra": {
+  "xlive_CFG_V7X": "tier=1_000_000, mode='GROW', model='K5T', cost='normal', f1=True, f2=True, f3=0.5, f4=True, rank_right=True, stress_odd_extra=True, disp_lim=False",
+  "xlive_true": true,
+  "R4_orig_cfg": {
+   "stress_odd_extra": true,
+   "rank_right": true
+  },
+  "R4_true": true,
+  "x_exec_default": "if self.c['cost'] == 'stress' and self.c.get('stress_odd_extra'): c += EXTRA",
+  "v2_protocol_text": [
+   "stress_odd_extra（壓力情境零股加碼，預設關閉）"
+  ],
+  "correction": "前瞻產生器 xlive.py CFG_V7X 與 V7X 正式 R4（PREREG orig_cfg）實際為 stress_odd_extra＝True（壓力線零股也加 0.4%）；v2 協定原文「預設關閉」只對 x_exec.py 未給設定時的程式預設成立，對前瞻產生器有誤"
+ },
+ "utc_end": "2026-11-06T23:08:45.314067+00:00"
+}

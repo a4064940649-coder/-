@@ -1,0 +1,86 @@
+{
+ "OFFICIAL": false,
+ "official_call": true,
+ "label": "INVALID（不得引用）",
+ "argv": [
+  "status",
+  "--official"
+ ],
+ "flags_cli": {
+  "cmd": "status",
+  "official": true,
+  "test_forward": null,
+  "test_registry": null,
+  "test_protocol": null,
+  "test_manifest": null,
+  "test_chain": null,
+  "test_now": null,
+  "test_backlog": null,
+  "test_repo": null,
+  "test_push_events": null,
+  "test_raw_dir": null,
+  "test_first_anchor": null,
+  "test_v2_first_anchor": null,
+  "test_v2_manifest": null,
+  "out": null,
+  "test_skip_remote": false,
+  "test_write_chain": false,
+  "quiet": false
+ },
+ "utc": "2026-11-06T23:50:51.419034+00:00",
+ "now_used": "2026-11-06T23:50:50.923819+00:00",
+ "protocol_sha256": "7eb16c4547176435a8de5ee6952a8d4ff2a339223381853788222e124db8e07b",
+ "manifest_sha256": "d75f4c1989bd43fb128334fd5345ddb5ea0db9dfe92164785f8ce6d7a1922b42",
+ "evaluator_sha256": "b45a58eac331ed9f59b706d43500eeb0d17491a1490e48dc9248f29fc45794fd",
+ "v2_shas": {
+  "protocol": "dcab4dbd255fb11e0ad8f4508397ae109cae9a47090eee17ab2ec7952981b993",
+  "manifest": "23f45ce8ee8040a1fa8e721f76241d377f36e573e32a882d9e63c64aa4ed5c30",
+  "evaluator": "1e4c0a16ab627e9418fef688bda4e27dfbb0540a53c6eacb954c7e6cfe22c38f"
+ },
+ "registry_sha256": "8e523798f56cc9566137251c9990b2cdb28bf94ec4d1c9a7c1d0cfb302ed98c3",
+ "registry_types": [
+  "GENESIS"
+ ],
+ "calibs_applied": [],
+ "chain_n": 1,
+ "chain_last_sha": "775b276f4a7b318e1a5841444a4bee1bbcc26dfd58801fbdf761c61ceedf2b9a",
+ "ledger_sha256": {
+  "forward_returns.csv": "89724d6dba8619400995ca55144b60478b513c2f6561d4bd901365086a304269",
+  "trades.csv": "642e83d98cc32708d2f9f269b25bd5f1c41b9ff20bc648b73925178ea7dd036e",
+  "fills_input.csv": "65970ba03c98d30edfec9db11aaf346788041e2a5c027ae371c23202d2bce137"
+ },
+ "remote_anchor": {
+  "heads": {
+   "refs/heads/claude/trusting-thompson-f9wa47": "34e8d7fd6b6527610b1b0d94c36a6d34deb4860c"
+  },
+  "problems": [
+   "ANCHOR_MANIFEST_NOT_ON_ORIGIN"
+  ],
+  "api_log": []
+ },
+ "v2_remote_anchor": {
+  "first_commit": null,
+  "local_cI": null,
+  "push": null
+ },
+ "effective_first_anchor_v2a": null,
+ "effective_first_anchor_v2": null,
+ "problems": [
+  "ANCHOR_MANIFEST_NOT_ON_ORIGIN",
+  "V2_ANCHOR_REMOTE_MISSING"
+ ],
+ "flags": [
+  "CHAIN_NOT_ON_ORIGIN_YET"
+ ],
+ "retro_changes": [],
+ "state": null,
+ "state_if_valid": null,
+ "literal_g8": null,
+ "state_text": "INVALID：完整性或外部錨定檢查未過，本輸出不得引用",
+ "s1_real_calib_entry_shas": null,
+ "components": {},
+ "by_mode": {},
+ "selected_version": "A1",
+ "scope": "S1 例外 (i) 證據只適用「100 萬 GROW」這一個資金點；100 萬 FIX、300 萬、1,000 萬、30 萬都不涵蓋，不得外推。",
+ "historical_gate_note": "(e) G1～G7 歷史部分不過時，即使字面 G8 過了，也只能寫「前瞻 12 個月超額 > 0，但歷史門檻未過，不可投資」；G1～G7 全過且字面 G8 過，才可寫「可投資」；只有字面 G8 過不得寫 α>0"
+}

@@ -1,0 +1,44 @@
+{
+ "protocol": "G8P-2a",
+ "frozen_utc": "2026-11-06T23:50:42.239606+00:00",
+ "protocol_frozen_utc": "2026-11-06T23:41:57.372490+00:00",
+ "deadline_utc": "2026-11-10T05:30:00+00:00",
+ "protocol_sha256": "7eb16c4547176435a8de5ee6952a8d4ff2a339223381853788222e124db8e07b",
+ "evaluator_sha256": "b45a58eac331ed9f59b706d43500eeb0d17491a1490e48dc9248f29fc45794fd",
+ "status_chain_genesis_entry_sha": "775b276f4a7b318e1a5841444a4bee1bbcc26dfd58801fbdf761c61ceedf2b9a",
+ "status_chain_genesis_file_sha256": "11f089659d91d49ad080d670729fcd9015c60a73350dc5e4dc827da8c103a313",
+ "code_sha256": {
+  "g8alib.py": "e9ea10954c9adee62aa2389f740fdd3f18ae775a7aeb9ef3e8bd51c2caa96d04",
+  "refimpl.py": "33485a564e5ad81d3e3c6d328fb0e7d88421784ad314e263a462d5a3d1445087",
+  "synth.py": "25d6f71a4f51ae53e221e1047ecb3d2d9600b4dc897daf737fd65c4d3d1cde2e",
+  "s7_test_evaluator.py": "9e8c330b05474bb19f44478196961ad576b23ac61d02cb0e4f908a48cebc9358",
+  "s8_protocol.py": "8a5efb29bc61b6126602ae53e17012093e2e6268d3e175913a89b3daf0535e48",
+  "s9_freeze.py": "fcc9a5233c91825c24a3fe2287d0c1bbe005e83d6e00445b51fcd02e3b5c8373"
+ },
+ "results_registrations": {
+  "PREREG_DESIGN": "7b5e70556083ddf837c33e59a819a42db1afb82164e936a444b6a69428eecea2",
+  "PREREG_DESIGN_utc": "2026-11-06T23:11:23.342421+00:00",
+  "PREREG": "58c8cc615bf7c406dd60d58e90e75b7360c664d46339265c5883f51b207d4c88",
+  "PREREG_utc": "2026-11-06T23:13:28.618834+00:00"
+ },
+ "smoke_manifest_sha256": "09d14df2547d08f98a9b15fa398b78cef01cb14fbff95679cb5f832d6783569e",
+ "oc_final_sha256": "be91f9c9695792b27192774740856239b099995e0482cf4e135aee8d2c7ce419",
+ "evaluator_tests_sha256": "170fd0cc84087721643b1347e5af843b75342d940b32abe21678acd1c41cce2c",
+ "k_alignment_sha256": "74cc2deb6a6c2b51078fed38acf5bac30105d4e97b3d5d9d8491321070f1cd2e",
+ "addendum_to": {
+  "protocol_sha256": "dcab4dbd255fb11e0ad8f4508397ae109cae9a47090eee17ab2ec7952981b993",
+  "manifest_sha256": "23f45ce8ee8040a1fa8e721f76241d377f36e573e32a882d9e63c64aa4ed5c30",
+  "evaluator_sha256": "1e4c0a16ab627e9418fef688bda4e27dfbb0540a53c6eacb954c7e6cfe22c38f"
+ },
+ "g8p1_sha256": "799f8b845b69f4df6f18a6e9cc901aa804fcd0d5dee393ef2bd97f7449b113fa",
+ "selected": "A1",
+ "b_a": 2.2796305424941274,
+ "effective_rule": "origin push 時間（manifest 首次 commit 與 BACKLOG 錨定行首次 commit 取較晚者）< 2026-11-10T05:30Z → 生效錨定月 2026-11；否則 push 後第一個完整錨定月",
+ "findings_machine_check": {
+  "n_numbers": 144,
+  "n_direct_missing": 39,
+  "n_resolved_as_percent": 39,
+  "unresolved": [],
+  "findings_draft_sha256": "8507cd9b5de531c4330390a7cfa75a97aee55b14320cf5dcc234ccb6a731f059"
+ }
+}

@@ -1,0 +1,138 @@
+[    10s] A C0
+[    12s] A C0_F1
+[    12s] A C0_F2
+[    13s] A C0_F3
+[    14s] A U_opt
+[    15s] A U_opt_F1
+[    16s] A U_opt_F2
+[    17s] A U_opt_F3
+[    17s] A 核對通過 {'C0_F1': 5.0, 'C0_F2': 4.0, 'C0_F3': 4.0, 'U_opt_F1': 12.0, 'U_opt_F2': 14.0, 'U_opt_F3': 14.0}
+{
+ "utc": "2026-11-07T00:18:56.603456+00:00",
+ "C0_maxabs_vs_main_v2": {
+  "normal": 0.0,
+  "stress": 0.0
+ },
+ "v2_windows": 245,
+ "v2_first": "2006-04",
+ "v2_last": "2026-09",
+ "list_check": {
+  "C0": {
+   "days13_equal_FM": true,
+   "after_equal_C0": true,
+   "n_after": 152
+  },
+  "C0_F1": {
+   "days13_equal_FM": true,
+   "after_equal_C0": true,
+   "n_after": 152
+  },
+  "C0_F2": {
+   "days13_equal_FM": true,
+   "after_equal_C0": true,
+   "n_after": 152
+  },
+  "C0_F3": {
+   "days13_equal_FM": true,
+   "after_equal_C0": true,
+   "n_after": 152
+  },
+  "U_opt": {
+   "days13_equal_FM": true,
+   "after_equal_C0": true,
+   "n_after": 152
+  },
+  "U_opt_F1": {
+   "days13_equal_FM": true,
+   "after_equal_C0": true,
+   "n_after": 152
+  },
+  "U_opt_F2": {
+   "days13_equal_FM": true,
+   "after_equal_C0": true,
+   "n_after": 152
+  },
+  "U_opt_F3": {
+   "days13_equal_FM": true,
+   "after_equal_C0": true,
+   "n_after": 152
+  }
+ },
+ "slots": {
+  "C0_F1": {
+   "slots_930": 5.0,
+   "slots_810": 5.0
+  },
+  "C0_F2": {
+   "slots_930": 4.0,
+   "slots_810": 4.0
+  },
+  "C0_F3": {
+   "slots_930": 4.0,
+   "slots_810": 4.0
+  },
+  "U_opt_F1": {
+   "slots_930": 12.0,
+   "slots_810": 12.0
+  },
+  "U_opt_F2": {
+   "slots_930": 14.0,
+   "slots_810": 14.0
+  },
+  "U_opt_F3": {
+   "slots_930": 14.0,
+   "slots_810": 14.0
+  }
+ },
+ "slot_rows_sha": "a023fbfd6ce5346551e6109dfd7dafa2a6aaebc76de6508889338a1099026063",
+ "lines": {
+  "V7X_100萬_worse": {
+   "n": 246,
+   "first": "2006-04",
+   "last": "2026-09",
+   "mean": -0.44898481065810975,
+   "sd": 4.936232571826762
+  },
+  "V7X_100萬_normal": {
+   "n": 246,
+   "first": "2006-04",
+   "last": "2026-09",
+   "mean": 0.10902279017116835,
+   "sd": 4.980362392607735
+  },
+  "V7X_300萬_worse": {
+   "n": 246,
+   "first": "2006-04",
+   "last": "2026-09",
+   "mean": -0.5161679710245463,
+   "sd": 4.976200106305113
+  },
+  "V7X_300萬_normal": {
+   "n": 246,
+   "first": "2006-04",
+   "last": "2026-09",
+   "mean": -0.005268808953471378,
+   "sd": 4.994948346224966
+  },
+  "V7X_1000萬_worse": {
+   "n": 246,
+   "first": "2006-04",
+   "last": "2026-09",
+   "mean": -0.6282019440202395,
+   "sd": 4.9632844647275
+  },
+  "V7X_1000萬_normal": {
+   "n": 246,
+   "first": "2006-04",
+   "last": "2026-09",
+   "mean": -0.14926950180511622,
+   "sd": 4.947644566430217
+  }
+ },
+ "hist_demo_ref": {
+  "worse_mean_g8p2": -0.44898481065810975,
+  "worse_sd_g8p2": 4.936232571826762,
+  "n_starts_g8p2a": 223
+ },
+ "note": "只做管線核對；沒有計算任何變體的報酬、t 值或協定結果（C0 只算 freeze 一般／壓力以核對 main_v2）。"
+}

@@ -1,0 +1,1059 @@
+{
+ "utc": "2026-11-06T23:14:44.330524Z",
+ "spec_sha256": "9f2d0622bb1754c1d13e1411760fd8fad9cc5f0fac40fc9281a688ce992b077d",
+ "no_returns": "只計數，未計算任何報酬",
+ "note": "不修改任何原檔；以下更正由研究中心決定是否貼入原文旁",
+ "items": [
+  {
+   "id": "E1",
+   "target_file": "/home/user/-/research/tw_stock_selection/agents/o_rev_trunc_2009_erratum/FINDINGS.md",
+   "target_sha256": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686",
+   "location": "研究員 JSON findings 欄位「## 8. 穩健性」第 2 條（分原因）",
+   "original_excerpt": "分原因：TRUNC 53、PRE12 41、IFRS13 35、HOLE 33。只看 2009-11 截斷本身（TRUNC 53／810＝6.5%），就已經超過 5%。",
+   "corrected_text": "分原因：TRUNC 53、PRE12 41、IFRS13 35、HOLE 33。只看 2009-11 截斷本身：只放回 TRUNC 重跑，2006～2012 是 53／810＝6.54%，2006～2013 是 53／930＝5.70%；其中 10 槽是 5854 合庫（PIT 下應屬金融、應被排除）。扣 5854（不放回、重跑）後是 43／810＝5.31%、2006～2013 為 43／930＝4.62%，剛好壓在 5% 門檻上；以 PIT 金融遮罩 F1／F2 只放回 TRUNC，2006～2012 為 43／43（810 槽）。超過 5% 主要來自 PRE12、HOLE 兩類，它們是依資料形狀推論的，沒有比對 MOPS 原頁。",
+   "evidence": {
+    "counts": {
+     "C0_TRUNC": {
+      "u_810": 53,
+      "share_810": 0.06543,
+      "u_930": 53,
+      "share_930": 0.05699
+     },
+     "C0_TRUNC_no5854": {
+      "u_810": 43,
+      "share_810": 0.05309,
+      "u_930": 43,
+      "share_930": 0.04624
+     },
+     "C0_TRUNC_no5854_2473": {
+      "u_810": 31,
+      "share_810": 0.03827,
+      "u_930": 31,
+      "share_930": 0.03333
+     },
+     "F1_TRUNC": {
+      "u_810": 43,
+      "share_810": 0.05309,
+      "u_930": 43,
+      "share_930": 0.04624
+     },
+     "F2_TRUNC": {
+      "u_810": 43,
+      "share_810": 0.05309,
+      "u_930": 43,
+      "share_930": 0.04624
+     },
+     "TRUNC_5854_slots": 10,
+     "C0_TRUNC_PRE12_no5854": {
+      "u_810": 77,
+      "share_810": 0.09506,
+      "u_930": 84,
+      "share_930": 0.09032
+     },
+     "C0_full_U_opt": {
+      "u_810": 119,
+      "share_810": 0.14691,
+      "u_930": 162,
+      "share_930": 0.17419
+     },
+     "by_cause_full": {
+      "PRE12": 41,
+      "HOLE": 33,
+      "TRUNC": 53,
+      "IFRS13": 35
+     },
+     "by_cause_full_2006_2012": {
+      "PRE12": 34,
+      "HOLE": 32,
+      "TRUNC": 53
+     }
+    },
+    "review_numbers": {
+     "TRUNC_810": 0.0654,
+     "no5854_810": 0.0531,
+     "no5854_930": 0.0462,
+     "TRUNC_930": 0.057
+    },
+    "match_review": {
+     "TRUNC_810": true,
+     "TRUNC_930": true,
+     "no5854_810": true,
+     "no5854_930": true
+    },
+    "files": {
+     "ER2_FINDINGS": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686",
+     "ER2_JSON": "560019883d46d1a23b6f8db6633ad29bef08e819482776a1bdfc7c8cf6168ce3",
+     "tw_revenue": "02657e7c415783020f16255d42f66b0d40d69823fa294113557be6f4584a3898",
+     "v2_core": "30741b58276f8278057648b1e7302c7d335d593546a5587970a3f22021e96fc3"
+    },
+    "method": "erlib.SURV＝(TRUNC,)；5854 不放回＝原因改 DROPPED；比例＝放回股進榜槽位 ÷ 810／930（flib.run，ERRATUM_SPEC_FM E1）"
+   },
+   "proposer": "o15 統計審查（數字）；本題重新計數並改寫",
+   "review_numbers_need_correction": false
+  },
+  {
+   "id": "E2",
+   "target_file": "/home/user/-/research/tw_stock_selection/agents/o_rev_trunc_2009_erratum/FINDINGS.md",
+   "target_sha256": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686",
+   "location": "研究員 JSON findings「## 7. 結果」主要受影響股（晶睿）、「## 結論」斷崖分類（HOLE）、key_numbers【U_opt 依原因】",
+   "original_excerpt": [
+    "晶睿 5 次：2026-03 下市，原因未查。",
+    "2011-01、2011-02、2012-01 三個月的洞（HOLE）：只缺 2013 年以後才下市的公司。",
+    "全期：TRUNC 53、PRE12 41、IFRS13 35、HOLE 33（IFRS13 全部在 2013）。"
+   ],
+   "corrected_text": "IFRS13／HOLE 標籤更正：U_opt 162 個放回槽位逐檔比對 listing_master 上市日、下市日、最後上市日與營收最後月份。(1) 潤泰全球 2915（1 槽，2013-12-11，原標 HOLE）：listing_master 下市日空白、最後上市日＝面板終點、營收到 2026-09 都有，2013-10 的缺值是一般資料洞，不是存活者型 → 改標 LISTED_GAP。(2) 晶睿 3454（5 槽，2013，原標 IFRS13）：listing_master 下市日欄空白、2026 stock_list 仍列此代號（產業欄空白），這是審查指出的矛盾；但 listing_master 的最後上市日是 2026-03-18、面板最後交易同日、最後 10 日收盤釘在約 99.4，且 tw_revenue（2026-10 抓取）2013 年起完全沒有 3454，這些都和「抓取前已下市」一致，所以 IFRS13（存活者型）標籤很可能是對的，錯的是 listing_master 下市日欄與 stock_list 過時。ER2 原文「2026-03 下市，原因未查」應改寫為「面板最後交易 2026-03-18（listing_master 下市日欄缺漏），下市原因未查證」。依凍結規則（下市日空白且在 stock_list 即視為仍上市）兩檔都改標，U_opt 變成 119／810、156／930（變動 0／-6 槽）；依上述證據只改標 2915（事後、未登記），是 119／810、161／930（變動 0／-1 槽）。兩種都 > 5%，ER2 判定不變；2006～2012 的 119／810 兩種都不變。另：listing_master 有 9 檔「下市日空白但最後上市日早於 2026-10」，下市日欄不能單獨當作仍上市的證據。",
+   "evidence": {
+    "counts": {
+     "relabeled_rows": [
+      {
+       "sig": "2013-02-18",
+       "code": "3454",
+       "name": "晶睿",
+       "cause_ER2": "IFRS13",
+       "cause_new": "LISTED_GAP",
+       "delist_lm": "",
+       "in_stock_list_2026": true,
+       "last_rev": "2012-12"
+      },
+      {
+       "sig": "2013-03-11",
+       "code": "3454",
+       "name": "晶睿",
+       "cause_ER2": "IFRS13",
+       "cause_new": "LISTED_GAP",
+       "delist_lm": "",
+       "in_stock_list_2026": true,
+       "last_rev": "2012-12"
+      },
+      {
+       "sig": "2013-04-11",
+       "code": "3454",
+       "name": "晶睿",
+       "cause_ER2": "IFRS13",
+       "cause_new": "LISTED_GAP",
+       "delist_lm": "",
+       "in_stock_list_2026": true,
+       "last_rev": "2012-12"
+      },
+      {
+       "sig": "2013-07-11",
+       "code": "3454",
+       "name": "晶睿",
+       "cause_ER2": "IFRS13",
+       "cause_new": "LISTED_GAP",
+       "delist_lm": "",
+       "in_stock_list_2026": true,
+       "last_rev": "2012-12"
+      },
+      {
+       "sig": "2013-11-11",
+       "code": "3454",
+       "name": "晶睿",
+       "cause_ER2": "IFRS13",
+       "cause_new": "LISTED_GAP",
+       "delist_lm": "",
+       "in_stock_list_2026": true,
+       "last_rev": "2012-12"
+      },
+      {
+       "sig": "2013-12-11",
+       "code": "2915",
+       "name": "潤泰全球",
+       "cause_ER2": "HOLE",
+       "cause_new": "LISTED_GAP",
+       "delist_lm": "",
+       "in_stock_list_2026": true,
+       "last_rev": "2026-09"
+      }
+     ],
+     "n_relabeled_rows": 6,
+     "n_relabeled_rows_2006_2012": 0,
+     "relabeled_codes": [
+      "2915",
+      "3454"
+     ],
+     "by_cause_ER2": {
+      "TRUNC": 53,
+      "PRE12": 41,
+      "IFRS13": 35,
+      "HOLE": 33
+     },
+     "by_cause_relabeled_direct": {
+      "TRUNC": 53,
+      "PRE12": 41,
+      "HOLE": 32,
+      "IFRS13": 30,
+      "LISTED_GAP": 6
+     },
+     "by_cause_relabeled_direct_2006_2012": {
+      "TRUNC": 53,
+      "PRE12": 34,
+      "HOLE": 32
+     },
+     "drop_listed_affected_codes": [
+      "2915",
+      "3454"
+     ],
+     "rerun_without_listed_gap": {
+      "u_810": 119,
+      "share_810": 0.14691,
+      "u_930": 156,
+      "share_930": 0.16774
+     },
+     "rerun_by_cause": {
+      "PRE12": 41,
+      "HOLE": 32,
+      "TRUNC": 53,
+      "IFRS13": 30
+     },
+     "rerun_change_930": -6,
+     "rerun_change_810": 0,
+     "spot": {
+      "3454": {
+       "name": "晶睿",
+       "listed": "2011-07-22",
+       "delist": "",
+       "in_sl2026": true,
+       "last_rev": "2012-12",
+       "first_rev": "2005-07",
+       "last_trade": "2026-03-18",
+       "ER2_rows": [
+        [
+         "2013-02-18",
+         "IFRS13"
+        ],
+        [
+         "2013-03-11",
+         "IFRS13"
+        ],
+        [
+         "2013-04-11",
+         "IFRS13"
+        ],
+        [
+         "2013-07-11",
+         "IFRS13"
+        ],
+        [
+         "2013-11-11",
+         "IFRS13"
+        ]
+       ]
+      },
+      "2915": {
+       "name": "潤泰全球",
+       "listed": "1977-07-20",
+       "delist": "",
+       "in_sl2026": true,
+       "last_rev": "2026-09",
+       "first_rev": "2005-01",
+       "last_trade": "2026-10-22",
+       "ER2_rows": [
+        [
+         "2013-12-11",
+         "HOLE"
+        ]
+       ]
+      }
+     },
+     "HOLE_missing_months_of_inserted": {
+      "2008-04": 3,
+      "2008-03": 2,
+      "2008-02": 1,
+      "2008-05": 3,
+      "2008-06": 2,
+      "2008-07": 1,
+      "2011-01": 24,
+      "2011-02": 20,
+      "2012-01": 9,
+      "2013-10": 1
+     }
+    },
+    "files": {
+     "ER2_FINDINGS": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686",
+     "ER2_JSON": "560019883d46d1a23b6f8db6633ad29bef08e819482776a1bdfc7c8cf6168ce3",
+     "listing_master": "bdb7d6d478c095655c9a9707f550551a128df78839e7a563d81feab09f4988c8",
+     "stock_list_2026": "06111252bee0f002a85434a71623e93acc74a597f36412c4a3871d243cca695e",
+     "tw_revenue": "02657e7c415783020f16255d42f66b0d40d69823fa294113557be6f4584a3898"
+    },
+    "method": "受影響股若 listing_master 下市日空白且在 2026 stock_list → 任何 SURV 原因改 LISTED_GAP；以 drop＝這些代號（在任一訊號日屬受影響集合者）重跑 U_opt",
+    "frozen_rule_result": {
+     "rule": "凍結規則（ERRATUM_SPEC_FM E2）：listing_master 下市日空白且在 2026 stock_list → LISTED_GAP",
+     "relabeled": [
+      "2915",
+      "3454"
+     ],
+     "rerun": {
+      "u_810": 119,
+      "share_810": 0.14691,
+      "u_930": 156,
+      "share_930": 0.16774
+     },
+     "change_810": 0,
+     "change_930": -6
+    },
+    "posthoc": {
+     "label": "事後補充（未事前登記），只描述",
+     "listing_master_blank_delist_but_last_listed_before_2026_10": [
+      {
+       "code": "1589",
+       "name": "永冠-KY",
+       "last_listed_day": "2026-04-02",
+       "in_stock_list_2026": true,
+       "stock_list_industry": "電機機械"
+      },
+      {
+       "code": "2358",
+       "name": "美格",
+       "last_listed_day": "2024-11-01",
+       "in_stock_list_2026": false,
+       "stock_list_industry": ""
+      },
+      {
+       "code": "2443",
+       "name": "利碟",
+       "last_listed_day": "2024-11-01",
+       "in_stock_list_2026": false,
+       "stock_list_industry": ""
+      },
+      {
+       "code": "2809",
+       "name": "台南企銀",
+       "last_listed_day": "2025-09-17",
+       "in_stock_list_2026": false,
+       "stock_list_industry": ""
+      },
+      {
+       "code": "2867",
+       "name": "三商美邦",
+       "last_listed_day": "2026-08-19",
+       "in_stock_list_2026": true,
+       "stock_list_industry": "金融保險業"
+      },
+      {
+       "code": "2888",
+       "name": "新光金",
+       "last_listed_day": "2025-07-11",
+       "in_stock_list_2026": false,
+       "stock_list_industry": ""
+      },
+      {
+       "code": "3454",
+       "name": "晶睿",
+       "last_listed_day": "2026-03-18",
+       "in_stock_list_2026": true,
+       "stock_list_industry": ""
+      },
+      {
+       "code": "6288",
+       "name": "聯嘉",
+       "last_listed_day": "2025-08-04",
+       "in_stock_list_2026": false,
+       "stock_list_industry": ""
+      },
+      {
+       "code": "6806",
+       "name": "森崴能源",
+       "last_listed_day": "2026-06-22",
+       "in_stock_list_2026": true,
+       "stock_list_industry": "綠能環保"
+      }
+     ],
+     "evidence_3454": {
+      "listing_master": {
+       "listed_date": "2011-07-22",
+       "delist_date": "",
+       "segments": "2011-07-22~2026-03-18",
+       "last_listed_day": "2026-03-18",
+       "last_TW_evidence": "2026-03-18",
+       "check_status": "consistent"
+      },
+      "stock_list_2026": {
+       "code": "3454",
+       "name": "晶睿",
+       "market": "TWSE",
+       "industry": ""
+      },
+      "panel_last10_close": [
+       [
+        "2026-03-05",
+        99.3
+       ],
+       [
+        "2026-03-06",
+        99.3
+       ],
+       [
+        "2026-03-09",
+        99.4
+       ],
+       [
+        "2026-03-10",
+        99.3
+       ],
+       [
+        "2026-03-11",
+        99.4
+       ],
+       [
+        "2026-03-12",
+        99.4
+       ],
+       [
+        "2026-03-13",
+        99.4
+       ],
+       [
+        "2026-03-16",
+        99.4
+       ],
+       [
+        "2026-03-17",
+        99.4
+       ],
+       [
+        "2026-03-18",
+        99.4
+       ]
+      ],
+      "panel_end": "2026-10-22",
+      "tw_revenue_last": "2012-12",
+      "note": "最後 10 個交易日收盤 99.4 左右、幾乎不動（常見於公開收購或換股前的釘價）；2013 年起 tw_revenue 完全沒有 3454（該檔是 2026-10 抓取、2013 起只列抓取時仍存在的公司），與「抓取時已下市」一致"
+     },
+     "rerun_relabel_2915_only": {
+      "u_810": 119,
+      "u_930": 161,
+      "share_810": 0.1469135802469136,
+      "share_930": 0.17311827956989248,
+      "change_810": 0,
+      "change_930": -1,
+      "by_cause": {
+       "PRE12": 41,
+       "HOLE": 32,
+       "TRUNC": 53,
+       "IFRS13": 35
+      }
+     }
+    }
+   },
+   "proposer": "o15 統計審查（晶睿、潤泰全球矛盾）；本題逐檔比對並重跑",
+   "review_numbers_need_correction": true,
+   "prediction_P5_note": "凍結規則下 U_opt 總數變動 6 槽（P5 預測 ≤ 2 → 不成立）；事後證據口徑變動 1 槽",
+   "review_correction_note": "o15 統計審查說「仍上市股（晶睿）的 2013 年營收缺值不能算進存活者型缺口」，依 last_listed_day 與面板證據，晶睿很可能在 2026-03 已下市，此前提需更正；潤泰全球的部分成立"
+  },
+  {
+   "id": "E3",
+   "target_file": "/home/user/-/research/tw_stock_selection/agents/o_rev_trunc_2009_erratum/FINDINGS.md",
+   "target_sha256": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686",
+   "secondary_targets": [
+    {
+     "file": "/home/user/-/research/tw_stock_selection/agents/o_rev_trunc_2009_erratum/ERRATUM2_SPEC.json",
+     "sha256": "722f7d56eec3674980445d179996c8d3f04226d91fe502b7a0f14260c846126e"
+    },
+    {
+     "file": "/home/user/-/research/tw_stock_selection/agents/main_v2/FINDINGS.md",
+     "sha256": "4e6cbba804e50850e57d0ab9c485a467af4afff979202f4844acc9ede3d1c971"
+    }
+   ],
+   "location": "研究員 JSON frozen_spec「2. 受影響集合 A(d)」股池條件；ERRATUM2_SPEC.affected_set.pool",
+   "original_excerpt": [
+    "  - 非處置；",
+    "非處置"
+   ],
+   "corrected_text": "主策略管線的處置濾網（ia_core.disposal_mask）只讀 disposal_5y.csv.gz，最早處置起日 2021-09-24（最早資料日 2021-09-23）。2006～2013 的 93 個訊號日處置遮罩命中 0 檔次，也就是 2006～2013 沒有處置股排除；凍結規格中「非處置／排除處置股」的描述對該期不適用（基準 C0 與 U_opt 一樣，不改變計數）。研究中心另有 2003 年起的官方處置事件期（o_disposal_official_fullhist，最早 2002-12-26），主策略管線沒有使用。",
+   "evidence": {
+    "counts": {
+     "pipeline_file": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/disposal_5y.csv.gz",
+     "pipeline_min_start": "2021-09-24",
+     "pipeline_min_date": "2021-09-23",
+     "mask_hits_2006_2013": 0,
+     "other_center_file": "/home/user/-/research/tw_stock_selection/agents/o_disposal_official_fullhist/universe_flags.csv",
+     "other_min_start": "2002-12-26",
+     "descriptive_C0_slots_in_fullhist_disposal_window": 4,
+     "note": "descriptive_* 只描述（事後，非判定）：若用研究中心另一份 2003 起的官方處置事件期，C0 名單在訊號日當天正處於處置期的槽位數"
+    },
+    "descriptive_rows": [
+     [
+      "2009-05-11",
+      "2383"
+     ],
+     [
+      "2009-07-13",
+      "2545"
+     ],
+     [
+      "2009-11-11",
+      "1702"
+     ],
+     [
+      "2010-12-13",
+      "3406"
+     ]
+    ],
+    "files": {
+     "disposal_5y": "be06c807e4dfcc26ae7d1da2de37775185cfbbd0ed50d9c0b72d255fc16439e2",
+     "disposal_fullhist_flags": "2842f45d825861bfe0168f7a9736364fc19adee2b4d9bc3b5a894d4e22db8b40",
+     "ER2_SPEC": "722f7d56eec3674980445d179996c8d3f04226d91fe502b7a0f14260c846126e",
+     "ER2_FINDINGS": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686"
+    }
+   },
+   "proposer": "o15 可執行審查",
+   "review_numbers_need_correction": false
+  },
+  {
+   "id": "E4",
+   "target_file": "/home/user/-/research/tw_stock_selection/agents/o_rev_trunc_2009_erratum/FINDINGS.md",
+   "target_sha256": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686",
+   "location": "研究員 JSON frozen_spec「1. 基準」（V2(…, exfin=True) 未設 unavail＝假設訊號日已取得全部 m−1 營收）；FINDINGS 未交代",
+   "original_excerpt": "main_v2/v2_core.V2(sigmode='gapfix', YL, Y5, exfin=True)，plan(10, tie='official",
+   "corrected_text": "營收公告期限＝訊號當天（v2_core.deadline_case＝D=S）的訊號日 2006～2013 共 33 個（2006～2012 有 28 個），受影響 C0 槽位 330（2006～2012 為 280），U_opt 放回槽位落在這些日子的有 60 個。基準 C0 與 U_opt 都假設訊號日已取得全部 m−1 月營收；當日公告是否在訊號計算前可得，無法由現有資料證明，屬 PIT 風險（只標註，不重算）。清單：2006-06-12、2006-09-11、2006-10-11、2006-12-11、2007-02-12、2007-03-12、2007-06-11、2007-10-11、2007-11-12、2008-02-12、2008-05-12、2008-08-11、2008-10-13、2009-05-11、2009-10-12、2010-01-11、2010-04-12、2010-07-12、2010-10-11、2011-04-11、2011-07-11、2011-09-13、2011-10-11、2011-12-12、2012-03-12、2012-06-11、2012-10-11、2012-11-12、2013-02-18、2013-03-11、2013-08-12、2013-10-11、2013-11-11。",
+   "evidence": {
+    "counts": {
+     "n_DS_days": 33,
+     "DS_days": [
+      "2006-06-12",
+      "2006-09-11",
+      "2006-10-11",
+      "2006-12-11",
+      "2007-02-12",
+      "2007-03-12",
+      "2007-06-11",
+      "2007-10-11",
+      "2007-11-12",
+      "2008-02-12",
+      "2008-05-12",
+      "2008-08-11",
+      "2008-10-13",
+      "2009-05-11",
+      "2009-10-12",
+      "2010-01-11",
+      "2010-04-12",
+      "2010-07-12",
+      "2010-10-11",
+      "2011-04-11",
+      "2011-07-11",
+      "2011-09-13",
+      "2011-10-11",
+      "2011-12-12",
+      "2012-03-12",
+      "2012-06-11",
+      "2012-10-11",
+      "2012-11-12",
+      "2013-02-18",
+      "2013-03-11",
+      "2013-08-12",
+      "2013-10-11",
+      "2013-11-11"
+     ],
+     "n_DS_2006_2012": 28,
+     "C0_slots": 330,
+     "C0_slots_2006_2012": 280,
+     "U_opt_inserted_on_DS": 60,
+     "deadline_rule": "v2_core.deadline_case：期限＝訊號月 10 日起第一個交易日（TCAL＝taiex ∪ 面板日）；D=S＝期限即訊號日"
+    },
+    "files": {
+     "v2_core": "30741b58276f8278057648b1e7302c7d335d593546a5587970a3f22021e96fc3",
+     "ER2_FINDINGS": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686"
+    }
+   },
+   "proposer": "o15 可執行審查",
+   "review_numbers_need_correction": false
+  },
+  {
+   "id": "E5",
+   "target_file": "/home/user/-/research/tw_stock_selection/agents/o_g8_protocol_fin_erratum/FINDINGS.md",
+   "target_sha256": "a3f9a936fa16a008ecf341d5ddaf3ab0c83201b59f9ee1974e1d71309e8108ec",
+   "secondary_targets": [
+    {
+     "file": "/home/user/-/research/tw_stock_selection/agents/o_g8_protocol_fin_erratum/ERRATUM.json",
+     "sha256": "9f1603c34fe21bcaedb10928aa6022617515bea758f03a059a2e4d6095801d5a"
+    }
+   ],
+   "location": "研究員 JSON headline 與 findings「(B) 金融排除勘誤」「建議勘誤文字」；統計審查 issues（5854 出現 0 次）",
+   "original_excerpt": [
+    "5854 合庫在 2006～2011 進入 10 檔名單 0 次（最好名次 17）",
+    "5854 合庫從未進入 10 檔名單；非 PIT 金融股只有 6012 金鼎證在 2008-04 出現 1 次",
+    "過，結果一致：C0 名單共 93 個訊號日、930 個槽位；5854 出現 0 次；6012 只在 2008-04-11 第 4 名出現 1 次；2841 出現 "
+   ],
+   "corrected_text": "補註：「5854 出現 0 次」在 C0／C1 遮罩下成立，但 C0 本身沒有遮掉 5854 合庫、6004 元京證、6012 金鼎證（2026 年 stock_list 的事後清單；三檔都不是 28xx）；C1 在 2011-07-28 前沿用 C0，同樣繼承此缺口。PIT 遮罩下的正確計數（本題 o_finmask_delisted_fin_erratum）：F1（dated 快照只往回看）判 5854 全部 68 個池內月為金融（2011-07-28 起 PIT、之前準 PIT），6004、6012 無任何機器可讀分類 → UNKNOWN；F2（28／58／60 前綴＋名稱）三檔都判金融。C0 名單中的直接污染：F1 0 槽、F2 1 槽（6012，2008-04-11 第 4 名）；ER2 U_opt 名單中：F1 10 槽（全是 5854）、F2 13 槽（5854 10、6004 2、6012 1）。以 F 遮罩重跑後 C0 名單總異動：F1 5／930、F2 4／930（F2 的 4 槽與 o14 C2 逐筆相同）。結論方向不變（5854 在 C0 名單 0 次），但這個結論本身是在非 PIT 遮罩下得到的。",
+   "evidence": {
+    "counts": {
+     "direct": {
+      "F1": {
+       "C0": [],
+       "U_opt": [
+        [
+         "2010-07-12",
+         "5854",
+         4
+        ],
+        [
+         "2010-08-11",
+         "5854",
+         4
+        ],
+        [
+         "2010-09-13",
+         "5854",
+         1
+        ],
+        [
+         "2010-10-11",
+         "5854",
+         4
+        ],
+        [
+         "2010-11-11",
+         "5854",
+         4
+        ],
+        [
+         "2010-12-13",
+         "5854",
+         3
+        ],
+        [
+         "2011-05-11",
+         "5854",
+         2
+        ],
+        [
+         "2011-06-13",
+         "5854",
+         9
+        ],
+        [
+         "2011-08-11",
+         "5854",
+         8
+        ],
+        [
+         "2011-10-11",
+         "5854",
+         3
+        ]
+       ]
+      },
+      "F2": {
+       "C0": [
+        [
+         "2008-04-11",
+         "6012",
+         4
+        ]
+       ],
+       "U_opt": [
+        [
+         "2006-12-11",
+         "6004",
+         9
+        ],
+        [
+         "2007-01-11",
+         "6004",
+         5
+        ],
+        [
+         "2008-04-11",
+         "6012",
+         4
+        ],
+        [
+         "2010-07-12",
+         "5854",
+         4
+        ],
+        [
+         "2010-08-11",
+         "5854",
+         4
+        ],
+        [
+         "2010-09-13",
+         "5854",
+         1
+        ],
+        [
+         "2010-10-11",
+         "5854",
+         4
+        ],
+        [
+         "2010-11-11",
+         "5854",
+         4
+        ],
+        [
+         "2010-12-13",
+         "5854",
+         3
+        ],
+        [
+         "2011-05-11",
+         "5854",
+         2
+        ],
+        [
+         "2011-06-13",
+         "5854",
+         9
+        ],
+        [
+         "2011-08-11",
+         "5854",
+         8
+        ],
+        [
+         "2011-10-11",
+         "5854",
+         3
+        ]
+       ]
+      },
+      "F3": {
+       "C0": [
+        [
+         "2008-04-11",
+         "6012",
+         4
+        ]
+       ],
+       "U_opt": [
+        [
+         "2006-12-11",
+         "6004",
+         9
+        ],
+        [
+         "2007-01-11",
+         "6004",
+         5
+        ],
+        [
+         "2008-04-11",
+         "6012",
+         4
+        ],
+        [
+         "2010-07-12",
+         "5854",
+         4
+        ],
+        [
+         "2010-08-11",
+         "5854",
+         4
+        ],
+        [
+         "2010-09-13",
+         "5854",
+         1
+        ],
+        [
+         "2010-10-11",
+         "5854",
+         4
+        ],
+        [
+         "2010-11-11",
+         "5854",
+         4
+        ],
+        [
+         "2010-12-13",
+         "5854",
+         3
+        ],
+        [
+         "2011-05-11",
+         "5854",
+         2
+        ],
+        [
+         "2011-06-13",
+         "5854",
+         9
+        ],
+        [
+         "2011-08-11",
+         "5854",
+         8
+        ],
+        [
+         "2011-10-11",
+         "5854",
+         3
+        ]
+       ]
+      }
+     },
+     "blocks": {
+      "C0|F1": {
+       "slots_930": 5.0,
+       "share_930": 0.005376344086021506,
+       "slots_810": 5.0,
+       "share_810": 0.006172839506172839,
+       "by_year": {
+        "2006": 0,
+        "2007": 0,
+        "2008": 2.0,
+        "2009": 1.0,
+        "2010": 0,
+        "2011": 2.0,
+        "2012": 0,
+        "2013": 0
+       }
+      },
+      "U_opt|F1": {
+       "slots_930": 12.0,
+       "share_930": 0.012903225806451613,
+       "slots_810": 12.0,
+       "share_810": 0.014814814814814815,
+       "by_year": {
+        "2006": 0,
+        "2007": 0,
+        "2008": 0,
+        "2009": 0,
+        "2010": 7.0,
+        "2011": 5.0,
+        "2012": 0,
+        "2013": 0
+       }
+      },
+      "C0|F2": {
+       "slots_930": 4.0,
+       "share_930": 0.004301075268817204,
+       "slots_810": 4.0,
+       "share_810": 0.0049382716049382715,
+       "by_year": {
+        "2006": 0,
+        "2007": 0,
+        "2008": 3.0,
+        "2009": 1.0,
+        "2010": 0,
+        "2011": 0,
+        "2012": 0,
+        "2013": 0
+       }
+      },
+      "U_opt|F2": {
+       "slots_930": 14.0,
+       "share_930": 0.015053763440860216,
+       "slots_810": 14.0,
+       "share_810": 0.01728395061728395,
+       "by_year": {
+        "2006": 1.0,
+        "2007": 1.0,
+        "2008": 1.0,
+        "2009": 0,
+        "2010": 7.0,
+        "2011": 4.0,
+        "2012": 0,
+        "2013": 0
+       }
+      },
+      "C0|F3": {
+       "slots_930": 4.0,
+       "share_930": 0.004301075268817204,
+       "slots_810": 4.0,
+       "share_810": 0.0049382716049382715,
+       "by_year": {
+        "2006": 0,
+        "2007": 0,
+        "2008": 3.0,
+        "2009": 1.0,
+        "2010": 0,
+        "2011": 0,
+        "2012": 0,
+        "2013": 0
+       }
+      },
+      "U_opt|F3": {
+       "slots_930": 14.0,
+       "share_930": 0.015053763440860216,
+       "slots_810": 14.0,
+       "share_810": 0.01728395061728395,
+       "by_year": {
+        "2006": 1.0,
+        "2007": 1.0,
+        "2008": 1.0,
+        "2009": 0,
+        "2010": 7.0,
+        "2011": 4.0,
+        "2012": 0,
+        "2013": 0
+       }
+      }
+     },
+     "pool_months": {
+      "F1": {
+       "5854": {
+        "pool": 68,
+        "el": 45,
+        "by_year": {
+         "2006": 9,
+         "2007": 12,
+         "2008": 12,
+         "2009": 12,
+         "2010": 12,
+         "2011": 11
+        }
+       }
+      },
+      "F2": {
+       "5854": {
+        "pool": 68,
+        "el": 45,
+        "by_year": {
+         "2006": 9,
+         "2007": 12,
+         "2008": 12,
+         "2009": 12,
+         "2010": 12,
+         "2011": 11
+        }
+       },
+       "6004": {
+        "pool": 12,
+        "el": 0,
+        "by_year": {
+         "2006": 9,
+         "2007": 3
+        }
+       },
+       "6012": {
+        "pool": 15,
+        "el": 15,
+        "by_year": {
+         "2006": 2,
+         "2007": 3,
+         "2008": 8,
+         "2009": 2
+        }
+       }
+      },
+      "F3": {
+       "5854": {
+        "pool": 68,
+        "el": 45,
+        "by_year": {
+         "2006": 9,
+         "2007": 12,
+         "2008": 12,
+         "2009": 12,
+         "2010": 12,
+         "2011": 11
+        }
+       },
+       "6004": {
+        "pool": 12,
+        "el": 0,
+        "by_year": {
+         "2006": 9,
+         "2007": 3
+        }
+       },
+       "6012": {
+        "pool": 15,
+        "el": 15,
+        "by_year": {
+         "2006": 2,
+         "2007": 3,
+         "2008": 8,
+         "2009": 2
+        }
+       }
+      }
+     }
+    },
+    "files": {
+     "o14_FINDINGS": "a3f9a936fa16a008ecf341d5ddaf3ab0c83201b59f9ee1974e1d71309e8108ec",
+     "o14_ERRATUM": "9f1603c34fe21bcaedb10928aa6022617515bea758f03a059a2e4d6095801d5a",
+     "FM_COUNTS": "3aab6110a02c27bfc80cd23458b9a99e3e22fa1e89a680ca4184c6a77a34627a",
+     "ERRATUM_SPEC_FM": "9f2d0622bb1754c1d13e1411760fd8fad9cc5f0fac40fc9281a688ce992b077d"
+    }
+   },
+   "proposer": "o15 兩位審查（FINMASK 漏遮）；本題計數",
+   "review_numbers_need_correction": false
+  },
+  {
+   "id": "E6",
+   "target_file": "/home/user/-/research/tw_stock_selection/agents/o_rev_trunc_2009_erratum/FINDINGS.md",
+   "target_sha256": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686",
+   "location": "統計審查 issues 第 2 條、可執行審查 issues 第 4 條（全部金融代碼剔除後）",
+   "original_excerpt": [
+    "我把 28xx、58xx、60xx 全部剔除後重跑，是 107／810（13.2%）、150／930（16.1%），判定不變。",
+    "兩檔都扣掉後大約是 2006～2012 107／810＝13.2%、2006～2013 150／930＝16.1%（直接相減，沒有重排），判定不變。"
+   ],
+   "corrected_text": "重新計數：28／58／60 開頭代號全部不放回並重跑，U_opt 是 107／810＝13.21%、150／930＝16.13%；直接相減（5854 10 槽＋6004 2 槽）是 107／150。與本題 F2 對齊：F2 遮罩（28／58／60 前綴，金融股不進合格集合也不放回，基準名單同時改用 C0_F2）下 U_opt 放回槽位是 107／810、150／930；F1 下是 109／810、152／930。F2 與審查作法的差別只在 6012：審查作法只是不放回，6012 仍以 C0 未遮的身分留在基準池（2008-04-11 入選），F2 則把它遮掉。判定（> 5%）不變。",
+   "evidence": {
+    "counts": {
+     "reviewer_method_drop_28_58_60": {
+      "u_810": 107,
+      "share_810": 0.1321,
+      "u_930": 150,
+      "share_930": 0.16129
+     },
+     "reviewer_direct_subtraction": {
+      "u_810": 107,
+      "u_930": 150
+     },
+     "U_opt_inserted_under_F1": {
+      "u_810": 109,
+      "share_810": 0.13457,
+      "u_930": 152,
+      "share_930": 0.16344
+     },
+     "U_opt_inserted_under_F2": {
+      "u_810": 107,
+      "share_810": 0.1321,
+      "u_930": 150,
+      "share_930": 0.16129
+     },
+     "U_opt_vs_U_opt_F2_changed": {
+      "slots_930": 14.0,
+      "slots_810": 14.0
+     }
+    },
+    "files": {
+     "ER2_FINDINGS": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686",
+     "ER2_JSON": "560019883d46d1a23b6f8db6633ad29bef08e819482776a1bdfc7c8cf6168ce3",
+     "FM_COUNTS": "3aab6110a02c27bfc80cd23458b9a99e3e22fa1e89a680ca4184c6a77a34627a"
+    }
+   },
+   "proposer": "o15 統計審查與可執行審查（數字）；本題重新計數並與 F2 對齊",
+   "review_numbers_need_correction": false
+  }
+ ],
+ "annotation_for_center": {
+  "targets": [
+   {
+    "file": "/home/user/-/research/tw_stock_selection/agents/main_v2/FINDINGS.md",
+    "sha256": "4e6cbba804e50850e57d0ab9c485a467af4afff979202f4844acc9ede3d1c971",
+    "where": "正式數字旁"
+   },
+   {
+    "file": "/home/user/-/台股個股選股規則實證研究報告.md",
+    "where": "第 0 節"
+   }
+  ],
+  "text": "【金融遮罩 PIT 勘誤（o_finmask_delisted_fin_erratum，只計數）】主策略排除金融用的 FINMASK 是 2026 年的事後清單，2006～2013 漏遮已下市的 5854 合庫、6004 元京證、6012 金鼎證。改用 PIT 遮罩重跑名單：C0 異動 F1 5／930、F2 4／930；ER2 放回名單 U_opt 異動 F1 12、F2 14／930；8 個判定比例最大 1.73%（U_opt|F2|810）≤ 5%，依事前規則只加註，G5 第一段不新增項目。直接違反「排除金融」的 C0 槽位只有 1 個（6012，2008-04-11）。"
+ },
+ "file_sha256": {
+  "ER2_FINDINGS": "bcc5462e6214d475f0e525a57692227f782b261442473dc2742a0194d1548686",
+  "ER2_SPEC": "722f7d56eec3674980445d179996c8d3f04226d91fe502b7a0f14260c846126e",
+  "ER2_JSON": "560019883d46d1a23b6f8db6633ad29bef08e819482776a1bdfc7c8cf6168ce3",
+  "o14_FINDINGS": "a3f9a936fa16a008ecf341d5ddaf3ab0c83201b59f9ee1974e1d71309e8108ec",
+  "o14_ERRATUM": "9f1603c34fe21bcaedb10928aa6022617515bea758f03a059a2e4d6095801d5a",
+  "listing_master": "bdb7d6d478c095655c9a9707f550551a128df78839e7a563d81feab09f4988c8",
+  "stock_list_2026": "06111252bee0f002a85434a71623e93acc74a597f36412c4a3871d243cca695e",
+  "tw_revenue": "02657e7c415783020f16255d42f66b0d40d69823fa294113557be6f4584a3898",
+  "disposal_5y": "be06c807e4dfcc26ae7d1da2de37775185cfbbd0ed50d9c0b72d255fc16439e2",
+  "v2_core": "30741b58276f8278057648b1e7302c7d335d593546a5587970a3f22021e96fc3",
+  "FM_COUNTS": "3aab6110a02c27bfc80cd23458b9a99e3e22fa1e89a680ca4184c6a77a34627a",
+  "ERRATUM_SPEC_FM": "9f2d0622bb1754c1d13e1411760fd8fad9cc5f0fac40fc9281a688ce992b077d",
+  "main_v2_FINDINGS": "4e6cbba804e50850e57d0ab9c485a467af4afff979202f4844acc9ede3d1c971",
+  "disposal_fullhist_flags": "2842f45d825861bfe0168f7a9736364fc19adee2b4d9bc3b5a894d4e22db8b40"
+ },
+ "posthoc_utc": "2026-11-06T23:16:08.669127Z"
+}

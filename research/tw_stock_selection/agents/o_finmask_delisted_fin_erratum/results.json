@@ -1,0 +1,84 @@
+{
+ "PREREG_DESIGN": {
+  "file": "PREREG_DESIGN.json",
+  "sha256": "6908bb5e4f5ef9774f579af677113476e94baef8639a247de785a2ed65116763",
+  "utc": "2026-11-06T23:03:32.311213Z"
+ },
+ "ERRATUM_SPEC_FM": {
+  "file": "ERRATUM_SPEC_FM.json",
+  "sha256": "9f2d0622bb1754c1d13e1411760fd8fad9cc5f0fac40fc9281a688ce992b077d",
+  "utc": "2026-11-06T23:09:16.513050Z"
+ },
+ "PREREG": {
+  "file": "ERRATUM_SPEC_FM.json",
+  "sha256": "9f2d0622bb1754c1d13e1411760fd8fad9cc5f0fac40fc9281a688ce992b077d",
+  "utc": "2026-11-06T23:09:16.513050Z",
+  "note": "凍結後才可執行 s4_count.py"
+ },
+ "COUNTS": {
+  "utc": "2026-11-06T23:11:04.299327Z",
+  "judgement": {
+   "ratios": {
+    "C0|F1|930": 0.005376344086021506,
+    "C0|F1|810": 0.006172839506172839,
+    "C0|F2|930": 0.004301075268817204,
+    "C0|F2|810": 0.0049382716049382715,
+    "U_opt|F1|930": 0.012903225806451613,
+    "U_opt|F1|810": 0.014814814814814815,
+    "U_opt|F2|930": 0.015053763440860216,
+    "U_opt|F2|810": 0.01728395061728395
+   },
+   "M": 0.01728395061728395,
+   "M_at": "U_opt|F2|810",
+   "threshold": 0.05,
+   "exceeds": false,
+   "action": "只加註：main_v2 正式數字旁與報告第 0 節加一句（由研究中心執行；本題只產出文字）",
+   "G5_seg1": "不新增項目，只加註"
+  },
+  "slot_list_sha256": "c0ceb62dd33563f7ccc0f3ff531edfcd1b5909802594c1e7306e86bdc79ab1c3",
+  "fm_counts_sha256": "3aab6110a02c27bfc80cd23458b9a99e3e22fa1e89a680ca4184c6a77a34627a"
+ },
+ "ERRATA": {
+  "utc": "2026-11-06T23:14:44.330524Z",
+  "sha256": "677f9b8ca1fae644284146d1193b671540034bdd995cc51c7f368bd4a4998c3a",
+  "E1": {
+   "TRUNC_810": true,
+   "TRUNC_930": true,
+   "no5854_810": true,
+   "no5854_930": true
+  },
+  "E6_match_review": true,
+  "E4_n": 33,
+  "E2_change": [
+   0,
+   -6
+  ],
+  "sha256_after_posthoc": "9824fff2cf822f9e9f36d9bcdcff3f03ceca9d4024361216ca41aa14914e233d",
+  "E2_posthoc_2915_only": [
+   0,
+   -1
+  ]
+ },
+ "FINAL": {
+  "utc": "2026-11-06T23:18:59.817451Z",
+  "verdict": "可用（勘誤結論：只加註）",
+  "M": 0.01728395061728395,
+  "M_at": "U_opt|F2|810",
+  "action": "只加註：main_v2 正式數字旁與報告第 0 節加一句（由研究中心執行；本題只產出文字）",
+  "replication": {
+   "script": "replicate/rep_fm.py",
+   "all_identical": true,
+   "note": "同一研究員以不同程式路徑重寫；G6 意義上的第二位研究員複製仍待做"
+  },
+  "review_stat": {
+   "unknown_sensitivity_max_share": 0.02345679012345679,
+   "binom_ub95": 0.026888716698202975
+  },
+  "review_exec": {
+   "n": 14,
+   "gap_up": 0,
+   "max_pos_share_1000w": 0.00714
+  },
+  "no_returns": "年化、對 0050 t、對主策略 t 都不適用（不重算報酬）"
+ }
+}

@@ -1,0 +1,17 @@
+{
+ "purpose": "登記前煙霧測試：只做管線核對（P＝20,000），不輸出任何版本的誤升級或檢定力",
+ "runs": [
+  {
+   "program": "smoke/smoke0.py",
+   "output": "smoke/smoke0_run1.out",
+   "result": "n_bad＝0（第 1 次即全部一致，未修改程式）"
+  }
+ ],
+ "file_sha256": {
+  "smoke/smoke0.py": "7ee8f3f9dd2406a95966c2cb6cd27a23eec87e6e30a8343221d06fea852a097f",
+  "smoke/smoke0_run1.out": "486271321e6a6277b840811fd730f781f9310d1a2ab1b09762f3592bf052ea97",
+  "g8alib.py": "a02fa67e674cbc85e29d16fde899e7ed7f96342656d8298fa293ebf0732c1ffa",
+  "refimpl.py": "33485a564e5ad81d3e3c6d328fb0e7d88421784ad314e263a462d5a3d1445087"
+ },
+ "utc": "2026-11-06T23:11:23.341384+00:00"
+}
