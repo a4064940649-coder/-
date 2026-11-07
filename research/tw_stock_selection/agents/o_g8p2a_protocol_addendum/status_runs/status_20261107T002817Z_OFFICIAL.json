@@ -1,0 +1,182 @@
+{
+ "OFFICIAL": true,
+ "official_call": true,
+ "label": "OFFICIAL",
+ "argv": [
+  "status",
+  "--official"
+ ],
+ "flags_cli": {
+  "cmd": "status",
+  "official": true,
+  "test_forward": null,
+  "test_registry": null,
+  "test_protocol": null,
+  "test_manifest": null,
+  "test_chain": null,
+  "test_now": null,
+  "test_backlog": null,
+  "test_repo": null,
+  "test_push_events": null,
+  "test_raw_dir": null,
+  "test_first_anchor": null,
+  "test_v2_first_anchor": null,
+  "test_v2_manifest": null,
+  "out": null,
+  "test_skip_remote": false,
+  "test_write_chain": false,
+  "quiet": false
+ },
+ "utc": "2026-11-07T00:28:17.636160+00:00",
+ "now_used": "2026-11-07T00:28:03.406770+00:00",
+ "protocol_sha256": "13972450a2b21938fe892b4e8659c89c8ade56372ce3a2fff678300642ad9d33",
+ "manifest_sha256": "ce1326fde9c96c22f7aad8691437d3ac7cbc95caeac5698943658597c1c40215",
+ "evaluator_sha256": "734f9fc4a3ff33f2bfc6580b2375183817d2551d3bb58faa0d6d81bf671712c5",
+ "v2_shas": {
+  "protocol": "dcab4dbd255fb11e0ad8f4508397ae109cae9a47090eee17ab2ec7952981b993",
+  "manifest": "23f45ce8ee8040a1fa8e721f76241d377f36e573e32a882d9e63c64aa4ed5c30",
+  "evaluator": "1e4c0a16ab627e9418fef688bda4e27dfbb0540a53c6eacb954c7e6cfe22c38f"
+ },
+ "registry_sha256": "8e523798f56cc9566137251c9990b2cdb28bf94ec4d1c9a7c1d0cfb302ed98c3",
+ "registry_types": [
+  "GENESIS"
+ ],
+ "calibs_applied": [],
+ "chain_n": 1,
+ "chain_last_sha": "e260c3f55114bd3867373f73127daf05e30eb0f0579624243f02ec9162e3ee7f",
+ "ledger_sha256": {
+  "forward_returns.csv": "89724d6dba8619400995ca55144b60478b513c2f6561d4bd901365086a304269",
+  "trades.csv": "642e83d98cc32708d2f9f269b25bd5f1c41b9ff20bc648b73925178ea7dd036e",
+  "fills_input.csv": "65970ba03c98d30edfec9db11aaf346788041e2a5c027ae371c23202d2bce137"
+ },
+ "remote_anchor": {
+  "heads": {
+   "refs/heads/claude/trusting-thompson-f9wa47": "604b7bb7c9459ae7183082b64d001924e7b1f284"
+  },
+  "problems": [],
+  "head_ref": "refs/heads/claude/trusting-thompson-f9wa47",
+  "head": "604b7bb7c9459ae7183082b64d001924e7b1f284",
+  "chain_rel": "research/tw_stock_selection/agents/o_g8p2a_protocol_addendum/status_chain.jsonl",
+  "manifest_first_commit": "604b7bb7c9459ae7183082b64d001924e7b1f284",
+  "manifest_first_commit_local_cI": "2026-11-07T00:27:41+00:00",
+  "manifest_content_matches": true,
+  "manifest_at_head_matches": true,
+  "manifest_push": [
+   "2026-11-07T00:27:44+00:00",
+   "604b7bb7c9459ae7183082b64d001924e7b1f284",
+   49314642312
+  ],
+  "backlog_remote_has_sha": true,
+  "backlog_first_commit": "604b7bb7c9459ae7183082b64d001924e7b1f284",
+  "backlog_first_commit_local_cI": "2026-11-07T00:27:41+00:00",
+  "backlog_push": [
+   "2026-11-07T00:27:44+00:00",
+   "604b7bb7c9459ae7183082b64d001924e7b1f284",
+   49314642312
+  ],
+  "remote_chain_lines": [
+   "{\"entry_sha\":\"e260c3f55114bd3867373f73127daf05e30eb0f0579624243f02ec9162e3ee7f\",\"evaluator_sha256\":\"734f9fc4a3ff33f2bfc6580b2375183817d2551d3bb58faa0d6d81bf671712c5\",\"note\":\"G8P-2a status 雜湊鏈起點（只能追加；只有 label＝OFFICIAL 的正式呼叫能追加）\",\"prev_sha\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"protocol_sha256\":\"13972450a2b21938fe892b4e8659c89c8ade56372ce3a2fff678300642ad9d33\",\"seq\":0,\"type\":\"GENESIS\",\"utc\":\"2026-11-06T23:57:52.174370+00:00\"}"
+  ],
+  "anchor_utc": "2026-11-07T00:27:44+00:00",
+  "api_log": [
+   {
+    "file": "raw/remote_anchor/activity_20261107T002814Z_p0.json",
+    "sha256": "2b49f22522ade18eff8bbe9150511db623beb0a4e2aef715a6328c07dab8a296",
+    "fetched_utc": "2026-11-07T00:28:14.281231+00:00",
+    "url": "https://api.github.com/repos/a4064940649-coder/-/activity?per_page=100&activity_type=push"
+   },
+   {
+    "file": "raw/remote_anchor/activity_20261107T002814Z_p1.json",
+    "sha256": "d9eb98bb41a736dba36b5f7175f62f4c2ae81af33b26ae86b48a0411c78190d6",
+    "fetched_utc": "2026-11-07T00:28:14.610794+00:00",
+    "url": "https://api.github.com/repos/a4064940649-coder/-/activity?per_page=100&activity_type=push&after=Y3Vyc29yOnYyOpK7MjAyNi0xMC0yN1QwNjoxODo0My4wMDAwMDBazwAAAAsoYcAn"
+   }
+  ]
+ },
+ "v2_remote_anchor": {
+  "first_commit": "4775d14956bb5b2c47f2423f46514c430da645a3",
+  "local_cI": "2026-11-06T00:04:43+00:00",
+  "push": [
+   "2026-11-06T00:04:47+00:00",
+   "4775d14956bb5b2c47f2423f46514c430da645a3",
+   49180697346
+  ]
+ },
+ "effective_first_anchor_v2a": "2026-11",
+ "effective_first_anchor_v2": "2026-11",
+ "problems": [],
+ "flags": [],
+ "retro_changes": [],
+ "state": "FORWARD_VALIDATING",
+ "state_if_valid": "FORWARD_VALIDATING",
+ "literal_g8": null,
+ "state_text": "前瞻驗證中",
+ "s1_real_calib_entry_shas": null,
+ "components": {
+  "retro": [
+   "FORWARD_VALIDATING",
+   "FORWARD_VALIDATING",
+   "FORWARD_VALIDATING"
+  ],
+  "forward": [
+   "FORWARD_VALIDATING",
+   "FORWARD_VALIDATING",
+   "FORWARD_VALIDATING"
+  ]
+ },
+ "by_mode": {
+  "retro": {
+   "C1_v2_as_implemented": {
+    "state": "FORWARD_VALIDATING",
+    "events": [],
+    "g8_literal": null,
+    "n_valid": 0
+   },
+   "C2_v2_rule_on_v2a_seq": {
+    "state": "FORWARD_VALIDATING",
+    "events": [],
+    "literal": null,
+    "n_valid": 0,
+    "S": 0.0,
+    "deferred_at": null
+   },
+   "C3_new_rule": {
+    "state": "FORWARD_VALIDATING",
+    "events": [],
+    "literal": null,
+    "n_valid": 0,
+    "S": 0.0,
+    "deferred_at": null
+   },
+   "rows": []
+  },
+  "forward": {
+   "C1_v2_as_implemented": {
+    "state": "FORWARD_VALIDATING",
+    "events": [],
+    "g8_literal": null,
+    "n_valid": 0
+   },
+   "C2_v2_rule_on_v2a_seq": {
+    "state": "FORWARD_VALIDATING",
+    "events": [],
+    "literal": null,
+    "n_valid": 0,
+    "S": 0.0,
+    "deferred_at": null
+   },
+   "C3_new_rule": {
+    "state": "FORWARD_VALIDATING",
+    "events": [],
+    "literal": null,
+    "n_valid": 0,
+    "S": 0.0,
+    "deferred_at": null
+   },
+   "rows": []
+  }
+ },
+ "selected_version": "A1",
+ "scope": "S1 例外 (i) 證據只適用「100 萬 GROW」這一個資金點；100 萬 FIX、300 萬、1,000 萬、30 萬都不涵蓋，不得外推。",
+ "historical_gate_note": "(e) G1～G7 歷史部分不過時，即使字面 G8 過了，也只能寫「前瞻 12 個月超額 > 0，但歷史門檻未過，不可投資」；G1～G7 全過且字面 G8 過，才可寫「可投資」；只有字面 G8 過不得寫 α>0"
+}
