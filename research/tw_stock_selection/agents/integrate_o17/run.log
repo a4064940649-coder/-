@@ -1,0 +1,168 @@
+[    11s] 載入完成
+[    15s] 名單 C0 245
+[    18s] 名單 A_UB 245
+[    20s] 名單 A_LB 245
+[    21s] 名單 A_WORST 245
+[    23s] 名單 U13 245
+[    25s] 名單 UFULL 245
+[    25s] 名單 C_DSP 245
+[    27s] 名單 ALLPIT 245
+[    29s] 核對通過 {'U13_2013_2026': 251, 'U13_2013_2018': 227, 'U13_2019_2026': 24, 'UFULL_2006_2013_vs_ER2': {'n': 162, 'n_er2': 162, 'equal': True}, 'UFULL_2014_2026': 208, 'ALLPIT_ins': 370, 'n_DS_DGS_days': 91, 'A_UB_changed_slots': {'all': 147, 'on_DS': 147, 'y2019': 52, 'y0613': 64, 'mean_lagged_top300_on_DS': 268.83516483516485}, 'A_LB_changed_slots': {'all': 0, 'on_DS': 0, 'y2019': 0, 'y0613': 0, 'mean_lagged_top300_on_DS': 0.0}, 'A_WORST_changed_slots': {'all': 165, 'on_DS': 165, 'y2019': 68, 'y0613': 64, 'mean_lagged_top300_on_DS': 299.85714285714283}, 'slot_UB_equal_topic1': {'n_mine': 777, 'n_topic1': 777, 'equal': True}, 'slot_LB_equal_topic1': {'n_mine': 0, 'n_topic1': 0, 'equal': True}, 'C0_in_official_disposal_2006_2013': {'n': 4, 'n_topic1_union': 4, 'equal': True}, 'C0_in_official_disposal_2014_2021-09-23': {'n': 11, 'n_topic1_union': 11, 'equal': True}, 'C_DSP_changed_slots': {'all': 15, 'y0613': 4, 'y1421': 11}, 'changed_slots': {'C0': 0, 'A_UB': 147, 'A_LB': 0, 'A_WORST': 165, 'U13': 251, 'UFULL': 370, 'C_DSP': 15, 'ALLPIT': 468}}
+[    30s] C0 重現 {'normal': {'vs_main_v2': 0.0, 'cz_vs_ia': 0.0}, 'stress': {'vs_main_v2': 0.0, 'cz_vs_ia': 0.0}}
+[    32s] 模擬 C0
+[    34s] 模擬 A_UB
+[    36s] 模擬 A_LB
+[    37s] 模擬 A_WORST
+[    39s] 模擬 U13
+[    42s] 模擬 UFULL
+[    43s] 模擬 C_DSP
+[    45s] 模擬 ALLPIT
+[    50s] 統計完成
+[    50s] 寫入 results.json
+{
+ "A_UB": {
+  "tier": "R2 方向不變",
+  "worst": {
+   "engine": "freeze",
+   "cost": "normal",
+   "d_ann": -1.1280421910380376,
+   "d_t": -0.2135798171302925,
+   "t_all": 2.429013208980878,
+   "t_seg3": 1.440327041839836,
+   "t_drop_best3": 1.379189855942462,
+   "t_diff_vs_C0": -1.0473038666030872,
+   "corr_C0": 0.9905669654696689,
+   "SEG1_gex": 10.728137261525838,
+   "SEG1_gex_C0": 13.165554179676953,
+   "SEG1_sign_same": true,
+   "SEG2_gex": 9.009069113297553,
+   "SEG2_gex_C0": 9.710158285151607,
+   "SEG2_sign_same": true,
+   "SEG3_gex": 16.5467927266038,
+   "SEG3_gex_C0": 16.616305634157815,
+   "SEG3_sign_same": true
+  }
+ },
+ "A_LB": {
+  "tier": "R1 可忽略",
+  "worst": {
+   "engine": "freeze",
+   "cost": "normal",
+   "d_ann": 0.0,
+   "d_t": 0.0,
+   "t_all": 2.6425930261111703,
+   "t_seg3": 1.4538861436706734,
+   "t_drop_best3": 1.4982056659087848,
+   "t_diff_vs_C0": null,
+   "corr_C0": 1.0,
+   "SEG1_gex": 13.165554179676953,
+   "SEG1_gex_C0": 13.165554179676953,
+   "SEG1_sign_same": true,
+   "SEG2_gex": 9.710158285151607,
+   "SEG2_gex_C0": 9.710158285151607,
+   "SEG2_sign_same": true,
+   "SEG3_gex": 16.616305634157815,
+   "SEG3_gex_C0": 16.616305634157815,
+   "SEG3_sign_same": true
+  }
+ },
+ "C_DSP": {
+  "tier": "R2 方向不變",
+  "worst": {
+   "engine": "freeze",
+   "cost": "normal",
+   "d_ann": -0.6770411623614265,
+   "d_t": -0.004154822503610767,
+   "t_all": 2.6384382036075595,
+   "t_seg3": 1.349126830519397,
+   "t_drop_best3": 1.5074468975412247,
+   "t_diff_vs_C0": -0.8303971851103247,
+   "corr_C0": 0.9887027570389554,
+   "SEG1_gex": 13.124908286088587,
+   "SEG1_gex_C0": 13.165554179676953,
+   "SEG1_sign_same": true,
+   "SEG2_gex": 10.359903336119114,
+   "SEG2_gex_C0": 9.710158285151607,
+   "SEG2_sign_same": true,
+   "SEG3_gex": 13.974901479523584,
+   "SEG3_gex_C0": 16.616305634157815,
+   "SEG3_sign_same": true
+  }
+ },
+ "U13": {
+  "tier": "R3 可能翻號",
+  "worst": {
+   "engine": "cons_main",
+   "cost": "normal",
+   "d_ann": -3.364200799323047,
+   "d_t": -0.5787943457527907,
+   "t_all": 2.0637986803583797,
+   "t_seg3": 1.31774370584278,
+   "t_drop_best3": 0.955214316320489,
+   "t_diff_vs_C0": -2.3334194219463833,
+   "corr_C0": 0.9805254773871438,
+   "SEG1_gex": 13.165554179676953,
+   "SEG1_gex_C0": 13.165554179676953,
+   "SEG1_sign_same": true,
+   "SEG2_gex": 1.4328278654906832,
+   "SEG2_gex_C0": 9.710158285151607,
+   "SEG2_sign_same": true,
+   "SEG3_gex": 14.581725996639204,
+   "SEG3_gex_C0": 16.616305634157815,
+   "SEG3_sign_same": true
+  }
+ },
+ "UFULL": {
+  "tier": "R3 可能翻號",
+  "worst": {
+   "engine": "cons_lo",
+   "cost": "normal",
+   "d_ann": -4.361423304223223,
+   "d_t": -0.7529258331753637,
+   "t_all": 1.8896671929358066,
+   "t_seg3": 1.3177437058427803,
+   "t_drop_best3": 0.7930622172842537,
+   "t_diff_vs_C0": -2.5099529710901085,
+   "corr_C0": 0.9697309555014034,
+   "SEG1_gex": 10.333591286427568,
+   "SEG1_gex_C0": 13.165554179676953,
+   "SEG1_sign_same": true,
+   "SEG2_gex": 1.4409553195002829,
+   "SEG2_gex_C0": 9.710158285151607,
+   "SEG2_sign_same": true,
+   "SEG3_gex": 14.581725996639204,
+   "SEG3_gex_C0": 16.616305634157815,
+   "SEG3_sign_same": true
+  }
+ },
+ "ALLPIT": {
+  "tier": "R3 可能翻號",
+  "worst": {
+   "engine": "cons_lo",
+   "cost": "normal",
+   "d_ann": -7.1930149106725025,
+   "d_t": -1.2077875728971146,
+   "t_all": 1.4348054532140557,
+   "t_seg3": 1.1367873658986498,
+   "t_drop_best3": 0.5220562050785073,
+   "t_diff_vs_C0": -3.3673248478024047,
+   "corr_C0": 0.9514534206015162,
+   "SEG1_gex": 8.18938510132261,
+   "SEG1_gex_C0": 13.165554179676953,
+   "SEG1_sign_same": true,
+   "SEG2_gex": -1.5813420971578998,
+   "SEG2_gex_C0": 9.710158285151607,
+   "SEG2_sign_same": false,
+   "SEG3_gex": 11.253787691485865,
+   "SEG3_gex_C0": 16.616305634157815,
+   "SEG3_sign_same": true
+  }
+ },
+ "G2_under_ALLPIT_cons_lo": {
+  "t_all": 1.4348054532140557,
+  "t_seg3": 1.1367873658986498,
+  "G2": false
+ },
+ "E_mix": "不做（PREREG.E_mix）：兩題都沒有報酬序列；勘誤版主策略與 C0 相關 ≈ 1，當第二條腿等於自己混自己；0050 固定比例混合在「不再開」清單（integrate_o14 已全部不可用）",
+ "overall": "主策略與所有變體都不可投資；SOP 不改；真錢維持 100% 0050"
+}

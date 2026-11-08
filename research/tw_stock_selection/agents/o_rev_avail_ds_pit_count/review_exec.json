@@ -1,0 +1,72 @@
+{
+ "SOP_timing": {
+  "SOP_signal_at_close_trade_next_open": true,
+  "SOP_text_claims_revenue_already_announced": true,
+  "forward_pipeline_2230_rerun": true,
+  "note": "SOP 第 1 條「這時上個月的營收已經公告（期限是 10 日）」在 D=S 日不成立（期限就是換股日當天 24:00）。回測 C0 用換股日收盤時已知的全部 m−1 營收；SOP 是隔日開盤成交，前瞻管線在訊號日 22:30 加跑，所以實盤可用到「S 當晚 22:30 前已公告」的營收。"
+ },
+ "second_cutoff_2024_06_on": {
+  "n_DS_slots": 100,
+  "not_AVAIL_at_1330": 23,
+  "second": {
+   "UNKNOWN": 13,
+   "SEEN_BY_24": 10
+  },
+  "meaning": "SEEN_BY_24＝S 24:00 前的快照已看到（盤中時點問題，不是逾期申報）；UNKNOWN＝快照 S+1 18:20 才出現（Tasi 落後 1 天，可能 S 當天任何時刻公告）；沒有任何一槽是 S 之後才公告（ABSENT_ON_LATER_DAY／ANN_AFTER_S＝0）"
+ },
+ "J0": {
+  "J0_is_deadline_day_share": 1.0,
+  "J0_share_of_j_slots_2019_on": 0.0773067331670823,
+  "J0_upper_share_of_all_j_2019_on": 0.05552784704904406,
+  "J0_lower_share_of_all_j_2019_on": 0.0,
+  "J0_rank": {
+   "ALL": {
+    "rank_from_low_of_13": 12,
+    "is_median_j": false,
+    "is_p10_bracket": false,
+    "median_j": "J6",
+    "p10_between": [
+     "J12",
+     "J5"
+    ],
+    "J0_gex": 2.214,
+    "median": 0.767,
+    "median_without_J0_posthoc": 0.554
+   },
+   "SEG3_2019_on": {
+    "rank_from_low_of_13": 9,
+    "is_median_j": false,
+    "is_p10_bracket": false,
+    "median_j": "J6",
+    "p10_between": [
+     "J12",
+     "J10"
+    ],
+    "J0_gex": 0.531,
+    "median": -6.657,
+    "median_without_J0_posthoc": -6.858
+   },
+   "SEG1": {
+    "rank_from_low_of_13": 11,
+    "is_median_j": false,
+    "is_p10_bracket": false,
+    "median_j": "J9",
+    "p10_between": [
+     "J5",
+     "J3"
+    ],
+    "J0_gex": 10.635,
+    "median": 8.408,
+    "median_without_J0_posthoc": 8.009
+   }
+  },
+  "reproduces_integrate_o11": {
+   "ALL_median_gex_mine": 0.7665795735346084,
+   "integrate_o11": 0.7665795735346084,
+   "p10_mine": -3.128070402690514,
+   "p10_integrate_o11": -3.128070402690514
+  },
+  "note": "J0 不是中位數或 p10 落點的 j；但 J0 在全期是 13 個 j 的第 2 高（第 12 名）。事後描述：拿掉 J0 後 12 個 j 的中位數（不是正式口徑，只說明 J0 的影響方向）。V7X 的 J0 已用 AB 的 MC 延後機率處理一部分未公告，不是完全前視。"
+ },
+ "verdict": "可用：SOP 時點與 J0 核對一致；建議把 SOP 第 1 條改成「D=S 月份期限就是換股日當天，部分營收在收盤時尚未公告」的註記（文字更正，不改規則）"
+}

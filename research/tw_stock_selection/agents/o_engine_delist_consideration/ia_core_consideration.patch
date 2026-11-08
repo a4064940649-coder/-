@@ -1,0 +1,169 @@
+--- a/research/tw_stock_selection/agents/independent_audit/ia_core.py
++++ b/research/tw_stock_selection/agents/independent_audit/ia_core.py
+@@ -251,10 +251,12 @@
+         return out
+ 
+ 
+-def simulate(plan, buy, sell, t0, t1, freeze=True, delist_zero=False, ret_override=None):
++def simulate(plan, buy, sell, t0, t1, freeze=True, delist_zero=False, ret_override=None, settle=None):
+     """日頻引擎。plan=[(exec_t, picks, ...)]。回傳 (nav Series（t0..t1 收盤）, log dict)。
+     freeze=True：換股日開盤無成交的持股不能賣、保留到可成交；False：以最後收盤價出清（＝既有程式作法）。
+     delist_zero=True：之後再也沒有成交的凍結持股市值歸零（下市最壞情境）。"""
++    if settle is not None:   # 下市「收購／換股對價」口徑（o_engine_delist_consideration；settle＝build_settlement(events_v2)）
++        return _sim_consideration(plan, buy, sell, t0, t1, settle, ret_override)
+     G = GROW if ret_override is None else ret_override
+     reb = {p[0]: p[1] for p in plan}
+     val = np.zeros(N); cash = 1.0
+@@ -304,6 +306,152 @@
+     return pd.Series(nav, index=IDX[t0:t1 + 1]), {'turnover': float(np.mean(tov[1:])) if len(tov) > 1 else np.nan, 'frozen': frozen_ev}
+ 
+ 
++# ---------------- 下市對價口徑（o_engine_delist_consideration） ----------------
++def _lt_engine(j, term, TR, IDX):
++    w = np.flatnonzero(TR[:, j])
++    if term is not None: w = w[IDX[w] <= term]
++    return int(w[-1]) if len(w) else -1
++
++
++def build_settlement(E, bound='main', d=0.057, cash_0050=False, TR=None, IDX=None, Cn=None, CI=None, On=None):
++    """E：events_v2 DataFrame。bound：'main'｜'lo'｜'hi'（swap_ur／acq_ur 的 δ 與 unknown／distress 的界限）。
++    回傳 {欄位 j: [規則 dict]}（同一代碼可有多個證券，依 lt 區分）。"""
++    TR = TRADED if TR is None else TR; IDX = globals()['IDX'] if IDX is None else IDX
++    Cn = globals()['Cn'] if Cn is None else Cn; CI = globals()['CI'] if CI is None else CI
++    On = globals()['On'] if On is None else On
++    out = {}
++    dl = {'main': 0.0, 'lo': -d, 'hi': d}[bound]
++    for r in E.itertuples():
++        j = CI.get(r.code)
++        if j is None or not isinstance(r.last_trade, str) or not r.last_trade: continue
++        ltU = pd.Timestamp(r.last_trade)
++        term = pd.Timestamp(r.terminate_date) if isinstance(r.terminate_date, str) and r.terminate_date else ltU + pd.Timedelta(days=14)
++        lt = _lt_engine(j, max(term, ltU), TR, IDX)
++        if lt < 0: continue
++        n_tr = len(np.flatnonzero(TR[:, j]))
++        if lt + 1 >= len(IDX): continue
++        # 這個 lt 之後同代碼若在終止日前又有成交，表示不是這個事件（安全檢查）
++        lc = float(Cn[lt, j])
++        ti = int(np.searchsorted(IDX.values, np.datetime64(term)))
++        pay = min(ti + 20, len(IDX) - 1)
++        rule = dict(code=r.code, lt=lt, trig=lt + 1, lc=lc, type=r.type, pay=pay, term=ti, cash_0050=cash_0050, parts=[])
++        gap = (IDX[lt] < ltU - pd.Timedelta(days=7))
++        if gap:
++            rule['type'] = 'price_gap'
++            rule['parts'].append(dict(kind='fixed_sell', per_share=lc, rel=lt + 1))
++        else:
++            t = r.type
++            sj = CI.get(r.successor) if isinstance(r.successor, str) and r.successor else None
++            sfirst = int(np.searchsorted(IDX.values, np.datetime64(pd.Timestamp(r.succ_first_trade)))) if isinstance(r.succ_first_trade, str) and r.succ_first_trade else None
++            if sj is not None and sfirst is not None:
++                w = np.flatnonzero(TR[:, sj] & np.isfinite(On[:, sj])); w = w[w >= sfirst]
++                sfirst = int(w[0]) if len(w) else None
++            if t == 'cash':
++                rule['parts'].append(dict(kind='cash', per_share=float(r.cash), rel=pay))
++            elif t in ('swap', 'conversion', 'mixed') and sj is not None and sfirst is not None:
++                if np.isfinite(r.ratio): rule['parts'].append(dict(kind='stock', succ=sj, ratio=float(r.ratio), rel=sfirst, per_share_window=lc))
++                if t == 'mixed' and np.isfinite(r.cash): rule['parts'].append(dict(kind='cash', per_share=float(r.cash), rel=pay))
++                if t == 'mixed' and np.isfinite(r.pref_ratio): rule['parts'].append(dict(kind='fixed_sell', per_share=float(r.pref_ratio * r.pref_value), rel=sfirst))
++            elif t == 'swap_ur' and sj is not None and sfirst is not None and np.isfinite(Cn[lt, sj]):
++                rule['parts'].append(dict(kind='stock', succ=sj, ratio=float(lc / Cn[lt, sj] * (1 + dl)), rel=sfirst, per_share_window=lc))
++            elif t in ('acq_ur', 'swap_ur', 'swap', 'conversion', 'mixed'):   # 存續股不在面板 → 價值型處理
++                rule['type'] = t if t == 'acq_ur' else t + '->acq_ur'
++                rule['parts'].append(dict(kind='cash', per_share=lc * (1 + dl), rel=pay))
++            elif t in ('unknown', 'distress'):
++                hi = (bound == 'hi') or (bound == 'main' and t == 'unknown')
++                if hi: rule['parts'].append(dict(kind='cash', per_share=lc, rel=pay))
++                else: rule['parts'].append(dict(kind='fixed_sell', per_share=lc, rel=lt + 1, zero=True))
++            else:
++                continue
++        out.setdefault(j, []).append(rule)
++    return out
++
++
++def _solve(htr, cash, pk, buy, sell):
++    N = len(htr); Vt = htr.sum() + cash; k = len(pk)
++    def cost_of(T):
++        tgt = np.zeros(N); tgt[pk] = T
++        return buy * np.clip(tgt - htr, 0, None).sum() + sell * np.clip(htr - tgt, 0, None).sum()
++    lo, hi = 0.0, Vt / k
++    for _ in range(60):
++        mid = 0.5 * (lo + hi)
++        if mid * k + cost_of(mid) > Vt: hi = mid
++        else: lo = mid
++    return lo, Vt
++
++
++def _sim_consideration(plan, buy, sell, t0, t1, settle, ret_override):
++    G = GROW if ret_override is None else ret_override
++    NN = N; reb = {p[0]: p[1] for p in plan}
++    E5n = E50.to_numpy()
++    trig = {}
++    for j, rules in settle.items():
++        for ru in rules: trig.setdefault(ru['trig'], []).append((j, ru))
++    val = np.zeros(NN); cash = 0.0 + 1.0
++    claims = []   # dict(kind, value, rel, succ?, q?)
++    nav = np.empty(t1 - t0 + 1); tov = []; frozen_ev = []; settled = []
++    for t in range(t0, t1 + 1):
++        # 1) 觸發：lt 後第一個交易日把持有部位轉成請求權
++        for j, ru in trig.get(t, []):
++            if val[j] <= 0 or t <= t0: continue
++            V = val[j]; sh = V / ru['lc']; val[j] = 0.0
++            ev = dict(date=str(IDX[t].date()), code=ru['code'], type=ru['type'], value_lastclose=float(V), parts=[])
++            for p in ru['parts']:
++                if p['kind'] == 'cash':
++                    claims.append(dict(kind='cash', value=sh * p['per_share'], rel=max(p['rel'], t), c50=ru['cash_0050'], ev=ev))
++                elif p['kind'] == 'fixed_sell':
++                    claims.append(dict(kind='fixed_sell', value=sh * p['per_share'], rel=max(p['rel'], t), zero=p.get('zero', False), ev=ev))
++                elif p['kind'] == 'stock':
++                    claims.append(dict(kind='stock', value=sh * p['per_share_window'], rel=max(p['rel'], t), succ=p['succ'], q=sh * p['ratio'], ev=ev))
++            settled.append(ev)
++        # 2) 0050 計值的現金請求權（A16 敏感度）
++        if t > t0:
++            r50 = E5n[t] / E5n[t - 1] if np.isfinite(E5n[t]) and np.isfinite(E5n[t - 1]) else 1.0
++            for c in claims:
++                if c['kind'] == 'cash' and c.get('c50') and t <= c['rel']: c['value'] *= r50
++        isreb = t in reb
++        # 3) 到期：現金入帳；股票請求權在 s 轉成存續股（s 為換股日時以開盤價計入）
++        keep = []
++        add_open = np.zeros(NN)
++        for c in claims:
++            if t >= c['rel']:
++                if c['kind'] == 'cash':
++                    cash += c['value']; c['ev']['parts'].append(('cash', str(IDX[t].date()), float(c['value'])))
++                    continue
++                if c['kind'] == 'stock':
++                    sj = c['succ']
++                    if isreb: add_open[sj] += c['q'] * On[t, sj]
++                    else: val[sj] += c['q'] * Cn[t, sj] / G[t, sj]   # 之後乘上當日 G → 收盤值 q×C
++                    c['ev']['parts'].append(('stock', str(IDX[t].date()), COLS[sj], float(c['q'] * (On[t, sj] if isreb else Cn[t, sj]))))
++                    continue
++                if c['kind'] == 'fixed_sell' and isreb:
++                    pr = 0.0 if c.get('zero') else c['value'] * (1 - sell)
++                    cash += pr; c['ev']['parts'].append(('writeoff' if c.get('zero') else 'fixed_sell', str(IDX[t].date()), float(pr)))
++                    continue
++            keep.append(c)
++        claims = keep
++        if isreb:
++            pk = reb[t]
++            tr = TRADED[t] & np.isfinite(On[t])
++            gap = np.where(tr, G[t] * On[t] / np.where(tr, Cn[t], 1.0), 1.0)
++            h = val * gap + add_open
++            frz = (h > 0) & ~tr
++            Vfz = h[frz].sum(); htr = np.where(frz, 0.0, h)
++            Vcl = sum(c['value'] for c in claims)
++            T, Vt = _solve(htr, cash, pk, buy, sell)
++            tgt = np.zeros(NN); tgt[pk] = T
++            tov.append(np.clip(htr - tgt, 0, None).sum() / (Vt + Vfz + Vcl))
++            newval = np.where(frz, h, 0.0); newval[pk] += T
++            oc = np.where(tr, Cn[t] / np.where(tr, On[t], 1.0), 1.0)
++            val = np.where(frz, newval, newval * oc); cash = 0.0
++            if frz.any() or claims:
++                frozen_ev.append((str(IDX[t].date()), [COLS[j] for j in np.where(frz)[0]], float((Vfz + Vcl) / (Vt + Vfz + Vcl))))
++        else:
++            val = val * G[t] if t > t0 else val
++        nav[t - t0] = val.sum() + cash + sum(c['value'] for c in claims)
++    return pd.Series(nav, index=IDX[t0:t1 + 1]), {'turnover': float(np.mean(tov[1:])) if len(tov) > 1 else np.nan, 'frozen': frozen_ev, 'settled': settled}
++
++
+ # ---------------- 統計 ----------------
+ def tstat(x):
+     x = np.asarray(x, float); x = x[np.isfinite(x)]

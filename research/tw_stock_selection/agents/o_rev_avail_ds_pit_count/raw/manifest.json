@@ -1,0 +1,32 @@
+{
+ "ts_tasi_upstream_firstseen.csv.gz": {
+  "from": "/home/user/-/research/tw_stock_selection/agents/o_rev_event_clock_ts/data/firstseen_sources.csv.gz",
+  "sha256": "460d47489c006fc3e895222e68301783274e4be8c5588ed934d38a475923f60b",
+  "note": "o11：shohokuno10/Tasi「營收/YYYYMM.csv」每日快照（2024-06-14 起）與上游 tw-stock-screener git（2026-09-29 起）的逐檔首見 T、前一張快照 T_prev"
+ },
+ "ts_mops_ann_date.csv": {
+  "from": "tw-stock-screener/data/extras/rev_hist.csv.gz（ann_date＝MOPS 公告日欄位，只有日期）",
+  "sha256": "4e1079850e4f3e1598c5a7d36efb7e4d207c14f416e6f3d4dbefc533d3c4a0ce",
+  "n": 1777
+ },
+ "ts_news_mentions.csv.gz": {
+  "from": "o_rev_gap_news_2013/data/mentions_P1.parquet（鉅亨 CTBC 鏡像 2013-01～2021-12 只有日期；PTT 2019～2021 檔名日期；ELD 2016～2018 含時間；BOF 檔名日期）",
+  "sha256": "32f7548fc6884e235145ebdcacc34917f4bc8e047f01bca7c2a57d244969dedc",
+  "n": 27968
+ },
+ "tasi_commit_times.txt": {
+  "from": "/tmp/tasi_hist（github.com/shohokuno10/Tasi blobless clone，HEAD 25fa2103 2026-10-27）git log",
+  "sha256": "195b346faa3dfafc55f47ebb576abc916a29fc780368bdda4225c31dc0d3bb0b",
+  "n_commits": 2032
+ },
+ "disposal_official_universe.csv": {
+  "from": "/home/user/-/research/tw_stock_selection/agents/o_disposal_official_fullhist/universe_flags.csv",
+  "sha256": "2842f45d825861bfe0168f7a9736364fc19adee2b4d9bc3b5a894d4e22db8b40",
+  "note": "官方全歷史處置（普通股）事件期 start～end（o_disposal_official_fullhist）"
+ },
+ "disposal_hist_rejudge.csv": {
+  "from": "/home/user/-/research/tw_stock_selection/agents/o_disposal_rejudge/disposal_hist_rejudge.csv",
+  "sha256": "2c171924096ecf4c0d1da9c3c0db12002c38ace46864dede615496cbb1abe20d",
+  "note": "官方處置公告全歷史（含公告日、措施）"
+ }
+}

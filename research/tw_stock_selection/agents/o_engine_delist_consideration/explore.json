@@ -1,0 +1,993 @@
+{
+ "utc": "2026-11-07T23:31:15.873353+00:00",
+ "no_strategy_returns": true,
+ "census": {
+  "n_files_scanned": 1921,
+  "n_files_with_lists": 112,
+  "n_results": 4469,
+  "n_distinct_perm_events_U": 23,
+  "n_issuers_U": 23,
+  "price_gap_only_IA_events": [
+   [
+    "1902",
+    "2019-05-16"
+   ],
+   [
+    "2448",
+    "2019-05-16"
+   ],
+   [
+    "2456",
+    "2019-05-16"
+   ],
+   [
+    "2823",
+    "2019-05-16"
+   ],
+   [
+    "3698",
+    "2019-05-16"
+   ],
+   [
+    "5305",
+    "2019-05-16"
+   ]
+  ],
+  "files_skipped_large": [
+   "exit_rules/infos.pkl",
+   "o_capmatched_selection/replicate_o7/out/xs_j.pkl",
+   "o_capmatched_selection/replicate_o7/out/xs_jalt.pkl",
+   "o_capmatched_selection/replicate_o7/out/xs_jcal.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/A.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/B.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/C.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/KEEP.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/KHI.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/KLO.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/OAHALF.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/ODDSTRESS.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/STRESS.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/d1.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/d2.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/d3.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/d4.pkl",
+   "o_exec_capacity_tiers/replicate_o5/out/d5.pkl",
+   "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R0.pkl",
+   "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R0_nan.pkl",
+   "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R1.pkl",
+   "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R2.pkl",
+   "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R3.pkl",
+   "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R4.pkl",
+   "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R4c.pkl",
+   "o_lc_sector_rotation_pit/replicate_o12/base.pkl"
+  ],
+  "files_error": [
+   [
+    "o_capmatched_selection/replicate_o7/out/xs.pkl",
+    "ModuleNotFoundError(\"No module named 'rstrat'\")"
+   ]
+  ]
+ },
+ "registered_sets": {
+  "C0（FM_COUNTS C0|C0 2006～2013＋o14 lists_C0）": {
+   "n_results": 1,
+   "perm_slots_U": 0,
+   "perm_slots_IA": 0,
+   "events_U": [],
+   "events_IA": [],
+   "n_events_U": 0,
+   "n_issuers_U": 0,
+   "frozen_share_max": 0
+  },
+  "U_opt（FM_COUNTS C0|U_opt，只含 2006～2013）": {
+   "n_results": 1,
+   "perm_slots_U": 6,
+   "perm_slots_IA": 6,
+   "events_U": [
+    [
+     "2403",
+     "2010-11-08"
+    ],
+    [
+     "2432",
+     "2008-08-25"
+    ],
+    [
+     "2473",
+     "2012-11-21"
+    ],
+    [
+     "3009",
+     "2010-03-05"
+    ],
+    [
+     "3012",
+     "2006-09-19"
+    ],
+    [
+     "3063",
+     "2010-03-19"
+    ]
+   ],
+   "events_IA": [
+    [
+     "2403",
+     "2010-11-08"
+    ],
+    [
+     "2432",
+     "2008-08-25"
+    ],
+    [
+     "2473",
+     "2012-11-21"
+    ],
+    [
+     "3009",
+     "2010-03-05"
+    ],
+    [
+     "3012",
+     "2006-09-19"
+    ],
+    [
+     "3063",
+     "2010-03-19"
+    ]
+   ],
+   "n_events_U": 6,
+   "n_issuers_U": 6,
+   "frozen_share_max": 0.3297
+  },
+  "U_opt_F2（FM_COUNTS F2|U_opt）": {
+   "n_results": 1,
+   "perm_slots_U": 6,
+   "perm_slots_IA": 6,
+   "events_U": [
+    [
+     "2403",
+     "2010-11-08"
+    ],
+    [
+     "2432",
+     "2008-08-25"
+    ],
+    [
+     "2473",
+     "2012-11-21"
+    ],
+    [
+     "3009",
+     "2010-03-05"
+    ],
+    [
+     "3012",
+     "2006-09-19"
+    ],
+    [
+     "3063",
+     "2010-03-19"
+    ]
+   ],
+   "events_IA": [
+    [
+     "2403",
+     "2010-11-08"
+    ],
+    [
+     "2432",
+     "2008-08-25"
+    ],
+    [
+     "2473",
+     "2012-11-21"
+    ],
+    [
+     "3009",
+     "2010-03-05"
+    ],
+    [
+     "3012",
+     "2006-09-19"
+    ],
+    [
+     "3063",
+     "2010-03-19"
+    ]
+   ],
+   "n_events_U": 6,
+   "n_issuers_U": 6,
+   "frozen_share_max": 0.3281
+  },
+  "V7X 名單（o_v7_listing_exec_engine/data/plans_j7.csv AB_V7_B10，13 j×20 seeds）": {
+   "n_results": 520,
+   "perm_slots_U": 5592,
+   "perm_slots_IA": 9964,
+   "events_U": [
+    [
+     "1520",
+     "2007-12-25"
+    ],
+    [
+     "1716",
+     "2010-12-21"
+    ],
+    [
+     "2311",
+     "2018-04-17"
+    ],
+    [
+     "2325",
+     "2018-04-17"
+    ],
+    [
+     "2394",
+     "2006-11-20"
+    ],
+    [
+     "2403",
+     "2010-11-08"
+    ],
+    [
+     "2432",
+     "2008-08-25"
+    ],
+    [
+     "2446",
+     "2009-11-18"
+    ],
+    [
+     "2452",
+     "2010-03-24"
+    ],
+    [
+     "2473",
+     "2012-11-21"
+    ],
+    [
+     "3009",
+     "2010-03-05"
+    ],
+    [
+     "3012",
+     "2006-09-19"
+    ],
+    [
+     "3063",
+     "2010-03-19"
+    ],
+    [
+     "3474",
+     "2016-11-29"
+    ],
+    [
+     "6286",
+     "2016-04-20"
+    ]
+   ],
+   "events_IA": [
+    [
+     "1520",
+     "2007-12-25"
+    ],
+    [
+     "1716",
+     "2010-12-21"
+    ],
+    [
+     "1902",
+     "2019-05-16"
+    ],
+    [
+     "2311",
+     "2018-04-17"
+    ],
+    [
+     "2325",
+     "2018-04-17"
+    ],
+    [
+     "2394",
+     "2006-11-20"
+    ],
+    [
+     "2403",
+     "2010-11-08"
+    ],
+    [
+     "2432",
+     "2008-08-25"
+    ],
+    [
+     "2446",
+     "2009-11-18"
+    ],
+    [
+     "2448",
+     "2019-05-16"
+    ],
+    [
+     "2452",
+     "2010-03-24"
+    ],
+    [
+     "2456",
+     "2019-05-16"
+    ],
+    [
+     "2473",
+     "2012-11-21"
+    ],
+    [
+     "3009",
+     "2010-03-05"
+    ],
+    [
+     "3012",
+     "2006-09-19"
+    ],
+    [
+     "3063",
+     "2010-03-19"
+    ],
+    [
+     "3474",
+     "2016-11-29"
+    ],
+    [
+     "3698",
+     "2019-05-16"
+    ],
+    [
+     "5305",
+     "2019-05-16"
+    ],
+    [
+     "6286",
+     "2016-04-20"
+    ]
+   ],
+   "n_events_U": 15,
+   "n_issuers_U": 15,
+   "frozen_share_max": 0.5358
+  },
+  "V7 AB（plans_j7.csv AB_V7）": {
+   "n_results": 520,
+   "perm_slots_U": 0,
+   "perm_slots_IA": 0,
+   "events_U": [],
+   "events_IA": [],
+   "n_events_U": 0,
+   "n_issuers_U": 0,
+   "frozen_share_max": 0.1076
+  },
+  "V7 官方日 B10（plan_V7_B10.csv）": {
+   "n_results": 1,
+   "perm_slots_U": 9,
+   "perm_slots_IA": 20,
+   "events_U": [
+    [
+     "2311",
+     "2018-04-17"
+    ],
+    [
+     "2325",
+     "2018-04-17"
+    ],
+    [
+     "2403",
+     "2010-11-08"
+    ],
+    [
+     "2432",
+     "2008-08-25"
+    ],
+    [
+     "2473",
+     "2012-11-21"
+    ],
+    [
+     "3009",
+     "2010-03-05"
+    ],
+    [
+     "3063",
+     "2010-03-19"
+    ],
+    [
+     "3474",
+     "2016-11-29"
+    ],
+    [
+     "6286",
+     "2016-04-20"
+    ]
+   ],
+   "events_IA": [
+    [
+     "2311",
+     "2018-04-17"
+    ],
+    [
+     "2325",
+     "2018-04-17"
+    ],
+    [
+     "2403",
+     "2010-11-08"
+    ],
+    [
+     "2432",
+     "2008-08-25"
+    ],
+    [
+     "2448",
+     "2019-05-16"
+    ],
+    [
+     "2456",
+     "2019-05-16"
+    ],
+    [
+     "2473",
+     "2012-11-21"
+    ],
+    [
+     "3009",
+     "2010-03-05"
+    ],
+    [
+     "3063",
+     "2010-03-19"
+    ],
+    [
+     "3474",
+     "2016-11-29"
+    ],
+    [
+     "3698",
+     "2019-05-16"
+    ],
+    [
+     "5305",
+     "2019-05-16"
+    ],
+    [
+     "6286",
+     "2016-04-20"
+    ]
+   ],
+   "n_events_U": 9,
+   "n_issuers_U": 9,
+   "frozen_share_max": 0.4304
+  },
+  "main_v2 主策略（independent_audit picks、o_rev_survivorship ORIG）": {
+   "n_results": 4,
+   "perm_slots_U": 0,
+   "perm_slots_IA": 0,
+   "events_U": [],
+   "events_IA": [],
+   "n_events_U": 0,
+   "n_issuers_U": 0,
+   "frozen_share_max": 0.0399
+  }
+ },
+ "v7x_slots_by_event": {
+  "2311": 520,
+  "2432": 520,
+  "2325": 520,
+  "3063": 520,
+  "3474": 520,
+  "6286": 520,
+  "2473": 520,
+  "3012": 332,
+  "1716": 321,
+  "2394": 320,
+  "2403": 320,
+  "1520": 280,
+  "3009": 139,
+  "2446": 120,
+  "2452": 120
+ },
+ "price_survivor_gap_ia_panel": {
+  "n_codes": 32,
+  "rows": [
+   {
+    "code": "1262",
+    "first": "2019-05-17",
+    "last": "2019-10-07",
+    "n": 97
+   },
+   {
+    "code": "1507",
+    "first": "2019-05-17",
+    "last": "2022-04-13",
+    "n": 709
+   },
+   {
+    "code": "1592",
+    "first": "2019-05-17",
+    "last": "2021-06-15",
+    "n": 507
+   },
+   {
+    "code": "1724",
+    "first": "2019-05-17",
+    "last": "2021-10-25",
+    "n": 596
+   },
+   {
+    "code": "1902",
+    "first": "2019-05-17",
+    "last": "2020-05-25",
+    "n": 249
+   },
+   {
+    "code": "2448",
+    "first": "2019-05-17",
+    "last": "2020-12-23",
+    "n": 395
+   },
+   {
+    "code": "2456",
+    "first": "2019-05-17",
+    "last": "2021-12-28",
+    "n": 643
+   },
+   {
+    "code": "2499",
+    "first": "2019-05-17",
+    "last": "2020-04-06",
+    "n": 215
+   },
+   {
+    "code": "2823",
+    "first": "2019-05-17",
+    "last": "2021-12-17",
+    "n": 637
+   },
+   {
+    "code": "2841",
+    "first": "2019-05-17",
+    "last": "2022-04-06",
+    "n": 704
+   },
+   {
+    "code": "2936",
+    "first": "2019-05-17",
+    "last": "2022-06-24",
+    "n": 754
+   },
+   {
+    "code": "3383",
+    "first": "2019-05-17",
+    "last": "2022-09-23",
+    "n": 813
+   },
+   {
+    "code": "3536",
+    "first": "2019-05-17",
+    "last": "2023-04-11",
+    "n": 928
+   },
+   {
+    "code": "3579",
+    "first": "2019-05-17",
+    "last": "2019-06-25",
+    "n": 27
+   },
+   {
+    "code": "3682",
+    "first": "2019-05-17",
+    "last": "2022-12-30",
+    "n": 885
+   },
+   {
+    "code": "3698",
+    "first": "2019-05-17",
+    "last": "2020-12-23",
+    "n": 395
+   },
+   {
+    "code": "4141",
+    "first": "2019-05-17",
+    "last": "2022-04-26",
+    "n": 717
+   },
+   {
+    "code": "4144",
+    "first": "2019-05-17",
+    "last": "2020-10-21",
+    "n": 350
+   },
+   {
+    "code": "4725",
+    "first": "2019-05-17",
+    "last": "2021-01-11",
+    "n": 401
+   },
+   {
+    "code": "5259",
+    "first": "2019-07-15",
+    "last": "2019-11-18",
+    "n": 72
+   },
+   {
+    "code": "5264",
+    "first": "2019-05-17",
+    "last": "2021-01-06",
+    "n": 404
+   },
+   {
+    "code": "5305",
+    "first": "2019-05-17",
+    "last": "2020-11-23",
+    "n": 374
+   },
+   {
+    "code": "6131",
+    "first": "2019-05-17",
+    "last": "2020-11-24",
+    "n": 366
+   },
+   {
+    "code": "6172",
+    "first": "2019-05-17",
+    "last": "2021-11-17",
+    "n": 612
+   },
+   {
+    "code": "6251",
+    "first": "2019-05-17",
+    "last": "2021-04-29",
+    "n": 468
+   },
+   {
+    "code": "6289",
+    "first": "2019-05-17",
+    "last": "2021-04-29",
+    "n": 469
+   },
+   {
+    "code": "6452",
+    "first": "2019-05-17",
+    "last": "2020-08-17",
+    "n": 307
+   },
+   {
+    "code": "8427",
+    "first": "2019-05-17",
+    "last": "2022-02-23",
+    "n": 544
+   },
+   {
+    "code": "8480",
+    "first": "2019-05-20",
+    "last": "2022-12-14",
+    "n": 828
+   },
+   {
+    "code": "8497",
+    "first": "2019-05-17",
+    "last": "2020-10-21",
+    "n": 322
+   },
+   {
+    "code": "9157",
+    "first": "2019-05-17",
+    "last": "2019-11-11",
+    "n": 114
+   },
+   {
+    "code": "9188",
+    "first": "2019-05-17",
+    "last": "2021-04-29",
+    "n": 473
+   }
+  ],
+  "note": "V7 面板（x_data 以 delist_prices 補值）有、ia_core 用的 scratchpad/panel 沒有：2019-05-17～2023 下市的 32 檔，本題只列、不修"
+ },
+ "events_held": {
+  "n": 28,
+  "by_type": {
+   "unknown": 6,
+   "acq_ur": 6,
+   "cash": 5,
+   "swap_ur": 5,
+   "conversion": 3,
+   "mixed": 3
+  },
+  "by_verified": {
+   "已核實（新聞）": 11,
+   "類型已核實、對價未核實": 9,
+   "未核實": 6,
+   "類型已核實、有效比例未核實": 2
+  },
+  "by_segment": {
+   "2006-2012": 12,
+   "2013-2018": 7,
+   "2019-": 9
+  },
+  "by_segment_type": [
+   {
+    "seg": "2006-2012",
+    "type": "acq_ur",
+    "n": 5
+   },
+   {
+    "seg": "2006-2012",
+    "type": "swap_ur",
+    "n": 4
+   },
+   {
+    "seg": "2006-2012",
+    "type": "unknown",
+    "n": 3
+   },
+   {
+    "seg": "2013-2018",
+    "type": "cash",
+    "n": 3
+   },
+   {
+    "seg": "2013-2018",
+    "type": "conversion",
+    "n": 1
+   },
+   {
+    "seg": "2013-2018",
+    "type": "mixed",
+    "n": 2
+   },
+   {
+    "seg": "2013-2018",
+    "type": "swap_ur",
+    "n": 1
+   },
+   {
+    "seg": "2019-",
+    "type": "acq_ur",
+    "n": 1
+   },
+   {
+    "seg": "2019-",
+    "type": "cash",
+    "n": 2
+   },
+   {
+    "seg": "2019-",
+    "type": "conversion",
+    "n": 2
+   },
+   {
+    "seg": "2019-",
+    "type": "mixed",
+    "n": 1
+   },
+   {
+    "seg": "2019-",
+    "type": "unknown",
+    "n": 3
+   }
+  ],
+  "cash_premium_verified": {
+   "1704": 0.054613935969868,
+   "1902": 0.0072639225181598,
+   "2325": 0.0039215686274509,
+   "3474": 0.006711409395973,
+   "6286": 0.0077519379844961
+  },
+  "stock_dev_lt_verified": {
+   "2823": 0.0566284779050736,
+   "2847": 0.0435708461538462,
+   "3697": 0.0050783132530121
+  },
+  "stock_dev_s_verified": {
+   "2311": -0.097752808988764,
+   "2448": 0.0990338164251207,
+   "2823": 0.0736497545008181,
+   "2847": 0.0364789692307694,
+   "3697": -0.0379698795180722,
+   "3698": 0.1247191011235955
+  },
+  "windows": [
+   {
+    "code": "1520",
+    "type": "unknown",
+    "lt": "2007-12-25",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 5
+   },
+   {
+    "code": "1704",
+    "type": "cash",
+    "lt": "2019-01-23",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 5
+   },
+   {
+    "code": "1716",
+    "type": "unknown",
+    "lt": "2010-12-21",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "1902",
+    "type": "cash",
+    "lt": "2020-05-25",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 5
+   },
+   {
+    "code": "2311",
+    "type": "conversion",
+    "lt": "2018-04-17",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "2325",
+    "type": "cash",
+    "lt": "2018-04-17",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "2394",
+    "type": "swap_ur",
+    "lt": "2006-11-20",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "2403",
+    "type": "acq_ur",
+    "lt": "2010-11-08",
+    "td_lt_to_s": 5,
+    "td_lt_to_term": 5
+   },
+   {
+    "code": "2432",
+    "type": "acq_ur",
+    "lt": "2008-08-25",
+    "td_lt_to_s": 5,
+    "td_lt_to_term": 5
+   },
+   {
+    "code": "2446",
+    "type": "swap_ur",
+    "lt": "2009-11-18",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "2448",
+    "type": "conversion",
+    "lt": "2020-12-23",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "2452",
+    "type": "acq_ur",
+    "lt": "2010-03-24",
+    "td_lt_to_s": 5,
+    "td_lt_to_term": 5
+   },
+   {
+    "code": "2456",
+    "type": "unknown",
+    "lt": "2021-12-28",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 5
+   },
+   {
+    "code": "2473",
+    "type": "acq_ur",
+    "lt": "2012-11-21",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 7
+   },
+   {
+    "code": "2809",
+    "type": "unknown",
+    "lt": "2025-09-17",
+    "td_lt_to_s": null,
+    "td_lt_to_term": null
+   },
+   {
+    "code": "2823",
+    "type": "mixed",
+    "lt": "2021-12-17",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "2833",
+    "type": "swap_ur",
+    "lt": "2015-10-01",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "2847",
+    "type": "mixed",
+    "lt": "2016-03-09",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "2888",
+    "type": "acq_ur",
+    "lt": "2025-07-11",
+    "td_lt_to_s": 10,
+    "td_lt_to_term": null
+   },
+   {
+    "code": "3009",
+    "type": "swap_ur",
+    "lt": "2010-03-05",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "3012",
+    "type": "swap_ur",
+    "lt": "2006-09-19",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "3063",
+    "type": "acq_ur",
+    "lt": "2010-03-19",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "3474",
+    "type": "cash",
+    "lt": "2016-11-29",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 5
+   },
+   {
+    "code": "3697",
+    "type": "mixed",
+    "lt": "2014-01-15",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "3698",
+    "type": "conversion",
+    "lt": "2020-12-23",
+    "td_lt_to_s": 9,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "5305",
+    "type": "unknown",
+    "lt": "2020-11-23",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 5
+   },
+   {
+    "code": "6004",
+    "type": "unknown",
+    "lt": "2007-03-20",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 9
+   },
+   {
+    "code": "6286",
+    "type": "cash",
+    "lt": "2016-04-20",
+    "td_lt_to_s": null,
+    "td_lt_to_term": 7
+   }
+  ]
+ },
+ "mechanism_note": "主策略 52 週腿會買到已鎖價的現金併購標的（o3：52 週比 0.998～1.000）；本題已核實的 5 筆現金對價相對最後收盤 +0.39%～+5.46%，是套利價差，不是動能。換股類在 lt→s 空窗期承擔存續股價格風險（2311→3711 −9.8%、2448→3714 +9.9%、3698 +12.5%）。"
+}

@@ -1,0 +1,151 @@
+{
+ "utc": "2026-11-07T23:16:25.564176+00:00",
+ "no_returns": "只看覆蓋與時間戳；未看名次變化、未算報酬、未算任何判定比例",
+ "disk": {
+  "free_GB": 4.052,
+  "ok_ge_1p5GB": true
+ },
+ "connectivity": "== https://mops.twse.com.tw/mops/web/t05st10_ifrs\n000 0.197391s\n== https://mopsov.twse.com.tw/mops/web/t05st10_ifrs\n000 0.296117s\n== https://mops.twse.com.tw/nas/t21/sii/t21sc03_99_1_0.html\n000 0.194737s\n== https://web.archive.org/cdx/search/cdx?url=mops.twse.com.tw/nas/t21/sii/t21sc03_99_1_0.html&limit=3\n000 0.218982s\n== https://api.github.com/repos/shohokuno10/Tasi\n403 0.217969s\n== https://raw.githubusercontent.com/shohokuno10/Tasi/HEAD/README.md\n404 0.354019s\n== https://www.twse.com.tw/announcement/punish?response=json&startDate=20090501&endDate=20090531\n000 0.199543s\n== https://www.tpex.org.tw/\n000 0.023447s\n2026-11-07T23:07:10Z\n== git ls-remote github.com/shohokuno10/Tasi\n0e9ed7ad63873362233ee6580bd206504a5d8b32\tHEAD\nrc=0\n== git ls-remote github.com/aRthur08701244/Intern-in-CTBC\n258f42aa4502b458b11fcb96f875cdd80266df3f\tHEAD\n== upstream local\nf97d2cd2f43afafa901f10f0b00df3ec37e70ee6 2026-10-26T00:42:36+00:00\n1\n",
+ "proxy_failures": "2026-11-07T23:04:53.514Z connect_rejected web.archive.org:443\n2026-11-07T23:05:14.033Z connect_rejected zh.wikipedia.org:443\n2026-11-07T23:05:14.250Z connect_rejected en.wikipedia.org:443\n2026-11-07T23:05:14.472Z connect_rejected news.cnyes.com:443\n2026-11-07T23:05:14.680Z connect_rejected www.cna.com.tw:443\n2026-11-07T23:05:14.878Z connect_rejected money.udn.com:443\n2026-11-07T23:05:15.087Z connect_rejected tw.stock.yahoo.com:443\n2026-11-07T23:05:15.344Z connect_rejected goodinfo.tw:443\n2026-11-07T23:05:15.555Z connect_rejected www.finmindtrade.com:443\n2026-11-07T23:05:15.766Z connect_rejected api.finmindtrade.com:443\n2026-11-07T23:05:15.957Z connect_rejected emops.twse.com.tw:443\n2026-11-07T23:05:16.186Z connect_rejected openapi.twse.com.tw:443\n2026-11-07T23:05:16.386Z connect_rejected www.sec.gov:443\n2026-11-07T23:05:17.000Z connect_rejected huggingface.co:443\n2026-11-07T23:05:36.903Z connect_rejected mops.twse.com.tw:443\n2026-11-07T23:05:37.208Z connect_rejected mopsov.twse.com.tw:443\n2026-11-07T23:05:37.410Z connect_rejected mops.twse.com.tw:443\n2026-11-07T23:05:37.636Z connect_rejected web.archive.org:443\n2026-11-07T23:05:38.430Z connect_rejected www.twse.com.tw:443\n2026-11-07T23:05:38.460Z connect_rejected www.tpex.org.tw:443\n",
+ "blocked_hosts_for_center": [
+  "mops.twse.com.tw",
+  "mopsov.twse.com.tw",
+  "web.archive.org",
+  "www.twse.com.tw",
+  "www.tpex.org.tw"
+ ],
+ "reachable": [
+  "github.com（git ls-remote 成功：Tasi HEAD 0e9ed7ad、Intern-in-CTBC 258f42aa）",
+  "本機上游 repo（只有 1 個 commit；完整首見已由 o11 整理）"
+ ],
+ "coverage_by_seg4": {
+  "S0613": {
+   "mops_ann": 0.0,
+   "tasi": 0.0,
+   "upstream": 0.0,
+   "news": 0.0176,
+   "any": 0.0176,
+   "n_stockmonths": 8397,
+   "n_days": 33
+  },
+  "S1324": {
+   "mops_ann": 0.0,
+   "tasi": 0.0,
+   "upstream": 0.0,
+   "news": 0.1339,
+   "any": 0.1339,
+   "n_stockmonths": 6177,
+   "n_days": 25
+  },
+  "S1418": {
+   "mops_ann": 0.0,
+   "tasi": 0.0,
+   "upstream": 0.0,
+   "news": 0.1416,
+   "any": 0.1416,
+   "n_stockmonths": 5298,
+   "n_days": 23
+  },
+  "S2406": {
+   "mops_ann": 0.0857,
+   "tasi": 0.947,
+   "upstream": 1.0,
+   "news": 0.0,
+   "any": 1.0,
+   "n_stockmonths": 2719,
+   "n_days": 11
+  }
+ },
+ "coverage_note": "分母＝D=S／D>S 官方訊號日（含 2026-10-12 latest）的 C0 股池股月；「有紀錄」只代表來源有該檔該營收月的列，不代表可判定（Tasi 首次加入檔案、新聞數值不符等在分類時另計）。MOPS 官方頁與 archive.org 封存：連不到（CONNECT 403），覆蓋 0。",
+ "gate_tasi_vs_mops": {
+  "n_with_prev": 1457,
+  "agree_interval_contains_ann_date": 1.0,
+  "n_T_before_ann_date": 0
+ },
+ "gate_upstream_vs_mops": {
+  "n_with_prev": 1777,
+  "agree_interval_contains_ann_date": 1.0,
+  "n_T_before_ann_date": 0
+ },
+ "gate_tasi_vs_upstream": {
+  "n_both_with_prev": 1538,
+  "interval_overlap": 0.5904
+ },
+ "gate_news_value": {
+  "n_mentions": 27968,
+  "n_published_next_month": 26889,
+  "by_src": {
+   "BOF": {
+    "n": 36,
+    "match_sig": 0.9444,
+    "match_15pct": 1.0,
+    "no_truth": 0.0,
+    "has_time": 0.0
+   },
+   "CTBC": {
+    "n": 25546,
+    "match_sig": 0.7902,
+    "match_15pct": 0.8633,
+    "no_truth": 0.1284,
+    "has_time": 0.0
+   },
+   "ELD": {
+    "n": 183,
+    "match_sig": 0.6721,
+    "match_15pct": 0.8087,
+    "no_truth": 0.1803,
+    "has_time": 1.0
+   },
+   "PTT": {
+    "n": 1124,
+    "match_sig": 0.8532,
+    "match_15pct": 0.9528,
+    "no_truth": 0.0418,
+    "has_time": 0.0
+   }
+  },
+  "note": "只看「次月發布」的提及（營收月＋1 個月內）；MATCH＝提及值與 tw_revenue 個別營收或 rev_5y 營收在有效位數容差（末位 ±0.5）內。鉅亨多報合併營收，個別營收不符時不採用。"
+ },
+ "explore_mechanism_DltS": {
+  "scope": "2024-06 起 D<S 訊號日的 C0 股池（Tasi 首見日相對期限 D 的日數；首見＝18:20 快照）",
+  "n": 4439,
+  "share_first_seen_before_D": 0.506,
+  "pr_rev_mean_seen_before_D": 0.534,
+  "pr_rev_mean_seen_on_or_after_D": 0.4693,
+  "diff": 0.0648,
+  "note": "只描述「好消息早公告」在 C0 股池是否看得到（o11 P2 已知 +0.078）；不涉及任何 D=S 槽位判定"
+ },
+ "raw_manifest": {
+  "ts_tasi_upstream_firstseen.csv.gz": {
+   "from": "/home/user/-/research/tw_stock_selection/agents/o_rev_event_clock_ts/data/firstseen_sources.csv.gz",
+   "sha256": "460d47489c006fc3e895222e68301783274e4be8c5588ed934d38a475923f60b",
+   "note": "o11：shohokuno10/Tasi「營收/YYYYMM.csv」每日快照（2024-06-14 起）與上游 tw-stock-screener git（2026-09-29 起）的逐檔首見 T、前一張快照 T_prev"
+  },
+  "ts_mops_ann_date.csv": {
+   "from": "tw-stock-screener/data/extras/rev_hist.csv.gz（ann_date＝MOPS 公告日欄位，只有日期）",
+   "sha256": "4e1079850e4f3e1598c5a7d36efb7e4d207c14f416e6f3d4dbefc533d3c4a0ce",
+   "n": 1777
+  },
+  "ts_news_mentions.csv.gz": {
+   "from": "o_rev_gap_news_2013/data/mentions_P1.parquet（鉅亨 CTBC 鏡像 2013-01～2021-12 只有日期；PTT 2019～2021 檔名日期；ELD 2016～2018 含時間；BOF 檔名日期）",
+   "sha256": "32f7548fc6884e235145ebdcacc34917f4bc8e047f01bca7c2a57d244969dedc",
+   "n": 27968
+  },
+  "tasi_commit_times.txt": {
+   "from": "/tmp/tasi_hist（github.com/shohokuno10/Tasi blobless clone，HEAD 25fa2103 2026-10-27）git log",
+   "sha256": "195b346faa3dfafc55f47ebb576abc916a29fc780368bdda4225c31dc0d3bb0b",
+   "n_commits": 2032
+  },
+  "disposal_official_universe.csv": {
+   "from": "/home/user/-/research/tw_stock_selection/agents/o_disposal_official_fullhist/universe_flags.csv",
+   "sha256": "2842f45d825861bfe0168f7a9736364fc19adee2b4d9bc3b5a894d4e22db8b40",
+   "note": "官方全歷史處置（普通股）事件期 start～end（o_disposal_official_fullhist）"
+  },
+  "disposal_hist_rejudge.csv": {
+   "from": "/home/user/-/research/tw_stock_selection/agents/o_disposal_rejudge/disposal_hist_rejudge.csv",
+   "sha256": "2c171924096ecf4c0d1da9c3c0db12002c38ace46864dede615496cbb1abe20d",
+   "note": "官方處置公告全歷史（含公告日、措施）"
+  }
+ },
+ "runtime_s": 4.4
+}

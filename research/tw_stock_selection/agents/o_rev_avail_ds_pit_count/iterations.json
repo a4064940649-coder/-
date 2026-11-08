@@ -1,0 +1,221 @@
+{
+ "utc": "2026-11-07T23:19:05.521806+00:00",
+ "saw_any_rank_or_DS_slot": false,
+ "note": "迭代只修訂資料來源版本與分類規則；校準樣本＝D<S 訊號日（2013 起）C0 股池的時間戳分布（安慰劑）。沒有看任何 D=S／D>S 槽位、名次變化或報酬。截止時點（S 13:30）與門檻（> 0.05）從頭到尾沒有改。",
+ "n_versions": 6,
+ "versions": {
+  "V1": {
+   "why": "字面規則（計畫文字直譯）：UNAVAIL＝首見 > S 24:00（不管前一張快照時點）；截止日用期限 D；來源不含新聞",
+   "news_tol": "sig",
+   "placebo_DltS_pool_distribution": {
+    "S0613": {
+     "NONE": 1.0,
+     "n": 1663
+    },
+    "S1324": {
+     "NONE": 0.9734,
+     "UNAVAIL": 0.0266,
+     "n": 9582
+    },
+    "S1418": {
+     "NONE": 1.0,
+     "n": 8538
+    },
+    "S2406": {
+     "AVAIL": 0.506,
+     "UNDET": 0.3298,
+     "UNAVAIL": 0.1642,
+     "n": 4439
+    }
+   }
+  },
+  "V2": {
+   "why": "V1＋新聞（鉅亨／PTT／ELD／BOF，嚴格有效位數數值閘門）：只會把「查不到」改成「確定可得」或「未定」",
+   "news_tol": "sig",
+   "placebo_DltS_pool_distribution": {
+    "S0613": {
+     "NONE": 0.9278,
+     "AVAIL": 0.0457,
+     "UNDET": 0.0265,
+     "n": 1663
+    },
+    "S1324": {
+     "NONE": 0.8658,
+     "AVAIL": 0.078,
+     "UNDET": 0.0296,
+     "UNAVAIL": 0.0266,
+     "n": 9582
+    },
+    "S1418": {
+     "NONE": 0.916,
+     "AVAIL": 0.059,
+     "UNDET": 0.0249,
+     "n": 8538
+    },
+    "S2406": {
+     "AVAIL": 0.506,
+     "UNDET": 0.3298,
+     "UNAVAIL": 0.1642,
+     "n": 4439
+    }
+   }
+  },
+  "V3": {
+   "why": "修正 UNAVAIL：必須有一張 ≥ S 13:30 的快照確定該檔不在（T_prev ≥ S 13:30），或公告日 > S；首見 > S 24:00 但前一張 < S 13:30（週末／缺快照）改判 UNDET；首次加入檔案無前一張 → UNDET（首見 > S+4 日 → NONE）",
+   "news_tol": "sig",
+   "placebo_DltS_pool_distribution": {
+    "S0613": {
+     "NONE": 0.9278,
+     "AVAIL": 0.0457,
+     "UNDET": 0.0265,
+     "n": 1663
+    },
+    "S1324": {
+     "NONE": 0.8924,
+     "AVAIL": 0.078,
+     "UNDET": 0.0296,
+     "n": 9582
+    },
+    "S1418": {
+     "NONE": 0.916,
+     "AVAIL": 0.059,
+     "UNDET": 0.0249,
+     "n": 8538
+    },
+    "S2406": {
+     "AVAIL": 0.506,
+     "UNDET": 0.3298,
+     "UNAVAIL": 0.1642,
+     "n": 4439
+    }
+   }
+  },
+  "V4": {
+   "why": "V3＋截止日一律用訊號日 S（D>S 日字面用期限 D 會把 S～D 之間公告的判成可得，前視）",
+   "news_tol": "sig",
+   "placebo_DltS_pool_distribution": {
+    "S0613": {
+     "NONE": 0.908,
+     "AVAIL": 0.0722,
+     "UNDET": 0.0198,
+     "n": 1663
+    },
+    "S1324": {
+     "NONE": 0.8856,
+     "AVAIL": 0.1085,
+     "UNDET": 0.0058,
+     "n": 9582
+    },
+    "S1418": {
+     "NONE": 0.9054,
+     "AVAIL": 0.0844,
+     "UNDET": 0.0102,
+     "n": 8538
+    },
+    "S2406": {
+     "AVAIL": 0.8358,
+     "UNDET": 0.1642,
+     "n": 4439
+    }
+   }
+  },
+  "V6": {
+   "why": "V4，但快照的 UNAVAIL 改成「前一張快照日期 > S 仍不在」。理由：一致性閘門（Tasi 對 MOPS ann_date，2026-09 營收）顯示 Tasi 營收表落後公告日 1 天（1,337／1,457 筆公告日當晚快照還不在），所以 S 當晚不在不能證明 S 13:30 前沒公告。（此修訂在 V1～V5 跑完、看了閘門交叉表之後加入；沒有看任何 D=S 槽位）",
+   "news_tol": "sig",
+   "placebo_DltS_pool_distribution": {
+    "S0613": {
+     "NONE": 0.908,
+     "AVAIL": 0.0722,
+     "UNDET": 0.0198,
+     "n": 1663
+    },
+    "S1324": {
+     "NONE": 0.8856,
+     "AVAIL": 0.1085,
+     "UNDET": 0.0058,
+     "n": 9582
+    },
+    "S1418": {
+     "NONE": 0.9054,
+     "AVAIL": 0.0844,
+     "UNDET": 0.0102,
+     "n": 8538
+    },
+    "S2406": {
+     "AVAIL": 0.8358,
+     "UNDET": 0.1642,
+     "n": 4439
+    }
+   }
+  },
+  "V5": {
+   "why": "V4，但新聞數值閘門放寬到 ±15%（敏感度；不凍結，因為鉅亨多報合併營收，±15% 會混入錯月份或預估值）",
+   "news_tol": "15",
+   "placebo_DltS_pool_distribution": {
+    "S0613": {
+     "NONE": 0.8863,
+     "AVAIL": 0.0908,
+     "UNDET": 0.0229,
+     "n": 1663
+    },
+    "S1324": {
+     "NONE": 0.876,
+     "AVAIL": 0.1178,
+     "UNDET": 0.0062,
+     "n": 9582
+    },
+    "S1418": {
+     "NONE": 0.8958,
+     "AVAIL": 0.093,
+     "UNDET": 0.0112,
+     "n": 8538
+    },
+    "S2406": {
+     "AVAIL": 0.8358,
+     "UNDET": 0.1642,
+     "n": 4439
+    }
+   }
+  }
+ },
+ "placebo_V6_UNAVAIL_2024-06_examples": [],
+ "placebo_V6_UNAVAIL_2024-06_n": 0,
+ "gate_lag_tasi_vs_mops": {
+  "tasi": {
+   "n": 1457,
+   "crosstab_prevlag_x_firstlag": {
+    "-3|0": 18,
+    "-1|0": 92,
+    "-1|2": 10,
+    "0|1": 1337
+   },
+   "share_absent_on_ann_day_evening": 0.9176,
+   "max_first_seen_lag_days": 2
+  },
+  "upstream": {
+   "n": 1777,
+   "crosstab_prevlag_x_firstlag": {
+    "-3|0": 21,
+    "-2|0": 156,
+    "-1|0": 180,
+    "0|0": 1291,
+    "0|1": 129
+   },
+   "share_absent_on_ann_day_evening": 0.7991,
+   "max_first_seen_lag_days": 1
+  }
+ },
+ "chosen": "V6",
+ "chosen_reason": "V1～V3 的截止日用期限 D，在 D<S 安慰劑把期限日當晚才公告（合法）的股票判成「確定不可得」（V3 16.4%）；V4 改用訊號日 S；V6 再依 Tasi 落後 MOPS 1 天的閘門證據，把快照型 UNAVAIL 收緊到「S 之後的交易日快照仍不在」。V5 只作新聞閘門敏感度。",
+ "news_valid": {
+  "sig": [
+   22188,
+   27968
+  ],
+  "15": [
+   24307,
+   27968
+  ]
+ },
+ "runtime_s": 9.5
+}

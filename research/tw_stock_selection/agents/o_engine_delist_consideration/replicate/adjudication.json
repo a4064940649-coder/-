@@ -1,0 +1,44 @@
+{
+ "utc": "2026-11-08",
+ "rule": "逐筆用 raw/ 證據裁定；裁定不改凍結的 events_v2.csv，只作為敏感度與後續 v2.1 建議",
+ "rows": [
+  {
+   "code": "2432",
+   "researcher": "acq_ur（類型已核實、對價未核實）",
+   "replicator": "unknown",
+   "evidence": "ev_2432_0.txt：宏碁公告重估「旗下Gateway、Packard Bell、eMachines與倚天等品牌」商標價值",
+   "ruling": "unknown",
+   "why": "文字只證明倚天品牌歸宏碁，沒有說明 2432 股東在下市時拿到什麼（現金、換股或其他）；不足以核實『被併購』這個下市原因。研究員分類偏寬。"
+  },
+  {
+   "code": "2888",
+   "researcher": "acq_ur",
+   "replicator": "unknown",
+   "evidence": "ev_2888_0.txt：2023-05 台新金併購新光金意向書（0.584 股，非最終條款）",
+   "ruling": "unknown",
+   "why": "意向書不是完成的交易；最終條款與完成日沒有證據。2888 不在登記重算集合。"
+  },
+  {
+   "code": "2403",
+   "researcher": "acq_ur（存續 3702）",
+   "replicator": "acq_ur（無存續）",
+   "ruling": "一致（acq_ur 結算不用存續公司）"
+  },
+  {
+   "code": "3063",
+   "researcher": "acq_ur（存續 6147 不在面板）",
+   "replicator": "swap_ur（存續 6147 不在面板）",
+   "ruling": "結算相同（存續不在面板 → 價值型），不需裁定"
+  },
+  {
+   "code": "6286",
+   "researcher": "cash（無存續）",
+   "replicator": "cash（存續欄 2454）",
+   "ruling": "結算相同"
+  }
+ ],
+ "align_to_researcher": {
+  "2432": "acq_ur",
+  "2888": "acq_ur"
+ }
+}

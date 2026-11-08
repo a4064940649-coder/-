@@ -1,0 +1,123 @@
+[    10s] 載入完成
+[    14s] 名單 C0 245
+[    16s] 名單 A_UB 245
+[    19s] 名單 A_LB 245
+[    20s] 名單 A_WORST 245
+[    21s] 名單 U13 245
+[    23s] 名單 UFULL 245
+[    24s] 名單 C_DSP 245
+[    25s] 名單 ALLPIT 245
+[    27s] 核對通過 {'U13_2013_2026': 251, 'U13_2013_2018': 227, 'U13_2019_2026': 24, 'UFULL_2006_2013_vs_ER2': {'n': 162, 'n_er2': 162, 'equal': True}, 'UFULL_2014_2026': 208, 'ALLPIT_ins': 370, 'n_DS_DGS_days': 91, 'A_UB_changed_slots': {'all': 147, 'on_DS': 147, 'y2019': 52, 'y0613': 64, 'mean_lagged_top300_on_DS': 268.83516483516485}, 'A_LB_changed_slots': {'all': 0, 'on_DS': 0, 'y2019': 0, 'y0613': 0, 'mean_lagged_top300_on_DS': 0.0}, 'A_WORST_changed_slots': {'all': 165, 'on_DS': 165, 'y2019': 68, 'y0613': 64, 'mean_lagged_top300_on_DS': 299.85714285714283}, 'slot_UB_equal_topic1': {'n_mine': 777, 'n_topic1': 777, 'equal': True}, 'slot_LB_equal_topic1': {'n_mine': 0, 'n_topic1': 0, 'equal': True}, 'C0_in_official_disposal_2006_2013': {'n': 4, 'n_topic1_union': 4, 'equal': True}, 'C0_in_official_disposal_2014_2021-09-23': {'n': 11, 'n_topic1_union': 11, 'equal': True}, 'C_DSP_changed_slots': {'all': 15, 'y0613': 4, 'y1421': 11}, 'changed_slots': {'C0': 0, 'A_UB': 147, 'A_LB': 0, 'A_WORST': 165, 'U13': 251, 'UFULL': 370, 'C_DSP': 15, 'ALLPIT': 468}}
+[    28s] C0 重現 {'normal': {'vs_main_v2': 0.0, 'cz_vs_ia': 0.0}, 'stress': {'vs_main_v2': 0.0, 'cz_vs_ia': 0.0}}
+{
+ "utc": "2026-11-08T01:09:07.627244+00:00",
+ "C0_reproduce": {
+  "normal": {
+   "vs_main_v2": 0.0,
+   "cz_vs_ia": 0.0
+  },
+  "stress": {
+   "vs_main_v2": 0.0,
+   "cz_vs_ia": 0.0
+  }
+ },
+ "n_windows": 245,
+ "first": "2006-04",
+ "last": "2026-09",
+ "checks": {
+  "U13_2013_2026": 251,
+  "U13_2013_2018": 227,
+  "U13_2019_2026": 24,
+  "UFULL_2006_2013_vs_ER2": {
+   "n": 162,
+   "n_er2": 162,
+   "equal": true
+  },
+  "UFULL_2014_2026": 208,
+  "ALLPIT_ins": 370,
+  "n_DS_DGS_days": 91,
+  "A_UB_changed_slots": {
+   "all": 147,
+   "on_DS": 147,
+   "y2019": 52,
+   "y0613": 64,
+   "mean_lagged_top300_on_DS": 268.83516483516485
+  },
+  "A_LB_changed_slots": {
+   "all": 0,
+   "on_DS": 0,
+   "y2019": 0,
+   "y0613": 0,
+   "mean_lagged_top300_on_DS": 0.0
+  },
+  "A_WORST_changed_slots": {
+   "all": 165,
+   "on_DS": 165,
+   "y2019": 68,
+   "y0613": 64,
+   "mean_lagged_top300_on_DS": 299.85714285714283
+  },
+  "slot_UB_equal_topic1": {
+   "n_mine": 777,
+   "n_topic1": 777,
+   "equal": true
+  },
+  "slot_LB_equal_topic1": {
+   "n_mine": 0,
+   "n_topic1": 0,
+   "equal": true
+  },
+  "C0_in_official_disposal_2006_2013": {
+   "n": 4,
+   "n_topic1_union": 4,
+   "equal": true
+  },
+  "C0_in_official_disposal_2014_2021-09-23": {
+   "n": 11,
+   "n_topic1_union": 11,
+   "equal": true
+  },
+  "C_DSP_changed_slots": {
+   "all": 15,
+   "y0613": 4,
+   "y1421": 11
+  },
+  "changed_slots": {
+   "C0": 0,
+   "A_UB": 147,
+   "A_LB": 0,
+   "A_WORST": 165,
+   "U13": 251,
+   "UFULL": 370,
+   "C_DSP": 15,
+   "ALLPIT": 468
+  }
+ },
+ "n_slots_in_event_table": {
+  "C0": 47,
+  "A_UB": 48,
+  "A_LB": 47,
+  "A_WORST": 48,
+  "U13": 294,
+  "UFULL": 409,
+  "C_DSP": 48,
+  "ALLPIT": 410
+ },
+ "n_settle_rules": {
+  "cons_main": 141,
+  "cons_lo": 141,
+  "cons_hi": 141,
+  "cons_c50": 141
+ },
+ "lists_sha": {
+  "C0": "c7528f3d3986f026eb1b26cd46af269f9ebc9ecc5501417b3362152f593ab229",
+  "A_UB": "c6542c18246f92f48cf8c6cb329fe8d2d0e645bc6cd79c01ba9f84fae2d0deaa",
+  "A_LB": "c7528f3d3986f026eb1b26cd46af269f9ebc9ecc5501417b3362152f593ab229",
+  "A_WORST": "c378083cb8d4446ba3dc8a5f2bd21f4e8ce02de22015e266be6f3eccf8744654",
+  "U13": "8b307adb034e7e9e211152c338a440069d8b61183b5d0f67fec847a7edcab80d",
+  "UFULL": "178bce57ecb6fb28a7ec089584d3553111f579d00444d398216bad85dd396819",
+  "C_DSP": "3eba5c6adb26a360918bf97360fcfbb13304bda7d55d6d805565c3936715db86",
+  "ALLPIT": "c9c2a8c8e8342c04473a1a52efb527bafd79543f810a259fc912cda4ce878e32"
+ },
+ "note": "只做管線核對；沒有計算任何變體的報酬、t 值（C0 只算 freeze 一般／壓力以核對 main_v2，C0 報酬早已公開）。"
+}
