@@ -1,0 +1,355 @@
+{
+ "lists_sha": {
+  "C0": "c7528f3d3986f026eb1b26cd46af269f9ebc9ecc5501417b3362152f593ab229",
+  "ALLPIT_REAL_opt": "1ff49da8727e0ba97d2bca2bd006f5090cfcced9ea7015e20ab09ed356a7e97b",
+  "ALLPIT_REAL_p90": "2ddab3b627911adf21314738b0886a278999cef17f066216470625ecd7303344",
+  "ALLPIT_REAL_carry": "59775267dbda20b58f9676e94dbdfe91c5a81b0aaf6f9077dc34c37a53c3c0af",
+  "ALLPIT_REAL_opt_KYX": "b1e21bc7e858803c27f2e354cde5bc755172e1686ddc1d0a1908cd1b681238f9",
+  "ALLPIT_REAL_opt_DSPR": "552f1aa1b27c4df5be6fb49f3d7170617dcd503f622b15e60342ba064da16f84"
+ },
+ "lists_sha_match_T1": {
+  "C0": true,
+  "ALLPIT_REAL_opt": true,
+  "ALLPIT_REAL_p90": true,
+  "ALLPIT_REAL_carry": true,
+  "ALLPIT_REAL_opt_KYX": true
+ },
+ "DSPR_changed_slots_vs_ALLPIT_REAL_opt": 4,
+ "DSPR_changed_days": [
+  "2009-07-13",
+  "2009-11-11",
+  "2010-12-13",
+  "2013-04-11"
+ ],
+ "changed_slots_vs_C0": {
+  "C0": 0,
+  "ALLPIT_REAL_opt": 424,
+  "ALLPIT_REAL_p90": 330,
+  "ALLPIT_REAL_carry": 182,
+  "ALLPIT_REAL_opt_KYX": 415,
+  "ALLPIT_REAL_opt_DSPR": 424
+ },
+ "C0_reproduce_maxabs": {
+  "normal": 0.0,
+  "stress": 0.0
+ },
+ "ALLPIT_REAL_opt_cons_main_reproduce": {
+  "normal": {
+   "ann": 22.218759370033258,
+   "ann_T1": 22.218759370033258,
+   "t": 1.6386667669345563,
+   "t_T1": 1.6386667669345563,
+   "maxabs": 0.0
+  },
+  "stress": {
+   "ann": 19.28624118955147,
+   "ann_T1": 19.28624118955147,
+   "t": 1.1008375805386137,
+   "t_T1": 1.1008375805386137,
+   "maxabs": 0.0
+  }
+ },
+ "held_events_paper": {
+  "C0": {
+   "n": 0,
+   "rows": [],
+   "n_v3_bound_sensitive": 0,
+   "n_v3_ne_cons": 0,
+   "frozen_no_rule": []
+  },
+  "ALLPIT_REAL_opt": {
+   "n": 10,
+   "rows": [
+    {
+     "code": "2311",
+     "lt": "2018-04-17",
+     "v3": null,
+     "type_cons": "conversion",
+     "type_v3": "conversion",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "2325",
+     "lt": "2018-04-17",
+     "v3": null,
+     "type_cons": "cash",
+     "type_v3": "cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "2403",
+     "lt": "2010-11-08",
+     "v3": "TYPE_TEXT/track",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:TYPE_TEXT+MARKET_TRACK:track",
+     "v3_lo_eq_hi": false,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "2432",
+     "lt": "2008-08-25",
+     "v3": "VERIFIED_TEXT/swap",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:VERIFIED_TEXT:swap",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "2473",
+     "lt": "2012-11-21",
+     "v3": "VERIFIED_TEXT/cash",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:VERIFIED_TEXT:cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "3009",
+     "lt": "2010-03-05",
+     "v3": "VERIFIED_TEXT/swap",
+     "type_cons": "swap_ur",
+     "type_v3": "v3:VERIFIED_TEXT:swap",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "3012",
+     "lt": "2006-09-19",
+     "v3": "VERIFIED_TEXT/swap",
+     "type_cons": "swap_ur",
+     "type_v3": "v3:VERIFIED_TEXT:swap",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "3063",
+     "lt": "2010-03-19",
+     "v3": "TYPE_TEXT/fixed",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:TYPE_TEXT+MARKET_NONE:fixed->fixed",
+     "v3_lo_eq_hi": false,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "3474",
+     "lt": "2016-11-29",
+     "v3": null,
+     "type_cons": "cash",
+     "type_v3": "cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "6286",
+     "lt": "2016-04-20",
+     "v3": null,
+     "type_cons": "cash",
+     "type_v3": "cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    }
+   ],
+   "n_v3_bound_sensitive": 2,
+   "n_v3_ne_cons": 5,
+   "frozen_no_rule": []
+  },
+  "ALLPIT_REAL_p90": {
+   "n": 8,
+   "rows": [
+    {
+     "code": "2311",
+     "lt": "2018-04-17",
+     "v3": null,
+     "type_cons": "conversion",
+     "type_v3": "conversion",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "2325",
+     "lt": "2018-04-17",
+     "v3": null,
+     "type_cons": "cash",
+     "type_v3": "cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "2403",
+     "lt": "2010-11-08",
+     "v3": "TYPE_TEXT/track",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:TYPE_TEXT+MARKET_TRACK:track",
+     "v3_lo_eq_hi": false,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "2432",
+     "lt": "2008-08-25",
+     "v3": "VERIFIED_TEXT/swap",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:VERIFIED_TEXT:swap",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "2473",
+     "lt": "2012-11-21",
+     "v3": "VERIFIED_TEXT/cash",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:VERIFIED_TEXT:cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "3063",
+     "lt": "2010-03-19",
+     "v3": "TYPE_TEXT/fixed",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:TYPE_TEXT+MARKET_NONE:fixed->fixed",
+     "v3_lo_eq_hi": false,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "3474",
+     "lt": "2016-11-29",
+     "v3": null,
+     "type_cons": "cash",
+     "type_v3": "cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "6286",
+     "lt": "2016-04-20",
+     "v3": null,
+     "type_cons": "cash",
+     "type_v3": "cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    }
+   ],
+   "n_v3_bound_sensitive": 2,
+   "n_v3_ne_cons": 3,
+   "frozen_no_rule": []
+  },
+  "ALLPIT_REAL_carry": {
+   "n": 1,
+   "rows": [
+    {
+     "code": "2432",
+     "lt": "2008-08-25",
+     "v3": "VERIFIED_TEXT/swap",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:VERIFIED_TEXT:swap",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    }
+   ],
+   "n_v3_bound_sensitive": 0,
+   "n_v3_ne_cons": 1,
+   "frozen_no_rule": []
+  },
+  "ALLPIT_REAL_opt_KYX": {
+   "n": 10,
+   "rows": [
+    {
+     "code": "2311",
+     "lt": "2018-04-17",
+     "v3": null,
+     "type_cons": "conversion",
+     "type_v3": "conversion",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "2325",
+     "lt": "2018-04-17",
+     "v3": null,
+     "type_cons": "cash",
+     "type_v3": "cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "2403",
+     "lt": "2010-11-08",
+     "v3": "TYPE_TEXT/track",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:TYPE_TEXT+MARKET_TRACK:track",
+     "v3_lo_eq_hi": false,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "2432",
+     "lt": "2008-08-25",
+     "v3": "VERIFIED_TEXT/swap",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:VERIFIED_TEXT:swap",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "2473",
+     "lt": "2012-11-21",
+     "v3": "VERIFIED_TEXT/cash",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:VERIFIED_TEXT:cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "3009",
+     "lt": "2010-03-05",
+     "v3": "VERIFIED_TEXT/swap",
+     "type_cons": "swap_ur",
+     "type_v3": "v3:VERIFIED_TEXT:swap",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "3012",
+     "lt": "2006-09-19",
+     "v3": "VERIFIED_TEXT/swap",
+     "type_cons": "swap_ur",
+     "type_v3": "v3:VERIFIED_TEXT:swap",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": false
+    },
+    {
+     "code": "3063",
+     "lt": "2010-03-19",
+     "v3": "TYPE_TEXT/fixed",
+     "type_cons": "acq_ur",
+     "type_v3": "v3:TYPE_TEXT+MARKET_NONE:fixed->fixed",
+     "v3_lo_eq_hi": false,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "3474",
+     "lt": "2016-11-29",
+     "v3": null,
+     "type_cons": "cash",
+     "type_v3": "cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    },
+    {
+     "code": "6286",
+     "lt": "2016-04-20",
+     "v3": null,
+     "type_cons": "cash",
+     "type_v3": "cash",
+     "v3_lo_eq_hi": true,
+     "v3_eq_cons": true
+    }
+   ],
+   "n_v3_bound_sensitive": 2,
+   "n_v3_ne_cons": 5,
+   "frozen_no_rule": []
+  }
+ },
+ "runtime_s": 17.5
+}

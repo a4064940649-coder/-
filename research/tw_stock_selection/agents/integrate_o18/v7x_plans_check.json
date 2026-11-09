@@ -1,0 +1,34 @@
+{
+ "utc": "2026-11-09T01:42:04.030127+00:00",
+ "runtime_s": 264.2,
+ "file": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/integrate_o18/plans_v7x_i18.csv",
+ "sha256": "6ae497a04548e6ecfebd664928f654ab6de33ab4a384eff4b126199dd1cb3d4a",
+ "counts": {
+  "orig": {
+   "n_rows": 63820,
+   "inserted_slots_mean_per_plan": 230.28846153846155
+  },
+  "REAL_opt": {
+   "n_rows": 63820,
+   "inserted_slots_mean_per_plan": 264.5423076923077
+  },
+  "REAL_p90": {
+   "n_rows": 63820,
+   "inserted_slots_mean_per_plan": 164.8230769230769
+  },
+  "REAL_carry": {
+   "n_rows": 63820,
+   "inserted_slots_mean_per_plan": 19.619230769230768
+  }
+ },
+ "checks": {
+  "orig_eq_plans_j7": true,
+  "counts_eq_T1": {
+   "orig": true,
+   "REAL_opt": true,
+   "REAL_p90": true,
+   "REAL_carry": true
+  },
+  "ends_eq_T1": true
+ }
+}

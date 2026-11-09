@@ -1,0 +1,30 @@
+{
+ "note": "本題沒有選股模型；迭代對象是「事件分類規則」與「遮罩實作」，全部在凍結前、不看任何 v3／新遮罩報酬。版本數 4（多重檢定揭露：分類規則 3 版、遮罩 1 版＋2 對照）",
+ "versions": [
+  {
+   "v": 1,
+   "what": "SPEC_draft 狀態表（VERIFIED_TEXT／MARKET_LOCK／MARKET_TRACK／SEARCHED_NOT_FOUND／NOT_SEARCHED）",
+   "when": "搜尋前",
+   "returns_seen": false
+  },
+  {
+   "v": 2,
+   "what": "看到搜尋結果後加入 TENDER_TEXT（只有前一階段公開收購價）與 TYPE_TEXT（只有類型）兩個中間狀態；結算方式沿用 MARKET_LOCK／TRACK 的市場估計，不歸零",
+   "when": "搜尋後、凍結前",
+   "returns_seen": false,
+   "reason": "3007／6280／8008／3559 有公開收購價但最終合併對價無數字；1520／1716／2403／2446／2452／3063 只有類型。若直接列 VERIFIED_TEXT 會高估核實率，列 SEARCHED_NOT_FOUND 會把有類型證據的事件歸零"
+  },
+  {
+   "v": 3,
+   "what": "1716→3705（新設控股轉換，存續股 lt 前無價）：空窗期固定 lc、s 日以 lc×(1+δb)÷存續首日開盤換股；2888 特別股價值未核實只在 hi 以面額 10 計、不進 δ",
+   "when": "凍結前",
+   "returns_seen": false
+  },
+  {
+   "v": 4,
+   "what": "處置遮罩：union（＝C_DSP）、replace（2014～2021-09-23 只用官方）；對照 union_noovl、union14；V7X 端以 v7plans.py 名單層選項實作",
+   "when": "凍結前",
+   "returns_seen": "只有重現 C_DSP 已公開數字（smoke）"
+  }
+ ]
+}

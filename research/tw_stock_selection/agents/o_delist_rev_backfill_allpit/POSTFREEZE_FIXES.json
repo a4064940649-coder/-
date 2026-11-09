@@ -1,0 +1,11 @@
+[
+ {
+  "utc": "2026-11-08T23:47:56.322651+00:00",
+  "file": "v7x_plans.py（核對段）",
+  "bug": "plans_j7.csv 有 40 seeds，本題只產生 20 seeds；原核對未限制 seed < 20，必然 False",
+  "fix": "fix_v7x_plans_check.py 以已存名單檔（sha 不變）重新核對 seeds 0～19（含 exec_idx）",
+  "result": true,
+  "recomputed_lists": false,
+  "saw_returns": false
+ }
+]

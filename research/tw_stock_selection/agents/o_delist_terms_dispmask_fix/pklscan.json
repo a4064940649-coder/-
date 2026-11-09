@@ -1,0 +1,851 @@
+{
+ "utc": "2026-11-08T23:24:55.522804+00:00",
+ "files": {
+  "exit_rules/infos.pkl": {
+   "size_mb": 55.4,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 125,
+    "keys": [
+     "main_n10|NONE",
+     "main_n10|TP20|next",
+     "main_n10|TP20|cash"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "n_rebalances",
+      "trig_t",
+      "sell_t"
+     ],
+     "first": {
+      "type": "int"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "sec": 0.0
+  },
+  "o_capmatched_selection/replicate_o7/out/xs_j.pkl": {
+   "size_mb": 216.8,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 2933,
+    "keys": [
+     "2006-04-12 00:00:00",
+     "2006-05-12 00:00:00",
+     "2006-06-13 00:00:00"
+    ],
+    "first": {
+     "type": "XS"
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "sec": 11.6
+  },
+  "o_capmatched_selection/replicate_o7/out/xs_jalt.pkl": {
+   "size_mb": 234.0,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 3166,
+    "keys": [
+     "2006-05-02 00:00:00",
+     "2006-06-01 00:00:00",
+     "2006-07-03 00:00:00"
+    ],
+    "first": {
+     "type": "XS"
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "sec": 3.8
+  },
+  "o_capmatched_selection/replicate_o7/out/xs_jcal.pkl": {
+   "size_mb": 167.3,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 2263,
+    "keys": [
+     "2006-05-11 00:00:00",
+     "2006-06-12 00:00:00",
+     "2006-07-11 00:00:00"
+    ],
+    "first": {
+     "type": "XS"
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "sec": 2.7
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/A.pkl": {
+   "size_mb": 100.6,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 328,
+    "keys": [
+     "('A', 0, 300000.0, 'GROW')",
+     "('A', 1, 300000.0, 'GROW')",
+     "('A', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 2.1
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/B.pkl": {
+   "size_mb": 98.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 320,
+    "keys": [
+     "('B', 0, 300000.0, 'GROW')",
+     "('B', 1, 300000.0, 'GROW')",
+     "('B', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 2.8
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/C.pkl": {
+   "size_mb": 98.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 320,
+    "keys": [
+     "('C', 4, 300000.0, 'GROW')",
+     "('C', 5, 300000.0, 'GROW')",
+     "('C', 6, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 1.5
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/KEEP.pkl": {
+   "size_mb": 49.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 160,
+    "keys": [
+     "('KEEP', 0, 300000.0, 'GROW')",
+     "('KEEP', 1, 300000.0, 'GROW')",
+     "('KEEP', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 0.1
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/KHI.pkl": {
+   "size_mb": 49.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 160,
+    "keys": [
+     "('KHI', 4, 300000.0, 'GROW')",
+     "('KHI', 5, 300000.0, 'GROW')",
+     "('KHI', 6, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 1.3
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/KLO.pkl": {
+   "size_mb": 49.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 160,
+    "keys": [
+     "('KLO', 0, 300000.0, 'GROW')",
+     "('KLO', 1, 300000.0, 'GROW')",
+     "('KLO', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 2.2
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/OAHALF.pkl": {
+   "size_mb": 49.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 160,
+    "keys": [
+     "('OAHALF', 0, 300000.0, 'GROW')",
+     "('OAHALF', 1, 300000.0, 'GROW')",
+     "('OAHALF', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 2.2
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/ODDSTRESS.pkl": {
+   "size_mb": 49.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 160,
+    "keys": [
+     "('ODDSTRESS', 0, 300000.0, 'GROW')",
+     "('ODDSTRESS', 1, 300000.0, 'GROW')",
+     "('ODDSTRESS', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 1.4
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/STRESS.pkl": {
+   "size_mb": 98.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 320,
+    "keys": [
+     "('STRESS', 0, 300000.0, 'GROW')",
+     "('STRESS', 1, 300000.0, 'GROW')",
+     "('STRESS', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 2.1
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/d1.pkl": {
+   "size_mb": 98.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 320,
+    "keys": [
+     "('d1', 0, 300000.0, 'GROW')",
+     "('d1', 1, 300000.0, 'GROW')",
+     "('d1', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 1.5
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/d2.pkl": {
+   "size_mb": 98.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 320,
+    "keys": [
+     "('d2', 0, 300000.0, 'GROW')",
+     "('d2', 1, 300000.0, 'GROW')",
+     "('d2', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 0.9
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/d3.pkl": {
+   "size_mb": 98.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 320,
+    "keys": [
+     "('d3', 0, 300000.0, 'GROW')",
+     "('d3', 1, 300000.0, 'GROW')",
+     "('d3', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 1.1
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/d4.pkl": {
+   "size_mb": 98.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 320,
+    "keys": [
+     "('d4', 4, 300000.0, 'GROW')",
+     "('d4', 5, 300000.0, 'GROW')",
+     "('d4', 6, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 0.3
+  },
+  "o_exec_capacity_tiers/replicate_o5/out/d5.pkl": {
+   "size_mb": 98.1,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 320,
+    "keys": [
+     "('d5', 0, 300000.0, 'GROW')",
+     "('d5', 1, 300000.0, 'GROW')",
+     "('d5', 2, 300000.0, 'GROW')"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 6,
+     "keys": [
+      "nav",
+      "comp",
+      "cashf"
+     ],
+     "first": {
+      "type": "ndarray"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "note": "o5 容量分級輸出：只有 nav／comp／cashf／st，沒有持股或名單，無法判定是否持有下市股（需回到其名單來源）",
+   "sec": 0.7
+  },
+  "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R0.pkl": {
+   "size_mb": 48.3,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 3,
+    "keys": [
+     "navs",
+     "stats",
+     "acc"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 416,
+     "keys": [
+      "(0, 'K5T', 'normal', '30萬', 'FIX')",
+      "(0, 'K5T', 'normal', '30萬', 'GROW')",
+      "(0, 'K5T', 'normal', '100萬', 'FIX')"
+     ],
+     "first": {
+      "type": "Series"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "exec_acc": {
+    "n_cells": 416,
+    "n_cells_mdelay_pos": 416,
+    "mdelay_mean": 4.000721153846154,
+    "mdelay_max": 4.1
+   },
+   "note": "V7X 重寫版複製輸出：只有 navs／stats／acc；名單＝AB_V7_B10 plans_j7（名單層普查見 linked）",
+   "sec": 0.0
+  },
+  "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R0_nan.pkl": {
+   "size_mb": 48.3,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 3,
+    "keys": [
+     "navs",
+     "stats",
+     "acc"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 416,
+     "keys": [
+      "(0, 'K5T', 'normal', '30萬', 'FIX')",
+      "(0, 'K5T', 'normal', '30萬', 'GROW')",
+      "(0, 'K5T', 'normal', '100萬', 'FIX')"
+     ],
+     "first": {
+      "type": "Series"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "exec_acc": {
+    "n_cells": 416,
+    "n_cells_mdelay_pos": 416,
+    "mdelay_mean": 4.000721153846154,
+    "mdelay_max": 4.1
+   },
+   "note": "V7X 重寫版複製輸出：只有 navs／stats／acc；名單＝AB_V7_B10 plans_j7（名單層普查見 linked）",
+   "sec": 1.1
+  },
+  "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R1.pkl": {
+   "size_mb": 48.3,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 3,
+    "keys": [
+     "navs",
+     "stats",
+     "acc"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 416,
+     "keys": [
+      "(0, 'K5T', 'normal', '30萬', 'FIX')",
+      "(0, 'K5T', 'normal', '30萬', 'GROW')",
+      "(0, 'K5T', 'normal', '100萬', 'FIX')"
+     ],
+     "first": {
+      "type": "Series"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "exec_acc": {
+    "n_cells": 416,
+    "n_cells_mdelay_pos": 416,
+    "mdelay_mean": 4.000721153846154,
+    "mdelay_max": 4.1
+   },
+   "note": "V7X 重寫版複製輸出：只有 navs／stats／acc；名單＝AB_V7_B10 plans_j7（名單層普查見 linked）",
+   "sec": 1.2
+  },
+  "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R2.pkl": {
+   "size_mb": 48.3,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 3,
+    "keys": [
+     "navs",
+     "stats",
+     "acc"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 416,
+     "keys": [
+      "(0, 'K5T', 'normal', '30萬', 'FIX')",
+      "(0, 'K5T', 'normal', '30萬', 'GROW')",
+      "(0, 'K5T', 'normal', '100萬', 'FIX')"
+     ],
+     "first": {
+      "type": "Series"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "exec_acc": {
+    "n_cells": 416,
+    "n_cells_mdelay_pos": 416,
+    "mdelay_mean": 4.000721153846154,
+    "mdelay_max": 4.1
+   },
+   "note": "V7X 重寫版複製輸出：只有 navs／stats／acc；名單＝AB_V7_B10 plans_j7（名單層普查見 linked）",
+   "sec": 0.8
+  },
+  "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R3.pkl": {
+   "size_mb": 48.3,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 3,
+    "keys": [
+     "navs",
+     "stats",
+     "acc"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 416,
+     "keys": [
+      "(0, 'K5T', 'normal', '30萬', 'FIX')",
+      "(0, 'K5T', 'normal', '30萬', 'GROW')",
+      "(0, 'K5T', 'normal', '100萬', 'FIX')"
+     ],
+     "first": {
+      "type": "Series"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "exec_acc": {
+    "n_cells": 416,
+    "n_cells_mdelay_pos": 416,
+    "mdelay_mean": 4.000721153846154,
+    "mdelay_max": 4.1
+   },
+   "note": "V7X 重寫版複製輸出：只有 navs／stats／acc；名單＝AB_V7_B10 plans_j7（名單層普查見 linked）",
+   "sec": 0.8
+  },
+  "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R4.pkl": {
+   "size_mb": 48.3,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 3,
+    "keys": [
+     "navs",
+     "stats",
+     "acc"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 416,
+     "keys": [
+      "(0, 'K5T', 'normal', '30萬', 'FIX')",
+      "(0, 'K5T', 'normal', '30萬', 'GROW')",
+      "(0, 'K5T', 'normal', '100萬', 'FIX')"
+     ],
+     "first": {
+      "type": "Series"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "exec_acc": {
+    "n_cells": 416,
+    "n_cells_mdelay_pos": 416,
+    "mdelay_mean": 4.000240384615385,
+    "mdelay_max": 4.1
+   },
+   "note": "V7X 重寫版複製輸出：只有 navs／stats／acc；名單＝AB_V7_B10 plans_j7（名單層普查見 linked）",
+   "sec": 1.5
+  },
+  "o_exec_engine_rewrite_v7x/replicate_o8/out/run_R4c.pkl": {
+   "size_mb": 48.3,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 3,
+    "keys": [
+     "navs",
+     "stats",
+     "acc"
+    ],
+    "first": {
+     "type": "dict",
+     "n": 416,
+     "keys": [
+      "(0, 'K5T', 'normal', '30萬', 'FIX')",
+      "(0, 'K5T', 'normal', '30萬', 'GROW')",
+      "(0, 'K5T', 'normal', '100萬', 'FIX')"
+     ],
+     "first": {
+      "type": "Series"
+     }
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "exec_acc": {
+    "n_cells": 416,
+    "n_cells_mdelay_pos": 416,
+    "mdelay_mean": 4.000240384615385,
+    "mdelay_max": 4.1
+   },
+   "note": "V7X 重寫版複製輸出：只有 navs／stats／acc；名單＝AB_V7_B10 plans_j7（名單層普查見 linked）",
+   "sec": 1.2
+  },
+  "o_lc_sector_rotation_pit/replicate_o12/base.pkl": {
+   "size_mb": 67.0,
+   "load_error": null,
+   "structure": {
+    "type": "dict",
+    "n": 6,
+    "keys": [
+     "G",
+     "mc",
+     "top100"
+    ],
+    "first": {
+     "type": "DatetimeIndex"
+    }
+   },
+   "n_list_results": 0,
+   "n_results_with_perm": 0,
+   "perm_events": [],
+   "frozen_share_max": null,
+   "sec": 0.0
+  }
+ },
+ "summary": {
+  "n_files": 26,
+  "n_loaded": 26,
+  "n_with_lists": 0,
+  "n_with_perm_list_level": 0,
+  "n_exec_mdelay_pos": 7,
+  "v7x_runs_linked_lists": {
+   "n": 260,
+   "n_perm": 260,
+   "frozen_share_max": 0.5358,
+   "n_frozen_ge5": 260,
+   "perm_events": [
+    "1520",
+    "1716",
+    "2311",
+    "2325",
+    "2394",
+    "2403",
+    "2432",
+    "2446",
+    "2452",
+    "2473",
+    "3009",
+    "3012",
+    "3063",
+    "3474",
+    "6286"
+   ]
+  },
+  "census_o17_perm_results": 2093,
+  "census_o17_frozen_ge5": 2063,
+  "census_total_after": 2093,
+  "census_files_error_o17": [
+   [
+    "o_capmatched_selection/replicate_o7/out/xs.pkl",
+    "ModuleNotFoundError(\"No module named 'rstrat'\")"
+   ]
+  ]
+ }
+}

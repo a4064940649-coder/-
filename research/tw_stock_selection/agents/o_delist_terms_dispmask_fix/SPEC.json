@@ -1,0 +1,423 @@
+{
+ "PREREG": {
+  "topic": "o18 題 2：下市對價條款補核（市場鎖價初篩＋公開條款原文）＋ia_core 處置遮罩改官方全歷史清單（基礎設施勘誤；不產生選股訊號，S1）",
+  "spec_draft": {
+   "file": "SPEC_draft.json",
+   "sha256": "8047ea19b4f84a252019c1ae2f3c51c2ab8fb67532ece84476bafe36cc79e4b3",
+   "written_utc": "2026-11-08T23:03:28Z",
+   "note": "判準與狀態表在計算市場證據與搜尋之前寫下"
+  },
+  "event_list": {
+   "file": "event_list_frozen.csv",
+   "n": 22,
+   "codes": [
+    "2403",
+    "2432",
+    "2452",
+    "1716",
+    "1520",
+    "3007",
+    "8078",
+    "6280",
+    "8008",
+    "3559",
+    "2473",
+    "3063",
+    "3009",
+    "2446",
+    "2394",
+    "3012",
+    "2456",
+    "2809",
+    "2833",
+    "2888",
+    "5305",
+    "6004"
+   ],
+   "V7X_settled_20": [
+    "1520",
+    "1716",
+    "2311",
+    "2325",
+    "2394",
+    "2403",
+    "2432",
+    "2446",
+    "2452",
+    "2473",
+    "3007",
+    "3009",
+    "3012",
+    "3063",
+    "3474",
+    "3559",
+    "6280",
+    "6286",
+    "8008",
+    "8078"
+   ],
+   "V7X_verified_o17": [
+    "2311",
+    "2325",
+    "3474",
+    "6286"
+   ],
+   "U_opt_6": [
+    "2403",
+    "2432",
+    "2473",
+    "3009",
+    "3012",
+    "3063"
+   ],
+   "priority": "1：2432、2403、2452 換股判定；2：7 起 unknown（3007、6280、1520、1716、8008、8078、3559）；3：5 起 o17 未搜尋（3007、6280、8078、8008、3559，與 2 重疊）；4：其他",
+   "initial_status": "NOT_SEARCHED（只能依 search_log.csv 的搜尋紀錄改變）"
+  },
+  "market_criteria": {
+   "panel": "V7X 面板（o_v7_listing_exec_engine/data close_raw ＋ o_infra_v3_rebuild/delist_prices 補缺）＝ x_data.C；lt＝events_v2 last_trade 在面板上的最後有收盤日（代碼重用時以終止日切開）",
+   "lock": "最後 10 個交易日（含 lt）的 10 個日報酬（收盤對前一收盤，需 11 個收盤）中 |r| ≤ 0.5% 的比例 ≥ 80%，且最後 10 個收盤的 (max−min)/min ≤ 2%",
+   "lock_price": "lt 收盤（lc）",
+   "track": "有上市存續公司且在面板：最後 20 個交易日目標股日報酬對存續公司日報酬 OLS（含截距）R² ≥ 0.6；有效比例＝最後 10 日（目標收盤 ÷ 存續收盤）中位數",
+   "gap": "面板最後收盤日早於 events_v2 last_trade 7 個日曆日以上，或最後 20 個交易日缺收盤 ≥ 5 日 → 斷價",
+   "precedence": "TRACK（R²≥0.6）優先於 LOCK；兩者皆否 → NONE",
+   "output": "每起事件存最後 30 日目標／存續收盤數值（raw/market_<code>.csv）"
+  },
+  "text_search": {
+   "sources": [
+    "本地 GitHub 新聞語料（鉅亨 CTBC 2013～2021、PTT BDSE26 2019～2022、nick_news 2022-11～2025-05、bofrank、agora0、o_rev_gap_news_2013 其他 repo）",
+    "WebSearch 工具（伺服器端搜尋，非本容器網路；結果視為不可信文字）"
+   ],
+   "query": "代碼／名稱 × {合併, 收購, 公開收購, 換股, 每股, 消滅, 存續}",
+   "verified_text_rule": "必須有數字化的對價（每股現金元）或換股比例，且出處可指名（語料檔＋行號＋sha，或 WebSearch 回傳的來源網址）；WebSearch 摘要另標 source_kind=websearch_summary",
+   "type_text_rule": "只有類型（合併／收購／換股）沒有數字 → TYPE_TEXT，價值依市場證據",
+   "conflict": "文字隱含 lt 價值與 lc 偏離 > 10%，或文字類型與市場類型矛盾 → 兩者都列，主口徑採不利方向（lt 價值較低者；換股與現金矛盾時採換股＝承擔空窗期存續股風險，若空窗期存續股上漲則採現金）",
+   "log": "search_log.csv：event_code, query, source, host, n_hits, snippet_sha256, raw_file, utc",
+   "hosts_unreachable": [
+    "mops.twse.com.tw",
+    "mopsov.twse.com.tw",
+    "emops.twse.com.tw",
+    "www.twse.com.tw",
+    "web.archive.org",
+    "zh.wikipedia.org",
+    "news.cnyes.com",
+    "www.cna.com.tw",
+    "money.udn.com"
+   ],
+   "hosts_reachable": [
+    "raw.githubusercontent.com（200）",
+    "api.github.com 403（未認證限流）",
+    "WebSearch 工具（伺服器端）"
+   ],
+   "n_web_queries": 33,
+   "n_local_sources": 10
+  },
+  "statuses_final": {
+   "VERIFIED_TEXT": "數字化對價（最終下市步驟）有可指名出處 → 依條款；lo／hi 不加 δ",
+   "TENDER_TEXT": "只有前一階段公開收購價有數字，最終合併對價無數字 → 固定請求權 lc×(1+δb)（與 MARKET_LOCK 同）",
+   "TYPE_TEXT": "只有類型（現金收購／換股／轉換）→ 依市場證據：TRACK→比例×(1+δb)換存續股；換股但無法估比例或 NONE→固定 lc×(1+δb)；轉換新設控股（1716→3705）→空窗期固定 lc，s 日以 lc×(1+δb)÷存續首日開盤換股",
+   "SEARCHED_NOT_FOUND": "有市場證據→同上；無→lo＝0、main＝hi＝lc（舊 unknown）",
+   "NOT_SEARCHED": "期末 0 起（斷言）",
+   "conflict": "文字隱含 lt 價值與 lc 偏離 >10% → 採不利方向；本題 0 起（最大 2394 −9.5%、2833 −9.5%，皆依文字＝較不利）"
+  },
+  "delta": {
+   "rule": "δ＝全部 VERIFIED_TEXT 事件（含 o17 已核實 11 起）lt 當日「條款價值 ÷ lc − 1」最大絕對值，無條件進位到 0.1%；lt < 2013-01-01 的事件 δ×1.25（不利端放寬）。δ_lock＝δ_swap＝δ（單一 δ，另報分開估計作描述）",
+   "value": 0.096,
+   "pre2013": 0.12,
+   "dmax_code": "2394",
+   "devs": {
+    "1704": 0.05461393596986808,
+    "1902": 0.007263922518159882,
+    "2325": 0.0039215686274509665,
+    "2823": 0.05662847790507364,
+    "2847": 0.04357084615384621,
+    "3474": 0.006711409395973034,
+    "3697": 0.005078313253012112,
+    "6286": 0.007751937984496138,
+    "2432": 0.018494142424641424,
+    "8078": 0.005940594059405946,
+    "2473": 0.0035211267605634866,
+    "3009": 0.024710465923039937,
+    "2394": -0.09502262443438902,
+    "3012": 0.011554621848739455,
+    "2456": 0.011581395348837287,
+    "2809": -0.030609540636042598,
+    "2833": -0.09470588235294108,
+    "5305": 0.004728132387706863
+   },
+   "note": "2394／2833 的 −9.5% 來自文字比例早於存續公司除權（未調整）；照規則納入，δ 由 0.057 放寬為 0.096（2013 前 0.12）"
+  },
+  "events_v3": {
+   "file": "events_v3.csv",
+   "sha256": "ce934e9b4d32c7839dd20ba443538e017c2af462223e3981e463f0dc109a0e7b",
+   "counts": {
+    "VERIFIED_TEXT": 11,
+    "TYPE_TEXT+MARKET_NONE": 3,
+    "TYPE_TEXT+MARKET_TRACK": 2,
+    "TENDER_TEXT+MARKET_NONE": 2,
+    "TENDER_TEXT+MARKET_LOCK": 2,
+    "TYPE_TEXT+MARKET_LOCK": 1,
+    "SEARCHED_NOT_FOUND+MARKET_NONE": 1
+   },
+   "text_counts": {
+    "VERIFIED_TEXT": 11,
+    "TYPE_TEXT": 6,
+    "TENDER_TEXT": 4,
+    "SEARCHED_NOT_FOUND": 1
+   },
+   "v7x20_verified": [
+    "2311",
+    "2325",
+    "2394",
+    "2432",
+    "2473",
+    "3009",
+    "3012",
+    "3474",
+    "6286",
+    "8078"
+   ],
+   "uopt6_verified": [
+    "2432",
+    "2473",
+    "3009",
+    "3012"
+   ],
+   "not_searched": 0
+  },
+  "dispmask": {
+   "module": "dispmask_official.py",
+   "patch": "ia_core_dispmask_official.patch",
+   "patch_sha256": "0b4b4f2ab02b06b4f6129e65a9e5fa5edb4cb30db56e647d31647cfdb5759d13",
+   "ia_modes": {
+    "orig": "DISP_OFFICIAL=None（＝現行 ia_core）",
+    "union": "＝integrate_o17 C_DSP（2006-01-01～2021-09-23 原遮罩 ∪ 官方訊號日或成交日）",
+    "replace": "2014-01-01～2021-09-23 只用官方（訊號日或成交日）"
+   },
+   "ia_extra": {
+    "union_noovl": "只用 overlap_proxy=False 的官方列（P5 對照；monkeypatch）",
+    "union14": "視窗 2014-01-01～2021-09-23"
+   },
+   "v7x": "v7plans.py 重建 AB_V7_B10 13 j × 20 seeds；orig＝DMT（V4 官方名單 trade 口徑，公告日 ≤ 訊號日）逐筆重現 plans_j7；union＝DMT ∪ 官方訊號日或成交日（2006～2021-09-23）；replace＝2014～2021-09-23 只用官方",
+   "v7x_note": "研究員事前提醒：V7X 名單本來就用 V4 官方處置名單（成交日口徑）排除，與 ia_core 不同；V7X Δ 只來自「訊號日在處置、成交日不在」與 DMT 漏列，預期遠小於紙上"
+  },
+  "smoke": {
+   "ia": {
+    "flag_off_maxabs": {
+     "normal": 0.0,
+     "stress": 0.0
+    },
+    "C_DSP": {
+     "ann": 27.606398190051816,
+     "ref": 27.606398190051816,
+     "diff": 0.0,
+     "seg3_gex": 13.974901479523584,
+     "ref_seg3": 13.974901479523584
+    },
+    "n_union_out": 15,
+    "n_replace_out": 11,
+    "C0_official_sig_2014_2021": 11,
+    "C0_official_trd_2014_2021": 10
+   },
+   "v7x": {
+    "orig": {
+     "t_0050_med": 0.5462306580219946,
+     "exc_med": 1.6095885881963756
+    },
+    "cons_main": {
+     "t_0050_med": 0.5341394000044165,
+     "exc_med": 1.5719800935402706
+    }
+   },
+   "v7x_plans_orig_equal_plans_j7": true
+  },
+  "feasibility": {
+   "file": "feasibility.json",
+   "best_lo": {
+    "t_0050_med": 0.42562378591408156,
+    "exc_med": 1.0415467206690288,
+    "exc_p10": -2.6122263627656346
+   },
+   "worst_lo": {
+    "t_0050_med": 0.09208266983593551,
+    "exc_med": -0.9950510786584044,
+    "exc_p10": -3.726731781274979
+   },
+   "triggerable": true,
+   "text": "最佳情境 lo（未核實事件全部固定 lc×(1−δ_evt)、不歸零）V7X 100 萬一般 j 中位數全期超額 +1.04pp > 0 → 下界回到 > 0「可以觸發」，列為檢驗；最壞情境（非 VERIFIED_TEXT 全歸零）−1.00pp"
+  },
+  "formal_run": {
+   "ia": {
+    "lists": [
+     "C0×{orig, union, replace, union_noovl, union14}",
+     "U_opt×{orig, union}"
+    ],
+    "engines": [
+     "freeze",
+     "v3_main",
+     "v3_lo",
+     "v3_hi",
+     "o17 cons_main（對照）"
+    ],
+    "costs": [
+     "normal",
+     "stress"
+    ],
+    "stats": "integrate_o17 win()（245 窗、END 2026-10-12）：全期年化、對 0050 超額與 t、三段、2019 起、2014～2019、拿掉最好 3 年 t、逐年差與逐年絕對差"
+   },
+   "v7x": {
+    "plans": [
+     "orig",
+     "union",
+     "replace"
+    ],
+    "engines": {
+     "orig": [
+      "orig",
+      "v3_main",
+      "v3_lo",
+      "v3_hi",
+      "o17_cons_main(100萬一般)"
+     ],
+     "union": [
+      "orig",
+      "v3_main",
+      "v3_lo",
+      "v3_hi"
+     ],
+     "replace": [
+      "orig",
+      "v3_main"
+     ]
+    },
+    "cells": [
+     "normal|100萬",
+     "stress|100萬",
+     "normal|300萬",
+     "normal|1000萬"
+    ],
+    "seeds": 20,
+    "js": 13,
+    "fields": [
+     "CAGR_med",
+     "exc_med",
+     "t_0050_med",
+     "exc_p10",
+     "exc_Y19on_med",
+     "t_Y19on_med",
+     "exc_Y19on_p10"
+    ],
+    "yearly": "逐年 j 中位數差與逐年絕對差"
+   },
+   "once": "s9a_ia.py、s9b_v7x.py 各只跑一次（斷言 PREREG 雜湊、RESULTS 段不存在）"
+  },
+  "predictions": {
+   "P1": {
+    "text": "7 起 unknown 至少 5 起鎖價；2432／2403／2452 不鎖價且 R²≥0.6 判換股；5 起未搜尋全部有紀錄、期末未搜尋 0",
+    "evaluated_before_freeze": true,
+    "result": {
+     "unknown7": {
+      "3007": "MARKET_NONE",
+      "6280": "MARKET_NONE",
+      "1520": "MARKET_LOCK",
+      "1716": "MARKET_NONE",
+      "8008": "MARKET_LOCK",
+      "8078": "MARKET_LOCK",
+      "3559": "MARKET_LOCK"
+     },
+     "n_lock": 4,
+     "swap3": {
+      "2432": [
+       "MARKET_TRACK",
+       0.815
+      ],
+      "2403": [
+       "MARKET_TRACK",
+       0.944
+      ],
+      "2452": [
+       "MARKET_NONE",
+       0.569
+      ]
+     },
+     "not_searched_end": 0
+    },
+    "verdict": "部分不成立：鎖價 4／7（3007 0.7／0.9%、6280 0.7／2.6%、1716 0.5 未過 80%）；2452 R² 0.569 未過 0.6；未搜尋 0（成立）"
+   },
+   "P2": {
+    "text": "V7X 20 起核實 4→≥10；U_opt 6 起 0→≥3；V7X 核實 <8 → 來源不足、待觀察",
+    "evaluated_before_freeze": true,
+    "result": {
+     "v7x": 10,
+     "uopt": 4
+    },
+    "verdict": "成立（10／20、4／6），但新核實 6 起全部來自 WebSearch 摘要（非逐字原文），見 sensitivity"
+   },
+   "P3": {
+    "text": "V7X 100 萬一般 j 中位數主口徑全期超額 1.30～1.65pp；下界 −0.50～+0.10pp；P(下界 > 0) ≤ 30%"
+   },
+   "P4": {
+    "text": "官方清單 2014～2021-09-23 多出 C0 訊號日槽 11、成交日槽 10（逐槽重現 o17，已在 smoke 成立）；移出槽下一期平均報酬約 +12%；移入−移出合計約 −12.5pp、2019 起約 −45pp；聯集版 C0 全期 −0.68pp（≤0.01）、2019 起 −2.65pp；替換版與聯集版差 ≤0.2pp；V7X 13 j 全期 Δ −1.6～0pp、2019 起 −4.5～0pp（集中 2020-08、2021-06）、2014～2019 |Δ| ≤ 0.3pp；300 萬、1,000 萬方向相同"
+   },
+   "P5": {
+    "text": "2014～2021 處置列中代理推得比例 ≥ 40%；只用官方起訖日列時 C0 |Δ| 縮小（不利端：不變）；若 |Δ| 變大＝代理期間低估覆蓋",
+    "note": "事前已知（smoke）：overlap_proxy=True 比例 60.5%，但 overlap_proxy 不是「代理推得」，全部列的起訖都是官方公告；本題把 P5 改讀為「排除與代理事件重疊的列」的對照，並標明前提不成立"
+   },
+   "P6": {
+    "text": "26 個大型 pkl 中 ≥ 20 個含永久下市部位；V7X run_R0～R4c 凍結資產最大占比 ≥ 5%；普查總數 2,075 組上修為完整數"
+   }
+  },
+  "decision": {
+   "a": "V7X 加註：v3_lo（100 萬一般 j 中位數全期超額）> 0 且 v3_hi > 0 → 改寫為「下市對價口徑差：主口徑 X、界限 lo～hi，均 > 0」；否則只更新數字並寫明界限由哪些事件決定",
+   "b": "處置遮罩：union 對 orig，主策略任一正式數字（C0 紙上全期／三段／2019 起年化與 t、V7X 各欄）|Δ年化| > 0.3pp 或 |Δt| > 0.05 → 加註「處置遮罩官方化：Δ…，集中在…訊號日」；題 1 若取代正式數字則附在新數字旁；題 1 C 濾網須＝dispmask_official union（提供 assert_union_equal 斷言函式）",
+   "c": "分級：可用＝VERIFIED_TEXT ≥ 50% V7X 結算事件 且 NOT_SEARCHED＝0 且 獨立複製一致；不可用＝patch 煙霧測試失敗；其他待觀察。另報敏感度：VERIFIED_TEXT 只計逐字原文（o17 新聞＋本地語料）時的比例",
+   "d": "G1～G8 表更新 V7X 欄與 G5 處置欄；主策略預期仍不可投資"
+  },
+  "replication": {
+   "must": "不同子代理；不讀研究員程式與 events_v3 標籤；從 raw/（ws_*、lc_*、market_*.csv）與價格盲分類；類別一致率 ≥90%（κ ≥0.8）；lo／hi 差 ≤0.1pp；處置多出槽位逐槽一致；V7X Δ 差 ≤0.05pp；分歧逐筆列出、最終採不利方向",
+   "status": "本子代理沒有派生子代理的工具；交由工作流另派複製員（研究員自寫檢查不算 G6）"
+  },
+  "input_sha256": {
+   "SPEC_draft.json": "8047ea19b4f84a252019c1ae2f3c51c2ab8fb67532ece84476bafe36cc79e4b3",
+   "event_list_frozen.csv": "55a7050fc4db1df29f01434c1607633b46ad2a7564e160b61899b825592d44d2",
+   "market_screen.json": "6b09fc3ed8cdb44832ba8a2986a4a533ce7d5c562a94451496a4c62eb2a209ba",
+   "search_log_web.csv": "8f3a3cdee52585a07cb27550e3ce6078ca8a753b9f641ef11c002ec8f61bb127",
+   "search_log_local.csv": "1e2532bd17a62473c5cc20b367ff35fae13afb666794d9694cf21f71471a9237",
+   "events_v3.csv": "ce934e9b4d32c7839dd20ba443538e017c2af462223e3981e463f0dc109a0e7b",
+   "classify.json": "e26dd40cb3c696d23e0f2a05a9f5b349d86cea4db379ff977ca1cf7d33c59f99",
+   "feasibility.json": "bc6f5c45d8ef578e1224601e98acbc6b3a5fc8ff684db171f278d1e63181fa33",
+   "smoke_ia.json": "7c25d72bff15357bb70a806eb076dcdd91776d9f65e4800f52a532835ed37e98",
+   "smoke_v7x.json": "3b6505c1e8e0018efe1dd22f59d4d1d944b2fc2422c3bad63300eab31a1a9a49",
+   "mkt.py": "56cbbf2431beb4b3d82c13f8c363a3c9f9d452a6ffdbb4471da087906d5a4f79",
+   "cz3.py": "4a0c2ba584581ddf6debb2b39850e5b719884dd4369ff5b4ec4fc22ee0ff9733",
+   "dispmask_official.py": "82e295ab778839d63bb1f16da22dd90e52b2890d97ebba6d2b912c2cc4610162",
+   "ia_lib.py": "7008cb4cd29dc798c6f6265150ed8414a6a2159963e58cccc83262c745c5d296",
+   "v7plans.py": "1769b83ccc5f393f3a9f8f332eae5a5e60960204d56dab6c7710b1f0d729a764",
+   "ia_core_dispmask_official.patch": "0b4b4f2ab02b06b4f6129e65a9e5fa5edb4cb30db56e647d31647cfdb5759d13",
+   "s2_event_list.py": "2ed9d1d1a686a91fc8be84086b0cd92f8ebe135f522624519d7499b3e89bafd3",
+   "s3_market.py": "e5f754894022a25401f98b3933baedc16300674ca2c03f5758d9214c5c5c7d5a",
+   "s4_grep.py": "cf39f42ba5b4a076c5045ee99114c45b8bd49efb825883529cd63a719ac2618e",
+   "s5_classify.py": "ce90703f1c1ae14830c51e0e82f09be506ca0e66407f69e15b607790b7dd5c3e",
+   "s6_feasibility.py": "26c39fba62c15d29b1f86e367d0696a84b0ae22b7566e8626ad8fb3b8eb24bfb",
+   "s7_smoke_ia.py": "1944f98b18585178fff932d382f7c740eb54ea6b715b89d55012898864748bb6",
+   "s7b_smoke_v7x.py": "a43a219e6fd0f7480f6029ec139722abef07087781a16c54827bc1b66deb6d79",
+   "ia_core.py": "0e4a3265743af32593f57d50fa445eaafaff891de78e47a3fb589abfcaacb208",
+   "cz_engine.py": "509ab232f726390b1301032ebd07512bde7a21a75308c70a2ab96c215b094f37",
+   "cz_v7x.py": "8bb07300220b070e6a72ba8b639ddbc272beb1fdc609f3941d55739a11d8c9ab",
+   "events_v2.csv": "66e80725a4e48387690ded34fc1ebb5b4b7a71ca2b501448c81b30f583b0afbe",
+   "x_exec.py": "7e5b62d83f2fd06886578f5e7bd4de22d31f1fe3cdb38759b27eec79b96882c7",
+   "x_data.py": "0cb307fb75e46d951d0d9239b3419252dcad75afc05f4e366109efc3b6794919",
+   "x_stats.py": "4e82856e201f3dddc644a97f63039f4ca313bd4c0dfd7ae54f2b94727253ad2d",
+   "navs_oos_R4.parquet": "88f7c5daa25216da1b6573afc2abb7a63ceb555243cc4ab0d6e69b1534943a74",
+   "disposal_official_universe.csv": "2842f45d825861bfe0168f7a9736364fc19adee2b4d9bc3b5a894d4e22db8b40",
+   "navs_gapfix.parquet": "b255e24ad8f9167a62f706bda26eb3972ebf3b2c2fb1819bccee8d09bf0835e1",
+   "v2_core.py": "30741b58276f8278057648b1e7302c7d335d593546a5587970a3f22021e96fc3",
+   "integrate_o17_results.json": "3e6c916f2ddf6c6375b171f6834a4223765f6c210b5227ad2600204ee7346e0e",
+   "plans_orig.csv": "638c7255c40161dff97d1dea711d87feb60f03add1e0632fa9ace5859d114610",
+   "plans_union.csv": "20046b93b3923dd089cdff4aa54827b538f0f4bfebbdee835c587d7d0578a0f6",
+   "plans_replace.csv": "1600a2d34062b1c0c45dd3ae045a9cac58ca78f85b202fe1998dbc4342ceb650",
+   "plans_union_noovl.csv": "2d1bcfd13777093b4978f070679d65e4aed7d1af948e04f9b0085d882134210e"
+  }
+ },
+ "sha256": "69938e829fab22ca3ea8418a75020c4459b158fd1224d5e55bdcfbe7d8016877",
+ "written_utc": "2026-11-08T23:20:17Z"
+}

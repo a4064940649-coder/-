@@ -1,0 +1,42 @@
+# o18 step0 connectivity, one attempt per URL, curl -sS -m 20, no retry; start 2026-11-08T22:59:14Z
+== https://mops.twse.com.tw/nas/t21/sii/t21sc03_102_1_0.html
+curl: (56) CONNECT tunnel failed, response 403
+000 0.246243s
+== https://mops.twse.com.tw/nas/t21/otc/t21sc03_102_1_0.html
+curl: (56) CONNECT tunnel failed, response 403
+000 0.192763s
+== https://mopsov.twse.com.tw/nas/t21/sii/t21sc03_102_1_0.html
+curl: (56) CONNECT tunnel failed, response 403
+000 0.223598s
+== https://emops.twse.com.tw/server-java/t58query
+curl: (56) CONNECT tunnel failed, response 403
+000 0.122163s
+== https://web.archive.org/cdx/search/cdx?url=mops.twse.com.tw/nas/t21/sii/t21sc03_102_1_0.html&limit=3
+curl: (56) CONNECT tunnel failed, response 403
+000 0.204522s
+== https://web.archive.org/web/2014/http://mops.twse.com.tw/nas/t21/sii/t21sc03_102_1_0.html
+curl: (56) CONNECT tunnel failed, response 403
+000 0.222390s
+== https://api.github.com/search/repositories?q=t21sc03
+200 0.489651s
+== https://raw.githubusercontent.com/aRthur08701244/Intern-in-CTBC/258f42aa4502b458b11fcb96f875cdd80266df3f/README.md
+200 0.278130s
+== https://data.gov.tw/
+curl: (56) CONNECT tunnel failed, response 403
+000 0.222016s
+== https://www.twse.com.tw/
+curl: (56) CONNECT tunnel failed, response 403
+000 0.030380s
+== https://api.finmindtrade.com/api/v4/data?dataset=TaiwanStockMonthRevenue&data_id=2325&start_date=2013-01-01
+curl: (56) CONNECT tunnel failed, response 403
+000 0.183475s
+== https://zenodo.org/
+curl: (56) CONNECT tunnel failed, response 403
+000 0.189467s
+== https://huggingface.co/
+curl: (56) CONNECT tunnel failed, response 403
+000 0.217503s
+== git ls-remote https://github.com/aRthur08701244/Intern-in-CTBC
+258f42aa4502b458b11fcb96f875cdd80266df3f	HEAD
+rc=0
+# end 2026-11-08T22:59:18Z

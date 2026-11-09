@@ -1,0 +1,21 @@
+{
+ "purpose": "給另一位子代理的盲複製說明（G6）；複製員不得讀本資料夾的 *.py、events_v3.csv、classify.json、results.json 的 VERDICT／RESULTS 段",
+ "allowed_inputs": [
+  "raw/ws_*.txt（WebSearch 逐字回傳）",
+  "raw/lc_*.txt（本地語料逐字摘錄，附來源 sha 與行號）",
+  "raw/market_<code>.csv（目標股與存續股最後 30 日收盤，數值）",
+  "event_list_frozen.csv（22 起事件、初始 NOT_SEARCHED）",
+  "SPEC.json 的 PREREG（判準、狀態表、δ 規則、結算規則、判定規則）",
+  "o_engine_delist_consideration/events_v2.csv、raw/ev_*.txt",
+  "共用引擎（只讀）：independent_audit/ia_core.py、o_engine_delist_consideration/cz_engine.py、cz_v7x.py、o_exec_engine_rewrite_v7x/x_*.py",
+  "處置：o_rev_avail_ds_pit_count/raw/disposal_official_universe.csv（sha 2842f45d…）、ia_core_dispmask_official.patch（可讀 patch 本身）"
+ ],
+ "tasks": [
+  "22 起事件自行盲分類（結算類別：cash／swap／mixed／track／fixed／conv_newsucc／unknown），與研究員一致率 ≥90%、Cohen κ ≥0.8",
+  "δ 依規則自行重算（研究員：0.096，2013 前 0.12）",
+  "V7X 100 萬一般 13 j × 20 seeds：v3 main／lo／hi 全期 j 中位數超額，lo、hi 與研究員差 ≤0.1pp",
+  "C0 聯集版（C_DSP）處置多出槽位逐槽一致（11 訊號日槽／10 成交日槽、名單異動 15 槽）；V7X union 對 orig 的 Δ 差 ≤0.05pp",
+  "分歧事件逐筆列出，最終採不利方向"
+ ],
+ "scratch": "中間檔放 scratchpad/o18_delistterms/replicate/，題目結束刪除"
+}

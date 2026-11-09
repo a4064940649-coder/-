@@ -1,0 +1,17 @@
+0 39
+100 71
+200 98
+300 141
+400 172
+500 205
+600 240
+700 271
+800 326
+900 389
+1000 438
+orig reproduces False {'orig': {'n_rows': 63820, 'inserted_slots_mean_per_plan': 230.28846153846155}, 'REAL_opt': {'n_rows': 63820, 'inserted_slots_mean_per_plan': 264.5423076923077}, 'REAL_p90': {'n_rows': 63820, 'inserted_slots_mean_per_plan': 164.8230769230769}, 'REAL_carry': {'n_rows': 63820, 'inserted_slots_mean_per_plan': 19.619230769230768}} {'rfix_gapcells': 2052, 'replaced_by_mine': 961, 'dropped': 1091, 'added': 0, 'agree_with_rfix_0p5pp': 961, 'compared': 961, 'y5_gapcells': 0, 'y5_dropped': 0, 'y5_replaced': 0} 456
+Traceback (most recent call last):
+  File "/home/user/-/research/tw_stock_selection/agents/o_delist_rev_backfill_allpit/v7x_plans.py", line 47, in <module>
+    assert same, 'orig 名單未重現 plans_j7'
+           ^^^^
+AssertionError: orig 名單未重現 plans_j7

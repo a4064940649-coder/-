@@ -1,0 +1,709 @@
+{
+ "backfill_version": "B1",
+ "coverage_known_at_freeze": {
+  "by_year": {
+   "2013": {
+    "covered": 0,
+    "ky": 0,
+    "n": 43,
+    "share": 0.0,
+    "share_incl_ky_resolved": 0.0,
+    "wshare": 0.0,
+    "wshare_incl_ky": 0.0
+   },
+   "2014": {
+    "covered": 0,
+    "ky": 0,
+    "n": 50,
+    "share": 0.0,
+    "share_incl_ky_resolved": 0.0,
+    "wshare": 0.0,
+    "wshare_incl_ky": 0.0
+   },
+   "2015": {
+    "covered": 0,
+    "ky": 0,
+    "n": 34,
+    "share": 0.0,
+    "share_incl_ky_resolved": 0.0,
+    "wshare": 0.0,
+    "wshare_incl_ky": 0.0
+   },
+   "2016": {
+    "covered": 9,
+    "ky": 9,
+    "n": 40,
+    "share": 0.225,
+    "share_incl_ky_resolved": 0.45,
+    "wshare": 0.2679162867815832,
+    "wshare_incl_ky": 0.545076918297273
+   },
+   "2017": {
+    "covered": 23,
+    "ky": 4,
+    "n": 37,
+    "share": 0.6216216216216216,
+    "share_incl_ky_resolved": 0.7297297297297297,
+    "wshare": 0.6691221745160795,
+    "wshare_incl_ky": 0.7933845522935093
+   },
+   "2018": {
+    "covered": 13,
+    "ky": 3,
+    "n": 23,
+    "share": 0.5652173913043478,
+    "share_incl_ky_resolved": 0.6956521739130435,
+    "wshare": 0.4288119854422634,
+    "wshare_incl_ky": 0.8222612235297014
+   },
+   "2019": {
+    "covered": 8,
+    "ky": 0,
+    "n": 8,
+    "share": 1.0,
+    "share_incl_ky_resolved": 1.0,
+    "wshare": 1.0,
+    "wshare_incl_ky": 1.0
+   },
+   "2020": {
+    "covered": 0,
+    "ky": 0,
+    "n": 3,
+    "share": 0.0,
+    "share_incl_ky_resolved": 0.0,
+    "wshare": 0.0,
+    "wshare_incl_ky": 0.0
+   },
+   "2021": {
+    "covered": 0,
+    "ky": 0,
+    "n": 1,
+    "share": 0.0,
+    "share_incl_ky_resolved": 0.0,
+    "wshare": 0.0,
+    "wshare_incl_ky": 0.0
+   },
+   "2022": {
+    "covered": 0,
+    "ky": 0,
+    "n": 5,
+    "share": 0.0,
+    "share_incl_ky_resolved": 0.0,
+    "wshare": 0.0,
+    "wshare_incl_ky": 0.0
+   },
+   "2023": {
+    "covered": 0,
+    "ky": 0,
+    "n": 5,
+    "share": 0.0,
+    "share_incl_ky_resolved": 0.0,
+    "wshare": 0.0,
+    "wshare_incl_ky": 0.0
+   },
+   "2024": {
+    "covered": 0,
+    "ky": 0,
+    "n": 2,
+    "share": 0.0,
+    "share_incl_ky_resolved": 0.0,
+    "wshare": 0.0,
+    "wshare_incl_ky": 0.0
+   }
+  },
+  "slots_2013_2018": {
+   "covered": 45,
+   "ky": 16,
+   "n": 227,
+   "share": 0.19823788546255505,
+   "share_incl_ky_resolved": 0.2687224669603524,
+   "wshare": 0.2081228906841403,
+   "wshare_incl_ky": 0.32089521439128266
+  },
+  "slots_2013_2026": {
+   "covered": 53,
+   "ky": 16,
+   "n": 251,
+   "share": 0.21115537848605578,
+   "share_incl_ky_resolved": 0.2749003984063745,
+   "wshare": 0.2222194714330395,
+   "wshare_incl_ky": 0.31840829008882077
+  },
+  "slots_2019_2026": {
+   "covered": 8,
+   "ky": 0,
+   "n": 24,
+   "share": 0.3333333333333333,
+   "share_incl_ky_resolved": 0.3333333333333333,
+   "wshare": 0.30398345589367926,
+   "wshare_incl_ky": 0.30398345589367926
+  },
+  "top10": {
+   "covered": 39,
+   "ky": 9,
+   "n": 165,
+   "share": 0.23636363636363636,
+   "share_incl_ky_resolved": 0.2909090909090909,
+   "wshare": 0.23955431955469128,
+   "wshare_incl_ky": 0.3428560109233979
+  }
+ },
+ "decision": {
+  "a": "覆蓋 ≥ 80% 槽位（同報報酬權重）：新正式數字＝ALLPIT_REAL，未覆蓋用 opt；覆蓋 < 80%：新正式數字取 opt 補缺版（ALLPIT_REAL_opt，cons_main，一般成本；不利端），旁附 ALLPIT_REAL_p90 與 ALLPIT_REAL_carry 區間（opt／p90／carry 三者的最小～最大）。",
+  "b": "下列任一正式數字變動 > 0.3pp 年化或 t 變動 > 0.05 → 取代 main_v2/FINDINGS 與 SOP 引用的正式數字（不只加註），舊數字移附錄並標「含 2013 年後營收存活者偏誤」：C0 紙上：全期年化、t、三段超額（新 ALLPIT_REAL_opt cons_main 對 C0）；V7X：全期 j 中位數、p10、2019 起、壓力成本、300 萬、1,000 萬（新 REAL_opt cons_main 對現行正式 orig×orig＝navs_oos_R4）。",
+  "c": "G4 第二、三段：覆蓋 ≥ 80% 且區間兩端同號 → 「已用實際營收排除（覆蓋 X%，報酬權重 Y%）」；否則維持「未排除」並附區間。",
+  "d": "和主策略比：ALLPIT_REAL 對 C0 月差 t、相關係數、逐年差；重寫 G1～G8 表；預期仍不可投資；V7X 全期 t ≥ 1.0 或 2019 起超額 > 0 → 先查資料再報。",
+  "e": "最終分級：可用（勘誤生效）＝覆蓋 ≥ 80%、閘門通過、複製一致；待觀察＝覆蓋 < 80% 或複製部分不一致；不可用＝閘門失敗或來源無法驗證。",
+  "engine_note": "freeze 只當對照（o17 教訓：freeze 會把損失誇大一倍）；cons_lo／cons_hi 報界限。"
+ },
+ "explore_known_at_freeze": {
+  "U13_REAL_carry": {
+   "P2_le_Uopt": true,
+   "by_fill": 3,
+   "by_real_backfill": 5,
+   "inserted_total": 8,
+   "inserted_total_1318": 6,
+   "inserted_total_2013on": 8
+  },
+  "U13_REAL_opt": {
+   "P2_le_Uopt": true,
+   "by_fill": 195,
+   "by_real_backfill": 5,
+   "inserted_total": 200,
+   "inserted_total_1318": 182,
+   "inserted_total_2013on": 200,
+   "real_slots": [
+    [
+     "2016-12-12",
+     "4725"
+    ],
+    [
+     "2017-02-13",
+     "4725"
+    ],
+    [
+     "2017-11-13",
+     "3519"
+    ],
+    [
+     "2019-03-11",
+     "3454"
+    ],
+    [
+     "2019-06-11",
+     "3454"
+    ]
+   ]
+  },
+  "U13_REAL_p90": {
+   "P2_le_Uopt": true,
+   "by_fill": 128,
+   "by_real_backfill": 5,
+   "inserted_total": 133,
+   "inserted_total_1318": 124,
+   "inserted_total_2013on": 133
+  },
+  "months_to_delist": {
+   "gt12": 138,
+   "le6": 27,
+   "m6_12": 13,
+   "n": 200,
+   "n_survivor": 22
+  },
+  "real_backfilled_pool_rev_pct": {
+   "deciles": [
+    0.038,
+    0.154,
+    0.424,
+    0.775,
+    0.902
+   ],
+   "median": 0.42436974789915966,
+   "n": 315,
+   "share_ge_0p9": 0.10158730158730159
+  },
+  "rounding": {
+   "minus": {
+    "n_days_changed": 0,
+    "n_slots_changed": 0
+   },
+   "n_news_level_cells": 30,
+   "n_yoy_cells_using_news": 8,
+   "plus": {
+    "n_days_changed": 0,
+    "n_slots_changed": 0
+   }
+  }
+ },
+ "file_sha256": {
+  "/home/user/-/research/tw_stock_selection/agents/independent_audit/ia_core.py": "0e4a3265743af32593f57d50fa445eaafaff891de78e47a3fb589abfcaacb208",
+  "/home/user/-/research/tw_stock_selection/agents/main_v2/navs_gapfix.parquet": "b255e24ad8f9167a62f706bda26eb3972ebf3b2c2fb1819bccee8d09bf0835e1",
+  "/home/user/-/research/tw_stock_selection/agents/main_v2/v2_core.py": "30741b58276f8278057648b1e7302c7d335d593546a5587970a3f22021e96fc3",
+  "/home/user/-/research/tw_stock_selection/agents/o_engine_delist_consideration/cz_engine.py": "509ab232f726390b1301032ebd07512bde7a21a75308c70a2ab96c215b094f37",
+  "/home/user/-/research/tw_stock_selection/agents/o_engine_delist_consideration/cz_v7x.py": "8bb07300220b070e6a72ba8b639ddbc272beb1fdc609f3941d55739a11d8c9ab",
+  "/home/user/-/research/tw_stock_selection/agents/o_engine_delist_consideration/events_v2.csv": "66e80725a4e48387690ded34fc1ebb5b4b7a71ca2b501448c81b30f583b0afbe",
+  "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/out/navs_oos_R4.parquet": "88f7c5daa25216da1b6573afc2abb7a63ceb555243cc4ab0d6e69b1534943a74",
+  "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/x_data.py": "0cb307fb75e46d951d0d9239b3419252dcad75afc05f4e366109efc3b6794919",
+  "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/x_exec.py": "7e5b62d83f2fd06886578f5e7bd4de22d31f1fe3cdb38759b27eec79b96882c7",
+  "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/x_stats.py": "4e82856e201f3dddc644a97f63039f4ca313bd4c0dfd7ae54f2b94727253ad2d",
+  "/home/user/-/research/tw_stock_selection/agents/o_rev_avail_ds_pit_count/avail.py": "be18f65f3bdd0e66dbc2ac51a1b6c24f7e2fff27156513f01c0845f1b5e08294",
+  "/home/user/-/research/tw_stock_selection/agents/o_rev_avail_ds_pit_count/pclib.py": "0e4a84b747dcbfc7992de0821bacd90355f275eda3417b13f8a64937a5c62a26",
+  "/home/user/-/research/tw_stock_selection/agents/o_rev_avail_ds_pit_count/raw/disposal_official_universe.csv": "2842f45d825861bfe0168f7a9736364fc19adee2b4d9bc3b5a894d4e22db8b40",
+  "/home/user/-/research/tw_stock_selection/agents/o_stagger_tranche/st_core.py": "42783daeedd0a45695e3cf317bfa51dc2640cdccdaf46cc9942a160d4073017f",
+  "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/v4lib.py": "eb200e686d9af75f5e92a78430bc44696d7617fd73841f9b69fa48a9749453c5",
+  "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/plans_j7.csv": "20d38d03dabfd319c0bdddd1a851505380754903ef596bf94b296569ae4e83ac",
+  "/home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv": "02657e7c415783020f16255d42f66b0d40d69823fa294113557be6f4584a3898",
+  "bflib.py": "3e7bc7dbd48df09a14e30afd7cc49690aca9565b26e5e49f0270e05b82f96e4a",
+  "coverage_B1.json": "30c1608237ecdf11b40900176b7c4bb1120d39422fedb107b0623f2a3679ba89",
+  "data/backfill_B1_meta.json": "c4cb39c6f71935d82d096d4482d2edf97cd1cdcb90309065a2b90f5ef5baf54a",
+  "data/coverage_slots_B1.csv": "71156b584d736ca5fb6467384ff943dd59ed0fb6af0324ceab08b73ffa7d970b",
+  "data/demand_aff.csv": "e2c6d5b9180bebdbb819e3bc2514bb76d639156b5ea06e3fc5da19b0ba68f0ba",
+  "data/demand_cells.csv": "5896da8d1637920a1d2b464dbaec885bbea27f2ba8d7205aa7c2123355c40b34",
+  "data/demand_slots.csv": "9e8daebb7890cb02f5f11597d7114cdcd5dc0324e2e5617259670d69354ce9a4",
+  "data/news_vals_P5.parquet": "98cefe50ac2554ffdeb456df469ae0833d5d0d619abae7a0e8da09efccf7faee",
+  "data/rev_backfill_B1.csv": "c2672cfa81546d467033511b6629378b5127955e758b11fa69734aba5c0357c3",
+  "demand.json": "e2a308060f2aba8d29884dc0a98e4f3d6e341045462de99131c66b42135cb05a",
+  "env.json": "4274101e67246b6027a345e0a300289a856f8f1c93e11e84b0cd570b4b721e2e",
+  "explore.json": "80c0d8afc98ced4ceac3ba8f14233d72cc687c132e57691515ab7ef2a44f5d05",
+  "gate_P5_T1.json": "eeea978a1f4d921982745369863e9ce153d50d8af9508786928ba6015987abe7",
+  "iterations.json": "ac7588a8a45fbefb65aaaacda51b474c34dbc437397b024fd528d2e40834d315",
+  "o18lib.py": "1ace006192acac5493293de0c92c1c58b49b3fb6fe1306a61c0bddb6e40b2db6",
+  "prereg.py": "055d6cbe94c056b0cbbd97a1d40ca25f73b333fede4950b69345af462e67c4c5",
+  "raw/news_rev_segments.csv.gz": "2cf787fd399a7050b3b4541f70dfc4a032003aea17e9760753342c39d5ab41c3",
+  "raw/step0_connectivity.txt": "19f9cc5eb1553308ebf57fe4e474e8f37cae5fb2737c10fcbf7c77b5e1832136",
+  "raw/taiwanan_monthly_lastver.csv.gz": "7d822023db8a6b733a7bfa03ecb4f093d50c95dbb4e776f47429d08f03ec4a1f",
+  "run_paper.py": "f4458a7045f0e8853fb0ecbc1bc83a5ab0e90916b495717da1aa422837f4685e",
+  "s1_demand.py": "820e12e46ff79dfdeabc1ee7148231a31b1fc31a13f2a85f12523e311779ef20",
+  "s2_extract_raw.py": "c1c95f1da220a72cf693a087071a1a1875858815feeb5ad724b5af3bfbb66616",
+  "s2b_extract_taiwanan.py": "7fe1e42f4588ba1ab9684140fb50a6da290b8c0c735080c079aaa99bb4b135af",
+  "s3_parse.py": "e92d261a10ddf36eb80a0393f280e69a10d5a77a793859b2fc6d0340a17763f5",
+  "s4_gate.py": "97c20f04c307a4af07ec66b78de8b801e7dd66bf9aa8fcfa6b215c11be2160c0",
+  "s5_backfill.py": "838cd9f716a34a46e72e55c945246177f3964a845cdfdf4a18d1e209e487e87b",
+  "s6_coverage.py": "657d009033b025b0b7fb506bdc950ce83ae17ae0b34bc365f83388aeba61f152",
+  "s7_smoke_explore.py": "c7bbecc1ebcf68d880b1e986ce53e2451cfea4999ad39f5b72d5763e2f54d1f4",
+  "smoke.json": "ed42c17647160dd6c954fe15f65fd5c6fe5f19c4faf16c95b1de2b7c49b0d8d4",
+  "v7x_lib.py": "c5746d6a83f433b4dbaa2c15d9e86645deb5cb32b55e10a3a055e7fd1372d1ef",
+  "v7x_plans.py": "fae9f0dbe83806bf6f2f15e740b3c63db924e9c4ee715ef98915ecfdfe43c070",
+  "v7x_run.py": "d036f1084814725c356b01d13a01eb4337e17b086c0eb2036119f470eac9efc4"
+ },
+ "ky_codes": [
+  "1262",
+  "1592",
+  "6422",
+  "6452"
+ ],
+ "news_parser": "P5",
+ "paper": {
+  "engine_set": {
+   "ALLPIT_REAL_carry": "real",
+   "ALLPIT_REAL_opt": "main",
+   "ALLPIT_REAL_opt_KYX": "real",
+   "ALLPIT_REAL_opt_X1507": "sens",
+   "ALLPIT_REAL_opt_X1704": "sens",
+   "ALLPIT_REAL_opt_X1729": "sens",
+   "ALLPIT_REAL_opt_X2311": "sens",
+   "ALLPIT_REAL_opt_X2325": "sens",
+   "ALLPIT_REAL_opt_X3454": "sens",
+   "ALLPIT_REAL_opt_X3474": "sens",
+   "ALLPIT_REAL_opt_X5305": "sens",
+   "ALLPIT_REAL_opt_X6286": "sens",
+   "ALLPIT_REAL_opt_X6452": "sens",
+   "ALLPIT_REAL_opt_Xtop3": "sens",
+   "ALLPIT_REAL_p90": "real",
+   "ALLPIT_opt_o17": "o17",
+   "C0": "ref",
+   "U13_REAL_carry": "real",
+   "U13_REAL_opt": "real",
+   "U13_REAL_p90": "real",
+   "U13_opt_o17": "o17",
+   "UFULL_REAL_carry": "real",
+   "UFULL_REAL_opt": "real",
+   "UFULL_REAL_p90": "real"
+  },
+  "engines": {
+   "main": {
+    "cons_hi": [
+     "normal",
+     "stress"
+    ],
+    "cons_lo": [
+     "normal",
+     "stress"
+    ],
+    "cons_main": [
+     "normal",
+     "stress"
+    ],
+    "freeze": [
+     "normal"
+    ]
+   },
+   "o17": {
+    "cons_main": [
+     "normal",
+     "stress"
+    ]
+   },
+   "real": {
+    "cons_main": [
+     "normal",
+     "stress"
+    ],
+    "freeze": [
+     "normal"
+    ]
+   },
+   "ref": {
+    "freeze": [
+     "normal",
+     "stress"
+    ]
+   },
+   "sens": {
+    "cons_main": [
+     "normal"
+    ]
+   }
+  },
+  "stats": "訊號日收盤→下一訊號日收盤窗（245 窗）對 0050 含息；ALL、SEG1 2006～2012、SEG2 2013～2018、SEG3 2019 起、SEL ～2019-04、VAL 2019-05 起、HOLD 2024 起；年化、超額、t、窗頻與日頻最大回撤、拿掉最好 3 年 t、對 C0 月差與 t、相關、逐年絕對差",
+  "variants": {
+   "ALLPIT_REAL_carry": {
+    "kind": [
+     "carry",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt": {
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_KYX": {
+    "excl": [
+     "1262",
+     "1592",
+     "6422",
+     "6452"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X1507": {
+    "excl": [
+     "1507"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X1704": {
+    "excl": [
+     "1704"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X1729": {
+    "excl": [
+     "1729"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X2311": {
+    "excl": [
+     "2311"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X2325": {
+    "excl": [
+     "2325"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X3454": {
+    "excl": [
+     "3454"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X3474": {
+    "excl": [
+     "3474"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X5305": {
+    "excl": [
+     "5305"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X6286": {
+    "excl": [
+     "6286"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_X6452": {
+    "excl": [
+     "6452"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_opt_Xtop3": {
+    "excl": [
+     "2325",
+     "2311",
+     "1704"
+    ],
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_REAL_p90": {
+    "kind": [
+     "p90",
+     "2006-01-01",
+     "UB",
+     true,
+     "B1"
+    ]
+   },
+   "ALLPIT_opt_o17": {
+    "kind": [
+     "opt",
+     "2006-01-01",
+     "UB",
+     true,
+     null
+    ]
+   },
+   "C0": {
+    "kind": [
+     "base",
+     null,
+     null,
+     false,
+     null
+    ]
+   },
+   "U13_REAL_carry": {
+    "kind": [
+     "carry",
+     "2013-01-01",
+     null,
+     false,
+     "B1"
+    ]
+   },
+   "U13_REAL_opt": {
+    "kind": [
+     "opt",
+     "2013-01-01",
+     null,
+     false,
+     "B1"
+    ]
+   },
+   "U13_REAL_p90": {
+    "kind": [
+     "p90",
+     "2013-01-01",
+     null,
+     false,
+     "B1"
+    ]
+   },
+   "U13_opt_o17": {
+    "kind": [
+     "opt",
+     "2013-01-01",
+     null,
+     false,
+     null
+    ]
+   },
+   "UFULL_REAL_carry": {
+    "kind": [
+     "carry",
+     "2006-01-01",
+     null,
+     false,
+     "B1"
+    ]
+   },
+   "UFULL_REAL_opt": {
+    "kind": [
+     "opt",
+     "2006-01-01",
+     null,
+     false,
+     "B1"
+    ]
+   },
+   "UFULL_REAL_p90": {
+    "kind": [
+     "p90",
+     "2006-01-01",
+     null,
+     false,
+     "B1"
+    ]
+   }
+  }
+ },
+ "predictions": {
+  "P1": "來源覆蓋：MOPS／archive 仍連不到機率約 70%；前 10 家槽位覆蓋 50～95%，全部約 40 家 35～85%；覆蓋 < 80% 機率約 60%。【凍結前已知：MOPS、archive 等 9 台主機 000；槽位覆蓋 2013～2026 21.1%（報酬權重 22.2%）、2013～2018 19.8%（20.8%）、前 10 家 23.6%（24.0%）→ P1 覆蓋區間不符（更差）】",
+  "P2": "真實營收版放回入選槽 ≤ U_opt（251／227），違反即程式錯誤；預測 30～175 槽，不利端放寬到 210。【凍結前已知（名單層）：U13_REAL_opt 200 槽（真實補回 5＋opt 補缺 195）、p90 133、carry 8；全部 ≤ U_opt】",
+  "P3": "紙上 cons_main 一般成本：U13_REAL 對 C0 年化差 −4.0～0pp（中心 −1.5）；2013～2018 超額 9.71 → −2.0～+9.9pp（中心約 +5）；ALLPIT_REAL 全期年化 19.0～26.0%、t 1.15～2.30、拿掉最好 3 年 t ≤ 1.3、2013～2018 超額 −4.5～+8pp；ALLPIT_REAL 全期 t ≥ 2.643 → 先查資料。【註：覆蓋只有 21%，U13_REAL_opt 有 195／200 放回槽仍是 opt，預期與 U13 opt（−3.36pp）接近；中心預測改看 opt 補缺版 −3.5～−2.0pp（凍結前補記，原區間照列）】",
+  "P4": "損害集中在 2013～2018；2019 起 |Δ| ≤ 0.8pp。放回槽依入選時距下市分組：≤ 6 個月平均差 < −2%／月；> 12 個月接近 0 或正；若鎖價期反而勝過被擠掉者 → 否定「併購鎖價拖累」、改判排名母體改變。前 3 家（2325、2311、1704）合計貢獻損害 40～80%；必報拿掉最大貢獻股後的數字。",
+  "P5": "V7X ALLPIT_REAL（cons_main）100 萬一般成本：全期超額 j 中位數 +1.57pp → −5.5～+1.6pp；2019 起 −6.31 → −10.5～−5.5pp；壓力、300 萬、1,000 萬都更差；j p10 全部 < 0；G1、G2、G4、G7 仍不過（高信心）；V7X 全期 t ≥ 1.0 或 2019 起超額 > 0 → 先查資料。",
+  "P6": "取代規則能否觸發：ALLPIT opt 版已知 −7.00pp、t −1.17 → 「變動 > 0.3pp 年化或 t > 0.05 → 取代」幾乎確定觸發（不觸發機率 < 5%）。本題資訊量在「取代成多少」與區間寬度，不在會不會觸發。"
+ },
+ "readonly": "live_tracking/main_forward、o_forward_infra_live、o_g8p2a_protocol_addendum：開題與結束 sha256 比對（ro_snapshot_start/end.json）；不 import、不呼叫 G8P-2a 判定器。",
+ "replication": {
+  "rule": "G6：不同子代理（記 agent id 與開始時間），不得讀本研究員的 *.py；從 raw/ 原始檔自寫解析器重建 rev_backfill：issuer-month 值一致率 ≥ 99%；重算 ALLPIT_REAL 紙上：年化差 ≤ 0.05pp、t 差 ≤ 0.01；V7X j 中位數差 ≤ 0.05pp；不一致逐筆列出、以原始證據裁定、有疑義取不利方向。",
+  "status": "本研究員不自我複製（同一子代理不算 G6）；交工作流程的複製員執行。"
+ },
+ "s1_note": "依 S1：本題不產生新選股訊號，不立「靠歷史回測取得可投資」的題；只做資料勘誤與正式數字重算。",
+ "scratch": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/o18_revbackfill",
+ "smoke": {
+  "ALLPIT_opt": {
+   "ann": 21.27875480156236,
+   "seg2": -1.5809849134535527,
+   "t": 1.4690163348859315
+  },
+  "C0_maxabs": 0.0,
+  "U13_opt": {
+   "ann": 24.919238553090196,
+   "seg2": 1.4328278654906832,
+   "t": 2.0637986803583797
+  },
+  "V7X_orig": "v7x_plans.py 斷言 orig 名單逐筆＝plans_j7；v7x_run.py 斷言 orig×orig 對 navs_oos_R4 ≤ 1e−12（凍結後第一步執行，失敗即停）",
+  "file": "smoke.json",
+  "sha256": "ed42c17647160dd6c954fe15f65fd5c6fe5f19c4faf16c95b1de2b7c49b0d8d4"
+ },
+ "top10": [
+  "2325",
+  "2311",
+  "1704",
+  "3454",
+  "1507",
+  "6286",
+  "1729",
+  "3474",
+  "6452",
+  "5305"
+ ],
+ "topic": "o_delist_rev_backfill_allpit（o18 題 1）：補回 2013～2018 下市公司實際月營收，用 ALLPIT 口徑重算主策略正式數字（紙上 C0＋可執行 V7X）",
+ "trigger_check": {
+  "G4_note_rule": "需要覆蓋 ≥ 80% → 結構上無法觸發「已排除」；G4 第二、三段必定維持「存活者偏誤未排除」並附區間",
+  "coverage80_rule": "凍結前已知覆蓋 21.1%／19.8% < 80% → 必定走「opt 補缺版＋p90／carry 區間」分支",
+  "final_grade": "覆蓋 < 80% → 最高只能「待觀察」；「可用（勘誤生效）」結構上無法觸發",
+  "replace_rule": "幾乎必定觸發（見 P6）→ 判定文字只寫取代成多少"
+ },
+ "tw_parser": "T1",
+ "v7x": {
+  "definition": "見 v7x_lib.py docstring：營收＝R_FIX 但存活者缺口格改成本題補回值（無則缺）；unavail＝MC(seed) ∪ A_UB；處置＝DMT ∪ 官方全歷史；放回＝GAP ∪ GOV。",
+  "engines": {
+   "REAL_carry": [
+    "cons_main"
+   ],
+   "REAL_opt": [
+    "cons_main",
+    "cons_lo",
+    "cons_hi",
+    "orig"
+   ],
+   "REAL_p90": [
+    "cons_main"
+   ],
+   "orig": [
+    "orig",
+    "cons_main"
+   ]
+  },
+  "grid": "AB_V7_B10 規格、13 j × 20 seeds、K5T、GROW、一般與壓力 × 100 萬／300 萬／1,000 萬",
+  "plan_variants": [
+   "orig",
+   "REAL_opt",
+   "REAL_p90",
+   "REAL_carry"
+  ]
+ },
+ "written_utc": "2026-11-08T23:39:34.695659+00:00"
+}

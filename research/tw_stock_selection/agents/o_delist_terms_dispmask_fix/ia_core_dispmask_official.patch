@@ -1,0 +1,51 @@
+--- a/independent_audit/ia_core.py
++++ b/independent_audit/ia_core.py
+@@ -132,13 +132,47 @@
+ 
+ # ---------------- 處置 ----------------
+ DSP = pd.read_csv(X / 'disposal_5y.csv.gz', dtype={'code': str}, parse_dates=['date', 'start', 'end'])
+-def disposal_mask(d):
++def _disposal_mask_5y(d):
+     m = np.zeros(N, bool)
+     x = DSP[(DSP['start'] <= d) & (DSP['end'] >= d)]
+     for c in x['code']:
+         if c in CI: m[CI[c]] = True
+     return m
+ 
++# ---- o18 基礎設施勘誤：處置遮罩官方全歷史清單（o_delist_terms_dispmask_fix；預設關閉＝與原版逐位相同）
++#   DISP_OFFICIAL=None   ：原遮罩（disposal_5y，2021-09-24 起才有資料）
++#   DISP_OFFICIAL='union'  ：訊號日 d ∈ [2006-01-01, 2021-09-23] 時，原遮罩 ∪ 官方處置期涵蓋訊號日 d 或成交日（d 的下一個面板交易日）的股票（＝integrate_o17 C_DSP）
++#   DISP_OFFICIAL='replace'：訊號日 d ∈ [2014-01-01, 2021-09-23] 時，只用官方處置期（訊號日或成交日）；其他日期＝原遮罩
++DISP_OFFICIAL = None
++DISP_OFFICIAL_FILE = Path('/home/user/-/research/tw_stock_selection/agents/o_rev_avail_ds_pit_count/raw/disposal_official_universe.csv')
++DISP_OFFICIAL_SHA256 = '2842f45d825861bfe0168f7a9736364fc19adee2b4d9bc3b5a894d4e22db8b40'
++_DOF = {}
++def _official_cover(d):
++    if 'D' not in _DOF:
++        import hashlib
++        assert hashlib.sha256(DISP_OFFICIAL_FILE.read_bytes()).hexdigest() == DISP_OFFICIAL_SHA256
++        _DOF['D'] = pd.read_csv(DISP_OFFICIAL_FILE, dtype={'code': str}, parse_dates=['start', 'end'])
++    U = _DOF['D']; d = pd.Timestamp(d)
++    t = IDX.get_loc(d); e = IDX[t + 1] if t + 1 < len(IDX) else d
++    x = U[((U['start'] <= d) & (U['end'] >= d)) | ((U['start'] <= e) & (U['end'] >= e))]
++    m = np.zeros(N, bool)
++    for c in x['code']:
++        if c in CI: m[CI[c]] = True
++    return m
++
++def disposal_mask(d):
++    if DISP_OFFICIAL is None:
++        return _disposal_mask_5y(d)
++    d = pd.Timestamp(d)
++    if DISP_OFFICIAL == 'union':
++        m = _disposal_mask_5y(d)
++        if pd.Timestamp('2006-01-01') <= d <= pd.Timestamp('2021-09-23'): m = m | _official_cover(d)
++        return m
++    if DISP_OFFICIAL == 'replace':
++        if pd.Timestamp('2014-01-01') <= d <= pd.Timestamp('2021-09-23'): return _official_cover(d)
++        return _disposal_mask_5y(d)
++    raise ValueError(DISP_OFFICIAL)
++
+ # ---------------- 漲停價（跳動點） ----------------
+ def tick(p):
+     return np.select([p < 10, p < 50, p < 100, p < 500, p < 1000], [0.01, 0.05, 0.1, 0.5, 1.0], 5.0)
