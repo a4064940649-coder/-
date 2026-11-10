@@ -1,0 +1,14 @@
+{
+ "fixes": [
+  {
+   "utc": "2026-11-10T00:32:05.798877+00:00",
+   "file": "run_formal.py",
+   "old_sha256": "39abc5bb70736a143fa7909b640d52baaf3887939aecb20932cffaf4ff518bf0",
+   "new_sha256": "67479996aeed4ca92d159ecfd3c27bc56365a247fa95b571456e9ece1fa9e6d5",
+   "what": "第一次正式執行在 58 分鐘模擬完成後、計算任何統計量之前因 KeyError 中止（煙霧模式編輯把自建名單的 sigs／myplans 登記放到 if SMOKE: 同一行，正式模式未登記）。修正：拆成獨立一行；另加模擬結果原始 pickle 存檔。引擎、名單、統計程式（xengine／xlists／xstats／xpaper／xdata／xrun）未改；修正前沒有任何統計量輸出（log 只有計數與時間）。正式執行重跑一次。"
+  }
+ ],
+ "fixed_sha256": {
+  "run_formal.py": "67479996aeed4ca92d159ecfd3c27bc56365a247fa95b571456e9ece1fa9e6d5"
+ }
+}

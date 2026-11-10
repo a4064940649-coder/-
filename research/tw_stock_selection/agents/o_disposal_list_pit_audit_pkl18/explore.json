@@ -1,0 +1,420 @@
+{
+ "S2_model_explore_fit_sample_only": {
+  "fit_months": 204,
+  "y_mean": 6.504901960784314,
+  "y_var": 35.19115244136871,
+  "var_over_mean": 5.409943555417646,
+  "zero_months": 11,
+  "zero_month_list": [
+   "2006-07",
+   "2006-08",
+   "2007-10",
+   "2007-11",
+   "2008-07",
+   "2008-08",
+   "2008-12",
+   "2009-01",
+   "2010-06",
+   "2010-10",
+   "2012-11"
+  ],
+  "corr_spearman_Y_vs": {
+   "FD_reg": 0.5869122609969072,
+   "FD_32": 0.6132913073244844,
+   "PDup_reg": 0.48392013512718246,
+   "VD": 0.5727537156221862,
+   "K_reg": 0.6022080109420254,
+   "K_32": 0.5679556445411245,
+   "K_reg_na": 0.6113772045819951,
+   "mkt_absret6_mean": -0.051003330380270544,
+   "n_stocks": 0.3111267022679378
+  },
+  "regime_means": {
+   "2006-01~2014-03": {
+    "Y": 5.353535353535354,
+    "K_reg": 8.454545454545455,
+    "FD_reg": 209.6161616161616,
+    "ratio_Y_over_K": 0.6332138590203107
+   },
+   "2014-04~2015-05": {
+    "Y": 4.714285714285714,
+    "K_reg": 13.071428571428571,
+    "FD_reg": 138.64285714285714,
+    "ratio_Y_over_K": 0.36065573770491804
+   },
+   "2015-06~2017-04": {
+    "Y": 4.043478260869565,
+    "K_reg": 13.73913043478261,
+    "FD_reg": 160.43478260869566,
+    "ratio_Y_over_K": 0.29430379746835444
+   },
+   "2017-05~2018-12": {
+    "Y": 6.45,
+    "K_reg": 18.35,
+    "FD_reg": 186.3,
+    "ratio_Y_over_K": 0.35149863760217986
+   },
+   "2020-01~2023-12": {
+    "Y": 10.604166666666666,
+    "K_reg": 28.104166666666668,
+    "FD_reg": 272.6875,
+    "ratio_Y_over_K": 0.37731653076352856
+   }
+  },
+  "yearly_fit_sample": {
+   "2006": {
+    "Y": 45,
+    "K_reg": 179,
+    "FD_reg": 3518,
+    "zero_months": 2
+   },
+   "2007": {
+    "Y": 79,
+    "K_reg": 106,
+    "FD_reg": 2639,
+    "zero_months": 2
+   },
+   "2008": {
+    "Y": 26,
+    "K_reg": 71,
+    "FD_reg": 2392,
+    "zero_months": 3
+   },
+   "2009": {
+    "Y": 109,
+    "K_reg": 170,
+    "FD_reg": 3805,
+    "zero_months": 1
+   },
+   "2010": {
+    "Y": 53,
+    "K_reg": 93,
+    "FD_reg": 2238,
+    "zero_months": 2
+   },
+   "2011": {
+    "Y": 65,
+    "K_reg": 42,
+    "FD_reg": 1411,
+    "zero_months": 0
+   },
+   "2012": {
+    "Y": 61,
+    "K_reg": 64,
+    "FD_reg": 1940,
+    "zero_months": 1
+   },
+   "2013": {
+    "Y": 79,
+    "K_reg": 81,
+    "FD_reg": 2145,
+    "zero_months": 0
+   },
+   "2014": {
+    "Y": 57,
+    "K_reg": 154,
+    "FD_reg": 1921,
+    "zero_months": 0
+   },
+   "2015": {
+    "Y": 55,
+    "K_reg": 130,
+    "FD_reg": 1696,
+    "zero_months": 0
+   },
+   "2016": {
+    "Y": 39,
+    "K_reg": 163,
+    "FD_reg": 1823,
+    "zero_months": 0
+   },
+   "2017": {
+    "Y": 66,
+    "K_reg": 216,
+    "FD_reg": 2329,
+    "zero_months": 0
+   },
+   "2018": {
+    "Y": 84,
+    "K_reg": 234,
+    "FD_reg": 2252,
+    "zero_months": 0
+   },
+   "2020": {
+    "Y": 187,
+    "K_reg": 343,
+    "FD_reg": 3789,
+    "zero_months": 0
+   },
+   "2021": {
+    "Y": 167,
+    "K_reg": 423,
+    "FD_reg": 3902,
+    "zero_months": 0
+   },
+   "2022": {
+    "Y": 76,
+    "K_reg": 261,
+    "FD_reg": 2405,
+    "zero_months": 0
+   },
+   "2023": {
+    "Y": 79,
+    "K_reg": 322,
+    "FD_reg": 2993,
+    "zero_months": 0
+   }
+  },
+  "zero_month_given_K": {
+   "months_Y0": 11,
+   "mean_K_reg_when_Y0": 1.9090909090909092,
+   "mean_K_reg_when_Y>0": 15.704663212435234
+  },
+  "note": "只含擬合樣本；2019 不在任何統計內。"
+ },
+ "S1_lineage_summary": {
+  "note": "S1 計數（凍結前完成；P1 的計數部分因此不是事前檢驗）",
+  "A_rows": 3259,
+  "A_unique": 3179,
+  "A_cross_year_dup": 80,
+  "B_rows": 3179,
+  "C_common": 2218,
+  "U_rows": 2218,
+  "internal_cum_violations": 0,
+  "total_eq_len": true,
+  "count_eq_maxno": true,
+  "overlap_missing": 0,
+  "announce_join": {
+   "by_ordr_match": 2218,
+   "by_ordr_rate": 1.0,
+   "code_start_keys_in_U": 2218,
+   "U_code_start_dups": 0,
+   "B_common_code_start_dups": 0,
+   "B_common_code_start_dup_examples": [],
+   "by_code_start_rows": 2218,
+   "by_code_start_unique_announce": true,
+   "by_code_start_ordr_agree": 1.0
+  },
+  "PIT": {
+   "n": 2218,
+   "ann_lt_start": 2218,
+   "start_le_ann": 0,
+   "lag_td_dist": {
+    "-1": 126,
+    "1": 2091,
+    "2": 1
+   },
+   "lag_cal_dist": {
+    "1": 1755,
+    "2": 19,
+    "3": 393,
+    "4": 28,
+    "5": 9,
+    "6": 1,
+    "9": 6,
+    "10": 1,
+    "11": 3,
+    "12": 3
+   },
+   "ann_not_tradingday_in_cal": 0,
+   "start_not_tradingday_in_cal": 4,
+   "n_outside_panel_calendar": 126,
+   "lag_td_gt1_examples": [
+    {
+     "code": "2491",
+     "announce": "2009-03-23",
+     "start": "2009-03-25",
+     "lag_td": "2",
+     "lag_cal": "2"
+    }
+   ]
+  },
+  "trade_date_relation": {
+   "n_signal_dates": 249,
+   "n_rows_cover_d_or_e": 967,
+   "ann_vs_d": {
+    "lt": 874,
+    "eq": 93
+   },
+   "covers_e_only": 93,
+   "covers_e_only_ann_eq_d": 93,
+   "start_eq_e": 93,
+   "ann_gt_d": 0
+  },
+  "year_stage": {
+   "2002": {
+    "B_rejudge": 2,
+    "C_common": 2,
+    "D_common_inpanel": 2,
+    "E_universe": 2
+   },
+   "2003": {
+    "B_rejudge": 123,
+    "C_common": 122,
+    "D_common_inpanel": 113,
+    "E_universe": 122
+   },
+   "2004": {
+    "B_rejudge": 62,
+    "C_common": 62,
+    "D_common_inpanel": 59,
+    "E_universe": 62
+   },
+   "2005": {
+    "B_rejudge": 27,
+    "C_common": 27,
+    "D_common_inpanel": 26,
+    "E_universe": 27
+   },
+   "2006": {
+    "B_rejudge": 46,
+    "C_common": 46,
+    "D_common_inpanel": 45,
+    "E_universe": 46
+   },
+   "2007": {
+    "B_rejudge": 79,
+    "C_common": 79,
+    "D_common_inpanel": 79,
+    "E_universe": 79
+   },
+   "2008": {
+    "B_rejudge": 26,
+    "C_common": 26,
+    "D_common_inpanel": 26,
+    "E_universe": 26
+   },
+   "2009": {
+    "B_rejudge": 110,
+    "C_common": 110,
+    "D_common_inpanel": 109,
+    "E_universe": 110
+   },
+   "2010": {
+    "B_rejudge": 61,
+    "C_common": 53,
+    "D_common_inpanel": 53,
+    "E_universe": 53
+   },
+   "2011": {
+    "B_rejudge": 71,
+    "C_common": 65,
+    "D_common_inpanel": 65,
+    "E_universe": 65
+   },
+   "2012": {
+    "B_rejudge": 69,
+    "C_common": 61,
+    "D_common_inpanel": 61,
+    "E_universe": 61
+   },
+   "2013": {
+    "B_rejudge": 80,
+    "C_common": 79,
+    "D_common_inpanel": 79,
+    "E_universe": 79
+   },
+   "2014": {
+    "B_rejudge": 94,
+    "C_common": 57,
+    "D_common_inpanel": 57,
+    "E_universe": 57
+   },
+   "2015": {
+    "B_rejudge": 172,
+    "C_common": 55,
+    "D_common_inpanel": 55,
+    "E_universe": 55
+   },
+   "2016": {
+    "B_rejudge": 151,
+    "C_common": 39,
+    "D_common_inpanel": 39,
+    "E_universe": 39
+   },
+   "2017": {
+    "B_rejudge": 123,
+    "C_common": 66,
+    "D_common_inpanel": 66,
+    "E_universe": 66
+   },
+   "2018": {
+    "B_rejudge": 185,
+    "C_common": 84,
+    "D_common_inpanel": 84,
+    "E_universe": 84
+   },
+   "2019": {
+    "B_rejudge": 47,
+    "C_common": 31,
+    "D_common_inpanel": 31,
+    "E_universe": 31
+   },
+   "2020": {
+    "B_rejudge": 379,
+    "C_common": 187,
+    "D_common_inpanel": 187,
+    "E_universe": 187
+   },
+   "2021": {
+    "B_rejudge": 328,
+    "C_common": 167,
+    "D_common_inpanel": 167,
+    "E_universe": 167
+   },
+   "2022": {
+    "B_rejudge": 108,
+    "C_common": 76,
+    "D_common_inpanel": 76,
+    "E_universe": 76
+   },
+   "2023": {
+    "B_rejudge": 108,
+    "C_common": 79,
+    "D_common_inpanel": 79,
+    "E_universe": 79
+   },
+   "2024": {
+    "B_rejudge": 175,
+    "C_common": 148,
+    "D_common_inpanel": 148,
+    "E_universe": 148
+   },
+   "2025": {
+    "B_rejudge": 112,
+    "C_common": 94,
+    "D_common_inpanel": 94,
+    "E_universe": 94
+   },
+   "2026": {
+    "B_rejudge": 441,
+    "C_common": 403,
+    "D_common_inpanel": 403,
+    "E_universe": 403
+   }
+  },
+  "filter_types_2018_2020": {
+   "2018": {
+    "0開頭（ETF/權證/ETN）": 31,
+    "5碼（特別股等）": 0,
+    "6碼（權證）": 0,
+    "DR": 70,
+    "普通股": 84
+   },
+   "2019": {
+    "0開頭（ETF/權證/ETN）": 6,
+    "5碼（特別股等）": 0,
+    "6碼（權證）": 0,
+    "DR": 10,
+    "普通股": 31
+   },
+   "2020": {
+    "0開頭（ETF/權證/ETN）": 112,
+    "5碼（特別股等）": 0,
+    "6碼（權證）": 0,
+    "DR": 80,
+    "普通股": 187
+   }
+  }
+ }
+}

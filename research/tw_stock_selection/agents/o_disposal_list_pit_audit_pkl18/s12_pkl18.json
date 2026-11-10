@@ -1,0 +1,286 @@
+{
+ "inputs": {
+  "census.json": "24a8576e86ffb5a8a5e4f2d1dc6fbce1e91bc9c85275c08cfef7b8536f7b0c97",
+  "exposure.json": "329e5048fe89e35b54690464aa664776b64ea79e0f12a87f040fd507aa9619d7",
+  "s11_exposure.py": "f4bf78ca3696609f24794c34283e60bf702135e4943fb6566431271cae979f2a",
+  "../o_delist_terms_dispmask_fix/s10_pklscan.py": "eb876f363952bf471d7d053663797b04f641883ddc6c698313acd40ec87b64bb"
+ },
+ "n_A_2093": 2093,
+ "n_exposure_2075": 2075,
+ "n_B_rebuilt": 2075,
+ "B_rebuilt_equals_exposure_keys": true,
+ "exposure_subset_of_A": true,
+ "n_diff": 18,
+ "diff_explained_by_rule1": 18,
+ "diff_also_rule2": 4,
+ "diff_unexplained": 0,
+ "diff_by_token": {
+  "/frozen": 14,
+  "/rows": 4,
+  "slot": 0,
+  "U_opt_inserted": 0,
+  "displaced": 0
+ },
+ "ge5": {
+  "census_U_ge5": 2063,
+  "exposure_ge5": 2045,
+  "diff": 18,
+  "diff_keys_subset_of_18": true,
+  "exposure_ge5_subset": true
+ },
+ "classified": [
+  {
+   "key": "o_finmask_delisted_fin_erratum/replicate/rep_fm_results.json/blocks/U_opt|F2/rows",
+   "n_lists": 14,
+   "perm_slots_U": 1,
+   "events": [
+    "6004"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/rows"
+   ],
+   "rule2_lt24_periods": true
+  },
+  {
+   "key": "o_finmask_delisted_fin_erratum/replicate/rep_fm_results.json/blocks/U_opt|F3/rows",
+   "n_lists": 14,
+   "perm_slots_U": 1,
+   "events": [
+    "6004"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/rows"
+   ],
+   "rule2_lt24_periods": true
+  },
+  {
+   "key": "o_finmask_delisted_fin_erratum/review_stat_o16.json/opt|F2+2841_PIT_nonfin/rows",
+   "n_lists": 15,
+   "perm_slots_U": 1,
+   "events": [
+    "6004"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/rows"
+   ],
+   "rule2_lt24_periods": true
+  },
+  {
+   "key": "o_finmask_delisted_fin_erratum/review_stat_o16.json/opt|F2+2841_all_nonfin/rows",
+   "n_lists": 19,
+   "perm_slots_U": 1,
+   "events": [
+    "6004"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/rows"
+   ],
+   "rule2_lt24_periods": true
+  },
+  {
+   "key": "o_rev_survivorship/run_B05_DEL.json/BASE/ALL|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 24,
+   "events": [
+    "1704"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_B05_DEL.json/BASE/EXFIN|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 23,
+   "events": [
+    "1704"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_B10_ALL.json/BASE/ALL|n10/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 61,
+   "events": [
+    "2311",
+    "2325",
+    "3474",
+    "6286"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_B10_ALL.json/BASE/ALL|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 70,
+   "events": [
+    "2833",
+    "2847",
+    "3474",
+    "6286"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_B10_ALL.json/BASE/EXFIN|n10/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 61,
+   "events": [
+    "2311",
+    "2325",
+    "3474",
+    "6286"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_B10_ALL.json/BASE/EXFIN|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 24,
+   "events": [
+    "3697"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_B10_DEL.json/BASE/ALL|n10/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 61,
+   "events": [
+    "2311",
+    "2325",
+    "3474",
+    "6286"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_B10_DEL.json/BASE/ALL|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 70,
+   "events": [
+    "2833",
+    "2847",
+    "3474",
+    "6286"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_B10_DEL.json/BASE/EXFIN|n10/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 61,
+   "events": [
+    "2311",
+    "2325",
+    "3474",
+    "6286"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_B10_DEL.json/BASE/EXFIN|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 24,
+   "events": [
+    "3697"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_PX_DEL.json/BASE/ALL|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 24,
+   "events": [
+    "1704"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_PX_DEL.json/BASE/EXFIN|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 23,
+   "events": [
+    "1704"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_R_DEL.json/BASE/ALL|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 24,
+   "events": [
+    "1704"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  },
+  {
+   "key": "o_rev_survivorship/run_R_DEL.json/BASE/EXFIN|n30/frozen",
+   "n_lists": 30,
+   "perm_slots_U": 23,
+   "events": [
+    "1704"
+   ],
+   "rule1_path_is_event_record": true,
+   "rule1_token": [
+    "/frozen"
+   ],
+   "rule2_lt24_periods": false
+  }
+ ],
+ "verdict": "P5 成立：18 組全部是「事件紀錄路徑」（14 組 /frozen：o_rev_survivorship run_*.json 的凍結事件紀錄；4 組 /rows：o_finmask 複製與審查的事件列），被 2,075 的「完整名單」定義（s11_exposure.py：路徑排除 /frozen、/rows…；≥24 期）排除；2,093 是 o18 s10_pklscan.py 直接數 census per_result 的 perm>0，沒有套完整名單篩選。用 1 條規則（路徑排除）即可解釋 18/18；第 2 條（<24 期）只重複解釋其中 4 組。≥5% 的 2,063 對 2,045 同樣是這 18 組。不需要逐案特判，結案。"
+}

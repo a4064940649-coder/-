@@ -1,0 +1,27 @@
+{
+ "versions_tried": 3,
+ "limit": 5,
+ "rule": "只允許不變量與開發切片（2006-04～2008-12、j0～2、seeds0～2、100 萬一般；K 只回年化差）；每次修改引用規格原文",
+ "rounds": [
+  {
+   "v": "v1",
+   "change": "初版（interp_register v1 全部項目）",
+   "dev_ann_diff_pp": "{'J0': np.float64(2.416), 'J1': np.float64(-0.57), 'J2': np.float64(0.499)}",
+   "invariants": "logs/invariants_v1.json（round(S) 賣量造成 −0.05 股 → E33 修正後才跑 dev）"
+  },
+  {
+   "v": "v2",
+   "change": "j 日改以加權指數交易日計數再對到面板日；次一面板日非 GOOD 的月份跳過（引文：o_v6 FINDINGS 449 行「m 月 10 日起第一個加權指數交易日之後的第 j 個交易日」；o_rev_freshness_attention FINDINGS 29 行「次一交易日不是 GOOD 日的月份跳過」）",
+   "dev_ann_diff_pp": "{'J0': np.float64(2.416), 'J1': np.float64(-0.57), 'J2': np.float64(0.499)}",
+   "note": "開發切片內無影響（只影響 2018-01）"
+  },
+  {
+   "v": "v3",
+   "change": "52 週比改用自算還原價（G 連乘）；合格股 < 50 的換股日跳過；開盤漲停容忍 1e−6（引文：o4 FINDINGS 366、375、377 行）；新增紙上零衝擊引擎 xpaper.py（o4 FINDINGS 379～382 行）與右尾 P&L 記錄",
+   "dev_ann_diff_pp": "{'J0': np.float64(2.416), 'J1': np.float64(-0.57), 'J2': np.float64(0.499)}",
+   "note": "切片差不變；J0 差 2.4pp 推定為 AB 亂數（原 20 seeds vs 本端 3 seeds、RNG 不同），J1／J2 ±0.5pp 未追（凍結前不得看名單）"
+  }
+ ],
+ "selected": "v3",
+ "selection_rule": "最後一版；沒有依切片差調參數（三版差異只來自引文修正）"
+}

@@ -1,0 +1,16 @@
+[    225s] lists built 8320
+[    232s] jobs 10660
+[   3511s] sims done
+/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/xstats.py:9: RuntimeWarning: Mean of empty slice
+  ra = np.nanmean(np.where(np.isfinite(r), r, np.nan), axis=0)
+Traceback (most recent call last):
+  File "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/audit_run.py", line 40, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "run_formal.py", line 92, in <module>
+    sg = sigs[(var if not c.startswith('L|') else 'mine', j)]
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: ('mine', 0)

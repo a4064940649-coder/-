@@ -1,0 +1,24 @@
+{
+ "for": "不同子代理的獨立複製員（o_disposal_list_pit_audit_pkl18）。只讀本檔列出的 raw 與規格；不得讀研究員的 notes/、data/*classified*、s9_s3_judge.py 的 manual 表、results.json 的 RESULTS_*（直到自己的數字寫完）。一律 python3 -I -B，中間檔放 scratchpad/o_disp_pkl18_rep/ 並在結束時刪除。",
+ "inputs_raw": {
+  "TWSE punish 年檔": "raw/twse_punish/twse_2003.json … twse_2026.json（sha 見 raw_manifest.json）",
+  "rejudge": "raw/lineage/disposal_hist_rejudge.csv（sha 2c171924…）",
+  "universe": "raw/lineage/disposal_official_universe.csv（sha 2842f45d…）",
+  "交叉來源": ["raw/screener_extras/*", "../o_v4_revenue_patch_official/raw/ctbc/AI_Investment/OpenIEStanza_EventEmbedding/input/EB_SegAndRawNews/*_cnyesnews.csv（2013～2021）", "../o_rev_gap_news_2013/raw/ji08kk44_BDSE26_TEAM3/ptt/ptt_csv(date)/2019-*.csv", "../o_rev_gap_news_2013/raw/roccqqck_stock_eland/5pa_article.csv", "raw/websearch/ws_*.txt（WebSearch 工具回傳原文；可自行重查，查詢詞不得含目標數字或特定日期）"],
+  "面板": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/{adj,close_raw,value}.parquet；TAIEX /home/user/jonatw/finlab-txd/data/raw/taiex_twii.csv"
+ },
+ "spec": {
+  "SPEC_draft": "SPEC_draft.json（狀態表、判定規則）",
+  "PREREG": "results.json → PREREG（凍結模型 v3 的 x、擬合樣本；P1～P5；判定規則）",
+  "model": "NB2 GLM：log μ_m = b0 + b1·log1p(K_reg_m) + b2·R14 + b3·R15 + b4·R17 + b5·COVID；Y_m＝universe 普通股（in panel）以 start 月份計數；擬合 2006-01～2018-12＋2020-01～2023-12。K_reg＝面板近似注意旗標 F（|r6|>θ（2015-06-01 前 0.25、之後 0.32）且與 TAIEX 6 日報酬差 >20pp 同向；或 60 日均量倍數 ≥5 且 |r6|>0.10）的觸發事件數：2014-04-01 前連續 5 日、之後連續 3 日，或 10 日內 ≥6 日；同股 10 日內只算第一次；起日＝觸發日下一交易日；日曆剔除有值檔數 < 300 的日子；普通股＝4 碼非 0 開頭。R14＝2014-04 起、R15＝2015-06 起、R17＝2017-05 起、COVID＝2020-03～12。2019 年 95% PI：係數＋log α 多元常態 10,000 次 × NB 月抽樣、月份獨立。",
+  "S3": "2019 年本地語料含處置關鍵字（KW：處置股|列處置|列為處置|打入處置|進入處置|遭處置|被處置|處置期|處置措施|處置交易|處置名單|處置條件|再度處置|再次處置|第[一二]次處置|分盤交易|分盤撮合|人工管制|關禁閉|關緊閉|5分鐘撮合|五分鐘撮合|20分鐘撮合|二十分鐘撮合|預收款券）且可對應上市普通股、但 universe 同代碼 [公告−10, 結束+10] 交易日內無列者 → 自行逐筆閱讀判類（CONFIRMED_MISSING／SINGLE_SOURCE／NOT_FOUND）",
+  "pkl18": "../o_engine_delist_consideration/census.json（per_result；perm_slots_U>0 或 perm_slots_IA>0 → 2,093）與 exposure.json（2,075）；依 s11_exposure.py docstring 的「完整名單」定義重建並取差集",
+  "recompute": "PREREG.S4_recompute；共用引擎允許 import（o18lib、v7x_lib、cz_v7x）"
+ },
+ "tasks": ["R1 S1 計數：逐年（start 年）A/B/C/E 列數、累計欄＝列數檢查、(code,start) 接回率、announce<start 列數、lag 分布、訊號日／成交日關係（ann=d 的列數）",
+           "R2 S2：重估凍結模型係數（|Δ|<1e-4），2019 年 E、95% PI、z；逐年殘差（主口徑 z）",
+           "R3 S3 嚴格判類：2019 未比對事件的狀態（κ 與研究員比）；CONFIRMED_MISSING 數",
+           "R4 18 組：差集與規則歸類",
+           "R5 判定格：DISP_OFFICIAL_v2 嚴格版重算紙上 ALLPIT_REAL_{opt,p90,carry}×cons_main 與 V7X 100 萬一般三放回（門檻 0.1pp／t 0.05）＋30 萬一般兩模式"],
+ "thresholds": {"key_number_pp": 0.1, "t": 0.05, "model_coef": 1e-4, "PI_bounds": 1}
+}
