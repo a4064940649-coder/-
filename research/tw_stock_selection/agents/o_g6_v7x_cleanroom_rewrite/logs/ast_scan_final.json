@@ -1,0 +1,596 @@
+{
+ "utc": "2026-11-10T03:05:00.738162+00:00",
+ "files": {
+  "analysis.py": {
+   "sha256": "171c13e41bf756d590be00873c84e9616c9541ee67232d8e378fb6ad42ee3ee4",
+   "imports": [
+    "json",
+    "numpy",
+    "os",
+    "pandas",
+    "pickle",
+    "sys",
+    "xdata",
+    "xstats"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "ast_scan.py": {
+   "sha256": "c25f6a809413f7a0234e1e8b24635313c37558ba1e118f9b55a1624eac6b2b9d",
+   "imports": [
+    "ast",
+    "datetime",
+    "hashlib",
+    "json",
+    "os",
+    "sys"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "audit_run.py": {
+   "sha256": "fe0dd07b5ce2033728d3f2946e4e5f1ffa70699549f34dc818288c65eefbe7c3",
+   "imports": [
+    "datetime",
+    "json",
+    "os",
+    "runpy",
+    "sys"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "compare.py": {
+   "sha256": "252d46a257f1e497445be784e8bdbf3cc18dc53bbefb1cb3e35819b1a76da611",
+   "imports": [
+    "json",
+    "numpy",
+    "pandas",
+    "pickle",
+    "sys",
+    "xdata",
+    "xstats"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/"
+   ],
+   "forbidden_hits": []
+  },
+  "dev_slice.py": {
+   "sha256": "ade57cc6314deef96aa4c707e5da25ea232b04169e5062a8035eb66bee267bab",
+   "imports": [
+    "json",
+    "numpy",
+    "pandas",
+    "pickle",
+    "sys",
+    "xdata",
+    "xengine",
+    "xlists",
+    "xrun",
+    "xstats"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "explore.py": {
+   "sha256": "d053f854d0727254e334ba99addfb03daa69ff5674f1b1f9634de22977d994b3",
+   "imports": [
+    "json",
+    "math",
+    "numpy",
+    "pandas",
+    "xdata",
+    "xengine",
+    "xlists",
+    "xstats"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "interp_register_v0.py": {
+   "sha256": "1a279a9b80b2acd4c4d13279d9ea99376a4cf1bf9b9f1fd4b79f8f3a24febda9",
+   "imports": [
+    "datetime",
+    "hashlib",
+    "json",
+    "os"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "interp_register_v1.py": {
+   "sha256": "d369c7b4663ade3467abe980558bbbb657a25c4bc447c684f8103d3c45517aee",
+   "imports": [
+    "datetime",
+    "hashlib",
+    "json",
+    "os"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "j_listdiag.py": {
+   "sha256": "bc68e961a3ff9827c0b8d8d3d9ec2a5f74d8bcdb02fb957217097bfcb48f1ba3",
+   "imports": [
+    "json",
+    "numpy",
+    "pandas",
+    "sys",
+    "xlists"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/",
+    "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/logs/j_listdiag.json",
+    "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/plan_V7_B10.csv"
+   ],
+   "forbidden_hits": []
+  },
+  "j_mineprobe.py": {
+   "sha256": "d2aa2e1b685edee4bd165d41fa4acdf9930bfc44b436d13979ae9e4c80372feb",
+   "imports": [
+    "numpy",
+    "pandas",
+    "sys",
+    "xlists"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/"
+   ],
+   "forbidden_hits": []
+  },
+  "j_patch.py": {
+   "sha256": "a09de9e8cc68731a5c21ea87aa95b819f1b3269c8ce52ec3ce8e8152aff07370",
+   "imports": [
+    "inspect",
+    "numpy",
+    "pandas",
+    "textwrap",
+    "xengine"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "j_trace.py": {
+   "sha256": "1b8af4a3a257cb27e92607b26ee306193e95cea05d6ab52149be69921f5cb18e",
+   "imports": [
+    "cz_engine",
+    "cz_v7x",
+    "j_patch",
+    "json",
+    "math",
+    "numpy",
+    "os",
+    "pandas",
+    "pickle",
+    "sys",
+    "xdata",
+    "xengine"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/",
+    "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/"
+   ],
+   "forbidden_hits": [
+    "cz_engine",
+    "cz_v7x"
+   ]
+  },
+  "j_v7probe.py": {
+   "sha256": "e688e855a39939964fa51860da683e4e2ef14c3023625b9144e932b6cac820bb",
+   "imports": [
+    "json",
+    "numpy",
+    "pandas",
+    "sys",
+    "v7env"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine"
+   ],
+   "forbidden_hits": [
+    "v7env"
+   ]
+  },
+  "k_check_merge.py": {
+   "sha256": "8e8ff634dc7486af026794390828660da2091dcd52d747d473f92aeb15746b8b",
+   "imports": [
+    "pandas",
+    "pickle"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/plans_j7.csv"
+   ],
+   "forbidden_hits": []
+  },
+  "k_dev.py": {
+   "sha256": "a425a13f08528f9e351e0b42bd18f27cc165d8360f0f9112c13fce2c2983c6ce",
+   "imports": [
+    "numpy",
+    "pandas",
+    "pickle",
+    "sys"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/out/navs_oos_R4.parquet",
+    "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/logs/k_dev_"
+   ],
+   "forbidden_hits": []
+  },
+  "k_make_paper.py": {
+   "sha256": "56ffda7253d4993cc68361f226d0c6af9fd08a4cb1571be80e2c4713f25fbbe2",
+   "imports": [
+    "json",
+    "o18lib",
+    "pickle",
+    "sys",
+    "time"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_delist_rev_backfill_allpit"
+   ],
+   "forbidden_hits": [
+    "o18lib"
+   ]
+  },
+  "k_make_plans.py": {
+   "sha256": "117e42d9b325a23327fa33b613224d32a6a89ccf90170df93c4495c4e8c2eecb",
+   "imports": [
+    "json",
+    "multiprocessing",
+    "pathlib",
+    "pickle",
+    "sys",
+    "time",
+    "v7x_lib"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_delist_rev_backfill_allpit"
+   ],
+   "forbidden_hits": [
+    "v7x_lib"
+   ]
+  },
+  "k_run_orig.py": {
+   "sha256": "2174678812a0eae9d5eaf4ce793bd0ab869404ea82502edb4f6cd1b8bf195f43",
+   "imports": [
+    "cz_engine",
+    "cz_v7x",
+    "json",
+    "multiprocessing",
+    "numpy",
+    "pandas",
+    "pathlib",
+    "pickle",
+    "sys",
+    "time",
+    "x_stats"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents"
+   ],
+   "forbidden_hits": [
+    "cz_engine",
+    "cz_v7x",
+    "x_stats"
+   ]
+  },
+  "k_struct.py": {
+   "sha256": "153f415054380bd9d64622d7d3b9aea8169b7e18445e92ab5f192f854259c9ef",
+   "imports": [
+    "pandas",
+    "sys"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/out/navs_oos_R4.parquet"
+   ],
+   "forbidden_hits": []
+  },
+  "k_targets.py": {
+   "sha256": "34dde4bcd591d312c8227bfe49a8eac4de960e933b900d7f91eb4a68cc5f3d69",
+   "imports": [
+    "hashlib",
+    "json",
+    "numpy",
+    "pandas",
+    "pickle",
+    "sys",
+    "x_stats"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/",
+    "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/sealed_targets_public.json"
+   ],
+   "forbidden_hits": [
+    "x_stats"
+   ]
+  },
+  "list_compare.py": {
+   "sha256": "98f665f36d14045d73153023d279cff99de7537759eddf808c244b54dc9821f3",
+   "imports": [
+    "json",
+    "numpy",
+    "pandas",
+    "pickle",
+    "sys",
+    "xdata",
+    "xlists"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/",
+    "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/plan_V7_B10.csv"
+   ],
+   "forbidden_hits": []
+  },
+  "list_compare2.py": {
+   "sha256": "cd0e70da9382c54505c65b177498286525d11ca2a9fea49a82c74171d1ef29c9",
+   "imports": [
+    "json",
+    "numpy",
+    "os",
+    "pandas",
+    "pickle",
+    "sys",
+    "xdata",
+    "xlists"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/plan_V7_B10.csv"
+   ],
+   "forbidden_hits": []
+  },
+  "mk_fake_k.py": {
+   "sha256": "ef1ad358e58d085fd75613ebd91a856b864b1b31b9eac04a386f68e1f35a7725",
+   "imports": [
+    "pandas",
+    "pickle",
+    "xdata",
+    "xlists"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "posthoc.py": {
+   "sha256": "2297ef6cda0fee2631e8ca74dc7858de755e5ccef1d65be78025091032dfb19d",
+   "imports": [
+    "json",
+    "numpy",
+    "pandas",
+    "pickle",
+    "sys",
+    "xdata",
+    "xengine",
+    "xstats"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/o_g6_v7x_cleanroom_rewrite/"
+   ],
+   "forbidden_hits": []
+  },
+  "prereg.py": {
+   "sha256": "ebfe965888b774dae598352c06a515268e48a413257c6ece5e958db602485c3b",
+   "imports": [
+    "datetime",
+    "hashlib",
+    "json",
+    "os"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "restat.py": {
+   "sha256": "2eddf8c5143075530820d1513c5f414524ba8c602b043b915195f52717cd4904",
+   "imports": [
+    "json",
+    "numpy",
+    "os",
+    "pandas",
+    "pickle",
+    "sys",
+    "xdata",
+    "xlists",
+    "xstats"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "ro_snap.py": {
+   "sha256": "98f80c28ab5fedbf8c65dddd8cf8c457fe0e3880c254298a35f4a759359d9b3d",
+   "imports": [
+    "datetime",
+    "hashlib",
+    "json",
+    "os",
+    "sys"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents"
+   ],
+   "forbidden_hits": []
+  },
+  "run_fix.py": {
+   "sha256": "ed771d54053ac1a660167e06cc8c71cea746ebd5301cab25cf1663e09eac2180",
+   "imports": [
+    "datetime",
+    "fcntl",
+    "hashlib",
+    "j_patch",
+    "json",
+    "numpy",
+    "os",
+    "pandas",
+    "pickle",
+    "sys",
+    "time",
+    "xdata",
+    "xengine",
+    "xlists",
+    "xrun",
+    "xstats"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "run_formal.py": {
+   "sha256": "67479996aeed4ca92d159ecfd3c27bc56365a247fa95b571456e9ece1fa9e6d5",
+   "imports": [
+    "datetime",
+    "hashlib",
+    "json",
+    "math",
+    "numpy",
+    "os",
+    "pandas",
+    "pickle",
+    "sys",
+    "time",
+    "types",
+    "xdata",
+    "xengine",
+    "xlists",
+    "xpaper",
+    "xrun",
+    "xstats"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "xdata.py": {
+   "sha256": "1b080c987c2c91caffd9b66d9e0fa87c97f90b73e2f443e3d0891808e37fac40",
+   "imports": [
+    "hashlib",
+    "json",
+    "numpy",
+    "os",
+    "pandas"
+   ],
+   "path_strings": [
+    "/home/user/-/research/tw_stock_selection/agents/"
+   ],
+   "forbidden_hits": []
+  },
+  "xengine.py": {
+   "sha256": "7d497f941090886e36e4988fe6bd1ef2dd873b2951eb4a3a72fa0d28ff390f2c",
+   "imports": [
+    "json",
+    "math",
+    "numpy",
+    "pandas",
+    "xdata"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "xinvariants.py": {
+   "sha256": "f903802dfacf17c40c5d9fd96fd1ea01324f8bb68e0faa9c500e01ad1dc7a4b5",
+   "imports": [
+    "json",
+    "math",
+    "numpy",
+    "pandas",
+    "sys",
+    "time",
+    "xdata",
+    "xengine",
+    "xlists"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "xlists.py": {
+   "sha256": "4a0417d86ec5139090734e89110b006dda5dada75a933b4f7aaa7abfaf1ac0db",
+   "imports": [
+    "json",
+    "math",
+    "numpy",
+    "os",
+    "pandas",
+    "xdata"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "xpaper.py": {
+   "sha256": "82f82eb66e5e596c57245b885d1bd6c117034b77e638990af3411484c3c0a91d",
+   "imports": [
+    "math",
+    "numpy",
+    "pandas",
+    "xdata"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "xrun.py": {
+   "sha256": "e1befbe6a82450d74f450f4286b5012689c35fbd12a791db7c044de55263074d",
+   "imports": [
+    "json",
+    "multiprocessing",
+    "numpy",
+    "os",
+    "pandas",
+    "pickle",
+    "sys",
+    "time",
+    "xdata",
+    "xengine",
+    "xstats"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  },
+  "xstats.py": {
+   "sha256": "98b7fbbdb5f3158a0aea622a7254e92aea674ff18d39719c15029840767a5966",
+   "imports": [
+    "math",
+    "numpy",
+    "pandas",
+    "xdata"
+   ],
+   "path_strings": [],
+   "forbidden_hits": []
+  }
+ },
+ "violations": [
+  [
+   "j_trace.py",
+   [
+    "cz_engine",
+    "cz_v7x"
+   ]
+  ],
+  [
+   "j_v7probe.py",
+   [
+    "v7env"
+   ]
+  ],
+  [
+   "k_make_paper.py",
+   [
+    "o18lib"
+   ]
+  ],
+  [
+   "k_make_plans.py",
+   [
+    "v7x_lib"
+   ]
+  ],
+  [
+   "k_run_orig.py",
+   [
+    "cz_engine",
+    "cz_v7x",
+    "x_stats"
+   ]
+  ],
+  [
+   "k_targets.py",
+   [
+    "x_stats"
+   ]
+  ]
+ ]
+}

@@ -76,37 +76,40 @@ class World:
             rel = self.didx(pd.Timestamp(r.date))
             if rel >= T: continue
             self.XO[j] = dict(kind='one', rel=rel, vu=valid_until(j, rel))
-        # cons_main：events_v2
+        # cons_main：events_v2（凍結後修正 F4）
         e = pd.read_csv(open(AG + 'o_engine_delist_consideration/events_v2.csv'), dtype={'code': str, 'successor': str})
         self.XC = {}
+        num = lambda v: (float(v) if isinstance(v, (float, int)) and not math.isnan(v) else None)
         for r in e.itertuples():
             j = self.ci.get(r.code)
-            if j is None or lastTR.get(j, -1) < 0: continue
-            lt_panel = lastTR[j]
-            # 只有面板最後成交日晚於（或等於）事件最後交易日附近才視為事件觸發點；代碼重用時以終止日切開
-            if isinstance(r.terminate_date, str):
-                ti = self.didx(pd.Timestamp(r.terminate_date))
-                w = np.where(self.TR[:min(ti, T), j])[0]
-                lt_panel = int(w[-1]) if len(w) else -1
-            if lt_panel < 0: continue
-            trig = lt_panel + 1
+            if j is None or not isinstance(r.last_trade, str) or not r.last_trade: continue
+            ltU = pd.Timestamp(r.last_trade)
+            term = pd.Timestamp(r.terminate_date) if isinstance(r.terminate_date, str) and r.terminate_date else ltU + pd.Timedelta(days=14)
+            cut = max(term, ltU)
+            w = np.where(self.TR[:, j] & (self.dates <= cut))[0]
+            if not len(w): continue
+            lt_panel = int(w[-1]); trig = lt_panel + 1
             if trig >= T: continue
-            term = self.didx(pd.Timestamp(r.terminate_date)) if isinstance(r.terminate_date, str) else trig
-            pay = min(max(term, trig), T - 1) + 20
-            d = dict(type=r.type, trig=trig, pay=pay, last_close=float(self.CF[lt_panel, j]))
-            num = lambda v: (float(v) if isinstance(v, (float, int)) and not math.isnan(v) else None)
-            d['cash'] = num(r.cash); d['ratio'] = num(r.ratio); d['pref_ratio'] = num(r.pref_ratio); d['pref_value'] = num(r.pref_value)
-            sj = self.ci.get(r.successor) if isinstance(r.successor, str) else None
-            d['succ'] = sj
-            if sj is not None:
-                w = np.where(self.TR[trig:, sj])[0]
-                d['s'] = trig + int(w[0]) if len(w) else None
-                if r.type == 'swap_ur':
-                    sc = self.CF[lt_panel, sj]
-                    d['ratio'] = float(self.C[lt_panel, j] if not np.isnan(self.C[lt_panel, j]) else d['last_close']) / float(sc)
+            ti = int(np.searchsorted(self.dates.values, np.datetime64(term)))
+            pay = min(ti + 20, T - 1)
+            lc = float(self.C[lt_panel, j])
+            d = dict(type=r.type, trig=trig, pay=pay, last_close=lc, cash=num(r.cash), ratio=num(r.ratio), pref_ratio=num(r.pref_ratio), pref_value=num(r.pref_value), succ=None, s=None)
+            if self.dates[lt_panel] < ltU - pd.Timedelta(days=7):
+                d['type'] = 'price_gap'
             else:
-                d['s'] = None
-            self.XC[j] = d
+                sj = self.ci.get(r.successor) if isinstance(r.successor, str) and r.successor else None
+                sf = None
+                if sj is not None and isinstance(r.succ_first_trade, str) and r.succ_first_trade:
+                    s0 = int(np.searchsorted(self.dates.values, np.datetime64(pd.Timestamp(r.succ_first_trade))))
+                    ww = np.where(self.TR[s0:, sj] & np.isfinite(self.O[s0:, sj]))[0]
+                    sf = s0 + int(ww[0]) if len(ww) else None
+                d['succ'] = sj; d['s'] = sf
+                if d['type'] == 'swap_ur' and sj is not None and sf is not None:
+                    if np.isfinite(self.C[lt_panel, sj]): d['ratio'] = lc / float(self.C[lt_panel, sj])
+                    else: d['s'] = None
+                if d['type'] in ('swap', 'conversion', 'mixed', 'swap_ur') and (sj is None or d['s'] is None):
+                    d['type'] = 'acq_ur'
+            self.XC.setdefault(j, []).append(d)
 
 def tick(p):
     return 0.01 if p < 10 else 0.05 if p < 50 else 0.1 if p < 100 else 0.5 if p < 500 else 1.0 if p < 1000 else 5.0
@@ -246,7 +249,10 @@ class Sim:
             # 現金請求權撥款
             keep = []
             for cl in self.claims:
-                if cl['kind'] == 'cash' and t >= cl['pay']:
+                if cl['kind'] == 'fixed_sell' and t >= cl['rel'] and t in exec_map:
+                    rate = 0.001425 * (0.6 if (self.stress or W.fee_pre[t]) else 0.28)
+                    self.cash += cl['value'] * (1 - (0.003 if c['tax'] else 0.0) - (rate if c['fee'] else 0.0))
+                elif cl['kind'] == 'cash' and t >= cl['pay']:
                     self.cash += cl['value']
                 elif cl['kind'] == 'stock' and cl['s'] is not None and t >= cl['s']:
                     sj = cl['succ']; self.S[sj] = self.S.get(sj, 0.0) + cl['shares']
@@ -297,8 +303,9 @@ class Sim:
     def cons_trigger(self, t):
         W = self.W
         for j in list(self.S):
-            d = W.XC.get(j)
-            if d is None or t != d['trig'] or self.S[j] <= 0: continue
+            ds = [x for x in W.XC.get(j, []) if x['trig'] == t]
+            if not ds or self.S[j] <= 0: continue
+            d = ds[0]
             sh = self.S.pop(j); lc = d['last_close']; ty = d['type']
             if ty == 'cash':
                 self.claims.append(dict(kind='cash', value=sh * (d['cash'] if d['cash'] else lc), pay=d['pay']))
@@ -309,7 +316,9 @@ class Sim:
                 stock_v = lc - (d['cash'] or 0)
                 if d['ratio']: self.claims.append(dict(kind='stock', value=sh * max(stock_v, 0), shares=sh * d['ratio'], succ=d['succ'], s=d['s']))
                 if d['pref_ratio'] and d['pref_value']:
-                    self.claims.append(dict(kind='cash', value=sh * d['pref_ratio'] * d['pref_value'], pay=(d['s'] or d['pay'])))
+                    self.claims.append(dict(kind='fixed_sell', value=sh * d['pref_ratio'] * d['pref_value'], rel=d['s']))
+            elif ty == 'price_gap':
+                self.claims.append(dict(kind='fixed_sell', value=sh * lc, rel=t))
             elif ty == 'distress':
                 pass
             else:  # acq_ur、unknown（main 上界）、其他
@@ -451,7 +460,7 @@ class Sim:
                     oc_cash, _ = self.leg_cost(t, j, 1, 0, odd_x)
                     if -oc_cash > self.cash - lots_x * o * 1050: odd_x = 0
             cash, _ = self.leg_cost(t, j, 1, lots_x, odd_x)
-            if first and -cash > self.cash + 1e-9:
+            if first and self.est_cost(t, j, d) > self.cash + 1e-9:  # 凍結後修正 F3：完整委託 cost(j, delta)
                 self.pend[j] = self.pend.get(j, 0) + d; return
             ex = lots_x * 1000 + odd_x
             dropped = (lots * 1000 + odd) - ex

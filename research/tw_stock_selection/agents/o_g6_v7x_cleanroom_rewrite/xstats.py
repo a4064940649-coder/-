@@ -36,7 +36,9 @@ def metrics(nav, sig_idx, end, E, dates):
     ex = wr - we
     out['t'] = tstat(ex); out['n_win'] = len(ex)
     b18 = last_le(dates, '2018-12-31'); b12 = last_le(dates, '2012-12-31')
-    out['ann_y19'] = ann(nav, b18, end, dates); out['ann0050_y19'] = ann(E, b18, end, dates); out['exc_y19'] = out['ann_y19'] - out['ann0050_y19']
+    f19 = int(np.searchsorted(dates.values, np.datetime64('2019-01-01'), 'left'))  # 凍結後修正 F5
+    out['ann_y19'] = ann(nav, f19, end, dates); out['ann0050_y19'] = ann(E, f19, end, dates); out['exc_y19'] = out['ann_y19'] - out['ann0050_y19']
+    out['exc_y19_frozenbase'] = ann(nav, b18, end, dates) - ann(E, b18, end, dates)
     out['t_y19'] = tstat(ex[ws >= pd.Timestamp('2019-01-01')])
     out['exc_s1'] = ann(nav, st, b12, dates) - ann(E, st, b12, dates)
     out['exc_s2'] = ann(nav, b12, b18, dates) - ann(E, b12, b18, dates)

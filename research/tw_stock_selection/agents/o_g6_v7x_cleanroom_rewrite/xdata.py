@@ -87,6 +87,26 @@ def cpi():
     d = json.load(open(AG + 'o_v7_listing_exec_engine/raw/exec_inputs/cpi_tw.json'))['index_2006_100']
     return {int(k): v for k, v in d.items()}
 
+def _v60_strict(X):
+    """凍結後修正 F1：V60 GOOD 日窗內缺值（非豁免日）→ NaN；只有非 GOOD 日沿用前一日；vrank 隨之重算（收盤條件不變：當日 close_raw）。"""
+    V = X['V']; GOOD = X['GOOD']; dates = X['dates']; T, N = V.shape; gi = np.where(GOOD)[0]
+    ex = np.isin(dates[gi], pd.DatetimeIndex(EXEMPT)); Vg = V[gi]; nanv = np.isnan(Vg); bad = nanv & (~ex[:, None])
+    s = pd.DataFrame(np.where(nanv, 0, Vg)).rolling(60, min_periods=60).sum().values
+    n = pd.DataFrame((~nanv).astype(float)).rolling(60, min_periods=60).sum().values
+    b = pd.DataFrame(bad.astype(float)).rolling(60, min_periods=60).sum().values
+    with np.errstate(invalid='ignore', divide='ignore'):
+        g = np.where((b == 0) & (n > 0), s / n, np.nan)
+    V60 = np.full((T, N), np.nan); V60[gi] = g
+    for t in np.where(~GOOD)[0]:
+        if t > 0: V60[t] = V60[t - 1]
+    elig = (V60 >= 1e7) & (X['C'] >= 10)
+    key = np.where(elig, V60, -np.inf)
+    order = np.argsort(-key, axis=1, kind='stable')
+    rows = np.arange(T)[:, None]
+    rk = np.empty_like(order); rk[rows, order] = np.arange(1, N + 1)[None, :]
+    X['V60'] = V60; X['VR'] = np.where(elig, rk, np.nan).astype(float)
+    X['FIX_F1'] = True
+
 _X = None
 def load():
     global _X
@@ -95,6 +115,7 @@ def load():
         z = np.load(CACHE, allow_pickle=False)
         _X = {k: z[k] for k in z.files}
         _X['dates'] = pd.DatetimeIndex(_X['dates']); _X['codes'] = [str(c) for c in _X['codes']]
+        _v60_strict(_X)  # 凍結後修正 F1
     return _X
 
 if __name__ == '__main__':

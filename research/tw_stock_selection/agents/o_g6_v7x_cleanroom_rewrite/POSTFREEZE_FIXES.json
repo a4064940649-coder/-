@@ -6,9 +6,75 @@
    "old_sha256": "39abc5bb70736a143fa7909b640d52baaf3887939aecb20932cffaf4ff518bf0",
    "new_sha256": "67479996aeed4ca92d159ecfd3c27bc56365a247fa95b571456e9ece1fa9e6d5",
    "what": "第一次正式執行在 58 分鐘模擬完成後、計算任何統計量之前因 KeyError 中止（煙霧模式編輯把自建名單的 sigs／myplans 登記放到 if SMOKE: 同一行，正式模式未登記）。修正：拆成獨立一行；另加模擬結果原始 pickle 存檔。引擎、名單、統計程式（xengine／xlists／xstats／xpaper／xdata／xrun）未改；修正前沒有任何統計量輸出（log 只有計數與時間）。正式執行重跑一次。"
+  },
+  {
+   "utc": "2026-11-10T01:22:09.451704+00:00",
+   "file": "xdata.py",
+   "old_sha256": "2fdb70dc3c50bb8de090bb66264c6145172b4bbcae3517de5c569b4c2b75c862",
+   "new_sha256": "1b080c987c2c91caffd9b66d9e0fa87c97f90b73e2f443e3d0891808e37fac40",
+   "id": "F1",
+   "what": "R4 解封後 J 追蹤發現（REAL_opt j0 seed0 第一筆分歧 2007-04-26 6280：本題 V60 有值、原引擎 NaN）：xdata.py 的 V60 用無限制 ffill，把 GOOD 日「窗內缺值→NaN」也補回前值，違反本題 interp E04 與 V7X frozen_spec 一「窗內不得缺值」。屬重寫錯。修正：只有非 GOOD 日沿用前一日；vrank 重算。只重跑受影響格（V60 進入衝擊十分位、參與上限、零股量上限、名單股池 → 全部可執行格與 Track L）。"
+  },
+  {
+   "utc": "2026-11-10T01:22:09.451724+00:00",
+   "file": "xlists.py",
+   "old_sha256": "780627c8363e661fe09c8fb1ea6320057f3deacd006043191e18d93cdc0e6f0f",
+   "new_sha256": "1fab7f501e47fe6f8d84b44bca7b7194b665c7c845d3bd5a3dd3cc9104285a4f",
+   "id": "F2",
+   "what": "R4 名單比對發現：本題官方日 245 日、原 246 日，j 名單每個 seed 少一個月；原因是 rev_announce/deadline_calendar.csv 沒有 2023-12 營收月（舊面板 2024-01 缺口），本題用日曆列舉月份。V4 規格「每月第一個 ≥ 11 日的面板交易日」不以日曆為限 → 重寫錯。修正：依 L01 規則補 2023-12 一列（deadline_D＝2024-01-10 起第一個加權指數交易日）。只影響 Track L。"
+  },
+  {
+   "utc": "2026-11-10T01:22:09.456111+00:00",
+   "file": "xengine.py",
+   "old_sha256": "c6bc731f92804833c3e9c77f336724a5465e5c48b62baa5ba41192b4d8dbdf36",
+   "new_sha256": "8c68e74e8f1d9d0634a734a5f60d9c8de287007c73334f0ee8bcb683242402e3",
+   "id": "F3",
+   "what": "R4 J 追蹤（REAL_opt j0 seed0 第二個分歧 2007-12-11 2031：原引擎整筆順延、本題買進 3,456 股）：規格原文（o_exec_capacity_tiers FINDINGS 凍結規格五「買單若 cost(j, delta) > 現金＋1e−9，整筆列入順延」；V7X frozen_spec 27 行「買單成本 > 現金＋1e−9 整筆順延」）的 cost(j, delta) 是完整委託（|delta| 全部張數與零股、未套參與上限）。本題 interp E18 寫成「以實際可成交量計」，無原文依據 → 重寫錯。修正：換股日判定改用 est_cost(t, j, delta)。"
+  },
+  {
+   "utc": "2026-11-10T01:25:05.683778+00:00",
+   "file": "xengine.py",
+   "old_sha256": "8c68e74e8f1d9d0634a734a5f60d9c8de287007c73334f0ee8bcb683242402e3",
+   "new_sha256": "7d497f941090886e36e4988fe6bd1ef2dd873b2951eb4a3a72fa0d28ff390f2c",
+   "id": "F4",
+   "what": "R4 J 追蹤（REAL_opt j0 seed0 2010-03-11：本題 3/08 就把 3009 奇美換成 3481 並在 3/11 賣出，原引擎 3/18 才入帳）：對價規則與 o_engine_delist_consideration PREREG settlement_rules 原文不符 → 重寫錯。修正 (a) s＝事件表 succ_first_trade 起第一個有成交有開盤日，無 s → 價值型（最後收盤、終止日＋20 現金）；(b) lt＝終止日（含）以前最後成交日，同代碼多事件全保留；(c) price_gap：面板 lt 早於事件最後交易日 7 天以上 → 最後收盤固定、下一換股日一般賣出成本出清；(d) mixed 特別股：s 起下一換股日一般賣出成本出清。"
+  },
+  {
+   "utc": "2026-11-10T01:35:33.587708+00:00",
+   "file": "xstats.py",
+   "old_sha256": "f76f20fb6456ab16803f48dc3a400ab30b3ee896799f16a2abedbfdc84d7b449",
+   "new_sha256": "98b7fbbdb5f3158a0aea622a7254e92aea674ff18d39719c15029840767a5966",
+   "id": "F5",
+   "what": "R4 比對發現 2019 起 0050 年化本題 29.11%、正式 29.49%：本題基期用 2018 最後交易日收盤，任務文字為「段界取 2019-01-01 起第一個交易日」（正式 V7X 口徑 [2019-01-02, 終點]）→ 統計層重寫錯。修正：2019 起年化基期改為 2019-01-02 收盤；凍結口徑另存 exc_y19_frozenbase 並列。不需重跑模擬（以已存淨值重算）。"
+  },
+  {
+   "utc": "2026-11-10T02:04:39.175784+00:00",
+   "file": "xlists.py",
+   "old_sha256": "1fab7f501e47fe6f8d84b44bca7b7194b665c7c845d3bd5a3dd3cc9104285a4f",
+   "new_sha256": "4a0417d86ec5139090734e89110b006dda5dada75a933b4f7aaa7abfaf1ac0db",
+   "id": "F6",
+   "what": "R4 名單層追蹤（官方日 V7_B10：2017-08～2018-04 原名單有 2311／2325 放回、本題沒有；本題 2311 的 52 週比為 NaN）：本題 52 週比 252 日窗要求 252 筆全有值、沒有套 gapfix 豁免日（2017-08-03 全面板缺口日）→ 違反 V4 規格「52 週比（252 日 gapfix）」→ 重寫錯。修正：豁免日缺值不算、窗內最大值以有值日計。另加規格缺口讀法開關 G6_Y3PCT=rev（非放回股 y3 百分位分母＝有營收股數，原程式讀法），預設不開。只影響 Track L。"
   }
  ],
  "fixed_sha256": {
-  "run_formal.py": "67479996aeed4ca92d159ecfd3c27bc56365a247fa95b571456e9ece1fa9e6d5"
- }
+  "run_formal.py": "67479996aeed4ca92d159ecfd3c27bc56365a247fa95b571456e9ece1fa9e6d5",
+  "xdata.py": "1b080c987c2c91caffd9b66d9e0fa87c97f90b73e2f443e3d0891808e37fac40",
+  "xlists.py": "4a0417d86ec5139090734e89110b006dda5dada75a933b4f7aaa7abfaf1ac0db",
+  "xengine.py": "7d497f941090886e36e4988fe6bd1ef2dd873b2951eb4a3a72fa0d28ff390f2c",
+  "xstats.py": "98b7fbbdb5f3158a0aea622a7254e92aea674ff18d39719c15029840767a5966"
+ },
+ "run_history": [
+  {
+   "utc": "2026-11-10T00:32:05Z",
+   "what": "正式執行第 2 次啟動（程式 sha 67479996…，修正 KeyError 後）；約 00:35 容器重啟（uptime 顯示 00:36 開機），行程中止，log 只有計數，沒有任何統計量輸出。"
+  },
+  {
+   "utc": "2026-11-10T00:38Z",
+   "what": "正式執行第 3 次（同一 sha，未改任何程式）啟動；01:34:21Z 寫入 RESULTS。正式結果只來自這一次。"
+  },
+  {
+   "utc": "2026-11-10T03:17:48.447201+00:00",
+   "what": "R4 之後的 F1～F6 修正重跑：RESULTS_FIX5（Track E 全格＋Track L，F1～F5）、RESULTS_TRACKL6（Track L，F1～F6＋規格缺口讀法 G6_Y3PCT=rev）；診斷 RESULTS_GAPREAD、RESULTS_MIMIC 用 j_patch.py 開關（J 診斷，不屬凍結或修正程式）。RESTAT_FROZEN_F5＝凍結淨值以 F5 統計重算。"
+  }
+ ]
 }

@@ -15,7 +15,9 @@ class Lists:
         A2 = np.where(TR, np.cumprod(G, axis=0), np.nan)
         gi = np.where(X['GOOD'])[0]
         Ag = A2[gi]
-        mx = pd.DataFrame(Ag).rolling(252, min_periods=252).max().values
+        exg = np.isin(self.dates[gi], pd.DatetimeIndex(xdata.EXEMPT))  # 凍結後修正 F6：gapfix 豁免日
+        okA = pd.DataFrame((np.isnan(Ag) & ~exg[:, None]).astype(np.int16)).rolling(252, min_periods=252).sum().values == 0
+        mx = np.where(okA, pd.DataFrame(Ag).rolling(252, min_periods=1).max().values, np.nan)
         r52g = Ag / mx
         R52 = np.full((T, N), np.nan); R52[gi] = r52g
         self.R52 = R52
@@ -58,6 +60,14 @@ class Lists:
                 if not self.FOR[j] and not self.FIN[j]:
                     self.term[j] = max(self.term.get(j, pd.Timestamp('1900-01-01')), pd.Timestamp(d))
         self.cal = pd.read_csv(open(RA + 'deadline_calendar.csv'))
+        if '2023-12' not in set(self.cal.rev_month):  # 凍結後修正 F2：補 2023-12 營收月（L01 規則）
+            tx = pd.read_csv(open('/home/user/jonatw/finlab-txd/data/raw/taiex_twii.csv'), parse_dates=[0]).iloc[:, 0]
+            txi = pd.DatetimeIndex(sorted(set(tx) | set(self.dates[self.dates >= pd.Timestamp('2024-01-01')])))
+            Dd = txi[txi >= pd.Timestamp('2024-01-10')][0]; Sd = self.dates[(self.dates >= pd.Timestamp('2024-01-11'))][0]
+            D15 = txi[txi >= pd.Timestamp('2024-01-15')][0]
+            row = dict(rev_month='2023-12', signal_day=str(Sd.date()), tenth_weekday=pd.Timestamp('2024-01-10').day_name(), tenth_is_trading=bool(pd.Timestamp('2024-01-10') in set(txi)),
+                       deadline_D=str(Dd.date()), case='D<S' if Dd < Sd else 'D=S', D15=str(D15.date()), ins15_case=np.nan, special=np.nan)
+            self.cal = pd.concat([self.cal, pd.DataFrame([row])], ignore_index=True).sort_values('rev_month').reset_index(drop=True)
         pdj = json.load(open(RA + 'p_delay.json'))
         self.pind = pdj['p_by_industry']; self.pall = pdj['p_overall']; self.ins15 = set(pdj['INS15'])
         fs = pd.read_csv(open(RA + 'firstseen_2026-09.csv'), dtype=str)
@@ -108,7 +118,7 @@ class Lists:
         isA = A[idx]
         yv = y[idx]
         ry = np.ones(Nn)
-        if (~isA).any(): ry[~isA] = pd.Series(yv[~isA]).rank(method='average').values / Nn
+        if (~isA).any(): ry[~isA] = pd.Series(yv[~isA]).rank(method='average').values / (int((~isA).sum()) if os.environ.get('G6_Y3PCT') == 'rev' else Nn)
         sc = np.round(0.5 * r + 0.5 * ry, 10)
         ytie = np.where(isA, np.inf, yv)
         o = np.lexsort((idx, -ytie, -sc))
