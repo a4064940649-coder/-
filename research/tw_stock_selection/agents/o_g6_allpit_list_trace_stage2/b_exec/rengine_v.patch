@@ -1,0 +1,28 @@
+--- /tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/o_g6s2/rep_ro/rengine.py	2026-11-11 20:50:13.810477942 +0000
++++ /tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/o_g6s2/rengine_v.py	2026-11-11 20:55:54.133050511 +0000
+@@ -96,9 +96,16 @@
+             ratio = r['cash_over_last_close'] if np.isfinite(r['cash_over_last_close']) else 1.0
+             add(self.col[c], r['type'], np.datetime64(dd), float(ratio))
+             seen.add(c)
++        import os as _os
+         for c, dd in zip(off.code, off.date):
+             if c in seen or c not in self.col:
+                 continue
++            if 'e23lt14' in _os.environ.get('RVAR', ''):
++                n = self.col[c]; tri = self.TRIDX[n]; p0 = int(np.searchsorted(self.dates, np.datetime64(dd), 'left'))
++                bf = tri[tri < p0]
++                if len(bf) == 0:
++                    continue
++                dd = str(self.dates[int(bf[-1])] + np.timedelta64(14, 'D'))
+             add(self.col[c], 'unknown', np.datetime64(dd), 1.0)
+ 
+     def rule_for(self, n, t):
+@@ -400,7 +407,7 @@
+                     pass
+             # 非可交易的非名單持股：目標 0（順延）
+             for n in S:
+-                if n not in pickset and n not in dl:
++                if n not in pickset and n not in dl and 'nosuspdefer' not in cfg.var:
+                     dl[n] = -int(round(S[n]))
+             order = sorted([(v, n) for n, v in dl.items() if v != 0], key=lambda x: (x[0], x[1]))
+             for v, n in order:

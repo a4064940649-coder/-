@@ -1,0 +1,222 @@
+{
+ "register": {
+  "written_for": "A：只依規格重建 ALLPIT_REAL 名單",
+  "sources": {
+   "SPEC_o18": "o_delist_rev_backfill_allpit/SPEC.json（paper.variants、v7x.definition、decision）",
+   "FIND_o18_head": "o_delist_rev_backfill_allpit/FINDINGS.md 開頭研究中心附註第 1～6 點（第 5 點 A_UB 定義）",
+   "ER2_SPEC": "o_rev_trunc_2009_erratum/ERRATUM2_SPEC.json（U_opt／U_p90／U_carry 文字定義、affected_set、governing_causes）",
+   "INT_o17": "integrate_o17/FINDINGS.md 第一節（A_UB／U13／UFULL／C 官方處置／ALLPIT 合併的文字定義）",
+   "V3_SPEC": "o_infra_v3_rebuild/FINDINGS.md frozen_spec（成本、金融排除、X 規則）",
+   "SOP": "選股SOP.md 第 1～6 條",
+   "TASK": "任務文字：官方處置 PIT 口徑「公告日 ≤ d 且涵蓋成交日 e」"
+  },
+  "items": [
+   {
+    "id": "R01",
+    "item": "訊號日",
+    "text": "SOP：每月第一個日期 ≥ 11 日的交易日；o18 附註提到 2006-04-10、2021-03-10 兩日為 A_UB 豁免日（暗示有非 ≥11 的訊號日）",
+    "readings": [
+     "a：每月第一個 ≥11 日的交易日（有效日＝有值檔數 ≥ 300）",
+     "b：以 ERRATUM.json lists_C0／c0 名單的日期為準（資料檔）"
+    ],
+    "choice": "a，並以 lists_C0 日期核對；不一致處列出",
+    "unfavourable": "無方向",
+    "code_only": false
+   },
+   {
+    "id": "R02",
+    "item": "前 300 流動性池與 rolling 剔除日",
+    "text": "SOP：近 60 日平均成交值前 300，≥1,000 萬、收盤 ≥10；BRIEF：有值檔數 < 300 的日子先剔除再滾動",
+    "readings": [
+     "a：GOOD 日（收盤有值 ≥300 檔）上 60 日均值，窗內需 ≥ 60 個有值",
+     "b：窗內允許缺值（min_periods<60）"
+    ],
+    "choice": "a",
+    "unfavourable": "無方向",
+    "code_only": false
+   },
+   {
+    "id": "R03",
+    "item": "52 週分數",
+    "text": "SOP：收盤 ÷ 近 252 個交易日最高收盤（還原權息）",
+    "readings": [
+     "a：adj／rolling(252 GOOD 日) max(adj)",
+     "b：close_raw／max(close_raw)"
+    ],
+    "choice": "a",
+    "unfavourable": "無方向",
+    "code_only": false
+   },
+   {
+    "id": "R04",
+    "item": "營收 y3",
+    "text": "SOP／ER2：m−1～m−3 三個月年增率平均（需 m−13～m−15 基期），m＝訊號月；基期 ≤0 為缺",
+    "readings": [
+     "a：yoy=rev/rev(−12)−1 逐月平均",
+     "b：三月合計對三月合計"
+    ],
+    "choice": "a（ER2 文字「年增率平均」）",
+    "unfavourable": "無方向",
+    "code_only": false
+   },
+   {
+    "id": "R05",
+    "item": "營收資料版本",
+    "text": "V3：訊號日 < 2021-03-01 用 R_DEL（yoy_long_R_DEL.parquet）、之後 rev_5y；o18：R_FIX＋B1 補回；ER2：v2_core 用 tw_revenue",
+    "readings": [
+     "a：tw_revenue 全期",
+     "b：R_DEL／R_FIX 資料檔"
+    ],
+    "choice": "2006～2013 用 tw_revenue（ER2 基準）；2013 後的 R_FIX 定義只在程式（v7x_lib docstring）→ 規格缺口",
+    "unfavourable": "未知",
+    "code_only": true
+   },
+   {
+    "id": "R06",
+    "item": "金融排除",
+    "text": "V3：stock_list 金融保險業＋28xx、5876、5880；SOP 註：2006～2011 用現行分類",
+    "readings": [
+     "a：現行 stock_list 產業＋代碼規則",
+     "b：PIT 分類"
+    ],
+    "choice": "a",
+    "unfavourable": "無方向（PIT 版差 +0.01～0.22pp）",
+    "code_only": false
+   },
+   {
+    "id": "R07",
+    "item": "KY／DR／F- 與 KY 四檔 1262／1592／6422／6452",
+    "text": "SOP：名稱含 KY 或 DR、代號 91xx 排除；ER2：FOREIGN＝91xx 或任一名稱含 KY／DR／以 F- 開頭；o18：4 檔 KY 依名稱證據改判口徑（KYX 變體）",
+    "readings": [
+     "a：股池排除用 stock_list 現名＋tw_revenue 名稱任一含 KY/DR 或 91xx",
+     "b：只用 stock_list 現名",
+     "c：KY 四檔照 opt 放回（正式）",
+     "d：KY 四檔不放回（KYX）"
+    ],
+    "choice": "股池 a；放回層 c（SPEC 正式＝ALLPIT_REAL_opt，KYX 只是敏感度）",
+    "unfavourable": "c（opt 放回 1262 造成 −5.20 損害；KYX 22.70%）",
+    "code_only": false
+   },
+   {
+    "id": "R08",
+    "item": "開盤漲停遞補與 held 集合",
+    "text": "SOP：開盤漲停由下一名遞補；ER2：含開盤漲停遞補（held 集合沿用 V2.plan）",
+    "readings": [
+     "a：上期持有且本期入選者不受漲停遞補",
+     "b：所有入選者都套"
+    ],
+    "choice": "a（held 集合文字）；漲停價＝參考價×1.07/1.10 依跳動點向下取整；參考價：前收",
+    "unfavourable": "無方向",
+    "code_only": true
+   },
+   {
+    "id": "R09",
+    "item": "同分次序",
+    "text": "ER2：official＝分數高 → y3 高 → 欄位順序小",
+    "readings": [
+     "a：如文字；欄位順序＝面板欄位順序"
+    ],
+    "choice": "a",
+    "unfavourable": "無方向",
+    "code_only": false
+   },
+   {
+    "id": "R10",
+    "item": "百分位母體",
+    "text": "ER2：el＝池 ∩ 52 週有值 ∩ 非處置 ∩ 隔日有開盤 ∩ 非金融；pandas rank pct average",
+    "readings": [
+     "a：el 不含 y3 缺值股（由 U_opt「加入合格集合」推得）",
+     "b：el 含 y3 缺值股"
+    ],
+    "choice": "a",
+    "unfavourable": "無方向",
+    "code_only": false
+   },
+   {
+    "id": "R11",
+    "item": "U_opt／U_p90／U_carry（2006～2013）",
+    "text": "ER2 U_opt／descriptive 文字",
+    "readings": [
+     "照文字"
+    ],
+    "choice": "照文字",
+    "unfavourable": "opt 檔數最多（紙上最差）",
+    "code_only": false
+   },
+   {
+    "id": "R12",
+    "item": "U13（2013～2026 放回）與 B1 真值",
+    "text": "INT_o17：U13＝pclib.VU('opt', GOV)；SPEC：B1 補回值（rev_backfill_B1.csv），無則 opt",
+    "readings": [
+     "a：沿用 ER2 文字並把放回期改為 2013～2026、原因集合改 GOV",
+     "b：無法得知 VU 與 GOV 的完整定義"
+    ],
+    "choice": "b → 規格缺口（只有程式定義）",
+    "unfavourable": "未知",
+    "code_only": true
+   },
+   {
+    "id": "R13",
+    "item": "A_UB 觸發與分類月份",
+    "text": "o18 附註 5：v2_core.deadline_case(d) ∈ {D=S, D>S} 觸發；分類月份＝Period(d)−1；豁免 2006-04-10、2021-03-10；AVAIL 由 avail.Evidence V6 分類",
+    "readings": [
+     "a：研究員讀法（deadline_case 觸發、Period(d)−1）",
+     "b：審查員第一讀法（錨定月法定期限、anchor−1；+0.09pp）"
+    ],
+    "choice": "a（附註指定，且為不利端）",
+    "unfavourable": "a",
+    "code_only": true
+   },
+   {
+    "id": "R14",
+    "item": "官方處置遮罩（紙上）",
+    "text": "INT_o17：訊號日 ≤ 2021-09-23 時「訊號日或成交日涵蓋」與 ia_core 原遮罩取聯集；TASK：統一為「公告日 ≤ d 且涵蓋 e」",
+    "readings": [
+     "a：全期統一「公告日 ≤ d 且涵蓋 e」",
+     "b：≤2021-09-23 用 d 或 e 涵蓋、之後 disposal_5y 只看 d（舊管線，有前視）"
+    ],
+    "choice": "a（PREREG d）",
+    "unfavourable": "a（拿掉 5 檔處置股）",
+    "code_only": false
+   },
+   {
+    "id": "R15",
+    "item": "紙上引擎與 cons_main 對價結算",
+    "text": "SPEC：ia_core simulate＋cz_engine.build_settlement(events_v2, main, d=0.057)；V3：一般成本買 0.0855%＋0.1%、賣再加稅 0.3%；壓力買賣各 0.5%",
+    "readings": [
+     "a：只能照文字近似（對價結算細節在程式）"
+    ],
+    "choice": "a → 規格缺口",
+    "unfavourable": "未知",
+    "code_only": true
+   },
+   {
+    "id": "R16",
+    "item": "V7X 名單的 MC(seed) 延後模型",
+    "text": "SPEC v7x：unavail＝MC(seed) ∪ A_UB（20 seeds）",
+    "readings": [
+     "a：亂數抽樣序列無文字定義"
+    ],
+    "choice": "不可只依規格逐筆重建（亂數）",
+    "unfavourable": "—",
+    "code_only": true
+   },
+   {
+    "id": "R17",
+    "item": "E23 表外永久停牌（可執行層）",
+    "text": "V7X 規格：其他 X 規則照零衝擊；V3 X 規則：unknown ×1，終止日之後第一個換股日轉現金；表外者無明文",
+    "readings": [
+     "a：終止日＝delist_official 公告終止日",
+     "b：終止日＝最後成交日＋14 曆日（原引擎）"
+    ],
+    "choice": "名單層不適用；B 段裁定",
+    "unfavourable": "依路徑而定",
+    "code_only": true
+   }
+  ],
+  "scope_decision": "R05、R12、R13、R15、R16 只有程式定義（規格缺口）。A 本輪只做「2006～2013 orig 段＋ER2 U_opt／p90／carry 放回」的逐槽重建（文字最完整的一段），以 lists_C0（基底，非目標）當閘門；2013 後的 REAL 放回、A_UB、cons_main 紙上數字不重建，判「規格不足、無法只依規格重建」。",
+  "gate": "自建 C0（2006～2013，93 日）與 lists_C0 逐槽 Jaccard ≥ 0.99 才進入 U 放回；閘門可在看到任何 U 目標前迭代（≤ 8 版，記 a_iterations）。",
+  "utc": "2026-11-11T21:00:51.491654+00:00"
+ },
+ "sha256": "0e6da71423d89a64ba3afbe6c42494fbe80f45757c079a6833fa05120e4d109d"
+}
