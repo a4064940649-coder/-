@@ -1,0 +1,462 @@
+{
+ "PREREG": {
+  "topic": "o_cost_aware_swap_exec：成本感知換股與執行層減單（不延長持有）；S1 已由使用者 2026-11-12 11:07 針對本題解除；以 G1～G8 為目標",
+  "written_utc": "2026-11-12T03:24:24.695871+00:00",
+  "read_before": [
+   "BRIEF.md",
+   "台股個股選股規則實證研究報告.md §0、11～13（只讀已公布數字）",
+   "選股SOP.md",
+   "BACKLOG.md",
+   "main_v2/FINDINGS.md",
+   "original_o20/DIRECTOR_REPORT.md §3、5～7",
+   "o_turnover_fixedcost_diagnosis/FINDINGS.md",
+   "o_hold_buffer_fresh/FINDINGS.md",
+   "turnover_buffer/FINDINGS.md",
+   "integrate_o20/FINDINGS.md",
+   "original_o1/DIRECTOR_REPORT.md §5.3"
+  ],
+  "runs_before_prereg": [
+   "gen_cands.py：官方名單候選序列重建（斷言 63,820×3 列 picks 與 o20 plans_real_allseeds 逐列相同）",
+   "selftest.py：CASim 全部開關關閉時對 CSim 淨值逐位相同（主策略本身，非變體）"
+  ],
+  "published_numbers": {
+   "main_v7x_100n_normal_y19on_cagr": 23.27,
+   "e50_y19on": 29.49,
+   "full_exc_worst": 0.86,
+   "full_t_worst": 0.45,
+   "jp10_worst": -2.25,
+   "n300": -1.0,
+   "n1000": -3.32,
+   "stress": -6.28,
+   "paper_upper_calendar": 21.95,
+   "paper_upper_ia": 22.06,
+   "turnover_oneway": 7.89,
+   "edge_per_swap": 0.36,
+   "rtc_per_swap": 1.17,
+   "shapley_cost": 13.67,
+   "n_family": 2573
+  },
+  "feasibility_statement": "即使成本全部歸零（加回 13.67pp），2019 起超額也只有約 +7.45pp；以現行 2019 起標準誤約 17pp 推算 t≈0.43，遠低於 G2 的 2.0；全期由 t 0.45 升到 3.0 約需 +4.9pp／年；o_g2_feasibility_stoprule 已觸發。事前預期 G2、G3（DSR）幾乎確定不過，最可能結論是「執行層改良（或否）＋不可投資」。仍照 G1～G8 完整報告。",
+  "data": {
+   "engine": "o_engine_delist_consideration/cz_v7x.CSim（consideration × cons_main）× K5T × GROW；R4＝orig_cfg＋f1,f2,f3=0.5,f4",
+   "data_layer": "o_exec_engine_rewrite_v7x/data/x_cache.npz",
+   "plans": "v7x_lib.make 邏輯；ALLPIT_REAL_{opt,p90,carry} × 13 j × 20 seeds；data/cands_allseeds.csv.gz（官方序列前 40 名＋開盤漲停旗標）",
+   "engine_sha256": {
+    "o_engine_delist_consideration/cz_v7x.py": "8bb07300220b070e6a72ba8b639ddbc272beb1fdc609f3941d55739a11d8c9ab",
+    "o_exec_engine_rewrite_v7x/x_exec.py": "7e5b62d83f2fd06886578f5e7bd4de22d31f1fe3cdb38759b27eec79b96882c7",
+    "o_exec_engine_rewrite_v7x/x_data.py": "0cb307fb75e46d951d0d9239b3419252dcad75afc05f4e366109efc3b6794919",
+    "o_delist_rev_backfill_allpit/v7x_lib.py": "c5746d6a83f433b4dbaa2c15d9e86645deb5cb32b55e10a3a055e7fd1372d1ef"
+   },
+   "e50": "x_cache.npz E50（0050 含息）",
+   "regulation": "raw/local_copies/：model_spec7.json（V7X 成本模型：跳動點表、K5T、零股價差、上限）、cpi_tw.json、regulation_sources（盤中零股 2020-10-26 等，搜尋摘要）；證交所網站經 proxy 403，未另抓原文；手續費 0.1425%（2015 前 6 折、之後 2.8 折）、最低 20 元、證交稅 0.3% 沿用 V7X 引擎內建參數；ETF 交易稅 0.1%（0050，只用於 DC5E 殘餘資金）為法定稅率，未抓原文，列為假設。"
+  },
+  "split": {
+   "selection": [
+    "2006-04（各 j 首個訊號日）",
+    "2014-12-31"
+   ],
+   "validation": [
+    "2015-01-01",
+    "2020-12-31"
+   ],
+   "holdout": [
+    "2021-01-01",
+    "各 j 終點（jscan_end_days）"
+   ],
+   "honest_note": "2006～2026 全期都在主策略研發時看過；真正的樣本外只有 G8 前瞻。",
+   "selection_runs": "挑選期模擬一律以 run(t1＝2014-12-31 前最後交易日) 截斷，不產生 2015 後淨值。"
+  },
+  "c_hat": "ĉ＝事前預估來回成本率，只用訊號日 d 收盤前資料（x_cache 的 C[d]、V60p[e]＝V60[d]、SIGp[e]＝σ[d]、VRp[e]＝名次[d]、PC[e]＝C[d]）：部位 P＝d 收盤淨值×(1−2%)／10；p＝d 收盤價；L＝floor(P/1000p)、q＝floor((P−1000Lp)/p)；每邊整股率＝max(BASE＋κ·σ·√(1000Lp／(OA 比例×V60)), tick(p)/p)；零股價差＝OCB1／OCS1（rank_right）；手續費＝max(20, 費率×名目)，整股與零股各算；賣出加證交稅 0.3%；一律一般成本口徑（壓力格、成本全關格的決策規則相同）。不使用題 2（o_cost_model_sensitivity_recon）任何結果。",
+  "variants": {
+   "CA80": "新進名額（不在前月實際名單者）依官方排名逐一檢查 ĉ；ĉ>τ 則改選官方序列（已套開盤漲停跳過）第 11～20 名中不在前月名單、ĉ≤τ 的下一名；找不到保留原候選。τ＝過去 36 個月全部訊號日前 10 名候選的 ĉ（各自用當時資料、以目前部位規模 P 重算）之第 80 百分位；歷史 < 12 個換股日時不啟動（各 j 約 2007-04 起）。換出、強制出場照常；不續抱舊股。",
+   "CA90": "同 CA80，τ 取第 90 百分位。",
+   "MT": "F*＝20 元 ÷ 當時手續費率（2015 前 23,392 元、之後 50,125 元；壓力格依壓力費率 23,392 元）。續抱股再平衡單名目 < F* 不下；有 ≥1 張時零股尾數名目 < F* 不下（買進與續抱調整皆然）；換出全部賣出；剩餘資金留現金。",
+   "NR": "不做等權再平衡：續抱股股數不動；新進股目標＝(可用資金×(1−2%)−續抱股開盤市值)／新進檔數。",
+   "DC5C": "買進順延單在換股後第 6 個交易日起取消（換股日＋5 個交易日內可成交），資金留現金到下次換股；賣出順延照常。",
+   "DC5E": "同 DC5C，但取消的資金（≤ 現金）當日收盤買 0050（E50 含息計值），下次換股日以前一日收盤賣出；0050 成本＝手續費（最低 20 元）＋每邊價差 0.05%＋賣出 ETF 稅 0.1%。這只是殘餘資金處理，不是 0050 固定比例混合。",
+   "CB1": "CA（CA80、CA90 中挑選期主指標較高者）＋MT＋NR。",
+   "CB2": "CB1＋DC（DC5C、DC5E 中挑選期主指標較高者）。",
+   "A20_reference": "參照臂：前月名單中官方序列前 20 名者續抱，其餘依官方序列補滿（o_hold_buffer_fresh 已依事前規則永久關閉；只報告、不參與選擇、不重複計入 N）。"
+  },
+  "family_N": {
+   "before": 2573,
+   "added": 8,
+   "after": 2581,
+   "note": "模型迭代若改變變體定義（不只修錯），舊版照樣計入 N。"
+  },
+  "cells": {
+   "selection": [
+    "100萬 一般（主）",
+    "100萬 成本全關（tax/fee/tick/imp 關；成交時點與上限不變）",
+    "100萬 壓力",
+    "30萬 一般（挑選期全在 2020-10 前：盤後零股＋整股）"
+   ],
+   "seeds": "全部格 20 seeds × 13 j × 3 放回版本；20 seeds 平均淨值＝x_stats.avg_nav 同式"
+  },
+  "metric": {
+   "main": "挑選期主指標＝日曆年化（(b−a).days/365.25）配對差（變體 − 主策略，同 j、同 seed 集合的 20 seeds 平均淨值），13 j 中位數，opt／p90／carry 取最小值（不利端）。",
+   "also": "ia 口徑（交易日 252 年化）並列；三層比對（j 中位、逐 j 平均、逐 j 最大）並報中位 j 與最差變體是否換人。",
+   "monthly": "月配對差＝各 j 月底淨值月報酬差的 13 j 平均（每個放回版本一條）；t 與月份區塊 bootstrap（每月為一區塊，2,000 次，seed 20261112）90／95% CI。"
+  },
+  "selection_rule": "候選須同時滿足：(a) 主指標 ≥ +0.5pp／年且 ≥ MDE 的一半；(b) 成本前配對差 ≥ −0.3pp／年；(c) 壓力成本配對差 > 0；(d) 30 萬配對差不翻號（> 0）。符合者取主指標最高；差距 ≤ 0.2pp 時取組件較少者（單一臂 1、CB1 3、CB2 4）。沒有任何變體符合 → 判「不可用」，驗證期與保留期仍以 CA80 以外的事前固定代表（主指標最高者）各跑一次，只作描述紀錄。",
+  "predictions": {
+   "P1": "CA80／CA90 挑選期成本前配對差在 ±0.5pp／年內；100 萬一般扣成本後 ≥ +0.5pp／年。成本前 < −0.5pp → 判「右尾集中在高成本候選」，機制否定。",
+   "P2": "主策略 2006～2014 持股槽窗報酬最好 5% 的 ĉ 分布與其他槽無差異（KS p > 0.10，平均 ĉ 差 < 0.15%）；右尾 ĉ 顯著偏高則與 P1 一起否定。",
+   "P3": "CA 改善：股價 < 50 元、跳動點占價 > 0.5% 的子樣本，以及 300 萬、1,000 萬格大於 100 萬全樣本；30 萬格（2020-10 前）不翻號。",
+   "P4": "MT：30 萬與 100 萬在 2020-10-26 後效果較大；1,000 萬接近 0；下單日占交易日比例由約 35% 降到 ≤ 25%。",
+   "P5": "NR：省下的成本 ≤ 0.4pp／年；若低於 MDE 只能寫「無資訊」，不得寫「無效」。",
+   "P6": "DC5C：成本前配對差 ≥ −0.3pp；DC5E 不比 DC5C 差超過 0.3pp。",
+   "P7": "CB1／CB2 成本前配對差 ≥ −0.5pp；扣成本後 ≥ CA 單一臂。",
+   "weaker": "2006～2012 MT 效果小；換股檔數 ≤ 2 的月份 CA 效果小。"
+  },
+  "power": "先做（寫進 PREREG_POWER，於任何變體報酬之前）：挑選期、100 萬一般、seed 0、opt、13 j；安慰劑 PR20（新進名額 20% 隨機改成下一名新候選）與 PS（再平衡單與零股尾數以 MT 事前可得的比例隨機不下）各 200 次；σ_d＝13 j 平均月配對差的月標準差；n＝月數；同時報「j 合併、每事件約重複 4 次」的有效樣本數口徑；80% 檢定力、雙尾 5%：MDE＝2.80×σ_d／√n×12（pp／年），三段各報；另報 200 次安慰劑的主指標分布（j 中位年化配對差）之標準差×2.80。MDE 大於預期效果時，結果只能是「改善」或「無資訊」。",
+  "oos": {
+   "main_table": "凍結後一次：V7X 可執行、100 萬一般、13 j 中位數與 j p10、opt／p90／carry 逐格取最差，2019 起與 0050（29.49%）並列；",
+   "also": [
+    "30 萬（2020-10 後盤中零股；之前另列）、300 萬、1,000 萬（GROW）、壓力成本",
+    "三段 2006～2012／2013～2018／2019～2026 超額",
+    "拿掉最好 3 年的 t",
+    "拿掉貢獻最大一窗",
+    "參數鄰域（τ 75／85／95、F*×0.5／×2、DC 3／10 日；只報不選）",
+    "配對差 t、bootstrap 90／95% CI、三層比對、成本前與成本後並列",
+    "會計成本拖累（稅、手續費、跳動點、衝擊、零股）、周轉、下單日占比、成本兩平滑價",
+    "紙上上緣（不另跑 ia 引擎；註明回測上緣實現不了，沿用正式 21.95%）"
+   ],
+   "improvement_rule": "驗證期與保留期配對差都 > 0，且全期配對 t ≥ 2.0、bootstrap 95% CI 不含 0，才能寫「相對主策略改良成立」。"
+  },
+  "gates": "G1 j p10 > 0 且壓力 > 0；G2 全期 t ≥ 3.0 且 2019 起 t ≥ 2.0；G3 2,581 條 Hansen SPA p < 0.05、DSR ≥ 0.95（報 Li-Ji 有效 N）；G4 三段 > 0、拿掉最好 3 年 t ≥ 2.0、鄰域不翻號；G5 PIT；G6 由工作流層分派不同子代理重寫遞補邏輯與包裝器，關鍵數字差 ≤ 0.1pp／t 0.05（研究員不得兼任）；G7 100 萬、300 萬、1,000 萬都成立；G8 前瞻 12 個月。任何一項不過→不可用，SOP 與正式數字不改。",
+  "lessons": [
+   "不利端逐格取最差（opt／p90／carry × 一般／壓力）",
+   "凍結前不算正式統計量（對 0050 t、G 表只在凍結後）",
+   "事後新增狀態與嚴格版並列，嚴格版為主欄",
+   "raw/ 只放未修改原始檔",
+   "假設區間與抽樣區間並報",
+   "取代正式數字要附歸因（本題不取代）",
+   "紙上附成本兩平點",
+   "可執行測到 30 萬",
+   "比對報三層（j 中位、逐 j 平均、逐 j 最大）並報中位 j 與最差變體是否換人",
+   "偏態分布用平均數口徑（中位數並列）",
+   "重疊樣本報有效樣本數",
+   "年化口徑：日曆年化為主（ia 並列）",
+   "任何 ≤ 0.2pp 改善要報拿掉最大一窗後的值",
+   "事後讀法不得寫成建議",
+   "關鍵中間檔（名單、逐 j 淨值、成交統計）壓縮存進 data/，不只放 scratchpad",
+   "o1 §5.3：事件 t 按事件日分群、驗證期污染、格點邊緣贏家詛咒、成交可行性事前寫入、t 提升拆均值與波動、存活者偏誤"
+  ],
+  "iteration_policy": "挑選期內允許修正 ĉ／包裝器實作錯誤（寫進 iterations.json，每版一筆）；不得新增第 9 個變體、不得用 2015 後資料；變體定義若改變，舊版計入 N。",
+  "readonly": "live_tracking/main_forward、o_forward_infra_live、o_g8p2a_protocol_addendum 只讀（ro_snapshot_start/end 比 sha256）；不呼叫 G8P-2a 判定器。"
+ },
+ "PREREG_sha256": "54f6c691a56fe90fa13ee5b65850d0277d9e98509ff3e2f0370df419fd658fbd",
+ "PREREG_POWER": {
+  "written_utc": "2026-11-12T03:35:56.039642+00:00",
+  "runtime_s": 540.7,
+  "n_rep": 200,
+  "design": "檢定力分析（PREREG 之後、任何變體報酬之前）：挑選期、100 萬一般、seed 0、REAL_opt、13 j。\n安慰劑 PR20（新進名額 20% 隨機改成第 11～20 名的下一名新候選）與 PS90（再平衡單與零股尾數以 90% 機率隨機不下；\n90% 取自 o20 成交日誌 2006～2014 100 萬 seed 0：續抱再平衡單名目 < F* 的比例 0.906、零股尾數 0.762）各 200 次。\n寫入 results.json['PREREG_POWER']（含 sha256），逐次結果存 data/power_placebo.csv.gz。\npython3 -I -B power.py",
+  "PR20": {
+   "sigma_d_avg13_monthly_pp": 0.5514640431715784,
+   "sigma_d_single_j_monthly_pp": 1.6616482697678556,
+   "n_months_sel": 104,
+   "placebo_jmed_cagr_diff_mean": -2.591499328999689,
+   "placebo_jmed_cagr_diff_sd": 0.592320919666325,
+   "placebo_jmed_cagr_diff_p05_p95": [
+    -3.620291595983941,
+    -1.542618826116
+   ],
+   "MDE_from_placebo_distribution_pp": 1.6594374037233814,
+   "replaced_share": 0.19968385373293535,
+   "MDE_avg13_selection_pp": 1.817965262463081,
+   "MDE_neff_selection_pp": 3.0385458854520846,
+   "MDE_avg13_validation_pp": 2.1849223236076623,
+   "MDE_neff_validation_pp": 3.65187766428254,
+   "MDE_avg13_holdout_pp": 2.215915677657999,
+   "MDE_neff_holdout_pp": 3.703679934859711
+  },
+  "PS90": {
+   "sigma_d_avg13_monthly_pp": 0.7067021803250372,
+   "sigma_d_single_j_monthly_pp": 0.9552091427034344,
+   "n_months_sel": 104,
+   "placebo_jmed_cagr_diff_mean": -1.458849822400498,
+   "placebo_jmed_cagr_diff_sd": 0.19501003620961974,
+   "placebo_jmed_cagr_diff_p05_p95": [
+    -1.7532922191404203,
+    -1.1360765055125543
+   ],
+   "MDE_from_placebo_distribution_pp": 0.5463371922943275,
+   "replaced_share": 0.0,
+   "MDE_avg13_selection_pp": 2.329725810134293,
+   "MDE_neff_selection_pp": 1.7467275494549919,
+   "MDE_avg13_validation_pp": 2.799981955403692,
+   "MDE_neff_validation_pp": 2.0993052479418446,
+   "MDE_avg13_holdout_pp": 2.8396999953270017,
+   "MDE_neff_holdout_pp": 2.129084114726344
+  },
+  "MDE_primary_pp": {
+   "seg": "取 PR20／PS90 兩者較大的 avg13 口徑",
+   "selection": 2.329725810134293,
+   "validation": 2.799981955403692,
+   "holdout": 2.8396999953270017
+  },
+  "rule": "選擇規則 (a) 的「≥ MDE 的一半」使用 MDE_primary_pp.selection。若 MDE 大於 P1～P7 預期效果（0.3～0.5pp），結果只能是「改善」或「無資訊」，不能當成否定證據。"
+ },
+ "PREREG_POWER_sha256": "b4efdba9fa374bfee2502309e4dcf9242249c1afe29da6e53ab6f848fb231a73",
+ "PREREG_FREEZE": {
+  "written_utc": "2026-11-12T04:59:20.369576+00:00",
+  "chosen": "NR",
+  "chosen_opt": {
+   "nr": true
+  },
+  "verdict_at_freeze": "none_eligible→不可用（OOS 只作描述）",
+  "eligible": [],
+  "chosen_selection_metrics": {
+   "N100": {
+    "variant": "REAL_opt",
+    "med": 0.7608843914517642,
+    "mean": 0.9435382484843214,
+    "max_abs": 2.594552597058499
+   },
+   "OFF100": {
+    "variant": "REAL_p90",
+    "med": 0.2671315054717951,
+    "mean": 0.40064173080961385,
+    "max_abs": 1.4351072866829924
+   },
+   "S100": {
+    "variant": "REAL_p90",
+    "med": 0.9323755347922846,
+    "mean": 1.040645105708987,
+    "max_abs": 2.1647557548677874
+   },
+   "N30": {
+    "variant": "REAL_p90",
+    "med": 0.9856964652216416,
+    "mean": 1.046828225301091,
+    "max_abs": 2.5177593652921715
+   }
+  },
+  "all_variants": {
+   "CA80": {
+    "opt": {
+     "ca": 0.8
+    },
+    "N100": -3.636734249918616,
+    "OFF100": -3.870981279974032,
+    "S100": -4.383470052718973,
+    "N30": -2.6092374604759225,
+    "cond": {
+     "a": false,
+     "b": false,
+     "c": false,
+     "d": false
+    }
+   },
+   "CA90": {
+    "opt": {
+     "ca": 0.9
+    },
+    "N100": -1.9048113378226539,
+    "OFF100": -1.8872772466312924,
+    "S100": -2.2207243510138808,
+    "N30": -1.1647143401585467,
+    "cond": {
+     "a": false,
+     "b": false,
+     "c": false,
+     "d": false
+    }
+   },
+   "MT": {
+    "opt": {
+     "mt": 1.0
+    },
+    "N100": -0.2808165661316586,
+    "OFF100": -1.1627495186506316,
+    "S100": -0.33777036843853914,
+    "N30": -0.0175159157001179,
+    "cond": {
+     "a": false,
+     "b": false,
+     "c": false,
+     "d": false
+    }
+   },
+   "NR": {
+    "opt": {
+     "nr": true
+    },
+    "N100": 0.7608843914517642,
+    "OFF100": 0.2671315054717951,
+    "S100": 0.9323755347922846,
+    "N30": 0.9856964652216416,
+    "cond": {
+     "a": false,
+     "b": true,
+     "c": true,
+     "d": true
+    }
+   },
+   "DC5C": {
+    "opt": {
+     "dc": 5,
+     "dcmode": "C"
+    },
+    "N100": -0.03630707666095745,
+    "OFF100": -0.26094452545912716,
+    "S100": -0.10777065767624272,
+    "N30": -0.239726917512062,
+    "cond": {
+     "a": false,
+     "b": true,
+     "c": false,
+     "d": false
+    }
+   },
+   "DC5E": {
+    "opt": {
+     "dc": 5,
+     "dcmode": "E"
+    },
+    "N100": -0.24914899959633985,
+    "OFF100": -0.3921821868881423,
+    "S100": -0.22329303418704427,
+    "N30": -0.3466959209639455,
+    "cond": {
+     "a": false,
+     "b": false,
+     "c": false,
+     "d": false
+    }
+   },
+   "A20": {
+    "opt": {
+     "a20": true
+    },
+    "N100": 1.489329599266508,
+    "OFF100": -1.1841640967773266,
+    "S100": 2.625569405089844,
+    "N30": 1.1072270241954776,
+    "cond": {
+     "a": true,
+     "b": false,
+     "c": true,
+     "d": true
+    }
+   },
+   "CB1": {
+    "opt": {
+     "ca": 0.9,
+     "mt": 1.0,
+     "nr": true
+    },
+    "N100": -1.4862130412800063,
+    "OFF100": -2.17282462140027,
+    "S100": -1.559422861979586,
+    "N30": -0.767933929767505,
+    "cond": {
+     "a": false,
+     "b": false,
+     "c": false,
+     "d": false
+    }
+   },
+   "CB2": {
+    "opt": {
+     "ca": 0.9,
+     "mt": 1.0,
+     "nr": true,
+     "dc": 5,
+     "dcmode": "C"
+    },
+    "N100": -1.9506169445826735,
+    "OFF100": -3.4698629599463544,
+    "S100": -2.0935001113731477,
+    "N30": -1.4853006958299275,
+    "cond": {
+     "a": false,
+     "b": false,
+     "c": false,
+     "d": false
+    }
+   }
+  },
+  "combo_choice": {
+   "CA": "CA90",
+   "DC": "DC5C",
+   "CB1": {
+    "ca": 0.9,
+    "mt": 1.0,
+    "nr": true
+   },
+   "CB2": {
+    "ca": 0.9,
+    "mt": 1.0,
+    "nr": true,
+    "dc": 5,
+    "dcmode": "C"
+   }
+  },
+  "neighbors": {},
+  "oos_plan": {
+   "main": "全期（2006-04～各 j 終點）一次：BASE＋8 變體＋A20，100 萬一般，20 seeds × 13 j × 3 放回（G3 與描述表）；",
+   "chosen_cells": "選中變體與 BASE：100 萬成本全關、100 萬壓力、30 萬一般、30 萬壓力、300 萬一般、1,000 萬一般（20 seeds）；",
+   "neighbors": "鄰域（只報不選）100 萬一般 20 seeds；",
+   "aux": "P3／P4 輔助（描述）：CA80、CA90、MT 與 BASE 在 30 萬／300 萬／1,000 萬一般，seeds 0～4；",
+   "periods": {
+    "validation": [
+     "2015-01-01",
+     "2020-12-31"
+    ],
+    "holdout": [
+     "2021-01-01",
+     "j 終點"
+    ],
+    "full": [
+     "首訊號日",
+     "j 終點"
+    ],
+    "Y19on": [
+     "2019-01-01",
+     "j 終點"
+    ],
+    "seg": [
+     [
+      "2006-04-01",
+      "2012-12-31"
+     ],
+     [
+      "2013-01-01",
+      "2018-12-31"
+     ],
+     [
+      "2019-01-01",
+      "j 終點"
+     ]
+    ]
+   },
+   "stats": "對 0050：x_stats.stats（訊號窗 t、日曆年化）於 20 seeds 平均淨值，13 j 中位數與 p10，放回版本取最差；配對差三層、月配對 t、月份 bootstrap（2,000 次，seed 20261112）；G3：o_g2_feasibility_stoprule/g2lib.family()（2,334 條可得序列）＋本題 8 變體（REAL_opt 13 j 平均淨值，官方換股窗超額），Hansen SPA_c（平穩 bootstrap L=6、B=10,000、seed 20261103）、DSR（N=2,581 名目與 Li-Ji）。"
+  },
+  "code_sha256": {
+   "cas_lib.py": "21d761fbc5448b1d9a43ce4d255e4f1fb4bfc2c850a15ffb4d097665086029d7",
+   "explore.py": "d87e291b9e39f223ec8f6b4c28ae4f1e1d4ae2bc6cf71082b673a308862e34b6",
+   "freeze.py": "2902cf5c72f63653b357149dbcddd9b593b3e5ff4f41e6c33edc5281eac121a8",
+   "gen_cands.py": "f140845b1c6c84988f30d35da166b9415d63a3ad866e9eb3efa35da253a91bd7",
+   "iterate.py": "ac7b0b3a733ef0411823e5af335aa97a48952e3cf26d50fad5d771fd6d3a7e54",
+   "oos.py": "801f68845fc470148afd93149b1a8e896e0caf1afda500bb80f0808a082b3f59",
+   "power.py": "54b2487a13b2ca69ca04cbb5c386d67a0a60486cf7849277cb6adec9d0d7afeb",
+   "prereg.py": "c8c6eae5ab105b8aed46dd3e82dadd7412ceb227037e4798dae2e29995fb9edb",
+   "ro_snap.py": "5d0ba4309627ebf26d2fc5ec9b796548432c30034d2e3462bec930f227f1ec76",
+   "run_lib.py": "a9f0c2507adc0b65add0bedfba6607f2e52dc852224a062f442614083f4915b5",
+   "selftest.py": "2e298ac970008b84be7eac097891df93003758f99af478006d847ac225422dd1",
+   "smoke.py": "01d3bbe1a551a9848d53d2bb310a95e6cd5e0836b8f159fff6e1c41ffb460e3d"
+  },
+  "data_sha256": {
+   "data/cands_allseeds.csv.gz": "a9e0f865995b7fa8ca59c191cf63f93ddba66724cda64abcc3478c6a42656942",
+   "explore.json": "265176f554fb50fdd98be36f29fdea2494874e0d75e4738a5c5e5ce2b6325120",
+   "iterations.json": "0c7b7c1246f84a134c0c03a412ef73dd0197b64a2e00d462c15fceb3038c55b1",
+   "data/power_placebo.csv.gz": "59e86ca132b7876f93baa462e03ea30efd96cc8119bcd75c0fea44df68815f36",
+   "data/sel_navs.parquet": "5a44c87442138bc54a3ccaf51f6bb2b6ca593c7962f1b6e1bfb7c071a0a72e42",
+   "engine_sha.json": "a6f0c15c92baf75782cf960cb036d72f28586882f2a4547032c5847afb3c2775"
+  },
+  "note": "凍結後不得修改規格；G6 須由工作流層分派不同子代理重寫。"
+ },
+ "PREREG_FREEZE_sha256": "117783fc2320d6d801cb62ed465ed0d7bf357e41ce543cf3529b26899e068cf3"
+}

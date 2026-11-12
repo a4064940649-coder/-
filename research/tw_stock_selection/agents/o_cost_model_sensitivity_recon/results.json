@@ -1,0 +1,160 @@
+{
+ "PREREG": {
+  "topic": "o_cost_model_sensitivity_recon：執行成本模型敏感度、實際成交價 edge、會計 8.83pp 對 Shapley 13.67pp 的 4.4pp 對帳（只診斷，提供題 1 的成本分母）",
+  "written_utc": "2026-11-12T03:23:18Z",
+  "nature": "只診斷、只量測。S1 對本題照舊適用：不提出、不回測任何新規則，不寫建議。G3 族群 N 不因本題改變（維持 2,573；題 1 另計）。主策略正式數字與 G1～G8 表不變，除非發現 > 0.1pp 的引擎實作錯誤（取代時附歸因）。主策略照舊不可投資。",
+  "winners": "交易成本收取方：零股盤被動掛單方（零股價差）、整股被動限價單方（跳動點）、證交稅。本題量出它們收走多少（成本分母），以及這個量對零股價差與成交量上限假設、對成本口徑（會計 vs 年化）有多敏感。",
+  "data": {
+   "inputs": "o_turnover_fixedcost_diagnosis/data/*（只讀；sha256 與該題 RESULTS.L_files 相同才可用）、V7X x_cache.npz、cz_v7x.CSim（只讀 import）、integrate_o19 results.json（正式表）。不需要新的公開資料；raw/ 留空。",
+   "split": "探索與迭代只用 2006-04～2014-12（題 1 挑選期）的描述統計；凍結後才算 2019 起（主欄）、2006～2018、2015～2020（驗證）、2021～2026（保留）、三段與全期。誠實註明：2006～2026 全期曾在主策略研發中被看過，4.4pp、8.83pp、13.67pp、0.36%、1.17% 等數字也已公布；真正的樣本外只有前瞻（G8）。本題不產生規則，所以「樣本外」只是指凍結後才計算的正式量測。"
+  },
+  "engine": {
+   "wrapper": "csr_lib.SensSim（CSim 子類別）。旋鈕：mo 零股價差乘數、mc 成交量上限乘數（整股 CAP×OA、零股量上限、處置 20% 日量同乘）、mt 跳動點乘數、Shapley 開關、refund 退款模式、wholelot。全部預設時淨值必須與 CSim 逐位相同（|差| ≤ 1e−12；不成立就停）。",
+   "identity_checks": [
+    "SensSim 預設 vs CSim：至少 6 個 (變體, j, 格) 逐位相同",
+    "SensSim 日誌 vs o_turnover tradelog_100n/30n_REAL_opt_seed0：逐筆股數、名目、費、稅一致",
+    "中心格 20 seeds 淨值的 13 j 統計與 integrate_o19 正式表逐位相同（6 格 × 3 變體）",
+    "64 種 Shapley 組合的 2019 起年化與 shapley_coalitions.csv.gz 一致（|差| ≤ 1e−6pp）"
+   ]
+  },
+  "bridge_plan": {
+   "start": "會計拖累 8.83pp＝100 萬一般 REAL_opt seed 0 2019 起：逐 j Σ_k 成本_k／avail_k ÷ 年數，13 j 中位數（o20 analyze.B_drag 口徑）；先重現五項：稅 2.36、手續費 0.76、跳動點 2.47、衝擊 2.48、零股 0.81。",
+   "end": "Shapley 成本類 13.67pp（6 因子 720 種順序平均；值函數＝每個組合的 13 j 中位數年化）。",
+   "bridges_tentative": {
+    "B1 分母與口徑": "avail_k → 成交當日成本前權益 E_pre（收盤估值＋當日成本）；成交歸屬改為成交日落在 (2019 起點收盤, j 終點] ；年數＝Shapley 年化用的 (終點−起點)/365.25。另報 avail→期間平均淨值的版本。",
+    "B2 複利換算": "逐 j：ℓ_j＝Σ_d log(1＋C_d/E_post,d)/Y_j（log 口徑）；幾何年化拖累 G_j＝(1＋g^R_j)(1−e^{−ℓ_j})，g^R＝退款版年化。另報 (1＋g)·c 近似。",
+    "U 未解釋": "退款版與全開版的實際年化差 g^R−g^A 減去 G_j（＝成本金額之外、由退款造成的路徑非比例部分）。",
+    "B4 持股路徑效應": "g^T−g^R：時點開、成本全關（含上限）的組合 T 對退款版；＝成本模型改變持股（順延、取整、上限、成本預估縮小部位）造成、但不是成本本身的報酬差。",
+    "B5 時點交互": "逐 j Shapley 成本類 − 逐 j (g^T−g^A)：Shapley 把 T×成本交互分給成本的份額。",
+    "B3 j 中位數不可加": "Shapley（值函數用組合中位數）13.67 − 逐 j Shapley 成本類的中位數；三層（j 中位、逐 j 平均、逐 j 最大）並報。"
+   },
+   "refund_modes": "探索期比較 cash 與 prop 兩種退款，凍結時擇一為主欄、另一並列（擇定準則：挑選期 |U| 較小且機制上不引入閒置現金）。",
+   "order": "凍結時寫死主順序；另報逐 j 增量全部排列（5! 種）在中位數層的範圍。",
+   "decision": "殘差（U＋其他未歸屬項，主順序、中位數層）|·| ≤ 0.3pp 判「對帳完成」；> 0.3pp 但 B2 ≥ 2.6pp 判「部分對帳」；否則「未對帳」，列最大的未解釋項。",
+   "breakeven_units": "正式知識庫兩平點分母改報「會計（算術）c」與「年化（幾何）(1＋g)(1−e^{−ℓ})」兩欄並附換算式。"
+  },
+  "sensitivity_plan": {
+   "grid": "零股價差 ×{0.5,1,2} × 成交量上限 ×{0.5,1,2}＝9 格；13 j × 3 變體 × 6 格（30 萬、100 萬、300 萬、1,000 萬、100 萬壓力、30 萬整股）seed 0；四角與中心補 20 seeds（中心必須重現正式表）。另：跳動點 ×0.5（半個跳動點）中心格 seed 0，與會計口徑 cost_h05／cost_h10 假設區間並報。",
+   "per_cell": [
+    "2019 起年化與 0050 並列",
+    "2019 起超額",
+    "全期超額與 t",
+    "j p10",
+    "opt／p90／carry 逐格取最差",
+    "成本兩平滑價（每邊額外滑價 x* 讓超額歸零，線性近似 x*＝超額／(雙邊周轉×(1＋g))）",
+    "下單日占交易日比例",
+    "順延成交延遲分布（交易日、日曆日）",
+    "30 萬分 2020-10-26 前（整股＋盤後零股）／後（盤中零股）"
+   ],
+   "reading": "寫出正式格在合理假設下的假設區間；不取代正式數字。P6：9 格的 2019 起年化落在正式格 ±1.5pp 內，且任何一格都不改變 G1～G8 判定方向。"
+  },
+  "edge_plan": {
+   "open_edge": "o20 口徑：edge_B＝同換股日新進股等權平均報酬 − 換出股報酬，報酬＝e 開盤→下一換股日開盤（含息）。",
+   "fill_edge": "實際成交價口徑：每檔的報酬起點改為該換股所有成交（含順延日）的名目加權參考價（W＝成交日開盤、O＝零股基準價、D＝收盤），終點同上；主欄用參考價（不含成本，避免與 rtc 重複），另列含成本的成交價。",
+   "groups": "有無順延、延遲天數、整股或零股、資金級距；平均數為主欄、中位數並列；2006～2018 與 2019 起分開。"
+  },
+  "quintile_plan": {
+   "chat": "事前預估來回成本 ĉ＝V7X 成本式在訊號日 d 收盤可得資料上的估計：價格用 C_d（代替 e 開盤與零股基準價）、OA 用事前 V60（代替當日量）、σ 用 SIGp、零股價差用 OCB/OCS（依 PC＝C_d 與事前名次）、股數用 d 收盤權益÷10×0.98 的整股／零股拆分（換出用持有股數）、手續費含 20 元下限、賣出稅 0.3%；不含上限。ĉ_swap＝換出 ĉ_sell＋新進 ĉ_buy 平均（同 rtc_B 結構）。題 1 的 ĉ 定義在本題凍結時尚不可得（題 1 同時進行），所以本題用上述定義並在報告中註明，供題 1 對照。",
+   "realized": "實際成本 rtc_B（o20 口徑）分組並列。",
+   "stats": "五等分平均淨 gap（edge−rtc，開盤價與實際成交價兩種 edge）；最高 1/5 − 最低 1/5；月份區塊 bootstrap（訊號月，13 j 同月合併）B＝2000，p、90% CI；報有效樣本數。事後描述，不得回頭調整題 1 的門檻。"
+  },
+  "mde_plan": "先做：用挑選期（2006～2014）的月份區塊 bootstrap 標準誤估 MDE80＝2.80×SE（雙尾 α 0.05、檢定力 80%）；凍結後用正式期間重估並報。有效樣本數＝n×Var_iid／Var_boot，並報唯一（代碼, 訊號月）事件數。效果 < MDE 的項目一律寫「無資訊」。",
+  "predictions": {
+   "P1": "複利換算 B2 解釋 4.4pp 中至少 2.6pp（≥ 60%）；加上持股路徑效應與 j 中位數不可加後，殘差 ≤ 0.3pp。",
+   "P2": "零股價差 ×2：30 萬（2020-10 後）2019 起年化下降 ≥ 1.0pp、100 萬下降 ≥ 0.5pp、1,000 萬下降 < 0.3pp；×0.5 方向相反、幅度相近（近似線性）。應更強的子樣本：2020-10 後、30 萬、股價 > 500 元。",
+   "P3": "上限 ×0.5：1,000 萬的影響最大（≥ 1.0pp），30 萬接近 0；順延日數與下單日比例同步上升。",
+   "P4": "實際成交價 edge 平均比開盤價口徑 0.36% 再低 ≥ 0.10%；有順延的換股差距 ≥ 0.5%；2006～2018 與 2019 起方向一致。",
+   "P5": "以實際成交價 edge 重做成本五等分，最高 1/5 與最低 1/5 平均淨 gap 差 ≥ 1.0pp；< 0.5pp 時題 1 成本感知遞補的經驗依據變弱（須在題 1 報告並列）。",
+   "P6": "正式格（100 萬一般 2019 起 23.27%）在 3×3 敏感度格的範圍落在 ±1.5pp 以內；任何一格都不改變 G1～G8 判定方向。"
+  },
+  "final_verdicts": "只分：「對帳完成／部分對帳／未對帳」與「成本假設穩健／敏感」（敏感＝任一 3×3 格 2019 起年化偏離正式格 > 1.5pp 或任何 G 判定方向改變）。",
+  "replication": "由工作流層分派不同子代理（研究員不得兼任），不 import 本資料夾任何 .py，從成交日誌與 Shapley 組合表從頭重算：4.4pp 各橋段、8.83 五項、實際成交價 edge 平均、成本五等分平均淨 gap 差、兩個角格（零股價差 ×2、上限 ×0.5）100 萬與 30 萬 2019 起年化。門檻：差 ≤ 0.1pp（比率 ≤ 2pp）；超過就追到第一筆不同的計算。研究員只準備資料與規格。",
+  "method_lessons_o18_o20": [
+   "不利端逐格取最差（opt／p90／carry 逐格取最差；最差變體換人要報）",
+   "凍結前不算正式統計量（探索與迭代只用 ≤ 2014-12-31）",
+   "事後新增狀態與嚴格版並列，嚴格版為主欄",
+   "raw/ 只放未修改原始檔（本題無新資料，raw/ 留空）",
+   "假設區間（成本參數 0.5～2 倍）與抽樣區間（bootstrap CI）並報，不混為一談",
+   "取代正式數字必附歸因（本題預設不取代）",
+   "紙上數字附成本兩平點；本題可執行格附成本兩平滑價",
+   "可執行測到 30 萬（含 2020-10 前整股與後盤中零股）",
+   "比對報三層：j 中位、逐 j 平均、逐 j 最大，並報中位 j 與最差變體是否換人",
+   "偏態分布用平均數口徑為主欄、中位數並列",
+   "重疊樣本報有效樣本數（13 j 同一事件約 4 次）",
+   "年化口徑凍結時寫死：日曆年化（(終點−起點)天/365.25）為主",
+   "任何 ≤ 0.2pp 的改善要報拿掉最大一窗後的值",
+   "事後讀法不得寫成建議",
+   "關鍵中間檔不得只放 scratchpad（彙總表、逐 j 淨值、日誌壓縮後存進 data/）",
+   "o1 5.3：事件 t 按事件日分群；驗證期污染；格點邊緣的贏家詛咒；成交可行性寫進事前登記；t 提升拆均值與波動；存活者偏誤（2019～2023 面板只有存活股，下市營收缺口）"
+  ],
+  "readonly": "live_tracking/main_forward、o_forward_infra_live、o_g8p2a_protocol_addendum 只讀，開始與結束各做 sha256 快照（ro_snap.py）；不呼叫 G8P-2a 判定器；避開台北 06:49 排程。",
+  "disk": "大型中間檔放 scratchpad/csr，題目結束時刪除；彙總表與逐 j 淨值壓縮後存進 data/。scratchpad/rep_o19 不動。"
+ },
+ "PREREG_sha256": "d13ec15a1f984302b356565faf50abbc670ba905fbf93332074ae653e5760c02",
+ "PREREG_FREEZE": {
+  "written_utc": "2026-11-12T04:27:30Z",
+  "iterations_used": 6,
+  "refund_main": "prop",
+  "refund_rule": "挑選期三變體平均 |U| 較小者",
+  "selection_mean_abs_U": {
+   "cash": 0.061402969817153284,
+   "prop": 0.05062501813215192
+  },
+  "bridge_order": "起點 會計 c_acc（o20 B_drag 口徑）→ B1 分母/歸屬/年數（c_B1：Σ C/E_pre，成交日 ∈ (s0,s1]，Y＝(s1−s0)/365.25）→ B2 複利（G＝(1＋g^R)(1−e^{−ℓ})，ℓ＝Σlog(1＋C_d/E_post,d)/Y）→ U 未解釋（(g^R−g^A)−G）→ B4 路徑（g^T−g^R）→ B5 時點交互（逐 j Shapley 成本類−(g^T−g^A)）→ B3 中位數不可加（中位數值函數 Shapley − 逐 j Shapley 中位數）→ 終點 13.67。中位數層主欄；三層（增量中位、逐 j 平均、逐 j 最大）並報；逐 j 增量 120 種排列範圍並報。",
+  "bridge_periods": [
+   "Y19on",
+   "S0618",
+   "V1520",
+   "H2126",
+   "ALL"
+  ],
+  "bridge_boot_B": 1000,
+  "bridge_decision": "主退款模式、REAL_opt、2019 起、中位數層：|U| ≤ 0.3pp →「對帳完成」；否則 B2 ≥ 2.6pp →「部分對帳」；否則「未對帳」。另兩變體與另一退款模式並列。",
+  "sensitivity": "mo×mc＝{0.5,1,2}²，6 格 × 3 變體 × 13 j seed 0；四角＋中心 20 seeds；mt＝0.5 中心 seed 0。每格逐格取最差（opt/p90/carry）；假設區間＝9 格相對中心格（seed 0）的範圍、四角 20 seeds 範圍；抽樣區間＝正式格中位 j 2019 起超額月份 bootstrap 90% CI。",
+  "sensitivity_decision": "「敏感」＝任一 normal std 格（30/100/300/1,000 萬）9 格中有 2019 起年化偏離中心 > 1.5pp，或任一格使 G1（j p10>0）、G2（t≥3）、G7（300 萬/1,000 萬/壓力 全期超額與 p10 > 0）翻號；否則「穩健」。",
+  "edges": "主欄＝實際成交價（名目加權參考價：W 開盤、O 零股基準價、D 收盤，含順延）；並列＝開盤價（o20）與含成本成交價。平均數主欄、中位數並列；月份區塊 bootstrap（訊號月）有效樣本數與 MDE80＝2.8×SE。",
+  "quintiles": "ĉ（PREREG.quintile_plan.chat 定義）與實際 rtc 兩種分組 × 開盤價／實際成交價兩種 edge；期間 Y19on、S0618、V1520、H2126；最低 1/5 − 最高 1/5 平均淨 gap；B＝2000；p_le0、90% CI、MDE80。",
+  "predictions_thresholds": {
+   "P1": "複利換算 B2 解釋 4.4pp 中至少 2.6pp（≥ 60%）；加上持股路徑效應與 j 中位數不可加後，殘差 ≤ 0.3pp。",
+   "P2": "零股價差 ×2：30 萬（2020-10 後）2019 起年化下降 ≥ 1.0pp、100 萬下降 ≥ 0.5pp、1,000 萬下降 < 0.3pp；×0.5 方向相反、幅度相近（近似線性）。應更強的子樣本：2020-10 後、30 萬、股價 > 500 元。",
+   "P3": "上限 ×0.5：1,000 萬的影響最大（≥ 1.0pp），30 萬接近 0；順延日數與下單日比例同步上升。",
+   "P4": "實際成交價 edge 平均比開盤價口徑 0.36% 再低 ≥ 0.10%；有順延的換股差距 ≥ 0.5%；2006～2018 與 2019 起方向一致。",
+   "P5": "以實際成交價 edge 重做成本五等分，最高 1/5 與最低 1/5 平均淨 gap 差 ≥ 1.0pp；< 0.5pp 時題 1 成本感知遞補的經驗依據變弱（須在題 1 報告並列）。",
+   "P6": "正式格（100 萬一般 2019 起 23.27%）在 3×3 敏感度格的範圍落在 ±1.5pp 以內；任何一格都不改變 G1～G8 判定方向。"
+  },
+  "annualization": "日曆年化：(終點收盤/起點收盤)^(365.25/天數)−1。Y19on、POSTODD、V1520、H2126 的起點＝期間內第一個交易日收盤（x_stats 口徑；2019 起＝2019-01-02 收盤，與正式表、Shapley 組合表相同）；ALL、SEL14 起點＝j 第一個訊號日收盤；S0612、S1318、S0618、PREODD 起點＝期間前最後一個收盤（integrate_o19 pstats 口徑）。終點＝j 終點日（jscan_end_days）。",
+  "annualization_note": "中心格 run_engine 成交彙總（center_meta.summ）在口徑統一前產生，其 Y19on 視窗多含 2019-01-02 一個交易日（當日無換股，下單日比例分母多 1 日，影響 < 0.1%）；其他階段為統一後口徑。",
+  "seeds20_note": "navs_seeds20.parquet 由已鎖定 sha 的 run_engine.py seeds 階段在凍結後產生（四角＋中心 20 seeds，純資料），其 sha256 記在 run_engine_meta.json 與 RESULTS.G_files。",
+  "files_sha256": {
+   "csr_lib.py": "0ab2937fd26d7d84c23079fe94021355d7f4f797771c3cf935c843481f369cbc",
+   "run_engine.py": "f48be89e72c2809405dd1b47d1f5d4e3bb483f91a51f83bbf27368f4ae66cc86",
+   "diag.py": "96078205799fdb3e07e73e31c2c81436ec33b4858efa950c8fc3e1ba0a0608d0",
+   "build_swaps.py": "c7930a0d63018e49b326bc83fabfdc505bcb15a53f45360eb70c62aff2984d47",
+   "explore.py": "f24b6666b491de997877914e1da7bd296483a65f527a2df2c486804e34f26a07",
+   "iterate.py": "9d24ac9466b51d51f07c685c9bb9e4e04a9bddaa56cd58171cc16ab8319ab4f9",
+   "analyze.py": "632a13a31aa5dce2133f37dec41433066f6d541211a18c6504cbc12d0b17508d",
+   "prereg.py": "6d9f46e2fec9faac4e897f726dc795cce4e159913d7ac6a11776cd233ebeca70",
+   "freeze.py": "9da4d791009ad86cfa032d8f68f23592b11960e81b7461eedb5a48c76124b0d0",
+   "explore.json": "dc8831a0f8401551de94ae78e117dbecf8fb198837c1f900ad28f245f6fbd6af",
+   "explore_grid.py": "cbbd26c2a933529f5ac84f566b57bd210929a3f3f395b5e93bd0d7d63113d53d",
+   "iterations.json": "acf792609129fa9e1a6a6632ad50564975c3e2e6280d8624d468d13048090953",
+   "build_swaps_meta.json": "0dc5348db4a54760113f6aa9fd054c942bb27eb1d4214bc0df26ee020441cb23",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/navs_center.parquet": "0d770fb3c68345fc5f44594920e2097b262c0d863a8f477a4dcfe8ff68fb5d04",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/center_meta.pkl": "02f5a558ce86a8ada41a0d7892833a18375c3b0ef022c096721800e77587065e",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/navs_refund.parquet": "a545cafed9222d6e2e0adc0394aa4c83d980ae75adca55086909d3eefeeccc80",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/refund_meta.pkl": "f759c649e74bfa1b44a8dc77cf6b7d3fcce32b8f09c31477c06556d5ebdeab03",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/navs_coal.parquet": "eeb3056baee11e2667172a8f161cf482a70b34d83a1e6361a35a80f34198e4f9",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/navs_grid.parquet": "edd8d8d559ef0a659bc76d482f9e439af97ef1394daf02b93343f8bfa2f8be21",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/grid_meta.pkl": "559c8405c8a31e1fc700d105b8b82f41cdaa198d33fb794e6f9a5f89d6e86f4c",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/navs_tick.parquet": "bf1011052107ebc0d666379264081e6ca4dbe24f5b3cba6259d050aa28ea3d72",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/tick_meta.pkl": "5bf8ff07e3ae4396478c4a6f2c804c46178dfafd19989857f642a2cd7da00358",
+   "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/csr/swaps_center.parquet": "f63ca114ea0d19d607dd816debbb111d3f9bcfff89b13856f3eb0fa810817561",
+   "../o_turnover_fixedcost_diagnosis/data/plans_real_allseeds.csv.gz": "947dd385ed9b4885ebef20fd1dbc418c7cae459c341f7af7b07eae8d95421758",
+   "../o_turnover_fixedcost_diagnosis/data/shapley_coalitions.csv.gz": "49939cbe17800e00fbf94ebd778eb3d52fbb4d72107651ec49bd4ed7bf495b51",
+   "../o_turnover_fixedcost_diagnosis/data/tradelog_100n_REAL_opt_seed0.csv.gz": "e2c1df0543b2319601f07d49743e7189aadc36c3e2bcf1745993b4d32ffaa8e0",
+   "../o_turnover_fixedcost_diagnosis/data/tradelog_30n_REAL_opt_seed0.csv.gz": "e8b53a0a2b8ebb45278693e3f2d6ea514ddd7f1387e74eeaa68e2e77c24e44dd",
+   "../o_turnover_fixedcost_diagnosis/data/swaps_exitlevel_100n_REAL_opt_seed0.csv.gz": "b91a90760f29fb510d924b02575e0997fa0e5b94975a4ddd1314c7b3bc6b7765"
+  }
+ },
+ "PREREG_FREEZE_sha256": "0efb1f6a866c228f166a3e1a98c661cc46e1fd68f70084928f15c801f4e62568"
+}
