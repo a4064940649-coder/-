@@ -1,0 +1,2194 @@
+{
+ "spec": "SPEC v2（草案，待總監凍結）：ALLPIT_REAL 名單層＋V7X 可執行引擎",
+ "written_taipei": "2026-11-12",
+ "human_readable": "SPEC_v2.md",
+ "supersedes": {
+  "file": "o_delist_rev_backfill_allpit/SPEC.json",
+  "sha256": "f5e141b072053791e24fec904ee1f3d30a95d0b331dbe0924c36192046ffc404",
+  "plus": "FINDINGS.md 開頭附註 1～6"
+ },
+ "scope": "描述正式程式的實際行為；不含新算的績效數字；未重跑程式驗證",
+ "task_item_map": {
+  "1": [
+   "P-03",
+   "P-07",
+   "P-08",
+   "P-09",
+   "L-03",
+   "L-07",
+   "L-09",
+   "L-10"
+  ],
+  "2": [
+   "E-02",
+   "E-04",
+   "E-05"
+  ],
+  "3": [
+   "E-17a",
+   "E-11"
+  ],
+  "4": [
+   "E-22",
+   "E-20",
+   "E-21"
+  ],
+  "5": [
+   "C-09"
+  ],
+  "6": [
+   "P-04",
+   "P-04a",
+   "L-05"
+  ],
+  "7": [
+   "P-05",
+   "L-06",
+   "E-08"
+  ],
+  "8": [
+   "S-01",
+   "S-02",
+   "S-03",
+   "S-04",
+   "S-05",
+   "S-06",
+   "E-07",
+   "E-09",
+   "E-12",
+   "E-14",
+   "E-15",
+   "E-16",
+   "E-17",
+   "E-19",
+   "E-23",
+   "L-01",
+   "L-04",
+   "P-09",
+   "L-10"
+  ]
+ },
+ "constants": {
+  "N_columns": 1249,
+  "switch_rev_table": "2021-03-01",
+  "paper_end": "2026-10-12",
+  "limit_switch": "2015-06-01",
+  "fee_switch": "2015-01-01",
+  "odd_switch": "2020-10-26",
+  "disposal_hi": "2021-09-23",
+  "exempt_days": [
+   "2017-08-03",
+   "2018-07-12"
+  ],
+  "exempt_range": [
+   "2024-02-15",
+   "2024-03-15"
+  ],
+  "special_deadlines": {
+   "2019-02": "2019-02-15",
+   "2023-04": "2023-04-12"
+  },
+  "deadline_case_special": {
+   "2019-01": "D>S",
+   "2023-03": "D>S",
+   "2020-01": "D=S"
+  },
+  "GOV": [
+   "TRUNC",
+   "IFRS13",
+   "POST13",
+   "POST13_R5",
+   "PRE12",
+   "HOLE",
+   "NEVER_DOM"
+  ],
+  "cause_priority": [
+   "TRUNC",
+   "IFRS13",
+   "POST13",
+   "POST13_R5",
+   "PRE12",
+   "HOLE",
+   "NEWLIST",
+   "BASE_LE0"
+  ],
+  "fin_words": [
+   "銀",
+   "證",
+   "金控",
+   "證金",
+   "產保",
+   "壽",
+   "票券",
+   "產險",
+   "人壽",
+   "投信",
+   "合庫",
+   "信託"
+  ],
+  "tiers": {
+   "30萬": 300000.0,
+   "100萬": 1000000.0,
+   "300萬": 3000000.0,
+   "1000萬": 10000000.0
+  },
+  "cpi_2006": 100.0,
+  "cpi_2026": 130.73470216770653,
+  "cpi_ratio": 0.7649078503404548,
+  "engine_cfg": {
+   "mode": "GROW",
+   "model": "K5T",
+   "stress_odd_extra": true,
+   "rank_right": true,
+   "f1": true,
+   "f2": true,
+   "f3": 0.5,
+   "f4": true
+  },
+  "fee": {
+   "base": 0.001425,
+   "discount_pre2015": 0.6,
+   "discount_post2015": 0.28,
+   "discount_stress": 0.6,
+   "min_per_fill": 20.0
+  },
+  "tax_sell": 0.003,
+  "paper_cost": {
+   "normal_buy": 0.0018549999999999999,
+   "normal_sell": 0.004855,
+   "stress_each": 0.005
+  },
+  "model_spec7": {
+   "version": "v7_exec_1",
+   "oa_share_by_dec": {
+    "1": 0.032340891827244034,
+    "2": 0.025967531477136662,
+    "3": 0.034225994563680764,
+    "4": 0.03801095452239291,
+    "5": 0.03261840891322178,
+    "6": 0.03378917072945638,
+    "7": 0.029449995657240668,
+    "8": 0.03108912263458373,
+    "9": 0.021807803202125425,
+    "10": 0.023982398172647867
+   },
+   "oa_share_default_dec": 10,
+   "mis_truth_median": 0.03424988981938492,
+   "mis_n_stockdays": 192,
+   "oa_hat_share_by_dec_VAL_o5": {
+    "1": 0.07815309117333231,
+    "2": 0.08789455554574128,
+    "3": 0.09800096364382047,
+    "4": 0.0942221644788886,
+    "5": 0.09498769869097004,
+    "6": 0.0937574147550112,
+    "7": 0.09072647781849696,
+    "8": 0.09089892098962686,
+    "9": 0.08536307104692095,
+    "10": 0.08111899947638923
+   },
+   "cap": 0.2,
+   "base": 0.001,
+   "kappa": 0.5,
+   "drift": {
+    "edges": [
+     -0.03,
+     -0.01,
+     0.0,
+     0.01,
+     0.03
+    ],
+    "vals": [
+     0.0030770144959809597,
+     0.0010493278860926958,
+     -4.142015872715361e-06,
+     -0.00037587490449242394,
+     -0.00039719666133177254,
+     0.000615834516150089
+    ],
+    "n_fit": 109906
+   },
+   "odd": {
+    "price_edges": [
+     50.0,
+     100.0,
+     300.0
+    ],
+    "rank_edges": [
+     150.0
+    ],
+    "buy": [
+     [
+      0.0012476844284625699,
+      0.0028308577519022826
+     ],
+     [
+      0.0030211480362538623,
+      0.00390625
+     ],
+     [
+      0.004333699561465232,
+      0.0052701013748091
+     ],
+     [
+      0.004237288135593209,
+      0.004546362737566589
+     ]
+    ],
+    "sell": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      -0.0010080809066225216,
+      -0.0012345848365546974
+     ],
+     [
+      0.0,
+      -0.001776198934280604
+     ],
+     [
+      -0.0017574746725970147,
+      -0.001953125
+     ]
+    ],
+    "n_fit": 21598
+   },
+   "zcap": {
+    "start": "2020-10-26",
+    "share_by_dec": {
+     "1": 0.00030148458815441507,
+     "2": 0.00024911824866535176,
+     "3": 0.00021436606920700359,
+     "4": 0.00019156030268597688,
+     "5": 0.00019753493777797558,
+     "6": 0.00017313566838291975,
+     "7": 0.0001941448217113257,
+     "8": 0.00015922687732523242,
+     "9": 0.0001594471957852434,
+     "10": 0.00014174675675984288
+    },
+    "share_default": 0.0001928525621986513,
+    "part_main": 1.0,
+    "part_sens": 0.2
+   },
+   "zpart": 1.0,
+   "frictions": {
+    "lim": true,
+    "odd0": true,
+    "cash": 0.02,
+    "feemix": true
+   },
+   "stress": {
+    "extra_per_side": 0.004,
+    "fee": "B",
+    "odd_stress": true,
+    "feemix": false
+   },
+   "disposal_sell": "處置期間（V4 凍結官方處置名單 start ≤ t ≤ end）的賣出：預收券、分盤撮合；以當日收盤減一個跳動單位成交（首盤價資料不足時的事前規則），無開盤衝擊、無參與上限",
+   "merger_delay": "現金對價併購下市（O3 事件 type=cash）：下市日起現金對價以 0050 含息報酬計值，撥款日＝下市日＋20 個交易日（找不到撥款日一律用此保守值），撥款後第一個換股日才再投入",
+   "source": {
+    "model_calib": "o_open_impact_calib/data/model_calib.json",
+    "oa_share": "o_open_impact_calib/iterations.json rounds[*].oa_check.OA_b_share_by_dec_VAL",
+    "mis": "o_open_impact_calib/explore.json mis_truth"
+   }
+  },
+  "jscan_end_days_AB_V7_B10": {
+   "J0": "2026-10-12",
+   "J1": "2026-10-13",
+   "J2": "2026-10-14",
+   "J3": "2026-10-15",
+   "J4": "2026-10-16",
+   "J5": "2026-10-19",
+   "J6": "2026-10-20",
+   "J7": "2026-10-21",
+   "J8": "2026-10-22",
+   "J9": "2026-10-22",
+   "J10": "2026-10-22",
+   "J11": "2026-10-22",
+   "J12": "2026-10-22"
+  },
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "js": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "variants_paper": [
+   "ALLPIT_REAL_opt",
+   "ALLPIT_REAL_p90",
+   "ALLPIT_REAL_carry"
+  ],
+  "variants_v7x": [
+   "REAL_opt",
+   "REAL_p90",
+   "REAL_carry"
+  ],
+  "numpy_version_official_run": "2.5.3",
+  "pandas_version_official_run": "3.0.5",
+  "python_version": "3.13.17"
+ },
+ "data_files": {
+  "panel_v7_close": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/close_raw.parquet",
+   "exists": true,
+   "sha256": "2a2f7b99b44f19bae9a088141f0d995fd788f8171ec202f45b56ebb6896e2fe3",
+   "bytes": 10658610,
+   "header": null
+  },
+  "panel_v7_open": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/open.parquet",
+   "exists": true,
+   "sha256": "5f49fdec4b6df09800261279073483f475e05f0cd40ad4d41b59f1dbb8ace013",
+   "bytes": 10572082,
+   "header": null
+  },
+  "panel_v7_value": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/value.parquet",
+   "exists": true,
+   "sha256": "e9c6236ba7aee17b0fb4f84002057540c5bf1a0e56f57bcfafb4c9dfb4de37aa",
+   "bytes": 36509493,
+   "header": null
+  },
+  "panel_v7_ret": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/ret.parquet",
+   "exists": true,
+   "sha256": "6e70541ac937568317e83dbb894cb49bf2e8086aada132419b8da7992ad03c34",
+   "bytes": 30982378,
+   "header": null
+  },
+  "panel_v7_flag": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/flag.parquet",
+   "exists": true,
+   "sha256": "014587ef662e724e526dcf166a288d53db2e904776b3fc2549a90b2682b7ed79",
+   "bytes": 868368,
+   "header": null
+  },
+  "panel_v7_high": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/high.parquet",
+   "exists": true,
+   "sha256": "703d80f2c54aff925f243af5581b2166f7db88ad5af6b091da0f5949f3065ff8",
+   "bytes": 10666270,
+   "header": null
+  },
+  "panel_v7_adj": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/adj.parquet",
+   "exists": true,
+   "sha256": "9d4f0d90b732273b574733ea806cd8989186ae8b870ac0fecf7c1465245ada0d",
+   "bytes": 33762897,
+   "header": null
+  },
+  "panel_v7_src": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/src.parquet",
+   "exists": true,
+   "sha256": "e47d7f1bb38f7945b83272474a78c1486bd53c9558118ace8c53eeda41c86882",
+   "bytes": 790995,
+   "header": null
+  },
+  "panel_paper_close": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/close_raw.parquet",
+   "exists": true,
+   "sha256": "f3b158eba86718466e8c5f1f9911212ea0f750f471859bbbc5f4bb7307406beb",
+   "bytes": 11164630,
+   "header": null
+  },
+  "panel_paper_open": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/open.parquet",
+   "exists": true,
+   "sha256": "9ff204fb1c5217329398a24a87247e7773540a87720f67c97c48ad011fbae2fc",
+   "bytes": 11062596,
+   "header": null
+  },
+  "panel_paper_value": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/value.parquet",
+   "exists": true,
+   "sha256": "d7280bb511d215ae783aa8cd1a654e9d6cc4736a686e8ab5e2f0a830585074b6",
+   "bytes": 36956468,
+   "header": null
+  },
+  "panel_paper_ret": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/ret.parquet",
+   "exists": true,
+   "sha256": "e32ffeba2c7ac16b6181dea146f087e088f5e666bf9567fe8aaa1f1664f24cf6",
+   "bytes": 31462352,
+   "header": null
+  },
+  "panel_paper_flag": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/flag.parquet",
+   "exists": true,
+   "sha256": "3f22b23084c261019c4da3865ac1e1785ab68ca115cc6db1ab5a9d7493f1e697",
+   "bytes": 882603,
+   "header": null
+  },
+  "panel_paper_high": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/high.parquet",
+   "exists": true,
+   "sha256": "92d8d7bcf8bad451d6affd303fb7aba3a058019446979a998420dde5892dc382",
+   "bytes": 11165795,
+   "header": null
+  },
+  "panel_paper_adj": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/adj.parquet",
+   "exists": true,
+   "sha256": "c5d4707bd7a1966dc74fbbb41b6ad87f0900e6fc91d8e7665d5f1b3fb8542810",
+   "bytes": 33581177,
+   "header": null
+  },
+  "panel_paper_src": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/panel/src.parquet",
+   "exists": true,
+   "sha256": "826e9c5b5795c0555a9904570ab375c12243c2f28b7ff74caf8bf9ebce152988",
+   "bytes": 788197,
+   "header": null
+  },
+  "tw_revenue": {
+   "path": "/home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv",
+   "exists": true,
+   "sha256": "02657e7c415783020f16255d42f66b0d40d69823fa294113557be6f4584a3898",
+   "bytes": 14980016,
+   "header": "month,market,code,name,revenue_k_twd"
+  },
+  "rev_5y": {
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/rev_5y.csv.gz",
+   "exists": true,
+   "sha256": "6ee92a2f5c4e469dafa004982e7d354b2c74da3bffc6a82493af0aea59ef5c8a",
+   "bytes": 1495293,
+   "header": "code,ym,revenue,yoy,mom"
+  },
+  "rev_hist": {
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/rev_hist.csv.gz",
+   "exists": true,
+   "sha256": "9bdebeae846fd4634a3c32aede72f2b46287c15218d9c7d3b7e8eceb54bc9c9d",
+   "bytes": 1564276,
+   "header": "code,ym,revenue,yoy,mom,ann_date"
+  },
+  "disposal_5y": {
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/disposal_5y.csv.gz",
+   "exists": true,
+   "sha256": "be06c807e4dfcc26ae7d1da2de37775185cfbbd0ed50d9c0b72d255fc16439e2",
+   "bytes": 14551,
+   "header": "date,code,flag,start,end"
+  },
+  "stock_list": {
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/stock_list.csv",
+   "exists": true,
+   "sha256": "06111252bee0f002a85434a71623e93acc74a597f36412c4a3871d243cca695e",
+   "bytes": 66065,
+   "header": "code,name,market,industry"
+  },
+  "etf_0050": {
+   "path": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv",
+   "exists": true,
+   "sha256": "771fabfbe0a3165cd1729f8023992acff7bb61a16f078fa082f027ae422bcdab",
+   "bytes": 110808,
+   "header": "date,adj"
+  },
+  "taiex_twii": {
+   "path": "/home/user/jonatw/finlab-txd/data/raw/taiex_twii.csv",
+   "exists": true,
+   "sha256": "648adb5c8c60cf20615403f38659d4d59d8cc6e51bfd3280a3d9199a15c10b20",
+   "bytes": 301396,
+   "header": "date,open,high,low,close"
+  },
+  "R_FIX": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/yoy_long_R_FIX.parquet",
+   "exists": true,
+   "sha256": "759a6831f18954f333b0acb3882bf9a31a64210a550a8c8b9e093790d77c20c2",
+   "bytes": 4508269,
+   "header": null
+  },
+  "Y5_FIX": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/yoy_rev5y_FIX.parquet",
+   "exists": true,
+   "sha256": "216941c6c0e6da832407ddda28b75cfa55087d92247d555a1e7f688e8c471a6b",
+   "bytes": 1852936,
+   "header": null
+  },
+  "data_freeze_v4": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v4_revenue_patch_official/data_freeze_v4.json",
+   "exists": true,
+   "sha256": "3a846c50bf7e8a1b5b2ba002271046414e52b7c7cd581a120081e48a6c3068a3",
+   "bytes": 8167,
+   "header": null
+  },
+  "rev_backfill_B1": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_delist_rev_backfill_allpit/data/rev_backfill_B1.csv",
+   "exists": true,
+   "sha256": "c2672cfa81546d467033511b6629378b5127955e758b11fa69734aba5c0357c3",
+   "bytes": 76338,
+   "header": "code,ym,rev_k,rev_src,yoy_pct,yoy_src,yoy_method,news_first_date"
+  },
+  "delist_official": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_infra_v3_rebuild/delist_official.csv",
+   "exists": true,
+   "sha256": "41f51cb7e1aadbf1d28244f26cb6452f3ede20f2fbb594350848ed8f55a1f2bd",
+   "bytes": 13946,
+   "header": "roc,name,code,date,four,in_panel,panel_last"
+  },
+  "merger_consideration": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_infra_v3_rebuild/merger_consideration.csv",
+   "exists": true,
+   "sha256": "262e92568a0162e99241c16f1de309df3736c670447b436b91d12b6f69cfd8fd",
+   "bytes": 6452,
+   "header": "code,name,announce_date,delist_date,last_trade,last_close,pay_date,type,cash,cash_over_last_close,ratio,successor,verified,note"
+  },
+  "delist_prices": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_infra_v3_rebuild/delist_prices.parquet",
+   "exists": true,
+   "sha256": "bc4526b4424eaf9b0d13dcc378ce1ccf54a3f3a35e57d414101ea587aa6abf04",
+   "bytes": 308225,
+   "header": null
+  },
+  "o3_data_freeze": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_infra_v3_rebuild/data_freeze.json",
+   "exists": true,
+   "sha256": "d4e27ce6b251554a5c22814767162858f3b82e267be34fe5e0b0e4c74a616f78",
+   "bytes": 10187,
+   "header": null
+  },
+  "events_v2": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_engine_delist_consideration/events_v2.csv",
+   "exists": true,
+   "sha256": "66e80725a4e48387690ded34fc1ebb5b4b7a71ca2b501448c81b30f583b0afbe",
+   "bytes": 28912,
+   "header": "code,name,type,verified,held,held_U,held_IA_only,announce_date,base_date,last_trade,last_trade_ia,terminate_date,last_close,cash,ratio,pref_ratio,pref_value,successor,succ_in_panel,succ_first_trade,pay_date,impl_ratio,dev_vs_lastclose_lt,dev_vs_lastclose_s,source_url,raw_files,raw_sha256,o3_type,o3_verified,note"
+  },
+  "cz_results": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_engine_delist_consideration/results.json",
+   "exists": true,
+   "sha256": "e07e2475dfb0cd8f4e709595698af37ab24a9be3b2bcb4276f9c52ff223bc2d1",
+   "bytes": 3155064,
+   "header": null
+  },
+  "disposal_hist_rejudge": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_disposal_rejudge/disposal_hist_rejudge.csv",
+   "exists": true,
+   "sha256": "2c171924096ecf4c0d1da9c3c0db12002c38ace46864dede615496cbb1abe20d",
+   "bytes": 407903,
+   "header": "file_year,announce,code,name,cum,condition,start,end,measure,match_min,nth,kind,regime,in_panel,n_tdays"
+  },
+  "disposal_official_universe": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_rev_avail_ds_pit_count/raw/disposal_official_universe.csv",
+   "exists": true,
+   "sha256": "2842f45d825861bfe0168f7a9736364fc19adee2b4d9bc3b5a894d4e22db8b40",
+   "bytes": 106519,
+   "header": "code,ordr,start,end,overlap_proxy,second30,take_R1"
+  },
+  "universe_announce": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_disposal_list_pit_audit_pkl18/data/universe_announce.csv",
+   "exists": true,
+   "sha256": "e15c1b02690d663b5e1f423bfaadb698f6ed8aa1641d5c7edd5e8336df2f94d6",
+   "bytes": 268833,
+   "header": "code,ordr,announce,start,end,overlap_proxy,second30,take_R1,kind,regime,measure,condition,nth,lag_td"
+  },
+  "DISP_OFFICIAL_v2": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_disposal_list_pit_audit_pkl18/data/DISP_OFFICIAL_v2.csv",
+   "exists": true,
+   "sha256": "8f97b304411c6d013635ccc8fad9976f21f0fb4c9f0704bb0ee1bf678f052326",
+   "bytes": 313197,
+   "header": "code,ordr,announce,start,end,overlap_proxy,second30,take_R1,kind,regime,measure,condition,nth,lag_td,src"
+  },
+  "ts_firstseen": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_rev_avail_ds_pit_count/raw/ts_tasi_upstream_firstseen.csv.gz",
+   "exists": true,
+   "sha256": "460d47489c006fc3e895222e68301783274e4be8c5588ed934d38a475923f60b",
+   "bytes": 439624,
+   "header": "source,code,ym,T,T_prev,file,commit,valid,reason"
+  },
+  "ts_mops_ann": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_rev_avail_ds_pit_count/raw/ts_mops_ann_date.csv",
+   "exists": true,
+   "sha256": "4e1079850e4f3e1598c5a7d36efb7e4d207c14f416e6f3d4dbefc533d3c4a0ce",
+   "bytes": 42665,
+   "header": "code,ym,ann_date"
+  },
+  "ts_news": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_rev_avail_ds_pit_count/raw/ts_news_mentions.csv.gz",
+   "exists": true,
+   "sha256": "32f7548fc6884e235145ebdcacc34917f4bc8e047f01bca7c2a57d244969dedc",
+   "bytes": 1512590,
+   "header": "src,art,ts,has_time,code,ym,rev_k,yoy,mom,snip"
+  },
+  "p_delay": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/rev_announce/p_delay.json",
+   "exists": true,
+   "sha256": "5c447f7434539bcaf7afafb21cfd194a115b7405853e28b6200fb92174561a8f",
+   "bytes": 1563,
+   "header": null
+  },
+  "firstseen_2609": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/rev_announce/firstseen_2026-09.csv",
+   "exists": true,
+   "sha256": "e407fc25a734a38dea32f32301ca69f8dcc8d038e633269e642320ba7ec27200",
+   "bytes": 164913,
+   "header": ",first_seen,ann_date,industry,market,cat,after10,ins15,fin"
+  },
+  "foreign_codes_src": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_rev_survivorship/data_freeze.json",
+   "exists": true,
+   "sha256": "01ae47d8793ddf97b5e8fb337ac2533f96322309e05d866b592f78a4b679cbab",
+   "bytes": 9644,
+   "header": null
+  },
+  "snap1": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_pit_shares_industry_2006_2013/raw/industry_snap/grs_568e6685_tools_twse_list.csv",
+   "exists": true,
+   "sha256": "00fa81b5d85a17687c575f6825741f517a5931f441e249a05de087d676c04534",
+   "bytes": 309847,
+   "header": "文件更新,2013-12-18 00:02:16,x,x"
+  },
+  "snap2": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_pit_shares_industry_2006_2013/raw/industry_snap/grs_893c8772_grs_stock_no.csv",
+   "exists": true,
+   "sha256": "52c68861590dfaef1ec0deac7807e4ee90a93d82ab3f6439e454249c59946d09",
+   "bytes": 14633,
+   "header": "\"證期會代碼\",\"公司簡稱\",\"TSE產業別\""
+  },
+  "snap3": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_pit_shares_industry_2006_2013/raw/industry_snap/goristock_c3c718ab_grs_stock_no.csv",
+   "exists": true,
+   "sha256": "df09d5a32b700dfc08d1903c348ac02f961d7cab140fdff96b88ee50e6db3965",
+   "bytes": 14508,
+   "header": "\"證期會代碼\",\"公司簡稱\",\"TSE 產業別\""
+  },
+  "listing_master": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/listing_master.csv",
+   "exists": true,
+   "sha256": "bdb7d6d478c095655c9a9707f550551a128df78839e7a563d81feab09f4988c8",
+   "bytes": 272992,
+   "header": "code,in_panel_cols,listed_date,listed_src,isin_listed,isin_market,transfer_in_date,delist_date,segments,first_listed_day,last_listed_day,first_TW_evidence,last_TW_evidence,evidence_srcs,agree_tw_revenue_market,n_tw_revenue_months,agree_tasi_rev_section,n_tasi_rev_months,n_listed_days,manual_note,check_status"
+  },
+  "model_spec7": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/model_spec7.json",
+   "exists": true,
+   "sha256": "d88c6ea77ceda04b6754fdfffdbd08c4eb18883a056d29e48f74cd789e2c46f6",
+   "bytes": 3038,
+   "header": null
+  },
+  "cpi_tw": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/raw/exec_inputs/cpi_tw.json",
+   "exists": true,
+   "sha256": "afb556ae5b72b7ba21fad2e8080850b7bc088d7b7cf2cb4755524c19d3daef79",
+   "bytes": 1350,
+   "header": null
+  },
+  "jscan_end_days": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/jscan_end_days.json",
+   "exists": true,
+   "sha256": "3c561e7cfe4ee3a3a524a7ede67c496e2de5696416271e73aa182dafee08208d",
+   "bytes": 1444,
+   "header": null
+  },
+  "plans_j7": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_v7_listing_exec_engine/data/plans_j7.csv",
+   "exists": true,
+   "sha256": "20d38d03dabfd319c0bdddd1a851505380754903ef596bf94b296569ae4e83ac",
+   "bytes": 23458860,
+   "header": "strat,j,seed,signal,exec,exec_idx,picks"
+  },
+  "x_cache": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/data/x_cache.npz",
+   "exists": true,
+   "sha256": "12860cde6b0df415b819dcb15aa6d47b44e8240183cebdc31dc841006905ad4e",
+   "bytes": 234979819,
+   "header": null
+  },
+  "v7x_results": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_exec_engine_rewrite_v7x/results.json",
+   "exists": true,
+   "sha256": "ba037afe87e28c9bc5a64a7742b5bad812bdf671a42aeb64accaf2d3d619e77f",
+   "bytes": 380177,
+   "header": null
+  },
+  "fs_e50": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_forward_sequential_v2/raw/finlab/data/raw/etf_0050.csv",
+   "exists": true,
+   "sha256": "dace65be24b9a9e61ae329064aa21ebf55ca0cf901e2160e63f252cd75b3a05c",
+   "bytes": 110908,
+   "header": "date,adj"
+  },
+  "k_paper_lists": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_g6_allpit_list_trace_stage2/out/k_paper_lists.csv.gz",
+   "exists": true,
+   "sha256": "4a04852ec1f48df5c5f84d079062b8a0eaf7293274c6adef4d26c2b707d2242f",
+   "bytes": 26657,
+   "header": "mask,variant,signal,picks"
+  },
+  "v7x_plan_diff_M2": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/integrate_o20/data/v7x_plan_diff_M2.csv.gz",
+   "exists": true,
+   "sha256": "504044607a4f6fa78d3e744b45d0fad69e91a15f097973c7c1be8fd22cc6ea05",
+   "bytes": 15625,
+   "header": "variant,j,seed,signal,exec_b,exec_m,picks_b,picks_m,out,into,_merge"
+  },
+  "plans_v7x_o18_scratch": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/o18_revbackfill/plans_v7x.csv",
+   "exists": false,
+   "sha256": null,
+   "bytes": null,
+   "header": null
+  },
+  "plans_o19_scratch": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/integrate_o19/plans_strict.csv",
+   "exists": false,
+   "sha256": null,
+   "bytes": null,
+   "header": null
+  },
+  "plans_o20_scratch": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/integrate_o20/plans_base.csv",
+   "exists": false,
+   "sha256": null,
+   "bytes": null,
+   "header": null
+  }
+ },
+ "code_files": {
+  "IA": {
+   "path": "independent_audit/ia_core.py",
+   "sha256": "0e4a3265743af32593f57d50fa445eaafaff891de78e47a3fb589abfcaacb208"
+  },
+  "V2": {
+   "path": "main_v2/v2_core.py",
+   "sha256": "30741b58276f8278057648b1e7302c7d335d593546a5587970a3f22021e96fc3"
+  },
+  "PC": {
+   "path": "o_rev_avail_ds_pit_count/pclib.py",
+   "sha256": "0e4a84b747dcbfc7992de0821bacd90355f275eda3417b13f8a64937a5c62a26"
+  },
+  "AV": {
+   "path": "o_rev_avail_ds_pit_count/avail.py",
+   "sha256": "be18f65f3bdd0e66dbc2ac51a1b6c24f7e2fff27156513f01c0845f1b5e08294"
+  },
+  "O18": {
+   "path": "o_delist_rev_backfill_allpit/o18lib.py",
+   "sha256": "1ace006192acac5493293de0c92c1c58b49b3fb6fe1306a61c0bddb6e40b2db6"
+  },
+  "VL": {
+   "path": "o_delist_rev_backfill_allpit/v7x_lib.py",
+   "sha256": "c5746d6a83f433b4dbaa2c15d9e86645deb5cb32b55e10a3a055e7fd1372d1ef"
+  },
+  "V4": {
+   "path": "o_v4_revenue_patch_official/v4lib.py",
+   "sha256": "eb200e686d9af75f5e92a78430bc44696d7617fd73841f9b69fa48a9749453c5"
+  },
+  "DRJ": {
+   "path": "o_disposal_rejudge/drj_core.py",
+   "sha256": "3980a698484e23214d8e0ae86de14e0163ca8dac8d30d0d3ed8d1202f65dc595"
+  },
+  "O3": {
+   "path": "o_infra_v3_rebuild/o3_core.py",
+   "sha256": "1919c0f3ba97663f22834018ba762e3d5ba4b3cb34bbfd2b26261758d3c32c3b"
+  },
+  "ST": {
+   "path": "o_stagger_tranche/st_core.py",
+   "sha256": "42783daeedd0a45695e3cf317bfa51dc2640cdccdaf46cc9942a160d4073017f"
+  },
+  "ENV": {
+   "path": "o_v7_listing_exec_engine/v7env.py",
+   "sha256": "5c51d9fed9e924be8b797554e2184abc12fee6a891b671fcf607233cf5624541"
+  },
+  "XD": {
+   "path": "o_exec_engine_rewrite_v7x/x_data.py",
+   "sha256": "0cb307fb75e46d951d0d9239b3419252dcad75afc05f4e366109efc3b6794919"
+  },
+  "XE": {
+   "path": "o_exec_engine_rewrite_v7x/x_exec.py",
+   "sha256": "7e5b62d83f2fd06886578f5e7bd4de22d31f1fe3cdb38759b27eec79b96882c7"
+  },
+  "XS": {
+   "path": "o_exec_engine_rewrite_v7x/x_stats.py",
+   "sha256": "4e82856e201f3dddc644a97f63039f4ca313bd4c0dfd7ae54f2b94727253ad2d"
+  },
+  "CE": {
+   "path": "o_engine_delist_consideration/cz_engine.py",
+   "sha256": "509ab232f726390b1301032ebd07512bde7a21a75308c70a2ab96c215b094f37"
+  },
+  "CV": {
+   "path": "o_engine_delist_consideration/cz_v7x.py",
+   "sha256": "8bb07300220b070e6a72ba8b639ddbc272beb1fdc609f3941d55739a11d8c9ab"
+  },
+  "I20V": {
+   "path": "integrate_o20/run_v7x.py",
+   "sha256": "4fc5297bfb4039715b1d96c7ca9c04b96113d1820538fb88fda4cd5941b5a18f"
+  },
+  "I20P": {
+   "path": "integrate_o20/run_paper.py",
+   "sha256": "87488f82deae7f0abf6986104fc51aa8bfdcaa23721116cc265afd4b6f20bfc0"
+  },
+  "I20G": {
+   "path": "integrate_o20/gen_v7x_plans.py",
+   "sha256": "5b1fd54d08a75a2782532e3eba737cc72e6654f88342d7ab00a40d7133d4eb34"
+  },
+  "I20D": {
+   "path": "integrate_o20/decide.py",
+   "sha256": "124a86c9e91b76ff4624748225943750e7a7ac217471dd835f502d0c76a3bace"
+  },
+  "FS": {
+   "path": "o_forward_sequential_v2/fslib.py",
+   "sha256": "df36da2998b193e71d7cfe2d8639056fd89a62a7fb959c262c20dbbc3e92444f"
+  }
+ },
+ "rules": {
+  "G-01": {
+   "title": "兩條管線",
+   "pipeline": "both",
+   "definition": [
+    "PAPER：名單 O18.build→PC.VU→V2.V2；面板 D-01b；訊號日＝每月第一個日>=11 的面板日；營收 YLp/Y5p（P-03）；unavail＝A_UB；外國股只在放回層判定（P-07）；金融 FINMASK；放回＝GOV；營收百分位分母＝|el|；遮罩現行正式＝M1_paper；引擎 CE.simulate consideration",
+    "V7X：名單 VL.make→JV7R→V4→V2；面板 D-01a＋P；訊號日＝j 日（j=0..12）；營收 R_FIX/Y5_FIX 改寫版（L-03）；unavail＝MC(seed) OR A_UB；外國股 FORMASK；金融 FIN2MASK；放回＝GAP OR GOV；營收百分位分母＝|el_rev|；遮罩現行正式＝DM_BASE；引擎 CV.CSim consideration；seeds 0..19"
+   ],
+   "code_ref": [
+    "O18:92-124",
+    "VL:147-167"
+   ],
+   "diff_vs_v1": "v1 只寫「見 v7x_lib.py docstring」"
+  },
+  "G-02": {
+   "title": "日期記號",
+   "pipeline": "both",
+   "definition": [
+    "d＝訊號日（面板日），t＝d 的面板列號",
+    "e＝列號 t+1 的面板日（下一個面板列；不是下一個 GOOD 日）",
+    "m＝錨定月（V7X）；紙上 m＝Period(d)",
+    "j∈{0..12}",
+    "日期比較皆為日，除 A_UB 分類用 13:30"
+   ],
+   "code_ref": [
+    "V2:158",
+    "V4:157"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "G-03": {
+   "title": "欄位順序",
+   "pipeline": "both",
+   "definition": [
+    "兩面板欄位相同：1249 檔、4 碼、字串遞增、無 00 開頭",
+    "「欄位序」與所有長度 N 陣列（含亂數）依此順序；N=1249"
+   ],
+   "code_ref": [
+    "check_panel.json"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "C-01": {
+   "title": "TRADED 與 GOOD",
+   "pipeline": "both",
+   "definition": [
+    "TRADED[t,c]＝close_raw 有限",
+    "GOOD[t]＝TRADED 檔數 >= 300",
+    "唯一非 GOOD 日：2018-01-13",
+    "V7X 管線在補 P 後重算"
+   ],
+   "code_ref": [
+    "IA:41",
+    "IA:53-54",
+    "O3:53"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "C-02": {
+   "title": "下市價補值 P",
+   "pipeline": "V7X",
+   "definition": [
+    "delist_prices 只寫入 close_raw 原為 NaN 的格：close、open、high、value、ret 照寫，flag=0",
+    "之後重算 TRADED、GROW、MYADJ、GOOD、PREVC",
+    "紙上管線不套 P"
+   ],
+   "code_ref": [
+    "O3:34-57",
+    "XD:38-43"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "C-03": {
+   "title": "GROW 與 MYADJ",
+   "pipeline": "both",
+   "definition": [
+    "GROW[t,c]＝TRADED ? 1+ret（NaN 當 0） : 1",
+    "MYADJ[t,c]＝TRADED ? prod_{s<=t} GROW[s,c] : NaN"
+   ],
+   "code_ref": [
+    "IA:43",
+    "IA:46"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "C-04": {
+   "title": "名單側 V60 與 S52（gapfix）",
+   "pipeline": "both",
+   "definition": [
+    "只在 GOOD 日列上滾動；非 GOOD 日＝NaN、不補值",
+    "EX＝{2017-08-03, 2018-07-12} ∪ [2024-02-15, 2024-03-15]",
+    "V60[t,c]：往回 60 個 GOOD 日（含 t）；窗不足 60 列或窗內有非 EX 日的 value 為 NaN → NaN；否則＝窗內非 NaN 的平均",
+    "S52[t,c]＝MYADJ[t,c] / max(窗內 MYADJ 非 NaN)；窗＝252 個 GOOD 日（含 t）；窗不足或窗內有非 EX 日的 MYADJ 為 NaN → NaN"
+   ],
+   "code_ref": [
+    "V2:31-58"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "C-05": {
+   "title": "跳動點與開盤漲停",
+   "pipeline": "both",
+   "definition": [
+    "tick(p)：p<10→0.01；<50→0.05；<100→0.1；<500→0.5；<1000→1；否則 5",
+    "lim＝成交日 < 2015-06-01 ? 0.07 : 0.10",
+    "ref[e,c]＝close_raw[e]/(1+ret[e])；flag[e]==1 → e 之前最後一筆收盤",
+    "lu＝floor(ref*(1+lim)/tick(ref*(1+lim)) + 1e-9) * tick(ref*(1+lim))",
+    "gap_up[e,c]＝open[e] 有限 且 ref 有限 且 open[e] >= lu - 1e-6"
+   ],
+   "code_ref": [
+    "IA:143-164"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "C-06": {
+   "title": "y3",
+   "pipeline": "both",
+   "definition": [
+    "y3(Y,m)[c]＝mean(Y[m-1,c], Y[m-2,c], Y[m-3,c])；任一 NaN 或任一月不在 Y 索引 → NaN；單位 %",
+    "d >= 2021-03-01 用 5 年表，否則長表"
+   ],
+   "code_ref": [
+    "IA:124-131",
+    "V2:22",
+    "V2:151-155"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "C-07": {
+   "title": "年增率表基本版本",
+   "pipeline": "both",
+   "definition": [
+    "YL：tw_revenue 同月同代碼 sii 優先去重→水準表 lv（月×代碼，索引補成連續月）→ (lv/lv.shift(12)-1)*100，僅 lv.shift(12)>0 有值",
+    "Y5：rev_5y 的 yoy 欄；同月同代碼取最後一筆；索引補成連續月"
+   ],
+   "code_ref": [
+    "IA:100-110",
+    "IA:112-122"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "C-08": {
+   "title": "FINMASK",
+   "pipeline": "both",
+   "definition": [
+    "stock_list.industry=='金融保險業' ∪ 代碼前兩碼 '28' ∪ {'5876','5880'}；用現行 stock_list"
+   ],
+   "code_ref": [
+    "V2:84-87"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "C-09": {
+   "title": "股池：先篩後取前 300",
+   "pipeline": "both",
+   "definition": [
+    "base[c]＝V60[t,c] 有限且 >= 1e7 且 close_raw[t,c] 有限且 >= 10",
+    "在 base 內依 V60 由大到小（穩定排序，同值依欄位序）取前 min(300,|base|)＝top",
+    "排序母體＝面板全部 1249 檔（金融、外國、處置股先佔名額）"
+   ],
+   "code_ref": [
+    "V2:159-165",
+    "V4:158-163",
+    "PC:182-186"
+   ],
+   "diff_vs_v1": "v1 未寫順序；另一讀法（先取前 300 再篩）o20 複製員實測 Jaccard 0.896",
+   "task_item": 5
+  },
+  "C-10": {
+   "title": "排序、同分與選股",
+   "pipeline": "both",
+   "definition": [
+    "sc 四捨五入到 10 位小數（NaN 當 -9）",
+    "排序鍵：sc 大→小；y3tie 大→小（NaN 當 -1e18；+inf 最大）；欄位序小→大",
+    "候選＝排序前 |el| 名；依序：gap_up[e,c] 且 c 不在 held → 跳過；否則入選；滿 10 檔停",
+    "held＝上一個有產生名單的訊號日的名單（非引擎實際持股）；第一期為空",
+    "|el| < 50 → 該訊號日不產生名單、held 不更新",
+    "名單內順序＝入選順序"
+   ],
+   "code_ref": [
+    "V2:185-215"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "P-01": {
+   "title": "紙上訊號日",
+   "pipeline": "PAPER",
+   "definition": [
+    "面板 D-01b；每個日曆月第一個 day>=11 的面板日（起算 2005-01-01）",
+    "保留條件：Period(d)-1 <= last_full_month(Y)；y3(Y,Period(d)) 有限檔數 > 100；d < 2026-10-12",
+    "Y＝d>=2021-03-01 ? Y5p : YLp（P-03 補值後）；last_full_month(Y)＝非 NaN 檔數 >= 0.8*各月非 NaN 檔數中位數 的最後一個月",
+    "結果 245 日：2006-04-11～2026-09-11（無 2024-01）；END＝2026-10-12"
+   ],
+   "code_ref": [
+    "IA:55-64",
+    "V2:130-149",
+    "V2:79-81"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "P-02": {
+   "title": "紙上成交日",
+   "pipeline": "PAPER",
+   "definition": [
+    "e＝d 的下一個面板列"
+   ],
+   "code_ref": [
+    "V2:158"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "P-03": {
+   "title": "紙上營收表（B1 只補缺）",
+   "pipeline": "PAPER",
+   "definition": [
+    "YLp＝YL 複本、Y5p＝Y5 複本",
+    "B1 每列 (code, ym, yoy_pct 有限)：ym 在索引內且該格為 NaN（無此欄先新增）→ 填入；不覆蓋既有值"
+   ],
+   "code_ref": [
+    "O18:73-85",
+    "O18:99-103"
+   ],
+   "diff_vs_v1": "v1 只寫「B1 補回值」",
+   "task_item": 1
+  },
+  "P-04": {
+   "title": "A_UB",
+   "pipeline": "PAPER",
+   "definition": [
+    "觸發：deadline_case(d) ∈ {'D=S','D>S'}",
+    "deadline_case(d)：rm＝Period(d)-1；rm∈{2019-01,2023-03}→'D>S'；rm==2020-01→'D=S'；否則 D＝TCAL2 中第一個 >= d 所在月 10 日；D<d→'D<S'；D==d→'D=S'；D>d→'D>S'；TCAL2＝TAIEX 日期 ∪ 面板日期",
+    "觸發時 ym＝Period(d)-1（d 的日曆月前一月）；U[c]＝classify(d,c,ym,'V6') 狀態 != 'AVAIL'；未觸發 U 全 False",
+    "U[c] 為真 → y3[c] 改用 y3(Y, Period(d)-1)[c]",
+    "紙上無資料邊界豁免"
+   ],
+   "code_ref": [
+    "O18:41-52",
+    "V2:101-106",
+    "V2:170-176"
+   ],
+   "diff_vs_v1": "附註 5 只寫觸發與月份；未寫 classify 與 !=AVAIL",
+   "task_item": 6
+  },
+  "P-04a": {
+   "title": "classify V6",
+   "pipeline": "both",
+   "definition": [
+    "S＝d；C1330＝S+13:30；C24＝S+1 日；時間戳轉台北時間",
+    "MOPS(ts_mops_ann_date)：ann<S→AVAIL；==S→UNDET；>S→UNAVAIL",
+    "快照(ts_tasi_upstream_firstseen；T 為 NaT 跳過)：T<=C1330→AVAIL；否則 T_prev 有值且其日期 > S→UNAVAIL；否則 UNDET；覆寫：source in {'upstream','tasi'} 且 T_prev 空 且 T > C24+3 日 → NONE",
+    "新聞(ts_news_mentions，需過數值閘門)：has_time：ts<=C1330→AVAIL；ts<C24→UNDET；否則 NONE；無時間：日期<S→AVAIL；==S→UNDET；否則 NONE",
+    "數值閘門 'sig'：v＝rev_k 有限且>0；tv＝tw_revenue.revenue_k_twd（同 code,ym 第一筆）與 rev_5y.revenue 的有限值；z＝str(int(round(v))) 尾端 0 的個數；tol＝0.5*10^z+1.0；存在 t∈tv 使 |v-t|<=tol",
+    "合併：AVAIL 與 UNAVAIL 並存→UNDET；有 AVAIL→AVAIL；有 UNAVAIL→UNAVAIL；有 UNDET→UNDET；否則 NONE",
+    "A_UB 只看 == AVAIL；UNDET、UNAVAIL、NONE 都算未公告"
+   ],
+   "code_ref": [
+    "AV:22-48",
+    "AV:50-93"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 6
+  },
+  "P-05": {
+   "title": "紙上處置遮罩 M0／M1_paper／M2",
+   "pipeline": "PAPER",
+   "definition": [
+    "e＝d 的下一個面板列日期（最後一列時 e=d）",
+    "M0＝{disposal_5y: start<=d<=end}（不看公告日）∪ (d<=2021-09-23 ? {official_universe: (start<=d<=end) or (start<=e<=end)} : ∅)",
+    "M1_paper（現行正式）＝M0 ∪ (d>2021-09-23 ? {disposal_5y: date<=d and start<=e<=end} ∪ {universe_announce: announce<=d and start<=e<=end} : ∅)",
+    "M2＝{universe_announce: announce<=d and start<=e<=end}"
+   ],
+   "code_ref": [
+    "IA:134-140",
+    "O18:55-70",
+    "I20P:24-42"
+   ],
+   "diff_vs_v1": "v1 只有 M0",
+   "task_item": 7
+  },
+  "P-06": {
+   "title": "紙上合格集合 el_base",
+   "pipeline": "PAPER",
+   "definition": [
+    "el_base＝top ∩ y3 有限（已套 P-04；FINMASK 的 y3＝NaN）∩ S52[t] 有限 ∩ 非遮罩 ∩ open[e] 有限 ∩ TRADED[e]",
+    "無明文外國股條件"
+   ],
+   "code_ref": [
+    "V2:157-183"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "P-07": {
+   "title": "is_foreign（紙上放回層）",
+   "pipeline": "PAPER",
+   "definition": [
+    "is_foreign(c)＝c[:2]=='91' 或 名稱集合中任一 n：'KY' in n.upper() 或 n.endswith('DR') 或 n.startswith('F-')",
+    "名稱集合＝{NAME[c]} ∪ SNAPN[c]",
+    "NAME[c]＝tw_revenue（依 月,代碼,sii 優先 排序去重）中該代碼最早一個月的名稱；tw_revenue 無此代碼才用 stock_list.name；皆無＝空字串",
+    "SNAPN[c]＝三個 industry_snap 檔中第一欄為 4 位數字的列的第二欄（去空白與雙引號）",
+    "不使用 delist_official、merger_consideration 的名稱"
+   ],
+   "code_ref": [
+    "PC:98-107",
+    "PC:118-120"
+   ],
+   "diff_vs_v1": "v1 未寫名稱來源；delist_official 讀法在面板上多判 6 檔外國（1262,1592,2936,6422,6452,8480），不是程式行為",
+   "task_item": 1
+  },
+  "P-08": {
+   "title": "放回集合 A 與 cause",
+   "pipeline": "PAPER",
+   "definition": [
+    "el0＝top ∩ S52 有限 ∩ 非遮罩 ∩ open[e] 有限 ∩ TRADED[e] ∩ 非 FINMASK",
+    "A＝{c ∈ el0 : y3[c] 為 NaN 且 cause(c,d) ∈ GOV}",
+    "GOV＝{TRUNC, IFRS13, POST13, POST13_R5, PRE12, HOLE, NEVER_DOM}",
+    "cause(c,d)，m＝Period(d)：(1) is_foreign→FOREIGN",
+    "(2) d<2021-03-01：c 不在 tw_revenue 水準表→NEVER_DOM；對 x∈{m-1,m-2,m-3,m-13,m-14,m-15}：lv[x,c] NaN→month_cause(c,x,d)；有限且<=0 且 x<=m-13→BASE_LE0",
+    "month_cause：lr/fr＝該檔最後/最早有營收月；ltm＝面板最後成交日所在月；x>lr：2009-12<=ltm<=2012-12→TRUNC；否則 x>=2013-01 且 lr>=2012-12→(d<=2013-12-31 ? IFRS13 : POST13)；否則 PRE12；x<fr→NEWLIST；其餘→HOLE",
+    "(3) d>=2021-03-01：c 不在 rev_5y yoy 表→(c 在 tw_revenue ? POST13_R5 : NEVER_DOM)；對 x∈{m-1,m-2,m-3}：yoy NaN→x>最後有 yoy 月→POST13_R5；x<最早有 yoy 月→NEWLIST；否則 HOLE",
+    "(4) 優先序 [TRUNC, IFRS13, POST13, POST13_R5, PRE12, HOLE, NEWLIST, BASE_LE0] 第一個；皆無→UNKNOWN",
+    "原因判定用未補值的原始 tw_revenue 水準與 rev_5y yoy；不看 A_UB 回退"
+   ],
+   "code_ref": [
+    "PC:126-165",
+    "PC:176-194"
+   ],
+   "diff_vs_v1": "v1 只寫「pclib.VU 的定義」",
+   "task_item": 1
+  },
+  "P-09": {
+   "title": "紙上三種放回值與分數",
+   "pipeline": "PAPER",
+   "definition": [
+    "el＝el_base ∪ A；n＝|el|；s52p＝S52 在 el 內平均名次/n",
+    "opt：A 的 rp＝1.0；norm＝el∖A 的 rp＝（y3 在 norm 內平均名次）/n；A 的 y3tie＝+inf",
+    "p90：A 的 rp＝0.9；norm 同上；A 的 y3tie＝norm 的 y3 第 90 百分位（線性內插）",
+    "carry：A 每檔 b=1..24 取 y3(Y, Period(d)-b)[c] 第一個有限值；無→移出 A；rp＝y3 在 el 內平均名次/n；y3tie＝y3",
+    "sc＝0.5*s52p+0.5*rp；非 el＝NaN；之後 C-10"
+   ],
+   "code_ref": [
+    "PC:195-222"
+   ],
+   "diff_vs_v1": "v1 未寫分母、p90 次排序值、24 個月上限",
+   "task_item": 8
+  },
+  "P-10": {
+   "title": "紙上名單輸出",
+   "pipeline": "PAPER",
+   "definition": [
+    "每訊號日：signal(d), exec(e), picks（10 檔，排名順序）"
+   ],
+   "code_ref": [
+    "O18:105-124"
+   ],
+   "diff_vs_v1": "—"
+  },
+  "L-01": {
+   "title": "錨定月與 j 日",
+   "pipeline": "V7X",
+   "definition": [
+    "ANCH＝以 D-01a＋P、R_FIX/Y5_FIX（未改寫）照 P-01 規則得到的官方訊號日所屬月份（246 個月：2006-04..2026-09）",
+    "D(m)：m==2019-02→2019-02-15；m==2023-04→2023-04-12；否則 m 月 10 日；取 TAIEX 日曆（不含面板獨有日）中第一個 >= 該日",
+    "day_for(m,j)＝TAIEX 日曆中 D(m) 之後第 j 個日期；不在面板、非 GOOD、或其後無 GOOD 面板日 → 無",
+    "d 的下一個面板列非 GOOD → 該月跳過",
+    "de(j)＝day_for(2026-10,j)；無或 > 面板最後一日 → 面板最後一日；只保留 d < de(j)",
+    "e＝d 的下一個面板列",
+    "特例：j0 首日 2006-04-10；j2 無 2018-01；j7 無 2026-09；農曆年附近 j 日可落到下一日曆月（例 錨定月 2020-01、j=9 → 2020-02-03）"
+   ],
+   "code_ref": [
+    "ST:91-121",
+    "VL:26-39"
+   ],
+   "diff_vs_v1": "v1 只寫「13 j」",
+   "task_item": 8
+  },
+  "L-02": {
+   "title": "V7X 的 y3 月份",
+   "pipeline": "V7X",
+   "definition": [
+    "y3(Y, m-back)，m＝錨定月；Y 依 d>=2021-03-01 切換；FINMASK 的 y3＝NaN"
+   ],
+   "code_ref": [
+    "VL:104-109"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "L-03": {
+   "title": "V7X 營收表（REAL）",
+   "pipeline": "V7X",
+   "definition": [
+    "長表缺口格＝YL（C-07，重新索引到 R_FIX）為 NaN 且 R_FIX 有值：B1 有 (code,ym)→改成 B1.yoy_pct；無→設 NaN",
+    "B1 其餘 (code,ym)：在索引內且該格 NaN→填入",
+    "Y5_FIX 同法（缺口格＝rev_5y yoy 為 NaN 且 Y5_FIX 有值）",
+    "o18 正式計數：長表缺口 2052（改 961、設缺 1091、新增 0）；5 年表缺口 0"
+   ],
+   "code_ref": [
+    "VL:63-94"
+   ],
+   "diff_vs_v1": "v1 一句話帶過",
+   "task_item": 1
+  },
+  "L-04": {
+   "title": "MC(seed)",
+   "pipeline": "V7X",
+   "definition": [
+    "d < D(m)：全 True",
+    "d == D(m) 或 (m==2020-02 且 d<=2020-02-14)：u＝numpy.random.default_rng([seed, YYYYMMDD(d), 0]).random(N) < PCOL",
+    "其餘：全 False",
+    "m-1 ∈ [2026-01,2026-08]：D15＝TAIEX 中第一個 >= m 月 15 日；d<D15→u|=IS15；d==D15→u|=IS15 & (default_rng([seed, YYYYMMDD(d), 15]).random(N) < PCOL)",
+    "PCOL[c]＝c∈FIN ? 1.0 : p_by_industry.get(stock_list.industry, p_overall)；IS15[c]＝c∈INS15",
+    "N=1249、欄位序；numpy 2.5.3（PCG64）"
+   ],
+   "code_ref": [
+    "ST:137-152",
+    "V2:91-97"
+   ],
+   "diff_vs_v1": "v1 只寫「MC(seed)」",
+   "task_item": 8
+  },
+  "L-05": {
+   "title": "V7X 的 A_UB 與邊界豁免",
+   "pipeline": "V7X",
+   "definition": [
+    "ub(d)＝P-04（用 d 的日曆月：deadline_case(d)、分類月份 Period(d)-1；非錨定月）",
+    "U(d)＝u_mc(m,d,seed) OR ub(d)",
+    "例外：ub(d) 有任何 True 且 y3(Y,m-1) 有限檔數 < 100 → U(d)＝u_mc（實際：2006-04-10、2021-03-10）",
+    "U[c] 為真 → y3 用 y3(Y,m-1)"
+   ],
+   "code_ref": [
+    "VL:42-51",
+    "VL:157-162"
+   ],
+   "diff_vs_v1": "附註 5 未寫豁免判斷式",
+   "task_item": 6
+  },
+  "L-06": {
+   "title": "V7X 處置遮罩 DM_BASE／M2",
+   "pipeline": "V7X",
+   "definition": [
+    "T_V4＝rejudge[in_panel]（公告日 announce）∪ disposal_5y 中代碼在面板且 (code,start) 不在前者的列（公告日 date）",
+    "DMT(d)＝{T_V4: 公告日<=d and start<=e<=end}",
+    "DM_BASE(d)（現行正式）＝DMT(d) ∪ (d<=2021-09-23 ? {official_universe: (start<=d<=end) or (start<=e<=end)} : ∅)",
+    "M2(d)＝{universe_announce: announce<=d and start<=e<=end}"
+   ],
+   "code_ref": [
+    "DRJ:37-47",
+    "V4:92-117",
+    "VL:52-62",
+    "I20G:22-31"
+   ],
+   "diff_vs_v1": "v1 寫「DMT ∪ 官方全歷史」",
+   "task_item": 7
+  },
+  "L-07": {
+   "title": "FORMASK",
+   "pipeline": "V7X",
+   "definition": [
+    "FOREIGN＝foreign_codes（o_rev_survivorship/data_freeze.json）∪ {面板欄位以 '91' 開頭} ∪ {delist_official 名稱以 'F-' 開頭或大寫含 'KY'}"
+   ],
+   "code_ref": [
+    "V4:66-70",
+    "V4:79"
+   ],
+   "diff_vs_v1": "v1 未定義；與 P-07 相差 6 檔",
+   "task_item": 1
+  },
+  "L-08": {
+   "title": "FIN2MASK",
+   "pipeline": "V7X",
+   "definition": [
+    "c∈FIN 或 delist_official 名稱含任一：'銀','證','金控','證金','產保','壽','票券','產險','人壽','投信','合庫','信託'",
+    "y3 的 NaN 化仍用 FINMASK"
+   ],
+   "code_ref": [
+    "V4:71-75"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "L-09": {
+   "title": "V7X 合格與放回集合",
+   "pipeline": "V7X",
+   "definition": [
+    "ok＝top ∩ S52 有限 ∩ 非遮罩 ∩ open[e] 有限 ∩ TRADED[e] ∩ 非 FIN2MASK ∩ 非 FORMASK",
+    "el_rev＝ok ∩ y3 有限；miss＝ok ∩ y3 NaN",
+    "A＝{c∈miss : (c∈GAP 且 d<=GAP[c]) 或 cause(c,d)∈GOV}（cause 的 m＝d 的日曆月）",
+    "GAP＝{delist_official four=='True' 的代碼→date}，排除 FOREIGN 與 is_fin"
+   ],
+   "code_ref": [
+    "V4:155-173",
+    "VL:110-120",
+    "V4:76-78",
+    "O3:205-209"
+   ],
+   "diff_vs_v1": "v1 寫「GAP ∪ GOV」",
+   "task_item": 1
+  },
+  "L-10": {
+   "title": "V7X 三種放回值與分數",
+   "pipeline": "V7X",
+   "definition": [
+    "opt/p90：el＝el_rev ∪ A；pr52＝S52 在 el 內平均名次/|el|；prr＝y3 在 el_rev 內平均名次/|el_rev|；A 的 prr＝1.0 或 0.9；A 的 y3tie＝+inf（opt）或 el_rev 的 y3 第 90 百分位（p90）",
+    "carry：A 每檔 b=1..24 取 y3(Y,m-b)[c] 第一個有限值；無→移出 A；el＝ok ∩ y3 有限；pr52、prr 皆為 el 內百分位；y3tie＝y3",
+    "sc＝0.5*pr52+0.5*prr；之後 C-10"
+   ],
+   "code_ref": [
+    "VL:121-145"
+   ],
+   "diff_vs_v1": "v1 未定義；分母與 P-09 不同",
+   "task_item": 8
+  },
+  "L-11": {
+   "title": "V7X 名單輸出",
+   "pipeline": "V7X",
+   "definition": [
+    "欄：variant,j,seed,signal,exec,exec_idx,picks,inserted；exec_idx＝e 的 V7 面板列號（0 起）；picks 排名順序；inserted＝picks ∩ A",
+    "每個 REAL 變體 63820 列（o18 正式）"
+   ],
+   "code_ref": [
+    "VL:163-167"
+   ],
+   "diff_vs_v1": "—"
+  },
+  "E-00": {
+   "title": "引擎設定",
+   "pipeline": "V7X",
+   "definition": [
+    "cfg＝{tier, mode:'GROW', model:'K5T', cost:'normal'|'stress', stress_odd_extra:true, rank_right:true, f1:true, f2:true, f3:0.5, f4:true}",
+    "settle＝E-20（bound='main'）；cmode='consideration'"
+   ],
+   "code_ref": [
+    "I20V:18-37"
+   ],
+   "diff_vs_v1": "v1 只寫 grid"
+  },
+  "E-01": {
+   "title": "引擎基本陣列",
+   "pipeline": "V7X",
+   "definition": [
+    "C,O,V,R,F＝補 P 後的 close_raw,open,value,ret,flag",
+    "TR＝C 有限；G＝TR ? 1+R(NaN→0) : 1；CF＝C 前值補；PC[t]＝CF[t-1]；ADJ[t]＝TR ? G*PC/C : 1（非有限→1）；GOOD＝TR 檔數>=300"
+   ],
+   "code_ref": [
+    "XD:31-51"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "E-02": {
+   "title": "引擎側 V60",
+   "pipeline": "V7X",
+   "definition": [
+    "GOOD 日列上同 C-04 的 V60",
+    "放回全日曆後逐欄 ffill(limit=3)（對所有 NaN 生效，含 GOOD 日因窗內缺值的 NaN）"
+   ],
+   "code_ref": [
+    "XD:52-57",
+    "XD:61"
+   ],
+   "diff_vs_v1": "程式行為偏離 V7X frozen_spec「窗內不得缺值」（o19 G1）",
+   "task_item": 2
+  },
+  "E-03": {
+   "title": "σ60",
+   "pipeline": "V7X",
+   "definition": [
+    "GOOD 日列上 R 的 60 列滾動標準差（ddof=1，min 40 個非 NaN），逐欄 ffill；放回全日曆後再 ffill"
+   ],
+   "code_ref": [
+    "XD:58-62"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "E-04": {
+   "title": "vrank",
+   "pipeline": "V7X",
+   "definition": [
+    "每列 t：母體＝全部 1249 檔中 V60[t]（E-02）有限且>=1e7 且 CF[t] 有限且>=10",
+    "依 V60 大→小（穩定排序，同值依欄位序）名次 1..；不在母體→NaN",
+    "成交日 t 用前一列：VRp[t]=VR[t-1]；V60p[t]=V60[t-1]；SIGp[t]=σ60[t-1]"
+   ],
+   "code_ref": [
+    "XD:63-73"
+   ],
+   "diff_vs_v1": "v1 未定義；frozen_spec 寫「收盤>=10」，程式用前值補收盤 CF（o19 G2）",
+   "task_item": 2
+  },
+  "E-05": {
+   "title": "分桶",
+   "pipeline": "V7X",
+   "definition": [
+    "DEC＝VRp 有限且<=300 ? clip(ceil(VRp/30),1,10) : 10",
+    "OASH＝oa_share_by_dec[DEC]；ZSH＝VRp 有限且<=300 ? zcap.share_by_dec[DEC] : zcap.share_default",
+    "零股名次桶＝(VRp>=150 或 NaN) ? 1 : 0",
+    "零股價格桶（PC[t]；NaN 當 0）：<50→0；[50,100)→1；[100,300)→2；>=300→3",
+    "OCB＝odd.buy[價格桶][名次桶]；OCS＝max(odd.sell[價格桶][名次桶],0)"
+   ],
+   "code_ref": [
+    "XE:33-50"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 2
+  },
+  "E-06": {
+   "title": "漲跌停價",
+   "pipeline": "V7X",
+   "definition": [
+    "REF[t]＝F==1 ? PC : C/G；lim＝t<2015-06-01 ? 0.07 : 0.10",
+    "LIMUP＝floor(REF*(1+lim)/tick+1e-9)*tick；LIMDN＝ceil(REF*(1-lim)/tick-1e-9)*tick；tick 取 REF*(1±lim) 所在級距"
+   ],
+   "code_ref": [
+    "XE:27-31",
+    "XD:75"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "E-07": {
+   "title": "零股成交價與整股／零股邊界",
+   "pipeline": "V7X",
+   "definition": [
+    "t < 2020-10-26（盤後零股）：ODDP[t]＝C[t]",
+    "t >= 2020-10-26（盤中零股）：ODDP[t]＝O[t]*(1+drift)；gap＝O/PC-1（無效→0）；drift＝drift.vals[searchsorted(drift.edges, gap, side='right')]"
+   ],
+   "code_ref": [
+    "XE:38-44",
+    "XD:17"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 8
+  },
+  "E-08": {
+   "title": "引擎 DISP",
+   "pipeline": "V7X",
+   "definition": [
+    "DISP[t,c]＝T_V4（L-06）中存在 start<=IDX[t]<=end 的列（不看公告日）",
+    "與名單遮罩無關；M2 整合未改"
+   ],
+   "code_ref": [
+    "XD:93-107"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 7
+  },
+  "E-09": {
+   "title": "起始資金 GROW",
+   "pipeline": "V7X",
+   "definition": [
+    "t0＝名單第一列的訊號日列號；t0 收盤現金＝tier*CPI[2006]/CPI[2026]（係數 0.7649078503404548）；無持股；無現金流",
+    "tier：30 萬 3e5；100 萬 1e6；300 萬 3e6；1000 萬 1e7（2026 幣值）"
+   ],
+   "code_ref": [
+    "CV:33",
+    "XD:143-145",
+    "I20V:28"
+   ],
+   "diff_vs_v1": "v1 只寫 GROW",
+   "task_item": 8
+  },
+  "E-10": {
+   "title": "每日順序",
+   "pipeline": "V7X",
+   "definition": [
+    "1 股數*=ADJ[t]",
+    "2 cash_late 併入現金",
+    "3 tr[c]＝TR[t,c] 且 O[t,c] 有限",
+    "4 對價結算觸發與到期（E-21）",
+    "5 換股日→E-11；否則有順延單→E-17 順延日",
+    "6 權益＝現金+cash_late+Σ股數*CF[t]+待撥款+Σ請求權；淨值＝權益/起始現金",
+    "引擎跑到面板最後一列；統計截到 e(j)"
+   ],
+   "code_ref": [
+    "CV:38-131"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "E-11": {
+   "title": "換股日開盤前",
+   "pipeline": "V7X",
+   "definition": [
+    "清空全部順延單",
+    "凍結持股（持股>0 且 tr 假）→E-22",
+    "待撥款到期併入現金",
+    "可交易持股小數股 S-floor(S+1e-9) 以 O[t] 轉現金，不計成本",
+    "→E-12"
+   ],
+   "code_ref": [
+    "CV:75-120"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 3
+  },
+  "E-12": {
+   "title": "目標股數",
+   "pipeline": "V7X",
+   "definition": [
+    "cur＝持股>0 且 tr 真；U＝cur ∪ pk；k＝|pk|；凍結的非名單持股不在 U",
+    "avail＝現金+Σ_cur 股數*O[t]；hi＝avail/k*(1-0.02)",
+    "p＝PC[t]；L＝floor(T/(1000p)+1e-12)；q＝floor((T-1000Lp)/p+1e-9)；名單股目標＝1000L+max(q,0)；非名單 0；delta＝目標-floor(持股+1e-9)",
+    "need(T)＝Σ_U cost_est(delta)；非名單且在 DISP 的賣出不計",
+    "need(hi)<=現金→T=hi；否則 [0,hi] 二分 40 次取 need<=現金 的下界"
+   ],
+   "code_ref": [
+    "XE:272-305"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 8
+  },
+  "E-13": {
+   "title": "cost_est",
+   "pipeline": "V7X",
+   "definition": [
+    "a=|delta|；L=a//1000；q=a%1000；fr＝E-16",
+    "處置賣出：價＝C[t]-tick(C[t])；整股、零股部分各一筆：-v+max(20,fr*v)+0.003*v",
+    "整股：v＝1000*L*O[t]*(1+side*imp(L))；side*v+max(20,fr*v)+(賣 ? 0.003*v : 0)；imp 用全部 L 張、不套上限",
+    "零股：v＝q*ODDP[t]*(1+side*oddc)；同式"
+   ],
+   "code_ref": [
+    "XE:122-140"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "E-14": {
+   "title": "整股成交：K5T 與參與上限",
+   "pipeline": "V7X",
+   "definition": [
+    "參與上限：oa_pred＝OASH*V60p；非有限或<=0→1 張；否則 max(1, floor(0.20*oa_pred/(1000*PC[t])))；超過部分順延",
+    "imp＝max(0.001+0.5*SIGp*sqrt(Q/OA), tick(O[t])/O[t])；Q＝成交張數*1000*PC[t]；OA＝OASH*V[t]（當日實際成交值）；張數=0、OA 無效或 SIGp 無效→省略平方根項；壓力 +0.004（加在 max 之後）",
+    "成交價＝O[t]*(1±imp)；v＝1000*張數*成交價；手續費 max(20,fr*v)；賣出稅 0.003*v"
+   ],
+   "code_ref": [
+    "XE:73-86",
+    "XE:114-120",
+    "XE:143-157"
+   ],
+   "diff_vs_v1": "v1 只寫 K5T",
+   "task_item": 8
+  },
+  "E-15": {
+   "title": "零股成交",
+   "pipeline": "V7X",
+   "definition": [
+    "量上限：t>=2020-10-26：floor(1.0*ZSH*V60p/ODDP)；更早：floor(0.5*ZSH*V60p/C[t])；V60p 無效→0；超過→只成交上限，其餘順延",
+    "oddc：買＝OCB（壓力 *2 再 +0.004）；賣＝OCS（壓力 +0.004）",
+    "v＝股數*ODDP*(1±oddc)；手續費 max(20,fr*v)；賣出稅 0.003*v"
+   ],
+   "code_ref": [
+    "XE:91-112",
+    "XE:159-175"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 8
+  },
+  "E-16": {
+   "title": "手續費與稅",
+   "pipeline": "V7X",
+   "definition": [
+    "一般：t<2015-01-01→0.001425*0.6；之後 0.001425*0.28；壓力：全期 0.001425*0.6",
+    "每筆最低 20 元；一筆＝每檔每日整股一筆、零股一筆（處置賣出亦各一筆）",
+    "證交稅＝賣出金額*0.003"
+   ],
+   "code_ref": [
+    "XE:69-71"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 8
+  },
+  "E-17": {
+   "title": "執行順序與順延",
+   "pipeline": "V7X",
+   "definition": [
+    "換股日：U 依 delta 小→大（穩定排序，同值依欄位序）；非名單且在 DISP 的賣出→E-18，未賣完順延；漲跌停擋住（買 O>=LIMUP-1e-6；賣 O<=LIMDN+1e-6）→整筆順延；買單 cost_est(完整 delta)>現金+1e-9→整筆順延；先零股後整股；上限未成交部分順延",
+    "順延日：依待成交股數小→大；tr 假者跳過續留；賣量＝min(待賣, round(持股))，<=0 取消；在 DISP→E-18；跌停擋住→當日跳過；否則先零股後整股",
+    "順延日買：漲停擋住→跳過；Lmax＝floor(現金/(O*1000*1.05))（現金<=0→0）；L＝min(待買張數,Lmax)；q＝待買%1000；零股金額+手續費 > 現金-L*O*1050→當日不下零股；整股 L 張仍套參與上限",
+    "未成交續留到下一個換股日清空"
+   ],
+   "code_ref": [
+    "XE:305-359"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 8
+  },
+  "E-17a": {
+   "title": "換股日停牌的非名單持股（讀法 a）",
+   "pipeline": "V7X",
+   "definition": [
+    "tr 假的持股不進入 U：不產生賣單、不產生順延單",
+    "留在帳上（CF 計價），到之後某個換股日當天可成交且仍不在名單時才賣；非換股日復牌不賣",
+    "符合 E-22 時於換股日轉現金"
+   ],
+   "code_ref": [
+    "XE:274-276",
+    "CV:77"
+   ],
+   "diff_vs_v1": "v1 與 frozen_spec 都未寫",
+   "task_item": 3
+  },
+  "E-18": {
+   "title": "處置期賣出",
+   "pipeline": "V7X",
+   "definition": [
+    "適用：賣出日在 DISP 且（換股日）非名單；順延日只看 DISP",
+    "量上限 floor(0.20*V[t]/C[t])；超過順延",
+    "價＝C[t]-tick(C[t])；無衝擊、無零股價差、不受漲跌停",
+    "整股、零股部分各一筆手續費（最低 20）與稅",
+    "款項隔日入帳（cash_late）"
+   ],
+   "code_ref": [
+    "XE:177-196"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "E-19": {
+   "title": "30 萬 wholelot 格",
+   "pipeline": "V7X",
+   "definition": [
+    "唯一差別：t<2020-10-26 零股量上限＝0（買賣皆不成交、列入順延）",
+    "目標股數仍含零股；need 仍估零股成本；處置賣出仍可賣零股"
+   ],
+   "code_ref": [
+    "I20V:24-27"
+   ],
+   "diff_vs_v1": "v1 無此格",
+   "task_item": 8
+  },
+  "E-20": {
+   "title": "對價結算表 cons_main",
+   "pipeline": "V7X",
+   "definition": [
+    "events_v2 每列（last_trade 空白跳過；代碼不在面板跳過）：ltU＝last_trade；term＝terminate_date 或 ltU+14 日曆天",
+    "lt＝面板中日期<=max(term,ltU) 的最後成交列（無或為最後一列→跳過）；lc＝C[lt]；trig＝lt+1；ti＝第一個日期>=term 的列；pay＝min(ti+20, 最後列)",
+    "面板 lt 日期 < ltU-7 天 → price_gap：固定賣出（每股 lc，列 lt+1）",
+    "cash：現金請求權（每股 cash，列 pay）",
+    "swap/conversion/mixed（存續股在面板且有 s）：s＝存續股在 succ_first_trade 當日起第一個有成交且有開盤的列；ratio 有限→股票請求權（比例 ratio，列 s，空窗期每股 lc）；mixed 另加現金（每股 cash，列 pay）與特別股固定賣出（每股 pref_ratio*pref_value，列 s）",
+    "swap_ur（存續股在面板、有 s、lt 當日存續股有收盤）：股票請求權，比例＝lc/存續股 C[lt]",
+    "acq_ur 或股票型但存續股不在面板/無 s：現金請求權（每股 lc，列 pay）",
+    "unknown：現金請求權（每股 lc，列 pay）；distress：固定賣出歸零（列 lt+1）"
+   ],
+   "code_ref": [
+    "CE:36-87"
+   ],
+   "diff_vs_v1": "v1 只寫 build_settlement(events_v2, main, d=0.057)",
+   "task_item": 4
+  },
+  "E-21": {
+   "title": "結算流程",
+   "pipeline": "V7X",
+   "definition": [
+    "觸發（t==trig 且持股>0）：持股歸零、該檔順延單取消；各部分建立請求權：價值＝股數*每股值；股票型空窗期價值＝股數*lc、q＝股數*比例；可結算列＝max(規則列,t)",
+    "t>=可結算列：現金型→併入現金（任何日；不計息、不課稅、無手續費）；股票型→存續股持股+q（任何日）；固定賣出型→只在換股日：入帳＝價值*(1-0.003-當日手續費率)（歸零型 0）",
+    "未結算請求權以其價值計入權益"
+   ],
+   "code_ref": [
+    "CV:48-74"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 4
+  },
+  "E-22": {
+   "title": "表外永久停牌（E23）",
+   "pipeline": "V7X",
+   "definition": [
+    "對象：換股日凍結持股且未被 E-21 轉成請求權（不在 events_v2、last_trade 空白、或 E-20 跳過）",
+    "lt[c]＝面板最後成交列；代碼重用：delist_official four=='True' 且終止日後仍有成交→lt＝終止日（含）前最後成交列、uu＝終止日後第一個成交列；否則 uu＝∞；只對 lt 日期<=面板末日-30 天者建規則；lc＝C[lt]；ltd＝lt 日期",
+    "在 merger_consideration：dd＝delist_date 或 ltd+14 日曆天；type=='cash' 且 cash 有值→f＝cash/lc、rel＝pay_date 或 dd+14 天；type=='failure'→f=0、rel=ltd；其餘 f=1、rel=dd；type=='cash'→MCASH＝(di＝第一個日期>=dd 的列, pi＝min(di+20,最後列), uu)",
+    "不在 merger_consideration：f=1、rel＝ltd+14 日曆天",
+    "XR[c]＝(f, ri＝第一個日期>=rel 的列, uu)",
+    "換股日 t：在 MCASH 且 di<=t<uu→轉待撥款＝股數*CF[t-1]*f*(當日 0050 報酬因子)，逐日隨 0050，至 pi<t 的換股日併入現金（當日不乘 0050）；在 MCASH 者不再看 XR",
+    "否則在 XR 且 ri<=t<uu→現金+=股數*CF[t-1]*f、持股歸零、無成本；否則續留"
+   ],
+   "code_ref": [
+    "XD:110-141",
+    "CV:80-100"
+   ],
+   "diff_vs_v1": "v1 未定義；o3/V7X 文字「終止日之後第一個換股日」，程式對表外者用「最後成交+14 日曆天」",
+   "task_item": 4
+  },
+  "E-23": {
+   "title": "壓力成本",
+   "pipeline": "V7X",
+   "definition": [
+    "整股 imp+0.004；零股買 oddc*2+0.004、賣 +0.004；手續費全期 0.001425*0.6"
+   ],
+   "code_ref": [
+    "XE:64-71",
+    "XE:91-99"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "X-01": {
+   "title": "紙上成本率",
+   "pipeline": "PAPER",
+   "definition": [
+    "一般：買 0.001425*0.6+0.001＝0.001855；賣 0.001425*0.6+0.003+0.001＝0.004855",
+    "壓力：買賣各 0.005",
+    "比例成本；無最低手續費、無整股限制"
+   ],
+   "code_ref": [
+    "IA:24-28",
+    "O18:126"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "X-02": {
+   "title": "紙上引擎流程",
+   "pipeline": "PAPER",
+   "definition": [
+    "t0＝第一個訊號日列；t1＝2026-10-12 列；t0 收盤現金 1.0",
+    "非換股日：市值*=GROW[t]",
+    "換股日：tr＝TRADED[t] 且 open 有限；持股到開盤 *=GROW[t]*open/close（tr 假不變）；凍結＝市值>0 且 tr 假（保留）；Vt＝可交易市值+現金；解 T：T*k+買率*Σmax(T_c-h_c,0)+賣率*Σmax(h_c-T_c,0)＝Vt（[0,Vt/k] 二分 60 次取下界）；名單股設 T；現金歸零；開盤→收盤 *=close/open",
+    "結算表照 E-20（面板 D-01b，不補 P）；流程同 E-21，差別：股票請求權在換股日以 open 計入、非換股日以收盤計入；固定賣出入帳＝價值*(1-賣率)；表外永久停牌一直凍結"
+   ],
+   "code_ref": [
+    "CE:99-109",
+    "CE:143-212"
+   ],
+   "diff_vs_v1": "v1 只寫引擎名"
+  },
+  "S-01": {
+   "title": "seeds 平均",
+   "pipeline": "V7X",
+   "definition": [
+    "每格 20 seeds 的日報酬逐日算術平均（忽略 NaN；全為 NaN 當 0）後累乘，起點 1"
+   ],
+   "code_ref": [
+    "XS:95-97"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 8
+  },
+  "S-02": {
+   "title": "年化與超額（日曆年化）",
+   "pipeline": "V7X",
+   "definition": [
+    "e(j)＝jscan_end_days[\"AB_V7_B10|J{j}\"]；a＝該 j 第一個訊號日",
+    "CAGR＝(nav[e]/nav[a])^(1/yrs)-1；yrs＝(e-a) 日曆天/365.25；0050 同日期；exc＝CAGR-CAGR_0050",
+    "Y19on（主欄）：起點＝第一個 >=2019-01-01 的日（2019-01-02）收盤；終點 e(j)",
+    "三段 S0612/S1318/S19on：起點＝區間內第一個交易日的前一交易日收盤；終點＝區間內最後交易日"
+   ],
+   "code_ref": [
+    "XS:33-35",
+    "XS:46-67",
+    "I20V:41-58"
+   ],
+   "diff_vs_v1": "v1 未定義",
+   "task_item": 8
+  },
+  "S-03": {
+   "title": "t 值",
+   "pipeline": "V7X",
+   "definition": [
+    "窗＝訊號日收盤→下一訊號日收盤，最後一窗到 e(j)；訊號日取自 plans_j7.csv（strat=='AB_V7_B10', seed==0, 同 j）",
+    "x＝策略窗報酬-0050 同窗報酬；t＝mean/(std(ddof=1)/sqrt(n))；2019 起：窗起點>=2019-01-01"
+   ],
+   "code_ref": [
+    "XS:12-18",
+    "XS:27-30",
+    "XS:38-43"
+   ],
+   "diff_vs_v1": "v1 未定義"
+  },
+  "S-04": {
+   "title": "j 彙總與逐格取最差",
+   "pipeline": "V7X",
+   "definition": [
+    "med＝13 個 j 的中位數；p10＝numpy.percentile(.,10) 線性內插；超額＝每個 j 的超額再取中位數",
+    "正式數字＝每格每指標取 REAL_opt/p90/carry 的最小值；最差變體可逐格逐指標不同"
+   ],
+   "code_ref": [
+    "XS:83-92",
+    "I20D:13-14"
+   ],
+   "diff_vs_v1": "v1 附註 1",
+   "task_item": 8
+  },
+  "S-05": {
+   "title": "紙上統計",
+   "pipeline": "PAPER",
+   "definition": [
+    "窗 245 個（訊號日收盤→下一訊號日收盤；最後到 2026-10-12）；淨值與 0050 取 <= 該日的最後一筆",
+    "日曆年化（主口徑）：prod(1+r)^(365.25/days)-1；days＝末窗終點-首窗起點",
+    "ia 口徑（並列）：prod(1+r)^(12/窗數)-1",
+    "t＝mean(r-r50)/std(ddof=1)*sqrt(n)",
+    "分段依窗起點月：SEG1 2006-01~2012-12；SEG2 2013-01~2018-12；SEG3 2019-01 起；HOLD 2024-01 起；SEL ~2019-04；VAL 2019-05 起",
+    "拿掉最好 3 年：依窗起點年加總超額，去掉最大 3 年後重算 t",
+    "逐格取最差：每指標取 opt/p90/carry 最小"
+   ],
+   "code_ref": [
+    "O18:138-172",
+    "I20P:70-77",
+    "I20D:11-12",
+    "FS:88-90",
+    "FS:133-136"
+   ],
+   "diff_vs_v1": "v1 只有 ia 文字",
+   "task_item": 8
+  },
+  "S-06": {
+   "title": "報表格",
+   "pipeline": "V7X",
+   "definition": [
+    "100 萬一般；100 萬壓力；300 萬一般；1000 萬一般；30 萬一般（標準）；30 萬一般（wholelot）；30 萬壓力"
+   ],
+   "code_ref": [
+    "I20V:29-30"
+   ],
+   "diff_vs_v1": "v1 只有 3 級距 × 2 成本"
+  },
+  "N-01": {
+   "title": "紙上與 V7X 外國股定義不同",
+   "pipeline": "new_undefined",
+   "definition": [
+    "紙上 is_foreign（P-07）只用於放回層；V7X 用 FORMASK（L-07）；6 檔不同：1262,1592,2936,6422,6452,8480；紙上正式名單含 6452/1262/6422"
+   ],
+   "code_ref": [
+    "PC:118-120",
+    "V4:66-79"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-02": {
+   "title": "營收百分位分母不同",
+   "pipeline": "new_undefined",
+   "definition": [
+    "紙上 opt/p90 ÷|el|；V7X ÷|el_rev|"
+   ],
+   "code_ref": [
+    "PC:211-213",
+    "VL:135-137"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-03": {
+   "title": "營收底表不同",
+   "pipeline": "new_undefined",
+   "definition": [
+    "紙上 tw_revenue 年增率+B1 只補缺；V7X R_FIX 缺口格改 B1 或設缺"
+   ],
+   "code_ref": [
+    "O18:73-85",
+    "VL:63-94"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-04": {
+   "title": "金融遮罩不同",
+   "pipeline": "new_undefined",
+   "definition": [
+    "紙上 FINMASK；V7X 的 ok 用 FIN2MASK"
+   ],
+   "code_ref": [
+    "V2:84-87",
+    "V4:71-75"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-05": {
+   "title": "紙上面板只在 scratchpad",
+   "pipeline": "new_undefined",
+   "definition": [
+    "D-01b 不在研究資料夾；缺 2024-01-02~02-05；不補 P"
+   ],
+   "code_ref": [
+    "IA:18"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-06": {
+   "title": "兩個 0050 檔",
+   "pipeline": "new_undefined",
+   "definition": [
+    "紙上統計用 fslib 副本；V7X 用 jonatw 檔；sha 不同"
+   ],
+   "code_ref": [
+    "FS:88-90",
+    "XD:76"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-07": {
+   "title": "TAIEX 日曆與面板不一致",
+   "pipeline": "new_undefined",
+   "definition": [
+    "2026-09-20 只在 TAIEX→j7 無 2026-09、j>=8 的 2026-09 訊號日比面板日計數早一列；2018-01-13 只在面板且非 GOOD→j2 無 2018-01"
+   ],
+   "code_ref": [
+    "ST:112-121",
+    "VL:35"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-08": {
+   "title": "cause 的月份",
+   "pipeline": "new_undefined",
+   "definition": [
+    "用 d 的日曆月、不看回退；回退後才缺值者可能為 UNKNOWN 而不放回"
+   ],
+   "code_ref": [
+    "PC:141-165"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-09": {
+   "title": "A_UB 非 AVAIL 含無證據",
+   "pipeline": "new_undefined",
+   "definition": [
+    "沒有任何時間戳證據者在觸發日視為未公告"
+   ],
+   "code_ref": [
+    "AV:88-93",
+    "O18:49"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-10": {
+   "title": "「2019 起」兩個起點",
+   "pipeline": "new_undefined",
+   "definition": [
+    "Y19on＝2019-01-02 收盤；S19on＝2018 最後交易日收盤"
+   ],
+   "code_ref": [
+    "XS:50-56",
+    "I20V:41-44"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-11": {
+   "title": "t 的訊號日來源",
+   "pipeline": "new_undefined",
+   "definition": [
+    "REAL 名單的 t 用 orig 名單 seed 0 的訊號日"
+   ],
+   "code_ref": [
+    "XS:13-18"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-12": {
+   "title": "同 delta 執行順序",
+   "pipeline": "new_undefined",
+   "definition": [
+    "穩定排序，同值依欄位序（o19 G3）"
+   ],
+   "code_ref": [
+    "XE:306"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-13": {
+   "title": "順延日零股現金判定的張數",
+   "pipeline": "new_undefined",
+   "definition": [
+    "L＝min(待買張數, 現金張數上限)，未先套參與上限（o19 G4）"
+   ],
+   "code_ref": [
+    "XE:350-355"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-14": {
+   "title": "股數浮點殘差",
+   "pipeline": "new_undefined",
+   "definition": [
+    "順延單股數可為浮點；q＝d%1000 未取整（o19 G5）"
+   ],
+   "code_ref": [
+    "XE:351"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-15": {
+   "title": "need(T) 估計口徑",
+   "pipeline": "new_undefined",
+   "definition": [
+    "全部張數、不套上限、用當日實際成交值；漲跌停股仍估成本"
+   ],
+   "code_ref": [
+    "XE:284-296"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-16": {
+   "title": "衝擊用當日成交值",
+   "pipeline": "new_undefined",
+   "definition": [
+    "F4 只改參與上限；衝擊 OA 仍用 V[t]"
+   ],
+   "code_ref": [
+    "XE:81",
+    "XE:116"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-17": {
+   "title": "wholelot 實際語意",
+   "pipeline": "new_undefined",
+   "definition": [
+    "目標仍含零股；處置賣出仍可賣零股"
+   ],
+   "code_ref": [
+    "I20V:24-27"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-18": {
+   "title": "MC 亂數相依性",
+   "pipeline": "new_undefined",
+   "definition": [
+    "依 numpy default_rng（PCG64）與欄位序；PCOL 用現行 stock_list 產業"
+   ],
+   "code_ref": [
+    "ST:137-152"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-19": {
+   "title": "held 定義",
+   "pipeline": "new_undefined",
+   "definition": [
+    "看上一期名單，非實際持股；|el|<50 不更新"
+   ],
+   "code_ref": [
+    "V2:199-215"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-20": {
+   "title": "引擎 V60 補值",
+   "pipeline": "new_undefined",
+   "definition": [
+    "ffill(limit=3) 連 GOOD 日 NaN 也補（o19 G1）"
+   ],
+   "code_ref": [
+    "XD:61"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-21": {
+   "title": "vrank 收盤條件",
+   "pipeline": "new_undefined",
+   "definition": [
+    "用前值補收盤 CF（o19 G2）"
+   ],
+   "code_ref": [
+    "XD:64"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-22": {
+   "title": "引擎讀快取",
+   "pipeline": "new_undefined",
+   "definition": [
+    "x_cache.npz 存在即直接讀，不重算"
+   ],
+   "code_ref": [
+    "XD:82-87"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-23": {
+   "title": "M1_paper 的組成",
+   "pipeline": "new_undefined",
+   "definition": [
+    "2021-09-23 後聯集 disposal_5y（date 當公告日）與 universe_announce"
+   ],
+   "code_ref": [
+    "I20P:24-33"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-24": {
+   "title": "名單股當日不可成交",
+   "pipeline": "new_undefined",
+   "definition": [
+    "引擎未防護（名單規則保證 e 有開盤）"
+   ],
+   "code_ref": [
+    "XE:276"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-25": {
+   "title": "現金請求權入帳後閒置",
+   "pipeline": "new_undefined",
+   "definition": [
+    "入帳日非換股日時閒置到下一換股日"
+   ],
+   "code_ref": [
+    "CV:65-66"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-26": {
+   "title": "換股日清空順延單",
+   "pipeline": "new_undefined",
+   "definition": [
+    "上一期未成交單一律作廢"
+   ],
+   "code_ref": [
+    "CV:77",
+    "XE:222"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-27": {
+   "title": "處置賣出用引擎 DISP",
+   "pipeline": "new_undefined",
+   "definition": [
+    "不看公告日、不隨 M2 改變"
+   ],
+   "code_ref": [
+    "XD:93-107"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  },
+  "N-28": {
+   "title": "紙上壓力成本",
+   "pipeline": "new_undefined",
+   "definition": [
+    "每邊固定 0.5%，不另計稅費"
+   ],
+   "code_ref": [
+    "IA:26-28"
+   ],
+   "diff_vs_v1": "v1 與既有文字規格都未寫"
+  }
+ },
+ "known_limits": [
+  "未重跑程式驗證「照規格重建＝程式輸出」",
+  "V7X REAL 名單驗收目標不在磁碟上，需保管員重產封存",
+  "紙上面板 D-01b 只在 scratchpad",
+  "N-01～N-04 為兩條管線間的不一致，未裁定"
+ ]
+}
