@@ -1,0 +1,65 @@
+{
+ "utc": "2026-11-12T06:06:36.837142+00:00",
+ "runtime_s": 55.7,
+ "checks": {
+  "M1|ALLPIT_REAL_opt": {
+   "lists_sha": "b0057354275ffbe3f2daaaa7c8f1d882507dc9951bc88e628fdfe97ba7d8726c",
+   "eq_integrate_o20_lists_sha": true,
+   "eq_k_paper_stats_lists_sha": true,
+   "rows_eq_k_paper_lists": true,
+   "n_signal": 245
+  },
+  "M1|ALLPIT_REAL_p90": {
+   "lists_sha": "a71c1894f9edd0e9d3ba17fd6f784c1d5c429b6b965fb8fbff1003717b005c85",
+   "eq_integrate_o20_lists_sha": true,
+   "eq_k_paper_stats_lists_sha": true,
+   "rows_eq_k_paper_lists": true,
+   "n_signal": 245
+  },
+  "M1|ALLPIT_REAL_carry": {
+   "lists_sha": "1211bf08b295d899084700b04d590e0f5ce3725c4b1cdfe7f471ff8d26a7d6fa",
+   "eq_integrate_o20_lists_sha": true,
+   "eq_k_paper_stats_lists_sha": true,
+   "rows_eq_k_paper_lists": true,
+   "n_signal": 245
+  },
+  "M2|ALLPIT_REAL_opt": {
+   "lists_sha": "6fc5d129d034b365ac870b22d95cd7117bf26a4958b6fce7578140f097e4b05e",
+   "eq_integrate_o20_lists_sha": true,
+   "eq_k_paper_stats_lists_sha": true,
+   "rows_eq_k_paper_lists": true,
+   "n_signal": 245
+  },
+  "M2|ALLPIT_REAL_p90": {
+   "lists_sha": "95bdd75a893e73365bcf55a6bc7945bea770c94dd4bcaf1bdd63228c31bfa9c2",
+   "eq_integrate_o20_lists_sha": true,
+   "eq_k_paper_stats_lists_sha": true,
+   "rows_eq_k_paper_lists": true,
+   "n_signal": 245
+  },
+  "M2|ALLPIT_REAL_carry": {
+   "lists_sha": "9eb7536fd21c00ef98ec9b95814e7c5432af3cbc32fea46742c21897a4a35982",
+   "eq_integrate_o20_lists_sha": true,
+   "eq_k_paper_stats_lists_sha": true,
+   "rows_eq_k_paper_lists": true,
+   "n_signal": 245
+  }
+ },
+ "out": {
+  "M1": {
+   "file": "sealed/paper_lists_M1.csv.gz",
+   "rows": 735,
+   "sha256": "f1a0c699a6a59657351ecd2aa56140f7118f882428a18c59de478db7259ac0e4"
+  },
+  "M2": {
+   "file": "sealed/paper_lists_M2.csv.gz",
+   "rows": 735,
+   "sha256": "cc80e157cd89606e781aa1274e41cd4431a2f3af176de465144d7bbfa635e0d0"
+  }
+ },
+ "src_sha256": {
+  "o_delist_rev_backfill_allpit/o18lib.py": "1ace006192acac5493293de0c92c1c58b49b3fb6fe1306a61c0bddb6e40b2db6",
+  "integrate_o20/run_paper.py": "87488f82deae7f0abf6986104fc51aa8bfdcaa23721116cc265afd4b6f20bfc0",
+  "o_g6_allpit_list_trace_stage2/out/k_paper_lists.csv.gz": "4a04852ec1f48df5c5f84d079062b8a0eaf7293274c6adef4d26c2b707d2242f"
+ }
+}
