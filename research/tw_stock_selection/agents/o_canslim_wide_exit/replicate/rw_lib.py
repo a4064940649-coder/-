@@ -72,7 +72,7 @@ class Pos:
 # ------------------------------------------------------------------ 組合引擎
 def simulate(d, cands, exit_static=None, why_parts=None, fstop=None, hold=None, capital=1_000_000.0, nmax=10,
              cost="normal", idle="cash", lot_rule=True, same_day=True, t_start=None, liq=0.05, e50_lot=False,
-             ban=None, record=True):
+             ban=None, record=True, min_frac=None):
     """cands[t]＝訊號日 t 的候選（已排序）；t+1 開盤成交。
     exit_static：T×N bool（移動停損／均線下穿／50 日線的聯集）；why_parts：[(名稱, T×N bool)]。
     fstop：進場價固定停損 %（含息累積報酬）；hold：固定持有交易日數。
@@ -195,6 +195,8 @@ def simulate(d, cands, exit_static=None, why_parts=None, fstop=None, hold=None, 
                 avail = (cash - reserve) if e50 else cash
                 if e50_lot: avail += cash2
                 budget = target if target < avail else avail
+                if min_frac is not None and budget < min_frac * target:      # 凍結後才加的審查用選項（預設關閉）
+                    cnt["dust_skip"] = cnt.get("dust_skip", 0) + 1; continue
                 if liq is not None:
                     cap = liq * AMT[t, i]
                     if budget > cap:

@@ -345,7 +345,7 @@ def spa(X, B=5000, q=1 / 6, seed=20261114):
     Tn = max(0.0, float((np.sqrt(n) * dbar / om).max()))
     thr = -np.sqrt(2 * np.log(np.log(n)))
     mu_c = dbar * ((np.sqrt(n) * dbar / om) >= thr)
-    Tb = np.maximum(0.0, (np.sqrt(n) * (bm - dbar + mu_c) / om).max(axis=1))
+    Tb = np.maximum(0.0, (np.sqrt(n) * (bm - mu_c) / om).max(axis=1))   # 2026-11-14 修正：原本寫成 bm - dbar + mu_c（置中方向錯）
     return dict(T=Tn, p_consistent=float((Tb >= Tn).mean()), k=k, n=n)
 OUT["spa_full_10"] = spa(np.array([XS[c] for c in CANDS]).T)
 OUT["spa_2019_10"] = spa(np.array([XS[c][-94:] for c in CANDS]).T)
