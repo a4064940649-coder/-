@@ -1,0 +1,10 @@
+# 2026-11-14 第 1 段：python3 -I -B k_gen_plans.py（2 行程；base 完成並寫出 plans_base.csv 後，因同機其他工作被記憶體上限強制終止而由 K 停掉，改 1 行程續跑）
+base 0 30
+base 260 107
+base 520 196
+# 2026-11-14 第 2 段：python3 -I -B k_gen_plans.py 1（續跑：沿用 plans_base.csv，M2 用 1 行程）
+base resume: reuse plans_base.csv
+M2 0 29
+M2 260 174
+M2 520 342
+{"base_counts_eq_T1": {"REAL_opt": true, "REAL_p90": true, "REAL_carry": true}, "base_ends_eq_T1": true, "M2": {"rows_changed": 2816, "plans_changed": 780, "plans_changed_by_variant": {"REAL_opt": 260, "REAL_p90": 260, "REAL_carry": 260}, "n_signal_days": 58, "n_distinct_swaps": 75, "ends_eq_base": true, "swaps_pre2021_09_24": 75}}
