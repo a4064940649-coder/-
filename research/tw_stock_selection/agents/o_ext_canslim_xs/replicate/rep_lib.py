@@ -241,35 +241,25 @@ def signals(P, F, K, universe="twse", drop=None, use_market=True):
 
 # ---------------------------------------------------------------- 貼文口徑
 def post_trades(P, sig, K):
-    """每筆等額、不限檔數、下期開盤價進出。訊號日未持有→次日開盤買；
-    出場自進場當日收盤起檢查；賣出當日收盤即可再入選。"""
+    """每筆等額、不限檔數、下期開盤價進出。訊號日未持有→次日開盤買（無開盤價則該次訊號作廢）；
+    出場自進場當日收盤起檢查，成立→下一個有開盤價的交易日開盤賣；賣出當日收盤即可再入選。"""
     ex = K["ex1"] | K["ex2"]
     T = P.T
     out = []
     for i in np.where(sig.any(axis=0))[0]:
         s = sig[:, i]; e = ex[:, i]; o = P.O[:, i]
-        held = False; ent = -1
-        t = P.t0
-        pend_sell = False
-        while t < T:
+        held = False; pend = False; want = False; ent = -1
+        for t in range(P.t0, T):
+            ok = o[t] == o[t]
+            if held and pend and ok:
+                out.append((i, ent, t, 1)); held = False; pend = False
+            elif (not held) and want and ok:
+                held = True; ent = t
+            want = False
             if held:
-                if pend_sell and o[t] == o[t]:
-                    out.append((i, ent, t, 1)); held = False; pend_sell = False
-                    # 賣出當日收盤可再入選（落到下面 flat 分支）
-                else:
-                    if not pend_sell and e[t]: pend_sell = True
-                    elif pend_sell: pass
-                    t += 1
-                    continue
-            # flat（含剛賣出的當日）
-            if s[t] and t + 1 < T and o[t + 1] == o[t + 1]:
-                held = True; ent = t + 1; pend_sell = False
-                t += 1
-                # 進場當日收盤起檢查
-                if e[t]: pend_sell = True
-                t += 1
-                continue
-            t += 1
+                if (not pend) and e[t]: pend = True
+            elif s[t]:
+                want = True
         if held:
             out.append((i, ent, T - 1, 0))
     rows = []
@@ -329,6 +319,7 @@ def run_exec(P, sig, K, capital=1_000_000.0, nmax=10, cost="normal", cash_0050=F
                             orders=0, minfee_orders=0, liq_capped=0)
     e50r = (P.e50 / P.e50.shift(1) - 1).fillna(0).values
     codes = P.codes
+    held_at_close = set()
 
     def order_fee(val, lot_frac):
         f = 0.0
@@ -377,16 +368,14 @@ def run_exec(P, sig, K, capital=1_000_000.0, nmax=10, cost="normal", cash_0050=F
                 trades.append(dict(code=codes[i], buy_date=P.dstr[p["tb"]], sell_date=P.dstr[t], cost=p["cost"], proceeds=p["recv"], delist=0, hold=t - p["tb"]))
                 p["dead"] = True
             else:
-                p["val"] *= (1 - frac); p["shares"] = max(1, int(round(sh * (1 - frac)))); p["sold_part"] = True
+                p["val"] *= (1 - frac); p["shares"] = max(1, int(round(sh * (1 - frac))))
         for i in [j for j in pos if pos[j].get("dead")]:
             del pos[i]
         # ---- 開盤估算總權益
         eq = cash
         for i, p in pos.items():
             o = P.O[t, i]; ref = P.ref[t, i]
-            eq += p["val"] * (o / ref) if (o == o and ref == ref and ref > 0 and not p.get("sold_part")) else p["val"]
-        for p in pos.values():
-            p.pop("sold_part", None)
+            eq += p["val"] * (o / ref) if (o == o and ref == ref and ref > 0) else p["val"]
         # ---- 開盤買進（訊號日＝t-1，當時未持有）
         cand = np.where(sig[t - 1])[0]
         held_prev = held_at_close
