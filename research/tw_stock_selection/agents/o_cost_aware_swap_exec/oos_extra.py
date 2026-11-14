@@ -3,7 +3,7 @@
 (1) 選中變體（依事前規則的描述代表）各格配對差：挑選／驗證／保留／全期／2019 起／三段／盤中零股前後（30 萬 2020-10 前後分列）。
 (2) 逐年配對差（100 萬一般，各變體）；(3) 月配對差的均值、標準差、t 與有效樣本數（13 j 重疊）；淨值波動與最大回撤（t 的均值／波動拆解）。
 (4) 對同池等權（o_main_spa_breaks/bench.parquet 的 rEW_ABV4，官方換股窗）。
-(5) G3 的 N：PREREG 登記 2,581（2,573＋8）；研究中心在本題暫停期間另登記 46 條（外部貼文 2,573→2,619），故累計 2,627；DSR 兩個 N 並列。
+(5) G3 的 N：PREREG 登記 2,581（2,573＋8）；研究中心在本題暫停期間另登記 127 條（外部貼文 2,573→2,585→2,619、o_canslim_wide_exit 2,619→2,700，見 BACKLOG 2026-11-14），故累計 2,708；DSR 兩個 N 並列。
 (6) P1～P7 逐條核對。(7) P2 的 KS 以有效樣本數（÷4）重算。
 python3 -I -B oos_extra.py"""
 import sys, json, math, importlib.util
@@ -103,10 +103,10 @@ et = G.SP.eff_trials(Xf[:, np.std(Xf, 0) > 0])
 dsr = {}
 for tg in ['BASE'] + V8:
     x = M[tg].to_numpy()[m]
-    dsr[tg] = {f'DSR_N{n}': G.SP.dsr(x, sr_all, n)['DSR'] for n in (2581, 2627)}
+    dsr[tg] = {f'DSR_N{n}': G.SP.dsr(x, sr_all, n)['DSR'] for n in (2581, 2708)}
     dsr[tg]['DSR_LiJi'] = G.SP.dsr(x, sr_all, et['M_eff_LiJi'])['DSR']; dsr[tg]['SR_m'] = float(x.mean() / x.std(ddof=1))
-out['G3_N'] = dict(prereg_N=2581, center_N_before_this_topic_now=2619, cumulative_N_after=2627, N_matrix=int(Xf.shape[1]), M_eff_LiJi=float(et['M_eff_LiJi']),
-                   note='PREREG 寫於 N＝2,573 時（→2,581）；本題暫停期間研究中心另登記外部貼文 46 條（2,573→2,585→2,619），本題 8 條加上後累計 2,627。矩陣只含可取得序列（2,334＋8）。',
+out['G3_N'] = dict(prereg_N=2581, center_N_before_this_topic_now=2700, cumulative_N_after=2708, N_matrix=int(Xf.shape[1]), M_eff_LiJi=float(et['M_eff_LiJi']),
+                   note='PREREG 寫於 N＝2,573 時（→2,581）；本題暫停期間研究中心另登記 127 條（外部貼文 2,573→2,585→2,619；o_canslim_wide_exit 2,619→2,700），本題 8 條加上後累計 2,708。矩陣只含可取得序列（2,334＋8）。',
                    DSR=dsr)
 
 # (6) P1～P7
