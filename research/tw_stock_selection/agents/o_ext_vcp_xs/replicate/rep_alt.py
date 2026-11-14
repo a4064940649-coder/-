@@ -6,7 +6,7 @@ import rep_lib as L
 
 
 class AltData(L.Data):
-    def __init__(self, base, fill_gap=True, replace_from='2015-01-05', extend_delisted=True, only_src3=False):
+    def __init__(self, base, fill_gap=True, replace_from='2015-01-05', extend=True):
         of = pd.read_parquet(L.S + 'rep_vcp/official_long.parquet')
         of['date'] = pd.to_datetime(of['date'])
         of = of[(of.market == 'twse') & (of.volume > 0) & of.close.notna()]
@@ -16,20 +16,22 @@ class AltData(L.Data):
         self.dates = dates
         self.codes = base.codes
         pidx = base.dates
-        def ext(X, ffill=False):
-            d = pd.DataFrame(X, index=pidx, columns=base.codes).reindex(dates)
-            return d
-        P = {k: ext(getattr(base, k)) for k in ('C', 'O', 'H', 'L', 'V', 'VAL', 'F', 'FLAG', 'SRC')}
+        P = {k: pd.DataFrame(getattr(base, k), index=pidx, columns=base.codes).reindex(dates) for k in ('C', 'O', 'H', 'L', 'V', 'VAL', 'F', 'FLAG', 'SRC')}
         A = {c: W[c].reindex(index=dates, columns=base.codes) for c in W}
         has_off = A['close'].notna().any(axis=0).values           # 該檔在官方有資料
         d2 = np.broadcast_to(dates.values[:, None], P['C'].shape)
         rep = (d2 >= np.datetime64(replace_from)) & has_off[None, :]
-        if only_src3:
-            rep = rep & ((P['SRC'].values == 3) | np.isnan(P['SRC'].values) & (d2 > np.datetime64('2023-12-29')) & (d2 < np.datetime64('2024-02-15')))
-        if not extend_delisted:
-            # 面板最後一根之後不接
-            lastbar = np.array([np.nonzero(~np.isnan(P['C'].values[:, j]))[0][-1] for j in range(len(base.codes))])
-            rep = rep & (np.arange(len(dates))[:, None] <= np.maximum(lastbar, 0)[None, :]) | (rep & (d2 > np.datetime64('2023-12-29')) & (d2 < np.datetime64('2024-02-15')) & (lastbar[None, :] > np.searchsorted(dates.values, np.datetime64('2024-02-15'))))
+        pc = ~np.isnan(P['C'].values)
+        rows = np.arange(len(dates))[:, None]
+        firstbar = np.where(pc.any(0), pc.argmax(0), len(dates))
+        lastbar = np.where(pc.any(0), len(dates) - 1 - pc[::-1].argmax(0), -1)
+        rep = rep & (rows >= firstbar[None, :])                    # 面板第一根之前不補
+        if not extend:
+            rep = rep & (rows <= lastbar[None, :])                 # 面板最後一根之後不接
+        self.n_added_after_last = int((rep & (rows > lastbar[None, :]) & A['close'].notna().values).sum())
+        self.n_added_gap = int((rep & (d2 > np.datetime64('2023-12-29')) & (d2 < np.datetime64('2024-02-15')) & A['close'].notna().values).sum())
+        self.n_added_inside = int((rep & ~pc & A['close'].notna().values & (rows <= lastbar[None, :])).sum()) - (self.n_added_gap - int((rep & (rows > lastbar[None, :]) & (d2 > np.datetime64('2023-12-29')) & (d2 < np.datetime64('2024-02-15')) & A['close'].notna().values).sum()))
+        self.n_removed = int((rep & pc & A['close'].isna().values).sum())
         m = {'C': 'close', 'O': 'open', 'H': 'high', 'L': 'low', 'V': 'volume', 'VAL': 'amount'}
         for k, c in m.items():
             setattr(self, k, np.where(rep, A[c].values.astype(float), P[k].values))

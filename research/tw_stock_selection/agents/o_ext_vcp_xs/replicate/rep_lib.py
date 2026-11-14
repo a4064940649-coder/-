@@ -291,7 +291,7 @@ def ev_summary(ev, h, mask=None):
 
 # ------------------------------------------------------------------ 組合引擎
 def run_portfolio(D, sig, exit_rule='E3', idle='cash', K=10, capital=1_000_000.0, start=START, stress=0.0,
-                  zero_cost=False, idle_mode='spec', etf_intraday=None, log=False):
+                  zero_cost=False, idle_mode='spec', etf_intraday=None, log=False, delist_exit=False):
     """idle: 'cash'|'etf'。idle_mode: 'spec'（照規格：前一日收盤現金賺當日 0050 全日報酬）
        'conservative'：當日開盤買股用掉的現金不賺當日 0050（只賺到前一日），開盤賣股得款也不賺當日。
        'intraday'：用 etf_intraday（當日 0050 開盤→收盤報酬）修正：買股用掉的錢只賺隔夜，開盤賣股得款補賺盤中。"""
@@ -318,6 +318,8 @@ def run_portfolio(D, sig, exit_rule='E3', idle='cash', K=10, capital=1_000_000.0
     stats = dict(bought=0, held=0, lim_up=0, full=0, cant_afford=0, disp=0, no_open=0, cap5=0, before_start=0)
     lot_switch = np.datetime64('2020-10-26')
     hold_max = {'E1': 20, 'E2': 60}.get(exit_rule, 250)
+    # 凍結後加的診斷選項（預設關閉，不影響凍結數字）：下市股在最後一根 K 棒收盤強制出場，避免永遠不出場的殭屍部位
+    lastbar = T - 1 - np.argmax(D.has[::-1], axis=0)
 
     def can_sell(t, j):
         return (not np.isnan(D.C[t, j])) and (not D.lock_dn[t, j])
@@ -410,6 +412,8 @@ def run_portfolio(D, sig, exit_rule='E3', idle='cash', K=10, capital=1_000_000.0
         # 5. 收盤
         for j in list(pos.keys()):
             p = pos[j]
+            if delist_exit and t == lastbar[j] and t < T - 1:
+                do_sell(t, j, D.C[t, j], 'delist'); continue
             hd = t - p['e'] + 1
             if hd >= hold_max:
                 if can_sell(t, j):
@@ -432,6 +436,9 @@ def run_portfolio(D, sig, exit_rule='E3', idle='cash', K=10, capital=1_000_000.0
     res = dict(nav=pd.Series(nav, index=D.dates).dropna(), invested=float(np.nanmean(invested[si + 1:])),
                nheld=float(np.nanmean(nheld[si + 1:])), stats=stats, trades=pd.DataFrame(trades),
                inv_series=pd.Series(invested, index=D.dates).dropna())
+    # 凍結後加的診斷輸出（不影響任何數字）：資料終點仍未出場的部位
+    res['open_pos'] = [dict(code=D.codes[j], entry=D.dates[p['e']], sig_date=p['sig_date'], cost=p['cost'], value=p['u'] * D.Af[T - 1, j],
+                            last_bar=D.dates[np.nonzero(D.has[:, j])[0][-1]], flag=p['flag']) for j, p in pos.items()]
     return res
 
 
