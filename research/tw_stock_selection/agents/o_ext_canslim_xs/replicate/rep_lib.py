@@ -96,7 +96,7 @@ def _first_idx_ge(P, dts):
     return np.searchsorted(P.dates.values, np.asarray(dts, dtype="datetime64[ns]"), side="left")
 
 
-def fundamentals(P, pit=True):
+def fundamentals(P, pit=True, extra_epsy=None):
     """回傳 condC, condA, condR（T×N bool）與輸出欄位（EPS 年增、CAGR、營收均值）。"""
     T, N = P.T, P.N
     cidx = {c: i for i, c in enumerate(P.codes)}
@@ -122,6 +122,9 @@ def fundamentals(P, pit=True):
     for c, y, q, v in zip(f.code, f.y, f.q, f.eps_ytd):
         if q == 4:
             epsy[(c, y)] = v
+    if extra_epsy:
+        for kk, vv in extra_epsy.items():
+            epsy.setdefault(kk, vv)                         # 只補 fin_long 沒有的年度（審查用延伸，不影響凍結數字）
     condC = np.zeros((T, N), bool); condA = np.zeros((T, N), bool)
     vC = np.full((T, N), np.nan, np.float32); vA = np.full((T, N), np.nan, np.float32)
     for c, g in f.groupby("code"):
@@ -221,7 +224,7 @@ def tech(P, max_from_high=10.0, min_qty=500.0, rs_days=120, market_ma=60, trail=
                 fromhigh=fromhigh, avgq=avgq, sret=sret, iret=iret)
 
 
-def signals(P, F, K, universe="twse", drop=None, use_market=True):
+def signals(P, F, K, universe="twse", drop=None, use_market=True, t_start=None):
     condC, condA, condR = F[0], F[1], F[2]
     sig = np.ones((P.T, P.N), bool)
     parts = {"C": condC, "A": condA, "R": condR, "N": K["condN"], "S": K["condS"], "L": K["condL"]}
@@ -235,12 +238,12 @@ def signals(P, F, K, universe="twse", drop=None, use_market=True):
     else:
         sig &= (P.M >= 1)
     sig &= P.inbar & (P.Cf > 0)
-    sig[:P.t0] = False
+    sig[:(P.t0 if t_start is None else t_start)] = False
     return sig
 
 
 # ---------------------------------------------------------------- 貼文口徑
-def post_trades(P, sig, K):
+def post_trades(P, sig, K, t_start=None):
     """每筆等額、不限檔數、下期開盤價進出。訊號日未持有→次日開盤買（無開盤價則該次訊號作廢）；
     出場自進場當日收盤起檢查，成立→下一個有開盤價的交易日開盤賣；賣出當日收盤即可再入選。"""
     ex = K["ex1"] | K["ex2"]
@@ -249,7 +252,7 @@ def post_trades(P, sig, K):
     for i in np.where(sig.any(axis=0))[0]:
         s = sig[:, i]; e = ex[:, i]; o = P.O[:, i]
         held = False; pend = False; want = False; ent = -1
-        for t in range(P.t0, T):
+        for t in range(P.t0 if t_start is None else t_start, T):
             ok = o[t] == o[t]
             if held and pend and ok:
                 out.append((i, ent, t, 1)); held = False; pend = False
@@ -300,7 +303,7 @@ def post_tw_curve(P, tr, rt_cost=0.0):
 
 # ---------------------------------------------------------------- 可執行引擎
 def run_exec(P, sig, K, capital=1_000_000.0, nmax=10, cost="normal", cash_0050=False, board_lot_rule=True,
-             liq_cap=0.05, rank_key=None, t_start=None, same_day_slot=True):
+             liq_cap=0.05, rank_key=None, t_start=None, same_day_slot=True, e50_ov=None, e50_in=None, e50_cost=(0.000399 + 0.0003, 0.000399 + 0.001 + 0.0003)):
     """3.1 節規則。cost: normal / zero / stress。回傳 dict(nav, trades, counters)。"""
     T = P.T; t0 = P.t0 if t_start is None else t_start
     ex = K["ex1"] | K["ex2"]
@@ -333,6 +336,8 @@ def run_exec(P, sig, K, capital=1_000_000.0, nmax=10, cost="normal", cash_0050=F
         return f
 
     for t in range(t0 + 1, T):
+        if cash_0050 == "exact":
+            cash *= (1 + e50_ov[t])                         # 空位資金隔夜跟 0050（前收→開盤）
         cash_open = cash
         # ---- 開盤賣出
         for i in sorted(pos, key=lambda j: codes[j]):
@@ -423,7 +428,13 @@ def run_exec(P, sig, K, capital=1_000_000.0, nmax=10, cost="normal", cash_0050=F
             if not same_day_slot: slots_free_prev -= 1
         # ---- 收盤：市值滾動、出場檢查
         cash_delta = cash - cash_open
-        if cash_0050:
+        if cash_0050 == "exact":
+            # 開盤同時換手 0050：淨賣出 0050（買股）付賣方費率，淨買進付買方費率；之後賺 0050 盤中報酬（開盤→收盤）
+            if cost != "zero":
+                c50 = abs(cash_delta) * (e50_cost[1] if cash_delta < 0 else e50_cost[0])
+                cash -= c50; cnt["e50_cost"] = cnt.get("e50_cost", 0.0) + c50
+            cash *= (1 + e50_in[t])
+        elif cash_0050:
             # 近似：現金整日賺 0050 含息日報酬；淨買進 0050 付手續費，淨賣出再付 0.1% 證交稅
             if cost != "zero":
                 cash -= abs(cash_delta) * (FEE + (0.001 if cash_delta < 0 else 0.0) + 0.0002)
