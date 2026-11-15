@@ -1,0 +1,10 @@
+b2f08cc8679d1498add1c3e2c60eb6c9615f74ab18c27bf53cc47fb2337131ad  s20lib.py
+a9fe6df3bd657dc96016138f69dff6a07b7a30abd2691ac9761ecfaeb1b97d6f  prep.py
+9f3fc0587fe86fa98555205ee94e47a19871ec0daae06fd54054c47870f38a33  prereg_write.py
+acd515d23ffc502444714e2ae34805c7dddb137eae3dcb2b268a582aa439252d  train.py
+fabbad44dc5c41e7f35e1aa70c5c99f2a1ba6e3632b671f9a6df527594a074bf  validate.py
+29da68f3fa8f58490bdaeb9871fb41dab0e9ebdf01ef7a576623f9d7ae23007c  posthoc.py
+31d8cc320da12750b4a058e18941cf23f10e9af7b30c487ec10fbf338af087af  ../s17_surge_definition_family/s17lib.py
+c7f90069e6136ebd906eaebbd9b108c0bee0effdedb3fe3b47538da95de1afac  ../s10_exit_details/s10lib.py
+bbd341fe09bd4e9c6a028ef7acfbe917bc90ea968504104e4a2d9e484c7f36d8  ../s9_signal_timing/s9lib.py
+# validate.py 正式執行前記錄的 s20lib.py、prep.py、prereg_write.py、train.py、validate.py、FROZEN.json（1bf54853…）sha256 與上列相同；validate.py 只正式跑過一次（另有一次 --dry 乾跑：規則換成「全部通過」、輸出到 scratchpad，只測程式路徑，沒有看凍結規則的驗證期結果）。posthoc.py 在 validate.py 之後才寫。
