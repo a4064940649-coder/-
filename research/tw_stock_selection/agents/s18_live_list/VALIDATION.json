@@ -1,0 +1,1388 @@
+{
+ "ref": {
+  "source": "s10lib.make_signal_s10 + s10lib.simulate_s10（E0｜W10_70，100 萬，嚴成本）",
+  "panel": {
+   "T": 2876,
+   "N": 2142,
+   "end": "2026-10-22"
+  },
+  "main": {
+   "since2019": 0.4812582956064759,
+   "full": 0.34081721532380294,
+   "maxdd": -0.3340389329005301,
+   "n_trades": 387
+  }
+ },
+ "V1": {
+  "desc": "訊號日、L_MA 前 20 名（含順序）、F1 名單（含順序）逐檔相同",
+  "n_months": 129,
+  "n_ok": 129,
+  "fail": [],
+  "surge_max_abs_diff": 0.0
+ },
+ "V2": {
+  "desc": "以回測持股為輸入，E0 賣出名單逐檔相同",
+  "n_months": 129,
+  "n_ok": 129,
+  "fail": []
+ },
+ "V3": {
+  "desc": "F1 扣已持有、補滿空位、跳過次日開盤漲停後，和回測實際買進逐檔相同（金額規則造成的差異列在 fail）",
+  "n_months": 129,
+  "n_ok": 96,
+  "n_months_odd_lot_era": 72,
+  "n_ok_odd_lot_era": 72,
+  "n_fail_explained_by_whole_lot": 32,
+  "fail": [
+   {
+    "month": "2016-02",
+    "pred": [
+     "3413",
+     "8996",
+     "6230",
+     "2312",
+     "3605",
+     "1319",
+     "3023"
+    ],
+    "ref": [
+     "8996",
+     "2312",
+     "3605",
+     "1319"
+    ],
+    "skipped": [],
+    "exec_date": "2016-02-17",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "3413",
+      "exec_open": 95.0,
+      "one_lot_cost": 95373,
+      "target_est": 61912,
+      "lot_over_target": 1.54
+     },
+     {
+      "code": "6230",
+      "exec_open": 157.0,
+      "one_lot_cost": 157784,
+      "target_est": 61912,
+      "lot_over_target": 2.549
+     },
+     {
+      "code": "3023",
+      "exec_open": 65.3,
+      "one_lot_cost": 65572,
+      "target_est": 61912,
+      "lot_over_target": 1.059
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2016-05",
+    "pred": [
+     "4916",
+     "9911",
+     "2439"
+    ],
+    "ref": [
+     "4916",
+     "9911"
+    ],
+    "skipped": [],
+    "exec_date": "2016-05-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2439",
+      "exec_open": 65.8,
+      "one_lot_cost": 66074,
+      "target_est": 60505,
+      "lot_over_target": 1.092
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2016-06",
+    "pred": [
+     "5434",
+     "2312",
+     "2347",
+     "3032"
+    ],
+    "ref": [
+     "2312",
+     "2347",
+     "3032"
+    ],
+    "skipped": [],
+    "exec_date": "2016-06-15",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "5434",
+      "exec_open": 66.5,
+      "one_lot_cost": 66776,
+      "target_est": 65293,
+      "lot_over_target": 1.023
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2016-07",
+    "pred": [
+     "1527",
+     "2356",
+     "6213"
+    ],
+    "ref": [
+     "2356",
+     "6213"
+    ],
+    "skipped": [],
+    "exec_date": "2016-07-13",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "1527",
+      "exec_open": 93.5,
+      "one_lot_cost": 93868,
+      "target_est": 68023,
+      "lot_over_target": 1.38
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2016-08",
+    "pred": [
+     "1906",
+     "2360",
+     "2439",
+     "1558",
+     "2449"
+    ],
+    "ref": [
+     "1906",
+     "2449"
+    ],
+    "skipped": [],
+    "exec_date": "2016-08-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2360",
+      "exec_open": 84.6,
+      "one_lot_cost": 84938,
+      "target_est": 70263,
+      "lot_over_target": 1.209
+     },
+     {
+      "code": "2439",
+      "exec_open": 119.0,
+      "one_lot_cost": 119655,
+      "target_est": 70263,
+      "lot_over_target": 1.703
+     },
+     {
+      "code": "1558",
+      "exec_open": 154.5,
+      "one_lot_cost": 155275,
+      "target_est": 70263,
+      "lot_over_target": 2.21
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2016-09",
+    "pred": [
+     "3013",
+     "1707",
+     "2377"
+    ],
+    "ref": [
+     "3013"
+    ],
+    "skipped": [],
+    "exec_date": "2016-09-13",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "1707",
+      "exec_open": 241.5,
+      "one_lot_cost": 242571,
+      "target_est": 69314,
+      "lot_over_target": 3.5
+     },
+     {
+      "code": "2377",
+      "exec_open": 84.5,
+      "one_lot_cost": 84837,
+      "target_est": 69314,
+      "lot_over_target": 1.224
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2016-10",
+    "pred": [
+     "8114",
+     "3588",
+     "3005"
+    ],
+    "ref": [
+     "3588",
+     "3005"
+    ],
+    "skipped": [],
+    "exec_date": "2016-10-13",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "8114",
+      "exec_open": 203.0,
+      "one_lot_cost": 203940,
+      "target_est": 74065,
+      "lot_over_target": 2.754
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2016-12",
+    "pred": [
+     "1710",
+     "1560",
+     "1309",
+     "2439",
+     "2034"
+    ],
+    "ref": [
+     "1710",
+     "1560",
+     "1309",
+     "2034"
+    ],
+    "skipped": [],
+    "exec_date": "2016-12-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2439",
+      "exec_open": 124.0,
+      "one_lot_cost": 124672,
+      "target_est": 74465,
+      "lot_over_target": 1.674
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2017-01",
+    "pred": [
+     "1909",
+     "5269"
+    ],
+    "ref": [
+     "1909"
+    ],
+    "skipped": [],
+    "exec_date": "2017-01-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "5269",
+      "exec_open": 303.0,
+      "one_lot_cost": 304280,
+      "target_est": 73070,
+      "lot_over_target": 4.164
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2017-02",
+    "pred": [
+     "2913",
+     "1455",
+     "2023",
+     "1314",
+     "3406",
+     "2905"
+    ],
+    "ref": [
+     "2913",
+     "1455",
+     "2023",
+     "1314",
+     "2905"
+    ],
+    "skipped": [],
+    "exec_date": "2017-02-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "3406",
+      "exec_open": 198.0,
+      "one_lot_cost": 198923,
+      "target_est": 78109,
+      "lot_over_target": 2.547
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2017-05",
+    "pred": [
+     "2547",
+     "2496"
+    ],
+    "ref": [
+     "2547"
+    ],
+    "skipped": [],
+    "exec_date": "2017-05-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2496",
+      "exec_open": 320.0,
+      "one_lot_cost": 321338,
+      "target_est": 75976,
+      "lot_over_target": 4.229
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2017-06",
+    "pred": [
+     "3515",
+     "2731",
+     "6409"
+    ],
+    "ref": [
+     "3515"
+    ],
+    "skipped": [],
+    "exec_date": "2017-06-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2731",
+      "exec_open": 106.5,
+      "one_lot_cost": 107112,
+      "target_est": 77146,
+      "lot_over_target": 1.388
+     },
+     {
+      "code": "6409",
+      "exec_open": 537.0,
+      "one_lot_cost": 539326,
+      "target_est": 77146,
+      "lot_over_target": 6.991
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2017-08",
+    "pred": [
+     "6414",
+     "3167"
+    ],
+    "ref": [
+     "3167"
+    ],
+    "skipped": [],
+    "exec_date": "2017-08-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "6414",
+      "exec_open": 440.5,
+      "one_lot_cost": 442248,
+      "target_est": 83597,
+      "lot_over_target": 5.29
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2017-12",
+    "pred": [
+     "2327",
+     "3040",
+     "2367"
+    ],
+    "ref": [
+     "3040",
+     "2367"
+    ],
+    "skipped": [],
+    "exec_date": "2017-12-13",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2327",
+      "exec_open": 298.0,
+      "one_lot_cost": 299263,
+      "target_est": 85397,
+      "lot_over_target": 3.504
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2018-01",
+    "pred": [
+     "4306",
+     "2327",
+     "5534",
+     "2376"
+    ],
+    "ref": [
+     "4306",
+     "2376"
+    ],
+    "skipped": [],
+    "exec_date": "2018-01-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2327",
+      "exec_open": 393.5,
+      "one_lot_cost": 395088,
+      "target_est": 89075,
+      "lot_over_target": 4.435
+     },
+     {
+      "code": "5534",
+      "exec_open": 89.0,
+      "one_lot_cost": 89353,
+      "target_est": 89075,
+      "lot_over_target": 1.003
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2018-04",
+    "pred": [
+     "2492",
+     "8926",
+     "2327",
+     "3090",
+     "1476"
+    ],
+    "ref": [
+     "8926",
+     "3090"
+    ],
+    "skipped": [],
+    "exec_date": "2018-04-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2492",
+      "exec_open": 128.5,
+      "one_lot_cost": 129187,
+      "target_est": 90310,
+      "lot_over_target": 1.43
+     },
+     {
+      "code": "2327",
+      "exec_open": 544.0,
+      "one_lot_cost": 546350,
+      "target_est": 90310,
+      "lot_over_target": 6.05
+     },
+     {
+      "code": "1476",
+      "exec_open": 377.0,
+      "one_lot_cost": 378532,
+      "target_est": 90310,
+      "lot_over_target": 4.191
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2018-05",
+    "pred": [
+     "2492",
+     "3026",
+     "2478",
+     "2338",
+     "5469"
+    ],
+    "ref": [
+     "2478",
+     "2338",
+     "5469"
+    ],
+    "skipped": [
+     [
+      "2327",
+      "開盤漲停"
+     ]
+    ],
+    "exec_date": "2018-05-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2492",
+      "exec_open": 284.0,
+      "one_lot_cost": 285216,
+      "target_est": 90229,
+      "lot_over_target": 3.161
+     },
+     {
+      "code": "3026",
+      "exec_open": 234.5,
+      "one_lot_cost": 235547,
+      "target_est": 90229,
+      "lot_over_target": 2.611
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2018-06",
+    "pred": [
+     "2492",
+     "2327",
+     "3653",
+     "1409"
+    ],
+    "ref": [
+     "3653",
+     "1409"
+    ],
+    "skipped": [],
+    "exec_date": "2018-06-13",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2492",
+      "exec_open": 407.5,
+      "one_lot_cost": 409136,
+      "target_est": 100604,
+      "lot_over_target": 4.067
+     },
+     {
+      "code": "2327",
+      "exec_open": 1135.0,
+      "one_lot_cost": 1141360,
+      "target_est": 100604,
+      "lot_over_target": 11.345
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2018-08",
+    "pred": [
+     "2547",
+     "2612",
+     "3034",
+     "8341"
+    ],
+    "ref": [
+     "2547",
+     "2612"
+    ],
+    "skipped": [],
+    "exec_date": "2018-08-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "3034",
+      "exec_open": 157.0,
+      "one_lot_cost": 157784,
+      "target_est": 98520,
+      "lot_over_target": 1.602
+     },
+     {
+      "code": "8341",
+      "exec_open": 257.5,
+      "one_lot_cost": 258626,
+      "target_est": 98520,
+      "lot_over_target": 2.625
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2018-11",
+    "pred": [
+     "8464",
+     "4426"
+    ],
+    "ref": [],
+    "skipped": [],
+    "exec_date": "2018-11-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "8464",
+      "exec_open": 221.0,
+      "one_lot_cost": 222002,
+      "target_est": 89629,
+      "lot_over_target": 2.477
+     },
+     {
+      "code": "4426",
+      "exec_open": 45.5,
+      "one_lot_cost": 45680,
+      "target_est": 89629,
+      "lot_over_target": 0.51
+     }
+    ],
+    "explained_by_whole_lot": false
+   },
+   {
+    "month": "2018-12",
+    "pred": [
+     "2520",
+     "1730",
+     "1515",
+     "8210",
+     "8464",
+     "2449"
+    ],
+    "ref": [
+     "2520",
+     "1730",
+     "1515",
+     "8210",
+     "2449"
+    ],
+    "skipped": [],
+    "exec_date": "2018-12-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "8464",
+      "exec_open": 254.0,
+      "one_lot_cost": 255114,
+      "target_est": 88799,
+      "lot_over_target": 2.873
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2019-02",
+    "pred": [
+     "9904",
+     "6282",
+     "9935",
+     "2379",
+     "3596",
+     "5269"
+    ],
+    "ref": [
+     "9904",
+     "6282",
+     "9935"
+    ],
+    "skipped": [],
+    "exec_date": "2019-02-13",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2379",
+      "exec_open": 171.0,
+      "one_lot_cost": 171832,
+      "target_est": 94165,
+      "lot_over_target": 1.825
+     },
+     {
+      "code": "3596",
+      "exec_open": 101.5,
+      "one_lot_cost": 102095,
+      "target_est": 94165,
+      "lot_over_target": 1.084
+     },
+     {
+      "code": "5269",
+      "exec_open": 633.0,
+      "one_lot_cost": 635653,
+      "target_est": 94165,
+      "lot_over_target": 6.75
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2019-03",
+    "pred": [
+     "3535",
+     "4942",
+     "6552",
+     "3034"
+    ],
+    "ref": [
+     "3535",
+     "4942"
+    ],
+    "skipped": [],
+    "exec_date": "2019-03-13",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "6552",
+      "exec_open": 123.0,
+      "one_lot_cost": 123668,
+      "target_est": 96998,
+      "lot_over_target": 1.275
+     },
+     {
+      "code": "3034",
+      "exec_open": 176.0,
+      "one_lot_cost": 176849,
+      "target_est": 96998,
+      "lot_over_target": 1.823
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2019-04",
+    "pred": [
+     "3704",
+     "3038",
+     "2379"
+    ],
+    "ref": [
+     "3704",
+     "3038"
+    ],
+    "skipped": [],
+    "exec_date": "2019-04-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2379",
+      "exec_open": 194.0,
+      "one_lot_cost": 194910,
+      "target_est": 104465,
+      "lot_over_target": 1.866
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2019-05",
+    "pred": [
+     "2379",
+     "8081"
+    ],
+    "ref": [
+     "8081"
+    ],
+    "skipped": [],
+    "exec_date": "2019-05-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2379",
+      "exec_open": 213.5,
+      "one_lot_cost": 214476,
+      "target_est": 102281,
+      "lot_over_target": 2.097
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2019-07",
+    "pred": [
+     "9941",
+     "1786"
+    ],
+    "ref": [
+     "1786"
+    ],
+    "skipped": [],
+    "exec_date": "2019-07-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "9941",
+      "exec_open": 128.5,
+      "one_lot_cost": 129187,
+      "target_est": 106253,
+      "lot_over_target": 1.216
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2019-08",
+    "pred": [
+     "2228"
+    ],
+    "ref": [],
+    "skipped": [],
+    "exec_date": "2019-08-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2228",
+      "exec_open": 126.5,
+      "one_lot_cost": 127180,
+      "target_est": 103071,
+      "lot_over_target": 1.234
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2020-03",
+    "pred": [
+     "1325",
+     "3042",
+     "9958",
+     "1707",
+     "8046"
+    ],
+    "ref": [
+     "1325",
+     "3042",
+     "9958",
+     "8046"
+    ],
+    "skipped": [],
+    "exec_date": "2020-03-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "1707",
+      "exec_open": 226.5,
+      "one_lot_cost": 227520,
+      "target_est": 110550,
+      "lot_over_target": 2.058
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2020-04",
+    "pred": [
+     "5471",
+     "2458",
+     "1732",
+     "6504"
+    ],
+    "ref": [
+     "5471",
+     "2458",
+     "1732"
+    ],
+    "skipped": [],
+    "exec_date": "2020-04-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "6504",
+      "exec_open": 165.0,
+      "one_lot_cost": 165811,
+      "target_est": 105352,
+      "lot_over_target": 1.574
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2020-05",
+    "pred": [
+     "6504",
+     "1582",
+     "2368",
+     "2421"
+    ],
+    "ref": [
+     "1582",
+     "2368",
+     "2421"
+    ],
+    "skipped": [],
+    "exec_date": "2020-05-13",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "6504",
+      "exec_open": 233.5,
+      "one_lot_cost": 234544,
+      "target_est": 122308,
+      "lot_over_target": 1.918
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2020-06",
+    "pred": [
+     "6504",
+     "1598",
+     "2636",
+     "2357",
+     "9921"
+    ],
+    "ref": [
+     "1598",
+     "2636"
+    ],
+    "skipped": [],
+    "exec_date": "2020-06-12",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "6504",
+      "exec_open": 260.0,
+      "one_lot_cost": 261134,
+      "target_est": 139341,
+      "lot_over_target": 1.874
+     },
+     {
+      "code": "2357",
+      "exec_open": 225.0,
+      "one_lot_cost": 226015,
+      "target_est": 139341,
+      "lot_over_target": 1.622
+     },
+     {
+      "code": "9921",
+      "exec_open": 260.0,
+      "one_lot_cost": 261134,
+      "target_est": 139341,
+      "lot_over_target": 1.874
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2020-07",
+    "pred": [
+     "2417",
+     "9921",
+     "6477",
+     "2377"
+    ],
+    "ref": [
+     "2417",
+     "6477",
+     "2377"
+    ],
+    "skipped": [],
+    "exec_date": "2020-07-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "9921",
+      "exec_open": 328.5,
+      "one_lot_cost": 329867,
+      "target_est": 148837,
+      "lot_over_target": 2.216
+     }
+    ],
+    "explained_by_whole_lot": true
+   },
+   {
+    "month": "2020-10",
+    "pred": [
+     "2344",
+     "2454",
+     "4952"
+    ],
+    "ref": [
+     "2344",
+     "4952"
+    ],
+    "skipped": [],
+    "exec_date": "2020-10-14",
+    "odd_lot_allowed": false,
+    "missing": [
+     {
+      "code": "2454",
+      "exec_open": 692.0,
+      "one_lot_cost": 694853,
+      "target_est": 201207,
+      "lot_over_target": 3.453
+     }
+    ],
+    "explained_by_whole_lot": true
+   }
+  ]
+ },
+ "V4": {
+  "2025-09": {
+   "returncode": 0,
+   "sig_date": "2025-09-11",
+   "f1": [
+    "2408",
+    "4739",
+    "2374"
+   ],
+   "f1_ref": [
+    "2408",
+    "4739",
+    "2374"
+   ],
+   "sells": [
+    "3231",
+    "6191",
+    "8104",
+    "8271"
+   ],
+   "sells_ref": [
+    "3231",
+    "6191",
+    "8104",
+    "8271"
+   ],
+   "keeps": [
+    "2345",
+    "2368",
+    "3017",
+    "3032",
+    "6805"
+   ],
+   "held": [
+    "2345",
+    "2368",
+    "3017",
+    "3032",
+    "3231",
+    "6191",
+    "6805",
+    "8104",
+    "8271"
+   ],
+   "buy_actions": [
+    [
+     "2408",
+     "買進",
+     9881
+    ],
+    [
+     "4739",
+     "買進",
+     8486
+    ],
+    [
+     "2374",
+     "買進",
+     6137
+    ]
+   ],
+   "top20": [
+    "2408",
+    "2887",
+    "4739",
+    "2374",
+    "6805",
+    "5203",
+    "3017",
+    "6698",
+    "2368",
+    "2345",
+    "3032",
+    "6579",
+    "2851",
+    "3694",
+    "2485",
+    "6669",
+    "1789",
+    "1514",
+    "2449",
+    "2363"
+   ],
+   "top20_ref": [
+    "2408",
+    "2887",
+    "4739",
+    "2374",
+    "6805",
+    "5203",
+    "3017",
+    "6698",
+    "2368",
+    "2345",
+    "3032",
+    "6579",
+    "2851",
+    "3694",
+    "2485",
+    "6669",
+    "1789",
+    "1514",
+    "2449",
+    "2363"
+   ],
+   "ok": true
+  },
+  "2026-08": {
+   "returncode": 0,
+   "sig_date": "2026-08-11",
+   "f1": [
+    "2059",
+    "6213",
+    "2395",
+    "3653",
+    "3003",
+    "3006"
+   ],
+   "f1_ref": [
+    "2059",
+    "6213",
+    "2395",
+    "3653",
+    "3003",
+    "3006"
+   ],
+   "sells": [
+    "2347",
+    "2425",
+    "3702",
+    "6533",
+    "8021"
+   ],
+   "sells_ref": [
+    "2347",
+    "2425",
+    "3702",
+    "6533",
+    "8021"
+   ],
+   "keeps": [
+    "2059",
+    "2383",
+    "2395"
+   ],
+   "held": [
+    "2059",
+    "2347",
+    "2383",
+    "2395",
+    "2425",
+    "3702",
+    "6533",
+    "8021"
+   ],
+   "buy_actions": [
+    [
+     "2059",
+     "續抱（已持有）",
+     null
+    ],
+    [
+     "6213",
+     "買進",
+     2471
+    ],
+    [
+     "2395",
+     "續抱（已持有）",
+     null
+    ],
+    [
+     "3653",
+     "買進",
+     274
+    ],
+    [
+     "3003",
+     "買進",
+     15845
+    ],
+    [
+     "3006",
+     "買進",
+     4175
+    ]
+   ],
+   "top20": [
+    "2059",
+    "6213",
+    "2395",
+    "1232",
+    "3653",
+    "2302",
+    "3003",
+    "3006",
+    "3711",
+    "2344",
+    "6834",
+    "2408",
+    "6691",
+    "8112",
+    "2383",
+    "2547",
+    "1229",
+    "2106",
+    "7750",
+    "5434"
+   ],
+   "top20_ref": [
+    "2059",
+    "6213",
+    "2395",
+    "1232",
+    "3653",
+    "2302",
+    "3003",
+    "3006",
+    "3711",
+    "2344",
+    "6834",
+    "2408",
+    "6691",
+    "8112",
+    "2383",
+    "2547",
+    "1229",
+    "2106",
+    "7750",
+    "5434"
+   ],
+   "ok": true
+  }
+ },
+ "named_months": {
+  "2025-09": {
+   "signal_month": "2025-09",
+   "sig_date_ref": "2025-09-11",
+   "sig_date": "2025-09-11",
+   "status": "有訊號",
+   "surge_maxdiff": 0.0,
+   "ret20_maxdiff": 6.661338147750939e-16,
+   "n_ma": 350,
+   "n_ma_ref": 350,
+   "f1": [
+    "2408",
+    "4739",
+    "2374"
+   ],
+   "f1_ref": [
+    "2408",
+    "4739",
+    "2374"
+   ],
+   "V1": true,
+   "held": [
+    "2345",
+    "2368",
+    "3017",
+    "3032",
+    "3231",
+    "6191",
+    "6805",
+    "8104",
+    "8271"
+   ],
+   "sell": [
+    "3231",
+    "6191",
+    "8104",
+    "8271"
+   ],
+   "sell_ref": [
+    "3231",
+    "6191",
+    "8104",
+    "8271"
+   ],
+   "V2": true,
+   "buy_pred": [
+    "2408",
+    "4739",
+    "2374"
+   ],
+   "buy_ref": [
+    "2408",
+    "4739",
+    "2374"
+   ],
+   "buy_skipped": [],
+   "V3": true
+  },
+  "2026-08": {
+   "signal_month": "2026-08",
+   "sig_date_ref": "2026-08-11",
+   "sig_date": "2026-08-11",
+   "status": "有訊號",
+   "surge_maxdiff": 0.0,
+   "ret20_maxdiff": 5.551115123125783e-16,
+   "n_ma": 303,
+   "n_ma_ref": 303,
+   "f1": [
+    "2059",
+    "6213",
+    "2395",
+    "3653",
+    "3003",
+    "3006"
+   ],
+   "f1_ref": [
+    "2059",
+    "6213",
+    "2395",
+    "3653",
+    "3003",
+    "3006"
+   ],
+   "V1": true,
+   "held": [
+    "2059",
+    "2347",
+    "2383",
+    "2395",
+    "2425",
+    "3702",
+    "6533",
+    "8021"
+   ],
+   "sell": [
+    "2347",
+    "2425",
+    "3702",
+    "6533",
+    "8021"
+   ],
+   "sell_ref": [
+    "2347",
+    "2425",
+    "3702",
+    "6533",
+    "8021"
+   ],
+   "V2": true,
+   "buy_pred": [
+    "6213",
+    "3653",
+    "3003",
+    "3006"
+   ],
+   "buy_ref": [
+    "6213",
+    "3653",
+    "3003",
+    "3006"
+   ],
+   "buy_skipped": [],
+   "V3": true
+  }
+ },
+ "make_list_sha256": "2f4d2b2f25a9dcfc3af4411ac8ea476d628066ca24784920e51c0a91ed323f4e",
+ "runtime_s": 110.8,
+ "maxrss_mb": 455,
+ "all_pass": true
+}
