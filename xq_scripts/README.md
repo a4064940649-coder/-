@@ -576,7 +576,7 @@ XQ 的 20＋21 號用「固定門檻」（`MinSurge` 2.5、`ExitSurge` 2.0），
 
 XQ 參數總整理：20 號 `MinSurge` 2.5、`MinRet20` 10、`UseMA60` 1、`RebalDay` 11；21 號 `ExitSurge` 2.0、`UseMA60` 1、`RebalDay` 11；股票範圍「上市」、排除「-創」、最多 10 檔、滿了不買。
 
-## 27. 只買「營收持續成長」的？（2026-11-16 新增，獨立重算中）— 不要
+## 27. 只買「營收持續成長」的？（2026-11-16 新增，已獨立重算：一致）— 不要
 
 細節見 `research/tw_stock_selection/agents/s20_persistent_growth/FINDINGS.md`。用 2016～2021 年找規則、2022～2026 年只驗證一次。
 
