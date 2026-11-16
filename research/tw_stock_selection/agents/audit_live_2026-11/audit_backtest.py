@@ -52,7 +52,26 @@ rel = (nav.reindex(j) / ref.reindex(j) - 1).abs()
 # 期末持股（2026-10-22 開倉中）給名單稽核用
 open_end = lg[lg['why'] == 'open_end']
 oe = [dict(code=str(r['code']) if 'code' in lg.columns else None) for _, r in open_end.iterrows()]
-cols = [c for c in ('code', 'ent_date', 'shares', 'ent_px') if c in lg.columns]
+cols = [c for c in ('code', 'ent_date', 'shares', 'cost') if c in lg.columns]
+open_end = open_end.assign(shares_scaled_1m=(open_end['shares'] * 1e6 / float(nav.iloc[-1])).round().astype(int))
+cols.append('shares_scaled_1m')
+# 0050（精確還原價，非 navs.csv.gz 的整數欄）：最大回撤與低點、滾動 12 個月落後
+b = bench.loc[D0:DE]; bdd = b / b.cummax() - 1
+nb = nav.loc[D0:DE]
+lag252 = ((nb / nb.shift(252) - 1) - (b / b.shift(252) - 1)).dropna()
+nb_c = nb.copy(); b_c = b.copy()
+sh365 = lambda x: x.reindex(x.index - pd.DateOffset(years=1), method='ffill').set_axis(x.index)
+lag365 = ((nb / sh365(nb) - 1) - (b / sh365(b) - 1)).loc[D0 + pd.DateOffset(years=1):].dropna()
+def yearly(x):
+    ye = x.groupby(x.index.year).last(); out = {}
+    for y in ye.index:
+        prev = x.iloc[0] if y == x.index[0].year else ye.loc[y - 1]
+        out[int(y)] = round(float(ye.loc[y] / prev - 1) * 100, 1)
+    return out
+extra = dict(bench_maxdd_precise=float(bdd.min()), bench_trough=str(bdd.idxmin().date()), bench_peak=str(b.loc[:bdd.idxmin()].idxmax().date()),
+             lag12m_252d_max_pp=float(-lag252.min() * 100), lag12m_252d_frac=float((lag252 < 0).mean()), lag12m_252d_worst_date=str(lag252.idxmin().date()),
+             lag12m_cal_max_pp=float(-lag365.min() * 100), lag12m_cal_frac=float((lag365 < 0).mean()), lag12m_cal_worst_date=str(lag365.idxmin().date()),
+             yearly_strategy=yearly(nb), yearly_0050=yearly(b))
 out = dict(
     engine='s20lib→s17lib→s10lib.simulate_s10（E0、sat_w 0.7、W10、lock False、COSTS strict、100 萬、位移 0、全期連續）；s17lib.e50_fix_suspension 已套用',
     panel=dict(T=int(P.T), N=int(P.N), first=str(P.IDX[0].date()), last=str(DE.date()), start=str(D0.date())),
@@ -64,6 +83,7 @@ out = dict(
     vs_s19_navs=dict(n_days=int(len(j)), max_abs_rel_diff=float(rel.max()), final_ref=float(ref.iloc[-1])),
     open_end_positions=open_end[cols].astype(str).to_dict('records') if cols else [],
     lg_columns=list(map(str, lg.columns)),
+    **extra,
     peak_rss_mb=rss(), seconds=round(time.time() - t0),
 )
 json.dump(out, open(HERE / 'audit_backtest.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1, default=str)
