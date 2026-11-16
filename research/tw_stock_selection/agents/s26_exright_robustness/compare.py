@@ -305,10 +305,32 @@ for sid, folder, tag, title, main in (
 
 # ---------------------------------------------------------------- S24、S25 describe（描述性，非判定）
 a, b = old('s24_return_attribution'), new('s24_fix1')
-S['S24'] = dict(title='S24 報酬歸因（描述，無判定規則）', main='CAPM β／α、主模型 α（t）',
-                before=a, after=b, soft=soft('s24_fix1'))
+
+
+def s24(r):
+    if r is None:
+        return None
+    c = r['capm']['FULL']['since2019']; d = r['decomposition']['FULL']['M3_same']
+    return dict(arith_2019=pp(r['basic']['since2019']['FULL']['arith_ann']), capm_alpha=pp(c['alpha_ann']), capm_alpha_t=r2(c['alpha_t']), capm_beta=r2(c['beta']),
+                main_alpha=pp(d['alpha']), main_alpha_t=r2(d['alpha_t']), MKT=pp(d['MKT']), SMB=pp(d['SMB']), HML=pp(d['HML']), MOM=pp(d['MOM']), RMOM=pp(d['RMOM']),
+                drop_top5_main_alpha=pp(r.get('robust_drop_top5', {}).get('FULL', {}).get('since2019|top5_ret', {}).get('M3', {}).get('alpha_ann')))
+
+
+S['S24'] = dict(title='S24 報酬歸因（描述，無判定規則）', main='2019 起 FULL：CAPM β／α（t）、主模型（MKT＋SMB＋HML＋MOM＋RMOM）α（t）；因子用修正後價格重建',
+                before=s24(a), after=s24(b), soft=soft('s24_fix1'))
 a, b = old('s25_factor_momentum', 'results_describe.json'), new('s25_describe_fix1', 'results_describe.json')
-S['S25_describe'] = dict(title='S25 扣同業超額（描述）', main='每筆扣同業籃子超額（t）', before=a, after=b, soft=soft('s25_describe_fix1'))
+
+
+def s25d(r):
+    if r is None:
+        return None
+    m = r['A3']['all']['main（同業≥5，U 股池等權）']
+    f = lambda k: dict(mean_pct=r2(m[k]['mean_pct']), t=r2(m[k]['t']), median_pct=r2(m[k]['median_pct']), drop_top5_mean_pct=r2(m[k]['drop_top5_mean_pct']))
+    return dict(n=m['ret']['n'], vs_peer=f('exP_U'), vs_0050=f('ex50'), peer_minus_0050=f('peer50_U'))
+
+
+S['S25_describe'] = dict(title='S25 扣同業超額（描述）', main='每筆扣同業籃子超額（t）、扣 0050、同業 − 0050（A1 因子動能用 s24 原 monthly.csv，未重建）',
+                         before=s25d(a), after=s25d(b), soft=soft('s25_describe_fix1'))
 
 out = dict(meta=dict(desc='S26：除權息修正（cslib.EXRIGHT_FIX=True）後重跑 S6～S25 判定用主比較。修正前＝原資料夾 results.json（未改）；修正後＝runx.py 原封執行各題腳本。',
                      harness_check='s10 run.py 在修正關閉下重跑，與原 results.json 逐位相同（只差 runtime_s）',
