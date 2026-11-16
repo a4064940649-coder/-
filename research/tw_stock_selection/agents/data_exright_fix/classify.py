@@ -40,6 +40,15 @@ out['twt49u_event_other_examples'] = oth.head(15)[['date', 'code', 'prev_close',
 # 參考價口徑：已反映參考價的事件，官方參考價 vs TWT49U 參考價
 fil = ee[ee['ecat'] == '已反映參考價']
 out['ref_match_exact_share'] = float((np.abs(fil['ref_official'] - fil['ref_price']) < 1e-6).mean())
+# TWT49U 鏡像可信度（對官方日 K 本身）：前收一致率、開盤／收盤落在 TWT49U 參考價 ±10% 漲跌幅內的比例（對照：落在前收 ±10% 內）
+Zo = np.load(f, allow_pickle=False)['O']
+oo = Zo[ee['t'].to_numpy(), ee['j'].to_numpy()]
+out['twt49u_mirror_check'] = dict(prev_close_eq_panel=float((np.abs(ee['prev_close'] - ee['prevC']) < 1e-6).mean()),
+    open_within_10pct_of_twt_ref=float(np.nanmean(((oo / ee['ref_price']) >= 0.899) & ((oo / ee['ref_price']) <= 1.101))),
+    open_within_10pct_of_prev_close=float(np.nanmean(((oo / ee['prevC']) >= 0.899) & ((oo / ee['prevC']) <= 1.101))),
+    close_within_10pct_of_twt_ref=float((((ee['close'] / ee['ref_price']) >= 0.899) & ((ee['close'] / ee['ref_price']) <= 1.101)).mean()),
+    close_outside_examples=ee[~(((ee['close'] / ee['ref_price']) >= 0.899) & ((ee['close'] / ee['ref_price']) <= 1.101))][['date', 'code', 'prev_close', 'ref_price', 'type', 'close']].astype(str).to_dict(orient='records'))
+del Zo
 # 抽樣
 rng = np.random.default_rng(20261116)
 pick = []

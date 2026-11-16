@@ -1,0 +1,78 @@
+{
+  "title": "S24 現行策略報酬歸因：市場 Beta、因子、Alpha（CAPM 與多因子迴歸）",
+  "written_before_any_regression": "2026-11-16；本檔在跑任何迴歸、算任何因子報酬之前寫成，寫完算 sha256 存 SPEC.sha256。事後不換規格；若必須修正（程式錯誤），在 results.json 的 spec_deviations 照實列出。",
+  "nature": "描述性歸因，不改策略，不需要 PREREG，不增加資料窺探族群 N（不挑規則、不做判定）。",
+  "strategy_series": {
+    "engine": "s20lib → s17lib → s10lib（不改任何程式庫）：STD SURGE（σ>0）、A10 訊號日、次日開盤、F1 進場、E0 出場、嚴成本、只上市、排除創新板、0050 停牌日用前一日收盤（s17lib.e50_fix_suspension）、位移 0、主跑。",
+    "FULL": "現行 W10_70：sat_w 0.7、sizing W10、lock False、資金 100 萬（對照 s19 navs.csv.gz 的 E0|W10_70，要逐日相同或差 < 0.01%）。",
+    "SAT50": "純衛星、空位放 0050：sat_w 1.0、sizing W10、資金 70 萬、sweep_min 預設 2 萬（空出的現金掃進 0050）。只看選股那 70% 的版本。",
+    "SATCASH": "純衛星、空位放現金：sat_w 1.0、sizing W10、資金 70 萬、sweep_min=inf（現金不生息；對照 s19 E0|SAT）。",
+    "monthly_return": "日淨值取每個日曆月最後一個交易日；月報酬＝本月底 ÷ 上月底 − 1。第一個月 2015-07 用 2015-07-01（t0）起算；最後一個月 2026-10 只到 2026-10-22（面板最後一天），照實標註為不完整月。共 136 個月。"
+  },
+  "market": "0050 含息（P.E50，還原收盤），同月底取值。市場超額 MKT＝R_0050 − Rf。",
+  "risk_free": {
+    "main": "固定年 1%，月 Rf＝1.01^(1/12) − 1。出處：研究中心既有慣例 agents/w12_betting_against_beta/prereg.py（『台灣一年期定存約 1%～1.7% 的保守近似』）。本題環境無法連上中央銀行網站取得逐月利率，所以照研究中心慣例，屬假設。",
+    "sensitivity": "Rf＝0%、1.5% 各重跑 CAPM 與主多因子（只報 α 與 β 變化）。"
+  },
+  "periods": {
+    "full": "2015-07 ～ 2026-10",
+    "since2019": "2019-01 ～ 2026-10",
+    "since2024": "2024-01 ～ 2026-10（只有 34 個月，標準誤大，照實標註）"
+  },
+  "standard_errors": {
+    "main": "OLS 係數＋Newey-West（Bartlett 核）HAC 標準誤，落後期數 4（Newey-West 1994 規則 floor(4·(T/100)^(2/9))，T≈136 → 4；子期間同用 4）。",
+    "sensitivity": "落後 12 與一般 OLS 標準誤，只列在 results.json。",
+    "alpha_annualization": "年化 α＝月 α × 12（算術）；t 值同月 α 的 t。"
+  },
+  "capm": {
+    "model": "R − Rf ＝ α ＋ β (Rm − Rf) ＋ ε，三條策略序列 × 三段期間。報 α（年化）、β、NW t（α、β）、R²。",
+    "up_down": "雙 β 單一迴歸：R − Rf ＝ α ＋ β⁺·max(MKT,0) ＋ β⁻·min(MKT,0)。上漲月＝MKT > 0。另報分開子樣本迴歸（上漲月、下跌月各自 OLS）。檢定 β⁺ − β⁻ 的 NW t。",
+    "rolling": "滾動 36 個月 CAPM β（FULL、SAT50），每月一個值，報最小、最大、中位數與幾個時點；完整序列寫進 results.json。"
+  },
+  "factors": {
+    "universe": "每個月底（形成日 t＝當月最後一個交易日）：上市（MK==1）、四碼數字普通股（含 KY，不含 ETF、特別股、權證）、非 91 開頭 TDR、非創新板、當日有收盤價、PIT 市值有值。不另加流動性門檻（學術慣例用全部普通股；用市值加權，極小股影響很小）。",
+    "returns": "個股月報酬＝含息累積指數 G（P.G）月底對月底；下市股用最後一個有值的 G（下市當月報酬算到最後交易日）。形成日 t 的投組持有 t+1 整月。",
+    "size": "PIT 市值＝S12 寫法：股數（o_lc_sector_rotation_pit/data/shares_full.parquet）落後 63 個交易日 × 當時收盤 × 之後含息漲跌（s12lib.mcap_panel 同式）。",
+    "weighting": "市值加權（形成日 PIT 市值），Fama-French 慣例。",
+    "sorts": "2×3 獨立雙排序：市值以當月股池市值中位數切大／小；特徵以當月有該特徵的股池 30／70 百分位切低／中／高。",
+    "HML": "B/M＝最近一季已可得的歸屬母公司權益（o_pead_margin_surprise_low_attention/data/fin_long.parquet 的 equity_parent）÷ PIT 市值。可得日＝avail_dates.parquet 的 A（市場可得日），缺值用法定期限（Q1 5/15、Q2 8/14、Q3 11/14、Q4 次年 3/31），要 ≤ 形成日。排除 B ≤ 0 與金融保險財報格式（bd、basi、ins、fh、mim，FF 慣例）。HML＝½(小高＋大高) − ½(小低＋大低)。",
+    "EP_sensitivity": "E/P＝最近 4 季（都已可得）歸屬母公司淨利 nip_s 合計 ÷ PIT 市值，只排 E/P > 0、非金融；EPF＝½(小高＋大高) − ½(小低＋大低)。只當敏感度，在主模型中替換 HML 再跑一次。",
+    "MOM": "12-1 動能＝G(t−1 月底) ÷ G(t−12 月底) − 1（跳過最近一個月），兩端都要有值。MOM＝½(小高＋大高) − ½(小低＋大低)。",
+    "RMOM": "營收動能＝形成日已可得（cslib.rev_avail_days PIT：次月 10 日後第一個交易日 ≤ 形成日）的最近一個月營收的年增率 Rv(m)/Rv(m−12) − 1（營收用 s17lib.rev_family 同一份 Rv；2013 年月份的年增率依 IFRS 斷點缺值）。RMOM＝½(小高＋大高) − ½(小低＋大低)。用來檢查 SURGE 是否只是已知的營收動能因子。",
+    "SMB": "FF2015 寫法：HML、MOM、RMOM 三個 2×3 排序各自的 ⅓(小低＋小中＋小高) − ⅓(大低＋大中＋大高)，再取三者平均。",
+    "market_factor": "主模型 MKT＝0050 含息 − Rf（題目要求）。敏感度：股池市值加權報酬 − Rf 當市場。",
+    "small_cap_check": "對照 S12：另算 SC＝股池等權報酬 − 0050（S12 的『中小型股行情』口徑），單獨回報 R_FULL − R_0050 對 SC 的 β，與 S12 的 0.23～0.25 對照（S12 用換股日時窗，本題用日曆月，只求方向一致）。",
+    "factor_start": "因子形成需要 12 個月動能與 12 個月營收年增，從 2015-06 月底形成、2015-07 起有因子報酬；任何因子當月任一角落投組少於 5 檔就記缺值並計數。"
+  },
+  "multifactor_models": {
+    "M1_FF3": "MKT、SMB、HML",
+    "M2_C4": "MKT、SMB、HML、MOM",
+    "M3_MAIN": "MKT、SMB、HML、MOM、RMOM（主模型）",
+    "M4_EP": "MKT、SMB、EPF、MOM、RMOM（價值換 E/P，敏感度）",
+    "M5_VWMKT": "主模型但市場換股池市值加權（敏感度）",
+    "report": "各因子曝險、NW t、α（年化）與 NW t、R²；三條策略序列 × 三段期間（主表 FULL、SAT50；SATCASH 寫 results.json）。因子本身的年化平均、t、彼此相關也報。"
+  },
+  "decomposition": {
+    "identity": "樣本平均（算術）：mean(R) ＝ mean(Rf) ＋ β·mean(MKT) ＋ Σ b_k·mean(F_k) ＋ α。在同一段樣本上估 OLS 時恆等成立（殘差平均為 0）。",
+    "main": "2019-01 ～ 2026-10，用同段估的 M3_MAIN 係數拆；月平均 × 12 年化。也列 CAPM 版（只有 Rf、市場、α）。",
+    "alt": "同段但用全期（2015-07 起）係數，殘差另列一行（顯示係數不穩造成的差）。",
+    "geometric_note": "另報同段幾何年化報酬（∏(1+R)^(12/n) − 1）與算術年化（12·mean）之差，說明差異約 ½σ²（波動拖累），拆解表是算術版。"
+  },
+  "robustness": {
+    "drop_top5": "去掉該序列在該樣本中月報酬最高的 5 個月，重估 CAPM 與 M3_MAIN（FULL、SAT50；全期與 2019 起）。",
+    "drop_top5_excess": "另外去掉 R − Rm 最高的 5 個月（策略相對市場最好的月份）重估，只列 results.json。",
+    "rf": "見 risk_free.sensitivity。",
+    "nw_lag": "見 standard_errors.sensitivity。"
+  },
+  "acceptance": {
+    "A1": "FULL 日淨值與 s19 navs.csv.gz 的 E0|W10_70 逐日相對差 < 1e-4（navs 存整數）。",
+    "A2": "SATCASH 與 s19 E0|SAT 同上。",
+    "A3": "0050 月報酬串接 2019-01 起年化與 S12 的 0050 28.91% 接近（差 < 0.3 個百分點；S12 是到 2026-10-22 的日曆年化）。",
+    "A4": "每月因子角落投組最少檔數 ≥ 5；股池每月檔數報告。"
+  },
+  "limits": {
+    "memory": "峰值 ≤ 3GB，單一行程",
+    "temp": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/s24/（結束刪除）",
+    "outputs": "agents/s24_return_attribution/ 下 SPEC.json、SPEC.sha256、run.py、results.json、monthly.csv（月報酬與因子）、FINDINGS.md；總計 ≤ 50MB"
+  }
+}
