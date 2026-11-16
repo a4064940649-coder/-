@@ -1,0 +1,22 @@
+{
+ "study": "s25_factor_momentum",
+ "script": "train.py",
+ "fix": true,
+ "tag": "s25_train_fix1_nf",
+ "soft_asserts": [
+  {
+   "line": 76,
+   "msg": "('驗收失敗', {'P0': True, 'e50_fix': [{'date': '2025-06-11', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}, {'date': '2025-06-12', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}, {'date': '2025-06-13', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}, {'date': '2025-06-16', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}, {'date': '2025-06-17', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}], 'A0': {'since2019': 0.48991278775035196, 'full': 0.34543340603574313, 'maxdd': -0.3211451024786043, 'ok': False}, 'A1': {'trades_identical': True, 'nav_identical': True}})"
+  }
+ ],
+ "peak_mb": 1399,
+ "secs": 10,
+ "panel_exright_fix": true,
+ "exright_info": {
+  "n_twt49u": 9826,
+  "n_rights_issue_fallback": 11,
+  "n_prev_untraded": 6461,
+  "n_total": 16287,
+  "twt49u_last": "2026-10-29"
+ }
+}
