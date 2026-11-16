@@ -208,6 +208,43 @@ for t in ed:
     m = U[t - 1] & np.isfinite(O[t]) & (O[t] > 0)
     rl.append(float((O[t, m] >= LU[t, m] - 1e-9).mean())); gm.append(float(np.median(O[t, m] / REF[t, m] - 1)))
 p1['universe_exec_days'] = dict(n_days=len(ed), open_limup_rate_mean=float(np.mean(rl)), gap_median_mean=float(np.mean(gm)))
+# 第 4 部分依據檢查：買進限價「漲停價下一檔」、賣出限價「跌停價上一檔」與回測成交條件是否等價
+def below_limup(lu):
+    return round(lu - float(cslib.tick(lu - 1e-6)), 4)
+
+
+def above_limdn(ld):
+    return round(ld + float(cslib.tick(ld + 1e-6)), 4)
+
+
+chk = dict(buy_n=0, buy_auction_fill=0, buy_engine_fill=0, buy_mismatch=0, buy_open_limup=0, buy_intraday_fill_if_not_cancelled=0, intraday=[],
+           sell_n=0, sell_auction_fill=0, sell_engine_fill=0, sell_mismatch=0, sell_open_limdn=0, sell_intraday_fill_if_not_cancelled=0)
+for (t, j) in ent:
+    if not (np.isfinite(O[t, j]) and O[t, j] > 0):
+        continue
+    lim = below_limup(LU[t, j]); chk['buy_n'] += 1
+    a = O[t, j] <= lim + 1e-9; e = O[t, j] < LU[t, j] - 1e-9
+    chk['buy_auction_fill'] += int(a); chk['buy_engine_fill'] += int(e); chk['buy_mismatch'] += int(a != e)
+    if not e:
+        chk['buy_open_limup'] += 1
+        if L[t, j] <= lim + 1e-9:
+            chk['buy_intraday_fill_if_not_cancelled'] += 1
+            t2 = min(t + 20, P.T - 1)
+            chk['intraday'].append(dict(date=str(P.IDX[t].date()), code=str(P.COLS[j]), limit_vs_ref=float(lim / REF[t, j] - 1),
+                                        fwd20_from_limit=float(G[t2, j] / G[t, j] * C[t, j] / lim - 1)))
+for (t, j) in ex:
+    if not (np.isfinite(O[t, j]) and O[t, j] > 0):
+        continue
+    lim = above_limdn(LD[t, j]); chk['sell_n'] += 1
+    a = O[t, j] >= lim - 1e-9; e = O[t, j] > LD[t, j] + 1e-9
+    chk['sell_auction_fill'] += int(a); chk['sell_engine_fill'] += int(e); chk['sell_mismatch'] += int(a != e)
+    if not e:
+        chk['sell_open_limdn'] += 1
+        chk['sell_intraday_fill_if_not_cancelled'] += int(H[t, j] >= lim - 1e-9)
+iv = [x['fwd20_from_limit'] for x in chk['intraday']]
+chk['intraday_fwd20_from_limit_median'] = float(np.median(iv)) if iv else None
+chk['intraday_fwd20_from_limit_mean'] = float(np.mean(iv)) if iv else None
+p1['order_rule_check'] = chk
 res['part1'] = p1
 print('第 1 部分完成', round(time.time() - T0), 's', rss(), 'MB', flush=True)
 
