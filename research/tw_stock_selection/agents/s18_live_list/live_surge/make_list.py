@@ -26,7 +26,14 @@
   python3 -I -B make_list.py fill --paper-log log.csv [--repo DIR ...]      # 事後把實際開盤價、漲跌停、與回測差異填進紀錄
   python3 -I -B make_list.py holdings --paper-log log.csv --month 2026-11 --out hold.csv   # 算出成交後的紙上持股，給下個月用
 holdings.csv：欄位「代號,股數」（也接受 code,shares）；0050 也寫一列（含底倉）。
-這是紙上追蹤工具：只產生名單與假想下單，不連任何券商、不下單。"""
+這是紙上追蹤工具：只產生名單與假想下單，不連任何券商、不下單。
+
+除權息參考價修正（2026-11-16 加；list 預設開啟，--no-exright-fix 關閉；輸出 meta.exright 標明）
+- 官方日 K 的漲跌價差在除權息日與「前一日無成交」日一律是 0（agents/data_exright_fix/AUDIT.md），還原價（季線、RET20）會漏股利。
+- 開啟時規則同 cslib.exright_fix_chg（＝exr_common.corrected_chg(mode='main')）：上市除權息日用證交所 TWT49U 參考價
+  （封存 raw/twt49u/，--twt49u-dir 可改；現增除權收盤落在參考價 ±10.1% 外改用前收）；上市前一日無成交且漲跌 ≤ 10.5% 用前一成交收盤。
+- meta.exright.unverified：前 20 名、F1、持股在近 60 個交易日裡「漲跌價差＝0、收盤有變、又不在 TWT49U」的格子（含 TWT49U 封存還沒涵蓋的日子），請人工確認。
+- compute() 的 exright 參數預設 False（validate.py 等舊呼叫逐位不變）；CLI 預設開啟。"""
 import argparse, csv, io, json, math, os, re, subprocess, sys
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -42,6 +49,7 @@ SAT_W, BAND, SLOTS, DEPTH, MOM_LO, KEEP_N, MIN_FRAC, SWEEP_MIN = 0.70, 0.10, 10,
 INNOV_PAT = re.compile(r'-(KY)?創$')
 CODE_PAT = re.compile(r'^[1-9]\d{3}$')
 COLS_USE = ['date', 'stock_id', 'name', 'market', 'open', 'high', 'low', 'close', 'volume', 'amount', 'change']
+TWT49U_DEFAULT = '/home/user/-/research/tw_stock_selection/raw/twt49u/twse-exright'
 
 
 def tick(p):
@@ -231,6 +239,46 @@ class Data:
         return ok, late, None
 
 
+# ---------------------------------------------------------------- 除權息參考價修正
+def load_twt49u(d=TWT49U_DEFAULT):
+    """TWT49U 封存（四碼普通股；同日同代號留最後一筆）。同 cslib.load_twt49u。"""
+    fr = [pd.read_csv(f, dtype={'code': str}) for f in sorted(Path(d).glob('*/*.csv.gz'))]
+    if not fr:
+        raise SystemExit(f'找不到 TWT49U 封存：{d}（或加 --no-exright-fix）')
+    e = pd.concat(fr, ignore_index=True)
+    e['date'] = pd.to_datetime(e['date'])
+    e = e[e['code'].str.fullmatch(r'[1-9]\d{3}')]
+    return e.drop_duplicates(['date', 'code'], keep='last')
+
+
+def exright_fix_chg(IDX, COLS, C, CHG, MK, ev):
+    """逐行同 cslib.exright_fix_chg（說明見該處）。回傳（修正後 CHG, info, 布林矩陣：漲跌價差＝0 且收盤有變、不在 TWT49U）。"""
+    IDX = pd.DatetimeIndex(IDX); CHG = np.array(CHG, dtype=float, copy=True)
+    T, N = C.shape
+    has = np.isfinite(C) & (C > 0)
+    CF = pd.DataFrame(np.where(has, C, np.nan)).ffill().to_numpy()
+    prevC = np.vstack([np.full((1, N), np.nan), CF[:-1]])
+    zero = np.nan_to_num(CHG) == 0
+    with np.errstate(invalid='ignore'):
+        z = has & np.isfinite(prevC) & zero & (np.abs(C - prevC) > 1e-9)
+    REFX = np.full((T, N), np.nan)
+    ci = {c: j for j, c in enumerate(COLS)}; di = {d: i for i, d in enumerate(IDX)}
+    e = ev[ev['code'].isin(ci) & ev['date'].isin(di)]
+    REFX[e['date'].map(di).to_numpy(), e['code'].map(ci).to_numpy()] = e['ref_price'].to_numpy()
+    inx = np.isfinite(REFX) & (MK == 1)
+    prev_tr = np.vstack([np.zeros((1, N), bool), has[:-1]])
+    m = has & inx & zero
+    with np.errstate(invalid='ignore', divide='ignore'):
+        rr = C / REFX
+        oob = m & ~((rr >= 0.899) & (rr <= 1.101))
+        REFX[oob] = prevC[oob]
+        CHG[m] = C[m] - REFX[m]
+        m3 = z & ~inx & ~prev_tr & (MK == 1) & (np.abs(C / prevC - 1) <= 0.105)
+    CHG[m3] = C[m3] - prevC[m3]
+    info = dict(n_twt49u=int(m.sum()), n_rights_issue_fallback=int(oob.sum()), n_prev_untraded=int(m3.sum()))
+    return CHG, info, (z & ~inx), m3
+
+
 # ---------------------------------------------------------------- 訊號日
 def signal_day(D, month):
     """訊號月份 → (訊號日索引, 次一交易日索引或 None, 說明)。資料不夠新時索引為 None。"""
@@ -258,8 +306,9 @@ def est_signal_day(month):
 
 
 # ---------------------------------------------------------------- 計算
-def compute(D, month, window=WINDOW, allow_partial=False):
-    """回傳當月的 L_MA 排名、F1、全部股票在訊號日的欄位（dict）。"""
+def compute(D, month, window=WINDOW, allow_partial=False, exright=False, twt49u_dir=TWT49U_DEFAULT, extra_codes=()):
+    """回傳當月的 L_MA 排名、F1、全部股票在訊號日的欄位（dict）。
+    exright：True＝除權息參考價修正（見檔頭）；False＝舊口徑（逐位同 2026-11-16 之前）。extra_codes：另外要做可疑格子檢查的代號（持股）。"""
     ks, kx, why = signal_day(D, month)
     m_sig = pd.Period(month, freq='M'); m_rev = m_sig - 1
     out = dict(signal_month=str(m_sig), rev_month=str(m_rev), data_last_day=D.dates[-1], est_signal_day=est_signal_day(month))
@@ -286,6 +335,15 @@ def compute(D, month, window=WINDOW, allow_partial=False):
         O[t, j], C[t, j], AMT[t, j], CHG[t, j] = x['vals'][:, 0], x['vals'][:, 1], x['vals'][:, 2], x['vals'][:, 3]
         MK[t, j] = x['mk']
     k = ks - lo                                   # 訊號日在視窗內的列
+    exr = None
+    if exright:
+        ev = load_twt49u(twt49u_dir)
+        CHG0 = CHG
+        CHG, xinfo, zx, m3 = exright_fix_chg(pd.DatetimeIndex(dates), codes, C, CHG, MK, ev)
+        tw_last = ev['date'].max()
+        exr = dict(on=True, rule="cslib.exright_fix_chg（＝data_exright_fix/exr_common.corrected_chg(mode='main')）", twt49u_dir=str(twt49u_dir),
+                   twt49u_last=str(tw_last.date()), window=f'{dates[0]}～{dates[-1]}', **xinfo,
+                   days_after_twt49u_in_window=[d for d in dates[:k + 1] if pd.Timestamp(d) > tw_last])
     names = {}
     for x in (days[k],):
         names = dict(zip(x['codes'], x['names']))
@@ -345,6 +403,23 @@ def compute(D, month, window=WINDOW, allow_partial=False):
     out.update(status='有訊號', sig_date=D.dates[ks], exec_date=D.dates[kx] if kx is not None else None,
                top20=[row(j) for j in o_ma[:KEEP_N]], f1=[row(j) for j in tgt],
                e50_close=days[k]['e50']['close'])
+    if exright:
+        # 可疑格子：前 20 名＋F1＋持股，近 60 個交易日（到訊號日）漲跌價差＝0、收盤有變、不在 TWT49U（rule (b) 已補的也列，標出來）
+        chk = {r['code'] for r in out['top20']} | {r['code'] for r in out['f1']} | {str(c) for c in extra_codes}
+        rows = []
+        for c in sorted(chk):
+            j = ci.get(c)
+            if j is None:
+                continue
+            for t in range(max(0, k - 59), k + 1):
+                if zx[t, j]:
+                    rows.append(dict(code=c, date=dates[t], close=float(C[t, j]), chg_raw=float(np.nan_to_num(CHG0[t, j])),
+                                     fixed='前一日無成交，已改用前一成交收盤' if m3[t, j] else
+                                     ('TWT49U 封存還沒涵蓋這天，未修正' if pd.Timestamp(dates[t]) > tw_last else '未修正（原因不明）')))
+        exr['unverified'] = rows
+    else:
+        exr = dict(on=False, note='舊口徑：漲跌價差照官方日 K（除權息日 0，還原價漏股利）')
+    out['exright'] = exr
     out['_ci'] = ci; out['_row'] = row; out['_ex'] = ex; out['_codes'] = codes
     return out
 
@@ -655,6 +730,13 @@ def md_report(res, pl, meta):
     L.append(f"- 訊號日：**{res['sig_date']}**（營收月份 {res['rev_month']}）；預期成交：{res.get('exec_date') or '訊號日次一交易日'} 開盤")
     L.append(f"- 股池 {res['n_univ']} 檔，其中有 SURGE {res['n_univ_surge']} 檔，站上季線（L_MA）{res['n_ma']} 檔")
     L.append(f"- 資料：日 K 最新 {meta['data_last_day']}；營收 {meta.get('rev_note', '')}")
+    x = meta.get('exright') or {}
+    if x.get('on'):
+        L.append(f"- 除權息參考價修正：開啟（TWT49U 封存到 {x['twt49u_last']}；本次視窗修正 {x['n_twt49u']} 個除權息格、{x['n_prev_untraded']} 個前日無成交格）")
+        if x.get('unverified'):
+            L.append(f"- 請人工確認（近 60 日漲跌價差＝0、收盤有變、不在 TWT49U）：" + '、'.join(f"{u['code']} {u['date']}（{u['fixed']}）" for u in x['unverified']))
+    elif x:
+        L.append('- 除權息參考價修正：關閉（舊口徑）')
     L.append('- 這是紙上追蹤，不下真錢單。'); L.append('')
     L.append('## L_MA 前 20 名'); L.append('')
     L.append('| 名次 | 代號 | 名稱 | SURGE | RET20 | 季線上 | 距季線 | 60 日均成交值（萬） | 收盤 | F1 |')
@@ -718,6 +800,10 @@ def main(argv=None):
     a.add_argument('--out-prefix')
     a.add_argument('--paper-log')
     a.add_argument('--quiet', action='store_true')
+    a.add_argument('--exright-fix', dest='exright_fix', action='store_true', default=True,
+                   help='除權息參考價修正（預設開啟；TWT49U 封存，見檔頭）')
+    a.add_argument('--no-exright-fix', dest='exright_fix', action='store_false', help='關閉修正（舊口徑，和 2026-11-16 之前的名單逐位相同）')
+    a.add_argument('--twt49u-dir', default=TWT49U_DEFAULT, help='TWT49U 封存資料夾（YYYY/YYYY-MM.csv.gz）')
     f = sub.add_parser('fill')
     f.add_argument('--paper-log', required=True)
     f.add_argument('--repo', action='append', default=None)
@@ -740,8 +826,11 @@ def main(argv=None):
     if args.cmd != 'list':
         ap.print_help(); return 2
     D = Data(repos, rev_csv=args.rev_csv, rev_cutoff=args.rev_cutoff)
-    res = compute(D, args.month, allow_partial=args.allow_partial_rev)
-    meta = dict(data_last_day=D.dates[-1], repos=[f'{r.path}@{r.head}' for r in D.repos], overlap_blob_diff=D.overlap_diff, rev=D.rev_info)
+    hold0 = read_holdings(args.holdings) if args.holdings else None
+    res = compute(D, args.month, allow_partial=args.allow_partial_rev, exright=args.exright_fix, twt49u_dir=args.twt49u_dir,
+                  extra_codes=[c for c in (hold0 or {}) if c != '0050'])
+    meta = dict(data_last_day=D.dates[-1], repos=[f'{r.path}@{r.head}' for r in D.repos], overlap_blob_diff=D.overlap_diff, rev=D.rev_info,
+                exright=res.pop('exright', None))
     sup = D.rev_info.get('supplement', {})
     meta['rev_note'] = f"tw_revenue.csv 到 {D.rev_info.get('rev_csv_last_month')}" + (('；補充：' + '、'.join(f'{k}（公開資訊觀測站彙總表，{v["n_rows"]} 筆）' for k, v in sup.items())) if sup else '')
     if res['status'] != '有訊號':
@@ -750,7 +839,7 @@ def main(argv=None):
             Path(args.out_prefix).parent.mkdir(parents=True, exist_ok=True)
             Path(args.out_prefix + '.json').write_text(json.dumps(dict({k: v for k, v in res.items() if not k.startswith('_')}, meta=meta), ensure_ascii=False, indent=1))
         return 1
-    hold = read_holdings(args.holdings) if args.holdings else None
+    hold = hold0
     total = args.total
     if hold is None and total is None:
         total = 1e6

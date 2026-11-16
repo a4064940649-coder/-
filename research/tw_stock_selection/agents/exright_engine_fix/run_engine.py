@@ -7,6 +7,7 @@
   EB＝E0 但換股日用 B11（第一個日期 ≥ 11 的交易日；＝s19 的 XR）
   XT＝XQ 門檻版（MinSurge 2.5／ExitSurge 2.0、腳本股池）用 B11（＝s19 的 XT，舊腳本）
   XA＝XQ 門檻版用 A10（＝統一換股日後的 20／21／22 號腳本）
+  XTS／XAS＝XT／XA 的「純衛星、空位現金、70 萬」（s19 的 SAT 格＝XQ 回測只能測的那一塊；路徑 42～140 萬）；要另外指定，例如 XTS,XAS
 程式沿用 s19lib（不改）：面板、SURGE（rev_std）、a10_rows、b11_rows、script_universe、make_signal_thr、s10lib.simulate_s10。
 結果：out/res_fix<0|1>.json；fix 1 另寫標準路徑淨值 out/nav_fix1.csv.gz。暫存（面板快取）放 scratchpad/eng/。"""
 import sys, json, time, resource, gc
@@ -59,12 +60,17 @@ def build(sid, s):
         return s10lib.make_signal_s10(P, U, dict(S=S, av=avA), shift=s)
     if sid == 'EB':
         return s10lib.make_signal_s10(P, U, dict(S=S, av=avB), shift=s)
-    av = avB if sid == 'XT' else avA
+    av = avB if sid in ('XT', 'XTS') else avA
     return s19lib.make_signal_thr(P, U, UX, None, S, av, 2.5, 2.0, shift=s)
 
 
 def sim(sid, Sg, cap):
+    if sid in ('XTS', 'XAS'):
+        return s10lib.simulate_s10(P, Sg, UX, sat_w=1.0, sizing='W10', lock=False, cost=COSTS['strict'], capital=cap, sweep_min=float('inf'))
     return s10lib.simulate_s10(P, Sg, UX if sid in ('XT', 'XA') else U, sat_w=0.7, sizing='W10', lock=False, cost=COSTS['strict'], capital=cap)
+
+
+SAT = lambda sid: sid in ('XTS', 'XAS')
 
 
 def yearly(nav):
@@ -72,6 +78,28 @@ def yearly(nav):
     for y in yr.index:
         out[int(y)] = float(yr.loc[y] / prev - 1); prev = yr.loc[y]
     return out
+
+
+def extras(Sg, nav, lg):
+    b = pd.Series(P.E50, index=P.IDX)
+    DM = P.IDX[(P.t0 + P.T - 1) // 2]
+    x = lg[lg['why'] != 'open_end']
+    w = x[x['ret'] > 0]['ret']; l = x[x['ret'] <= 0]['ret']
+    top = x.sort_values('pnl', ascending=False).head(5)
+    blk, _ = s2lib.block_from(lg, 5)
+    nb = s10lib.simulate_s10(P, Sg, U, sat_w=0.7, sizing='W10', lock=False, cost=COSTS['strict'], capital=1e6, block=blk)[0]
+    n2 = s10lib.simulate_s10(P, Sg, U, sat_w=0.7, sizing='W10', lock=False, cost=COSTS['strict_x2'], capital=1e6)[0]
+    rr = ((nav / nav.shift(252) - 1) - (b.reindex(nav.index) / b.reindex(nav.index).shift(252) - 1)).loc['2016-03-01':].dropna()
+    yb = yearly(b.loc[D0:DE]); ys = yearly(nav)
+    return dict(win_rate=float(len(w) / len(x)), avg_win=float(w.mean()), avg_loss=float(l.mean()), n_closed=int(len(x)),
+                avg_hold_days=float(x['hold_days'].mean()),
+                top5_pnl_share=float(top['pnl'].sum() / x['pnl'].sum()), top5=[str(c) for c in top['code']],
+                block5_since2019=stlib.cagr(nb, D19, DE), block5_full=stlib.cagr(nb, D0, DE),
+                costx2_since2019=stlib.cagr(n2, D19, DE), costx2_full=stlib.cagr(n2, D0, DE),
+                half1=stlib.cagr(nav, D0, DM), half2=stlib.cagr(nav, DM, DE),
+                roll252_worst=float(rr.min()), roll252_worst_end=str(rr.idxmin().date()), roll252_frac_behind=float((rr < 0).mean()),
+                yearly_0050=yb, beat_years=int(sum(ys[y] > yb[y] for y in ys if y != 2015)), n_years=int(sum(1 for y in ys if y != 2015)),
+                e50_since2019=stlib.cagr(b, D19, DE), e50_full=stlib.cagr(b, D0, DE), e50_since2024=stlib.cagr(b, D24, DE), e50_maxdd=stlib.maxdd(b, D0, DE))
 
 
 res = dict(exright_fix=FIX, exright_info=P.exright_info, start=str(D0.date()), end=str(DE.date()), T=int(P.T), N=int(P.N), strats={})
@@ -84,17 +112,21 @@ for sid in STRATS:
             R['n_signal_months'] = len(Sg['info'])
             R['targets'] = {x['month']: x['targets'] for x in Sg['info']}
             R['sig_dates'] = {x['month']: x.get('sig_date', str(P.IDX[x['k']].date())) for x in Sg['info']}
-        for cap in ((6e5, 8e5, 1e6, 1.5e6, 2e6) if PATHS else (1e6,)):
+        caps = (4.2e5, 5.6e5, 7e5, 1.05e6, 1.4e6) if SAT(sid) else (6e5, 8e5, 1e6, 1.5e6, 2e6)
+        main = 7e5 if SAT(sid) else 1e6
+        for cap in (caps if PATHS else (main,)):
             nav, lg, st = sim(sid, Sg, cap)
             key = f'{int(cap/1e4)}萬|+{s}'
             R['paths'][key] = stlib.cagr(nav, D19, DE); R['paths_dd'][key] = stlib.maxdd(nav, D0, DE)
-            if s == 0 and cap == 1e6:
+            if s == 0 and cap == main:
                 sd = nav.loc[D0:DE]; dd = sd / sd.cummax() - 1; tr = dd.idxmin(); pk = sd.loc[:tr].idxmax()
                 R['std'] = dict(cagr_since2019=stlib.cagr(nav, D19, DE), cagr_full=stlib.cagr(nav, D0, DE), cagr_since2024=stlib.cagr(nav, D24, DE),
                                 maxdd=stlib.maxdd(nav, D0, DE), dd_peak=str(pk.date()), dd_trough=str(tr.date()), final_nav=float(nav.iloc[-1]),
                                 n_trades_closed=int((lg['why'] != 'open_end').sum()), n_trades_all=int(len(lg)), yearly=yearly(nav),
                                 open_end=sorted(lg.loc[lg['why'] == 'open_end', 'code'].astype(str).tolist()))
                 navs[sid] = nav
+                if sid == 'E0':                                   # 網站 risk.json／README 第 12 節用的附帶數字（只算標準路徑）
+                    R['extras'] = extras(Sg, nav, lg)
             del nav, lg, st
         del Sg; gc.collect()
     if PATHS:
@@ -106,7 +138,7 @@ for sid in STRATS:
           R.get('paths_summary'), f'{time.time()-t0:.0f}s', rss(), 'MB', flush=True)
 
 res['peak_mb'] = rss(); res['secs'] = round(time.time() - t0)
-tag = 'fix1' if FIX else 'fix0'
+tag = ('fix1' if FIX else 'fix0') + ('' if len(sys.argv) <= 2 or sys.argv[2].startswith('--') else '_' + sys.argv[2].replace(',', '_'))
 json.dump(res, open(OUT / f'res_{tag}.json', 'w'), ensure_ascii=False, default=str)
 bench = pd.Series(P.E50, index=P.IDX).loc[D0:]
 df = pd.DataFrame({'0050': bench / bench.iloc[0] * 1e6, **{f'{k}|W10_70': v for k, v in navs.items()}}).round(2)

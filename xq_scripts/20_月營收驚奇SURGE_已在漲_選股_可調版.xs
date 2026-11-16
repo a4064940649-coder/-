@@ -1,4 +1,9 @@
 // ===== S4-E3' 月營收驚奇 SURGE＋站上季線＋進場前已在漲（選股腳本，進場）v1.0 =====
+// ★★ 2026-11-16 換股日統一（rebal_day_unify）：換股日改成和研究中心回測、名單產生器 make_list.py 同一個定義（A10）：
+//   「每月 10 日（含）之後第一個交易日的下一個交易日」。舊版是「第一個日期 >= 11 的交易日」（B11）；10 日是交易日的月份兩者同一天，
+//   10 日是假日的月份（2019～2026 共 34／95 個月）舊版早 1 天，而且那天是營收期限當天，有些公司晚上才公布。
+//   參數 RebalDay（舊預設 11）改名 DeadlineDay（預設 10＝營收期限日）。請不要填 11：填 11 會變成「11 日後第一個交易日的下一個交易日」。
+//   下面舊說明裡寫的 RebalDay 現在都指 DeadlineDay；舊說明的數字是 B11 時的回測，新舊對照見 research/tw_stock_selection/agents/rebal_day_unify/REPORT.md。
 // ★★ 2026-11-15 更新（S19）：預設 MinSurge 由 0 改成 2.5，對應現行策略（衛星 70%、每檔＝衛星 ÷ 10）。
 //   XQ 用固定門檻，研究中心用名次，兩者每年都會差（一年差 10～30 個百分點是正常的），整段 2019 年起應接近：
 //   純衛星、空位現金、起始 70 萬：2019 年起約 40%（20 條路徑約 33%～45%）、最大回撤約 −32%～−34%；
@@ -15,7 +20,7 @@
 // 規則（E3'）：每月營收公布後換股一次。在「收盤 > 60 日均線」而且「前 20 日漲幅 > 10%」的上市股票裡，挑 SURGE 最大的 10 檔。
 //   出場要搭配「21_月營收驚奇SURGE_寬出場_可調版.xs」：換股日掉出「季線上股票的 SURGE 前 20 名」或跌破季線才賣。
 // SURGE＝（本月營收的年增「金額」− 過去 24 個月年增金額的平均）÷ 過去 24 個月年增金額的標準差。
-// 用法：選股腳本；請用「還原日線」盤後執行；股池選「上市」；換股日＝每月第一個「日期 >= RebalDay」的交易日（預設 11）。
+// 用法：選股腳本；請用「還原日線」盤後執行；股池選「上市」；換股日＝每月 DeadlineDay 日（含，預設 10）之後第一個交易日的下一個交易日（2026-11-16 改，見檔頭）。
 // 研究中心回測（官方日 K、只上市、排除創新板、100 萬、10 檔；嚴成本＝手續費 2.8 折＋證交稅＋每邊半個跳動點＋每邊再加 0.3% 滑價）：
 //   E3'（空位現金）：2019 年起年化 48.60%（同期 0050 28.91%）、2015-07 起 37.53%（0050 21.14%）、2024 年起 48.91%（0050 54.48%，輸）、最大回撤 -45.3%。
 //     成本加倍 36.09%／27.31%；禁買它自己最賺的 5 筆後 43.11%／34.00%；空位放 0050 是 49.03%／37.28%。
@@ -33,16 +38,17 @@
 // 未在 XQ 編譯，也未在 XQ 回測。語法只用了 xq_scripts 既有腳本出現過的寫法。
 // 需在 XQ 確認：(1) 欄位名「月營收」；(2) 回測時營收公布前不會用到新月份（不偷看）；(3) 研究中心的營收檔沒有 KY 股與已下市公司；
 //   (4) 2016-02 以前研究中心沒有訊號；(5) 「最多 10 檔、滿了不買」與「空位放 0050」在 XQ 回測能不能設。
-Input: MinRet20(10), MaxRet20(1000), RetLen(20), UseMA60(1), MALen(60), MinAvgValue(1000), MinPrice(10), LiqDays(60), OnlyRebalDay(1), RebalDay(11), MinSurge(2.5);
+Input: MinRet20(10), MaxRet20(1000), RetLen(20), UseMA60(1), MALen(60), MinAvgValue(1000), MinPrice(10), LiqDays(60), OnlyRebalDay(1), DeadlineDay(10), MinSurge(2.5);
 // MinRet20：前 RetLen 日漲幅下限（%），要「大於」才入選；10 = E3'（預設）；15 = 鄰域 N15；-100 = 不設（D1）
 // MaxRet20：前 RetLen 日漲幅上限（%），要「小於或等於」才入選；1000 = 不設（E3'，預設）；30 = F3／F5 的追高上限
 // UseMA60：1 = 收盤要高於 MALen 日均線才入選；0 = 不看均線
 // MinAvgValue：近 60 日平均成交值下限（萬元）；1000 = 1,000 萬
 // OnlyRebalDay：1 = 只在換股日選股；0 = 每天都算（看清單用）
+// DeadlineDay：營收期限日，預設 10；換股日＝這天（含，遇假日順延到下一個交易日）之後第一個交易日的「下一個交易日」（同研究中心回測）
 // MinSurge：SURGE 下限；2.5 = 近似現行衛星版「只買 L_MA 前 10 名、不遞補」（2026-11-15 起預設，見 S19）；0 = 舊主力版 E3'（會遞補到第 11 名以後，平均持 9～10 檔）
 Var: MissingValue(-999999999), Idx(0), Idx2(0), RevA(0), RevB(0), RevOK(true),
      D0(0), Dk(0), SumD(0), SumD2(0), MeanD(0), VarD(0), Surge(-999),
-     AvgValue(0), IsRebal(true), DayNow(0), DayPrev(0), MAval(0), MAOK(true), MaBias(0),
+     AvgValue(0), IsRebal(true), DayNow(0), DayPrev(0), DayPrev2(0), MAval(0), MAOK(true), MaBias(0),
      Ret20(-999), RetOK(true);
 SetTotalBar(100);
 SetBackBar(100);
@@ -86,13 +92,16 @@ Ret20 = -999;
 if Close[RetLen] > 0 then Ret20 = (Close / Close[RetLen] - 1) * 100;
 RetOK = false;
 if Ret20 > MinRet20 and Ret20 <= MaxRet20 then RetOK = true;
-// 換股日：每月第一個日期 >= RebalDay 的交易日
+// 換股日（2026-11-16 統一，同研究中心回測 A10 與 make_list.py）：每月 DeadlineDay 日（含）之後第一個交易日的「下一個交易日」。
+//   判斷：前一根 K 棒是當月第一個日期 >= DeadlineDay 的交易日（再前一根的日期 < DeadlineDay，或在上個月），而且今天和前一根同一個月。
+//   10 日是假日（例如週末、國慶）時，前一根是順延後的期限日，今天是它的下一個交易日。
 IsRebal = true;
 if OnlyRebalDay = 1 then begin
     DayNow = DayOfMonth(Date);
     DayPrev = DayOfMonth(Date[1]);
+    DayPrev2 = DayOfMonth(Date[2]);
     IsRebal = false;
-    if DayNow >= RebalDay and (DayPrev < RebalDay or DayPrev > DayNow) then IsRebal = true;
+    if DayPrev >= DeadlineDay and (DayPrev2 < DeadlineDay or DayPrev2 > DayPrev) and DayNow > DayPrev then IsRebal = true;
 end;
 if IsRebal and Close >= MinPrice
    and AvgValue >= MinAvgValue

@@ -1,0 +1,35 @@
+{
+ "topic": "S25 因子動能與「扣掉同業」的選股報酬——A 部分（描述，不改策略）規格",
+ "written_at": "2026-11-16（寫入前沒有算任何報酬；只讀過 s24 FINDINGS／build.py／build_meta.json 與 monthly.csv 的欄位與起訖月份）",
+ "data": {
+  "factors": "agents/s24_return_attribution/monthly.csv（直接沿用，不重建）：SMB、HML、EPF、MOM、RMOM 為月報酬（多空、上市普通股、月底形成、市值加權）；MKT_VW 為上市市值加權市場報酬。月份＝報酬月。2026-10 只到 10-22（部分月份），照用。",
+  "industry": "agents/o_lc_sector_rotation_pit/raw/industry_pit.csv（只讀、不複製；同 s21lib.industry_matrix：start ≤ 日 < end，『未分類』與空白當缺值）",
+  "panel": "s20lib.load()（s20lib→s17lib→s10lib，不改共用引擎，旗標用預設）；中間檔放 scratchpad/s25/，結束刪除",
+  "mcap": "PIT 市值同 s24 build.py：o_lc_sector_rotation_pit/data/shares_full.parquet × 收盤，股數落後 63 交易日"
+ },
+ "A1_factor_momentum": {
+  "factors": ["SMB", "HML", "EPF", "MOM", "RMOM"],
+  "trend": "因子 f 在月 t 的趨勢＝月 t−12～t−1 共 12 個月報酬的算術和（Ehsani & Linnainmaa 用過去一年平均報酬，符號相同）；12 個月要全部有值，否則該月不分組",
+  "test1": "逐因子：下月報酬 f[t] 依趨勢 > 0／≤ 0 分兩組，報各組平均（月）、各組平均的 t（單樣本）、月數、兩組差與 Welch t；另報 5 因子合併（因子×月）各組平均，差的 t 用『每月贏家平均 − 輸家平均』的時間序列（只有兩組都有因子的月份）",
+  "test2": "time-series 因子動能（TSFM）：每月持有趨勢 > 0 的因子（等權；都沒有就報酬 0）＝WIN；對照＝5 因子等權持有＝EW；另報完整多空 WML＝趨勢 > 0 等權 − 趨勢 ≤ 0 等權（E&L 的 TSFM 定義，只有一邊時用該邊）。樣本＝5 因子趨勢都有值的月份（MOM、SMB 2016-02 起才有 → 2017-02～2026-10）。報年化平均、年化波動、Sharpe（月平均 ÷ 月標準差 × √12，不扣無風險，因子本身是多空）、WIN 對 EW 的回歸 α（Newey-West 落後 4 期）、Sharpe 差的 bootstrap（區塊 6 個月，2,000 次，種子 20261116）信賴區間",
+  "power_note": "約 117 個月 × 5 個因子；講義的 0.45%／月差，在台股因子月波動約 2～4% 下 t 約 1～2，照實寫檢定力有限",
+  "robustness": "同上改用 6 個月趨勢（只描述）；去掉 2020 年；只看 2019 起"
+ },
+ "A2_industry_vs_factor_momentum": {
+  "industry_return": "月底 t PIT 產業（月底當日有效段）；股池＝上市普通股（P.MK==1、P.has、P.not91、非創新板、市值 > 0、下月報酬有值，同 s24 因子股池）；產業月報酬＝市值加權（主）／等權（敏感度）；產業 ≥ 5 家才納入當月排序，『其他業』照常納入",
+  "INDMOM": "形成期過去 6 個月（t−5～t）產業累積報酬，排前 3 名產業等權做多、後 3 名等權做空，持有 1 個月（Moskowitz & Grinblatt 1999 的縮小版；不跳月）",
+  "FMOM": "A1 的 TSFM（WML 主；WIN 敏感度）",
+  "regressions": "(a) INDMOM = α + b·FMOM（＋MKT）；(b) FMOM = α + b·INDMOM（＋MKT）；(c) 加 MOM（個股動能因子）控制。Newey-West 落後 4 期；α 年化（×12）。共同樣本＝兩者都有值的月份。講義 Table 6：產業動能 α 在控制因子動能後消失，反之因子動能 α 仍在",
+  "note": "台股 30 個左右產業、上市產業內家數不均；前 3／後 3 很集中，照實寫"
+ },
+ "A3_peer_excess": {
+  "trades": "現行 E0／W10_70 標準路徑：s20lib→s17lib→s10lib 重跑（位移 0、100 萬、嚴成本、只上市、排除創新板、0050 停牌修正），驗收 A0＝2019 起 48.13%、全期 34.08%、回撤 −33.40%（±0.025 個百分點）；用全部已平倉＋期末未平倉交易",
+  "stock_return": "持有期含息毛報酬，同 s20lib.outcomes：進場日 e 開盤買、出場日 x 開盤賣：CF[e]/O[e] × G[x−1]/G[e] × O[x]/REF[x] − 1；期末未平倉用最後一日收盤；下市用最後掛牌日收盤（不扣成本，與同業、0050 同口徑）",
+  "peer_basket": "訊號日 k 當天的 PIT 產業；同業候選＝股池 U[k]（策略股池：只上市、流動性、非創新板）同產業、e 日有開盤；排除自己，再排除該產業（含自己）在 U[k] 內 PIT 市值最大的一檔（若最大的是自己，就只排除自己）；剩下 ≥ 5 家才算，等權（買進持有：個股持有期報酬的平均）。同業持有期與該筆交易相同（e 開盤 → x 開盤；同業 x 日無開盤時用 x−1 收盤；中途下市用最後掛牌日收盤）",
+  "peer_lt5": "同業不足 5 家（或產業缺值）另列筆數、平均、中位數，不併入主統計",
+  "metrics": "對同業超額＝個股 − 同業籃子；對 0050 超額＝個股 − 0050（E50O[x]/E50O[e] − 1）；拆解：對 0050 超額＝對同業超額＋（同業 − 0050）。報平均、中位數、勝率、t（逐筆）、t（依訊號月份群聚：先月內平均再對月份做 t）、去掉最賺 5 筆（各指標各自去掉該指標最大的 5 筆）後平均與群聚 t；分訓練（訊號 2016-02～2021-12）／驗證（2022-01 起）兩段",
+  "robustness": "同業改用全部上市普通股（P.MK==1 且非創新板，不設流動性）；同業改市值加權（排除最大後）"
+ },
+ "outputs": "results_describe.json（A1、A2、A3），describe.py 產生；之後 B 部分另有 PREREG.json",
+ "discipline": "python3 -I -B；峰值記憶體 ≤ 3GB；不改共用引擎；不碰 data_t86_2016、xq_scripts、rebal_day_unify、trend-radar；不動 o_g8p2a_protocol_addendum、live_tracking/main_forward、o_forward_infra_live；不 git commit"
+}

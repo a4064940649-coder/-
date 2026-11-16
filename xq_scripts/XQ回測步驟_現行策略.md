@@ -23,8 +23,10 @@
 
 | 腳本 | 參數 |
 |---|---|
-| 20 號 | `MinSurge` 2.5、`MinRet20` 10、`UseMA60` 1、`RebalDay` 11、`OnlyRebalDay` 1 |
-| 21 號 | `ExitSurge` 2.0、`UseMA60` 1、`RebalDay` 11 |
+| 20 號 | `MinSurge` 2.5、`MinRet20` 10、`UseMA60` 1、`DeadlineDay` 10、`OnlyRebalDay` 1 |
+| 21 號 | `ExitSurge` 2.0、`UseMA60` 1、`DeadlineDay` 10 |
+
+換股日（2026-11-16 統一，和研究中心回測、名單產生器同一個定義）：**每月 10 日（含，遇假日順延）之後第一個交易日的下一個交易日**收盤後選股，再下一個交易日開盤成交。舊版參數 `RebalDay` 11（第一個日期 ≥ 11 的交易日）已改名 `DeadlineDay`、預設 10，請不要填 11。10 日是交易日的月份新舊同一天；10 日是假日的月份新版晚 1 天（2019～2026 共 34／95 個月）。對照表見 `research/tw_stock_selection/agents/rebal_day_unify/REPORT.md`。
 
 ⚠ 20 號 `MinSurge` 一定要是 2.5。舊版預設是 0，會變成另一個策略（平均持 9～10 檔，報酬和回撤都大很多）。
 

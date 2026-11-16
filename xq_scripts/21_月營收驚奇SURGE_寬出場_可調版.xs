@@ -1,4 +1,9 @@
 // ===== S4-E3' 月營收驚奇 SURGE（出場腳本，近似版）v1.0 =====
+// ★★ 2026-11-16 換股日統一（rebal_day_unify）：換股日改成和研究中心回測、名單產生器 make_list.py 同一個定義（A10）：
+//   「每月 10 日（含）之後第一個交易日的下一個交易日」。舊版是「第一個日期 >= 11 的交易日」（B11）；10 日是交易日的月份兩者同一天，
+//   10 日是假日的月份（2019～2026 共 34／95 個月）舊版早 1 天，而且那天是營收期限當天，有些公司晚上才公布。
+//   參數 RebalDay（舊預設 11）改名 DeadlineDay（預設 10＝營收期限日）。請不要填 11：填 11 會變成「11 日後第一個交易日的下一個交易日」。
+//   下面舊說明裡寫的 RebalDay 現在都指 DeadlineDay；舊說明的數字是 B11 時的回測，新舊對照見 research/tw_stock_selection/agents/rebal_day_unify/REPORT.md。
 // 搭配「20_月營收驚奇SURGE_已在漲_選股_可調版.xs」。隔天開盤賣出。請用「還原日線」。
 // 以「19_月營收驚奇SURGE_寬出場_近似.xs」為底，多一個開關 UseF4Exit（預設 0 = E3'）。
 // ★ 請在 XQ 排除股名帶「-創」的股票、設「最多 10 檔、滿了不買」、沒訊號時的資金放 0050（說明見進場腳本開頭）。
@@ -15,15 +20,16 @@
 //   F4（UseF4Exit = 1）：45.36%／36.07%、最大回撤 -46.1%；相對 E3' 判定「沒差」（2019 年起少 3.24 個百分點、逐月每月 -0.15 個百分點，t -0.94）。
 //   所以預設 UseF4Exit = 0。
 // 未在 XQ 編譯，也未在 XQ 回測。語法只用了 xq_scripts 既有腳本出現過的寫法。欄位名「月營收」需在 XQ 確認。
-Input: ExitSurge(2.0), UseF4Exit(0), ExitSurge10(2.5), UseMA60(1), MALen(60), UseRet20Exit(0), MinRet20(10), RetLen(20), RebalDay(11);
+Input: ExitSurge(2.0), UseF4Exit(0), ExitSurge10(2.5), UseMA60(1), MALen(60), UseRet20Exit(0), MinRet20(10), RetLen(20), DeadlineDay(10);
 // ExitSurge：換股日 SURGE 低於這個值就賣；2.0 = 近似「掉出前 20 名」（E3）；1.75 = E2；2.5 = 近似「掉出前 10 名」（D1，同 17 號腳本）
 // UseF4Exit：1 = F4 的續抱條件：SURGE < ExitSurge10（近似掉出前 10 名）而且前 RetLen 日漲幅 <= 0 就賣；0 = 不用（E3'，預設）
 // ExitSurge10：近似「第 10 名」的 SURGE；2.5 = 129 個月中位數 2.52
 // UseMA60：1 = 換股日收盤 <= MALen 日均線就賣；0 = 不看均線
 // UseRet20Exit：1 = 換股日前 RetLen 日漲幅 <= MinRet20(%) 就賣（E2）；0 = 不看（E3）
+// DeadlineDay：營收期限日，預設 10；換股日＝這天（含，遇假日順延到下一個交易日）之後第一個交易日的「下一個交易日」（同研究中心回測）
 Var: MissingValue(-999999999), Idx(0), Idx2(0), RevA(0), RevB(0), RevOK(true),
      D0(0), Dk(0), SumD(0), SumD2(0), MeanD(0), VarD(0), Surge(-999),
-     IsRebal(false), DayNow(0), DayPrev(0), MAval(0), Ret20(-999);
+     IsRebal(false), DayNow(0), DayPrev(0), DayPrev2(0), MAval(0), Ret20(-999);
 SetTotalBar(100);
 SetBackBar(100);
 SetBackBar(40, "M");
@@ -52,11 +58,14 @@ end;
 MAval = Average(Close, MALen);
 Ret20 = -999;
 if Close[RetLen] > 0 then Ret20 = (Close / Close[RetLen] - 1) * 100;
-// 換股日：每月第一個日期 >= RebalDay 的交易日
+// 換股日（2026-11-16 統一，同研究中心回測 A10 與 make_list.py）：每月 DeadlineDay 日（含）之後第一個交易日的「下一個交易日」。
+//   判斷：前一根 K 棒是當月第一個日期 >= DeadlineDay 的交易日（再前一根的日期 < DeadlineDay，或在上個月），而且今天和前一根同一個月。
+//   10 日是假日（例如週末、國慶）時，前一根是順延後的期限日，今天是它的下一個交易日。
 DayNow = DayOfMonth(Date);
 DayPrev = DayOfMonth(Date[1]);
+DayPrev2 = DayOfMonth(Date[2]);
 IsRebal = false;
-if DayNow >= RebalDay and (DayPrev < RebalDay or DayPrev > DayNow) then IsRebal = true;
+if DayPrev >= DeadlineDay and (DayPrev2 < DeadlineDay or DayPrev2 > DayPrev) and DayNow > DayPrev then IsRebal = true;
 // 營收缺值（Surge = -999）也視為不在名單
 if IsRebal and Surge < ExitSurge then Ret = 1;
 if IsRebal and UseMA60 = 1 and Close <= MAval then Ret = 1;
