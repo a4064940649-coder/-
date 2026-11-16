@@ -1,0 +1,22 @@
+{
+ "study": "s12_surge_size_tiers",
+ "script": "run.py",
+ "fix": true,
+ "tag": "s12_run_fix1",
+ "soft_asserts": [
+  {
+   "line": 126,
+   "msg": "('驗收 A0／A3 失敗', {'P0': True, 'A1_shift0': True, 'A2_shift0': {'CUR': {'mismatch': 0, 'buy_outside_tier': 0}, 'L': {'mismatch': 0, 'buy_outside_tier': 0}, 'M': {'mismatch': 0, 'buy_outside_tier': 0}, 'S': {'mismatch': 0, 'buy_outside_tier': 0}, 'MS': {'mismatch': 0, 'buy_outside_tier': 0}, 'L_ADV': {'mismatch': 0, 'buy_outside_tier': 0}}, 'A0': {'since2019': 0.4899122573499457, 'full': 0.345433075014284, 'maxdd': -0.3211451024786043, 'nav_identical': True, 'trades_identical': True, 'ok': False}, 'A3': True})"
+  }
+ ],
+ "peak_mb": 1672,
+ "secs": 17,
+ "panel_exright_fix": true,
+ "exright_info": {
+  "n_twt49u": 9826,
+  "n_rights_issue_fallback": 11,
+  "n_prev_untraded": 6461,
+  "n_total": 16287,
+  "twt49u_last": "2026-10-29"
+ }
+}

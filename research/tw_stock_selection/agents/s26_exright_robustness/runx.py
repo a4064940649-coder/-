@@ -5,7 +5,7 @@
   2. 該題資料夾的非程式檔（PREREG／FROZEN／results_train／特徵 csv…）複製到 scratchpad/s26/run/<tag>/，腳本的 __file__ 指到那裡，
      所以腳本寫出的 results.json／navs／trades 全部落在 scratchpad，原資料夾一個位元都不動。
   3. 腳本裡的 assert 改成「記錄、不中止」（修正開啟後，對照修正前公布值的驗收 A0 本來就會不符；其他驗收失敗會在 soft_asserts 列出）。
-用法：python3 -I -B runx.py <題目資料夾> <腳本> <fix 0|1> [tag] [--no-frozen] [--keep]
+用法：python3 -I -B runx.py <題目資料夾> <腳本> <fix 0|1> [tag] [--no-frozen] [--keep] [--link:名稱=目標] [--path:資料夾]
   --no-frozen：不複製 FROZEN.json／FROZEN.sha256（重跑 train.py 看凍結選擇會不會變）。
 輸出：scratchpad/s26/run/<tag>/ 下腳本的原始輸出；本資料夾 out/<tag>__soft.json（被放行的 assert）。"""
 import sys, ast, shutil, json, re, io, contextlib
@@ -33,7 +33,19 @@ for f in SRC.iterdir():
     if f.is_file() and f.suffix != '.py' and f.name not in skip_out and not (keep and (DST / f.name).exists()):
         shutil.copy2(f, DST / f.name)
 
+# --link 名稱=目標：在 scratchpad/s26/run/ 下建同層資料夾的符號連結（腳本用 H.parent / '別題' 讀別題結果時，指到修正後的重跑或原資料夾，唯讀）
+# --path 資料夾：另把某題資料夾加進 sys.path（腳本自己 sys.path.insert(AG / ...) 的情形）
+for a in sys.argv:
+    if a.startswith('--link'):
+        name, tgt = a.split('=', 1)[0][len('--link:'):], a.split('=', 1)[1]
+        lk = common.SCR / 'run' / name
+        if lk.is_symlink() or lk.exists():
+            lk.unlink()
+        lk.symlink_to(tgt if tgt.startswith('/') else (common.SCR / 'run' / tgt))
 cslib = common.set_fix(fix)
+for a in sys.argv:
+    if a.startswith('--path:'):
+        common.addpath(a[len('--path:'):])
 common.addpath(study)
 src = (SRC / script).read_text()
 # 腳本自己寫死的 scratchpad 快取路徑（例如 s24 build.py 的 S24）只在記憶體中改到 s26/cache
