@@ -1,0 +1,3045 @@
+{
+ "step1": {
+  "n_months": 141,
+  "case_counts": {
+   "deadline<signal（安全）": 138,
+   "deadline>signal（問題）": 3
+  },
+  "problem_months": [
+   {
+    "rev_month": "2019-01",
+    "signal_day": "2019-02-12",
+    "deadline_statutory": "2019-02-11",
+    "deadline_actual": "2019-02-15",
+    "special": "金管會特例：春節 9 天連假延至 2019-02-15（全體）",
+    "days_short": 3
+   },
+   {
+    "rev_month": "2020-01",
+    "signal_day": "2020-02-11",
+    "deadline_statutory": "2020-02-10",
+    "deadline_actual": "2020-02-17",
+    "special": "肺炎疫情：受影響公司經申請可延至 2020-02-15（非全體，敏感度）",
+    "days_short": 4
+   },
+   {
+    "rev_month": "2023-03",
+    "signal_day": "2023-04-11",
+    "deadline_statutory": "2023-04-10",
+    "deadline_actual": "2023-04-12",
+    "special": "金管會公告：清明連假延至 2023-04-12（全體）",
+    "days_short": 1
+   }
+  ],
+  "boundary_months_n": 0,
+  "ins15": [
+   {
+    "rev_month": "2026-01",
+    "signal_day": "2026-02-11",
+    "deadline_ins15": "2026-02-23",
+    "ins15_case": "問題"
+   },
+   {
+    "rev_month": "2026-02",
+    "signal_day": "2026-03-11",
+    "deadline_ins15": "2026-03-16",
+    "ins15_case": "問題"
+   },
+   {
+    "rev_month": "2026-03",
+    "signal_day": "2026-04-13",
+    "deadline_ins15": "2026-04-15",
+    "ins15_case": "問題"
+   },
+   {
+    "rev_month": "2026-04",
+    "signal_day": "2026-05-12",
+    "deadline_ins15": "2026-05-15",
+    "ins15_case": "問題"
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "deadline_ins15": "2026-06-15",
+    "ins15_case": "問題"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "deadline_ins15": "2026-07-15",
+    "ins15_case": "問題"
+   },
+   {
+    "rev_month": "2026-07",
+    "signal_day": "2026-08-11",
+    "deadline_ins15": "2026-08-17",
+    "ins15_case": "問題"
+   },
+   {
+    "rev_month": "2026-08",
+    "signal_day": "2026-09-11",
+    "deadline_ins15": "2026-09-15",
+    "ins15_case": "問題"
+   },
+   {
+    "rev_month": "2026-09",
+    "signal_day": "2026-10-13",
+    "deadline_ins15": "2026-10-15",
+    "ins15_case": "問題"
+   }
+  ],
+  "special_2020": [
+   {
+    "rev_month": "2020-01",
+    "signal_day": "2020-02-11",
+    "deadline_actual": "2020-02-17",
+    "case": "deadline>signal（問題）"
+   }
+  ],
+  "note": "engine：訊號日＝期限日（10 日起第一個交易日）的下一個交易日，所以一般月份與 10 日遇假日月份都是 deadline<signal；只有主管機關特例延長（及 2026 起 15 日期限公司）會晚於訊號日。"
+ },
+ "step2": {
+  "n_months": 28,
+  "univ_cells_total": 17658,
+  "univ_noncompliant": {
+   "LATE_GAP": 7,
+   "LATE_GAP_DL": 182,
+   "LATE_LEGAL": 13,
+   "LATE_SURE": 12,
+   "UNKNOWN": 255,
+   "UNSEEN_LATE": 71
+  },
+  "univ_late_by_month": {
+   "2026-01": 11,
+   "2026-02": 11,
+   "2026-03": 10,
+   "2026-04": 11,
+   "2026-05": 11,
+   "2026-06": 13,
+   "2026-07": 12,
+   "2026-08": 12,
+   "2026-09": 12
+  },
+  "univ_late_ins15": 102,
+  "f1_total": 130,
+  "f1_by_cat": {
+   "OK": 127,
+   "UNKNOWN": 2,
+   "UNSEEN_LATE": 1
+  },
+  "top20_total": 560,
+  "top20_by_cat": {
+   "LATE_GAP_DL": 4,
+   "LATE_LEGAL": 1,
+   "OK": 542,
+   "UNKNOWN": 8,
+   "UNSEEN_LATE": 5
+  },
+  "f1_late": [
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "code": "2887",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": true,
+    "rank_lma": 1.0,
+    "ins15": true,
+    "surge": 6.029042965619105,
+    "tasi_last": "2025-10-13 20:33:38+08:00"
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "code": "2885",
+    "cat": "UNSEEN_LATE",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": true,
+    "rank_lma": 7.0,
+    "ins15": true,
+    "surge": 4.531810492569865,
+    "tasi_last": "2026-06-12 18:16:50+08:00"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "code": "2425",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": true,
+    "rank_lma": 4.0,
+    "ins15": false,
+    "surge": 5.253044919983517,
+    "tasi_last": "2026-07-13 18:16:59+08:00"
+   }
+  ],
+  "top20_late": [
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "code": "2851",
+    "cat": "LATE_GAP_DL",
+    "src": "tasi",
+    "T": "2025-09-12 18:27:17+08:00",
+    "T_prev": "2025-09-10 18:27:14+08:00",
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 13.0,
+    "ins15": true,
+    "surge": 2.3243912643648987,
+    "tasi_last": "2025-09-12 18:27:17+08:00"
+   },
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "code": "2887",
+    "cat": "LATE_GAP_DL",
+    "src": "tasi",
+    "T": "2025-09-12 18:27:17+08:00",
+    "T_prev": "2025-09-10 18:27:14+08:00",
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 2.0,
+    "ins15": true,
+    "surge": 4.235285733339232,
+    "tasi_last": "2025-09-12 18:27:17+08:00"
+   },
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "code": "3032",
+    "cat": "LATE_GAP_DL",
+    "src": "tasi",
+    "T": "2025-09-12 18:27:17+08:00",
+    "T_prev": "2025-09-10 18:27:14+08:00",
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 11.0,
+    "ins15": false,
+    "surge": 2.3508197846459162,
+    "tasi_last": "2025-09-12 18:27:17+08:00"
+   },
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "code": "3694",
+    "cat": "LATE_GAP_DL",
+    "src": "tasi",
+    "T": "2025-09-12 18:27:17+08:00",
+    "T_prev": "2025-09-10 18:27:14+08:00",
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 14.0,
+    "ins15": false,
+    "surge": 2.3227552175690267,
+    "tasi_last": "2025-09-12 18:27:17+08:00"
+   },
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "code": "2316",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 13.0,
+    "ins15": false,
+    "surge": 3.1346444367451394,
+    "tasi_last": "2025-10-13 20:33:38+08:00"
+   },
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "code": "2887",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": true,
+    "rank_lma": 1.0,
+    "ins15": true,
+    "surge": 6.029042965619105,
+    "tasi_last": "2025-10-13 20:33:38+08:00"
+   },
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "code": "6914",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 3.0,
+    "ins15": false,
+    "surge": 5.0652326232032125,
+    "tasi_last": "2025-10-13 20:33:38+08:00"
+   },
+   {
+    "rev_month": "2025-12",
+    "signal_day": "2026-01-13",
+    "code": "2442",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 1.0,
+    "ins15": false,
+    "surge": 25.544226096144865,
+    "tasi_last": "2026-01-12 18:28:44+08:00"
+   },
+   {
+    "rev_month": "2025-12",
+    "signal_day": "2026-01-13",
+    "code": "2887",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 13.0,
+    "ins15": true,
+    "surge": 3.153676755025854,
+    "tasi_last": "2026-01-12 18:28:44+08:00"
+   },
+   {
+    "rev_month": "2025-12",
+    "signal_day": "2026-01-13",
+    "code": "3703",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 2.0,
+    "ins15": false,
+    "surge": 13.505988359179131,
+    "tasi_last": "2026-01-12 18:28:44+08:00"
+   },
+   {
+    "rev_month": "2026-02",
+    "signal_day": "2026-03-11",
+    "code": "2850",
+    "cat": "UNSEEN_LATE",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 2.0,
+    "ins15": true,
+    "surge": 3.24128989120534,
+    "tasi_last": "2026-03-12 18:29:40+08:00"
+   },
+   {
+    "rev_month": "2026-04",
+    "signal_day": "2026-05-12",
+    "code": "2850",
+    "cat": "UNSEEN_LATE",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 10.0,
+    "ins15": true,
+    "surge": 5.01976059927298,
+    "tasi_last": "2026-05-12 18:17:11+08:00"
+   },
+   {
+    "rev_month": "2026-04",
+    "signal_day": "2026-05-12",
+    "code": "2851",
+    "cat": "UNSEEN_LATE",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 6.0,
+    "ins15": true,
+    "surge": 5.515837808717289,
+    "tasi_last": "2026-05-12 18:17:11+08:00"
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "code": "2832",
+    "cat": "UNSEEN_LATE",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 15.0,
+    "ins15": true,
+    "surge": 3.6813047208970575,
+    "tasi_last": "2026-06-12 18:16:50+08:00"
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "code": "2885",
+    "cat": "UNSEEN_LATE",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": true,
+    "rank_lma": 7.0,
+    "ins15": true,
+    "surge": 4.531810492569865,
+    "tasi_last": "2026-06-12 18:16:50+08:00"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "code": "2207",
+    "cat": "LATE_LEGAL",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 14.0,
+    "ins15": true,
+    "surge": 3.809962092846885,
+    "tasi_last": "2026-07-13 18:16:59+08:00"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "code": "2330",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": false,
+    "rank_lma": 6.0,
+    "ins15": false,
+    "surge": 4.915621563851564,
+    "tasi_last": "2026-07-13 18:16:59+08:00"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "code": "2425",
+    "cat": "UNKNOWN",
+    "src": "tasi",
+    "T": NaN,
+    "T_prev": NaN,
+    "in_top20": true,
+    "in_f1": true,
+    "rank_lma": 4.0,
+    "ins15": false,
+    "surge": 5.253044919983517,
+    "tasi_last": "2026-07-13 18:16:59+08:00"
+   }
+  ],
+  "late_rank_le30": [
+   {
+    "rev_month": "2026-02",
+    "code": "2850",
+    "cat": "UNSEEN_LATE",
+    "rank_lma": 2.0,
+    "surge": 3.24128989120534,
+    "ins15": true
+   },
+   {
+    "rev_month": "2026-03",
+    "code": "2850",
+    "cat": "UNSEEN_LATE",
+    "rank_lma": 21.0,
+    "surge": 2.861889868579097,
+    "ins15": true
+   },
+   {
+    "rev_month": "2026-04",
+    "code": "2832",
+    "cat": "UNSEEN_LATE",
+    "rank_lma": 23.0,
+    "surge": 3.5314513405123846,
+    "ins15": true
+   },
+   {
+    "rev_month": "2026-04",
+    "code": "2850",
+    "cat": "UNSEEN_LATE",
+    "rank_lma": 10.0,
+    "surge": 5.01976059927298,
+    "ins15": true
+   },
+   {
+    "rev_month": "2026-04",
+    "code": "2851",
+    "cat": "UNSEEN_LATE",
+    "rank_lma": 6.0,
+    "surge": 5.515837808717289,
+    "ins15": true
+   },
+   {
+    "rev_month": "2026-04",
+    "code": "2885",
+    "cat": "UNSEEN_LATE",
+    "rank_lma": 24.0,
+    "surge": 3.5248555480310504,
+    "ins15": true
+   },
+   {
+    "rev_month": "2026-05",
+    "code": "2832",
+    "cat": "UNSEEN_LATE",
+    "rank_lma": 15.0,
+    "surge": 3.6813047208970575,
+    "ins15": true
+   },
+   {
+    "rev_month": "2026-05",
+    "code": "2880",
+    "cat": "UNSEEN_LATE",
+    "rank_lma": 22.0,
+    "surge": 3.3205982054307435,
+    "ins15": true
+   },
+   {
+    "rev_month": "2026-05",
+    "code": "2885",
+    "cat": "UNSEEN_LATE",
+    "rank_lma": 7.0,
+    "surge": 4.531810492569865,
+    "ins15": true
+   },
+   {
+    "rev_month": "2026-06",
+    "code": "2207",
+    "cat": "LATE_LEGAL",
+    "rank_lma": 14.0,
+    "surge": 3.809962092846885,
+    "ins15": true
+   }
+  ],
+  "tasi_monthly": [
+   {
+    "rev_month": "2024-06",
+    "signal_day": "2024-07-11",
+    "deadline_actual": "2024-07-10",
+    "tasi_last_snapshot": "2024-07-12 18:22:01+08:00",
+    "n_rev": 1809,
+    "n_seen": 1706,
+    "share_by_deadline_night": 0.9181868435599779,
+    "share_by_signal_night": 0.9430624654505252,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2024-07-10"
+   },
+   {
+    "rev_month": "2024-07",
+    "signal_day": "2024-08-13",
+    "deadline_actual": "2024-08-12",
+    "tasi_last_snapshot": "2024-08-12 18:22:11+08:00",
+    "n_rev": 1807,
+    "n_seen": 1687,
+    "share_by_deadline_night": 0.9335915882678473,
+    "share_by_signal_night": 0.9335915882678473,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2024-08-09"
+   },
+   {
+    "rev_month": "2024-08",
+    "signal_day": "2024-09-11",
+    "deadline_actual": "2024-09-10",
+    "tasi_last_snapshot": "2024-09-12 18:21:21+08:00",
+    "n_rev": 1816,
+    "n_seen": 1711,
+    "share_by_deadline_night": 0.9201541850220264,
+    "share_by_signal_night": 0.9421806167400881,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2024-09-10"
+   },
+   {
+    "rev_month": "2024-09",
+    "signal_day": "2024-10-14",
+    "deadline_actual": "2024-10-11",
+    "tasi_last_snapshot": "2024-10-14 18:21:14+08:00",
+    "n_rev": 1822,
+    "n_seen": 1721,
+    "share_by_deadline_night": 0.9385290889132821,
+    "share_by_signal_night": 0.9445664105378705,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2024-10-09"
+   },
+   {
+    "rev_month": "2024-10",
+    "signal_day": "2024-11-12",
+    "deadline_actual": "2024-11-11",
+    "tasi_last_snapshot": "2024-11-12 18:21:21+08:00",
+    "n_rev": 1825,
+    "n_seen": 1722,
+    "share_by_deadline_night": 0.9342465753424658,
+    "share_by_signal_night": 0.9435616438356165,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2024-11-08"
+   },
+   {
+    "rev_month": "2024-11",
+    "signal_day": "2024-12-11",
+    "deadline_actual": "2024-12-10",
+    "tasi_last_snapshot": "2024-12-11 18:21:26+08:00",
+    "n_rev": 1828,
+    "n_seen": 1729,
+    "share_by_deadline_night": 0.9168490153172867,
+    "share_by_signal_night": 0.9458424507658644,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2024-12-10"
+   },
+   {
+    "rev_month": "2024-12",
+    "signal_day": "2025-01-13",
+    "deadline_actual": "2025-01-10",
+    "tasi_last_snapshot": "2025-01-13 18:21:14+08:00",
+    "n_rev": 1834,
+    "n_seen": 1735,
+    "share_by_deadline_night": 0.9045801526717557,
+    "share_by_signal_night": 0.9460196292257361,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2025-01-10"
+   },
+   {
+    "rev_month": "2025-01",
+    "signal_day": "2025-02-11",
+    "deadline_actual": "2025-02-10",
+    "tasi_last_snapshot": "2025-02-12 18:21:23+08:00",
+    "n_rev": 1832,
+    "n_seen": 1738,
+    "share_by_deadline_night": 0.9039301310043668,
+    "share_by_signal_night": 0.9486899563318777,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2025-02-10"
+   },
+   {
+    "rev_month": "2025-02",
+    "signal_day": "2025-03-11",
+    "deadline_actual": "2025-03-10",
+    "tasi_last_snapshot": "2025-03-11 18:21:40+08:00",
+    "n_rev": 1832,
+    "n_seen": 1742,
+    "share_by_deadline_night": 0.9072052401746725,
+    "share_by_signal_night": 0.9508733624454149,
+    "date_95": "2025-03-11",
+    "date_99": NaN,
+    "modal_first_date": "2025-03-10"
+   },
+   {
+    "rev_month": "2025-03",
+    "signal_day": "2025-04-11",
+    "deadline_actual": "2025-04-10",
+    "tasi_last_snapshot": "2025-04-14 18:16:26+08:00",
+    "n_rev": 1832,
+    "n_seen": 1742,
+    "share_by_deadline_night": 0.925764192139738,
+    "share_by_signal_night": 0.9508733624454149,
+    "date_95": "2025-04-11",
+    "date_99": NaN,
+    "modal_first_date": "2025-04-10"
+   },
+   {
+    "rev_month": "2025-04",
+    "signal_day": "2025-05-13",
+    "deadline_actual": "2025-05-12",
+    "tasi_last_snapshot": "2025-05-12 18:16:43+08:00",
+    "n_rev": 1833,
+    "n_seen": 1713,
+    "share_by_deadline_night": 0.9345335515548282,
+    "share_by_signal_night": 0.9345335515548282,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2025-05-12"
+   },
+   {
+    "rev_month": "2025-05",
+    "signal_day": "2025-06-11",
+    "deadline_actual": "2025-06-10",
+    "tasi_last_snapshot": "2025-06-11 18:16:38+08:00",
+    "n_rev": 1843,
+    "n_seen": 1762,
+    "share_by_deadline_night": 0.9278350515463918,
+    "share_by_signal_night": 0.9560499186109603,
+    "date_95": "2025-06-11",
+    "date_99": NaN,
+    "modal_first_date": "2025-06-10"
+   },
+   {
+    "rev_month": "2025-06",
+    "signal_day": "2025-07-11",
+    "deadline_actual": "2025-07-10",
+    "tasi_last_snapshot": "2025-07-11 18:25:38+08:00",
+    "n_rev": 1841,
+    "n_seen": 1760,
+    "share_by_deadline_night": 0.9348180336773493,
+    "share_by_signal_night": 0.9560021727322108,
+    "date_95": "2025-07-11",
+    "date_99": NaN,
+    "modal_first_date": "2025-07-10"
+   },
+   {
+    "rev_month": "2025-07",
+    "signal_day": "2025-08-12",
+    "deadline_actual": "2025-08-11",
+    "tasi_last_snapshot": "2025-08-12 18:26:37+08:00",
+    "n_rev": 1844,
+    "n_seen": 1768,
+    "share_by_deadline_night": 0.9468546637744034,
+    "share_by_signal_night": 0.9587852494577006,
+    "date_95": "2025-08-12",
+    "date_99": NaN,
+    "modal_first_date": "2025-08-08"
+   },
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "deadline_actual": "2025-09-10",
+    "tasi_last_snapshot": "2025-09-12 18:27:17+08:00",
+    "n_rev": 1849,
+    "n_seen": 1776,
+    "share_by_deadline_night": 0.6284478096268253,
+    "share_by_signal_night": 0.6284478096268253,
+    "date_95": "2025-09-12",
+    "date_99": NaN,
+    "modal_first_date": "2025-09-12"
+   },
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "deadline_actual": "2025-10-13",
+    "tasi_last_snapshot": "2025-10-13 20:33:38+08:00",
+    "n_rev": 1846,
+    "n_seen": 1567,
+    "share_by_deadline_night": 0.8488624052004333,
+    "share_by_signal_night": 0.8488624052004333,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2025-10-13"
+   },
+   {
+    "rev_month": "2025-10",
+    "signal_day": "2025-11-11",
+    "deadline_actual": "2025-11-10",
+    "tasi_last_snapshot": "2025-11-12 18:28:19+08:00",
+    "n_rev": 1844,
+    "n_seen": 1785,
+    "share_by_deadline_night": 0.539587852494577,
+    "share_by_signal_night": 0.9680043383947939,
+    "date_95": "2025-11-11",
+    "date_99": NaN,
+    "modal_first_date": "2025-11-11"
+   },
+   {
+    "rev_month": "2025-11",
+    "signal_day": "2025-12-11",
+    "deadline_actual": "2025-12-10",
+    "tasi_last_snapshot": "2025-12-11 18:32:51+08:00",
+    "n_rev": 1844,
+    "n_seen": 1796,
+    "share_by_deadline_night": 0.6290672451193059,
+    "share_by_signal_night": 0.9739696312364425,
+    "date_95": "2025-12-11",
+    "date_99": NaN,
+    "modal_first_date": "2025-12-11"
+   },
+   {
+    "rev_month": "2025-12",
+    "signal_day": "2026-01-13",
+    "deadline_actual": "2026-01-12",
+    "tasi_last_snapshot": "2026-01-12 18:28:44+08:00",
+    "n_rev": 1849,
+    "n_seen": 1566,
+    "share_by_deadline_night": 0.8469442942130881,
+    "share_by_signal_night": 0.8469442942130881,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2026-01-12"
+   },
+   {
+    "rev_month": "2026-01",
+    "signal_day": "2026-02-11",
+    "deadline_actual": "2026-02-10",
+    "tasi_last_snapshot": "2026-02-12 18:16:50+08:00",
+    "n_rev": 1843,
+    "n_seen": 1794,
+    "share_by_deadline_night": 0.6077048290830168,
+    "share_by_signal_night": 0.9734129137276181,
+    "date_95": "2026-02-11",
+    "date_99": NaN,
+    "modal_first_date": "2026-02-11"
+   },
+   {
+    "rev_month": "2026-02",
+    "signal_day": "2026-03-11",
+    "deadline_actual": "2026-03-10",
+    "tasi_last_snapshot": "2026-03-12 18:29:40+08:00",
+    "n_rev": 1844,
+    "n_seen": 1797,
+    "share_by_deadline_night": 0.5818872017353579,
+    "share_by_signal_night": 0.9734273318872018,
+    "date_95": "2026-03-11",
+    "date_99": NaN,
+    "modal_first_date": "2026-03-11"
+   },
+   {
+    "rev_month": "2026-03",
+    "signal_day": "2026-04-13",
+    "deadline_actual": "2026-04-10",
+    "tasi_last_snapshot": "2026-04-13 18:18:13+08:00",
+    "n_rev": 1846,
+    "n_seen": 1803,
+    "share_by_deadline_night": 0.5823401950162513,
+    "share_by_signal_night": 0.97670639219935,
+    "date_95": "2026-04-13",
+    "date_99": NaN,
+    "modal_first_date": "2026-04-13"
+   },
+   {
+    "rev_month": "2026-04",
+    "signal_day": "2026-05-12",
+    "deadline_actual": "2026-05-11",
+    "tasi_last_snapshot": "2026-05-12 18:17:11+08:00",
+    "n_rev": 1848,
+    "n_seen": 1814,
+    "share_by_deadline_night": 0.829004329004329,
+    "share_by_signal_night": 0.9816017316017316,
+    "date_95": "2026-05-12",
+    "date_99": NaN,
+    "modal_first_date": "2026-05-11"
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "deadline_actual": "2026-06-10",
+    "tasi_last_snapshot": "2026-06-12 18:16:50+08:00",
+    "n_rev": 1849,
+    "n_seen": 1823,
+    "share_by_deadline_night": 0.6457544618712818,
+    "share_by_signal_night": 0.9843158464034614,
+    "date_95": "2026-06-11",
+    "date_99": NaN,
+    "modal_first_date": "2026-06-11"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "deadline_actual": "2026-07-13",
+    "tasi_last_snapshot": "2026-07-13 18:16:59+08:00",
+    "n_rev": 1850,
+    "n_seen": 1640,
+    "share_by_deadline_night": 0.8864864864864865,
+    "share_by_signal_night": 0.8864864864864865,
+    "date_95": NaN,
+    "date_99": NaN,
+    "modal_first_date": "2026-07-10"
+   },
+   {
+    "rev_month": "2026-07",
+    "signal_day": "2026-08-11",
+    "deadline_actual": "2026-08-10",
+    "tasi_last_snapshot": "2026-08-12 18:16:39+08:00",
+    "n_rev": 1841,
+    "n_seen": 1822,
+    "share_by_deadline_night": 0.5480717001629549,
+    "share_by_signal_night": 0.9891363389462249,
+    "date_95": "2026-08-11",
+    "date_99": NaN,
+    "modal_first_date": "2026-08-11"
+   },
+   {
+    "rev_month": "2026-08",
+    "signal_day": "2026-09-11",
+    "deadline_actual": "2026-09-10",
+    "tasi_last_snapshot": "2026-09-14 18:16:55+08:00",
+    "n_rev": 1850,
+    "n_seen": 1835,
+    "share_by_deadline_night": 0.6545945945945946,
+    "share_by_signal_night": 0.9897297297297297,
+    "date_95": "2026-09-11",
+    "date_99": "2026-09-14",
+    "modal_first_date": "2026-09-11"
+   },
+   {
+    "rev_month": "2026-09",
+    "signal_day": "2026-10-13",
+    "deadline_actual": "2026-10-12",
+    "tasi_last_snapshot": "2026-10-12 18:16:52+08:00",
+    "n_rev": 1849,
+    "n_seen": 1849,
+    "share_by_deadline_night": 0.9540292049756626,
+    "share_by_signal_night": 0.991887506760411,
+    "date_95": "2026-10-12",
+    "date_99": "2026-10-13",
+    "modal_first_date": "2026-10-08"
+   }
+  ],
+  "s36_zero_day_f1": [
+   {
+    "rev_month": "2025-05",
+    "signal_day": "2025-06-11",
+    "code": "5469",
+    "T": "2025-06-11 18:16:38+08:00",
+    "T_prev": "2025-06-10 18:16:48+08:00",
+    "cat": "OK"
+   },
+   {
+    "rev_month": "2025-06",
+    "signal_day": "2025-07-11",
+    "code": "3712",
+    "T": "2025-07-11 18:25:38+08:00",
+    "T_prev": "2025-07-10 18:25:53+08:00",
+    "cat": "OK"
+   },
+   {
+    "rev_month": "2025-10",
+    "signal_day": "2025-11-11",
+    "code": "2344",
+    "T": "2025-11-11 18:28:12+08:00",
+    "T_prev": "2025-11-10 18:27:27+08:00",
+    "cat": "OK"
+   },
+   {
+    "rev_month": "2026-03",
+    "signal_day": "2026-04-13",
+    "code": "2347",
+    "T": "2026-04-13 18:18:13+08:00",
+    "T_prev": "2026-04-10 18:24:35+08:00",
+    "cat": "OK"
+   },
+   {
+    "rev_month": "2026-04",
+    "signal_day": "2026-05-12",
+    "code": "6005",
+    "T": "2026-05-12 18:17:11+08:00",
+    "T_prev": "2026-05-11 18:17:34+08:00",
+    "cat": "OK"
+   },
+   {
+    "rev_month": "2026-07",
+    "signal_day": "2026-08-11",
+    "code": "3003",
+    "T": "2026-08-11 18:17:08+08:00",
+    "T_prev": "2026-08-10 18:16:54+08:00",
+    "cat": "OK"
+   }
+  ]
+ },
+ "visibility_runtime_s": 7.2,
+ "visibility_maxrss_mb": 1408,
+ "acceptance": {
+  "av_rebuilt_equal": true,
+  "cur_S_identical": true,
+  "A0_engine_current": {
+   "since2019": 0.48991278775035196,
+   "full": 0.34543340603574313,
+   "maxdd": -0.3211451024786043,
+   "n_trades": 381,
+   "ok": true
+  },
+  "DL_first_nav_diff_date": "2019-02-13",
+  "DL20_first_nav_diff_date": "2019-02-13",
+  "PM_first_nav_diff_date": "2026-06-12",
+  "PMS_first_nav_diff_date": "2026-06-12",
+  "PMW_first_nav_diff_date": "2025-09-12",
+  "PST_first_nav_diff_date": "2026-06-12",
+  "ALL_first_nav_diff_date": "2019-02-13",
+  "n_cells_masked_shift0": {
+   "PM": 103,
+   "PMS": 96,
+   "PMW": 285,
+   "PST": 103,
+   "ALL": 103
+  }
+ },
+ "engine": {
+  "window": [
+   "2024-06-28",
+   "2026-10-22"
+  ],
+  "since2019_start": "2018-12-28",
+  "standard": {
+   "CUR": {
+    "since2019": 0.48991278775035196,
+    "full": 0.34543340603574313,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.6194981301441089,
+    "maxdd_window": -0.3211451024786043,
+    "cagr_window_costx2": 0.5567497812529338,
+    "since2019_costx2": 0.43143583109867234,
+    "n_closed_all": 381,
+    "end_nav": 28670779.158126563
+   },
+   "DL": {
+    "since2019": 0.4885002822433431,
+    "full": 0.3445517360906727,
+    "maxdd_full": -0.32119049020243395,
+    "cagr_window": 0.6194831271563708,
+    "maxdd_window": -0.32119049020243395,
+    "cagr_window_costx2": 0.5568116835342067,
+    "since2019_costx2": 0.43184660543630815,
+    "n_closed_all": 382,
+    "end_nav": 28459000.73865949,
+    "d_since2019_pp": -0.14125055070088877,
+    "d_full_pp": -0.08816699450704402,
+    "d_maxdd_full_pp": -0.004538772382967071,
+    "d_cagr_window_pp": -0.0015002987738155227,
+    "d_maxdd_window_pp": -0.004538772382967071,
+    "d_cagr_window_costx2_pp": 0.006190228127289643,
+    "d_since2019_costx2_pp": 0.041077433763581084,
+    "trades_only_in_this": 16,
+    "trades_only_in_CUR": 15
+   },
+   "DL20": {
+    "since2019": 0.48178300858761114,
+    "full": 0.3403553471454166,
+    "maxdd_full": -0.3291874544853364,
+    "cagr_window": 0.622131525367934,
+    "maxdd_window": -0.3291874544853364,
+    "cagr_window_costx2": 0.5567142136882164,
+    "since2019_costx2": 0.43014278632660385,
+    "n_closed_all": 381,
+    "end_nav": 27470431.761771042,
+    "d_since2019_pp": -0.8129779162740824,
+    "d_full_pp": -0.5078058890326531,
+    "d_maxdd_full_pp": -0.804235200673209,
+    "d_cagr_window_pp": 0.2633395223825108,
+    "d_maxdd_window_pp": -0.804235200673209,
+    "d_cagr_window_costx2_pp": -0.0035567564717453592,
+    "d_since2019_costx2_pp": -0.12930447720684857,
+    "trades_only_in_this": 20,
+    "trades_only_in_CUR": 20
+   },
+   "PM": {
+    "since2019": 0.4889746703394715,
+    "full": 0.34484787257949234,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.616059481220304,
+    "maxdd_window": -0.3211451024786043,
+    "cagr_window_costx2": 0.5539803742361384,
+    "since2019_costx2": 0.4306807803746304,
+    "n_closed_all": 380,
+    "end_nav": 28529973.57697595,
+    "d_since2019_pp": -0.09381174108804569,
+    "d_full_pp": -0.058553345625078634,
+    "d_maxdd_full_pp": 0.0,
+    "d_cagr_window_pp": -0.34386489238049656,
+    "d_maxdd_window_pp": 0.0,
+    "d_cagr_window_costx2_pp": -0.27694070167954,
+    "d_since2019_costx2_pp": -0.07550507240419169,
+    "trades_only_in_this": 0,
+    "trades_only_in_CUR": 1
+   },
+   "PMS": {
+    "since2019": 0.4889746703394715,
+    "full": 0.34484787257949234,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.616059481220304,
+    "maxdd_window": -0.3211451024786043,
+    "cagr_window_costx2": 0.5539803742361384,
+    "since2019_costx2": 0.4306807803746304,
+    "n_closed_all": 380,
+    "end_nav": 28529973.57697595,
+    "d_since2019_pp": -0.09381174108804569,
+    "d_full_pp": -0.058553345625078634,
+    "d_maxdd_full_pp": 0.0,
+    "d_cagr_window_pp": -0.34386489238049656,
+    "d_maxdd_window_pp": 0.0,
+    "d_cagr_window_costx2_pp": -0.27694070167954,
+    "d_since2019_costx2_pp": -0.07550507240419169,
+    "trades_only_in_this": 0,
+    "trades_only_in_CUR": 1
+   },
+   "PMW": {
+    "since2019": 0.48494589342539696,
+    "full": 0.3423319825884763,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.6013504778582905,
+    "maxdd_window": -0.3211451024786043,
+    "cagr_window_costx2": 0.540618655404367,
+    "since2019_costx2": 0.4270244781219297,
+    "n_closed_all": 381,
+    "end_nav": 27932111.93168215,
+    "d_since2019_pp": -0.4966894324955007,
+    "d_full_pp": -0.3101423447266827,
+    "d_maxdd_full_pp": 0.0,
+    "d_cagr_window_pp": -1.8147652285818383,
+    "d_maxdd_window_pp": 0.0,
+    "d_cagr_window_costx2_pp": -1.6131125848566796,
+    "d_since2019_costx2_pp": -0.4411352976742666,
+    "trades_only_in_this": 4,
+    "trades_only_in_CUR": 4
+   },
+   "PST": {
+    "since2019": 0.48764912896807,
+    "full": 0.34402033107346197,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.6112095011668135,
+    "maxdd_window": -0.3211451024786043,
+    "cagr_window_costx2": 0.548808653193013,
+    "since2019_costx2": 0.4292682241242196,
+    "n_closed_all": 381,
+    "end_nav": 28332046.23963476,
+    "d_since2019_pp": -0.22636587822819632,
+    "d_full_pp": -0.14130749622811578,
+    "d_maxdd_full_pp": 0.0,
+    "d_cagr_window_pp": -0.8288628977295431,
+    "d_maxdd_window_pp": 0.0,
+    "d_cagr_window_costx2_pp": -0.7941128059920866,
+    "d_since2019_costx2_pp": -0.21676069744527293,
+    "trades_only_in_this": 3,
+    "trades_only_in_CUR": 3
+   },
+   "ALL": {
+    "since2019": 0.4875617247721724,
+    "full": 0.3439657562340761,
+    "maxdd_full": -0.32119049020243395,
+    "cagr_window": 0.6160396361334672,
+    "maxdd_window": -0.32119049020243395,
+    "cagr_window_costx2": 0.5540435266054164,
+    "since2019_costx2": 0.4310917092094426,
+    "n_closed_all": 381,
+    "end_nav": 28319037.397780344,
+    "d_since2019_pp": -0.23510629781795522,
+    "d_full_pp": -0.14676498016670259,
+    "d_maxdd_full_pp": -0.004538772382967071,
+    "d_cagr_window_pp": -0.34584940106416884,
+    "d_maxdd_window_pp": -0.004538772382967071,
+    "d_cagr_window_costx2_pp": -0.2706254647517392,
+    "d_since2019_costx2_pp": -0.03441218892297204,
+    "trades_only_in_this": 16,
+    "trades_only_in_CUR": 16
+   }
+  },
+  "f1_diff_months": {
+   "DL": {
+    "2019-01": {
+     "sig_date": "2019-02-18",
+     "cur_sig_date": "2019-02-12",
+     "f1": [
+      "1515",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ],
+     "cur_f1": [
+      "9904",
+      "1515",
+      "6282",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ]
+    },
+    "2023-03": {
+     "sig_date": "2023-04-13",
+     "cur_sig_date": "2023-04-11",
+     "f1": [
+      "1752",
+      "3025",
+      "2731",
+      "2634",
+      "6197",
+      "1519"
+     ],
+     "cur_f1": [
+      "3025",
+      "2731",
+      "1519",
+      "1529"
+     ]
+    }
+   },
+   "DL20": {
+    "2019-01": {
+     "sig_date": "2019-02-18",
+     "cur_sig_date": "2019-02-12",
+     "f1": [
+      "1515",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ],
+     "cur_f1": [
+      "9904",
+      "1515",
+      "6282",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ]
+    },
+    "2020-01": {
+     "sig_date": "2020-02-18",
+     "cur_sig_date": "2020-02-11",
+     "f1": [
+      "6416",
+      "3545",
+      "8131"
+     ],
+     "cur_f1": [
+      "4142",
+      "6416",
+      "1519"
+     ]
+    },
+    "2023-03": {
+     "sig_date": "2023-04-13",
+     "cur_sig_date": "2023-04-11",
+     "f1": [
+      "1752",
+      "3025",
+      "2731",
+      "2634",
+      "6197",
+      "1519"
+     ],
+     "cur_f1": [
+      "3025",
+      "2731",
+      "1519",
+      "1529"
+     ]
+    }
+   },
+   "PM": {
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "PMS": {
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "PMW": {
+    "2025-08": {
+     "sig_date": "2025-09-11",
+     "cur_sig_date": "2025-09-11",
+     "f1": [
+      "2408",
+      "4739",
+      "2374",
+      "6579"
+     ],
+     "cur_f1": [
+      "2408",
+      "4739",
+      "2374"
+     ]
+    },
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "PST": {
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "2851",
+      "2850",
+      "3022",
+      "8021"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "ALL": {
+    "2019-01": {
+     "sig_date": "2019-02-18",
+     "cur_sig_date": "2019-02-12",
+     "f1": [
+      "1515",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ],
+     "cur_f1": [
+      "9904",
+      "1515",
+      "6282",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ]
+    },
+    "2023-03": {
+     "sig_date": "2023-04-13",
+     "cur_sig_date": "2023-04-11",
+     "f1": [
+      "1752",
+      "3025",
+      "2731",
+      "2634",
+      "6197",
+      "1519"
+     ],
+     "cur_f1": [
+      "3025",
+      "2731",
+      "1519",
+      "1529"
+     ]
+    },
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   }
+  },
+  "yearly": {
+   "CUR": {
+    "2016-12-31 00:00:00": 15.44,
+    "2017-12-31 00:00:00": 22.24,
+    "2018-12-31 00:00:00": 0.95,
+    "2019-12-31 00:00:00": 32.66,
+    "2020-12-31 00:00:00": 100.0,
+    "2021-12-31 00:00:00": 44.98,
+    "2022-12-31 00:00:00": -17.45,
+    "2023-12-31 00:00:00": 57.67,
+    "2024-12-31 00:00:00": 63.38,
+    "2025-12-31 00:00:00": 56.68,
+    "2026-12-31 00:00:00": 76.11
+   },
+   "DL": {
+    "2016-12-31 00:00:00": 15.44,
+    "2017-12-31 00:00:00": 22.24,
+    "2018-12-31 00:00:00": 0.95,
+    "2019-12-31 00:00:00": 31.17,
+    "2020-12-31 00:00:00": 100.75,
+    "2021-12-31 00:00:00": 44.94,
+    "2022-12-31 00:00:00": -17.45,
+    "2023-12-31 00:00:00": 57.72,
+    "2024-12-31 00:00:00": 63.38,
+    "2025-12-31 00:00:00": 56.69,
+    "2026-12-31 00:00:00": 76.11
+   },
+   "DL20": {
+    "2016-12-31 00:00:00": 15.44,
+    "2017-12-31 00:00:00": 22.24,
+    "2018-12-31 00:00:00": 0.95,
+    "2019-12-31 00:00:00": 31.17,
+    "2020-12-31 00:00:00": 89.64,
+    "2021-12-31 00:00:00": 47.84,
+    "2022-12-31 00:00:00": -17.63,
+    "2023-12-31 00:00:00": 56.89,
+    "2024-12-31 00:00:00": 63.9,
+    "2025-12-31 00:00:00": 57.12,
+    "2026-12-31 00:00:00": 76.68
+   },
+   "PM": {
+    "2016-12-31 00:00:00": 15.44,
+    "2017-12-31 00:00:00": 22.24,
+    "2018-12-31 00:00:00": 0.95,
+    "2019-12-31 00:00:00": 32.66,
+    "2020-12-31 00:00:00": 100.0,
+    "2021-12-31 00:00:00": 44.98,
+    "2022-12-31 00:00:00": -17.45,
+    "2023-12-31 00:00:00": 57.67,
+    "2024-12-31 00:00:00": 63.38,
+    "2025-12-31 00:00:00": 56.68,
+    "2026-12-31 00:00:00": 75.25
+   },
+   "PMS": {
+    "2016-12-31 00:00:00": 15.44,
+    "2017-12-31 00:00:00": 22.24,
+    "2018-12-31 00:00:00": 0.95,
+    "2019-12-31 00:00:00": 32.66,
+    "2020-12-31 00:00:00": 100.0,
+    "2021-12-31 00:00:00": 44.98,
+    "2022-12-31 00:00:00": -17.45,
+    "2023-12-31 00:00:00": 57.67,
+    "2024-12-31 00:00:00": 63.38,
+    "2025-12-31 00:00:00": 56.68,
+    "2026-12-31 00:00:00": 75.25
+   },
+   "PMW": {
+    "2016-12-31 00:00:00": 15.44,
+    "2017-12-31 00:00:00": 22.24,
+    "2018-12-31 00:00:00": 0.95,
+    "2019-12-31 00:00:00": 32.66,
+    "2020-12-31 00:00:00": 100.0,
+    "2021-12-31 00:00:00": 44.98,
+    "2022-12-31 00:00:00": -17.45,
+    "2023-12-31 00:00:00": 57.67,
+    "2024-12-31 00:00:00": 63.38,
+    "2025-12-31 00:00:00": 53.44,
+    "2026-12-31 00:00:00": 75.2
+   },
+   "PST": {
+    "2016-12-31 00:00:00": 15.44,
+    "2017-12-31 00:00:00": 22.24,
+    "2018-12-31 00:00:00": 0.95,
+    "2019-12-31 00:00:00": 32.66,
+    "2020-12-31 00:00:00": 100.0,
+    "2021-12-31 00:00:00": 44.98,
+    "2022-12-31 00:00:00": -17.45,
+    "2023-12-31 00:00:00": 57.67,
+    "2024-12-31 00:00:00": 63.38,
+    "2025-12-31 00:00:00": 56.68,
+    "2026-12-31 00:00:00": 74.03
+   },
+   "ALL": {
+    "2016-12-31 00:00:00": 15.44,
+    "2017-12-31 00:00:00": 22.24,
+    "2018-12-31 00:00:00": 0.95,
+    "2019-12-31 00:00:00": 31.17,
+    "2020-12-31 00:00:00": 100.75,
+    "2021-12-31 00:00:00": 44.94,
+    "2022-12-31 00:00:00": -17.45,
+    "2023-12-31 00:00:00": 57.72,
+    "2024-12-31 00:00:00": 63.38,
+    "2025-12-31 00:00:00": 56.69,
+    "2026-12-31 00:00:00": 75.24
+   }
+  },
+  "paths": {
+   "CUR": {
+    "60萬|+0": {
+     "since2019": 0.4770799813181108,
+     "full": 0.32446692486940587,
+     "maxdd_full": -0.31732588480084656,
+     "cagr_window": 0.6241485369941395,
+     "maxdd_window": -0.31732588480084656
+    },
+    "80萬|+0": {
+     "since2019": 0.48649933334122064,
+     "full": 0.3440035964430139,
+     "maxdd_full": -0.32176782298923867,
+     "cagr_window": 0.6187952807610833,
+     "maxdd_window": -0.32176782298923867
+    },
+    "100萬|+0": {
+     "since2019": 0.48991278775035196,
+     "full": 0.34543340603574313,
+     "maxdd_full": -0.3211451024786043,
+     "cagr_window": 0.6194981301441089,
+     "maxdd_window": -0.3211451024786043
+    },
+    "150萬|+0": {
+     "since2019": 0.489910376482396,
+     "full": 0.35177791817810355,
+     "maxdd_full": -0.3205835565938383,
+     "cagr_window": 0.6263202118005697,
+     "maxdd_window": -0.3205835565938383
+    },
+    "200萬|+0": {
+     "since2019": 0.4952998433024143,
+     "full": 0.350759820808193,
+     "maxdd_full": -0.3205921015881753,
+     "cagr_window": 0.6263864240491106,
+     "maxdd_window": -0.3205921015881753
+    },
+    "60萬|+1": {
+     "since2019": 0.4470714890008973,
+     "full": 0.30643295876170185,
+     "maxdd_full": -0.385961833800479,
+     "cagr_window": 0.5462666292282572,
+     "maxdd_window": -0.385961833800479
+    },
+    "80萬|+1": {
+     "since2019": 0.4462214147721588,
+     "full": 0.3032608175551921,
+     "maxdd_full": -0.3941740965725178,
+     "cagr_window": 0.5511543994744992,
+     "maxdd_window": -0.3941740965725178
+    },
+    "100萬|+1": {
+     "since2019": 0.4584673525065437,
+     "full": 0.319562184744409,
+     "maxdd_full": -0.3815577547121235,
+     "cagr_window": 0.5488421647782522,
+     "maxdd_window": -0.3815577547121235
+    },
+    "150萬|+1": {
+     "since2019": 0.4637005165681949,
+     "full": 0.3200904329906611,
+     "maxdd_full": -0.38161930058876337,
+     "cagr_window": 0.5490141765597596,
+     "maxdd_window": -0.38161930058876337
+    },
+    "200萬|+1": {
+     "since2019": 0.46876654919110194,
+     "full": 0.33058702140186713,
+     "maxdd_full": -0.38553282982266524,
+     "cagr_window": 0.552967231854492,
+     "maxdd_window": -0.38553282982266524
+    },
+    "60萬|+2": {
+     "since2019": 0.4344444821234481,
+     "full": 0.30747923190117454,
+     "maxdd_full": -0.3477446520159614,
+     "cagr_window": 0.5711214037024861,
+     "maxdd_window": -0.3477446520159614
+    },
+    "80萬|+2": {
+     "since2019": 0.4429468807822601,
+     "full": 0.3186295479381134,
+     "maxdd_full": -0.3518426177934111,
+     "cagr_window": 0.5743836916357556,
+     "maxdd_window": -0.3518426177934111
+    },
+    "100萬|+2": {
+     "since2019": 0.4414214653715822,
+     "full": 0.3194305896804379,
+     "maxdd_full": -0.3518367785051194,
+     "cagr_window": 0.5742344386179201,
+     "maxdd_window": -0.3518367785051194
+    },
+    "150萬|+2": {
+     "since2019": 0.4400000155918775,
+     "full": 0.3143878434706111,
+     "maxdd_full": -0.3479207057582048,
+     "cagr_window": 0.5711534404453329,
+     "maxdd_window": -0.3479207057582048
+    },
+    "200萬|+2": {
+     "since2019": 0.4394003706424887,
+     "full": 0.318096270922239,
+     "maxdd_full": -0.35364336225951176,
+     "cagr_window": 0.5493467452201577,
+     "maxdd_window": -0.35364336225951176
+    },
+    "60萬|+3": {
+     "since2019": 0.46463923208216285,
+     "full": 0.3237160580035514,
+     "maxdd_full": -0.30492140921929767,
+     "cagr_window": 0.5765710421147314,
+     "maxdd_window": -0.30492140921929767
+    },
+    "80萬|+3": {
+     "since2019": 0.4694859711019095,
+     "full": 0.32354341674419484,
+     "maxdd_full": -0.30485822468369683,
+     "cagr_window": 0.5763005580080174,
+     "maxdd_window": -0.30485822468369683
+    },
+    "100萬|+3": {
+     "since2019": 0.46614360216123996,
+     "full": 0.32645436257772564,
+     "maxdd_full": -0.30477562260884805,
+     "cagr_window": 0.5761067642465634,
+     "maxdd_window": -0.30477562260884805
+    },
+    "150萬|+3": {
+     "since2019": 0.47632728725843165,
+     "full": 0.3295230969285652,
+     "maxdd_full": -0.3046002659793363,
+     "cagr_window": 0.5889608438833369,
+     "maxdd_window": -0.3046002659793363
+    },
+    "200萬|+3": {
+     "since2019": 0.47451126644372454,
+     "full": 0.33471316557926345,
+     "maxdd_full": -0.3067615328525203,
+     "cagr_window": 0.592965336985205,
+     "maxdd_window": -0.3067615328525203
+    }
+   },
+   "DL": {
+    "60萬|+0": {
+     "since2019": 0.4769773659736609,
+     "full": 0.3244033325024791,
+     "maxdd_full": -0.3173306424469513,
+     "cagr_window": 0.6241072745629055,
+     "maxdd_window": -0.3173306424469513
+    },
+    "80萬|+0": {
+     "since2019": 0.48600897982159186,
+     "full": 0.34369717577517656,
+     "maxdd_full": -0.32177788555916986,
+     "cagr_window": 0.61884312330589,
+     "maxdd_window": -0.32177788555916986
+    },
+    "100萬|+0": {
+     "since2019": 0.4885002822433431,
+     "full": 0.3445517360906727,
+     "maxdd_full": -0.32119049020243395,
+     "cagr_window": 0.6194831271563708,
+     "maxdd_window": -0.32119049020243395
+    },
+    "150萬|+0": {
+     "since2019": 0.4903600150125247,
+     "full": 0.3520598469504561,
+     "maxdd_full": -0.3203706880346988,
+     "cagr_window": 0.6259554283589128,
+     "maxdd_window": -0.3203706880346988
+    },
+    "200萬|+0": {
+     "since2019": 0.4938394070160017,
+     "full": 0.34984791724837394,
+     "maxdd_full": -0.3203872192899041,
+     "cagr_window": 0.6259938356622081,
+     "maxdd_window": -0.3203872192899041
+    },
+    "60萬|+1": {
+     "since2019": 0.4462282109841933,
+     "full": 0.3059067501722543,
+     "maxdd_full": -0.3859333647416294,
+     "cagr_window": 0.5462058023275547,
+     "maxdd_window": -0.3859333647416294
+    },
+    "80萬|+1": {
+     "since2019": 0.4469990153251593,
+     "full": 0.3037450657070906,
+     "maxdd_full": -0.39413645732313674,
+     "cagr_window": 0.5512507668172324,
+     "maxdd_window": -0.39413645732313674
+    },
+    "100萬|+1": {
+     "since2019": 0.4576385831080976,
+     "full": 0.319043914953022,
+     "maxdd_full": -0.38156117810896795,
+     "cagr_window": 0.54889097093483,
+     "maxdd_window": -0.38156117810896795
+    },
+    "150萬|+1": {
+     "since2019": 0.4631429868226633,
+     "full": 0.3197429000540408,
+     "maxdd_full": -0.3816259088092846,
+     "cagr_window": 0.5490447081277037,
+     "maxdd_window": -0.3816259088092846
+    },
+    "200萬|+1": {
+     "since2019": 0.46841276563576817,
+     "full": 0.33036551043789086,
+     "maxdd_full": -0.38359434045331686,
+     "cagr_window": 0.5517114306619144,
+     "maxdd_window": -0.38359434045331686
+    },
+    "60萬|+2": {
+     "since2019": 0.42010235340175583,
+     "full": 0.2984304809742173,
+     "maxdd_full": -0.345972749747538,
+     "cagr_window": 0.5406408056362086,
+     "maxdd_window": -0.345972749747538
+    },
+    "80萬|+2": {
+     "since2019": 0.438451146196162,
+     "full": 0.31578879638337853,
+     "maxdd_full": -0.3511260862841703,
+     "cagr_window": 0.5734860141560292,
+     "maxdd_window": -0.3511260862841703
+    },
+    "100萬|+2": {
+     "since2019": 0.4350987863116411,
+     "full": 0.3154279887253262,
+     "maxdd_full": -0.35111556226211493,
+     "cagr_window": 0.5735054711289838,
+     "maxdd_window": -0.35111556226211493
+    },
+    "150萬|+2": {
+     "since2019": 0.43529240198898544,
+     "full": 0.31141664066845687,
+     "maxdd_full": -0.3460921057792986,
+     "cagr_window": 0.5717783389829938,
+     "maxdd_window": -0.3460921057792986
+    },
+    "200萬|+2": {
+     "since2019": 0.434037449650738,
+     "full": 0.3147002678494282,
+     "maxdd_full": -0.3529030598752809,
+     "cagr_window": 0.5483486902370689,
+     "maxdd_window": -0.3529030598752809
+    },
+    "60萬|+3": {
+     "since2019": 0.4583282732196343,
+     "full": 0.31977148588727466,
+     "maxdd_full": -0.3046492713069232,
+     "cagr_window": 0.577693973445802,
+     "maxdd_window": -0.3046492713069232
+    },
+    "80萬|+3": {
+     "since2019": 0.464952906485419,
+     "full": 0.32072033981855874,
+     "maxdd_full": -0.3046322618910581,
+     "cagr_window": 0.5756852350294455,
+     "maxdd_window": -0.3046322618910581
+    },
+    "100萬|+3": {
+     "since2019": 0.45954731381645253,
+     "full": 0.32232703814179864,
+     "maxdd_full": -0.30452709630397057,
+     "cagr_window": 0.5753809600000426,
+     "maxdd_window": -0.30452709630397057
+    },
+    "150萬|+3": {
+     "since2019": 0.4708087126948881,
+     "full": 0.3260863928995412,
+     "maxdd_full": -0.3043820068407903,
+     "cagr_window": 0.5875283022759672,
+     "maxdd_window": -0.3043820068407903
+    },
+    "200萬|+3": {
+     "since2019": 0.4687708643093751,
+     "full": 0.3311198565221296,
+     "maxdd_full": -0.30657396600006726,
+     "cagr_window": 0.5913807168647345,
+     "maxdd_window": -0.30657396600006726
+    }
+   },
+   "DL20": {
+    "60萬|+0": {
+     "since2019": 0.4747340476856645,
+     "full": 0.3230127711027997,
+     "maxdd_full": -0.31733546192106976,
+     "cagr_window": 0.6241682117283123,
+     "maxdd_window": -0.31733546192106976
+    },
+    "80萬|+0": {
+     "since2019": 0.48497031882784913,
+     "full": 0.3430480159961655,
+     "maxdd_full": -0.32180552229054316,
+     "cagr_window": 0.6188078423367369,
+     "maxdd_window": -0.32180552229054316
+    },
+    "100萬|+0": {
+     "since2019": 0.48178300858761114,
+     "full": 0.3403553471454166,
+     "maxdd_full": -0.3291874544853364,
+     "cagr_window": 0.622131525367934,
+     "maxdd_window": -0.3291874544853364
+    },
+    "150萬|+0": {
+     "since2019": 0.48322957311877324,
+     "full": 0.34758587203761304,
+     "maxdd_full": -0.3203797832972244,
+     "cagr_window": 0.6259338443431481,
+     "maxdd_window": -0.3203797832972244
+    },
+    "200萬|+0": {
+     "since2019": 0.4885163057197719,
+     "full": 0.3465218127420242,
+     "maxdd_full": -0.32039334716279355,
+     "cagr_window": 0.6260107435164775,
+     "maxdd_window": -0.32039334716279355
+    },
+    "60萬|+1": {
+     "since2019": 0.4448380106974277,
+     "full": 0.3050390531114924,
+     "maxdd_full": -0.3862476492264889,
+     "cagr_window": 0.5460883683332329,
+     "maxdd_window": -0.3862476492264889
+    },
+    "80萬|+1": {
+     "since2019": 0.4443259886452704,
+     "full": 0.3020801101724513,
+     "maxdd_full": -0.39413738727472636,
+     "cagr_window": 0.5511205779064334,
+     "maxdd_window": -0.39413738727472636
+    },
+    "100萬|+1": {
+     "since2019": 0.45590267326297607,
+     "full": 0.31795807105437435,
+     "maxdd_full": -0.3815692122210598,
+     "cagr_window": 0.5488597408992242,
+     "maxdd_window": -0.3815692122210598
+    },
+    "150萬|+1": {
+     "since2019": 0.459634537526038,
+     "full": 0.3175549890162228,
+     "maxdd_full": -0.38162186340629667,
+     "cagr_window": 0.5490451180622562,
+     "maxdd_window": -0.38162186340629667
+    },
+    "200萬|+1": {
+     "since2019": 0.467375455997902,
+     "full": 0.32971593506657926,
+     "maxdd_full": -0.38403593405201286,
+     "cagr_window": 0.5519750534760737,
+     "maxdd_window": -0.38403593405201286
+    },
+    "60萬|+2": {
+     "since2019": 0.42465407049580706,
+     "full": 0.30130529991244015,
+     "maxdd_full": -0.3561314894735499,
+     "cagr_window": 0.5729029329015085,
+     "maxdd_window": -0.3561314894735499
+    },
+    "80萬|+2": {
+     "since2019": 0.4370801498376735,
+     "full": 0.31492194981099497,
+     "maxdd_full": -0.34594719844245225,
+     "cagr_window": 0.5693609289599506,
+     "maxdd_window": -0.34594719844245225
+    },
+    "100萬|+2": {
+     "since2019": 0.43630083105669537,
+     "full": 0.3161893673304126,
+     "maxdd_full": -0.3459433108372111,
+     "cagr_window": 0.5695316735997662,
+     "maxdd_window": -0.3459433108372111
+    },
+    "150萬|+2": {
+     "since2019": 0.4333689042911151,
+     "full": 0.3102017622310218,
+     "maxdd_full": -0.34608501451592366,
+     "cagr_window": 0.5716312505898757,
+     "maxdd_window": -0.34608501451592366
+    },
+    "200萬|+2": {
+     "since2019": 0.43066372216167204,
+     "full": 0.31256188675341146,
+     "maxdd_full": -0.35288468982862853,
+     "cagr_window": 0.5480160982121034,
+     "maxdd_window": -0.35288468982862853
+    },
+    "60萬|+3": {
+     "since2019": 0.4577923890864566,
+     "full": 0.31943629676858176,
+     "maxdd_full": -0.3046703703196154,
+     "cagr_window": 0.5776470328702574,
+     "maxdd_window": -0.3046703703196154
+    },
+    "80萬|+3": {
+     "since2019": 0.4645569528187763,
+     "full": 0.32047362194129847,
+     "maxdd_full": -0.30463696158720743,
+     "cagr_window": 0.5755775759281996,
+     "maxdd_window": -0.30463696158720743
+    },
+    "100萬|+3": {
+     "since2019": 0.46048147603095146,
+     "full": 0.322911896896384,
+     "maxdd_full": -0.30451315906558507,
+     "cagr_window": 0.5753621649091119,
+     "maxdd_window": -0.30451315906558507
+    },
+    "150萬|+3": {
+     "since2019": 0.46563037164805365,
+     "full": 0.32285794606165363,
+     "maxdd_full": -0.30443015085996494,
+     "cagr_window": 0.5868796145769546,
+     "maxdd_window": -0.30443015085996494
+    },
+    "200萬|+3": {
+     "since2019": 0.468002401960375,
+     "full": 0.3306384946096055,
+     "maxdd_full": -0.30658154430223405,
+     "cagr_window": 0.5912120322677303,
+     "maxdd_window": -0.30658154430223405
+    }
+   },
+   "PM": {
+    "60萬|+0": {
+     "since2019": 0.47606642720210157,
+     "full": 0.3238387493599839,
+     "maxdd_full": -0.31732588480084656,
+     "cagr_window": 0.6203905908538678,
+     "maxdd_window": -0.31732588480084656
+    },
+    "80萬|+0": {
+     "since2019": 0.4855556398028462,
+     "full": 0.34341385696399396,
+     "maxdd_full": -0.32176782298923867,
+     "cagr_window": 0.6153297755980487,
+     "maxdd_window": -0.32176782298923867
+    },
+    "100萬|+0": {
+     "since2019": 0.4889746703394715,
+     "full": 0.34484787257949234,
+     "maxdd_full": -0.3211451024786043,
+     "cagr_window": 0.616059481220304,
+     "maxdd_window": -0.3211451024786043
+    },
+    "150萬|+0": {
+     "since2019": 0.48893954232007975,
+     "full": 0.35116910381975575,
+     "maxdd_full": -0.3205835565938383,
+     "cagr_window": 0.622746737383423,
+     "maxdd_window": -0.3205835565938383
+    },
+    "200萬|+0": {
+     "since2019": 0.4943306534535159,
+     "full": 0.3501546846488406,
+     "maxdd_full": -0.3205921015881753,
+     "cagr_window": 0.6228317007530002,
+     "maxdd_window": -0.3205921015881753
+    },
+    "60萬|+1": {
+     "since2019": 0.4524378148082133,
+     "full": 0.309779349820245,
+     "maxdd_full": -0.385961833800479,
+     "cagr_window": 0.5657031487464952,
+     "maxdd_window": -0.385961833800479
+    },
+    "80萬|+1": {
+     "since2019": 0.45183615109380937,
+     "full": 0.30675557303105805,
+     "maxdd_full": -0.3941740965725178,
+     "cagr_window": 0.5715711337666332,
+     "maxdd_window": -0.3941740965725178
+    },
+    "100萬|+1": {
+     "since2019": 0.463937871445147,
+     "full": 0.3229808875451994,
+     "maxdd_full": -0.3815577547121235,
+     "cagr_window": 0.5685349850739483,
+     "maxdd_window": -0.3815577547121235
+    },
+    "150萬|+1": {
+     "since2019": 0.46919753923540974,
+     "full": 0.323514784540597,
+     "maxdd_full": -0.38161930058876337,
+     "cagr_window": 0.568733956058953,
+     "maxdd_window": -0.38161930058876337
+    },
+    "200萬|+1": {
+     "since2019": 0.47442968089736803,
+     "full": 0.33413058173861754,
+     "maxdd_full": -0.38553282982266524,
+     "cagr_window": 0.5732669088099294,
+     "maxdd_window": -0.38553282982266524
+    },
+    "60萬|+2": {
+     "since2019": 0.4344444821234481,
+     "full": 0.30747923190117454,
+     "maxdd_full": -0.3477446520159614,
+     "cagr_window": 0.5711214037024861,
+     "maxdd_window": -0.3477446520159614
+    },
+    "80萬|+2": {
+     "since2019": 0.4429468807822601,
+     "full": 0.3186295479381134,
+     "maxdd_full": -0.3518426177934111,
+     "cagr_window": 0.5743836916357556,
+     "maxdd_window": -0.3518426177934111
+    },
+    "100萬|+2": {
+     "since2019": 0.4414214653715822,
+     "full": 0.3194305896804379,
+     "maxdd_full": -0.3518367785051194,
+     "cagr_window": 0.5742344386179201,
+     "maxdd_window": -0.3518367785051194
+    },
+    "150萬|+2": {
+     "since2019": 0.4400000155918775,
+     "full": 0.3143878434706111,
+     "maxdd_full": -0.3479207057582048,
+     "cagr_window": 0.5711534404453329,
+     "maxdd_window": -0.3479207057582048
+    },
+    "200萬|+2": {
+     "since2019": 0.4394003706424887,
+     "full": 0.318096270922239,
+     "maxdd_full": -0.35364336225951176,
+     "cagr_window": 0.5493467452201577,
+     "maxdd_window": -0.35364336225951176
+    },
+    "60萬|+3": {
+     "since2019": 0.46463923208216285,
+     "full": 0.3237160580035514,
+     "maxdd_full": -0.30492140921929767,
+     "cagr_window": 0.5765710421147314,
+     "maxdd_window": -0.30492140921929767
+    },
+    "80萬|+3": {
+     "since2019": 0.4694859711019095,
+     "full": 0.32354341674419484,
+     "maxdd_full": -0.30485822468369683,
+     "cagr_window": 0.5763005580080174,
+     "maxdd_window": -0.30485822468369683
+    },
+    "100萬|+3": {
+     "since2019": 0.46614360216123996,
+     "full": 0.32645436257772564,
+     "maxdd_full": -0.30477562260884805,
+     "cagr_window": 0.5761067642465634,
+     "maxdd_window": -0.30477562260884805
+    },
+    "150萬|+3": {
+     "since2019": 0.47632728725843165,
+     "full": 0.3295230969285652,
+     "maxdd_full": -0.3046002659793363,
+     "cagr_window": 0.5889608438833369,
+     "maxdd_window": -0.3046002659793363
+    },
+    "200萬|+3": {
+     "since2019": 0.47451126644372454,
+     "full": 0.33471316557926345,
+     "maxdd_full": -0.3067615328525203,
+     "cagr_window": 0.592965336985205,
+     "maxdd_window": -0.3067615328525203
+    }
+   },
+   "PMS": {
+    "60萬|+0": {
+     "since2019": 0.47606642720210157,
+     "full": 0.3238387493599839,
+     "maxdd_full": -0.31732588480084656,
+     "cagr_window": 0.6203905908538678,
+     "maxdd_window": -0.31732588480084656
+    },
+    "80萬|+0": {
+     "since2019": 0.4855556398028462,
+     "full": 0.34341385696399396,
+     "maxdd_full": -0.32176782298923867,
+     "cagr_window": 0.6153297755980487,
+     "maxdd_window": -0.32176782298923867
+    },
+    "100萬|+0": {
+     "since2019": 0.4889746703394715,
+     "full": 0.34484787257949234,
+     "maxdd_full": -0.3211451024786043,
+     "cagr_window": 0.616059481220304,
+     "maxdd_window": -0.3211451024786043
+    },
+    "150萬|+0": {
+     "since2019": 0.48893954232007975,
+     "full": 0.35116910381975575,
+     "maxdd_full": -0.3205835565938383,
+     "cagr_window": 0.622746737383423,
+     "maxdd_window": -0.3205835565938383
+    },
+    "200萬|+0": {
+     "since2019": 0.4943306534535159,
+     "full": 0.3501546846488406,
+     "maxdd_full": -0.3205921015881753,
+     "cagr_window": 0.6228317007530002,
+     "maxdd_window": -0.3205921015881753
+    },
+    "60萬|+1": {
+     "since2019": 0.4524378148082133,
+     "full": 0.309779349820245,
+     "maxdd_full": -0.385961833800479,
+     "cagr_window": 0.5657031487464952,
+     "maxdd_window": -0.385961833800479
+    },
+    "80萬|+1": {
+     "since2019": 0.45183615109380937,
+     "full": 0.30675557303105805,
+     "maxdd_full": -0.3941740965725178,
+     "cagr_window": 0.5715711337666332,
+     "maxdd_window": -0.3941740965725178
+    },
+    "100萬|+1": {
+     "since2019": 0.463937871445147,
+     "full": 0.3229808875451994,
+     "maxdd_full": -0.3815577547121235,
+     "cagr_window": 0.5685349850739483,
+     "maxdd_window": -0.3815577547121235
+    },
+    "150萬|+1": {
+     "since2019": 0.46919753923540974,
+     "full": 0.323514784540597,
+     "maxdd_full": -0.38161930058876337,
+     "cagr_window": 0.568733956058953,
+     "maxdd_window": -0.38161930058876337
+    },
+    "200萬|+1": {
+     "since2019": 0.47442968089736803,
+     "full": 0.33413058173861754,
+     "maxdd_full": -0.38553282982266524,
+     "cagr_window": 0.5732669088099294,
+     "maxdd_window": -0.38553282982266524
+    },
+    "60萬|+2": {
+     "since2019": 0.4344444821234481,
+     "full": 0.30747923190117454,
+     "maxdd_full": -0.3477446520159614,
+     "cagr_window": 0.5711214037024861,
+     "maxdd_window": -0.3477446520159614
+    },
+    "80萬|+2": {
+     "since2019": 0.4429468807822601,
+     "full": 0.3186295479381134,
+     "maxdd_full": -0.3518426177934111,
+     "cagr_window": 0.5743836916357556,
+     "maxdd_window": -0.3518426177934111
+    },
+    "100萬|+2": {
+     "since2019": 0.4414214653715822,
+     "full": 0.3194305896804379,
+     "maxdd_full": -0.3518367785051194,
+     "cagr_window": 0.5742344386179201,
+     "maxdd_window": -0.3518367785051194
+    },
+    "150萬|+2": {
+     "since2019": 0.4400000155918775,
+     "full": 0.3143878434706111,
+     "maxdd_full": -0.3479207057582048,
+     "cagr_window": 0.5711534404453329,
+     "maxdd_window": -0.3479207057582048
+    },
+    "200萬|+2": {
+     "since2019": 0.4394003706424887,
+     "full": 0.318096270922239,
+     "maxdd_full": -0.35364336225951176,
+     "cagr_window": 0.5493467452201577,
+     "maxdd_window": -0.35364336225951176
+    },
+    "60萬|+3": {
+     "since2019": 0.46463923208216285,
+     "full": 0.3237160580035514,
+     "maxdd_full": -0.30492140921929767,
+     "cagr_window": 0.5765710421147314,
+     "maxdd_window": -0.30492140921929767
+    },
+    "80萬|+3": {
+     "since2019": 0.4694859711019095,
+     "full": 0.32354341674419484,
+     "maxdd_full": -0.30485822468369683,
+     "cagr_window": 0.5763005580080174,
+     "maxdd_window": -0.30485822468369683
+    },
+    "100萬|+3": {
+     "since2019": 0.46614360216123996,
+     "full": 0.32645436257772564,
+     "maxdd_full": -0.30477562260884805,
+     "cagr_window": 0.5761067642465634,
+     "maxdd_window": -0.30477562260884805
+    },
+    "150萬|+3": {
+     "since2019": 0.47632728725843165,
+     "full": 0.3295230969285652,
+     "maxdd_full": -0.3046002659793363,
+     "cagr_window": 0.5889608438833369,
+     "maxdd_window": -0.3046002659793363
+    },
+    "200萬|+3": {
+     "since2019": 0.47451126644372454,
+     "full": 0.33471316557926345,
+     "maxdd_full": -0.3067615328525203,
+     "cagr_window": 0.592965336985205,
+     "maxdd_window": -0.3067615328525203
+    }
+   },
+   "PMW": {
+    "60萬|+0": {
+     "since2019": 0.4723982499439363,
+     "full": 0.32156419012603443,
+     "maxdd_full": -0.31732588480084656,
+     "cagr_window": 0.6068412560854741,
+     "maxdd_window": -0.31732588480084656
+    },
+    "80萬|+0": {
+     "since2019": 0.4815483276237562,
+     "full": 0.3409082894933684,
+     "maxdd_full": -0.32176782298923867,
+     "cagr_window": 0.6006719452489595,
+     "maxdd_window": -0.32176782298923867
+    },
+    "100萬|+0": {
+     "since2019": 0.48494589342539696,
+     "full": 0.3423319825884763,
+     "maxdd_full": -0.3211451024786043,
+     "cagr_window": 0.6013504778582905,
+     "maxdd_window": -0.3211451024786043
+    },
+    "150萬|+0": {
+     "since2019": 0.4847613315780117,
+     "full": 0.34854752868082595,
+     "maxdd_full": -0.3205835565938383,
+     "cagr_window": 0.6074304963140125,
+     "maxdd_window": -0.3205835565938383
+    },
+    "200萬|+0": {
+     "since2019": 0.4901207525443174,
+     "full": 0.3475247269250532,
+     "maxdd_full": -0.3205921015881753,
+     "cagr_window": 0.6074543647925941,
+     "maxdd_window": -0.3205921015881753
+    },
+    "60萬|+1": {
+     "since2019": 0.4524378148082133,
+     "full": 0.309779349820245,
+     "maxdd_full": -0.385961833800479,
+     "cagr_window": 0.5657031487464952,
+     "maxdd_window": -0.385961833800479
+    },
+    "80萬|+1": {
+     "since2019": 0.45183615109380937,
+     "full": 0.30675557303105805,
+     "maxdd_full": -0.3941740965725178,
+     "cagr_window": 0.5715711337666332,
+     "maxdd_window": -0.3941740965725178
+    },
+    "100萬|+1": {
+     "since2019": 0.463937871445147,
+     "full": 0.3229808875451994,
+     "maxdd_full": -0.3815577547121235,
+     "cagr_window": 0.5685349850739483,
+     "maxdd_window": -0.3815577547121235
+    },
+    "150萬|+1": {
+     "since2019": 0.46919753923540974,
+     "full": 0.323514784540597,
+     "maxdd_full": -0.38161930058876337,
+     "cagr_window": 0.568733956058953,
+     "maxdd_window": -0.38161930058876337
+    },
+    "200萬|+1": {
+     "since2019": 0.47442968089736803,
+     "full": 0.33413058173861754,
+     "maxdd_full": -0.38553282982266524,
+     "cagr_window": 0.5732669088099294,
+     "maxdd_window": -0.38553282982266524
+    },
+    "60萬|+2": {
+     "since2019": 0.4344444821234481,
+     "full": 0.30747923190117454,
+     "maxdd_full": -0.3477446520159614,
+     "cagr_window": 0.5711214037024861,
+     "maxdd_window": -0.3477446520159614
+    },
+    "80萬|+2": {
+     "since2019": 0.4429468807822601,
+     "full": 0.3186295479381134,
+     "maxdd_full": -0.3518426177934111,
+     "cagr_window": 0.5743836916357556,
+     "maxdd_window": -0.3518426177934111
+    },
+    "100萬|+2": {
+     "since2019": 0.4414214653715822,
+     "full": 0.3194305896804379,
+     "maxdd_full": -0.3518367785051194,
+     "cagr_window": 0.5742344386179201,
+     "maxdd_window": -0.3518367785051194
+    },
+    "150萬|+2": {
+     "since2019": 0.4400000155918775,
+     "full": 0.3143878434706111,
+     "maxdd_full": -0.3479207057582048,
+     "cagr_window": 0.5711534404453329,
+     "maxdd_window": -0.3479207057582048
+    },
+    "200萬|+2": {
+     "since2019": 0.4394003706424887,
+     "full": 0.318096270922239,
+     "maxdd_full": -0.35364336225951176,
+     "cagr_window": 0.5493467452201577,
+     "maxdd_window": -0.35364336225951176
+    },
+    "60萬|+3": {
+     "since2019": 0.46463923208216285,
+     "full": 0.3237160580035514,
+     "maxdd_full": -0.30492140921929767,
+     "cagr_window": 0.5765710421147314,
+     "maxdd_window": -0.30492140921929767
+    },
+    "80萬|+3": {
+     "since2019": 0.4694859711019095,
+     "full": 0.32354341674419484,
+     "maxdd_full": -0.30485822468369683,
+     "cagr_window": 0.5763005580080174,
+     "maxdd_window": -0.30485822468369683
+    },
+    "100萬|+3": {
+     "since2019": 0.46614360216123996,
+     "full": 0.32645436257772564,
+     "maxdd_full": -0.30477562260884805,
+     "cagr_window": 0.5761067642465634,
+     "maxdd_window": -0.30477562260884805
+    },
+    "150萬|+3": {
+     "since2019": 0.47632728725843165,
+     "full": 0.3295230969285652,
+     "maxdd_full": -0.3046002659793363,
+     "cagr_window": 0.5889608438833369,
+     "maxdd_window": -0.3046002659793363
+    },
+    "200萬|+3": {
+     "since2019": 0.47451126644372454,
+     "full": 0.33471316557926345,
+     "maxdd_full": -0.3067615328525203,
+     "cagr_window": 0.592965336985205,
+     "maxdd_window": -0.3067615328525203
+    }
+   },
+   "PST": {
+    "60萬|+0": {
+     "since2019": 0.47472176717640613,
+     "full": 0.3230051570097059,
+     "maxdd_full": -0.31732588480084656,
+     "cagr_window": 0.6154144548440976,
+     "maxdd_window": -0.31732588480084656
+    },
+    "80萬|+0": {
+     "since2019": 0.4842392396962607,
+     "full": 0.342591009789156,
+     "maxdd_full": -0.32176782298923867,
+     "cagr_window": 0.6105043132006767,
+     "maxdd_window": -0.32176782298923867
+    },
+    "100萬|+0": {
+     "since2019": 0.48764912896807,
+     "full": 0.34402033107346197,
+     "maxdd_full": -0.3211451024786043,
+     "cagr_window": 0.6112095011668135,
+     "maxdd_window": -0.3211451024786043
+    },
+    "150萬|+0": {
+     "since2019": 0.4875884837435531,
+     "full": 0.3503216449676667,
+     "maxdd_full": -0.3205835565938383,
+     "cagr_window": 0.6177829217441133,
+     "maxdd_window": -0.3205835565938383
+    },
+    "200萬|+0": {
+     "since2019": 0.49294820390523464,
+     "full": 0.3492913103764481,
+     "maxdd_full": -0.3205921015881753,
+     "cagr_window": 0.617770719771314,
+     "maxdd_window": -0.3205921015881753
+    },
+    "60萬|+1": {
+     "since2019": 0.44152139053651407,
+     "full": 0.3029679339000009,
+     "maxdd_full": -0.385961833800479,
+     "cagr_window": 0.5263437527254806,
+     "maxdd_window": -0.385961833800479
+    },
+    "80萬|+1": {
+     "since2019": 0.44068954964372375,
+     "full": 0.2998135422933492,
+     "maxdd_full": -0.3941740965725178,
+     "cagr_window": 0.5312222503931969,
+     "maxdd_window": -0.3941740965725178
+    },
+    "100萬|+1": {
+     "since2019": 0.45278866648376104,
+     "full": 0.31600919915227044,
+     "maxdd_full": -0.3815577547121235,
+     "cagr_window": 0.5285846938246896,
+     "maxdd_window": -0.3815577547121235
+    },
+    "150萬|+1": {
+     "since2019": 0.4580037131809902,
+     "full": 0.3165374344854195,
+     "maxdd_full": -0.38161930058876337,
+     "cagr_window": 0.5287624474044403,
+     "maxdd_window": -0.38161930058876337
+    },
+    "200萬|+1": {
+     "since2019": 0.46284772437022026,
+     "full": 0.32687895419001145,
+     "maxdd_full": -0.38553282982266524,
+     "cagr_window": 0.5319487368050846,
+     "maxdd_window": -0.38553282982266524
+    },
+    "60萬|+2": {
+     "since2019": 0.43282934286024655,
+     "full": 0.3064616075277866,
+     "maxdd_full": -0.3477446520159614,
+     "cagr_window": 0.565159416778815,
+     "maxdd_window": -0.3477446520159614
+    },
+    "80萬|+2": {
+     "since2019": 0.44125183041835436,
+     "full": 0.3175588060102783,
+     "maxdd_full": -0.3518426177934111,
+     "cagr_window": 0.568151041558637,
+     "maxdd_window": -0.3518426177934111
+    },
+    "100萬|+2": {
+     "since2019": 0.43974080452355624,
+     "full": 0.31836716973281987,
+     "maxdd_full": -0.3518367785051194,
+     "cagr_window": 0.5680486807764327,
+     "maxdd_window": -0.3518367785051194
+    },
+    "150萬|+2": {
+     "since2019": 0.4387167872195914,
+     "full": 0.31357823377943217,
+     "maxdd_full": -0.3479207057582048,
+     "cagr_window": 0.566433503135261,
+     "maxdd_window": -0.3479207057582048
+    },
+    "200萬|+2": {
+     "since2019": 0.43793677366519,
+     "full": 0.31716985466343295,
+     "maxdd_full": -0.35364336225951176,
+     "cagr_window": 0.5440366798650991,
+     "maxdd_window": -0.35364336225951176
+    },
+    "60萬|+3": {
+     "since2019": 0.46463923208216285,
+     "full": 0.3237160580035514,
+     "maxdd_full": -0.30492140921929767,
+     "cagr_window": 0.5765710421147314,
+     "maxdd_window": -0.30492140921929767
+    },
+    "80萬|+3": {
+     "since2019": 0.4694859711019095,
+     "full": 0.32354341674419484,
+     "maxdd_full": -0.30485822468369683,
+     "cagr_window": 0.5763005580080174,
+     "maxdd_window": -0.30485822468369683
+    },
+    "100萬|+3": {
+     "since2019": 0.46614360216123996,
+     "full": 0.32645436257772564,
+     "maxdd_full": -0.30477562260884805,
+     "cagr_window": 0.5761067642465634,
+     "maxdd_window": -0.30477562260884805
+    },
+    "150萬|+3": {
+     "since2019": 0.47632728725843165,
+     "full": 0.3295230969285652,
+     "maxdd_full": -0.3046002659793363,
+     "cagr_window": 0.5889608438833369,
+     "maxdd_window": -0.3046002659793363
+    },
+    "200萬|+3": {
+     "since2019": 0.47451126644372454,
+     "full": 0.33471316557926345,
+     "maxdd_full": -0.3067615328525203,
+     "cagr_window": 0.592965336985205,
+     "maxdd_window": -0.3067615328525203
+    }
+   },
+   "ALL": {
+    "60萬|+0": {
+     "since2019": 0.47596485377838693,
+     "full": 0.3237757893466735,
+     "maxdd_full": -0.3173306424469513,
+     "cagr_window": 0.6203530231712349,
+     "maxdd_window": -0.3173306424469513
+    },
+    "80萬|+0": {
+     "since2019": 0.48506307487979483,
+     "full": 0.3431059939320491,
+     "maxdd_full": -0.32177788555916986,
+     "cagr_window": 0.6153682553372275,
+     "maxdd_window": -0.32177788555916986
+    },
+    "100萬|+0": {
+     "since2019": 0.4875617247721724,
+     "full": 0.3439657562340761,
+     "maxdd_full": -0.32119049020243395,
+     "cagr_window": 0.6160396361334672,
+     "maxdd_window": -0.32119049020243395
+    },
+    "150萬|+0": {
+     "since2019": 0.4893928390152815,
+     "full": 0.3514533834192157,
+     "maxdd_full": -0.3203706880346988,
+     "cagr_window": 0.6223972801352047,
+     "maxdd_window": -0.3203706880346988
+    },
+    "200萬|+0": {
+     "since2019": 0.49287765343310275,
+     "full": 0.3492472432233358,
+     "maxdd_full": -0.3203872192899041,
+     "cagr_window": 0.6224637720832478,
+     "maxdd_window": -0.3203872192899041
+    },
+    "60萬|+1": {
+     "since2019": 0.451585480103436,
+     "full": 0.30924809724262614,
+     "maxdd_full": -0.3859333647416294,
+     "cagr_window": 0.5656199749574808,
+     "maxdd_window": -0.3859333647416294
+    },
+    "80萬|+1": {
+     "since2019": 0.45260245347671013,
+     "full": 0.30723221518965005,
+     "maxdd_full": -0.39413645732313674,
+     "cagr_window": 0.5716164943726025,
+     "maxdd_window": -0.39413645732313674
+    },
+    "100萬|+1": {
+     "since2019": 0.4630940346650301,
+     "full": 0.3224538046012966,
+     "maxdd_full": -0.38156117810896795,
+     "cagr_window": 0.5685411454143636,
+     "maxdd_window": -0.38156117810896795
+    },
+    "150萬|+1": {
+     "since2019": 0.4686270722593593,
+     "full": 0.32315959834538277,
+     "maxdd_full": -0.3816259088092846,
+     "cagr_window": 0.56872578860341,
+     "maxdd_window": -0.3816259088092846
+    },
+    "200萬|+1": {
+     "since2019": 0.47401258782275657,
+     "full": 0.3338697399635173,
+     "maxdd_full": -0.38359434045331686,
+     "cagr_window": 0.5717717692907522,
+     "maxdd_window": -0.38359434045331686
+    },
+    "60萬|+2": {
+     "since2019": 0.42010235340175583,
+     "full": 0.2984304809742173,
+     "maxdd_full": -0.345972749747538,
+     "cagr_window": 0.5406408056362086,
+     "maxdd_window": -0.345972749747538
+    },
+    "80萬|+2": {
+     "since2019": 0.438451146196162,
+     "full": 0.31578879638337853,
+     "maxdd_full": -0.3511260862841703,
+     "cagr_window": 0.5734860141560292,
+     "maxdd_window": -0.3511260862841703
+    },
+    "100萬|+2": {
+     "since2019": 0.4350987863116411,
+     "full": 0.3154279887253262,
+     "maxdd_full": -0.35111556226211493,
+     "cagr_window": 0.5735054711289838,
+     "maxdd_window": -0.35111556226211493
+    },
+    "150萬|+2": {
+     "since2019": 0.43529240198898544,
+     "full": 0.31141664066845687,
+     "maxdd_full": -0.3460921057792986,
+     "cagr_window": 0.5717783389829938,
+     "maxdd_window": -0.3460921057792986
+    },
+    "200萬|+2": {
+     "since2019": 0.434037449650738,
+     "full": 0.3147002678494282,
+     "maxdd_full": -0.3529030598752809,
+     "cagr_window": 0.5483486902370689,
+     "maxdd_window": -0.3529030598752809
+    },
+    "60萬|+3": {
+     "since2019": 0.4583282732196343,
+     "full": 0.31977148588727466,
+     "maxdd_full": -0.3046492713069232,
+     "cagr_window": 0.577693973445802,
+     "maxdd_window": -0.3046492713069232
+    },
+    "80萬|+3": {
+     "since2019": 0.464952906485419,
+     "full": 0.32072033981855874,
+     "maxdd_full": -0.3046322618910581,
+     "cagr_window": 0.5756852350294455,
+     "maxdd_window": -0.3046322618910581
+    },
+    "100萬|+3": {
+     "since2019": 0.45954731381645253,
+     "full": 0.32232703814179864,
+     "maxdd_full": -0.30452709630397057,
+     "cagr_window": 0.5753809600000426,
+     "maxdd_window": -0.30452709630397057
+    },
+    "150萬|+3": {
+     "since2019": 0.4708087126948881,
+     "full": 0.3260863928995412,
+     "maxdd_full": -0.3043820068407903,
+     "cagr_window": 0.5875283022759672,
+     "maxdd_window": -0.3043820068407903
+    },
+    "200萬|+3": {
+     "since2019": 0.4687708643093751,
+     "full": 0.3311198565221296,
+     "maxdd_full": -0.30657396600006726,
+     "cagr_window": 0.5913807168647345,
+     "maxdd_window": -0.30657396600006726
+    }
+   }
+  },
+  "paths_pairs": {
+   "DL": {
+    "since2019": {
+     "median_pp": -0.2978085436255329,
+     "mean_pp": -0.3437619888723009,
+     "min_pp": -1.434212872169227,
+     "max_pp": 0.07776005530004682,
+     "n_lower": 18,
+     "n_higher": 2,
+     "n_equal": 0
+    },
+    "full": {
+     "median_pp": -0.18674902427275875,
+     "mean_pp": -0.21597613886300104,
+     "min_pp": -0.9048750926957227,
+     "max_pp": 0.04842481518985142,
+     "n_lower": 18,
+     "n_higher": 2,
+     "n_equal": 0
+    },
+    "maxdd_full": {
+     "median_pp": 0.021556384884274804,
+     "mean_pp": 0.04641557181226885,
+     "min_pp": -0.004538772382967071,
+     "max_pp": 0.1938489369348373,
+     "n_lower": 5,
+     "n_higher": 15,
+     "n_equal": 0
+    },
+    "cagr_window": {
+     "median_pp": -0.03786859142796972,
+     "mean_pp": -0.1881123741549029,
+     "min_pp": -3.0480598066277453,
+     "max_pp": 0.11229313310705535,
+     "n_lower": 14,
+     "n_higher": 6,
+     "n_equal": 0
+    },
+    "maxdd_window": {
+     "median_pp": 0.021556384884274804,
+     "mean_pp": 0.04641557181226885,
+     "min_pp": -0.004538772382967071,
+     "max_pp": 0.1938489369348373,
+     "n_lower": 5,
+     "n_higher": 15,
+     "n_equal": 0
+    }
+   },
+   "DL20": {
+    "since2019": {
+     "median_pp": -0.5764428537437527,
+     "mean_pp": -0.5420451416782768,
+     "min_pp": -1.0696915610378,
+     "max_pp": -0.1391093193199966,
+     "n_lower": 20,
+     "n_higher": 0,
+     "n_equal": 0
+    },
+    "full": {
+     "median_pp": -0.3625031904230025,
+     "mean_pp": -0.33989082886611843,
+     "min_pp": -0.6665150866911551,
+     "max_pp": -0.0871086335287874,
+     "n_lower": 20,
+     "n_higher": 0,
+     "n_equal": 0
+    },
+    "maxdd_full": {
+     "median_pp": 0.018937148783398916,
+     "mean_pp": 0.0031397552661771577,
+     "min_pp": -0.8386837457588503,
+     "max_pp": 0.589541935095883,
+     "n_lower": 7,
+     "n_higher": 13,
+     "n_equal": 0
+    },
+    "cagr_window": {
+     "median_pp": -0.027697071382870586,
+     "mean_pp": -0.06137559859245689,
+     "min_pp": -0.5022762675805037,
+     "max_pp": 0.2633395223825108,
+     "n_lower": 12,
+     "n_higher": 8,
+     "n_equal": 0
+    },
+    "maxdd_window": {
+     "median_pp": 0.018937148783398916,
+     "mean_pp": 0.0031397552661771577,
+     "min_pp": -0.8386837457588503,
+     "max_pp": 0.589541935095883,
+     "n_lower": 7,
+     "n_higher": 13,
+     "n_equal": 0
+    }
+   },
+   "PM": {
+    "since2019": {
+     "median_pp": 0.0,
+     "mean_pp": 0.11388173182286021,
+     "min_pp": -0.10135541160092298,
+     "max_pp": 0.5663131706266089,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "full": {
+     "median_pp": 0.0,
+     "mean_pp": 0.07105181129746452,
+     "min_pp": -0.06281755094219577,
+     "max_pp": 0.35435603367504065,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_full": {
+     "median_pp": 0.0,
+     "mean_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    },
+    "cagr_window": {
+     "median_pp": 0.0,
+     "mean_pp": 0.4088761631016524,
+     "min_pp": -0.3757946140271695,
+     "max_pp": 2.0416734292133976,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_window": {
+     "median_pp": 0.0,
+     "mean_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    }
+   },
+   "PMS": {
+    "since2019": {
+     "median_pp": 0.0,
+     "mean_pp": 0.11388173182286021,
+     "min_pp": -0.10135541160092298,
+     "max_pp": 0.5663131706266089,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "full": {
+     "median_pp": 0.0,
+     "mean_pp": 0.07105181129746452,
+     "min_pp": -0.06281755094219577,
+     "max_pp": 0.35435603367504065,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_full": {
+     "median_pp": 0.0,
+     "mean_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    },
+    "cagr_window": {
+     "median_pp": 0.0,
+     "mean_pp": 0.4088761631016524,
+     "min_pp": -0.3757946140271695,
+     "max_pp": 2.0416734292133976,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_window": {
+     "median_pp": 0.0,
+     "mean_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    }
+   },
+   "PMW": {
+    "since2019": {
+     "median_pp": 0.0,
+     "mean_pp": 0.013419841809878541,
+     "min_pp": -0.517909075809686,
+     "max_pp": 0.5663131706266089,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "full": {
+     "median_pp": 0.0,
+     "mean_pp": 0.00831406350592312,
+     "min_pp": -0.3235093883139806,
+     "max_pp": 0.35435603367504065,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_full": {
+     "median_pp": 0.0,
+     "mean_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    },
+    "cagr_window": {
+     "median_pp": 0.0,
+     "mean_pp": 0.0408274355550875,
+     "min_pp": -1.8932059256516531,
+     "max_pp": 2.0416734292133976,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_window": {
+     "median_pp": 0.0,
+     "mean_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    }
+   },
+   "PST": {
+    "since2019": {
+     "median_pp": -0.1977572004432826,
+     "mean_pp": -0.2383472617668725,
+     "min_pp": -0.5918824820881685,
+     "max_pp": 0.0,
+     "n_lower": 15,
+     "n_higher": 0,
+     "n_equal": 5
+    },
+    "full": {
+     "median_pp": -0.12416642908464892,
+     "mean_pp": -0.14913188374813258,
+     "min_pp": -0.3708067211855681,
+     "max_pp": 0.0,
+     "n_lower": 15,
+     "n_higher": 0,
+     "n_equal": 5
+    },
+    "maxdd_full": {
+     "median_pp": 0.0,
+     "mean_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    },
+    "cagr_window": {
+     "median_pp": -0.7260639527207013,
+     "mean_pp": -0.8612989563588634,
+     "min_pp": -2.101849504940745,
+     "max_pp": 0.0,
+     "n_lower": 15,
+     "n_higher": 0,
+     "n_equal": 5
+    },
+    "maxdd_window": {
+     "median_pp": 0.0,
+     "mean_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    }
+   },
+   "ALL": {
+    "since2019": {
+     "median_pp": -0.34589622277048093,
+     "mean_pp": -0.23039117755716765,
+     "min_pp": -1.434212872169227,
+     "max_pp": 0.6381038704551312,
+     "n_lower": 15,
+     "n_higher": 5,
+     "n_equal": 0
+    },
+    "full": {
+     "median_pp": -0.21678272552466682,
+     "mean_pp": -0.1452387808311706,
+     "min_pp": -0.9048750926957227,
+     "max_pp": 0.3971397634457974,
+     "n_lower": 15,
+     "n_higher": 5,
+     "n_equal": 0
+    },
+    "maxdd_full": {
+     "median_pp": 0.021556384884274804,
+     "mean_pp": 0.04641557181226885,
+     "min_pp": -0.004538772382967071,
+     "max_pp": 0.1938489369348373,
+     "n_lower": 5,
+     "n_higher": 15,
+     "n_equal": 0
+    },
+    "cagr_window": {
+     "median_pp": -0.08133224843314135,
+     "mean_pp": 0.2189409837624423,
+     "min_pp": -3.0480598066277453,
+     "max_pp": 2.0462094898103356,
+     "n_lower": 13,
+     "n_higher": 7,
+     "n_equal": 0
+    },
+    "maxdd_window": {
+     "median_pp": 0.021556384884274804,
+     "mean_pp": 0.04641557181226885,
+     "min_pp": -0.004538772382967071,
+     "max_pp": 0.1938489369348373,
+     "n_lower": 5,
+     "n_higher": 15,
+     "n_equal": 0
+    }
+   }
+  },
+  "paths_median": {
+   "CUR": {
+    "since2019": 0.4653914171217014,
+    "maxdd_full": -0.33475623750260003,
+    "cagr_window": 0.5752452279411595
+   },
+   "DL": {
+    "since2019": 0.4613451503195579,
+    "maxdd_full": -0.33387531765335393,
+    "cagr_window": 0.5744432155645132
+   },
+   "DL20": {
+    "since2019": 0.46005800677849473,
+    "maxdd_full": -0.3375653826612737,
+    "cagr_window": 0.5741325489053102
+   },
+   "PM": {
+    "since2019": 0.46767057069832485,
+    "maxdd_full": -0.33475623750260003,
+    "cagr_window": 0.5752452279411595
+   },
+   "PMS": {
+    "since2019": 0.46767057069832485,
+    "maxdd_full": -0.33475623750260003,
+    "cagr_window": 0.5752452279411595
+   },
+   "PMW": {
+    "since2019": 0.46767057069832485,
+    "maxdd_full": -0.33475623750260003,
+    "cagr_window": 0.5752452279411595
+   },
+   "PST": {
+    "since2019": 0.46374347822619155,
+    "maxdd_full": -0.33475623750260003,
+    "cagr_window": 0.5721289029026002
+   },
+   "ALL": {
+    "since2019": 0.46402347057522453,
+    "maxdd_full": -0.33387531765335393,
+    "cagr_window": 0.5744432155645132
+   }
+  },
+  "n_cells_masked": {
+   "PM|+0": 103,
+   "PMS|+0": 96,
+   "PMW|+0": 285,
+   "PST|+0": 103,
+   "ALL|+0": 103,
+   "PM|+1": 65,
+   "PMS|+1": 65,
+   "PMW|+1": 65,
+   "PST|+1": 65,
+   "ALL|+1": 65,
+   "PM|+2": 32,
+   "PMS|+2": 32,
+   "PMW|+2": 32,
+   "PST|+2": 32,
+   "ALL|+2": 32,
+   "PM|+3": 11,
+   "PMS|+3": 11,
+   "PMW|+3": 11,
+   "PST|+3": 11,
+   "ALL|+3": 11
+  }
+ },
+ "run_runtime_s": 23.0,
+ "run_maxrss_mb": 1403
+}

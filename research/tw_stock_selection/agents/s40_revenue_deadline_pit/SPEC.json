@@ -1,0 +1,50 @@
+{
+ "topic": "S40 營收申報期限延後與晚交：回測是否在換股當下偷看到還沒公布的營收（前視偏誤）",
+ "written_at": "2026-11-16（寫在看任何回測結果之前）",
+ "type": "數據正確性研究；不選參數、不做規則判定，N 不增加",
+ "engine_assumption": "cslib.rev_avail_days(pit=True)：營收月份 m 的訊號列 av[m]＝『次月 10 日（含）以後第一個交易日』的下一個交易日；s10lib.make_signal_s10 在 av[m] 收盤用 S.loc[m] 排名，av[m]+1 開盤成交。等於假設：所有上市公司 m 月營收在訊號日（av[m]）當晚以前已公開。",
+ "step1_deadline_inventory": {
+  "months": "營收月份 2015-01～2026-10（訊號月份 2015-02～2026-11）",
+  "statutory": "證交法 36 條第 1 項：每月 10 日前公告申報上月營運情形；末日遇假日順延到下一個上班日（行政程序法 48 條）。以交易日近似上班日（補班日、春節前無交易僅交割日等『上班但不交易』的日子會讓法定期限比近似值更早 → 不會造成前視，保守）。",
+  "special_extensions": {
+   "2019-01": "金管會特例：春節 9 天連假，延至 2019-02-15（全體）",
+   "2020-01": "肺炎疫情：受影響公司可延至 2020-02-15（需申請，非全體）→ 只做敏感度",
+   "2023-03": "金管會公告：清明連假，延至 2023-04-12（全體，含金控自結）",
+   "2026-01 起": "特殊適用範圍辦法第 3 條修正（金管證審字第 1140346436 號，2025-07-01）：保險業及具保險子公司之公發公司（11 家金控、24 家保險、2905、2207）合併營收期限次月 15 日（遇假日順延）"
+  },
+  "sources": "公開新聞與既有研究 rev_announce/FINDINGS.md 第 2 節（ETtoday 2019、中央社 2020、工商時報 2023-02-22、聯合報／優分析 2025）；本題再以 WebSearch 確認；金管會／證交所／MOPS 原文 proxy 擋住讀不到時註明。",
+  "classify": "每月：actual_deadline（含特例；INS15 另列）、engine_signal（av）；deadline < signal＝安全；deadline＝signal＝邊界（期限當晚公布者訊號日當晚可見，依本題定義不算前視）；deadline > signal＝問題月份。",
+  "tasi_crosscheck": "2024-06～2026-09：Tasi（o_rev_event_clock_ts/data/firstseen_sources.csv.gz，source＝tasi；MOPS 上市營收彙總表每日約 18:16 快照）每月上市股（P.COLS）累積可見比例在期限日當晚、訊號日當晚各多少；達 95%／99% 的日期；Tasi 該月最後快照時間。"
+ },
+ "step2_visibility": {
+  "months": "營收月份 2024-06～2026-09（訊號 2024-07～2026-10）",
+  "lists": "現行引擎（CUR）每個訊號列的 F1（實際買進目標）與 L_MA 前 20 名（＝E0 續抱名單）；另報全股池計數",
+  "first_visible": "Tasi T（首次出現在快照的 commit 時間，上界）；2026-09 另以 rev_announce/firstseen_2026-09.csv（tw-stock-screener 每日 15:25＋晚間抓取，上界）取兩者較早者",
+  "categories": {
+   "OK": "T ≤ 訊號日 23:59:59（台北）＝訊號日當晚以前可見",
+   "LATE_SURE": "T > 訊號日當晚，且訊號日 18:00 以後有一個快照仍沒有它（T_prev ≥ 訊號日 18:00）→ 訊號日收盤時確定看不到；（18:16～24:00 之間公布者其實當晚可見，此類是上界）",
+   "LATE_GAP": "T > 訊號日當晚，但前一個快照早於訊號日 18:00（週末／缺快照）→ 公布時點在區間內，可能當晚可見",
+   "UNSEEN_LATE": "Tasi 該月檔從未出現，且最後快照 ≥ 訊號日 18:00 → 訊號日當晚快照仍看不到（同 LATE_SURE）",
+   "UNKNOWN": "Tasi 從未出現且最後快照早於訊號日 18:00（無法判定；主分析當作可見）"
+  },
+  "report": "每月每類筆數；F1、前 20 名的逐筆明細（代碼、月份、訊號日、T、T_prev、類別、是否為 INS15）；與 S36 的『0 天』6 筆對照"
+ },
+ "step3_impact": {
+  "chain": "s20lib→s17lib→s10lib；cslib.EXRIGHT_FIX=True；s17lib.e50_fix_suspension；股池＝stlib.universe(P,'twse') & ~創新板；make_signal_s10(shift)；variant_S('E0')；simulate_s10(cost=strict, sat_w=0.7, sizing='W10', lock=False)",
+  "acceptance": "CUR（本題包裝，不改任何東西）：since2019 48.99%、full 34.54%、maxdd −32.11%、已出場 381 筆（容差 0.025 個百分點）；包裝後 av 與 S 與 s17lib 原版逐位相同",
+  "variants": {
+   "CUR": "現行",
+   "DL": "月份層級『改成下一個可見日』：2019-01、2023-03 的訊號列改為 actual_deadline（含）以後第一個交易日的下一個交易日（同 rev_avail_days 規則，期限換成延後後的日子）",
+   "DL20": "DL＋2020-01 整月延到 2020-02-15 規則（最壞情境；實際只有申請的公司可延）",
+   "PM": "逐檔『看不到就沒有』（＝make_list.py 實盤行為：營收缺值 → 沒有 SURGE → 不排名；持有中則依 E0 賣出）：2024-06～2026-09 中 LATE_SURE／LATE_GAP／UNSEEN_LATE 的股月，S[m, code]＝NaN",
+   "PMS": "同 PM 但只用 LATE_SURE＋UNSEEN_LATE（確定看不到者）",
+   "PST": "敏感度：看不到的股月改用上月 SURGE（S[m−1, code]，最後已知值），不是實盤行為",
+   "ALL": "DL＋PM（主要修正版）"
+  },
+  "paths": "標準路徑（100 萬、位移 0；另報成本加倍）；20 條路徑＝本金 {60,80,100,150,200} 萬 × 位移 {0,1,2,3}",
+  "metrics": "since2019 年化、全期年化、全期最大回撤、Tasi 窗（2024-07-01 前最後交易日 → 2026-10-22）年化與最大回撤；每個變體對 CUR 的差（百分點）；20 條路徑差的中位數／最小／最大／較低條數；交易差異明細",
+  "invariance": "各變體在第一個被改動的訊號列以前淨值須與 CUR 逐位相同"
+ },
+ "step4_conclusion": ["有沒有前視偏誤、多大", "make_list.py 實盤是否遇到同樣問題", "是否建議在引擎加入期限延後月份的可得日修正（只寫建議，不改共用引擎）"],
+ "discipline": "只用公開資料；python3 -I -B；峰值記憶體 ≤ 3GB；暫存 scratchpad/s40 結束刪除；不改共用引擎與既有研究；不 git commit/push"
+}
