@@ -79,10 +79,11 @@ def rank_desc(v):
     return x.rank(ascending=False, method='average').to_numpy()
 
 
-def build_variants(P, U, RT, PI, S0, shift, rules, depth=10, mom_lo=0.10, nsel=10, nmin=5, rank_method='average', rng=None, rand_spec=None):
+def build_variants(P, U, RT, PI, S0, shift, rules, depth=10, mom_lo=0.10, nsel=10, nmin=5, rank_method='average', rng=None, rand_spec=None, rand_mode='same_n_r20'):
     """自寫訊號迴圈（同 make_signal_s10 的 F1 定義），回傳 {規則 id: (sig, rank)} 與每列明細。
     S0＝同一位移的 make_signal_s10 結果（A1：每列 F1 必須與其 info['targets'] 相同）。
-    rand_spec＝{k: (n_remove, n_add)}：隨機換股對照（每列隨機剔除 n_remove 檔 F1，從第 11～20 名 RET20>10% 者隨機遞補 n_add 檔）。"""
+    rand_spec＝{k: (n_remove, n_add)}：隨機換股對照（每列隨機剔除 n_remove 檔 F1，從第 11～20 名 RET20>10% 者隨機遞補 n_add 檔）。
+    rand_mode：same_n_r20（主設計，同上）；fill10_r20（剔除後從 RET20>10% 的第 11～20 名隨機補滿 10 檔）；same_n_any（遞補 n_add 檔，不看 RET20）。"""
     S, av = RT['S'], RT['av']
     tgt_ref = {int(x['k']): x['targets'] for x in S0['info']}
     out = {r: (np.zeros((P.T, P.N), bool), np.full((P.T, P.N), np.nan)) for r in rules}
@@ -147,7 +148,10 @@ def build_variants(P, U, RT, PI, S0, shift, rules, depth=10, mom_lo=0.10, nsel=1
                 f1l = list(f1)
                 rm = set(rng.choice(f1l, size=nr, replace=False).tolist()) if nr > 0 else set()
                 t = [j for j in f1l if j not in rm]
-                pool2 = [j for j in r1120 if j not in t]
+                src = [int(j) for j in o_ma[depth:20]] if rand_mode == 'same_n_any' else r1120
+                pool2 = [j for j in src if j not in t]
+                if rand_mode == 'fill10_r20':
+                    na = nsel - len(t)
                 na = min(na, len(pool2), nsel - len(t))
                 if na > 0:
                     t += sorted(rng.choice(pool2, size=na, replace=False).tolist(), key=lambda j: -s[j])
