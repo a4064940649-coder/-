@@ -61,8 +61,10 @@ for s in range(4):
         nav, lg, st = s10lib.simulate_s10(P, S2, U, cost=COSTS['strict'], capital=1e6, sat_w=0.7, sizing='W10', lock=False, **ekw)
         r = dict(mode=MODE, sig_from=SIGFROM, cagr_since2019=stlib.cagr(nav, D19, DE), cagr_full=stlib.cagr(nav, D0, DE), maxdd=stlib.maxdd(nav, D0, DE),
                  n_trades_closed=int((lg['why'] != 'open_end').sum()))
+        tl = lg[['code', 'ent_date', 'exit_date', 'ret', 'why']].copy(); tl['ent_date'] = tl['ent_date'].astype(str); tl['exit_date'] = tl['exit_date'].astype(str)
+        r['trades_list'] = tl.to_dict(orient='records'); r['yearly'] = {int(y): float(v) for y, v in (nav.groupby(nav.index.year).last() / nav.groupby(nav.index.year).last().shift(1).fillna(nav.iloc[0]) - 1).items()}
         json.dump(r, open(TMP / f'res_{MODE}_sig{SIGFROM}.json', 'w'), ensure_ascii=False)
-        print(r); sys.exit(0)
+        print({k: v for k, v in r.items() if k != 'trades_list'}); sys.exit(0)
     if s == 0:
         lists = {x['month']: x['targets'] for x in S0['info']}
         res['n_signal_months'] = len(lists)
