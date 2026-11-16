@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""隨機換股對照的設計敏感度（原研究未登記、未寫明隨機設計細節）：3 種隨機設計 × 20 次，主跑位移 0、100 萬。
+"""隨機換股對照的設計敏感度（原研究未登記、未寫明隨機設計細節）：3 種隨機設計 × 20 次＋主設計 200 次，主跑位移 0、100 萬。
 輸出 replicate/results_rand_sens.json。python3 -I -B rep_s21_rand_sens.py"""
 import sys, json, time, gc
 from pathlib import Path
@@ -30,14 +30,15 @@ navc = s10lib.simulate_s10(P, L.fresh(L.variant_S(S0, S0['sig'], S0['rank'])[0],
 ratio = float(navc.loc[TB] / 1e6)
 FZ = dict(fresh_valid=0.3719730443528215, since2019=0.39333332459046755)
 out = {}
-for mode, seed in (('same_n_r20', 1), ('fill10_r20', 2), ('same_n_any', 3)):
+RUNS = (('same_n_r20', 'same_n_r20', 1, 20), ('fill10_r20', 'fill10_r20', 2, 20), ('same_n_any', 'same_n_any', 3, 20), ('same_n_r20_x200', 'same_n_r20', 4, 200))
+for name, mode, seed, n in RUNS:
     rng = np.random.default_rng(seed); D = []
-    for i in range(20):
+    for i in range(n):
         Vr, _ = L.build_variants(P, U, RT, PI, S0, 0, ['RAND'], rng=rng, rand_spec=spec, rand_mode=mode)
         D.append(dict(fresh_valid=stlib.cagr(run(Vr, 1e6 / ratio, True), TB, DE), since2019=stlib.cagr(run(Vr, 1e6), D19, DE)))
         del Vr; gc.collect()
     d = pd.DataFrame(D)
-    out[mode] = {c: dict(median=float(d[c].median()), p10=float(d[c].quantile(.1)), p90=float(d[c].quantile(.9)), FZ_beats=int((FZ[c] > d[c]).sum())) for c in d}
-    print(mode, json.dumps(out[mode]), flush=True)
-out['seeds'] = {'same_n_r20': 1, 'fill10_r20': 2, 'same_n_any': 3}
+    out[name] = {c: dict(median=float(d[c].median()), p10=float(d[c].quantile(.1)), p90=float(d[c].quantile(.9)), FZ_beats=int((FZ[c] > d[c]).sum())) for c in d}
+    print(name, json.dumps(out[name]), flush=True)
+out['runs'] = [dict(name=a, mode=b, seed=c, n=d) for a, b, c, d in RUNS]
 (H / 'results_rand_sens.json').write_text(json.dumps(out, ensure_ascii=False, indent=1))

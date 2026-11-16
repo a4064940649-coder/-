@@ -41,9 +41,44 @@
    "FZ_beats": 10
   }
  },
- "seeds": {
-  "same_n_r20": 1,
-  "fill10_r20": 2,
-  "same_n_any": 3
- }
+ "same_n_r20_x200": {
+  "fresh_valid": {
+   "median": 0.3528197636793431,
+   "p10": 0.3089418815118992,
+   "p90": 0.39318524443563097,
+   "FZ_beats": 148
+  },
+  "since2019": {
+   "median": 0.3806132591189295,
+   "p10": 0.34488846199683304,
+   "p90": 0.41515260462725767,
+   "FZ_beats": 143
+  }
+ },
+ "runs": [
+  {
+   "name": "same_n_r20",
+   "mode": "same_n_r20",
+   "seed": 1,
+   "n": 20
+  },
+  {
+   "name": "fill10_r20",
+   "mode": "fill10_r20",
+   "seed": 2,
+   "n": 20
+  },
+  {
+   "name": "same_n_any",
+   "mode": "same_n_any",
+   "seed": 3,
+   "n": 20
+  },
+  {
+   "name": "same_n_r20_x200",
+   "mode": "same_n_r20",
+   "seed": 4,
+   "n": 200
+  }
+ ]
 }

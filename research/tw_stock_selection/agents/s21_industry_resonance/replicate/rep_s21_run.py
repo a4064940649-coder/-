@@ -221,8 +221,11 @@ res['random_swap'] = dict(seed=20261116, n=20, cont_valid=q(rv['cont_valid']), s
                           FZ_beats=dict(cont_valid=int((fz_cont_valid > rv['cont_valid']).sum()), since2019=int((fz_cont_19 > rv['since2019']).sum()),
                                         fresh_valid=int((fz_fresh_valid > rv['fresh_valid']).sum())), draws=RAND)
 print('隨機', json.dumps({k: v for k, v in res['random_swap'].items() if k != 'draws'}, ensure_ascii=False), flush=True)
+rs = H / 'results_rand_sens.json'
+if rs.exists():
+    res['random_swap_sensitivity'] = json.loads(rs.read_text())
 res['paths_cont'] = CONT; res['paths_fresh'] = FR
 res['meta'] = dict(runtime_s=round(time.time() - t_all, 1), maxrss_mb=rss(),
-                   code_sha256={f: hashlib.sha256((H / f).read_bytes()).hexdigest() for f in ('rep_s21_lib.py', 'rep_s21_run.py', 'rep_s21_prep.py')})
+                   code_sha256={f: hashlib.sha256((H / f).read_bytes()).hexdigest() for f in ('rep_s21_lib.py', 'rep_s21_run.py', 'rep_s21_prep.py', 'rep_s21_rand_sens.py')})
 (H / 'results_rep.json').write_text(json.dumps(res, ensure_ascii=False, indent=1, default=str))
 print('完成', res['meta'])
