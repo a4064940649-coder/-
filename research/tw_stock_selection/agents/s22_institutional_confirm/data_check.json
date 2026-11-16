@@ -1,0 +1,99 @@
+{
+ "written_at": "2026-11-16T17:11:00",
+ "sources": {
+  "inst_5y": {
+   "first": "2021-10-08",
+   "last": "2026-10-07",
+   "rows": 2421429,
+   "trading_days": 1213,
+   "panel_days_missing_in_range": [],
+   "n_panel_days_missing": 0,
+   "listed_common_coverage_median": 0.9806,
+   "days_by_year": {
+    "2021": 59,
+    "2022": 246,
+    "2023": 239,
+    "2024": 242,
+    "2025": 243,
+    "2026": 184
+   },
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/inst_5y.csv.gz",
+   "sha256": "05d40cbb6112ffbd482bad474c755c2dbdc0a9af6c4ad7d36a230f76a26ac144"
+  },
+  "inst_hist": {
+   "first": "2025-09-25",
+   "last": "2026-10-27",
+   "rows": 571231,
+   "trading_days": 260,
+   "panel_days_missing_in_range": [],
+   "n_panel_days_missing": 0,
+   "listed_common_coverage_median": 0.9861,
+   "days_by_year": {
+    "2025": 65,
+    "2026": 195
+   },
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/inst_hist.csv.gz",
+   "sha256": "8d745f407ce8649c3dfd426a096788a40d2827cce5bff59f3f0fc4e978d55cee"
+  },
+  "bb_inst": {
+   "first": "2024-01-02",
+   "last": "2026-10-27",
+   "rows": 704438,
+   "trading_days": 679,
+   "panel_days_missing_in_range": [
+    "2025-12-22"
+   ],
+   "n_panel_days_missing": 1,
+   "listed_common_coverage_median": 0.9909,
+   "days_by_year": {
+    "2024": 242,
+    "2025": 242,
+    "2026": 195
+   },
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_sbl_foreign_level/raw/bb_inst.parquet",
+   "sha256": "dab5737c1a549557eaa8f2461914d993d7fd27495efdcb9f6fb9ccd58c017de4"
+  },
+  "voidful_twse_flows": {
+   "path": "/home/user/voidful/tw-institutional-stocker/data/twse_flows.csv",
+   "first": "2025-09-11",
+   "last": "2026-10-21",
+   "note": "只用來確認沒有更早資料"
+  }
+ },
+ "agreement": {
+  "inst_5y_vs_inst_hist": {
+   "n": 546644,
+   "trust_exact": 1.0,
+   "foreign_exact": 1.0
+  },
+  "inst_5y(張)_vs_bb_inst(股)": {
+   "n": 692495,
+   "trust_exact": 1.0,
+   "foreign_exact": 1.0
+  }
+ },
+ "usable_signal_months": {
+  "first": "2021-11",
+  "last": "2026-10",
+  "n": 60,
+  "years": 5.0
+ },
+ "split_feasibility": {
+  "S20_split（訓練訊號日 2016-02～2021-12）": "不可行：法人資料 2021-10-08 才開始，訓練期 71 個訊號月中只有 2 個月（2021-11、2021-12）有 20 日回看",
+  "requirement": "訓練、驗證各至少 3 年＝至少 72 個訊號月",
+  "available_months": 60,
+  "feasible": false,
+  "best_possible": "60 個月：最多 3 年＋24 個月，或兩段各 30 個月（約 2.5 年）"
+ },
+ "pit": "T86（三大法人買賣超日報）由證交所於每個交易日收盤後（約 15:00～16:30）公布當日資料；研究中心現行訊號日為 A10（每月 10 日後第一個交易日）收盤後算訊號、次日開盤成交，所以用「訊號日當天（含）以前」的法人資料是 PIT。資料本身沒有回補修訂欄位，視同發布值。",
+ "other_paths_checked": [
+  "www.twse.com.tw T86 端點（rwd 與舊版）：代理 403，連不上",
+  "api.finmindtrade.com：連不上",
+  "GitHub 鏡像：voidful/tw-institutional-stocker（2025-09-11 起）、BlackBoxOP/tw_stock（2024-01 起，o_sbl_foreign_level/raw/bb_inst.parquet）",
+  "o_sbl_foreign_level FINDINGS：已用 code search 約 1,000 筆、逐一檢查 18 個候選 repo，沒有 2021-10 前的全市場逐股 T86",
+  "w1_trust_first_buy_small、w12_foreign_*、o_concentration_regime 同樣記錄法人資料 2021-10 才開始",
+  "本機所有 csv／csv.gz／parquet 欄名掃描（trust／foreign／投信／外資）：只有上述四個來源及其複本"
+ ],
+ "verdict": "資料不足",
+ "verdict_reason": "三大法人逐股逐日資料最早 2021-10-08，可用訊號月 2021-11～2026-10 共 60 個月（5.0 年），不足「訓練、驗證各至少 3 年」（72 個月）；依題目「資料不足就判資料不足並停，不准硬湊」，不寫 PREREG、不算任何報酬。"
+}

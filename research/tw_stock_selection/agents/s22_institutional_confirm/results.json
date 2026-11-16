@@ -1,0 +1,42 @@
+{
+ "topic": "S22 法人籌碼確認",
+ "verdict": "資料不足",
+ "verdict_reason": "三大法人逐股逐日資料最早 2021-10-08，可用訊號月 2021-11～2026-10 共 60 個月（5.0 年），不足「訓練、驗證各至少 3 年」（72 個月）；依題目「資料不足就判資料不足並停，不准硬湊」，不寫 PREREG、不算任何報酬。",
+ "inst_first": "2021-10-08",
+ "inst_last": "2026-10-27",
+ "usable_signal_months": {
+  "first": "2021-11",
+  "last": "2026-10",
+  "n": 60,
+  "years": 5.0
+ },
+ "required_months": 72,
+ "S20_train_months_with_data": 2,
+ "agreement": {
+  "inst_5y_vs_inst_hist": {
+   "n": 546644,
+   "trust_exact": 1.0,
+   "foreign_exact": 1.0
+  },
+  "inst_5y(張)_vs_bb_inst(股)": {
+   "n": 692495,
+   "trust_exact": 1.0,
+   "foreign_exact": 1.0
+  }
+ },
+ "coverage_listed_common_median": {
+  "inst_5y": 0.9806,
+  "inst_hist": 0.9861,
+  "bb_inst": 0.9909
+ },
+ "judgement_table": {
+  "T0": "未執行（資料不足）",
+  "V1": "未執行（資料不足）",
+  "V2": "未執行（資料不足）",
+  "V3": "未執行（資料不足）",
+  "V4": "未執行（資料不足）"
+ },
+ "returns_computed": false,
+ "prereg_written": false,
+ "source": "全部數字來自 data_check.json（data_check.py 產生）"
+}

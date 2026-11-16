@@ -1,0 +1,2550 @@
+{
+ "conclusion": "有條件通過",
+ "counts": {
+  "通過": 141,
+  "注意": 11,
+  "不通過": 6
+ },
+ "checks": [
+  {
+   "item": "名單 訊號日",
+   "site": "2026-11-11",
+   "recomputed": "2026-11-11",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": ""
+  },
+  {
+   "item": "名單 成交日",
+   "site": "2026-11-12",
+   "recomputed": "2026-11-12",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": ""
+  },
+  {
+   "item": "名單 營收月份",
+   "site": "2026-10",
+   "recomputed": "2026-10",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": ""
+  },
+  {
+   "item": "股池檔數",
+   "site": 660,
+   "recomputed": 660,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": ""
+  },
+  {
+   "item": "股池有 SURGE 檔數（截止版）",
+   "site": 585,
+   "recomputed": 585,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": ""
+  },
+  {
+   "item": "L_MA 檔數",
+   "site": 108,
+   "recomputed": 108,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": ""
+  },
+  {
+   "item": "前 20 名代號與順序",
+   "site": "2453,3209,3311,2480,3715,3701,6589,1802,5469,1710,6108,9933,4566,2340,4938,1303,3617,3029,8213,4736",
+   "recomputed": "2453,3209,3311,2480,3715,3701,6589,1802,5469,1710,6108,9933,4566,2340,4938,1303,3617,3029,8213,4736",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": ""
+  },
+  {
+   "item": "F1 名單",
+   "site": "1802",
+   "recomputed": "1802",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": ""
+  },
+  {
+   "item": "前 20 名 surge 最大差",
+   "site": 0.0,
+   "recomputed": 3.197442310920451e-14,
+   "diff": 3.197442310920451e-14,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": "逐檔對到小數點後 3 位"
+  },
+  {
+   "item": "前 20 名 ret20 最大差",
+   "site": 0.0,
+   "recomputed": 8.881784197001252e-16,
+   "diff": 8.881784197001252e-16,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": "逐檔對到小數點後 3 位"
+  },
+  {
+   "item": "前 20 名 dist_ma60 最大差",
+   "site": 0.0,
+   "recomputed": 6.661338147750939e-16,
+   "diff": 6.661338147750939e-16,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": "逐檔對到小數點後 3 位"
+  },
+  {
+   "item": "前 20 名 v60_rel 最大差",
+   "site": 0.0,
+   "recomputed": 0.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": "逐檔對到小數點後 3 位"
+  },
+  {
+   "item": "前 20 名 close 最大差",
+   "site": 0.0,
+   "recomputed": 0.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": "逐檔對到小數點後 3 位"
+  },
+  {
+   "item": "2026-11 有訊號（股池有 SURGE ≥ 50）",
+   "site": "有訊號",
+   "recomputed": "有訊號",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11.json",
+   "note": ""
+  },
+  {
+   "item": "不截止版 前 20 名與 F1 相同",
+   "site": null,
+   "recomputed": "前20相同=True，F1相同=True",
+   "diff": null,
+   "verdict": "通過",
+   "source": "自算",
+   "note": "時點檢查"
+  },
+  {
+   "item": "2026-10 營收涵蓋率（截止版：2026-09 上市營收公司中 2026-10 已有者）",
+   "site": 0.9839,
+   "recomputed": 0.9839,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "lists/2026-11.json meta.rev",
+   "note": "門檻 95%；網站值為 s18 用的較早版本彙總表（1,084 筆）"
+  },
+  {
+   "item": "敏感度：2026-09 營收 8 家不同改用彙總表",
+   "site": null,
+   "recomputed": "前20相同=True，F1相同=True",
+   "diff": null,
+   "verdict": "通過",
+   "source": "自算",
+   "note": ""
+  },
+  {
+   "item": "E0 6213 動作",
+   "site": "賣出",
+   "recomputed": "賣出",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11_backtest_holdings.csv",
+   "note": "跌破季線"
+  },
+  {
+   "item": "E0 2355 動作",
+   "site": "賣出",
+   "recomputed": "賣出",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11_backtest_holdings.csv",
+   "note": "掉出前 20 名（第 27 名）"
+  },
+  {
+   "item": "E0 3416 動作",
+   "site": "賣出",
+   "recomputed": "賣出",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11_backtest_holdings.csv",
+   "note": "跌破季線"
+  },
+  {
+   "item": "E0 3037 動作",
+   "site": "賣出",
+   "recomputed": "賣出",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11_backtest_holdings.csv",
+   "note": "跌破季線"
+  },
+  {
+   "item": "E0 2492 動作",
+   "site": "賣出",
+   "recomputed": "賣出",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11_backtest_holdings.csv",
+   "note": "跌破季線"
+  },
+  {
+   "item": "E0 3311 動作",
+   "site": "續抱",
+   "recomputed": "續抱",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11_backtest_holdings.csv",
+   "note": "續抱（第 3 名）"
+  },
+  {
+   "item": "E0 4938 動作",
+   "site": "續抱",
+   "recomputed": "續抱",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11_backtest_holdings.csv",
+   "note": "續抱（第 15 名）"
+  },
+  {
+   "item": "E0 2480 動作",
+   "site": "續抱",
+   "recomputed": "續抱",
+   "diff": null,
+   "verdict": "通過",
+   "source": "lists/2026-11_backtest_holdings.csv",
+   "note": "續抱（第 4 名）"
+  },
+  {
+   "item": "E0 持股 SURGE 最大差",
+   "site": 0.0,
+   "recomputed": 0.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "lists/2026-11_backtest_holdings.csv",
+   "note": ""
+  },
+  {
+   "item": "網站 top20 代號與名次",
+   "site": "2453,3209,3311,2480,3715,3701,6589,1802,5469,1710,6108,9933,4566,2340,4938,1303,3617,3029,8213,4736",
+   "recomputed": "2453,3209,3311,2480,3715,3701,6589,1802,5469,1710,6108,9933,4566,2340,4938,1303,3617,3029,8213,4736",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/top20.json",
+   "note": ""
+  },
+  {
+   "item": "網站 top20 surge 最大差（依網站位數四捨五入）",
+   "site": 0.0,
+   "recomputed": 0.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/top20.json",
+   "note": ""
+  },
+  {
+   "item": "網站 top20 ret 最大差（依網站位數四捨五入）",
+   "site": 0.0,
+   "recomputed": 0.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/top20.json",
+   "note": ""
+  },
+  {
+   "item": "網站 top20 dist 最大差（依網站位數四捨五入）",
+   "site": 0.0,
+   "recomputed": 0.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/top20.json",
+   "note": ""
+  },
+  {
+   "item": "網站 top20 close 最大差（依網站位數四捨五入）",
+   "site": 0.0,
+   "recomputed": 0.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/top20.json",
+   "note": ""
+  },
+  {
+   "item": "網站 top20 入選欄＝F1",
+   "site": null,
+   "recomputed": "1802",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/top20.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 6213 訊號日收盤／最新收盤",
+   "site": "580.0／533.0",
+   "recomputed": "580.0／533.0",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 6213 SURGE",
+   "site": 3.08,
+   "recomputed": 3.08,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 6213 本月以來%（對訊號日收盤）",
+   "site": -8.1,
+   "recomputed": -8.1,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 2355 訊號日收盤／最新收盤",
+   "site": "55.2／65.9",
+   "recomputed": "55.2／65.9",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 2355 SURGE",
+   "site": 2.526,
+   "recomputed": 2.526,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 2355 本月以來%（對訊號日收盤）",
+   "site": 19.38,
+   "recomputed": 19.38,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 3416 訊號日收盤／最新收盤",
+   "site": "146.5／143.5",
+   "recomputed": "146.5／143.5",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 3416 SURGE",
+   "site": -0.319,
+   "recomputed": -0.319,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 3416 本月以來%（對訊號日收盤）",
+   "site": -2.05,
+   "recomputed": -2.05,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 3037 訊號日收盤／最新收盤",
+   "site": "864.0／785.0",
+   "recomputed": "864.0／785.0",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 3037 SURGE",
+   "site": 2.936,
+   "recomputed": 2.936,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 3037 本月以來%（對訊號日收盤）",
+   "site": -9.14,
+   "recomputed": -9.14,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 2492 訊號日收盤／最新收盤",
+   "site": "288.0／286.0",
+   "recomputed": "288.0／286.0",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 2492 SURGE",
+   "site": 2.567,
+   "recomputed": 2.567,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 2492 本月以來%（對訊號日收盤）",
+   "site": -0.69,
+   "recomputed": -0.69,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 3311 訊號日收盤／最新收盤",
+   "site": "40.7／39.7",
+   "recomputed": "40.7／39.7",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 3311 SURGE",
+   "site": 5.214,
+   "recomputed": 5.214,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 3311 本月以來%（對訊號日收盤）",
+   "site": -2.46,
+   "recomputed": -2.46,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 4938 訊號日收盤／最新收盤",
+   "site": "96.2／89.1",
+   "recomputed": "96.2／89.1",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 4938 SURGE",
+   "site": 2.722,
+   "recomputed": 2.722,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 4938 本月以來%（對訊號日收盤）",
+   "site": -7.38,
+   "recomputed": -7.38,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 2480 訊號日收盤／最新收盤",
+   "site": "181.0／193.5",
+   "recomputed": "181.0／193.5",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 2480 SURGE",
+   "site": 4.774,
+   "recomputed": 4.774,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 2480 本月以來%（對訊號日收盤）",
+   "site": 6.91,
+   "recomputed": 6.91,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 1802 訊號日收盤／最新收盤",
+   "site": "76.7／85.1",
+   "recomputed": "76.7／85.1",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 1802 SURGE",
+   "site": 3.272,
+   "recomputed": 3.272,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 actions 1802 本月以來%（對訊號日收盤）",
+   "site": 10.95,
+   "recomputed": 10.95,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/actions.json",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 3311 股數",
+   "site": 1445.0,
+   "recomputed": 1445.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/state/holdings_after_2026-11.csv",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 3311 起始價（2026-11-12 開盤）",
+   "site": 42.9,
+   "recomputed": 42.9,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 3311 最新收盤（2026-11-13）",
+   "site": 39.7,
+   "recomputed": 39.7,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 3311 本月以來%",
+   "site": -2.46,
+   "recomputed": -7.46,
+   "diff": -5.0,
+   "verdict": "注意",
+   "source": "自算（對起始價＝成交日開盤）",
+   "note": "網站以訊號日收盤為基準（-2.46%，計算本身正確），和「起始價」欄與 live.json 的起點不一致"
+  },
+  {
+   "item": "網站 holdings 4938 股數",
+   "site": 820.0,
+   "recomputed": 820.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/state/holdings_after_2026-11.csv",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 4938 起始價（2026-11-12 開盤）",
+   "site": 95.8,
+   "recomputed": 95.8,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 4938 最新收盤（2026-11-13）",
+   "site": 89.1,
+   "recomputed": 89.1,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 4938 本月以來%",
+   "site": -7.38,
+   "recomputed": -6.99,
+   "diff": 0.3899999999999997,
+   "verdict": "注意",
+   "source": "自算（對起始價＝成交日開盤）",
+   "note": "網站以訊號日收盤為基準（-7.38%，計算本身正確），和「起始價」欄與 live.json 的起點不一致"
+  },
+  {
+   "item": "網站 holdings 2480 股數",
+   "site": 434.0,
+   "recomputed": 434.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/state/holdings_after_2026-11.csv",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 2480 起始價（2026-11-12 開盤）",
+   "site": 180.0,
+   "recomputed": 180.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 2480 最新收盤（2026-11-13）",
+   "site": 193.5,
+   "recomputed": 193.5,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 2480 本月以來%",
+   "site": 6.91,
+   "recomputed": 7.5,
+   "diff": 0.5899999999999999,
+   "verdict": "注意",
+   "source": "自算（對起始價＝成交日開盤）",
+   "note": "網站以訊號日收盤為基準（6.91%，計算本身正確），和「起始價」欄與 live.json 的起點不一致"
+  },
+  {
+   "item": "網站 holdings 1802 股數",
+   "site": 862.0,
+   "recomputed": 862.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/state/holdings_after_2026-11.csv",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 1802 起始價（2026-11-12 開盤）",
+   "site": 80.7,
+   "recomputed": 80.7,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 1802 最新收盤（2026-11-13）",
+   "site": 85.1,
+   "recomputed": 85.1,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 1802 本月以來%",
+   "site": 10.95,
+   "recomputed": 5.45,
+   "diff": -5.499999999999999,
+   "verdict": "注意",
+   "source": "自算（對起始價＝成交日開盤）",
+   "note": "網站以訊號日收盤為基準（10.95%，計算本身正確），和「起始價」欄與 live.json 的起點不一致"
+  },
+  {
+   "item": "網站 holdings 0050 股數",
+   "site": 5965.0,
+   "recomputed": 5965.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/state/holdings_after_2026-11.csv",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 0050 起始價（2026-11-12 開盤）",
+   "site": 103.5,
+   "recomputed": 103.5,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 0050 最新收盤（2026-11-13）",
+   "site": 102.5,
+   "recomputed": 102.5,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 holdings 0050 本月以來%",
+   "site": -0.68,
+   "recomputed": -0.97,
+   "diff": -0.2899999999999999,
+   "verdict": "注意",
+   "source": "自算（對起始價＝成交日開盤）",
+   "note": "網站以訊號日收盤為基準（-0.68%，計算本身正確），和「起始價」欄與 live.json 的起點不一致"
+  },
+  {
+   "item": "台玻股數（目標 ÷ 開盤，回測規則）",
+   "site": 862.0,
+   "recomputed": 882,
+   "diff": 20.0,
+   "verdict": "注意",
+   "source": "自算",
+   "note": "計入 0.3% 滑價為 880 股；網站用 make_list 收盤估的目標 69,582 ÷ 開盤 80.7；回測以開盤淨值算目標"
+  },
+  {
+   "item": "0050 總股數（11/12 開盤重算）",
+   "site": 5965.0,
+   "recomputed": 6067,
+   "diff": 102.0,
+   "verdict": "注意",
+   "source": "自算",
+   "note": "網站沿用訊號日收盤估的 2,912 股；以開盤價與實際賣出價重算為 3014 股；網站股數隱含剩餘現金 12,126 元（live.json 未計入現金）"
+  },
+  {
+   "item": "網站 live 2026-11-12 策略淨值",
+   "site": 978986,
+   "recomputed": 978986,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "自算",
+   "note": "含剩餘現金為 979,264"
+  },
+  {
+   "item": "網站 live 2026-11-12 0050",
+   "site": 975362,
+   "recomputed": 975362,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "自算",
+   "note": ""
+  },
+  {
+   "item": "網站 live 2026-11-13 策略淨值",
+   "site": 992898,
+   "recomputed": 992898,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "自算",
+   "note": "含剩餘現金為 992,992"
+  },
+  {
+   "item": "網站 live 2026-11-13 0050",
+   "site": 990338,
+   "recomputed": 990338,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "自算",
+   "note": ""
+  },
+  {
+   "item": "網站 live 天數",
+   "site": 2,
+   "recomputed": 2,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "自算",
+   "note": ""
+  },
+  {
+   "item": "網站 status 本月訊號日",
+   "site": "2026-11-11",
+   "recomputed": "2026-11-11",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/status.json",
+   "note": ""
+  },
+  {
+   "item": "網站 status 本月執行日",
+   "site": "2026-11-12",
+   "recomputed": "2026-11-12",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/status.json",
+   "note": ""
+  },
+  {
+   "item": "網站 status 營收月份",
+   "site": "2026-10",
+   "recomputed": "2026-10",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/status.json",
+   "note": ""
+  },
+  {
+   "item": "網站 status 資料最後一天",
+   "site": "2026-11-13",
+   "recomputed": "2026-11-13",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/status.json",
+   "note": ""
+  },
+  {
+   "item": "網站 status 價格日期",
+   "site": "2026-11-13",
+   "recomputed": "2026-11-13",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/status.json",
+   "note": ""
+  },
+  {
+   "item": "網站 status 0050最新收盤",
+   "site": 102.5,
+   "recomputed": 102.5,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "site/data/status.json",
+   "note": ""
+  },
+  {
+   "item": "網站 status 下次訊號日",
+   "site": "2026-12-11",
+   "recomputed": "2026-12-11",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/status.json",
+   "note": "下次日期為推算（未知 12 月假日）"
+  },
+  {
+   "item": "網站 status 下次執行日",
+   "site": "2026-12-14",
+   "recomputed": "2026-12-14",
+   "diff": null,
+   "verdict": "通過",
+   "source": "site/data/status.json",
+   "note": "下次日期為推算（未知 12 月假日）"
+  },
+  {
+   "item": "0050 2025-06 分割（官方日 K 參考價）",
+   "site": "1:4",
+   "recomputed": 4.0002,
+   "diff": null,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": "6/11～6/17 無 0050 日 K（停牌），6/18 參考價＝6/10 收盤 ÷ 4；以漲跌價差算日報酬不受分割影響"
+  },
+  {
+   "item": "日 K 重疊日 blob 相同（raw 封存 vs 新 clone）",
+   "site": 0,
+   "recomputed": 0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "git ls-tree",
+   "note": ""
+  },
+  {
+   "item": "2025-07 起平日缺檔（應全為國定假日）",
+   "site": null,
+   "recomputed": "2025-09-29,2025-10-06,2025-10-10,2025-10-24,2025-12-25,2026-01-01,2026-02-12,2026-02-13,2026-02-16,2026-02-17,2026-02-18,2026-02-19,2026-02-20,2026-02-27,2026-04-03,2026-04-06,2026-05-01,2026-06-19,2026-07-10,2026-09-25,2026-09-28,2026-10-09,2026-10-23,2026-10-26",
+   "diff": null,
+   "verdict": "通過",
+   "source": "git ls-tree",
+   "note": "人工判讀見報告"
+  },
+  {
+   "item": "持股成交日後除權息（影響 live 未還原收盤）",
+   "site": 0,
+   "recomputed": 0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "官方日 K",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2015 現行策略",
+   "site": -10.8,
+   "recomputed": -10.8,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2015 XQ版",
+   "site": -10.8,
+   "recomputed": -10.8,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2015 0050",
+   "site": -10.3,
+   "recomputed": -10.6,
+   "diff": -0.29999999999999893,
+   "verdict": "不通過",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 -10.3"
+  },
+  {
+   "item": "網站 yearly 2016 現行策略",
+   "site": 15.2,
+   "recomputed": 15.2,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2016 XQ版",
+   "site": 17.2,
+   "recomputed": 17.2,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2016 0050",
+   "site": 19.5,
+   "recomputed": 19.6,
+   "diff": 0.10000000000000142,
+   "verdict": "注意",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 19.5"
+  },
+  {
+   "item": "網站 yearly 2017 現行策略",
+   "site": 22.2,
+   "recomputed": 22.2,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2017 XQ版",
+   "site": 20.0,
+   "recomputed": 20.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2017 0050",
+   "site": 18.3,
+   "recomputed": 18.1,
+   "diff": -0.1999999999999993,
+   "verdict": "不通過",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 18.3"
+  },
+  {
+   "item": "網站 yearly 2018 現行策略",
+   "site": 1.8,
+   "recomputed": 1.8,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2018 XQ版",
+   "site": -4.1,
+   "recomputed": -4.1,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2018 0050",
+   "site": -4.9,
+   "recomputed": -4.9,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 -4.9"
+  },
+  {
+   "item": "網站 yearly 2019 現行策略",
+   "site": 33.6,
+   "recomputed": 33.6,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2019 XQ版",
+   "site": 36.3,
+   "recomputed": 36.3,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2019 0050",
+   "site": 33.3,
+   "recomputed": 33.5,
+   "diff": 0.20000000000000284,
+   "verdict": "不通過",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 33.3"
+  },
+  {
+   "item": "網站 yearly 2020 現行策略",
+   "site": 99.4,
+   "recomputed": 99.4,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2020 XQ版",
+   "site": 82.0,
+   "recomputed": 82.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2020 0050",
+   "site": 31.4,
+   "recomputed": 31.1,
+   "diff": -0.29999999999999716,
+   "verdict": "不通過",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 31.4"
+  },
+  {
+   "item": "網站 yearly 2021 現行策略",
+   "site": 46.4,
+   "recomputed": 46.4,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2021 XQ版",
+   "site": 91.8,
+   "recomputed": 91.8,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2021 0050",
+   "site": 22.0,
+   "recomputed": 21.9,
+   "diff": -0.10000000000000142,
+   "verdict": "注意",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 22.0"
+  },
+  {
+   "item": "網站 yearly 2022 現行策略",
+   "site": -18.9,
+   "recomputed": -18.9,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2022 XQ版",
+   "site": -19.3,
+   "recomputed": -19.3,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2022 0050",
+   "site": -21.6,
+   "recomputed": -21.4,
+   "diff": 0.20000000000000284,
+   "verdict": "不通過",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 -21.6"
+  },
+  {
+   "item": "網站 yearly 2023 現行策略",
+   "site": 52.7,
+   "recomputed": 52.7,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2023 XQ版",
+   "site": 31.3,
+   "recomputed": 31.3,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2023 0050",
+   "site": 27.6,
+   "recomputed": 27.5,
+   "diff": -0.10000000000000142,
+   "verdict": "注意",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 27.6"
+  },
+  {
+   "item": "網站 yearly 2024 現行策略",
+   "site": 60.2,
+   "recomputed": 60.2,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2024 XQ版",
+   "site": 63.5,
+   "recomputed": 63.5,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2024 0050",
+   "site": 48.8,
+   "recomputed": 48.6,
+   "diff": -0.19999999999999574,
+   "verdict": "不通過",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 48.8"
+  },
+  {
+   "item": "網站 yearly 2025 現行策略",
+   "site": 56.5,
+   "recomputed": 56.5,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2025 XQ版",
+   "site": 44.7,
+   "recomputed": 44.7,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2025 0050",
+   "site": 36.8,
+   "recomputed": 36.8,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 36.8"
+  },
+  {
+   "item": "網站 yearly 2026 現行策略",
+   "site": 78.1,
+   "recomputed": 78.1,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70＋本稽核重跑引擎",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2026 XQ版",
+   "site": 65.7,
+   "recomputed": 65.7,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz XT|W10_70",
+   "note": ""
+  },
+  {
+   "item": "網站 yearly 2026 0050",
+   "site": 67.2,
+   "recomputed": 67.2,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "引擎 0050 含息還原價（精確）",
+   "note": "網站值＝navs.csv.gz 0050 欄（整數四捨五入）算出的 67.2"
+  },
+  {
+   "item": "網站 nav 週淨值對 navs.csv.gz 最大差（元；假日週五標籤對到前一交易日）",
+   "site": 0,
+   "recomputed": 0.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz",
+   "note": ""
+  },
+  {
+   "item": "網站 nav 日期遞增、不超過回測最後一天",
+   "site": "",
+   "recomputed": "2026-10-23；2026-10-23→2026-10-22",
+   "diff": null,
+   "verdict": "注意",
+   "source": "site/data/nav.json",
+   "note": "另有 51 個週標籤是休市的週五（值＝前一交易日，不算錯）"
+  },
+  {
+   "item": "網站 risk 回撤_單一路徑",
+   "site": -33.4,
+   "recomputed": -33.4,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節",
+   "note": "另由 s19 navs.csv.gz／trades.csv.gz 重算"
+  },
+  {
+   "item": "網站 risk 回撤_20條中位數",
+   "site": -34.0,
+   "recomputed": "出處段落有此數",
+   "diff": null,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 15 節",
+   "note": ""
+  },
+  {
+   "item": "網站 risk 回撤_壞的時候",
+   "site": -36.0,
+   "recomputed": "出處段落有此數",
+   "diff": null,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 16 節",
+   "note": ""
+  },
+  {
+   "item": "網站 risk 0050_回撤",
+   "site": -34.0,
+   "recomputed": -34.0,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節",
+   "note": "另由 s19 navs.csv.gz／trades.csv.gz 重算"
+  },
+  {
+   "item": "網站 risk 落後0050最多",
+   "site": 17.6,
+   "recomputed": 17.6,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節",
+   "note": "另由 s19 navs.csv.gz／trades.csv.gz 重算"
+  },
+  {
+   "item": "網站 risk 落後時間比例",
+   "site": 20,
+   "recomputed": 20,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/底倉衛星_操作說明.md 第 1 節",
+   "note": "另由 s19 navs.csv.gz／trades.csv.gz 重算"
+  },
+  {
+   "item": "網站 risk 最賺5筆占比",
+   "site": 37,
+   "recomputed": 37,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/底倉衛星_操作說明.md 第 5 節",
+   "note": "另由 s19 navs.csv.gz／trades.csv.gz 重算"
+  },
+  {
+   "item": "網站 risk 年化_全部",
+   "site": 48.13,
+   "recomputed": 48.13,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節",
+   "note": "另由 s19 navs.csv.gz／trades.csv.gz 重算"
+  },
+  {
+   "item": "網站 risk 年化_不買最賺5檔",
+   "site": 43.42,
+   "recomputed": "出處段落有此數",
+   "diff": null,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節",
+   "note": ""
+  },
+  {
+   "item": "網站 risk 勝率",
+   "site": 51.2,
+   "recomputed": 51.2,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節",
+   "note": "另由 s19 navs.csv.gz／trades.csv.gz 重算"
+  },
+  {
+   "item": "網站 risk 賺的平均",
+   "site": 27.16,
+   "recomputed": 27.16,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節",
+   "note": "另由 s19 navs.csv.gz／trades.csv.gz 重算"
+  },
+  {
+   "item": "網站 risk 賠的平均",
+   "site": -9.24,
+   "recomputed": -9.24,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節",
+   "note": "另由 s19 navs.csv.gz／trades.csv.gz 重算"
+  },
+  {
+   "item": "網站 risk 晚1天少",
+   "site": 3.6,
+   "recomputed": "出處段落有此數",
+   "diff": null,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 14 節",
+   "note": ""
+  },
+  {
+   "item": "網站 risk 晚2天少",
+   "site": 5.3,
+   "recomputed": "出處段落有此數",
+   "diff": null,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 14 節",
+   "note": ""
+  },
+  {
+   "item": "網站 risk 晚2天回撤",
+   "site": -36.4,
+   "recomputed": "出處段落有此數",
+   "diff": null,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 14 節",
+   "note": ""
+  },
+  {
+   "item": "網站 risk 準時可預期",
+   "site": 46.5,
+   "recomputed": "出處段落有此數",
+   "diff": null,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 16 節",
+   "note": ""
+  },
+  {
+   "item": "網站 risk 有時晚可預期",
+   "site": 43,
+   "recomputed": "出處段落有此數",
+   "diff": null,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 16 節",
+   "note": ""
+  },
+  {
+   "item": "回測 2019 起年化",
+   "site": 48.13,
+   "recomputed": 48.13,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節"
+  },
+  {
+   "item": "回測 2015-07 起年化",
+   "site": 34.08,
+   "recomputed": 34.08,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節"
+  },
+  {
+   "item": "回測 最大回撤",
+   "site": -33.4,
+   "recomputed": -33.4,
+   "diff": 0.0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節"
+  },
+  {
+   "item": "回測 已平倉交易筆數",
+   "site": 379,
+   "recomputed": 379,
+   "diff": 0,
+   "verdict": "通過",
+   "source": "xq_scripts/README.md 第 12 節",
+   "note": "另有期末未平倉 8 筆"
+  },
+  {
+   "item": "回測淨值 對 s19 navs.csv.gz（逐日最大相對差）",
+   "site": 0,
+   "recomputed": 6.103615766139825e-07,
+   "diff": 6.103615766139825e-07,
+   "verdict": "通過",
+   "source": "s19 navs.csv.gz E0|W10_70"
+  }
+ ],
+ "list_audit": {
+  "notes": [],
+  "data": {
+   "raw_head": "107f90739a3d8647845299f8e8f5330b51332730",
+   "tsd_head": "a14008fb04bf9bb136722dead9bc8c87948b3ee0",
+   "raw_last": "2026-10-30",
+   "tsd_last": "2026-11-13",
+   "n_days_tsd": 2890,
+   "overlap": 2880,
+   "overlap_blob_diff": [],
+   "only_in_raw": [],
+   "n_only_in_raw": 0,
+   "only_in_tsd": [
+    "2026-11-02",
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13"
+   ],
+   "weekday_without_file_since_2025_07": [
+    "2025-09-29",
+    "2025-10-06",
+    "2025-10-10",
+    "2025-10-24",
+    "2025-12-25",
+    "2026-01-01",
+    "2026-02-12",
+    "2026-02-13",
+    "2026-02-16",
+    "2026-02-17",
+    "2026-02-18",
+    "2026-02-19",
+    "2026-02-20",
+    "2026-02-27",
+    "2026-04-03",
+    "2026-04-06",
+    "2026-05-01",
+    "2026-06-19",
+    "2026-07-10",
+    "2026-09-25",
+    "2026-09-28",
+    "2026-10-09",
+    "2026-10-23",
+    "2026-10-26"
+   ],
+   "rows_per_day_last10": {
+    "2026-11-02": 2774,
+    "2026-11-03": 2775,
+    "2026-11-04": 2775,
+    "2026-11-05": 2773,
+    "2026-11-06": 2773,
+    "2026-11-09": 2776,
+    "2026-11-10": 2778,
+    "2026-11-11": 2779,
+    "2026-11-12": 2779,
+    "2026-11-13": 2782
+   },
+   "rows_per_day_min_max_window": [
+    2339,
+    2782
+   ]
+  },
+  "signal": {
+   "deadline_day": "2026-11-10",
+   "sig_date": "2026-11-11",
+   "exec_date": "2026-11-12"
+  },
+  "revenue": {
+   "tw_revenue_last_month": "2026-09",
+   "mops_2026_10_rows": 1088,
+   "mops_2026_10_blob": "d6924fdb99e28102506e38086efd62927c4089b6",
+   "tw_revenue_2026_09_sii": 995,
+   "coverage_vs_prev_sii": 1.0935,
+   "used_with_cutoff": 1076,
+   "prev_sii_codes_present": 991,
+   "prev_sii_codes_present_cutoff": 979,
+   "coverage_intersect": 0.996,
+   "coverage_intersect_cutoff": 0.9839,
+   "prev_sii_missing_cutoff": [
+    "0",
+    "2816",
+    "2832",
+    "2850",
+    "2851",
+    "2880",
+    "2881",
+    "2882",
+    "2883",
+    "2884",
+    "2885",
+    "2886",
+    "2887",
+    "2891",
+    "2892",
+    "5880"
+   ],
+   "coverage_cutoff_vs_prev_sii": 1.0814,
+   "excluded_after_cutoff": [
+    "2816",
+    "2832",
+    "2880",
+    "2885",
+    "2886",
+    "2887",
+    "2891",
+    "2892",
+    "5880"
+   ],
+   "never_seen_in_meta": [
+    "2850",
+    "2851",
+    "2883"
+   ],
+   "seen_value_differs_from_head": [],
+   "overlap_2026_09": {
+    "both": 994,
+    "equal": 986,
+    "diff_codes": [
+     "1220",
+     "3593",
+     "4426",
+     "4739",
+     "6283",
+     "6443",
+     "6504",
+     "8101"
+    ]
+   },
+   "n_sigma0_cut": 0,
+   "mops_codes_without_history": 96
+  },
+  "list": {
+   "n_univ": 660,
+   "n_univ_surge": 585,
+   "n_ma": 108,
+   "has_signal": true,
+   "top20": [
+    "2453",
+    "3209",
+    "3311",
+    "2480",
+    "3715",
+    "3701",
+    "6589",
+    "1802",
+    "5469",
+    "1710",
+    "6108",
+    "9933",
+    "4566",
+    "2340",
+    "4938",
+    "1303",
+    "3617",
+    "3029",
+    "8213",
+    "4736"
+   ],
+   "f1": [
+    "1802"
+   ],
+   "surge_10th": 3.102,
+   "surge_20th": 2.672,
+   "nocutoff": {
+    "n_univ_surge": 596,
+    "n_ma": 115,
+    "top20_same": true,
+    "f1_same": true
+   },
+   "n_innov_in_pool_excluded": 10,
+   "alt_2026_09_mops": {
+    "top20_same": true,
+    "f1_same": true,
+    "max_surge_change_top20": 0.0
+   }
+  },
+  "top20_rows": [
+   {
+    "code": "2453",
+    "name": "凌群",
+    "rank_site": 1,
+    "rank": 1,
+    "surge_site": 8.506249603341846,
+    "surge": 8.506249603341878,
+    "ret20_site": 0.09245283018867911,
+    "ret20": 0.09245283018867911,
+    "dist_site": 0.09156035945453422,
+    "dist": 0.09156035945453422,
+    "v60_site": 26198820.533333335,
+    "v60": 26198820.533333335,
+    "close_site": 57.9,
+    "close": 57.9,
+    "above": true,
+    "name_now": "凌群"
+   },
+   {
+    "code": "3209",
+    "name": "全科",
+    "rank_site": 2,
+    "rank": 2,
+    "surge_site": 5.393001663620339,
+    "surge": 5.39300166362034,
+    "ret20_site": 0.02145922746781137,
+    "ret20": 0.02145922746781137,
+    "dist_site": 0.04194908187561719,
+    "dist": 0.04194908187561697,
+    "v60_site": 77575804.51666667,
+    "v60": 77575804.51666667,
+    "close_site": 47.6,
+    "close": 47.6,
+    "above": true,
+    "name_now": "全科"
+   },
+   {
+    "code": "3311",
+    "name": "閎暉",
+    "rank_site": 3,
+    "rank": 3,
+    "surge_site": 5.214436760627752,
+    "surge": 5.214436760627755,
+    "ret20_site": -0.2097087378640775,
+    "ret20": -0.2097087378640775,
+    "dist_site": 0.04890148830616603,
+    "dist": 0.04890148830616603,
+    "v60_site": 90422383.48333333,
+    "v60": 90422383.48333333,
+    "close_site": 40.7,
+    "close": 40.7,
+    "above": true,
+    "name_now": "閎暉"
+   },
+   {
+    "code": "2480",
+    "name": "敦陽科",
+    "rank_site": 4,
+    "rank": 4,
+    "surge_site": 4.774340521098699,
+    "surge": 4.774340521098699,
+    "ret20_site": 0.02549575070821497,
+    "ret20": 0.025495750708215414,
+    "dist_site": 0.08421105176458799,
+    "dist": 0.08421105176458843,
+    "v60_site": 75111925.93333334,
+    "v60": 75111925.93333334,
+    "close_site": 181.0,
+    "close": 181.0,
+    "above": true,
+    "name_now": "敦陽科"
+   },
+   {
+    "code": "3715",
+    "name": "定穎投控",
+    "rank_site": 5,
+    "rank": 5,
+    "surge_site": 3.9018679868823805,
+    "surge": 3.901867986882382,
+    "ret20_site": -0.06115107913669049,
+    "ret20": -0.06115107913669071,
+    "dist_site": 0.061234447426201655,
+    "dist": 0.06123444742620143,
+    "v60_site": 804528470.6,
+    "v60": 804528470.6,
+    "close_site": 130.5,
+    "close": 130.5,
+    "above": true,
+    "name_now": "定穎投控"
+   },
+   {
+    "code": "3701",
+    "name": "大眾控",
+    "rank_site": 6,
+    "rank": 6,
+    "surge_site": 3.5912912554493657,
+    "surge": 3.5912912554493652,
+    "ret20_site": 0.017713365539452575,
+    "ret20": 0.017713365539452353,
+    "dist_site": 0.30526823055608165,
+    "dist": 0.30526823055608165,
+    "v60_site": 215095659.63333333,
+    "v60": 215095659.63333333,
+    "close_site": 63.2,
+    "close": 63.2,
+    "above": true,
+    "name_now": "大眾控"
+   },
+   {
+    "code": "6589",
+    "name": "台康生技",
+    "rank_site": 7,
+    "rank": 7,
+    "surge_site": 3.331949290569464,
+    "surge": 3.3319492905694648,
+    "ret20_site": 0.031936127744510934,
+    "ret20": 0.031936127744511156,
+    "dist_site": 0.039666180684732044,
+    "dist": 0.03966618068473182,
+    "v60_site": 30985882.55,
+    "v60": 30985882.55,
+    "close_site": 51.7,
+    "close": 51.7,
+    "above": true,
+    "name_now": "台康生技"
+   },
+   {
+    "code": "1802",
+    "name": "台玻",
+    "rank_site": 8,
+    "rank": 8,
+    "surge_site": 3.2723320039065564,
+    "surge": 3.2723320039065573,
+    "ret20_site": 0.20787401574803233,
+    "ret20": 0.2078740157480321,
+    "dist_site": 0.25190424374319953,
+    "dist": 0.2519042437431993,
+    "v60_site": 4733999559.6,
+    "v60": 4733999559.6,
+    "close_site": 76.7,
+    "close": 76.7,
+    "above": true,
+    "name_now": "台玻"
+   },
+   {
+    "code": "5469",
+    "name": "瀚宇博",
+    "rank_site": 9,
+    "rank": 9,
+    "surge_site": 3.114735044418639,
+    "surge": 3.1147350444186386,
+    "ret20_site": -0.08383233532934065,
+    "ret20": -0.08383233532934109,
+    "dist_site": 0.025744167337088397,
+    "dist": 0.02574416733708773,
+    "v60_site": 182779384.23333332,
+    "v60": 182779384.23333332,
+    "close_site": 76.5,
+    "close": 76.5,
+    "above": true,
+    "name_now": "瀚宇博"
+   },
+   {
+    "code": "1710",
+    "name": "東聯",
+    "rank_site": 10,
+    "rank": 10,
+    "surge_site": 3.1017477578882295,
+    "surge": 3.1017477578882287,
+    "ret20_site": -0.06094182825484795,
+    "ret20": -0.06094182825484773,
+    "dist_site": 0.026909678396526138,
+    "dist": 0.026909678396526138,
+    "v60_site": 98016502.83333333,
+    "v60": 98016502.83333333,
+    "close_site": 16.95,
+    "close": 16.95,
+    "above": true,
+    "name_now": "東聯"
+   },
+   {
+    "code": "6108",
+    "name": "競國",
+    "rank_site": 11,
+    "rank": 11,
+    "surge_site": 3.063850322024161,
+    "surge": 3.063850322024162,
+    "ret20_site": 0.3776493256262048,
+    "ret20": 0.3776493256262039,
+    "dist_site": 0.35015431875046255,
+    "dist": 0.3501543187504619,
+    "v60_site": 114426753.31666666,
+    "v60": 114426753.31666666,
+    "close_site": 35.75,
+    "close": 35.75,
+    "above": true,
+    "name_now": "競國"
+   },
+   {
+    "code": "9933",
+    "name": "中鼎",
+    "rank_site": 12,
+    "rank": 12,
+    "surge_site": 3.0490807018446713,
+    "surge": 3.049080701844671,
+    "ret20_site": 0.2060889929742391,
+    "ret20": 0.2060889929742391,
+    "dist_site": 0.20846358296103928,
+    "dist": 0.20846358296103928,
+    "v60_site": 231275434.2,
+    "v60": 231275434.2,
+    "close_site": 51.5,
+    "close": 51.5,
+    "above": true,
+    "name_now": "中鼎"
+   },
+   {
+    "code": "4566",
+    "name": "時碩工業",
+    "rank_site": 13,
+    "rank": 13,
+    "surge_site": 2.8553756891121536,
+    "surge": 2.8553756891121536,
+    "ret20_site": -0.011673151750973165,
+    "ret20": -0.011673151750973165,
+    "dist_site": 0.04751867295972101,
+    "dist": 0.04751867295972101,
+    "v60_site": 250891793.05,
+    "v60": 250891793.05,
+    "close_site": 76.2,
+    "close": 76.2,
+    "above": true,
+    "name_now": "時碩工業"
+   },
+   {
+    "code": "2340",
+    "name": "台亞",
+    "rank_site": 14,
+    "rank": 14,
+    "surge_site": 2.7795543039305355,
+    "surge": 2.7795543039305297,
+    "ret20_site": -0.17704280155642027,
+    "ret20": -0.17704280155642027,
+    "dist_site": 0.09989165763813701,
+    "dist": 0.09989165763813679,
+    "v60_site": 672994137.0666667,
+    "v60": 672994137.0666667,
+    "close_site": 42.3,
+    "close": 42.3,
+    "above": true,
+    "name_now": "台亞"
+   },
+   {
+    "code": "4938",
+    "name": "和碩",
+    "rank_site": 15,
+    "rank": 15,
+    "surge_site": 2.7219445798781194,
+    "surge": 2.721944579878119,
+    "ret20_site": -0.024340770791075106,
+    "ret20": -0.024340770791075106,
+    "dist_site": 0.02123142250530785,
+    "dist": 0.021231422505308073,
+    "v60_site": 1299223013.6166666,
+    "v60": 1299223013.6166666,
+    "close_site": 96.2,
+    "close": 96.2,
+    "above": true,
+    "name_now": "和碩"
+   },
+   {
+    "code": "1303",
+    "name": "南亞",
+    "rank_site": 16,
+    "rank": 16,
+    "surge_site": 2.718585559442085,
+    "surge": 2.718585559442087,
+    "ret20_site": 0.03300330033003274,
+    "ret20": 0.03300330033003274,
+    "dist_site": 0.22929894612816648,
+    "dist": 0.22929894612816626,
+    "v60_site": 24476147706.916668,
+    "v60": 24476147706.916668,
+    "close_site": 313.0,
+    "close": 313.0,
+    "above": true,
+    "name_now": "南亞"
+   },
+   {
+    "code": "3617",
+    "name": "碩天",
+    "rank_site": 17,
+    "rank": 17,
+    "surge_site": 2.7113549492802678,
+    "surge": 2.711354949280268,
+    "ret20_site": 0.034816247582205584,
+    "ret20": 0.03481624758220514,
+    "dist_site": 0.08255766895993588,
+    "dist": 0.08255766895993566,
+    "v60_site": 139414645.05,
+    "v60": 139414645.05,
+    "close_site": 267.5,
+    "close": 267.5,
+    "above": true,
+    "name_now": "碩天"
+   },
+   {
+    "code": "3029",
+    "name": "零壹",
+    "rank_site": 18,
+    "rank": 18,
+    "surge_site": 2.7026248351140896,
+    "surge": 2.702624835114089,
+    "ret20_site": 0.1297071129707108,
+    "ret20": 0.1297071129707108,
+    "dist_site": 0.15557457735929758,
+    "dist": 0.15557457735929714,
+    "v60_site": 323973607.6166667,
+    "v60": 323973607.6166667,
+    "close_site": 135.0,
+    "close": 135.0,
+    "above": true,
+    "name_now": "零壹"
+   },
+   {
+    "code": "8213",
+    "name": "志超",
+    "rank_site": 19,
+    "rank": 19,
+    "surge_site": 2.6843045037969966,
+    "surge": 2.6843045037969957,
+    "ret20_site": 0.08556832694763727,
+    "ret20": 0.0855683269476375,
+    "dist_site": 0.1915887850467295,
+    "dist": 0.19158878504672927,
+    "v60_site": 90302170.86666666,
+    "v60": 90302170.86666666,
+    "close_site": 42.5,
+    "close": 42.5,
+    "above": true,
+    "name_now": "志超"
+   },
+   {
+    "code": "4736",
+    "name": "泰博",
+    "rank_site": 20,
+    "rank": 20,
+    "surge_site": 2.6723756345158516,
+    "surge": 2.6723756345158374,
+    "ret20_site": -0.02621722846441954,
+    "ret20": -0.026217228464419762,
+    "dist_site": 0.006801154450465807,
+    "dist": 0.006801154450465585,
+    "v60_site": 38201334.266666666,
+    "v60": 38201334.266666666,
+    "close_site": 130.0,
+    "close": 130.0,
+    "above": true,
+    "name_now": "泰博"
+   }
+  ],
+  "e0": [
+   {
+    "code": "6213",
+    "site": "賣出",
+    "mine": "賣出",
+    "why": "跌破季線",
+    "surge": 3.08,
+    "surge_site": 3.08,
+    "ret20": -28.571,
+    "ret20_site": -28.6,
+    "close": 580.0,
+    "close_site": 580.0,
+    "rank": null,
+    "rank_site": null
+   },
+   {
+    "code": "2355",
+    "site": "賣出",
+    "mine": "賣出",
+    "why": "掉出前 20 名（第 27 名）",
+    "surge": 2.526,
+    "surge_site": 2.526,
+    "ret20": 11.066,
+    "ret20_site": 11.1,
+    "close": 55.2,
+    "close_site": 55.2,
+    "rank": 27,
+    "rank_site": 27
+   },
+   {
+    "code": "3416",
+    "site": "賣出",
+    "mine": "賣出",
+    "why": "跌破季線",
+    "surge": -0.319,
+    "surge_site": -0.319,
+    "ret20": -17.465,
+    "ret20_site": -17.5,
+    "close": 146.5,
+    "close_site": 146.5,
+    "rank": null,
+    "rank_site": null
+   },
+   {
+    "code": "3037",
+    "site": "賣出",
+    "mine": "賣出",
+    "why": "跌破季線",
+    "surge": 2.936,
+    "surge_site": 2.936,
+    "ret20": -31.155,
+    "ret20_site": -31.2,
+    "close": 864.0,
+    "close_site": 864.0,
+    "rank": null,
+    "rank_site": null
+   },
+   {
+    "code": "2492",
+    "site": "賣出",
+    "mine": "賣出",
+    "why": "跌破季線",
+    "surge": 2.567,
+    "surge_site": 2.567,
+    "ret20": -31.1,
+    "ret20_site": -31.1,
+    "close": 288.0,
+    "close_site": 288.0,
+    "rank": null,
+    "rank_site": null
+   },
+   {
+    "code": "3311",
+    "site": "續抱",
+    "mine": "續抱",
+    "why": "續抱（第 3 名）",
+    "surge": 5.214,
+    "surge_site": 5.214,
+    "ret20": -20.971,
+    "ret20_site": -21.0,
+    "close": 40.7,
+    "close_site": 40.7,
+    "rank": 3,
+    "rank_site": 3
+   },
+   {
+    "code": "4938",
+    "site": "續抱",
+    "mine": "續抱",
+    "why": "續抱（第 15 名）",
+    "surge": 2.722,
+    "surge_site": 2.722,
+    "ret20": -2.434,
+    "ret20_site": -2.4,
+    "close": 96.2,
+    "close_site": 96.2,
+    "rank": 15,
+    "rank_site": 15
+   },
+   {
+    "code": "2480",
+    "site": "續抱",
+    "mine": "續抱",
+    "why": "續抱（第 4 名）",
+    "surge": 4.774,
+    "surge_site": 4.774,
+    "ret20": 2.55,
+    "ret20_site": 2.5,
+    "close": 181.0,
+    "close_site": 181.0,
+    "rank": 4,
+    "rank_site": 4
+   }
+  ],
+  "holdings_since_start": {
+   "3311": {
+    "site": -2.46,
+    "vs_open": -7.46
+   },
+   "4938": {
+    "site": -7.38,
+    "vs_open": -6.99
+   },
+   "2480": {
+    "site": 6.91,
+    "vs_open": 7.5
+   },
+   "1802": {
+    "site": 10.95,
+    "vs_open": 5.45
+   },
+   "0050": {
+    "site": -0.68,
+    "vs_open": -0.97
+   }
+  },
+  "rebalance_open": {
+   "proceeds_sells_open": 384343,
+   "nav_open_est": 918995,
+   "sat_value": 712512,
+   "target_per_slot": 71251,
+   "shares_1802_with_slip": 880,
+   "shares_1802_open_only": 882,
+   "shares_1802_state": 862.0,
+   "e50_buy_shares": 3014,
+   "e50_total": 6067,
+   "e50_total_state": 5965.0,
+   "cash_left_mine": 76,
+   "cash_left_implied_by_state": 12126,
+   "nav_open_state_holdings": 905607
+  },
+  "live": [
+   {
+    "date": "2026-11-12",
+    "strat": 978986,
+    "e50": 975362,
+    "strat_with_cash": 979264
+   },
+   {
+    "date": "2026-11-13",
+    "strat": 992898,
+    "e50": 990338,
+    "strat_with_cash": 992992
+   }
+  ],
+  "live_base_value_at_open": 905607,
+  "status_note": "2026-12 交易日尚無日 K；下次訊號日以「12/10（四）為交易日」推算＝12/11（五），執行 12/14（一）",
+  "data_quality": {
+   "ex_rights_last60_focus": [
+    {
+     "code": "3209",
+     "date": "2026-08-31",
+     "prev_close": 51.9,
+     "ref": 45.85,
+     "adj": -0.1166
+    },
+    {
+     "code": "3416",
+     "date": "2026-09-01",
+     "prev_close": 182.0,
+     "ref": 177.0,
+     "adj": -0.0275
+    },
+    {
+     "code": "4736",
+     "date": "2026-08-27",
+     "prev_close": 139.0,
+     "ref": 124.5,
+     "adj": -0.1043
+    },
+    {
+     "code": "6108",
+     "date": "2026-10-07",
+     "prev_close": 25.4,
+     "ref": 25.95,
+     "adj": 0.0217
+    },
+    {
+     "code": "9933",
+     "date": "2026-09-08",
+     "prev_close": 40.3,
+     "ref": 39.1,
+     "adj": -0.0298
+    }
+   ],
+   "bad_ret_window_all": 7,
+   "bad_ret_focus": [],
+   "suspension_focus_last60": [],
+   "e50_last12": {
+    "2026-10-29": [
+     108.65,
+     107.25,
+     -1.4
+    ],
+    "2026-10-30": [
+     104.8,
+     104.95,
+     -2.3
+    ],
+    "2026-11-02": [
+     103.4,
+     104.1,
+     -0.85
+    ],
+    "2026-11-03": [
+     102.5,
+     100.6,
+     -3.5
+    ],
+    "2026-11-04": [
+     101.55,
+     99.85,
+     -0.75
+    ],
+    "2026-11-05": [
+     99.4,
+     97.15,
+     -2.7
+    ],
+    "2026-11-06": [
+     89.95,
+     92.5,
+     -4.65
+    ],
+    "2026-11-09": [
+     95.65,
+     97.45,
+     4.95
+    ],
+    "2026-11-10": [
+     99.55,
+     99.7,
+     2.25
+    ],
+    "2026-11-11": [
+     101.0,
+     103.2,
+     3.5
+    ],
+    "2026-11-12": [
+     103.5,
+     100.95,
+     -2.25
+    ],
+    "2026-11-13": [
+     102.85,
+     102.5,
+     1.55
+    ]
+   },
+   "held_ex_rights_after_signal": [],
+   "e50_split_2025_06": {
+    "2025-06-10": {
+     "open": 184.9,
+     "close": 188.65,
+     "change": 4.95
+    },
+    "2025-06-11": null,
+    "2025-06-17": null,
+    "2025-06-18": {
+     "open": 47.5,
+     "close": 47.57,
+     "change": 0.41
+    }
+   },
+   "e50_split_ratio": 4.0002
+  },
+  "nav_json": {
+   "n": 585,
+   "holiday_friday_labels": 51,
+   "after_backtest_end": [
+    "2026-10-23"
+   ],
+   "order_breaks": [
+    "2026-10-23→2026-10-22"
+   ]
+  },
+  "risk_calc": {
+   "回撤_單一路徑": -33.4,
+   "0050_回撤": -34.0,
+   "年化_全部": 48.13,
+   "落後0050最多": 17.6,
+   "落後時間比例": 20,
+   "最賺5筆占比": 37,
+   "勝率": 51.2,
+   "賺的平均": 27.16,
+   "賠的平均": -9.24,
+   "n_closed_trades_s19": 379,
+   "mdd_trough": "2025-04-09",
+   "e50_mdd_trough": "2022-10-25"
+  }
+ },
+ "backtest": {
+  "engine": "s20lib→s17lib→s10lib.simulate_s10（E0、sat_w 0.7、W10、lock False、COSTS strict、100 萬、位移 0、全期連續）；s17lib.e50_fix_suspension 已套用",
+  "panel": {
+   "T": 2876,
+   "N": 2142,
+   "first": "2015-01-05",
+   "last": "2026-10-22",
+   "start": "2015-07-01"
+  },
+  "e50_suspension_fix": [
+   {
+    "date": "2025-06-11",
+    "before_open_raw": null,
+    "before_E50O": 363.5009,
+    "E50": 363.5009,
+    "E50_prev": 363.5009,
+    "close_raw": null,
+    "after_open_raw": 188.65,
+    "after_E50O": 363.5009
+   },
+   {
+    "date": "2025-06-12",
+    "before_open_raw": null,
+    "before_E50O": 363.5009,
+    "E50": 363.5009,
+    "E50_prev": 363.5009,
+    "close_raw": null,
+    "after_open_raw": 188.65,
+    "after_E50O": 363.5009
+   },
+   {
+    "date": "2025-06-13",
+    "before_open_raw": null,
+    "before_E50O": 363.5009,
+    "E50": 363.5009,
+    "E50_prev": 363.5009,
+    "close_raw": null,
+    "after_open_raw": 188.65,
+    "after_E50O": 363.5009
+   },
+   {
+    "date": "2025-06-16",
+    "before_open_raw": null,
+    "before_E50O": 363.5009,
+    "E50": 363.5009,
+    "E50_prev": 363.5009,
+    "close_raw": null,
+    "after_open_raw": 188.65,
+    "after_E50O": 363.5009
+   },
+   {
+    "date": "2025-06-17",
+    "before_open_raw": null,
+    "before_E50O": 363.5009,
+    "E50": 363.5009,
+    "E50_prev": 363.5009,
+    "close_raw": null,
+    "after_open_raw": 188.65,
+    "after_E50O": 363.5009
+   }
+  ],
+  "cagr_since2019": 0.48125923742223775,
+  "cagr_full": 0.3408178045141339,
+  "cagr_since2024": 0.7016139634342164,
+  "maxdd": -0.3340389329005301,
+  "dd_peak": "2024-07-17",
+  "dd_trough": "2025-04-09",
+  "final_nav": 27577819.524119347,
+  "n_trades_all": 387,
+  "n_trades_closed": 379,
+  "n_open_end": 8,
+  "win_rate": 0.5118733509234829,
+  "avg_win": 0.27159236225602196,
+  "avg_loss": 0.09237055093420551,
+  "bench_cagr_since2019": 0.28909202186025373,
+  "bench_cagr_full": 0.2113706686546324,
+  "bench_maxdd": -0.33956979854989056,
+  "vs_s19_navs": {
+   "n_days": 2760,
+   "max_abs_rel_diff": 6.103615766139825e-07,
+   "final_ref": 27577820.0
+  },
+  "open_end_positions": [
+   {
+    "code": "6213",
+    "ent_date": "2026-08-12",
+    "shares": "4493",
+    "cost": "2070422.880247289",
+    "shares_scaled_1m": "163"
+   },
+   {
+    "code": "3311",
+    "ent_date": "2026-10-14",
+    "shares": "39850",
+    "cost": "2321152.4236640004",
+    "shares_scaled_1m": "1445"
+   },
+   {
+    "code": "4938",
+    "ent_date": "2026-10-14",
+    "shares": "22624",
+    "cost": "2321152.7145506563",
+    "shares_scaled_1m": "820"
+   },
+   {
+    "code": "2355",
+    "ent_date": "2026-10-14",
+    "shares": "45315",
+    "cost": "2321203.2948650005",
+    "shares_scaled_1m": "1643"
+   },
+   {
+    "code": "3416",
+    "ent_date": "2026-10-14",
+    "shares": "12487",
+    "cost": "2321072.7736669653",
+    "shares_scaled_1m": "453"
+   },
+   {
+    "code": "2480",
+    "ent_date": "2026-10-14",
+    "shares": "11970",
+    "cost": "2321058.8631188697",
+    "shares_scaled_1m": "434"
+   },
+   {
+    "code": "3037",
+    "ent_date": "2026-10-14",
+    "shares": "1956",
+    "cost": "2320819.8778017596",
+    "shares_scaled_1m": "71"
+   },
+   {
+    "code": "2492",
+    "ent_date": "2026-10-14",
+    "shares": "5765",
+    "cost": "2321067.2814764553",
+    "shares_scaled_1m": "209"
+   }
+  ],
+  "lg_columns": [
+   "j",
+   "sig_t",
+   "ent_t",
+   "exit_t",
+   "cost",
+   "proceeds",
+   "why",
+   "shares",
+   "code",
+   "ret",
+   "pnl",
+   "hold_days",
+   "sig_date",
+   "ent_date",
+   "exit_date",
+   "market",
+   "score"
+  ],
+  "bench_maxdd_precise": -0.33956979854989056,
+  "bench_trough": "2022-10-25",
+  "bench_peak": "2022-01-17",
+  "lag12m_252d_max_pp": 17.63193986436653,
+  "lag12m_252d_frac": 0.19776714513556617,
+  "lag12m_252d_worst_date": "2025-10-07",
+  "lag12m_cal_max_pp": 16.99467888324657,
+  "lag12m_cal_frac": 0.21320604614160701,
+  "lag12m_cal_worst_date": "2025-08-05",
+  "yearly_strategy": {
+   "2015": -10.8,
+   "2016": 15.2,
+   "2017": 22.2,
+   "2018": 1.8,
+   "2019": 33.6,
+   "2020": 99.4,
+   "2021": 46.4,
+   "2022": -18.9,
+   "2023": 52.7,
+   "2024": 60.2,
+   "2025": 56.5,
+   "2026": 78.1
+  },
+  "yearly_0050": {
+   "2015": -10.6,
+   "2016": 19.6,
+   "2017": 18.1,
+   "2018": -4.9,
+   "2019": 33.5,
+   "2020": 31.1,
+   "2021": 21.9,
+   "2022": -21.4,
+   "2023": 27.5,
+   "2024": 48.6,
+   "2025": 36.8,
+   "2026": 67.2
+  },
+  "peak_rss_mb": 1430,
+  "seconds": 4
+ },
+ "e50_official": {
+  "n_days": 2890,
+  "days_without_0050": [
+   "2025-06-11",
+   "2025-06-12",
+   "2025-06-13",
+   "2025-06-16",
+   "2025-06-17"
+  ],
+  "abs_ret_gt_15pct": [],
+  "split": {
+   "close_0610": 188.65,
+   "close_0618": 47.57,
+   "ref_0618": 47.160000000000004,
+   "ratio": 4.0002
+  },
+  "yearly_official": {
+   "2015": -11.5,
+   "2016": 19.3,
+   "2017": 18.0,
+   "2018": -5.9,
+   "2019": 32.2,
+   "2020": 27.0,
+   "2021": 24.3,
+   "2022": -19.9,
+   "2023": 22.3,
+   "2024": 49.2,
+   "2025": 36.7,
+   "2026": 57.8
+  },
+  "yearly_engine": {
+   "2015": -10.6,
+   "2016": 19.6,
+   "2017": 18.1,
+   "2018": -4.9,
+   "2019": 33.5,
+   "2020": 31.1,
+   "2021": 21.9,
+   "2022": -21.4,
+   "2023": 27.5,
+   "2024": 48.6,
+   "2025": 36.8,
+   "2026": 67.2
+  },
+  "yearly_site": {
+   "2015": -10.3,
+   "2016": 19.5,
+   "2017": 18.3,
+   "2018": -4.9,
+   "2019": 33.3,
+   "2020": 31.4,
+   "2021": 22.0,
+   "2022": -21.6,
+   "2023": 27.6,
+   "2024": 48.8,
+   "2025": 36.8,
+   "2026": 67.2
+  },
+  "max_abs_official_vs_engine": 9.400000000000006,
+  "max_abs_official_vs_site": 9.400000000000006,
+  "maxdd_official": -0.3274808832633104,
+  "maxdd_trough": "2022-10-25",
+  "live": {
+   "open_1112": 103.5,
+   "close_1112": 100.95,
+   "close_1113": 102.5
+  }
+ }
+}
