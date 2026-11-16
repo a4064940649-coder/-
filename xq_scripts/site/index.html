@@ -30,6 +30,11 @@
 .mx .legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-bottom: var(--cds-gap-sm); }
 .mx .sw { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
 .mx ol.steps { margin: 0; padding-left: 1.3em; line-height: 1.8; max-width: 70ch; }
+.mx .chartbox.small { min-height: 200px; }
+.mx h2.sub { margin-top: var(--cds-gap-lg); }
+.mx .calcrow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cds-gap-sm); margin-bottom: var(--cds-gap-sm); font-size: var(--cds-font-size-body); }
+.mx .calcin { font: inherit; font-variant-numeric: tabular-nums; padding: 4px 8px; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); width: 12em; max-width: 100%; }
+.mx .pos { color: var(--color-ok); }
 .mx details summary { cursor: pointer; font-weight: var(--cds-font-weight-medium); }
 </style>
 
@@ -45,6 +50,7 @@
     <p class="lede" data-draw="detail" data-source="status" data-field="說明" data-row="0">—</p>
     <div class="facts">
       <div class="fact"><div class="k">下次產生名單（訊號日）</div><div class="v" data-draw="nextsig" data-source="status" data-field="下次訊號日" data-row="0">—</div></div>
+      <div class="fact"><div class="k">距下次產生名單</div><div class="v"><span data-draw="countdown">—</span> 天</div></div>
       <div class="fact"><div class="k">下次開盤執行</div><div class="v" data-draw="nextexec" data-source="status" data-field="下次執行日" data-row="0">—</div></div>
       <div class="fact"><div class="k">本月訊號日（營收月份）</div><div class="v"><span data-draw="sig" data-source="status" data-field="本月訊號日" data-row="0">—</span>（<span data-draw="revm" data-source="status" data-field="營收月份" data-row="0">—</span>）</div></div>
       <div class="fact"><div class="k">資料更新到</div><div class="v" data-draw="asof" data-source="status" data-field="資料最後一天" data-row="0">—</div></div>
@@ -67,11 +73,36 @@
       <h2>策略目前持股</h2>
       <div class="tw">
         <table data-source="holdings" data-row-key="代號">
-          <thead><tr><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th class="l" data-field="狀態">狀態</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th data-field="訊號日收盤">訊號日收盤</th></tr></thead>
+          <thead><tr><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th class="l" data-field="狀態">狀態</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th data-field="訊號日收盤">訊號日收盤</th><th data-field="最新收盤">最新收盤</th><th data-field="本月以來%">漲跌 %</th></tr></thead>
           <tbody data-draw="holdings"></tbody>
         </table>
       </div>
-      <p class="note">另有 0050 底倉（總資產 30%）；衛星每檔＝衛星資金 ÷ 10，沒用完的錢也放 0050。</p>
+      <p class="note">漲跌％從本月訊號日收盤算到最新收盤（<span data-draw="asof2" data-source="status" data-field="資料最後一天" data-row="0">—</span>）。另有 0050 底倉（總資產 30%）；衛星每檔＝衛星資金 ÷ 10，沒用完的錢也放 0050。</p>
+    </section>
+  </div>
+
+  <div class="grid2">
+    <section class="card" id="live">
+      <h2>上線後表現（2026-11-12 起）</h2>
+      <div class="facts">
+        <div class="fact"><div class="k">策略</div><div class="v" data-draw="live-s" data-source="live_sum" data-field="報酬%" data-where="項目=策略">—</div></div>
+        <div class="fact"><div class="k">0050</div><div class="v" data-draw="live-e" data-source="live_sum" data-field="報酬%" data-where="項目=0050">—</div></div>
+        <div class="fact"><div class="k">交易日數</div><div class="v" data-draw="live-n" data-source="live_sum" data-field="交易日數" data-where="項目=策略">—</div></div>
+      </div>
+      <div class="chartbox small" data-draw="livechart" data-source="live"></div>
+      <p class="note">策略＝11/12 開盤換股後的持股（含 0050 底倉），起始＝100 萬；用官方收盤價每天更新。這是策略照規則運作的紀錄，不是你的帳戶。</p>
+    </section>
+
+    <section class="card" id="calc">
+      <h2>我的下單計算</h2>
+      <label class="calcrow" for="calc-total">總資產（元）<input id="calc-total" class="calcin" type="number" min="100000" step="10000" value="1000000" inputmode="numeric"></label>
+      <div class="tw" data-source="actions status">
+        <table>
+          <thead><tr><th class="l">項目</th><th class="l">代號</th><th>每檔金額</th><th>參考價</th><th>建議股數</th></tr></thead>
+          <tbody data-draw="calc"></tbody>
+        </table>
+      </div>
+      <p class="note">新開始的人：0050 底倉＝總資產 30%；本月「買進」每檔＝衛星（70%）÷ 10；其餘衛星資金也買 0050。參考價用最新收盤，實際成交用開盤價，股數請照開盤價再算一次。零股可買，買不到一半金額就跳過。</p>
     </section>
   </div>
 
@@ -94,6 +125,8 @@
       <span><i class="sw" data-draw="sw2"></i>0050（含息）</span>
     </div>
     <div class="chartbox" data-draw="nav" data-source="nav"></div>
+    <h2 class="sub">回撤：從最高點跌了多少</h2>
+    <div class="chartbox small" data-draw="dd" data-source="nav"></div>
     <p class="note">對數縱軸。嚴成本：手續費 2.8 折、證交稅、每邊半個跳動點＋0.3% 滑價；只上市、排除創新板。單一條回測路徑；換 20 個起始日，現行策略 2019 年起每年中位數約 46%，偶爾晚 0～4 天下單約 43%。回測不保證未來。</p>
   </section>
 
@@ -159,7 +192,7 @@
   dash.draw('actions', (tb) => fillTable(tb, 'actions', { key: '代號', list: [
     ['動作', 'l', pill], ['代號', 'l'], ['名稱', 'l'], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['原因', 'l']] }));
   dash.draw('holdings', (tb) => fillTable(tb, 'holdings', { key: '代號', list: [
-    ['代號', 'l'], ['名稱', 'l'], ['狀態', 'l', pill], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['訊號日收盤', '', (v) => fmt(v, 2)]] }));
+    ['代號', 'l'], ['名稱', 'l'], ['狀態', 'l', pill], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['訊號日收盤', '', (v) => fmt(v, 2)], ['最新收盤', '', (v) => fmt(v, 2)], ['本月以來%', '', pct]] }));
   dash.draw('top20', (tb) => fillTable(tb, 'top20', { key: '代號', list: [
     ['名次', '', (v) => fmt(v, 0)], ['代號', 'l'], ['名稱', 'l'], ['SURGE', '', (v) => fmt(v, 2)], ['前20日漲幅%', '', (v) => fmt(v, 1)], ['距季線%', '', (v) => fmt(v, 1)], ['收盤', '', (v) => fmt(v, 2)], ['入選', 'l']] },
     (tr, r) => { if (r['入選'] === '是') tr.className = 'pick'; }));
@@ -207,6 +240,83 @@
         tip.style.left = left + 'px'; tip.style.top = '10px';
       })
       .on('pointerleave', () => { hl.attr('opacity', 0); tip.hidden = true; });
+  });
+
+  // 距下次產生名單
+  dash.draw('countdown', (el) => {
+    const v = field('下次訊號日'); if (v === '—') { el.textContent = '—'; return; }
+    const t = new Date(v + 'T00:00:00+08:00'); const now = new Date();
+    el.textContent = String(Math.max(0, Math.ceil((t - now) / 86400000)));
+  });
+  dash.draw('asof2', (el) => { el.textContent = field('資料最後一天'); });
+  // 上線後摘要
+  dash.calc('live_sum', { inputs: ['live'], title: '上線後報酬', description: '最新一天相對起始 100 萬的報酬',
+    fn: (live) => { if (!live.length) return []; const a = live[live.length - 1];
+      return [{ 項目: '策略', '報酬%': +((a['策略'] / 1e6 - 1) * 100).toFixed(2), 交易日數: live.length },
+              { 項目: '0050', '報酬%': +((a['0050'] / 1e6 - 1) * 100).toFixed(2), 交易日數: live.length }]; } });
+  const sumv = (who, f) => { const s = dash.data('live_sum'); if (s.status !== 'ok' || !s.data) return null; const r = s.data.find((x) => x['項目'] === who); return r ? r[f] : null; };
+  const signed = (el, v) => { el.textContent = v === null ? '—' : (v > 0 ? '+' : '') + v.toFixed(2) + '%'; el.classList.toggle('neg', v !== null && v < 0); el.classList.toggle('pos', v !== null && v > 0); };
+  dash.draw('live-s', (el) => signed(el, sumv('策略', '報酬%')));
+  dash.draw('live-e', (el) => signed(el, sumv('0050', '報酬%')));
+  dash.draw('live-n', (el) => { const v = sumv('策略', '交易日數'); el.textContent = v === null ? '—' : String(v); });
+
+  function lineChart(box, rows, keys, opts) {
+    box.replaceChildren();
+    const W = Math.max(280, box.clientWidth || 500), H = opts.h, ml = 56, mr = opts.mr, mt = 10, mb = 24;
+    const x = d3.scaleUtc().domain(d3.extent(rows, (r) => r.t)).range([ml, W - mr]);
+    const lo = opts.lo ?? d3.min(rows, (r) => d3.min(r.v)), hi = opts.hi ?? d3.max(rows, (r) => d3.max(r.v));
+    const y = d3.scaleLinear().domain(lo === hi ? [lo - 1, hi + 1] : [lo, hi]).nice().range([H - mb, mt]);
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', opts.aria);
+    const tk = y.ticks(4);
+    svg.append('g').selectAll('line').data(tk).join('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y).attr('y2', y).style('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(tk).join('text').attr('x', ml - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text(opts.fmt);
+    svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).ticks(Math.min(rows.length, Math.max(2, Math.floor(W / 90)))).tickFormat(d3.utcFormat(opts.tf)).tickSizeOuter(0))
+      .call((g) => g.selectAll('line,.domain').style('stroke', 'var(--cds-chart-axis)'));
+    keys.forEach((k, i) => svg.append('path').datum(rows).attr('fill', 'none').attr('stroke-width', 2).style('stroke', dash.colors[opts.ci ? opts.ci[i] : i])
+      .attr('d', d3.line().x((r) => x(r.t)).y((r) => y(r.v[i]))));
+    if (rows.length < 40) keys.forEach((k, i) => svg.append('g').selectAll('circle').data(rows).join('circle').attr('r', 3.5).attr('cx', (r) => x(r.t)).attr('cy', (r) => y(r.v[i])).style('fill', dash.colors[opts.ci ? opts.ci[i] : i]));
+    const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; box.appendChild(tip);
+    const bis = d3.bisector((r) => r.t).center;
+    const hl = svg.append('line').attr('y1', mt).attr('y2', H - mb).style('stroke', 'var(--cds-chart-reference)').attr('opacity', 0);
+    svg.append('rect').attr('x', ml).attr('y', mt).attr('width', W - mr - ml).attr('height', H - mt - mb).attr('fill', 'transparent')
+      .on('pointermove', (ev) => { const [px] = d3.pointer(ev); const r = rows[bis(rows, x.invert(px))]; const cx = x(r.t);
+        hl.attr('x1', cx).attr('x2', cx).attr('opacity', 1); tip.replaceChildren();
+        const h = document.createElement('div'); h.textContent = d3.utcFormat('%Y-%m-%d')(r.t); tip.appendChild(h);
+        keys.forEach((k, i) => { const d = document.createElement('div'); d.textContent = k + '：' + opts.fmt(r.v[i]); tip.appendChild(d); });
+        tip.hidden = false; const bw = box.clientWidth, sx = bw / W; let left = cx * sx + 12; if (left + 170 > bw) left = cx * sx - 182; tip.style.left = left + 'px'; tip.style.top = '8px'; })
+      .on('pointerleave', () => { hl.attr('opacity', 0); tip.hidden = true; });
+  }
+  const P = d3.utcParse('%Y-%m-%d');
+  dash.draw('livechart', (box) => {
+    const s = dash.data('live'); if (s.status !== 'ok' || !s.data.length) { box.replaceChildren(); box.textContent = s.status === 'error' ? '無法載入' : '—'; return; }
+    const rows = [{ t: d3.utcDay.offset(P(s.data[0]['日期']), -1), v: [1e6, 1e6] }].concat(s.data.map((r) => ({ t: P(r['日期']), v: [+r['策略'], +r['0050']] })));
+    lineChart(box, rows, ['策略', '0050'], { h: 200, mr: 16, tf: '%m/%d', ci: [0, 2], aria: '上線後策略與 0050 的資產變化',
+      fmt: (v) => Math.round(v / 1e4).toLocaleString() + ' 萬' });
+  });
+  dash.draw('dd', (box) => {
+    const s = dash.data('nav'); if (s.status !== 'ok' || !s.data.length) { box.replaceChildren(); box.textContent = '—'; return; }
+    const keys = ['現行策略', 'XQ版', '0050']; const pk = [0, 0, 0];
+    const rows = s.data.map((r) => ({ t: P(r['日期']), v: keys.map((k, i) => { pk[i] = Math.max(pk[i], +r[k]); return (+r[k] / pk[i] - 1) * 100; }) }));
+    lineChart(box, rows, keys, { h: 200, mr: 16, hi: 0, tf: '%Y', aria: '三條回測的回撤曲線', fmt: (v) => v.toFixed(0) + '%' });
+  });
+  // 下單計算
+  dash.draw('calc', {
+    mount: (tb) => { const inp = document.getElementById('calc-total'); const h = () => dash.draw('calc'); if (inp) inp.addEventListener('input', h); return { inp, h }; },
+    update: (tb, m) => {
+      tb.replaceChildren();
+      const a = dash.data('actions'); const total = Math.max(0, +(m.inp ? m.inp.value : 0) || 0);
+      const add = (label, code, amt, px) => { const tr = document.createElement('tr');
+        [label, code, Math.round(amt).toLocaleString(), px ? px.toFixed(2) : '—', px ? Math.floor(amt / px).toLocaleString() : '—'].forEach((v, i) => { const td = document.createElement('td'); if (i < 2) td.className = 'l'; td.textContent = v; tr.appendChild(td); });
+        tb.appendChild(tr); };
+      if (a.status !== 'ok') return;
+      const base = total * 0.3, per = total * 0.7 / 10;
+      const buys = a.data.filter((r) => r['動作'] === '買進');
+      const epv = +field('0050最新收盤'); const ep = isNaN(epv) || !epv ? null : epv;
+      buys.forEach((r) => add('本月買進 ' + r['名稱'], r['代號'], per, +(r['最新收盤'] || r['訊號日收盤'])));
+      const rest = total * 0.7 - per * buys.length;
+      add('0050 底倉（30%）', '0050', base, ep);
+      add('衛星剩下的錢也買 0050', '0050', rest, ep);
+    },
   });
 })();
 </script>
