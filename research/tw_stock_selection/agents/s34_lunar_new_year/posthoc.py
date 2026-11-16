@@ -58,21 +58,26 @@ def paths(builder):
     dt, dv = [], []
     for s in range(4):
         S1 = builder(s)
+        S1 = {k: v for k, v in S1.items() if k not in ('XV', 'RQ')} | {'XV': {'E0': S1['X']}}
         for cap in CAPS:
             k = f'{int(cap/1e4)}萬|+{s}'
             dt.append((stlib.cagr(sim(S1, cap)[0], TA, TB) - CUR[k]['train']) * 100)
             dv.append((stlib.cagr(sim(S1, FCAP[cap], fresh=True)[0], TB, DE) - CUR[k]['valid']) * 100)
+        del S1
     dt, dv = np.array(dt), np.array(dv)
     return dict(train_median=float(np.median(dt)), train_npos=int((dt > 0).sum()), valid_median=float(np.median(dv)), valid_npos=int((dv > 0).sum()),
                 valid_min=float(dv.min()), valid_max=float(dv.max()))
 
 
 # ---------------------------------------------------------------- (3) 其他規則驗證窗、ADJ2 逐年
-SR = {rid: {s: s34lib.build(P, U, Rv, TD, r, s, S_cur=S0s[s], RT_cur=RT)[0] for s in range(4)} for rid, r in RULES.items()}
-res['all_rules_paths（驗證窗未登記描述；訓練窗同 results_train）'] = {rid: paths(lambda s, rid=rid: SR[rid][s]) for rid in RULES}
+# 記憶體：每個訊號約 100MB，只保留位移 0（逐筆比較用），其他位移用完即丟
+SR = {rid: s34lib.build(P, U, Rv, TD, r, 0, S_cur=S0s[0], RT_cur=RT)[0] for rid, r in RULES.items()}
+res['all_rules_paths（驗證窗未登記描述；訓練窗同 results_train）'] = {
+    rid: paths(lambda s, rid=rid, r=r: SR[rid] if s == 0 else s34lib.build(P, U, Rv, TD, r, s, S_cur=S0s[s], RT_cur=RT)[0]) for rid, r in RULES.items()}
+gc.collect()
 print('(3) 規則路徑', f'{time.time()-t_all:.0f}s', flush=True)
 bench = pd.Series(P.E50[P.t0:], index=P.IDX[P.t0:])
-navc, lgc, _ = sim(S0s[0]); nava, lga, _ = sim(SR['ADJ2'][0])
+navc, lgc, _ = sim(S0s[0]); nava, lga, _ = sim(SR['ADJ2'])
 yc, ya = stlib.yearly(navc, bench), stlib.yearly(nava, bench)
 res['ADJ2_yearly_cont_100萬'] = {y: dict(CUR=yc[y]['strat'], ADJ2=ya[y]['strat'], diff_pp=(ya[y]['strat'] - yc[y]['strat']) * 100) for y in yc}
 # 只在一邊的交易（全期連續主跑，依進場訊號日）
@@ -113,7 +118,7 @@ def ctest(d):
 
 TL = {}
 for rid, r in RULES.items():
-    S1 = SR[rid][0]; S0 = S0s[0]
+    S1 = SR[rid]; S0 = S0s[0]
     aff = (1, 2, 3) if rid == 'ADJ2' else (1, 2)
     i1 = {x['month']: x['k'] for x in S1['info']}
     rows0, rows1 = [], []
@@ -144,6 +149,8 @@ for rid, r in RULES.items():
                       detail=detail if p != 'all' else None)
     TL[rid] = out
 res['affected_months_trade_level'] = TL
+del SR
+gc.collect()
 print('(1) 逐筆', f'{time.time()-t_all:.0f}s', flush=True)
 
 # ---------------------------------------------------------------- (2) 隨機對照
