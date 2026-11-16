@@ -17,7 +17,7 @@ def get(d, path):
 
 def cmp(group, path, tol, label=None, mpath=None):
     a = get(R, path); b = get(M, mpath or path)
-    if isinstance(a, list) or isinstance(b, list):
+    if isinstance(a, (list, str)) or isinstance(b, (list, str)):
         ok = a == b; diff = None
     else:
         diff = None if a is None or b is None else round(b - a, 6); ok = (a == b) if diff is None else abs(diff) <= tol + 1e-12

@@ -6592,5 +6592,849 @@
   }
  },
  "peak_mb": 256,
- "secs": 3
+ "secs": 3,
+ "comparison": {
+  "tolerance": {
+   "deterministic": 0.001,
+   "monte_carlo": 0.02
+  },
+  "n": 2820,
+  "n_ok": 2748,
+  "by_group": {
+   "歷史since2016": {
+    "n": 83,
+    "ok": 83,
+    "max_abs_diff": 0.0001
+   },
+   "歷史since2016標準路徑": {
+    "n": 37,
+    "ok": 36,
+    "max_abs_diff": 0.023762
+   },
+   "歷史since20160050": {
+    "n": 7,
+    "ok": 7,
+    "max_abs_diff": 0.0
+   },
+   "歷史since2016逐路徑": {
+    "n": 280,
+    "ok": 280,
+    "max_abs_diff": 4.8e-05
+   },
+   "歷史since2019": {
+    "n": 83,
+    "ok": 82,
+    "max_abs_diff": 0.0001
+   },
+   "歷史since2019標準路徑": {
+    "n": 37,
+    "ok": 36,
+    "max_abs_diff": 0.35711
+   },
+   "歷史since20190050": {
+    "n": 7,
+    "ok": 7,
+    "max_abs_diff": 0.0
+   },
+   "歷史since2019逐路徑": {
+    "n": 280,
+    "ok": 280,
+    "max_abs_diff": 5e-05
+   },
+   "模擬main_2016_b6to12": {
+    "n": 291,
+    "ok": 290,
+    "max_abs_diff": 1.0
+   },
+   "模擬main_2016_b6to12事件": {
+    "n": 24,
+    "ok": 24,
+    "max_abs_diff": 0.015
+   },
+   "警戒線main_2016_b6to12fa10門檻": {
+    "n": 5,
+    "ok": 4,
+    "max_abs_diff": 1
+   },
+   "警戒線main_2016_b6to12fa10": {
+    "n": 81,
+    "ok": 81,
+    "max_abs_diff": 0.0151
+   },
+   "警戒線main_2016_b6to12fa5門檻": {
+    "n": 5,
+    "ok": 4,
+    "max_abs_diff": 1
+   },
+   "警戒線main_2016_b6to12fa5": {
+    "n": 81,
+    "ok": 81,
+    "max_abs_diff": 0.0156
+   },
+   "模擬sens_2016_b6": {
+    "n": 228,
+    "ok": 222,
+    "max_abs_diff": 1.0
+   },
+   "模擬sens_2016_b6事件": {
+    "n": 24,
+    "ok": 24,
+    "max_abs_diff": 0.0169
+   },
+   "警戒線sens_2016_b6fa10門檻": {
+    "n": 5,
+    "ok": 3,
+    "max_abs_diff": 0.01
+   },
+   "警戒線sens_2016_b6fa10": {
+    "n": 81,
+    "ok": 66,
+    "max_abs_diff": 0.0714
+   },
+   "警戒線sens_2016_b6fa5門檻": {
+    "n": 5,
+    "ok": 4,
+    "max_abs_diff": 1
+   },
+   "警戒線sens_2016_b6fa5": {
+    "n": 81,
+    "ok": 80,
+    "max_abs_diff": 0.0207
+   },
+   "模擬sens_2016_b12": {
+    "n": 228,
+    "ok": 213,
+    "max_abs_diff": 1.0
+   },
+   "模擬sens_2016_b12事件": {
+    "n": 24,
+    "ok": 24,
+    "max_abs_diff": 0.0103
+   },
+   "警戒線sens_2016_b12fa10門檻": {
+    "n": 5,
+    "ok": 3,
+    "max_abs_diff": 1
+   },
+   "警戒線sens_2016_b12fa10": {
+    "n": 81,
+    "ok": 66,
+    "max_abs_diff": 0.073
+   },
+   "警戒線sens_2016_b12fa5門檻": {
+    "n": 5,
+    "ok": 5,
+    "max_abs_diff": 0.0
+   },
+   "警戒線sens_2016_b12fa5": {
+    "n": 81,
+    "ok": 81,
+    "max_abs_diff": 0.012
+   },
+   "模擬sens_2019_b6to12": {
+    "n": 228,
+    "ok": 228,
+    "max_abs_diff": 1.0
+   },
+   "模擬sens_2019_b6to12事件": {
+    "n": 24,
+    "ok": 24,
+    "max_abs_diff": 0.0124
+   },
+   "警戒線sens_2019_b6to12fa10門檻": {
+    "n": 5,
+    "ok": 4,
+    "max_abs_diff": 1
+   },
+   "警戒線sens_2019_b6to12fa10": {
+    "n": 81,
+    "ok": 80,
+    "max_abs_diff": 0.0232
+   },
+   "警戒線sens_2019_b6to12fa5門檻": {
+    "n": 5,
+    "ok": 4,
+    "max_abs_diff": 1
+   },
+   "警戒線sens_2019_b6to12fa5": {
+    "n": 81,
+    "ok": 78,
+    "max_abs_diff": 0.0928
+   },
+   "現值": {
+    "n": 2,
+    "ok": 2,
+    "max_abs_diff": 0.0
+   },
+   "現值標準路徑": {
+    "n": 20,
+    "ok": 20,
+    "max_abs_diff": 0.0
+   },
+   "現值20條": {
+    "n": 25,
+    "ok": 24,
+    "max_abs_diff": 2
+   },
+   "現值逐路徑": {
+    "n": 200,
+    "ok": 198,
+    "max_abs_diff": 0.0
+   }
+  },
+  "failures": [
+   {
+    "group": "歷史since2016標準路徑",
+    "item": "part1_history/since2016/std_path/recover_ge10_median_m",
+    "orig": 1.381,
+    "rep": 1.404762,
+    "diff": 0.023762,
+    "tol": 0.001,
+    "ok": false
+   },
+   {
+    "group": "歷史since2019",
+    "item": "part1_history/since2019/summary_20paths/underwater_ge20_median_m/median",
+    "orig": 7.8453,
+    "rep": 7.8452,
+    "diff": -0.0001,
+    "tol": 0,
+    "ok": false
+   },
+   {
+    "group": "歷史since2019標準路徑",
+    "item": "part1_history/since2019/std_path/recover_ge10_median_m",
+    "orig": 0.6667,
+    "rep": 1.02381,
+    "diff": 0.35711,
+    "tol": 0.001,
+    "ok": false
+   },
+   {
+    "group": "模擬main_2016_b6to12",
+    "item": "part2_simulation/main_2016_b6to12/scenarios/HALF/12m/strat_ann/p95",
+    "orig": 1.1476,
+    "rep": 1.1252,
+    "diff": -0.0224,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線main_2016_b6to12fa10門檻",
+    "item": "part2_simulation/main_2016_b6to12/alerts/fa10/D/threshold",
+    "orig": 50,
+    "rep": 51,
+    "diff": 1,
+    "tol": 0,
+    "ok": false
+   },
+   {
+    "group": "警戒線main_2016_b6to12fa5門檻",
+    "item": "part2_simulation/main_2016_b6to12/alerts/fa5/D/threshold",
+    "orig": 60,
+    "rep": 61,
+    "diff": 1,
+    "tol": 0,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b6",
+    "item": "part2_simulation/sens_2016_b6/scenarios/EFF/12m/strat_ann/p90",
+    "orig": 0.9219,
+    "rep": 0.9504,
+    "diff": 0.0285,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b6",
+    "item": "part2_simulation/sens_2016_b6/scenarios/EFF/12m/strat_ann/p95",
+    "orig": 1.1503,
+    "rep": 1.1728,
+    "diff": 0.0225,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b6",
+    "item": "part2_simulation/sens_2016_b6/scenarios/HALF/12m/strat_ann/p90",
+    "orig": 0.8237,
+    "rep": 0.8535,
+    "diff": 0.0298,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b6",
+    "item": "part2_simulation/sens_2016_b6/scenarios/HALF/12m/strat_ann/p95",
+    "orig": 1.0427,
+    "rep": 1.0641,
+    "diff": 0.0214,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b6",
+    "item": "part2_simulation/sens_2016_b6/scenarios/ZERO/12m/strat_ann/p90",
+    "orig": 0.7329,
+    "rep": 0.7604,
+    "diff": 0.0275,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b6",
+    "item": "part2_simulation/sens_2016_b6/scenarios/ZERO/12m/strat_ann/p95",
+    "orig": 0.9387,
+    "rep": 0.9615,
+    "diff": 0.0228,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10門檻",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A/threshold",
+    "orig": -0.09,
+    "rep": -0.08,
+    "diff": 0.01,
+    "tol": 0.0,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A/prob/EFF/5y",
+    "orig": 0.0758,
+    "rep": 0.0987,
+    "diff": 0.0229,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A/prob/HALF/1y",
+    "orig": 0.1247,
+    "rep": 0.1511,
+    "diff": 0.0264,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A/prob/HALF/3y",
+    "orig": 0.2421,
+    "rep": 0.2955,
+    "diff": 0.0534,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A/prob/HALF/5y",
+    "orig": 0.3479,
+    "rep": 0.4193,
+    "diff": 0.0714,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A/prob/ZERO/1y",
+    "orig": 0.3799,
+    "rep": 0.4165,
+    "diff": 0.0366,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A/prob/ZERO/3y",
+    "orig": 0.5929,
+    "rep": 0.6478,
+    "diff": 0.0549,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A/prob/ZERO/5y",
+    "orig": 0.7422,
+    "rep": 0.7917,
+    "diff": 0.0495,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10門檻",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/C/threshold",
+    "orig": -0.2991,
+    "rep": -0.3091,
+    "diff": -0.01,
+    "tol": 0.0,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/C/prob/HALF/5y",
+    "orig": 0.2015,
+    "rep": 0.1805,
+    "diff": -0.021,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/C/prob/ZERO/3y",
+    "orig": 0.2458,
+    "rep": 0.2254,
+    "diff": -0.0204,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/C/prob/ZERO/5y",
+    "orig": 0.3622,
+    "rep": 0.3284,
+    "diff": -0.0338,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A_and_D/prob/ZERO/3y",
+    "orig": 0.2332,
+    "rep": 0.27,
+    "diff": 0.0368,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A_and_D/prob/ZERO/5y",
+    "orig": 0.4094,
+    "rep": 0.4599,
+    "diff": 0.0505,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A_and_E_posthoc/prob/HALF/5y",
+    "orig": 0.2655,
+    "rep": 0.2928,
+    "diff": 0.0273,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A_and_E_posthoc/prob/ZERO/3y",
+    "orig": 0.5255,
+    "rep": 0.5527,
+    "diff": 0.0272,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa10",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa10/A_and_E_posthoc/prob/ZERO/5y",
+    "orig": 0.6808,
+    "rep": 0.7035,
+    "diff": 0.0227,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa5門檻",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa5/D/threshold",
+    "orig": 63,
+    "rep": 62,
+    "diff": -1,
+    "tol": 0,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b6fa5",
+    "item": "part2_simulation/sens_2016_b6/alerts/fa5/D/prob/ZERO/5y",
+    "orig": 0.5465,
+    "rep": 0.5672,
+    "diff": 0.0207,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/EFF/12m/strat_ann/p75",
+    "orig": 0.5995,
+    "rep": 0.5637,
+    "diff": -0.0358,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/EFF/12m/b0050_ann/p75",
+    "orig": 0.3926,
+    "rep": 0.3689,
+    "diff": -0.0237,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/EFF/12m/strat_ann/p90",
+    "orig": 1.044,
+    "rep": 1.015,
+    "diff": -0.029,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/EFF/12m/b0050_ann/p90",
+    "orig": 0.6925,
+    "rep": 0.6429,
+    "diff": -0.0496,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/EFF/12m/strat_ann/p95",
+    "orig": 1.3746,
+    "rep": 1.3143,
+    "diff": -0.0603,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/HALF/12m/strat_ann/p75",
+    "orig": 0.5203,
+    "rep": 0.4801,
+    "diff": -0.0402,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/HALF/12m/b0050_ann/p75",
+    "orig": 0.3926,
+    "rep": 0.3689,
+    "diff": -0.0237,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/HALF/12m/strat_ann/p90",
+    "orig": 0.9404,
+    "rep": 0.9085,
+    "diff": -0.0319,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/HALF/12m/b0050_ann/p90",
+    "orig": 0.6925,
+    "rep": 0.6429,
+    "diff": -0.0496,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/HALF/12m/strat_ann/p95",
+    "orig": 1.2451,
+    "rep": 1.2008,
+    "diff": -0.0443,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/ZERO/12m/strat_ann/p75",
+    "orig": 0.4439,
+    "rep": 0.4072,
+    "diff": -0.0367,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/ZERO/12m/b0050_ann/p75",
+    "orig": 0.3926,
+    "rep": 0.3689,
+    "diff": -0.0237,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/ZERO/12m/strat_ann/p90",
+    "orig": 0.8441,
+    "rep": 0.8103,
+    "diff": -0.0338,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/ZERO/12m/b0050_ann/p90",
+    "orig": 0.6925,
+    "rep": 0.6429,
+    "diff": -0.0496,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "模擬sens_2016_b12",
+    "item": "part2_simulation/sens_2016_b12/scenarios/ZERO/12m/strat_ann/p95",
+    "orig": 1.1352,
+    "rep": 1.0918,
+    "diff": -0.0434,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10門檻",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A/threshold",
+    "orig": -0.08,
+    "rep": -0.07,
+    "diff": 0.01,
+    "tol": 0.0,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A/prob/EFF/5y",
+    "orig": 0.0726,
+    "rep": 0.0978,
+    "diff": 0.0252,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A/prob/HALF/1y",
+    "orig": 0.1372,
+    "rep": 0.1675,
+    "diff": 0.0303,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A/prob/HALF/3y",
+    "orig": 0.2764,
+    "rep": 0.3305,
+    "diff": 0.0541,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A/prob/HALF/5y",
+    "orig": 0.3901,
+    "rep": 0.4631,
+    "diff": 0.073,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A/prob/ZERO/1y",
+    "orig": 0.4156,
+    "rep": 0.4657,
+    "diff": 0.0501,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A/prob/ZERO/3y",
+    "orig": 0.6459,
+    "rep": 0.7094,
+    "diff": 0.0635,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A/prob/ZERO/5y",
+    "orig": 0.7944,
+    "rep": 0.845,
+    "diff": 0.0506,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10門檻",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/D/threshold",
+    "orig": 50,
+    "rep": 49,
+    "diff": -1,
+    "tol": 0,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/ANY/prob/ZERO/1y",
+    "orig": 0.6167,
+    "rep": 0.6373,
+    "diff": 0.0206,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A_and_D/prob/HALF/5y",
+    "orig": 0.1214,
+    "rep": 0.1503,
+    "diff": 0.0289,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A_and_D/prob/ZERO/3y",
+    "orig": 0.2932,
+    "rep": 0.3308,
+    "diff": 0.0376,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A_and_D/prob/ZERO/5y",
+    "orig": 0.4783,
+    "rep": 0.5216,
+    "diff": 0.0433,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A_and_E_posthoc/prob/HALF/5y",
+    "orig": 0.3164,
+    "rep": 0.3459,
+    "diff": 0.0295,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A_and_E_posthoc/prob/ZERO/1y",
+    "orig": 0.3767,
+    "rep": 0.4016,
+    "diff": 0.0249,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A_and_E_posthoc/prob/ZERO/3y",
+    "orig": 0.6039,
+    "rep": 0.6426,
+    "diff": 0.0387,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2016_b12fa10",
+    "item": "part2_simulation/sens_2016_b12/alerts/fa10/A_and_E_posthoc/prob/ZERO/5y",
+    "orig": 0.7567,
+    "rep": 0.7902,
+    "diff": 0.0335,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2019_b6to12fa10門檻",
+    "item": "part2_simulation/sens_2019_b6to12/alerts/fa10/D/threshold",
+    "orig": 41,
+    "rep": 40,
+    "diff": -1,
+    "tol": 0,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2019_b6to12fa10",
+    "item": "part2_simulation/sens_2019_b6to12/alerts/fa10/A_and_D/prob/ZERO/1y",
+    "orig": 0.2322,
+    "rep": 0.2554,
+    "diff": 0.0232,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2019_b6to12fa5門檻",
+    "item": "part2_simulation/sens_2019_b6to12/alerts/fa5/D/threshold",
+    "orig": 49,
+    "rep": 48,
+    "diff": -1,
+    "tol": 0,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2019_b6to12fa5",
+    "item": "part2_simulation/sens_2019_b6to12/alerts/fa5/D/prob/HALF/1y",
+    "orig": 0.0,
+    "rep": 0.0221,
+    "diff": 0.0221,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2019_b6to12fa5",
+    "item": "part2_simulation/sens_2019_b6to12/alerts/fa5/D/prob/ZERO/1y",
+    "orig": 0.0,
+    "rep": 0.0928,
+    "diff": 0.0928,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "警戒線sens_2019_b6to12fa5",
+    "item": "part2_simulation/sens_2019_b6to12/alerts/fa5/A_and_D/prob/ZERO/1y",
+    "orig": 0.0,
+    "rep": 0.0327,
+    "diff": 0.0327,
+    "tol": 0.02,
+    "ok": false
+   },
+   {
+    "group": "現值20條",
+    "item": "part3_alerts/history_check_summary/D/paths_triggered",
+    "orig": 2,
+    "rep": 0,
+    "diff": -2,
+    "tol": 0.001,
+    "ok": false
+   },
+   {
+    "group": "現值逐路徑",
+    "item": "part3_alerts/history_check_per_path/60萬|+0/D/months",
+    "orig": [
+     "2020-03"
+    ],
+    "rep": [],
+    "diff": null,
+    "tol": 0,
+    "ok": false
+   },
+   {
+    "group": "現值逐路徑",
+    "item": "part3_alerts/history_check_per_path/60萬|+1/D/months",
+    "orig": [
+     "2020-03"
+    ],
+    "rep": [],
+    "diff": null,
+    "tol": 0,
+    "ok": false
+   }
+  ]
+ }
 }
