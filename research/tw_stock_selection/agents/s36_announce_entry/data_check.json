@@ -1,0 +1,972 @@
+{
+ "source_tsd_revenue_seen": {
+  "head": "a14008f 2026-11-16T10:54:49+00:00",
+  "n_files": 21,
+  "months": [
+   "2026-09",
+   "2026-10"
+  ],
+  "n_months": 2,
+  "per_month": {
+   "2026-09": {
+    "n_snapshots": 7,
+    "n_codes": 1982,
+    "first_snapshot": "2026-10-09T190351_first",
+    "snapshots": [
+     {
+      "snapshot_utc": "2026-10-09T190351_first",
+      "n_new": 1605
+     },
+     {
+      "snapshot_utc": "2026-10-10T011026",
+      "n_new": 3
+     },
+     {
+      "snapshot_utc": "2026-10-13T040214",
+      "n_new": 357
+     },
+     {
+      "snapshot_utc": "2026-10-14T001215",
+      "n_new": 1
+     },
+     {
+      "snapshot_utc": "2026-10-14T232415",
+      "n_new": 7
+     },
+     {
+      "snapshot_utc": "2026-10-15T231614",
+      "n_new": 8
+     },
+     {
+      "snapshot_utc": "2026-10-20T192046",
+      "n_new": 1
+     }
+    ]
+   },
+   "2026-10": {
+    "n_snapshots": 14,
+    "n_codes": 2341,
+    "first_snapshot": "2026-11-03T043153_first",
+    "snapshots": [
+     {
+      "snapshot_utc": "2026-11-03T043153_first",
+      "n_new": 14
+     },
+     {
+      "snapshot_utc": "2026-11-04T022007",
+      "n_new": 42
+     },
+     {
+      "snapshot_utc": "2026-11-05T021437",
+      "n_new": 48
+     },
+     {
+      "snapshot_utc": "2026-11-06T021525",
+      "n_new": 184
+     },
+     {
+      "snapshot_utc": "2026-11-07T014149",
+      "n_new": 358
+     },
+     {
+      "snapshot_utc": "2026-11-07T021705",
+      "n_new": 358
+     },
+     {
+      "snapshot_utc": "2026-11-07T090546",
+      "n_new": 1
+     },
+     {
+      "snapshot_utc": "2026-11-10T045946",
+      "n_new": 567
+     },
+     {
+      "snapshot_utc": "2026-11-10T080317",
+      "n_new": 1
+     },
+     {
+      "snapshot_utc": "2026-11-10T114246",
+      "n_new": 21
+     },
+     {
+      "snapshot_utc": "2026-11-11T020549",
+      "n_new": 737
+     },
+     {
+      "snapshot_utc": "2026-11-12T102514",
+      "n_new": 1
+     },
+     {
+      "snapshot_utc": "2026-11-14T020114",
+      "n_new": 8
+     },
+     {
+      "snapshot_utc": "2026-11-15T151407",
+      "n_new": 1
+     }
+    ]
+   }
+  },
+  "precision": "快照時間（UTC，檔名）；每次 make_list／排程執行才寫一次，間隔不固定（數小時到數天）。2026-09 第一個快照在 2026-10-09T19:03Z（_first），1,605 家全擠在第一檔，看不出 1～9 日誰先公告；2026-10 起較密（11-03～11-15 共 14 次）。上市（sii）＋上櫃（otc）都有，欄位 stock_id, market, part, revenue。",
+  "usable_months_for_backtest": 1
+ },
+ "source_other": {
+  "screener_rev_hist_ann_date": "只有 2026-10 一個月的實際公告日（BACKLOG 2026-11-15：6 日 228、7 日 291、8 日 902、12 日 239 家）",
+  "o_rev_event_clock_ts_upstream(tw-stock-screener)": "git 歷史從 2026-09-29 才開始；2024-04～2026-07 全是 rev_5y 首次加入（不能當公告時間），可用只有 2026-08／09",
+  "o_rev_event_clock_ts_tasi(shohokuno10/Tasi 營收/YYYYMM.csv)": "MOPS 上市營收表每日快照（git commit，約 18:16 台北）；營收月份 2024-04～2026-09；2024-04／05 為 2024-06-14 補建檔（排除）→ 可用 2024-06～2026-09 共 28 個月；只有上市",
+  "o_rev_event_clock_ts_forward": "前瞻紀錄器 forward/ec_firstseen.csv 已於 2026-11-03 06:51 啟動（每日開盤前記錄）",
+  "rev_announce": "只用 deadline_calendar（法定期限）與 2026-09 一個月 firstseen 做最壞情境，不是逐檔歷史公告日",
+  "GitHub 搜尋（o11 raw/search_log.txt，11 組關鍵字）": "沒有 2019～2024-05 的逐次 commit 營收封存"
+ },
+ "tasi_precision": {
+  "months_all": [
+   "2024-04",
+   "2024-05",
+   "2024-06",
+   "2024-07",
+   "2024-08",
+   "2024-09",
+   "2024-10",
+   "2024-11",
+   "2024-12",
+   "2025-01",
+   "2025-02",
+   "2025-03",
+   "2025-04",
+   "2025-05",
+   "2025-06",
+   "2025-07",
+   "2025-08",
+   "2025-09",
+   "2025-10",
+   "2025-11",
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06",
+   "2026-07",
+   "2026-08",
+   "2026-09"
+  ],
+  "n_months_all": 30,
+  "months_usable": [
+   "2024-06",
+   "2024-07",
+   "2024-08",
+   "2024-09",
+   "2024-10",
+   "2024-11",
+   "2024-12",
+   "2025-01",
+   "2025-02",
+   "2025-03",
+   "2025-04",
+   "2025-05",
+   "2025-06",
+   "2025-07",
+   "2025-08",
+   "2025-09",
+   "2025-10",
+   "2025-11",
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06",
+   "2026-07",
+   "2026-08",
+   "2026-09"
+  ],
+  "n_months_usable": 28,
+  "commit_hour_local": {
+   "18": 48310,
+   "9": 3451,
+   "20": 826
+  },
+  "commit_weekday": {
+   "4": 13334,
+   "0": 13164,
+   "1": 10377,
+   "3": 7884,
+   "2": 7828
+  },
+  "gap_prev_commit_hours_quantiles": {
+   "0.5": 24.00777777777778,
+   "0.7": 71.8938888888889,
+   "0.8": 71.99833333333333,
+   "0.9": 72.07194444444444,
+   "0.95": 95.99805555555555,
+   "0.99": 98.0825
+  },
+  "reason_counts": {
+   "ok": 32302,
+   "gap_gt_36h": 16074,
+   "file_add_no_prev": 4211
+  },
+  "share_day_exact_ok": 0.6142582767604161,
+  "codes_per_month": {
+   "2024-04": 1722,
+   "2024-05": 1729,
+   "2024-06": 1733,
+   "2024-07": 1717,
+   "2024-08": 1740,
+   "2024-09": 1745,
+   "2024-10": 1748,
+   "2024-11": 1753,
+   "2024-12": 1756,
+   "2025-01": 1763,
+   "2025-02": 1768,
+   "2025-03": 1771,
+   "2025-04": 1740,
+   "2025-05": 1783,
+   "2025-06": 1784,
+   "2025-07": 1786,
+   "2025-08": 1791,
+   "2025-09": 1581,
+   "2025-10": 1801,
+   "2025-11": 1812,
+   "2025-12": 1577,
+   "2026-01": 1812,
+   "2026-02": 1814,
+   "2026-03": 1817,
+   "2026-04": 1827,
+   "2026-05": 1835,
+   "2026-06": 1649,
+   "2026-07": 1839,
+   "2026-08": 1843,
+   "2026-09": 1551
+  },
+  "note": "T＝第一個包含該檔該月營收的快照 commit 時間＝「最晚何時已公開」的上界。間隔 ≤ 36 小時（ok）時可精確到日；週末／連假（約 72～98 小時）只知道落在區間內。回測一律用 T（保守：真正公告只會更早），所以全部 28 個月都能用，只是週末前後公告的會晚 1～2 天進場。"
+ },
+ "coverage": {
+  "n_months": 28,
+  "per_month": [
+   {
+    "month": "2024-06",
+    "period": "train",
+    "sig_date": "2024-07-11",
+    "univ_n": 712,
+    "univ_cov": 1.0,
+    "univ_early": 0.9901685393258427,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 6,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2024-07",
+    "period": "train",
+    "sig_date": "2024-08-13",
+    "univ_n": 712,
+    "univ_cov": 0.9887640449438202,
+    "univ_early": 0.9887640449438202,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 2,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2024-08",
+    "period": "train",
+    "sig_date": "2024-09-11",
+    "univ_n": 706,
+    "univ_cov": 1.0,
+    "univ_early": 0.9830028328611898,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 4,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2024-09",
+    "period": "train",
+    "sig_date": "2024-10-14",
+    "univ_n": 686,
+    "univ_cov": 1.0,
+    "univ_early": 0.9970845481049563,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 7,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2024-10",
+    "period": "train",
+    "sig_date": "2024-11-12",
+    "univ_n": 651,
+    "univ_cov": 1.0,
+    "univ_early": 0.9877112135176651,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 5,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2024-11",
+    "period": "train",
+    "sig_date": "2024-12-11",
+    "univ_n": 633,
+    "univ_cov": 1.0,
+    "univ_early": 0.9794628751974723,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 6,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2024-12",
+    "period": "train",
+    "sig_date": "2025-01-13",
+    "univ_n": 615,
+    "univ_cov": 1.0,
+    "univ_early": 0.9869918699186991,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 1,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2025-01",
+    "period": "train",
+    "sig_date": "2025-02-11",
+    "univ_n": 608,
+    "univ_cov": 1.0,
+    "univ_early": 0.9638157894736842,
+    "top20_cov": 1.0,
+    "top20_early": 0.95,
+    "f1_n": 3,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2025-02",
+    "period": "train",
+    "sig_date": "2025-03-11",
+    "univ_n": 621,
+    "univ_cov": 1.0,
+    "univ_early": 0.9388083735909822,
+    "top20_cov": 1.0,
+    "top20_early": 0.95,
+    "f1_n": 2,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2025-03",
+    "period": "train",
+    "sig_date": "2025-04-11",
+    "univ_n": 628,
+    "univ_cov": 1.0,
+    "univ_early": 0.9761146496815286,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 3,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2025-04",
+    "period": "train",
+    "sig_date": "2025-05-13",
+    "univ_n": 622,
+    "univ_cov": 0.9742765273311897,
+    "univ_early": 0.9742765273311897,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 10,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2025-05",
+    "period": "train",
+    "sig_date": "2025-06-11",
+    "univ_n": 594,
+    "univ_cov": 1.0,
+    "univ_early": 0.9797979797979798,
+    "top20_cov": 1.0,
+    "top20_early": 0.95,
+    "f1_n": 6,
+    "f1_cov": 1.0,
+    "f1_early": 0.8333333333333334
+   },
+   {
+    "month": "2025-06",
+    "period": "train",
+    "sig_date": "2025-07-11",
+    "univ_n": 558,
+    "univ_cov": 1.0,
+    "univ_early": 0.9838709677419355,
+    "top20_cov": 1.0,
+    "top20_early": 0.9,
+    "f1_n": 4,
+    "f1_cov": 1.0,
+    "f1_early": 0.75
+   },
+   {
+    "month": "2025-07",
+    "period": "train",
+    "sig_date": "2025-08-12",
+    "univ_n": 565,
+    "univ_cov": 1.0,
+    "univ_early": 0.9823008849557522,
+    "top20_cov": 1.0,
+    "top20_early": 1.0,
+    "f1_n": 7,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2025-08",
+    "period": "valid",
+    "sig_date": "2025-09-11",
+    "univ_n": 576,
+    "univ_cov": 1.0,
+    "univ_early": 0.6840277777777778,
+    "top20_cov": 1.0,
+    "top20_early": 0.8,
+    "f1_n": 3,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2025-09",
+    "period": "valid",
+    "sig_date": "2025-10-14",
+    "univ_n": 593,
+    "univ_cov": 0.8768971332209107,
+    "univ_early": 0.8768971332209107,
+    "top20_cov": 0.85,
+    "top20_early": 0.85,
+    "f1_n": 5,
+    "f1_cov": 0.8,
+    "f1_early": 0.8
+   },
+   {
+    "month": "2025-10",
+    "period": "valid",
+    "sig_date": "2025-11-11",
+    "univ_n": 598,
+    "univ_cov": 1.0,
+    "univ_early": 0.5652173913043478,
+    "top20_cov": 1.0,
+    "top20_early": 0.55,
+    "f1_n": 6,
+    "f1_cov": 1.0,
+    "f1_early": 0.8333333333333334
+   },
+   {
+    "month": "2025-11",
+    "period": "valid",
+    "sig_date": "2025-12-11",
+    "univ_n": 576,
+    "univ_cov": 1.0,
+    "univ_early": 0.6822916666666666,
+    "top20_cov": 1.0,
+    "top20_early": 0.7,
+    "f1_n": 1,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2025-12",
+    "period": "valid",
+    "sig_date": "2026-01-13",
+    "univ_n": 590,
+    "univ_cov": 0.8542372881355932,
+    "univ_early": 0.8542372881355932,
+    "top20_cov": 0.85,
+    "top20_early": 0.85,
+    "f1_n": 6,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2026-01",
+    "period": "valid",
+    "sig_date": "2026-02-11",
+    "univ_n": 609,
+    "univ_cov": 0.9819376026272578,
+    "univ_early": 0.6486042692939245,
+    "top20_cov": 1.0,
+    "top20_early": 0.8,
+    "f1_n": 3,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2026-02",
+    "period": "valid",
+    "sig_date": "2026-03-11",
+    "univ_n": 632,
+    "univ_cov": 0.9841772151898734,
+    "univ_early": 0.6234177215189873,
+    "top20_cov": 0.95,
+    "top20_early": 0.8,
+    "f1_n": 2,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   },
+   {
+    "month": "2026-03",
+    "period": "valid",
+    "sig_date": "2026-04-13",
+    "univ_n": 650,
+    "univ_cov": 0.9846153846153847,
+    "univ_early": 0.6138461538461538,
+    "top20_cov": 1.0,
+    "top20_early": 0.8,
+    "f1_n": 6,
+    "f1_cov": 1.0,
+    "f1_early": 0.8333333333333334
+   },
+   {
+    "month": "2026-04",
+    "period": "valid",
+    "sig_date": "2026-05-12",
+    "univ_n": 650,
+    "univ_cov": 0.9830769230769231,
+    "univ_early": 0.8323076923076923,
+    "top20_cov": 0.9,
+    "top20_early": 0.85,
+    "f1_n": 7,
+    "f1_cov": 1.0,
+    "f1_early": 0.8571428571428571
+   },
+   {
+    "month": "2026-05",
+    "period": "valid",
+    "sig_date": "2026-06-11",
+    "univ_n": 670,
+    "univ_cov": 0.9850746268656716,
+    "univ_early": 0.6686567164179105,
+    "top20_cov": 0.9,
+    "top20_early": 0.8,
+    "f1_n": 6,
+    "f1_cov": 0.8333333333333334,
+    "f1_early": 0.8333333333333334
+   },
+   {
+    "month": "2026-06",
+    "period": "valid",
+    "sig_date": "2026-07-14",
+    "univ_n": 686,
+    "univ_cov": 0.8760932944606414,
+    "univ_early": 0.8760932944606414,
+    "top20_cov": 0.85,
+    "top20_early": 0.85,
+    "f1_n": 5,
+    "f1_cov": 0.8,
+    "f1_early": 0.8
+   },
+   {
+    "month": "2026-07",
+    "period": "valid",
+    "sig_date": "2026-08-11",
+    "univ_n": 677,
+    "univ_cov": 0.983751846381093,
+    "univ_early": 0.5657311669128509,
+    "top20_cov": 1.0,
+    "top20_early": 0.5,
+    "f1_n": 6,
+    "f1_cov": 1.0,
+    "f1_early": 0.8333333333333334
+   },
+   {
+    "month": "2026-08",
+    "period": "valid",
+    "sig_date": "2026-09-11",
+    "univ_n": 631,
+    "univ_cov": 0.9873217115689382,
+    "univ_early": 0.6767036450079239,
+    "top20_cov": 1.0,
+    "top20_early": 0.85,
+    "f1_n": 0,
+    "f1_cov": NaN,
+    "f1_early": NaN
+   },
+   {
+    "month": "2026-09",
+    "period": "valid",
+    "sig_date": "2026-10-13",
+    "univ_n": 609,
+    "univ_cov": 0.8243021346469622,
+    "univ_early": 0.8243021346469622,
+    "top20_cov": 0.8,
+    "top20_early": 0.8,
+    "f1_n": 8,
+    "f1_cov": 1.0,
+    "f1_early": 1.0
+   }
+  ],
+  "univ_cov_mean": 0.9744473476094379,
+  "top20_cov_mean": 0.9678571428571431,
+  "f1_cov_mean": 0.9790123456790124,
+  "univ_early_mean": 0.8465894695700371,
+  "f1_early_mean": 0.9397707231040565,
+  "f1_lead_days_dist": {
+   "0": 6,
+   "1": 37,
+   "2": 34,
+   "3": 28,
+   "4": 12,
+   "5": 5,
+   "6": 4,
+   "7": 1
+  },
+  "top20_lead_days_dist": {
+   "-1": 4,
+   "0": 47,
+   "1": 153,
+   "2": 135,
+   "3": 109,
+   "4": 51,
+   "5": 25,
+   "6": 16,
+   "7": 2
+  },
+  "note": "lead＝官方訊號列 k（第一個 > 10 日期限的交易日；現行在 k＋1 開盤買）− 可見列 r。早進場在 r＋1 開盤買 → 比現行早 lead 個交易日。lead ≤ 0＝不會早。"
+ },
+ "candidates_preview": {
+  "EA_MOM|2.0": {
+   "train": {
+    "n_signals": 114,
+    "n_months_with": 13,
+    "in_official_F1": 47,
+    "in_official_top20": 88
+   },
+   "valid": {
+    "n_signals": 299,
+    "n_months_with": 14,
+    "in_official_F1": 46,
+    "in_official_top20": 114
+   }
+  },
+  "EA_MOM|2.5": {
+   "train": {
+    "n_signals": 57,
+    "n_months_with": 12,
+    "in_official_F1": 40,
+    "in_official_top20": 56
+   },
+   "valid": {
+    "n_signals": 191,
+    "n_months_with": 14,
+    "in_official_F1": 46,
+    "in_official_top20": 107
+   }
+  },
+  "EA_MOM|2.8": {
+   "train": {
+    "n_signals": 36,
+    "n_months_with": 10,
+    "in_official_F1": 31,
+    "in_official_top20": 36
+   },
+   "valid": {
+    "n_signals": 142,
+    "n_months_with": 14,
+    "in_official_F1": 46,
+    "in_official_top20": 99
+   }
+  },
+  "EA_MOM|3.5": {
+   "train": {
+    "n_signals": 16,
+    "n_months_with": 8,
+    "in_official_F1": 13,
+    "in_official_top20": 16
+   },
+   "valid": {
+    "n_signals": 73,
+    "n_months_with": 13,
+    "in_official_F1": 40,
+    "in_official_top20": 71
+   }
+  },
+  "EA_NOMOM|2.0": {
+   "train": {
+    "n_signals": 260,
+    "n_months_with": 14,
+    "in_official_F1": 58,
+    "in_official_top20": 193
+   },
+   "valid": {
+    "n_signals": 588,
+    "n_months_with": 14,
+    "in_official_F1": 55,
+    "in_official_top20": 204
+   }
+  },
+  "EA_NOMOM|2.5": {
+   "train": {
+    "n_signals": 126,
+    "n_months_with": 14,
+    "in_official_F1": 50,
+    "in_official_top20": 116
+   },
+   "valid": {
+    "n_signals": 354,
+    "n_months_with": 14,
+    "in_official_F1": 55,
+    "in_official_top20": 184
+   }
+  },
+  "EA_NOMOM|2.8": {
+   "train": {
+    "n_signals": 84,
+    "n_months_with": 13,
+    "in_official_F1": 40,
+    "in_official_top20": 78
+   },
+   "valid": {
+    "n_signals": 260,
+    "n_months_with": 14,
+    "in_official_F1": 55,
+    "in_official_top20": 171
+   }
+  },
+  "EA_NOMOM|3.5": {
+   "train": {
+    "n_signals": 31,
+    "n_months_with": 12,
+    "in_official_F1": 16,
+    "in_official_top20": 30
+   },
+   "valid": {
+    "n_signals": 127,
+    "n_months_with": 13,
+    "in_official_F1": 48,
+    "in_official_top20": 117
+   }
+  },
+  "EA_ADAPT|prev10": {
+   "train": {
+    "n_signals": 80,
+    "n_months_with": 11,
+    "in_official_F1": 39,
+    "in_official_top20": 58
+   },
+   "valid": {
+    "n_signals": 79,
+    "n_months_with": 13,
+    "in_official_F1": 42,
+    "in_official_top20": 77
+   }
+  }
+ },
+ "prev10_thr": {
+  "2024-06": 2.7184565367302196,
+  "2024-07": 2.6702565746086764,
+  "2024-08": 2.3677646689160006,
+  "2024-09": 2.144416342778572,
+  "2024-10": 2.161963169896008,
+  "2024-11": 2.352940296232834,
+  "2024-12": 2.8690629926551696,
+  "2025-01": 2.601630650894022,
+  "2025-02": 2.2533702253059076,
+  "2025-03": 2.718479090205327,
+  "2025-04": 1.090354650165989,
+  "2025-05": 2.4628095012440325,
+  "2025-06": 2.93154065280038,
+  "2025-07": 2.570387221829786,
+  "2025-08": 2.370077225250591,
+  "2025-09": 2.439751429313745,
+  "2025-10": 3.3230719716425674,
+  "2025-11": 3.014264159075351,
+  "2025-12": 2.7148670799424632,
+  "2026-01": 3.7270299168188235,
+  "2026-02": 4.756293234022794,
+  "2026-03": 2.536097510529525,
+  "2026-04": 3.81482332372924,
+  "2026-05": 5.01976059927298,
+  "2026-06": 4.230636379349495,
+  "2026-07": 4.238556354127595,
+  "2026-08": 3.8556613909922706,
+  "2026-09": 3.44791031308932
+ },
+ "A0_current_reproduced": {
+  "since2019": 0.48991278775035196,
+  "full": 0.34543340603574313,
+  "maxdd": -0.3211451024786043,
+  "n_trades": 381,
+  "ok": true
+ },
+ "free_slots": {
+  "per_month": [
+   {
+    "month": "2024-06",
+    "free_slots_first_day": 3,
+    "free_slots_at_k": 3
+   },
+   {
+    "month": "2024-07",
+    "free_slots_first_day": 1,
+    "free_slots_at_k": 1
+   },
+   {
+    "month": "2024-08",
+    "free_slots_first_day": 6,
+    "free_slots_at_k": 6
+   },
+   {
+    "month": "2024-09",
+    "free_slots_first_day": 5,
+    "free_slots_at_k": 5
+   },
+   {
+    "month": "2024-10",
+    "free_slots_first_day": 3,
+    "free_slots_at_k": 3
+   },
+   {
+    "month": "2024-11",
+    "free_slots_first_day": 2,
+    "free_slots_at_k": 2
+   },
+   {
+    "month": "2024-12",
+    "free_slots_first_day": 3,
+    "free_slots_at_k": 3
+   },
+   {
+    "month": "2025-01",
+    "free_slots_first_day": 7,
+    "free_slots_at_k": 7
+   },
+   {
+    "month": "2025-02",
+    "free_slots_first_day": 6,
+    "free_slots_at_k": 6
+   },
+   {
+    "month": "2025-03",
+    "free_slots_first_day": 7,
+    "free_slots_at_k": 7
+   },
+   {
+    "month": "2025-04",
+    "free_slots_first_day": 7,
+    "free_slots_at_k": 7
+   },
+   {
+    "month": "2025-05",
+    "free_slots_first_day": 0,
+    "free_slots_at_k": 0
+   },
+   {
+    "month": "2025-06",
+    "free_slots_first_day": 1,
+    "free_slots_at_k": 1
+   },
+   {
+    "month": "2025-07",
+    "free_slots_first_day": 1,
+    "free_slots_at_k": 1
+   },
+   {
+    "month": "2025-08",
+    "free_slots_first_day": 1,
+    "free_slots_at_k": 1
+   },
+   {
+    "month": "2025-09",
+    "free_slots_first_day": 2,
+    "free_slots_at_k": 2
+   },
+   {
+    "month": "2025-10",
+    "free_slots_first_day": 2,
+    "free_slots_at_k": 2
+   },
+   {
+    "month": "2025-11",
+    "free_slots_first_day": 1,
+    "free_slots_at_k": 1
+   },
+   {
+    "month": "2025-12",
+    "free_slots_first_day": 3,
+    "free_slots_at_k": 3
+   },
+   {
+    "month": "2026-01",
+    "free_slots_first_day": 3,
+    "free_slots_at_k": 3
+   },
+   {
+    "month": "2026-02",
+    "free_slots_first_day": 2,
+    "free_slots_at_k": 2
+   },
+   {
+    "month": "2026-03",
+    "free_slots_first_day": 3,
+    "free_slots_at_k": 3
+   },
+   {
+    "month": "2026-04",
+    "free_slots_first_day": 2,
+    "free_slots_at_k": 2
+   },
+   {
+    "month": "2026-05",
+    "free_slots_first_day": 0,
+    "free_slots_at_k": 0
+   },
+   {
+    "month": "2026-06",
+    "free_slots_first_day": 0,
+    "free_slots_at_k": 0
+   },
+   {
+    "month": "2026-07",
+    "free_slots_first_day": 3,
+    "free_slots_at_k": 3
+   },
+   {
+    "month": "2026-08",
+    "free_slots_first_day": 3,
+    "free_slots_at_k": 3
+   },
+   {
+    "month": "2026-09",
+    "free_slots_first_day": 6,
+    "free_slots_at_k": 6
+   }
+  ],
+  "mean_first_day": 2.9642857142857144,
+  "mean_at_k": 2.9642857142857144,
+  "months_zero_free": 3,
+  "note": "現行持股在次月 1 日與官方訊號列 k 的空名額（10 − 持股數）。早進場只能用空名額，因為出場仍在 k＋1。"
+ },
+ "data_sufficiency": {
+  "rule": "涵蓋月份 < 24 → 資料不足以做訓練／驗證，改做描述＋前瞻紙上追蹤",
+  "tsd_revenue_seen_months": 2,
+  "tasi_usable_months": 28,
+  "f1_coverage": 0.9790123456790124,
+  "ok": true,
+  "verdict": "足夠（以 Tasi 28 個月為主資料；tsd revenue_seen 只有 2 個月，只能當前瞻／交叉核對）",
+  "caveats": [
+   "只有上市（現行股池本來就只上市，無妨）",
+   "時間是快照上界，週末前後公告的會晚 1～2 天",
+   "28 個月切兩段各 14 個月，檢定力很低",
+   "SURGE 用目前的營收檔（含事後更正），可見時的數字可能略有不同；o11 對 MOPS ann_date 交叉核對 100%（187／210 筆）",
+   "第三方 repo 的 commit 時間理論上可被改寫；o11 已與 MOPS 公告日交叉核對"
+  ]
+ },
+ "runtime_s": 62.9,
+ "maxrss_mb": 1894
+}
