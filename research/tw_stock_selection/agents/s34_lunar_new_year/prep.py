@@ -50,7 +50,7 @@ chk['lny_source'] = s34lib.LNY_SOURCE
 
 # ---------------------------------------------------------------- 2. 全市場加總年增率（只上市股池、兩年都有營收的公司）
 agg = []
-for y in range(2014, 2027):
+for y in range(2016, 2027):
     o = dict(year=y)
     for lab, ms in (('jan', [1]), ('feb', [2]), ('jf', [1, 2]), ('mar', [3])):
         cur = [pd.Period(f'{y}-{mm:02d}', 'M') for mm in ms]
@@ -104,6 +104,10 @@ jf = DF[DF['cal'].isin([1, 2])].copy()
 chk['jan_feb_detail'] = jf[['month', 'sig_date', 'td_ratio', 'none_ge2', 'jf_ge2', 'adj2_ge2', 'wd_ge2', 'none_med', 'f1_n', 'f1_new_vs_prev']].to_dict('records')
 with np.errstate(divide='ignore'):
     x = np.log(jf['td_ratio'].to_numpy()); yv = jf['none_ge2'].to_numpy(); yw = jf['wd_ge2'].to_numpy()
+bk = lambda r: '今年交易日多（比 ≥ 1.3）' if r >= 1.3 else ('今年交易日少（比 ≤ 0.77）' if r <= 0.77 else '差不多（0.77～1.3）')
+jf['bucket'] = jf['td_ratio'].map(bk)
+chk['ge2_by_tdratio_bucket'] = {b: dict(n=int(len(d)), months=list(d['month']), STD=float(d['none_ge2'].mean()), JF=float(d['jf_ge2'].mean()) if d['jf_ge2'].notna().any() else None,
+                                       ADJ2=float(d['adj2_ge2'].mean()), WD=float(d['wd_ge2'].mean())) for b, d in jf.groupby('bucket')}
 chk['corr_logtdratio_ge2'] = dict(STD=float(np.corrcoef(x, yv)[0, 1]), WD=float(np.corrcoef(x, yw)[0, 1]), n=int(len(x)))
 # 全部月份裡 SURGE ≥ 2 比例最高的 12 個月
 chk['top12_ge2_months'] = DF.sort_values('none_ge2', ascending=False).head(12)[['month', 'none_ge2']].to_dict('records')

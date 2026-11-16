@@ -10,7 +10,6 @@ HERE = Path(__file__).resolve().parent
 AG = HERE.parent
 SCR = Path('/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/s26')
 CACHE = SCR / 'cache'
-CACHE.mkdir(parents=True, exist_ok=True)
 OUT = HERE / 'out'
 OUT.mkdir(exist_ok=True)
 T0 = time.time()
@@ -26,6 +25,7 @@ def addpath(folder):
 def redirect():
     """所有已載入模組裡指向舊 scratchpad 的模組層級 Path 變數，一律改成 CACHE（只改記憶體中的變數，不改檔案）。"""
     n = 0
+    CACHE.mkdir(parents=True, exist_ok=True)
     for name, mod in list(sys.modules.items()):
         if name in ('__main__', 'common') or mod is None or not hasattr(mod, '__file__') or not mod.__file__ or str(AG) not in str(mod.__file__):
             continue
