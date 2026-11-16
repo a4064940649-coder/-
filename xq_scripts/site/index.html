@@ -72,6 +72,11 @@
 .mx .calc-msgs { margin: var(--cds-gap-xs) 0 0; padding-left: 1.2em; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; }
 .mx tfoot td { font-weight: var(--cds-font-weight-medium); }
 
+.mx .newbie { border-top: 1px solid var(--color-border-line); padding-top: var(--cds-gap-md); }
+.mx .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: var(--cds-gap-md); }
+.mx .opt { min-width: 0; padding: var(--cds-pad-md); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); }
+.mx .optp { margin: 0 0 var(--cds-gap-xs); line-height: 1.6; font-size: var(--cds-font-size-body); }
+.mx #calc-hold-box > summary { font-size: var(--cds-font-size-heading); }
 /* 風險 */
 .mx ul.risks { margin: 0; padding-left: 1.2em; display: grid; gap: var(--cds-gap-sm); line-height: 1.7; max-width: 80ch; }
 .mx ul.risks b.n { font-variant-numeric: tabular-nums; }
@@ -83,7 +88,7 @@
     <p class="lede">今天的決定：<b data-draw="act-inline" data-source="status" data-field="動作" data-row="0">—</b>。策略（XQ 20＋21 號）每月只換股一次：每月第一個日期 ≥ 11 的交易日收盤後產生名單，隔天開盤先賣後買。</p>
   </header>
 
-  <section class="card hero" id="today" aria-live="polite">
+  <section class="card hero" id="today">
     <div class="hero-top">
       <div class="hero-main">
         <div class="k">今天的決定（<span data-draw="today-date" data-source="status" data-field="今天" data-row="0">—</span>）</div>
@@ -100,6 +105,38 @@
     <p class="warnbox st-pending" hidden>今天是換股日，但本頁的換股清單還是上個月的。新名單產生後（建議晚上 22 點後）本頁會更新；在那之前可以用 XQ 20、21 號的結果。</p>
     <p class="warnbox st-stale" hidden>這是 <b data-draw="today-date2" data-source="status" data-field="今天" data-row="0">—</b> 的決定，今天（<b data-draw="tp-today">—</b>）的資料還沒更新。<span class="st-stale-swap" hidden>今天可能就是換股日，請留意晚上的新名單。</span></p>
 
+    <div class="newbie" id="start">
+      <h2>還沒有持股？用總資產算出要買幾股</h2>
+      <label class="calcrow" for="calc-total">我的總資產（元）<input id="calc-total" class="calcin" type="number" min="0" step="10000" value="1000000" inputmode="numeric"></label>
+      <div class="opts">
+        <div class="opt st-idle">
+          <h3>A. 等下次換股日再開始</h3>
+          <p class="optp"><b data-draw="nextsig" data-source="status" data-field="下次訊號日" data-row="0">—</b> 收盤後看新名單，<b data-draw="nextexec" data-source="status" data-field="下次執行日" data-row="0">—</b> 開盤進場（策略回測的進場方式）。</p>
+          <div class="facts">
+            <div class="fact"><div class="k">0050 底倉（30%）</div><div class="v"><span data-draw="a-base-sh">—</span> 股</div></div>
+            <div class="fact"><div class="k">名單上每檔金額</div><div class="v"><span data-draw="a-per">—</span> 元</div></div>
+          </div>
+          <p class="note">底倉股數用最新收盤 <span data-draw="p0b" data-source="status" data-field="0050最新收盤" data-row="0">—</span> 估。名單出來後本頁會列出要買的股票與股數（每檔＝衛星 70% ÷ 10，最多 10 檔），沒買滿的錢也買 0050。</p>
+        </div>
+        <div class="opt">
+          <h3><span class="st-idle">B. 現在就照本月名單進場</span><span class="st-go-sig" hidden>照今天的名單，明天開盤進場</span><span class="st-go-exec" hidden>今天開盤照名單進場</span></h3>
+          <p class="optp">買本月「買進」的股票，其餘放 0050（不用買「續抱」的股票）。</p>
+          <div class="tw" data-source="actions status">
+            <table>
+              <thead><tr><th class="l">買什麼</th><th>股數</th><th>約金額</th><th>參考價</th></tr></thead>
+              <tbody data-draw="calc-new"></tbody>
+              <tbody>
+                <tr><td class="l">0050 底倉（30%）</td><td data-draw="n-base-sh"></td><td data-draw="n-base-amt"></td><td data-draw="p0"></td></tr>
+                <tr><td class="l">0050（衛星沒用完的錢）</td><td data-draw="n-rest-sh"></td><td data-draw="n-rest-amt"></td><td data-draw="p0"></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note"><span class="st-idle">回測都是換股日隔天開盤進場；月中才進場沒有另外回測過，本月的股票可能已經漲跌一段。</span>每檔＝衛星（70%）÷ 10，零股可以買。</p>
+        </div>
+      </div>
+      <p class="note">參考價是最新收盤（<span data-draw="pxday" data-source="status" data-field="價格日期" data-row="0">—</span>），實際成交以開盤價為準，股數請照開盤價再算一次；沒有扣手續費與證交稅。</p>
+    </div>
+
     <details class="swap" id="swap">
       <summary><span class="st-go-sig" hidden>今天收盤後的名單：明天開盤要賣、要買的股票</span><span class="st-go-exec" hidden>今天開盤要做的：先賣後買</span><span class="st-idle">本月已執行的賣買（<span data-draw="exec-date" data-source="status" data-field="本月執行日" data-row="0">—</span> 開盤）</span></summary>
       <div class="swapgrid">
@@ -113,28 +150,11 @@
   </section>
 
   <section class="card" id="calc">
-    <h2>我的下單計算</h2>
-    <p class="note" style="margin-top:0">依本月換股清單（訊號日 <span data-draw="sig-date" data-source="status" data-field="本月訊號日" data-row="0">—</span>、執行日 <span data-draw="exec-date" data-source="status" data-field="本月執行日" data-row="0">—</span>）。參考價是最新收盤（<span data-draw="pxday" data-source="status" data-field="價格日期" data-row="0">—</span>），實際成交以開盤價為準，股數請照開盤價再算一次。沒有扣手續費與證交稅。<span class="st-idle">本月已換股完成；下次換股日名單更新後，這裡會改用新名單。</span></p>
-    <div class="grid2">
-      <div id="calc-new">
-        <h3>新開始的人</h3>
-        <label class="calcrow" for="calc-total">總資產（元）<input id="calc-total" class="calcin" type="number" min="0" step="10000" value="1000000" inputmode="numeric"></label>
-        <div class="tw" data-source="actions status">
-          <table>
-            <thead><tr><th class="l">項目</th><th class="l">代號</th><th>金額</th><th>參考價</th><th>股數</th></tr></thead>
-            <tbody data-draw="calc-new"></tbody>
-            <tbody>
-              <tr><td class="l">0050 底倉（30%）</td><td class="l">0050</td><td data-draw="n-base-amt"></td><td data-draw="p0"></td><td data-draw="n-base-sh"></td></tr>
-              <tr><td class="l">衛星沒用完的錢也買 0050</td><td class="l">0050</td><td data-draw="n-rest-amt"></td><td data-draw="p0"></td><td data-draw="n-rest-sh"></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="note">0050 底倉＝總資產 30%；本月「買進」每檔＝衛星（70%）÷ 10；其餘衛星資金也買 0050。新開始的人不用買「續抱」的股票。零股可以買。</p>
-      </div>
-
+    <details id="calc-hold-box">
+      <summary>我的下單計算：已照策略持有的人（點開填股數）</summary>
+      <p class="note">依本月換股清單（訊號日 <span data-draw="sig-date" data-source="status" data-field="本月訊號日" data-row="0">—</span>、執行日 <span data-draw="exec-date" data-source="status" data-field="本月執行日" data-row="0">—</span>）。參考價是最新收盤，實際成交以開盤價為準。<span class="st-idle">本月已換股完成；下次換股日名單更新後，這裡會改用新名單。</span></p>
       <div id="calc-hold">
-        <h3>已照策略持有的人</h3>
-        <p class="note" style="margin-top:0">填你現在的股數（只存在這個瀏覽器）。換股日照規則算出要賣、要買幾股。</p>
+        <p class="note">填你現在的股數（只存在這個瀏覽器）。換股日照規則算出要賣、要買幾股。</p>
         <div class="ingrid">
           <label for="h-e50">0050 總股數<input id="h-e50" class="calcin" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></label>
           <label for="h-base">其中底倉股數（不知道就留空）<input id="h-base" class="calcin" type="number" min="0" step="1" inputmode="numeric" placeholder="留空＝重設成 30%"></label>
@@ -146,7 +166,7 @@
             <tbody data-draw="hold-inputs"></tbody>
           </table>
         </div>
-        <div class="calcrow" style="margin-top: var(--cds-gap-sm)"><button type="button" class="btn" id="h-fill">用策略目前持股比例試填（照「新開始的人」的總資產）</button><button type="button" class="btn" id="h-clear">清空</button></div>
+        <div class="calcrow" style="margin-top: var(--cds-gap-sm)"><button type="button" class="btn" id="h-fill">用策略目前持股比例試填（照上面填的總資產）</button><button type="button" class="btn" id="h-clear">清空</button></div>
         <div class="facts">
           <div class="fact"><div class="k">總資產（參考價）</div><div class="v" data-draw="h-total">—</div></div>
           <div class="fact"><div class="k">衛星占比</div><div class="v" data-draw="h-sat">—</div></div>
@@ -161,9 +181,9 @@
           </table>
         </div>
         <ul class="calc-msgs" data-draw="h-msgs"></ul>
-        <p class="note">規則：衛星資金＝總資產 − 底倉股數 × 0050 價格；衛星占總資產超出 60%～80% 才把底倉重設回 30%。賣出清單的持股全部賣掉；已持有的不重買；每檔＝衛星 ÷ 10、持股最多 10 檔；錢不夠先用現金、再賣 0050；買不到一半金額就跳過；最後剩下現金 ≥ 2 萬買 0050。底倉表格最後一列的「約金額」是換股後剩下的現金。</p>
+        <p class="note">規則：衛星資金＝總資產 − 底倉股數 × 0050 價格；衛星占總資產超出 60%～80% 才把底倉重設回 30%。賣出清單的持股全部賣掉；已持有的不重買；每檔＝衛星 ÷ 10、持股最多 10 檔；錢不夠先用現金、再賣 0050；買不到一半金額就跳過；最後剩下現金 ≥ 2 萬買 0050。表格最後一列的「約金額」是換股後剩下的現金。沒有扣手續費與證交稅。</p>
       </div>
-    </div>
+    </details>
   </section>
 
   <div class="grid2">
@@ -560,13 +580,17 @@
   const tdRow = (cells) => { const tr = document.createElement('tr'); cells.forEach(([v, cls]) => { const td = document.createElement('td'); if (cls) td.className = cls; if (v instanceof Node) td.appendChild(v); else td.textContent = v; tr.appendChild(td); }); return tr; };
   dash.draw('calc-new', (tb) => {
     tb.replaceChildren(); const c = calcNew(); if (!c) return;
-    c.buys.forEach((b) => tb.appendChild(tdRow([['買進 ' + b.r['名稱'], 'l'], [b.r['代號'], 'l'], [money(b.amt)], [b.px ? b.px.toFixed(2) : '—'], [b.sh !== null ? intf(b.sh) : '—']])));
+    c.buys.forEach((b) => tb.appendChild(tdRow([[b.r['代號'] + ' ' + b.r['名稱'], 'l'], [b.sh !== null ? intf(b.sh) : '—'], [money(b.amt)], [b.px ? b.px.toFixed(2) : '—']])));
   });
   dash.draw('n-base-amt', (el) => { const c = calcNew(); el.textContent = c ? money(c.base) : ''; });
   dash.draw('n-rest-amt', (el) => { const c = calcNew(); el.textContent = c ? money(c.rest) : ''; });
   dash.draw('n-base-sh', (el) => { const c = calcNew(); el.textContent = c && c.baseSh !== null ? intf(c.baseSh) : ''; });
   dash.draw('n-rest-sh', (el) => { const c = calcNew(); el.textContent = c && c.restSh !== null ? intf(c.restSh) : ''; });
   dash.draw('p0', (el) => { const e = p0(); el.textContent = e ? e.toFixed(2) : ''; });
+  dash.draw('p0b', (el) => { const e = p0(); el.textContent = e ? e.toFixed(2) : '—'; });
+  // 選項 A：等下次換股日
+  dash.draw('a-base-sh', (el) => { const t = numIn('calc-total') || 0; const e = p0(); el.textContent = e ? intf(Math.floor(t * 0.3 / e)) : '—'; });
+  dash.draw('a-per', (el) => { const t = numIn('calc-total') || 0; el.textContent = money(t * 0.7 / 10); });
 
   // 已持有的人：每檔股數輸入
   const holdShares = () => { const o = {}; document.querySelectorAll('.mx input[data-code]').forEach((el) => { const v = el.value === '' ? 0 : +el.value; o[el.getAttribute('data-code')] = isFinite(v) && v > 0 ? Math.floor(v) : 0; }); return o; };
@@ -653,15 +677,16 @@
     list.forEach((t) => { const li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
   });
 
-  const NEW_DRAWS = ['calc-new', 'n-base-amt', 'n-rest-amt', 'n-base-sh', 'n-rest-sh'];
+  const NEW_DRAWS = ['calc-new', 'n-base-amt', 'n-rest-amt', 'n-base-sh', 'n-rest-sh', 'a-base-sh', 'a-per'];
   const HOLD_DRAWS = ['h-total', 'h-sat', 'h-base-out', 'h-per', 'h-e50-after', 'h-cash-after', 'h-orders', 'h-msgs'];
   function persist() {
     saved = { total: $('calc-total') ? $('calc-total').value : '', e50: $('h-e50') ? $('h-e50').value : '', base: $('h-base') ? $('h-base').value : '', cash: $('h-cash') ? $('h-cash').value : '', sh: holdShares() };
     saveState(saved);
   }
   // 只監聽，重算交給各個 drawing
-  document.querySelectorAll('.mx #calc').forEach((card) => {
+  document.querySelectorAll('.mx').forEach((card) => {
     card.addEventListener('input', (ev) => {
+      if (!ev.target || !ev.target.closest || !ev.target.closest('#start, #calc')) return;
       persist();
       if (ev.target && ev.target.id === 'calc-total') NEW_DRAWS.forEach((n) => dash.draw(n));
       HOLD_DRAWS.forEach((n) => dash.draw(n));
