@@ -1,0 +1,30 @@
+{
+ "written_at": "2026-11-16T19:10:47",
+ "PREREG_sha256": "65dcfc5dc4adbd578283d558e775dbc6f45170d69e915d6b3bbb27cd3cfa2e7d",
+ "frozen_rule": {
+  "id": "ADJ2",
+  "kind": "surge",
+  "mode": "adj2",
+  "desc": "(b) 相鄰兩月平均：營收月份 1、2、3 月的 D 換成「當月與上月 D 的平均」（1 月＝(12＋1)÷2、2 月＝(1＋2)÷2、3 月＝(2＋3)÷2），只用已公告資料、不跳過換股；μ、σ 視窗內也換。"
+ },
+ "T0_pass": true,
+ "T0_text": "訓練期找到可用的春節校正規則",
+ "train_score": {
+  "train_median": 0.34942229367998856,
+  "train_min": 0.32495066849199383,
+  "train_max": 0.3715097671083223,
+  "train_dd_median": -0.2793797473938011,
+  "score_median_pp": 1.6308379949588891,
+  "npos": 17,
+  "n_ge025": 16,
+  "diff_min_pp": -0.2208326543780892,
+  "diff_max_pp": 6.272096485083756,
+  "dd_diff_median_pp": -1.1077944060073008,
+  "y1618_median_pp": -0.018542187660197662,
+  "y1618_npos": 10,
+  "y1921_median_pp": 4.1980165817668835,
+  "y1921_npos": 18,
+  "n_changed_shift0": 82
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或門檻。"
+}
