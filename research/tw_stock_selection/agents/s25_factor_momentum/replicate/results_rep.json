@@ -1,0 +1,6808 @@
+{
+ "note": "S25 獨立複製（複製員自寫；未 import／執行／讀取 s25lib.py、prep.py、describe.py、train.py、validate.py、posthoc.py）。引擎 s20lib→s17lib→s10lib 預設旗標。",
+ "criterion": "年化差與超額差 ≤ 0.3 個百分點、t 差 ≤ 0.3（Sharpe、相關、比例同用 0.3）、筆數／路徑數須相同，判定相同 → 一致",
+ "summary": {
+  "n_numeric": 124,
+  "n_consistent": 124,
+  "max_abs_diff_pct": 2.8679519203933523e-08,
+  "max_abs_diff_t": 2.6019001397870056e-09,
+  "categorical_all_same": true,
+  "conclusion": "成功"
+ },
+ "comparisons": [
+  {
+   "item": "A1 SMB 差（%／月）",
+   "original": -0.18226400769230763,
+   "replicated": -0.18226400769230763,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 SMB 差 Welch t",
+   "original": -0.3269742624164408,
+   "replicated": -0.3269742624164408,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 HML 差（%／月）",
+   "original": 0.8088227732497386,
+   "replicated": 0.8088227732497386,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 HML 差 Welch t",
+   "original": 1.0731172310360244,
+   "replicated": 1.0731172310360244,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 EPF 差（%／月）",
+   "original": 1.1917753598793368,
+   "replicated": 1.1917753598793368,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 EPF 差 Welch t",
+   "original": 1.2381178432804971,
+   "replicated": 1.2381178432804971,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 MOM 差（%／月）",
+   "original": -0.35142629000000003,
+   "replicated": -0.35142629000000003,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 MOM 差 Welch t",
+   "original": -0.5414968183501964,
+   "replicated": -0.5414968183501964,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 RMOM 差（%／月）",
+   "original": 0.945481607059607,
+   "replicated": 0.945481607059607,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 RMOM 差 Welch t",
+   "original": 1.9439371989973613,
+   "replicated": 1.9439371989973613,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 合併 趨勢>0（%／月）",
+   "original": 0.6893573756345177,
+   "replicated": 0.6893573756345177,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 合併 趨勢≤0（%／月）",
+   "original": -0.15748607547169816,
+   "replicated": -0.1574860754716981,
+   "diff": 5.551115123125783e-17,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 合併 差（%／月）",
+   "original": 0.8468434511062158,
+   "replicated": 0.8468434511062158,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 合併 差 t（月時序）",
+   "original": 1.5489644390862214,
+   "replicated": 1.5489644390862214,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 合併 趨勢>0 筆數",
+   "original": 394,
+   "replicated": 394,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "A1 合併 趨勢≤0 筆數",
+   "original": 212,
+   "replicated": 212,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "A1 TSFM WIN 年化平均（%）",
+   "original": 9.744418446153846,
+   "replicated": 9.744418446153846,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 TSFM WIN Sharpe",
+   "original": 1.0513272144959829,
+   "replicated": 1.0513272144959829,
+   "diff": 0.0,
+   "kind": "sharpe",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 TSFM EW 年化平均（%）",
+   "original": 4.755736964102563,
+   "replicated": 4.755736964102563,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 TSFM EW Sharpe",
+   "original": 1.0173190727382717,
+   "replicated": 1.0173190727382717,
+   "diff": 0.0,
+   "kind": "sharpe",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 TSFM WML 年化平均（%）",
+   "original": 8.822958617094017,
+   "replicated": 8.822958617094017,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 TSFM WML Sharpe",
+   "original": 0.4832159363042227,
+   "replicated": 0.4832159363042227,
+   "diff": 0.0,
+   "kind": "sharpe",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 TSFM WIN 年化波動（%）",
+   "original": 9.26868277715556,
+   "replicated": 9.26868277715556,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 TSFM EW 年化波動（%）",
+   "original": 4.67477420953267,
+   "replicated": 4.67477420953267,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 WIN−EW Sharpe 差",
+   "original": 0.03400814175771116,
+   "replicated": 0.03400814175771116,
+   "diff": 0.0,
+   "kind": "sharpe",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 WIN 對 EW α 的 NW t",
+   "original": 1.6118367299091807,
+   "replicated": 1.6118367299091807,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 RMOM 趨勢≤0 現行對 0050 月超額（%）",
+   "original": 0.19647727272727278,
+   "replicated": 0.19647727272727278,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 RMOM 趨勢>0 現行對 0050 月超額（%）",
+   "original": 1.3850530549450553,
+   "replicated": 1.3850530549450553,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 RMOM 分組差 Welch t",
+   "original": 1.8568153891819967,
+   "replicated": 1.8568153891819967,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 穩健 6 月趨勢 合併差（%／月）",
+   "original": 0.90370714040025,
+   "replicated": 0.9037071404002502,
+   "diff": 2.220446049250313e-16,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 穩健 6 月趨勢 合併差 t",
+   "original": 2.1467658972296717,
+   "replicated": 2.146765897229672,
+   "diff": 4.440892098500626e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 穩健 去 2020 合併差（%／月）",
+   "original": 0.8608802522401433,
+   "replicated": 0.8608802522401435,
+   "diff": 2.220446049250313e-16,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 穩健 去 2020 合併差 t",
+   "original": 1.3862677672371533,
+   "replicated": 1.3862677672371533,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 穩健 2019 起 合併差（%／月）",
+   "original": 1.1749475688235294,
+   "replicated": 1.1749475688235294,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A1 穩健 2019 起 合併差 t",
+   "original": 1.647690946349924,
+   "replicated": 1.647690946349924,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW IND_on_const α 年化（%）",
+   "original": 23.82609206085325,
+   "replicated": 23.826092089532768,
+   "diff": 2.8679519203933523e-08,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW IND_on_const α t",
+   "original": 2.5835734271441058,
+   "replicated": 2.5835734270791253,
+   "diff": -6.498046545289071e-11,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW IND_on_WML α 年化（%）",
+   "original": 17.4965296049205,
+   "replicated": 17.496529623848165,
+   "diff": 1.8927664768852992e-08,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW IND_on_WML α t",
+   "original": 2.2882350674050054,
+   "replicated": 2.2882350682035075,
+   "diff": 7.985021532874725e-10,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW IND_on_WML_MKT α 年化（%）",
+   "original": 12.70895717119808,
+   "replicated": 12.708957184052656,
+   "diff": 1.2854576070253643e-08,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW IND_on_WML_MKT α t",
+   "original": 2.001638114271117,
+   "replicated": 2.0016381129170036,
+   "diff": -1.3541132659611321e-09,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW IND_on_WML_MKT_MOM α 年化（%）",
+   "original": 5.842095818116174,
+   "replicated": 5.842095837979727,
+   "diff": 1.986355258054573e-08,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW IND_on_WML_MKT_MOM α t",
+   "original": 0.8844425578346223,
+   "replicated": 0.8844425584119433,
+   "diff": 5.773209688086922e-10,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW WML_on_const α 年化（%）",
+   "original": 8.822958617094017,
+   "replicated": 8.822958617094013,
+   "diff": -3.552713678800501e-15,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW WML_on_const α t",
+   "original": 1.5290675206104343,
+   "replicated": 1.5290675206104338,
+   "diff": -4.440892098500626e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW WML_on_IND α 年化（%）",
+   "original": 2.2180376237384674,
+   "replicated": 2.2180376115802662,
+   "diff": -1.2158201112555389e-08,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 VW WML_on_IND α t",
+   "original": 0.5735511761506296,
+   "replicated": 0.5735511735487294,
+   "diff": -2.6019001397870056e-09,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW IND_on_const α 年化（%）",
+   "original": 13.67184915167435,
+   "replicated": 13.67184915167435,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW IND_on_const α t",
+   "original": 1.9881978479173334,
+   "replicated": 1.9881978479173334,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW IND_on_WML α 年化（%）",
+   "original": 9.087371404403028,
+   "replicated": 9.087371404403028,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW IND_on_WML α t",
+   "original": 1.5109037078387486,
+   "replicated": 1.5109037078387493,
+   "diff": 6.661338147750939e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW IND_on_WML_MKT α 年化（%）",
+   "original": 6.116845585329147,
+   "replicated": 6.1168455853291555,
+   "diff": 8.881784197001252e-15,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW IND_on_WML_MKT α t",
+   "original": 1.2275723564414411,
+   "replicated": 1.2275723564414427,
+   "diff": 1.5543122344752192e-15,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW IND_on_WML_MKT_MOM α 年化（%）",
+   "original": 1.1523124157996847,
+   "replicated": 1.1523124157996774,
+   "diff": -7.327471962526033e-15,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW IND_on_WML_MKT_MOM α t",
+   "original": 0.28728124980414754,
+   "replicated": 0.287281249804146,
+   "diff": -1.5543122344752192e-15,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW WML_on_const α 年化（%）",
+   "original": 8.822958617094017,
+   "replicated": 8.822958617094013,
+   "diff": -3.552713678800501e-15,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW WML_on_const α t",
+   "original": 1.5290675206104343,
+   "replicated": 1.5290675206104338,
+   "diff": -4.440892098500626e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW WML_on_IND α 年化（%）",
+   "original": 4.054168549123499,
+   "replicated": 4.054168549123497,
+   "diff": -2.6645352591003757e-15,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 EW WML_on_IND α t",
+   "original": 1.0055723444449356,
+   "replicated": 1.0055723444449352,
+   "diff": -4.440892098500626e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A2 WML 與 MOM 相關",
+   "original": 0.7975644017412463,
+   "replicated": 0.7975644017412463,
+   "diff": 0.0,
+   "kind": "sharpe",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 驗收 2019 起年化（%）",
+   "original": 48.125923742223776,
+   "replicated": 48.125923742223776,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 驗收 全期年化（%）",
+   "original": 34.081780451413394,
+   "replicated": 34.081780451413394,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 驗收 最大回撤（%）",
+   "original": -33.40389329005301,
+   "replicated": -33.40389329005301,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 交易筆數",
+   "original": 387,
+   "replicated": 387,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "A3 同業≥5 筆數",
+   "original": 380,
+   "replicated": 380,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "A3 同業家數中位數",
+   "original": 32.0,
+   "replicated": 32.0,
+   "diff": 0.0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對 0050 超額 平均（%／筆）",
+   "original": 6.681291532329417,
+   "replicated": 6.681291532329417,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對 0050 超額 群聚 t",
+   "original": 3.830079567043042,
+   "replicated": 3.8300795670430423,
+   "diff": 4.440892098500626e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對同業超額 平均（%／筆）",
+   "original": 6.748913717417153,
+   "replicated": 6.748913717417153,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對同業超額 群聚 t",
+   "original": 4.001853991972879,
+   "replicated": 4.001853991972879,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 同業 − 0050 平均（%／筆）",
+   "original": -0.067622185087737,
+   "replicated": -0.06762218508773724,
+   "diff": -2.3592239273284576e-16,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 同業 − 0050 群聚 t",
+   "original": -0.01080890098701806,
+   "replicated": -0.010808900987018448,
+   "diff": -3.86843335142828e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 個股毛報酬 平均（%／筆）",
+   "original": 10.560025364730121,
+   "replicated": 10.560025364730121,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 個股毛報酬 群聚 t",
+   "original": 5.116462563623006,
+   "replicated": 5.116462563623006,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 同業籃子 平均（%／筆）",
+   "original": 3.8111116473129676,
+   "replicated": 3.8111116473129676,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 同業籃子 群聚 t",
+   "original": 4.452344753849308,
+   "replicated": 4.4523447538493075,
+   "diff": -8.881784197001252e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對同業 去最賺 5 筆 平均（%）",
+   "original": 4.067064701607757,
+   "replicated": 4.067064701607757,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對同業 去最賺 5 筆 群聚 t",
+   "original": 3.566133294531058,
+   "replicated": 3.566133294531058,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 訓練 對 0050 超額 平均（%／筆）",
+   "original": 8.18673496856125,
+   "replicated": 8.18673496856125,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 訓練 對同業超額 平均（%／筆）",
+   "original": 7.219826268802526,
+   "replicated": 7.219826268802526,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 訓練 對同業超額 群聚 t",
+   "original": 2.898823029872355,
+   "replicated": 2.898823029872356,
+   "diff": 8.881784197001252e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 訓練 同業 − 0050 平均（%／筆）",
+   "original": 0.9669086997587237,
+   "replicated": 0.9669086997587237,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 訓練 對同業 去最賺 5 筆 平均（%）",
+   "original": 2.733140721253787,
+   "replicated": 2.733140721253787,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 訓練 對同業 去最賺 5 筆 群聚 t",
+   "original": 2.335657111163937,
+   "replicated": 2.335657111163937,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 驗證 對 0050 超額 平均（%／筆）",
+   "original": 5.368663511575552,
+   "replicated": 5.368663511575552,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 驗證 對同業超額 平均（%／筆）",
+   "original": 6.338315088869316,
+   "replicated": 6.338315088869316,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 驗證 對同業超額 群聚 t",
+   "original": 2.748028846330532,
+   "replicated": 2.7480288463305325,
+   "diff": 4.440892098500626e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 驗證 同業 − 0050 平均（%／筆）",
+   "original": -0.9696515772937645,
+   "replicated": -0.9696515772937645,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 驗證 對同業 去最賺 5 筆 平均（%）",
+   "original": 2.808534556678267,
+   "replicated": 2.8085345566782673,
+   "diff": 4.440892098500626e-16,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 驗證 對同業 去最賺 5 筆 群聚 t",
+   "original": 2.163440719891126,
+   "replicated": 2.1634407198911263,
+   "diff": 4.440892098500626e-16,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對同業 中位數（%）",
+   "original": -0.5086745708306131,
+   "replicated": -0.5086745708306117,
+   "diff": 1.3322676295501878e-15,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對同業 勝率（%）",
+   "original": 48.421052631578945,
+   "replicated": 48.421052631578945,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對 0050 逐筆 t",
+   "original": 3.9683714650323862,
+   "replicated": 3.9683714650323862,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全期 對同業 逐筆 t",
+   "original": 4.093993272667152,
+   "replicated": 4.093993272667152,
+   "diff": 0.0,
+   "kind": "t",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 穩健 全上市同業 對同業超額（%）",
+   "original": 6.771252982073496,
+   "replicated": 6.771252982073498,
+   "diff": 1.7763568394002505e-15,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 穩健 全上市同業 筆數",
+   "original": 386,
+   "replicated": 386,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "A3 穩健 市值加權同業 對同業超額（%）",
+   "original": 5.91589193235804,
+   "replicated": 5.915891943357,
+   "diff": 1.0998959965036192e-08,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 全部 387 筆 對 0050 超額（%）",
+   "original": 6.724513565634782,
+   "replicated": 6.724513565634783,
+   "diff": 1.7763568394002505e-15,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "A3 航運業 同業 − 0050（%）",
+   "original": 12.38794865314141,
+   "replicated": 12.387948653141411,
+   "diff": 1.7763568394002505e-15,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 RMOM_STOP 分數（百分點）",
+   "original": 0.7659336188956756,
+   "replicated": 0.7659336188956756,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 RMOM_STOP 改善 ≥0.25 路徑數",
+   "original": 15,
+   "replicated": 15,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 RMOM_STOP 觸發月數（位移 0）",
+   "original": 22,
+   "replicated": 22,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 RMOM_STOP 少買檔數（位移 0）",
+   "original": 83,
+   "replicated": 83,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 RMOM_HALF 分數（百分點）",
+   "original": 0.6105996314973994,
+   "replicated": 0.6105996314973994,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 RMOM_HALF 改善 ≥0.25 路徑數",
+   "original": 15,
+   "replicated": 15,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 RMOM_HALF 觸發月數（位移 0）",
+   "original": 22,
+   "replicated": 22,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 RMOM_HALF 少買檔數（位移 0）",
+   "original": 35,
+   "replicated": 35,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 MOM_HALF 分數（百分點）",
+   "original": 0.0039079447331169526,
+   "replicated": 0.0039079447331169526,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 MOM_HALF 改善 ≥0.25 路徑數",
+   "original": 4,
+   "replicated": 4,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 MOM_HALF 觸發月數（位移 0）",
+   "original": 11,
+   "replicated": 11,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 MOM_HALF 少買檔數（位移 0）",
+   "original": 16,
+   "replicated": 16,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 MOM_STOP 分數（百分點）",
+   "original": -0.24834971242003734,
+   "replicated": -0.24834971242003734,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 MOM_STOP 改善 ≥0.25 路徑數",
+   "original": 2,
+   "replicated": 2,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 MOM_STOP 觸發月數（位移 0）",
+   "original": 11,
+   "replicated": 11,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B 訓練 MOM_STOP 少買檔數（位移 0）",
+   "original": 38,
+   "replicated": 38,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B CUR 訓練窗年化中位數（%）",
+   "original": 33.38982329938571,
+   "replicated": 33.38982329938571,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B 重新起跑資金比例",
+   "original": 2.5582245896943134,
+   "replicated": 2.5582245896943134,
+   "diff": 0.0,
+   "kind": "sharpe",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B V1 年化差 > 0 路徑數",
+   "original": 0,
+   "replicated": 0,
+   "diff": 0,
+   "kind": "n",
+   "tol": 0,
+   "consistent": true
+  },
+  {
+   "item": "B V2 配對差中位數（百分點）",
+   "original": -2.2824190188837523,
+   "replicated": -2.2824190188837523,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B V3 禁買聯集後配對差中位數（百分點）",
+   "original": -2.365964141966359,
+   "replicated": -2.365964141966359,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B V4 2022 段回撤差中位數（百分點）",
+   "original": -1.52289195482887,
+   "replicated": -1.52289195482887,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B V4 2024-07～2025-04 段回撤差中位數（百分點）",
+   "original": 0.1511949025711279,
+   "replicated": 0.1511949025711279,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B 主跑 CUR 驗證窗年化（%）",
+   "original": 42.99173690748888,
+   "replicated": 42.99173690748888,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  },
+  {
+   "item": "B 連續 凍結−CUR 2019 起差中位數（百分點）",
+   "original": -2.246260801256905,
+   "replicated": -2.246260801256905,
+   "diff": 0.0,
+   "kind": "pct",
+   "tol": 0.3,
+   "consistent": true
+  }
+ ],
+ "categorical": {
+  "values": {
+   "frozen": [
+    "RMOM_STOP",
+    "RMOM_STOP"
+   ],
+   "order": [
+    [
+     "RMOM_STOP",
+     "RMOM_HALF",
+     "MOM_HALF",
+     "MOM_STOP"
+    ],
+    [
+     "RMOM_STOP",
+     "RMOM_HALF",
+     "MOM_HALF",
+     "MOM_STOP"
+    ]
+   ],
+   "T0": [
+    false,
+    false
+   ],
+   "verdict": {
+    "T0": [
+     false,
+     false
+    ],
+    "V1": [
+     false,
+     false
+    ],
+    "V2": [
+     false,
+     false
+    ],
+    "V3": [
+     false,
+     false
+    ],
+    "V4": [
+     true,
+     true
+    ],
+    "overall": [
+     "不通過",
+     "不通過"
+    ]
+   },
+   "trig_months_valid": [
+    [
+     "2022-02",
+     "2022-03",
+     "2022-04",
+     "2022-05",
+     "2022-06",
+     "2022-07",
+     "2022-08",
+     "2022-09",
+     "2022-10",
+     "2022-11",
+     "2022-12"
+    ],
+    [
+     "2022-02",
+     "2022-03",
+     "2022-04",
+     "2022-05",
+     "2022-06",
+     "2022-07",
+     "2022-08",
+     "2022-09",
+     "2022-10",
+     "2022-11",
+     "2022-12"
+    ]
+   ],
+   "V3_block_union_codes": [
+    [
+     "2344",
+     "2408",
+     "3017",
+     "3653",
+     "6446"
+    ],
+    [
+     "2344",
+     "2408",
+     "3017",
+     "3653",
+     "6446"
+    ]
+   ],
+   "A0_ok": [
+    true,
+    true
+   ]
+  },
+  "same": {
+   "frozen": true,
+   "order": true,
+   "T0": true,
+   "verdict": true,
+   "trig_months_valid": true,
+   "V3_block_union_codes": true,
+   "A0_ok": true
+  }
+ },
+ "not_compared_or_differs": {
+  "bootstrap_ci90": {
+   "original": [
+    -0.4299333470987527,
+    0.7519132619967932
+   ],
+   "replicated": [
+    -0.5895070541410837,
+    0.7185771068838577
+   ],
+   "note": "區塊 bootstrap 抽法（循環區塊、起點抽法）SPEC 未寫死，複製員自寫；點估計相同，區間下界不同（−0.43 vs −0.59），結論（含 0）相同"
+  },
+  "peer_count_q90": {
+   "original": 75.80000000000007,
+   "replicated": 77.0,
+   "note": "分位數插值口徑差，中位數 32、q10 11 相同"
+  },
+  "random_control": {
+   "original_FINDINGS": "第 45 百分位",
+   "replicated": 0.45,
+   "note": "複製員用種子 20261116＋i（PREREG 未寫死抽法）"
+  },
+  "CUR_fresh_trades": {
+   "original_closed": 197,
+   "replicated_incl_open_end": 205,
+   "note": "原研究交易統計只算已平倉；複製員的 205 含期末未平倉 8 筆"
+  }
+ },
+ "A1": {
+  "A1": {
+   "per_factor": {
+    "SMB": {
+     "win_mean_pct": -0.43899396153846154,
+     "win_t": -1.1905487491648064,
+     "win_n": 52,
+     "lose_mean_pct": -0.25672995384615394,
+     "lose_t": -0.614122698290904,
+     "lose_n": 65,
+     "diff_pct": -0.18226400769230763,
+     "diff_welch_t": -0.3269742624164408,
+     "uncond_mean_pct": -0.33773617948717943,
+     "first": "2017-02",
+     "last": "2026-10"
+    },
+    "HML": {
+     "win_mean_pct": 0.3958053939393939,
+     "win_t": 0.9847867021695473,
+     "win_n": 66,
+     "lose_mean_pct": -0.41301737931034477,
+     "lose_t": -0.6477604892170411,
+     "lose_n": 58,
+     "diff_pct": 0.8088227732497386,
+     "diff_welch_t": 1.0731172310360244,
+     "uncond_mean_pct": 0.017485064516129037,
+     "first": "2016-07",
+     "last": "2026-10"
+    },
+    "EPF": {
+     "win_mean_pct": 0.47165984705882363,
+     "win_t": 1.7539282965323524,
+     "win_n": 85,
+     "lose_mean_pct": -0.720115512820513,
+     "lose_t": -0.7791407340966492,
+     "lose_n": 39,
+     "diff_pct": 1.1917753598793368,
+     "diff_welch_t": 1.2381178432804971,
+     "uncond_mean_pct": 0.09682727419354849,
+     "first": "2016-07",
+     "last": "2026-10"
+    },
+    "MOM": {
+     "win_mean_pct": 1.15214571,
+     "win_t": 2.7646670822496047,
+     "win_n": 100,
+     "lose_mean_pct": 1.5035720000000001,
+     "lose_t": 3.0221900314858816,
+     "lose_n": 17,
+     "diff_pct": -0.35142629000000003,
+     "diff_welch_t": -0.5414968183501964,
+     "uncond_mean_pct": 1.2032076495726498,
+     "first": "2017-02",
+     "last": "2026-10"
+    },
+    "RMOM": {
+     "win_mean_pct": 1.2418206373626373,
+     "win_t": 3.637614769809075,
+     "win_n": 91,
+     "lose_mean_pct": 0.29633903030303027,
+     "lose_t": 0.8553939601507212,
+     "lose_n": 33,
+     "diff_pct": 0.945481607059607,
+     "diff_welch_t": 1.9439371989973613,
+     "uncond_mean_pct": 0.9902005322580643,
+     "first": "2016-07",
+     "last": "2026-10"
+    }
+   },
+   "pooled": {
+    "win_mean_pct": 0.6893573756345177,
+    "win_n": 394,
+    "lose_mean_pct": -0.1574860754716981,
+    "lose_n": 212,
+    "diff_pct": 0.8468434511062158,
+    "diff_t_monthly_ts": 1.5489644390862214,
+    "n_months_both": 112,
+    "diff_ts_mean_pct": 0.783341722470238
+   },
+   "tsfm": {
+    "months": [
+     "2017-02",
+     "2026-10"
+    ],
+    "n": 117,
+    "avg_n_winners": 3.2564102564102564,
+    "n_all_win": 12,
+    "n_all_lose": 0,
+    "WIN": {
+     "mean_ann_pct": 9.744418446153846,
+     "vol_ann_pct": 9.26868277715556,
+     "sharpe": 1.0513272144959829,
+     "t_mean": 3.282768175094589,
+     "n": 117
+    },
+    "EW": {
+     "mean_ann_pct": 4.755736964102563,
+     "vol_ann_pct": 4.67477420953267,
+     "sharpe": 1.0173190727382717,
+     "t_mean": 3.176577786491511,
+     "n": 117
+    },
+    "WML": {
+     "mean_ann_pct": 8.822958617094017,
+     "vol_ann_pct": 18.258832033923785,
+     "sharpe": 0.4832159363042227,
+     "t_mean": 1.5088412775070397,
+     "n": 117
+    },
+    "WML_alt_onlyside_raw": {
+     "mean_ann_pct": 8.822958617094017,
+     "vol_ann_pct": 18.258832033923785,
+     "sharpe": 0.4832159363042227,
+     "t_mean": 1.5088412775070397,
+     "n": 117
+    },
+    "LOSERS_only": {
+     "mean_ann_pct": 1.026769523809523,
+     "vol_ann_pct": 11.336669309277848,
+     "sharpe": 0.09057065137899206,
+     "t_mean": 0.2679115997827092,
+     "n": 105
+    },
+    "WIN_minus_EW_sharpe": {
+     "diff": 0.03400814175771116,
+     "ci90": [
+      -0.5895070541410837,
+      0.7185771068838577
+     ],
+     "p_le0": 0.492
+    },
+    "WIN_on_EW": {
+     "coef": [
+      0.0066961370027709965,
+      0.3593668143820818
+     ],
+     "t": [
+      1.6118367299091807,
+      0.6897740085460603
+     ],
+     "r2": 0.03285195212771519,
+     "n": 117,
+     "alpha_ann_pct": 8.035364403325197,
+     "alpha_t": 1.6118367299091807
+    },
+    "share_months_factor_winner": {
+     "SMB": 0.4444444444444444,
+     "HML": 0.5128205128205128,
+     "EPF": 0.6666666666666666,
+     "MOM": 0.8547008547008547,
+     "RMOM": 0.7777777777777778
+    }
+   }
+  },
+  "A1_robust": {
+   "trend6": {
+    "per_factor": {
+     "SMB": {
+      "win_mean_pct": -0.33415543396226416,
+      "win_t": -0.9495723054015351,
+      "win_n": 53,
+      "lose_mean_pct": -0.3242501000000001,
+      "lose_t": -0.8161656936093323,
+      "lose_n": 70,
+      "diff_pct": -0.009905333962264076,
+      "diff_welch_t": -0.0186637663940877,
+      "uncond_mean_pct": -0.3285182520325204,
+      "first": "2016-08",
+      "last": "2026-10"
+     },
+     "HML": {
+      "win_mean_pct": 0.20107835384615388,
+      "win_t": 0.4661152657699125,
+      "win_n": 65,
+      "lose_mean_pct": -0.2266338307692308,
+      "lose_t": -0.40562917970714085,
+      "lose_n": 65,
+      "diff_pct": 0.4277121846153847,
+      "diff_welch_t": 0.6059261807504255,
+      "uncond_mean_pct": -0.012777738461538428,
+      "first": "2016-01",
+      "last": "2026-10"
+     },
+     "EPF": {
+      "win_mean_pct": 0.5292986000000002,
+      "win_t": 1.920790779001591,
+      "win_n": 85,
+      "lose_mean_pct": -0.7197791333333332,
+      "lose_t": -0.9106085732294128,
+      "lose_n": 45,
+      "diff_pct": 1.2490777333333334,
+      "diff_welch_t": 1.4921595556042384,
+      "uncond_mean_pct": 0.09692553846153845,
+      "first": "2016-01",
+      "last": "2026-10"
+     },
+     "MOM": {
+      "win_mean_pct": 1.2473160869565219,
+      "win_t": 2.874865074859605,
+      "win_n": 92,
+      "lose_mean_pct": 0.8447782580645161,
+      "lose_t": 1.6937058460178605,
+      "lose_n": 31,
+      "diff_pct": 0.40253782889200573,
+      "diff_welch_t": 0.6089146327951657,
+      "uncond_mean_pct": 1.145863463414634,
+      "first": "2016-08",
+      "last": "2026-10"
+     },
+     "RMOM": {
+      "win_mean_pct": 1.3021025157894734,
+      "win_t": 3.9900090977011082,
+      "win_n": 95,
+      "lose_mean_pct": -0.08059791428571428,
+      "lose_t": -0.2498622833399303,
+      "lose_n": 35,
+      "diff_pct": 1.3827004300751877,
+      "diff_welch_t": 3.013361498663538,
+      "uncond_mean_pct": 0.9298370153846153,
+      "first": "2016-01",
+      "last": "2026-10"
+     }
+    },
+    "pooled": {
+     "win_mean_pct": 0.7148796282051282,
+     "win_n": 390,
+     "lose_mean_pct": -0.188827512195122,
+     "lose_n": 246,
+     "diff_pct": 0.9037071404002502,
+     "diff_t_monthly_ts": 2.146765897229672,
+     "n_months_both": 120,
+     "diff_ts_mean_pct": 0.9740859493055556
+    },
+    "tsfm": {
+     "months": [
+      "2016-08",
+      "2026-10"
+     ],
+     "n": 123,
+     "avg_n_winners": 3.089430894308943,
+     "n_all_win": 7,
+     "n_all_lose": 0,
+     "WIN": {
+      "mean_ann_pct": 10.718578769105692,
+      "vol_ann_pct": 9.032379268314534,
+      "sharpe": 1.1866838681925507,
+      "t_mean": 3.799242119297145,
+      "n": 123
+     },
+     "EW": {
+      "mean_ann_pct": 4.571496234146341,
+      "vol_ann_pct": 4.570719357921678,
+      "sharpe": 1.0001699680430647,
+      "t_mean": 3.2021062819644928,
+      "n": 123
+     },
+     "WML": {
+      "mean_ann_pct": 10.923939143089433,
+      "vol_ann_pct": 17.013617325565292,
+      "sharpe": 0.6420703448334127,
+      "t_mean": 2.055628093569846,
+      "n": 123
+     },
+     "WML_alt_onlyside_raw": {
+      "mean_ann_pct": 10.923939143089433,
+      "vol_ann_pct": 17.013617325565292,
+      "sharpe": 0.6420703448334127,
+      "t_mean": 2.055628093569846,
+      "n": 123
+     },
+     "LOSERS_only": {
+      "mean_ann_pct": -0.21775281034482807,
+      "vol_ann_pct": 10.245588893256167,
+      "sharpe": -0.021253323026474046,
+      "t_mean": -0.06607926666855474,
+      "n": 116
+     },
+     "WIN_minus_EW_sharpe": {
+      "diff": 0.186513900149486,
+      "ci90": [
+       -0.41107052946103306,
+       0.8563167341941101
+      ],
+      "p_le0": 0.3125
+     },
+     "WIN_on_EW": {
+      "coef": [
+       0.007809524753323584,
+       0.294684496304513
+      ],
+      "t": [
+       1.9750273796480213,
+       0.5667235192411696
+      ],
+      "r2": 0.02223716188765079,
+      "n": 123,
+      "alpha_ann_pct": 9.371429703988301,
+      "alpha_t": 1.9750273796480213
+     },
+     "share_months_factor_winner": {
+      "SMB": 0.43089430894308944,
+      "HML": 0.4959349593495935,
+      "EPF": 0.6504065040650406,
+      "MOM": 0.7479674796747967,
+      "RMOM": 0.7642276422764228
+     }
+    }
+   },
+   "ex2020": {
+    "per_factor": {
+     "SMB": {
+      "win_mean_pct": -0.35612602173913044,
+      "win_t": -0.8885198640968657,
+      "win_n": 46,
+      "lose_mean_pct": -0.4880774067796611,
+      "lose_t": -1.1429861792003078,
+      "lose_n": 59,
+      "diff_pct": 0.1319513850405307,
+      "diff_welch_t": 0.2253053033293766,
+      "uncond_mean_pct": -0.4302701333333334,
+      "first": "2017-02",
+      "last": "2026-10"
+     },
+     "HML": {
+      "win_mean_pct": 0.3958053939393939,
+      "win_t": 0.9847867021695473,
+      "win_n": 66,
+      "lose_mean_pct": -0.5676332391304347,
+      "lose_t": -0.7385909173647834,
+      "lose_n": 46,
+      "diff_pct": 0.9634386330698287,
+      "diff_welch_t": 1.1108652166176134,
+      "uncond_mean_pct": 0.00010738392857143362,
+      "first": "2016-07",
+      "last": "2026-10"
+     },
+     "EPF": {
+      "win_mean_pct": 0.5445776172839506,
+      "win_t": 1.9473509733285717,
+      "win_n": 81,
+      "lose_mean_pct": -0.6973572580645163,
+      "lose_t": -0.6024636194134452,
+      "lose_n": 31,
+      "diff_pct": 1.241934875348467,
+      "diff_welch_t": 1.042931470618933,
+      "uncond_mean_pct": 0.2008277857142857,
+      "first": "2016-07",
+      "last": "2026-10"
+     },
+     "MOM": {
+      "win_mean_pct": 1.0482367727272728,
+      "win_t": 2.3570508263605583,
+      "win_n": 88,
+      "lose_mean_pct": 1.5035720000000001,
+      "lose_t": 3.0221900314858816,
+      "lose_n": 17,
+      "diff_pct": -0.4553352272727273,
+      "diff_welch_t": -0.682349263655704,
+      "uncond_mean_pct": 1.1219577142857144,
+      "first": "2017-02",
+      "last": "2026-10"
+     },
+     "RMOM": {
+      "win_mean_pct": 1.0646245949367088,
+      "win_t": 3.1579044482599485,
+      "win_n": 79,
+      "lose_mean_pct": 0.29633903030303027,
+      "lose_t": 0.8553939601507212,
+      "lose_n": 33,
+      "diff_pct": 0.7682855646336787,
+      "diff_welch_t": 1.5893410372504106,
+      "uncond_mean_pct": 0.8382547410714284,
+      "first": "2016-07",
+      "last": "2026-10"
+     }
+    },
+    "pooled": {
+     "win_mean_pct": 0.6394509027777778,
+     "win_n": 360,
+     "lose_mean_pct": -0.22142934946236562,
+     "lose_n": 186,
+     "diff_pct": 0.8608802522401435,
+     "diff_t_monthly_ts": 1.3862677672371533,
+     "n_months_both": 100,
+     "diff_ts_mean_pct": 0.7619827041666667
+    },
+    "tsfm": {
+     "months": [
+      "2017-02",
+      "2026-10"
+     ],
+     "n": 105,
+     "avg_n_winners": 3.3047619047619046,
+     "n_all_win": 12,
+     "n_all_lose": 0,
+     "WIN": {
+      "mean_ann_pct": 9.27577026857143,
+      "vol_ann_pct": 9.366347930553015,
+      "sharpe": 0.990329457900435,
+      "t_mean": 2.9294340422463825,
+      "n": 105
+     },
+     "EW": {
+      "mean_ann_pct": 4.174603085714284,
+      "vol_ann_pct": 4.713381883507246,
+      "sharpe": 0.8856916729624175,
+      "t_mean": 2.6199113002363177,
+      "n": 105
+     },
+     "WML": {
+      "mean_ann_pct": 8.51289645904762,
+      "vol_ann_pct": 18.710502918008505,
+      "sharpe": 0.4549795639567826,
+      "t_mean": 1.3458477000241003,
+      "n": 105
+     },
+     "WML_alt_onlyside_raw": {
+      "mean_ann_pct": 8.51289645904762,
+      "vol_ann_pct": 18.710502918008505,
+      "sharpe": 0.4549795639567826,
+      "t_mean": 1.3458477000241003,
+      "n": 105
+     },
+     "LOSERS_only": {
+      "mean_ann_pct": 0.861309139784945,
+      "vol_ann_pct": 11.799222196675071,
+      "sharpe": 0.07299711162551505,
+      "t_mean": 0.2032153583490339,
+      "n": 93
+     },
+     "WIN_minus_EW_sharpe": {
+      "diff": 0.10463778493801756,
+      "ci90": [
+       -0.5486182687224394,
+       0.8310243151107154
+      ],
+      "p_le0": 0.4255
+     },
+     "WIN_on_EW": {
+      "coef": [
+       0.006854100151537235,
+       0.2517245508495909
+      ],
+      "t": [
+       1.6187429431257683,
+       0.4547577649387029
+      ],
+      "r2": 0.016046334189580125,
+      "n": 105,
+      "alpha_ann_pct": 8.224920181844682,
+      "alpha_t": 1.6187429431257683
+     },
+     "share_months_factor_winner": {
+      "SMB": 0.4380952380952381,
+      "HML": 0.5714285714285714,
+      "EPF": 0.7047619047619048,
+      "MOM": 0.8380952380952381,
+      "RMOM": 0.7523809523809524
+     }
+    }
+   },
+   "since2019": {
+    "per_factor": {
+     "SMB": {
+      "win_mean_pct": -0.48304951219512204,
+      "win_t": -1.1193445803128073,
+      "win_n": 41,
+      "lose_mean_pct": -0.41478184905660387,
+      "lose_t": -0.8684683026291254,
+      "lose_n": 53,
+      "diff_pct": -0.0682676631385182,
+      "diff_welch_t": -0.10605685993926413,
+      "uncond_mean_pct": -0.44455817021276595,
+      "first": "2019-01",
+      "last": "2026-10"
+     },
+     "HML": {
+      "win_mean_pct": 0.42329314634146337,
+      "win_t": 0.7007011989888315,
+      "win_n": 41,
+      "lose_mean_pct": -0.5697959811320754,
+      "lose_t": -0.8264413830333666,
+      "lose_n": 53,
+      "diff_pct": 0.9930891274735388,
+      "diff_welch_t": 1.0833638186126555,
+      "uncond_mean_pct": -0.13664008510638287,
+      "first": "2019-01",
+      "last": "2026-10"
+     },
+     "EPF": {
+      "win_mean_pct": 0.5976784838709677,
+      "win_t": 1.7198587001062748,
+      "win_n": 62,
+      "lose_mean_pct": -1.0158698125,
+      "lose_t": -0.9175551995692004,
+      "lose_n": 32,
+      "diff_pct": 1.6135482963709677,
+      "diff_welch_t": 1.3905016895223785,
+      "uncond_mean_pct": 0.04838544680851063,
+      "first": "2019-01",
+      "last": "2026-10"
+     },
+     "MOM": {
+      "win_mean_pct": 1.4071277500000001,
+      "win_t": 2.78618257278194,
+      "win_n": 80,
+      "lose_mean_pct": 1.4828889285714286,
+      "lose_t": 2.4818747185345993,
+      "lose_n": 14,
+      "diff_pct": -0.07576117857142836,
+      "diff_welch_t": -0.09683930861315707,
+      "uncond_mean_pct": 1.418411329787234,
+      "first": "2019-01",
+      "last": "2026-10"
+     },
+     "RMOM": {
+      "win_mean_pct": 1.460829184210526,
+      "win_t": 3.7145845406922215,
+      "win_n": 76,
+      "lose_mean_pct": 0.5834366666666667,
+      "lose_t": 1.054899752189375,
+      "lose_n": 18,
+      "diff_pct": 0.8773925175438594,
+      "diff_welch_t": 1.2928720416370052,
+      "uncond_mean_pct": 1.2928178510638295,
+      "first": "2019-01",
+      "last": "2026-10"
+     }
+    },
+    "pooled": {
+     "win_mean_pct": 0.86066431,
+     "win_n": 300,
+     "lose_mean_pct": -0.3142832588235295,
+     "lose_n": 170,
+     "diff_pct": 1.1749475688235294,
+     "diff_t_monthly_ts": 1.647690946349924,
+     "n_months_both": 85,
+     "diff_ts_mean_pct": 1.072422473529412
+    },
+    "tsfm": {
+     "months": [
+      "2019-01",
+      "2026-10"
+     ],
+     "n": 94,
+     "avg_n_winners": 3.1914893617021276,
+     "n_all_win": 9,
+     "n_all_lose": 0,
+     "WIN": {
+      "mean_ann_pct": 11.987744912765958,
+      "vol_ann_pct": 10.050675744890295,
+      "sharpe": 1.1927302419302956,
+      "t_mean": 3.338224458468648,
+      "n": 94
+     },
+     "EW": {
+      "mean_ann_pct": 5.22819929361702,
+      "vol_ann_pct": 5.062800669350528,
+      "sharpe": 1.0326693929049569,
+      "t_mean": 2.8902446703525104,
+      "n": 94
+     },
+     "WML": {
+      "mean_ann_pct": 12.123454168085106,
+      "vol_ann_pct": 19.92047445519196,
+      "sharpe": 0.6085926414732212,
+      "t_mean": 1.7033347269890704,
+      "n": 94
+     },
+     "WML_alt_onlyside_raw": {
+      "mean_ann_pct": 12.123454168085106,
+      "vol_ann_pct": 19.92047445519196,
+      "sharpe": 0.6085926414732212,
+      "t_mean": 1.7033347269890704,
+      "n": 94
+     },
+     "LOSERS_only": {
+      "mean_ann_pct": -0.1500784705882365,
+      "vol_ann_pct": 12.276637302216214,
+      "sharpe": -0.01222472138695047,
+      "t_mean": -0.03253552430809022,
+      "n": 85
+     },
+     "WIN_minus_EW_sharpe": {
+      "diff": 0.1600608490253388,
+      "ci90": [
+       -0.5175822498750909,
+       0.9176491937636129
+      ],
+      "p_le0": 0.3525
+     },
+     "WIN_on_EW": {
+      "coef": [
+       0.008696706200468942,
+       0.29679386439947897
+      ],
+      "t": [
+       1.7990863216326538,
+       0.5423030228167212
+      ],
+      "r2": 0.022351206492431608,
+      "n": 94,
+      "alpha_ann_pct": 10.43604744056273,
+      "alpha_t": 1.7990863216326538
+     },
+     "share_months_factor_winner": {
+      "SMB": 0.43617021276595747,
+      "HML": 0.43617021276595747,
+      "EPF": 0.6595744680851063,
+      "MOM": 0.851063829787234,
+      "RMOM": 0.8085106382978723
+     }
+    }
+   }
+  },
+  "A1_strategy_by_trend": {
+   "MOM": {
+    "win_ex_mean_pct": 0.9851576899999999,
+    "win_n": 100,
+    "lose_ex_mean_pct": 1.968376647058824,
+    "lose_n": 17,
+    "diff_welch_t": -0.7116815551576643,
+    "win_t": 1.9775767597110931,
+    "lose_t": 1.5275289613389336
+   },
+   "RMOM": {
+    "win_ex_mean_pct": 1.3850530549450553,
+    "win_n": 91,
+    "lose_ex_mean_pct": 0.19647727272727278,
+    "lose_n": 33,
+    "diff_welch_t": 1.8568153891819967,
+    "win_t": 2.3523881296186033,
+    "lose_t": 0.7822963022477759
+   }
+  }
+ },
+ "A2": {
+  "n_industries": {
+   "min": 28,
+   "median": 28.0,
+   "max": 32
+  },
+  "VW": {
+   "months": [
+    "2017-02",
+    "2026-10"
+   ],
+   "n": 117,
+   "INDMOM": {
+    "mean_ann_pct": 23.826092089532764,
+    "vol_ann_pct": 29.37279752478718,
+    "sharpe": 0.8111618264969941,
+    "t_mean": 2.532851991425459,
+    "n": 117
+   },
+   "FMOM_WML": {
+    "mean_ann_pct": 8.822958617094011,
+    "vol_ann_pct": 18.258832033923774,
+    "sharpe": 0.48321593630422266,
+    "t_mean": 1.5088412775070392,
+    "n": 117
+   },
+   "corr_IND_WML": 0.44595098745110173,
+   "corr_IND_MOM": 0.49042478901411496,
+   "corr_WML_MOM": 0.7975644017412463,
+   "regs": {
+    "IND_on_const": {
+     "coef": [
+      0.019855076741277306
+     ],
+     "t": [
+      2.5835734270791253
+     ],
+     "r2": 0.0,
+     "n": 117,
+     "alpha_ann_pct": 23.826092089532768,
+     "alpha_t": 2.5835734270791253
+    },
+    "IND_on_WML": {
+     "coef": [
+      0.014580441353206804,
+      0.7173968212229185
+     ],
+     "t": [
+      2.2882350682035075,
+      4.784286468022596
+     ],
+     "r2": 0.19887228320861272,
+     "n": 117,
+     "alpha_ann_pct": 17.496529623848165,
+     "alpha_t": 2.2882350682035075
+    },
+    "IND_on_WML_MKT": {
+     "coef": [
+      0.010590797653377212,
+      0.5992402394107906,
+      0.27482543012946165
+     ],
+     "t": [
+      2.0016381129170036,
+      4.355497235468478,
+      2.2810563578259555
+     ],
+     "r2": 0.22432174842674446,
+     "n": 117,
+     "alpha_ann_pct": 12.708957184052656,
+     "alpha_t": 2.0016381129170036
+    },
+    "IND_on_WML_MKT_MOM": {
+     "coef": [
+      0.004868413198316439,
+      0.14454336515875035,
+      0.2589399105192322,
+      0.7767863701289829
+     ],
+     "t": [
+      0.8844425584119433,
+      0.684059979950843,
+      2.3409704881839146,
+      2.1840597107531634
+     ],
+     "r2": 0.27132237617686683,
+     "n": 117,
+     "alpha_ann_pct": 5.842095837979727,
+     "alpha_t": 0.8844425584119433
+    },
+    "IND_on_WIN_MKT": {
+     "coef": [
+      0.004794841913395039,
+      1.2026421782698506,
+      0.29948733256273063
+     ],
+     "t": [
+      0.9091025964550813,
+      3.239605491893242,
+      2.6056402839187243
+     ],
+     "r2": 0.2342444678056187,
+     "n": 117,
+     "alpha_ann_pct": 5.753810296074047,
+     "alpha_t": 0.9091025964550813
+    },
+    "WML_on_const": {
+     "coef": [
+      0.00735246551424501
+     ],
+     "t": [
+      1.5290675206104338
+     ],
+     "r2": 0.0,
+     "n": 117,
+     "alpha_ann_pct": 8.822958617094013,
+     "alpha_t": 1.5290675206104338
+    },
+    "WML_on_IND": {
+     "coef": [
+      0.0018483646763168885,
+      0.27721377810066494
+     ],
+     "t": [
+      0.5735511735487294,
+      2.4986666745170507
+     ],
+     "r2": 0.1988722832086126,
+     "n": 117,
+     "alpha_ann_pct": 2.2180376115802662,
+     "alpha_t": 0.5735511735487294
+    },
+    "WML_on_IND_MKT": {
+     "coef": [
+      -0.0021330116400616306,
+      0.21462972565040192,
+      0.29550649906961335
+     ],
+     "t": [
+      -0.5486159891083214,
+      2.6716453530498923,
+      1.3920965249502046
+     ],
+     "r2": 0.28102274327347987,
+     "n": 117,
+     "alpha_ann_pct": -2.5596139680739567,
+     "alpha_t": -0.5486159891083214
+    },
+    "WML_on_IND_MKT_MOM": {
+     "coef": [
+      -0.007379883838988728,
+      0.026224765068960737,
+      0.1415802744666987,
+      0.9731310501710769
+     ],
+     "t": [
+      -2.4565669460742097,
+      0.669864446415237,
+      1.4271906573715851,
+      7.221765459507047
+     ],
+     "r2": 0.6578681431044349,
+     "n": 117,
+     "alpha_ann_pct": -8.855860606786473,
+     "alpha_t": -2.4565669460742097
+    },
+    "IND_on_MOM_MKT": {
+     "coef": [
+      0.0038161655712335104,
+      0.9209369249136347,
+      0.2804675445346438
+     ],
+     "t": [
+      0.7313280014883253,
+      4.1333101237635255,
+      2.596003915270284
+     ],
+     "r2": 0.268549729228272,
+     "n": 117,
+     "alpha_ann_pct": 4.5793986854802124,
+     "alpha_t": 0.7313280014883253
+    }
+   }
+  },
+  "EW": {
+   "months": [
+    "2017-02",
+    "2026-10"
+   ],
+   "n": 117,
+   "INDMOM": {
+    "mean_ann_pct": 13.67184915167435,
+    "vol_ann_pct": 22.285394872862536,
+    "sharpe": 0.6134892035645682,
+    "t_mean": 1.915619424149878,
+    "n": 117
+   },
+   "FMOM_WML": {
+    "mean_ann_pct": 8.822958617094011,
+    "vol_ann_pct": 18.258832033923774,
+    "sharpe": 0.48321593630422266,
+    "t_mean": 1.5088412775070392,
+    "n": 117
+   },
+   "corr_IND_WML": 0.42572414954705945,
+   "corr_IND_MOM": 0.46739270077978323,
+   "corr_WML_MOM": 0.7975644017412463,
+   "regs": {
+    "IND_on_const": {
+     "coef": [
+      0.01139320762639529
+     ],
+     "t": [
+      1.9881978479173334
+     ],
+     "r2": 0.0,
+     "n": 117,
+     "alpha_ann_pct": 13.67184915167435,
+     "alpha_t": 1.9881978479173334
+    },
+    "IND_on_WML": {
+     "coef": [
+      0.00757280950366919,
+      0.5196077581491925
+     ],
+     "t": [
+      1.5109037078387493,
+      4.954773106571891
+     ],
+     "r2": 0.18124105150756686,
+     "n": 117,
+     "alpha_ann_pct": 9.087371404403028,
+     "alpha_t": 1.5109037078387493
+    },
+    "IND_on_WML_MKT": {
+     "coef": [
+      0.00509737132110763,
+      0.44629561898468706,
+      0.17051982945505434
+     ],
+     "t": [
+      1.2275723564414427,
+      4.371183441775955,
+      1.6712840385996388
+     ],
+     "r2": 0.1982612477421113,
+     "n": 117,
+     "alpha_ann_pct": 6.1168455853291555,
+     "alpha_t": 1.2275723564414427
+    },
+    "IND_on_WML_MKT_MOM": {
+     "coef": [
+      0.0009602603464997311,
+      0.11756352428518035,
+      0.15903507899256,
+      0.5615930635251799
+     ],
+     "t": [
+      0.287281249804146,
+      0.7271342957652401,
+      1.683123948171408,
+      2.145266591787989
+     ],
+     "r2": 0.2409382485372913,
+     "n": 117,
+     "alpha_ann_pct": 1.1523124157996774,
+     "alpha_t": 0.287281249804146
+    },
+    "IND_on_WIN_MKT": {
+     "coef": [
+      0.0005879687038081952,
+      0.9350326250436711,
+      0.18171928103188975
+     ],
+     "t": [
+      0.15941557234853437,
+      3.0894563517436273,
+      2.071137290215011
+     ],
+     "r2": 0.2185852444690497,
+     "n": 117,
+     "alpha_ann_pct": 0.7055624445698343,
+     "alpha_t": 0.15941557234853437
+    },
+    "WML_on_const": {
+     "coef": [
+      0.00735246551424501
+     ],
+     "t": [
+      1.5290675206104338
+     ],
+     "r2": 0.0,
+     "n": 117,
+     "alpha_ann_pct": 8.822958617094013,
+     "alpha_t": 1.5290675206104338
+    },
+    "WML_on_IND": {
+     "coef": [
+      0.0033784737909362474,
+      0.34880359014102313
+     ],
+     "t": [
+      1.0055723444449352,
+      2.0939392420727585
+     ],
+     "r2": 0.18124105150756686,
+     "n": 117,
+     "alpha_ann_pct": 4.054168549123497,
+     "alpha_t": 1.0055723444449352
+    },
+    "WML_on_IND_MKT": {
+     "coef": [
+      -0.0012401975150919732,
+      0.27102536101161506,
+      0.3113921236097098
+     ],
+     "t": [
+      -0.3316945833883561,
+      2.102008421412954,
+      1.4383548208233357
+     ],
+     "r2": 0.2747046982815732,
+     "n": 117,
+     "alpha_ann_pct": -1.4882370181103677,
+     "alpha_t": -0.3316945833883561
+    },
+    "WML_on_IND_MKT_MOM": {
+     "coef": [
+      -0.007283518675360919,
+      0.035556945933100055,
+      0.14265808819333706,
+      0.9731450306890486
+     ],
+     "t": [
+      -2.436996788258336,
+      0.6493280794639634,
+      1.4621260298153145,
+      7.079740634651725
+     ],
+     "r2": 0.6580019394005724,
+     "n": 117,
+     "alpha_ann_pct": -8.740222410433104,
+     "alpha_t": -2.436996788258336
+    },
+    "IND_on_MOM_MKT": {
+     "coef": [
+      0.00010442072131373165,
+      0.6788370977258164,
+      0.17654445772878702
+     ],
+     "t": [
+      0.028465239576042356,
+      4.357499184635061,
+      1.949760775758636
+     ],
+     "r2": 0.23775189911996797,
+     "n": 117,
+     "alpha_ann_pct": 0.125304865576478,
+     "alpha_t": 0.028465239576042356
+    }
+   }
+  }
+ },
+ "A3": {
+  "n_trades": 387,
+  "why": {
+   "rule": 379,
+   "open_end": 8
+  },
+  "gross_vs_engine_ret_corr": 0.9999894388988646,
+  "gross_minus_engine_mean_pct": 1.2945293757690586,
+  "industry_missing": 0,
+  "all": {
+   "n_peer_ge5": 380,
+   "n_peer_lt5": 7,
+   "main": {
+    "ret": {
+     "n": 380,
+     "n_months": 118,
+     "mean_pct": 10.560025364730121,
+     "median_pct": 1.4109697933227694,
+     "win_rate": 0.5578947368421052,
+     "t": 5.703625273888729,
+     "t_cluster_month": 5.116462563623006,
+     "drop_top5_mean_pct": 7.672923654563438,
+     "drop_top5_t_cluster": 5.014673810959826,
+     "top5": [
+      {
+       "code": "1325",
+       "sig": "2020-03-11",
+       "val_pct": 353.41031149301773
+      },
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 302.1922428330517
+      },
+      {
+       "code": "1598",
+       "sig": "2020-06-11",
+       "val_pct": 168.72372040087268
+      },
+      {
+       "code": "2482",
+       "sig": "2022-11-11",
+       "val_pct": 164.43514644351498
+      },
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 146.70184696569945
+      }
+     ]
+    },
+    "r50": {
+     "n": 380,
+     "n_months": 118,
+     "mean_pct": 3.8787338324007057,
+     "median_pct": 2.1034194120726157,
+     "win_rate": 0.7131578947368421,
+     "t": 8.38080794711873,
+     "t_cluster_month": 5.163675524847613,
+     "drop_top5_mean_pct": 3.28729118593399,
+     "drop_top5_t_cluster": 5.146804951012665,
+     "top5": [
+      {
+       "code": "2451",
+       "sig": "2025-11-11",
+       "val_pct": 66.33408166759544
+      },
+      {
+       "code": "3017",
+       "sig": "2025-05-13",
+       "val_pct": 57.13159414585458
+      },
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 48.706458825280954
+      },
+      {
+       "code": "2345",
+       "sig": "2025-05-13",
+       "val_pct": 35.0955274856809
+      },
+      {
+       "code": "8271",
+       "sig": "2026-03-11",
+       "val_pct": 33.91699946260947
+      }
+     ]
+    },
+    "peer_U": {
+     "n": 380,
+     "n_months": 118,
+     "mean_pct": 3.8111116473129676,
+     "median_pct": 2.7015482099845562,
+     "win_rate": 0.6368421052631579,
+     "t": 6.806529896850263,
+     "t_cluster_month": 4.4523447538493075,
+     "drop_top5_mean_pct": 3.05164442123708,
+     "drop_top5_t_cluster": 3.9254175180078756,
+     "top5": [
+      {
+       "code": "2451",
+       "sig": "2025-11-11",
+       "val_pct": 78.17454271473085
+      },
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 63.515220727060395
+      },
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 58.06087283288499
+      },
+      {
+       "code": "2606",
+       "sig": "2021-04-13",
+       "val_pct": 55.777041663664114
+      },
+      {
+       "code": "2615",
+       "sig": "2020-12-11",
+       "val_pct": 48.32809007668234
+      }
+     ]
+    },
+    "ex50": {
+     "n": 380,
+     "n_months": 118,
+     "mean_pct": 6.681291532329417,
+     "median_pct": -0.8059715903247722,
+     "win_rate": 0.4710526315789474,
+     "t": 3.9683714650323862,
+     "t_cluster_month": 3.8300795670430423,
+     "drop_top5_mean_pct": 4.018618776570153,
+     "drop_top5_t_cluster": 3.202881969617998,
+     "top5": [
+      {
+       "code": "1325",
+       "sig": "2020-03-11",
+       "val_pct": 329.43923462729146
+      },
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 253.48578400777075
+      },
+      {
+       "code": "2482",
+       "sig": "2022-11-11",
+       "val_pct": 155.33940497976417
+      },
+      {
+       "code": "1598",
+       "sig": "2020-06-11",
+       "val_pct": 149.23726643941566
+      },
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 144.4070510171288
+      }
+     ]
+    },
+    "exP_U": {
+     "n": 380,
+     "n_months": 118,
+     "mean_pct": 6.748913717417153,
+     "median_pct": -0.5086745708306117,
+     "win_rate": 0.4842105263157895,
+     "t": 4.093993272667152,
+     "t_cluster_month": 4.001853991972879,
+     "drop_top5_mean_pct": 4.067064701607757,
+     "drop_top5_t_cluster": 3.566133294531058,
+     "top5": [
+      {
+       "code": "1325",
+       "sig": "2020-03-11",
+       "val_pct": 345.6650903058198
+      },
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 244.1313700001667
+      },
+      {
+       "code": "1598",
+       "sig": "2020-06-11",
+       "val_pct": 162.2270686394105
+      },
+      {
+       "code": "2482",
+       "sig": "2022-11-11",
+       "val_pct": 147.321251492942
+      },
+      {
+       "code": "3035",
+       "sig": "2021-09-13",
+       "val_pct": 140.09316907727055
+      }
+     ]
+    },
+    "peer50_U": {
+     "n": 380,
+     "n_months": 118,
+     "mean_pct": -0.06762218508773724,
+     "median_pct": -0.36759578914728785,
+     "win_rate": 0.4842105263157895,
+     "t": -0.15969204474632676,
+     "t_cluster_month": -0.010808900987018448,
+     "drop_top5_mean_pct": -0.5755527456748081,
+     "drop_top5_t_cluster": -1.3792115495109707,
+     "top5": [
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 61.22042477848972
+      },
+      {
+       "code": "2606",
+       "sig": "2021-04-13",
+       "val_pct": 54.86696026097954
+      },
+      {
+       "code": "2615",
+       "sig": "2020-12-11",
+       "val_pct": 30.044611852525787
+      },
+      {
+       "code": "2617",
+       "sig": "2021-06-11",
+       "val_pct": 24.607067648352583
+      },
+      {
+       "code": "3090",
+       "sig": "2018-04-11",
+       "val_pct": 19.396784754365324
+      }
+     ]
+    }
+   },
+   "peer_lt5": {
+    "n": 7,
+    "ex50_mean_pct": 9.070852516497505,
+    "ex50_median_pct": -1.093130422044053
+   },
+   "all_trades_ex50": {
+    "n": 387,
+    "n_months": 119,
+    "mean_pct": 6.724513565634783,
+    "median_pct": -0.8129899837411081,
+    "win_rate": 0.4702842377260982,
+    "t": 4.055098889754579,
+    "t_cluster_month": 3.953347681060016,
+    "drop_top5_mean_pct": 4.111198975992906,
+    "drop_top5_t_cluster": 3.3898334586921672,
+    "top5": [
+     {
+      "code": "1325",
+      "sig": "2020-03-11",
+      "val_pct": 329.43923462729146
+     },
+     {
+      "code": "2408",
+      "sig": "2025-09-11",
+      "val_pct": 253.48578400777075
+     },
+     {
+      "code": "2482",
+      "sig": "2022-11-11",
+      "val_pct": 155.33940497976417
+     },
+     {
+      "code": "1598",
+      "sig": "2020-06-11",
+      "val_pct": 149.23726643941566
+     },
+     {
+      "code": "2603",
+      "sig": "2021-01-12",
+      "val_pct": 144.4070510171288
+     }
+    ]
+   },
+   "robust_BROAD": {
+    "exP": {
+     "n": 386,
+     "n_months": 119,
+     "mean_pct": 6.771252982073498,
+     "median_pct": -0.19032334328518072,
+     "win_rate": 0.4844559585492228,
+     "t": 4.153563574377135,
+     "t_cluster_month": 4.1113707036332245,
+     "drop_top5_mean_pct": 4.13912872924918,
+     "drop_top5_t_cluster": 3.730509828095242,
+     "top5": [
+      {
+       "code": "1325",
+       "sig": "2020-03-11",
+       "val_pct": 339.99996799298515
+      },
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 247.2810215923513
+      },
+      {
+       "code": "1598",
+       "sig": "2020-06-11",
+       "val_pct": 162.67141180196205
+      },
+      {
+       "code": "2482",
+       "sig": "2022-11-11",
+       "val_pct": 146.63110397132607
+      },
+      {
+       "code": "3035",
+       "sig": "2021-09-13",
+       "val_pct": 140.1120998778074
+      }
+     ]
+    }
+   },
+   "robust_VW_U": {
+    "n": 380,
+    "n_months": 118,
+    "mean_pct": 5.915891943357,
+    "median_pct": -0.37405360083640515,
+    "win_rate": 0.48947368421052634,
+    "t": 3.4515831045594005,
+    "t_cluster_month": 3.4881345237506416,
+    "drop_top5_mean_pct": 3.137399707314776,
+    "drop_top5_t_cluster": 2.9104526497213556,
+    "top5": [
+     {
+      "code": "1325",
+      "sig": "2020-03-11",
+      "val_pct": 355.00940090075073
+     },
+     {
+      "code": "2408",
+      "sig": "2025-09-11",
+      "val_pct": 249.66022018298136
+     },
+     {
+      "code": "1598",
+      "sig": "2020-06-11",
+      "val_pct": 164.6709987083448
+     },
+     {
+      "code": "2482",
+      "sig": "2022-11-11",
+      "val_pct": 157.12833581985882
+     },
+     {
+      "code": "3035",
+      "sig": "2021-09-13",
+      "val_pct": 145.0450926206833
+     }
+    ]
+   }
+  },
+  "train": {
+   "n_peer_ge5": 177,
+   "n_peer_lt5": 6,
+   "main": {
+    "ret": {
+     "n": 177,
+     "n_months": 62,
+     "mean_pct": 11.123196870983735,
+     "median_pct": 1.9230769230768496,
+     "win_rate": 0.576271186440678,
+     "t": 3.9213171513168996,
+     "t_cluster_month": 3.7990774869376627,
+     "drop_top5_mean_pct": 6.336071566741208,
+     "drop_top5_t_cluster": 3.4765778552507274,
+     "top5": [
+      {
+       "code": "1325",
+       "sig": "2020-03-11",
+       "val_pct": 353.41031149301773
+      },
+      {
+       "code": "1598",
+       "sig": "2020-06-11",
+       "val_pct": 168.72372040087268
+      },
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 146.70184696569945
+      },
+      {
+       "code": "3035",
+       "sig": "2021-09-13",
+       "val_pct": 128.1818181818182
+      },
+      {
+       "code": "2458",
+       "sig": "2020-04-13",
+       "val_pct": 81.98383964322548
+      }
+     ]
+    },
+    "r50": {
+     "n": 177,
+     "n_months": 62,
+     "mean_pct": 2.936461902422487,
+     "median_pct": 1.688797353925664,
+     "win_rate": 0.7175141242937854,
+     "t": 6.1972938995614,
+     "t_cluster_month": 3.9350489635185757,
+     "drop_top5_mean_pct": 2.2799232372733904,
+     "drop_top5_t_cluster": 3.634495327137128,
+     "top5": [
+      {
+       "code": "2458",
+       "sig": "2020-04-13",
+       "val_pct": 31.881018277074325
+      },
+      {
+       "code": "2302",
+       "sig": "2020-09-11",
+       "val_pct": 28.26091284739587
+      },
+      {
+       "code": "2344",
+       "sig": "2020-10-13",
+       "val_pct": 24.007497966103664
+      },
+      {
+       "code": "1325",
+       "sig": "2020-03-11",
+       "val_pct": 23.971076865726282
+      },
+      {
+       "code": "1598",
+       "sig": "2020-06-11",
+       "val_pct": 19.48645396145703
+      }
+     ]
+    },
+    "peer_U": {
+     "n": 177,
+     "n_months": 62,
+     "mean_pct": 3.903370602181211,
+     "median_pct": 2.833105280216751,
+     "win_rate": 0.6271186440677966,
+     "t": 4.724136087873806,
+     "t_cluster_month": 3.191612050278902,
+     "drop_top5_mean_pct": 2.5862277523436368,
+     "drop_top5_t_cluster": 2.5272980514338075,
+     "top5": [
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 63.515220727060395
+      },
+      {
+       "code": "2606",
+       "sig": "2021-04-13",
+       "val_pct": 55.777041663664114
+      },
+      {
+       "code": "2615",
+       "sig": "2020-12-11",
+       "val_pct": 48.32809007668234
+      },
+      {
+       "code": "2302",
+       "sig": "2020-09-11",
+       "val_pct": 44.06481525320067
+      },
+      {
+       "code": "2344",
+       "sig": "2020-10-13",
+       "val_pct": 34.38025546236127
+      }
+     ]
+    },
+    "ex50": {
+     "n": 177,
+     "n_months": 62,
+     "mean_pct": 8.18673496856125,
+     "median_pct": -0.600200719271915,
+     "win_rate": 0.480225988700565,
+     "t": 3.064474185457071,
+     "t_cluster_month": 2.9779148356797998,
+     "drop_top5_mean_pct": 3.558896696863536,
+     "drop_top5_t_cluster": 2.2805290237533518,
+     "top5": [
+      {
+       "code": "1325",
+       "sig": "2020-03-11",
+       "val_pct": 329.43923462729146
+      },
+      {
+       "code": "1598",
+       "sig": "2020-06-11",
+       "val_pct": 149.23726643941566
+      },
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 144.4070510171288
+      },
+      {
+       "code": "3035",
+       "sig": "2021-09-13",
+       "val_pct": 139.56866406565314
+      },
+      {
+       "code": "4755",
+       "sig": "2021-11-11",
+       "val_pct": 74.26964142532412
+      }
+     ]
+    },
+    "exP_U": {
+     "n": 177,
+     "n_months": 62,
+     "mean_pct": 7.219826268802526,
+     "median_pct": -0.5463895178396443,
+     "win_rate": 0.4858757062146893,
+     "t": 2.765348035858432,
+     "t_cluster_month": 2.898823029872356,
+     "drop_top5_mean_pct": 2.733140721253787,
+     "drop_top5_t_cluster": 2.335657111163937,
+     "top5": [
+      {
+       "code": "1325",
+       "sig": "2020-03-11",
+       "val_pct": 345.6650903058198
+      },
+      {
+       "code": "1598",
+       "sig": "2020-06-11",
+       "val_pct": 162.2270686394105
+      },
+      {
+       "code": "3035",
+       "sig": "2021-09-13",
+       "val_pct": 140.09316907727055
+      },
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 83.18662623863906
+      },
+      {
+       "code": "4755",
+       "sig": "2021-11-11",
+       "val_pct": 76.63709126125585
+      }
+     ]
+    },
+    "peer50_U": {
+     "n": 177,
+     "n_months": 62,
+     "mean_pct": 0.9669086997587237,
+     "median_pct": -0.4444018194575416,
+     "win_rate": 0.4689265536723164,
+     "t": 1.359239726005968,
+     "t_cluster_month": 0.6712322794619908,
+     "drop_top5_mean_pct": -0.11042447347336534,
+     "drop_top5_t_cluster": -0.9962454290064328,
+     "top5": [
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 61.22042477848972
+      },
+      {
+       "code": "2606",
+       "sig": "2021-04-13",
+       "val_pct": 54.86696026097954
+      },
+      {
+       "code": "2615",
+       "sig": "2020-12-11",
+       "val_pct": 30.044611852525787
+      },
+      {
+       "code": "2617",
+       "sig": "2021-06-11",
+       "val_pct": 24.607067648352583
+      },
+      {
+       "code": "3090",
+       "sig": "2018-04-11",
+       "val_pct": 19.396784754365324
+      }
+     ]
+    }
+   },
+   "peer_lt5": {
+    "n": 6,
+    "ex50_mean_pct": 8.08186643106356,
+    "ex50_median_pct": -3.4416620971538023
+   },
+   "all_trades_ex50": {
+    "n": 183,
+    "n_months": 63,
+    "mean_pct": 8.183296655856408,
+    "median_pct": -0.7424134814038919,
+    "win_rate": 0.47540983606557374,
+    "t": 3.1499130983002535,
+    "t_cluster_month": 3.1300233968112514,
+    "drop_top5_mean_pct": 3.7113563508253335,
+    "drop_top5_t_cluster": 2.5854784672352578,
+    "top5": [
+     {
+      "code": "1325",
+      "sig": "2020-03-11",
+      "val_pct": 329.43923462729146
+     },
+     {
+      "code": "1598",
+      "sig": "2020-06-11",
+      "val_pct": 149.23726643941566
+     },
+     {
+      "code": "2603",
+      "sig": "2021-01-12",
+      "val_pct": 144.4070510171288
+     },
+     {
+      "code": "3035",
+      "sig": "2021-09-13",
+      "val_pct": 139.56866406565314
+     },
+     {
+      "code": "4755",
+      "sig": "2021-11-11",
+      "val_pct": 74.26964142532412
+     }
+    ]
+   },
+   "robust_BROAD": {
+    "exP": {
+     "n": 182,
+     "n_months": 63,
+     "mean_pct": 6.886259784621278,
+     "median_pct": -0.27490502647196036,
+     "win_rate": 0.4835164835164835,
+     "t": 2.7144186566934967,
+     "t_cluster_month": 2.9434006178472414,
+     "drop_top5_mean_pct": 2.525774514259305,
+     "drop_top5_t_cluster": 2.46696493286695,
+     "top5": [
+      {
+       "code": "1325",
+       "sig": "2020-03-11",
+       "val_pct": 339.99996799298515
+      },
+      {
+       "code": "1598",
+       "sig": "2020-06-11",
+       "val_pct": 162.67141180196205
+      },
+      {
+       "code": "3035",
+       "sig": "2021-09-13",
+       "val_pct": 140.1120998778074
+      },
+      {
+       "code": "2603",
+       "sig": "2021-01-12",
+       "val_pct": 85.83017523272625
+      },
+      {
+       "code": "4755",
+       "sig": "2021-11-11",
+       "val_pct": 77.62353687169427
+      }
+     ]
+    }
+   },
+   "robust_VW_U": {
+    "n": 177,
+    "n_months": 62,
+    "mean_pct": 7.445695265766991,
+    "median_pct": 0.03833020278191657,
+    "win_rate": 0.5028248587570622,
+    "t": 2.7935705929309456,
+    "t_cluster_month": 2.789344963792547,
+    "drop_top5_mean_pct": 2.8428651583033258,
+    "drop_top5_t_cluster": 2.230455442451733,
+    "top5": [
+     {
+      "code": "1325",
+      "sig": "2020-03-11",
+      "val_pct": 355.00940090075073
+     },
+     {
+      "code": "1598",
+      "sig": "2020-06-11",
+      "val_pct": 164.6709987083448
+     },
+     {
+      "code": "3035",
+      "sig": "2021-09-13",
+      "val_pct": 145.0450926206833
+     },
+     {
+      "code": "2603",
+      "sig": "2021-01-12",
+      "val_pct": 83.6731818524964
+     },
+     {
+      "code": "4755",
+      "sig": "2021-11-11",
+      "val_pct": 80.51658073031035
+     }
+    ]
+   }
+  },
+  "valid": {
+   "n_peer_ge5": 203,
+   "n_peer_lt5": 1,
+   "main": {
+    "ret": {
+     "n": 203,
+     "n_months": 56,
+     "mean_pct": 10.068984199178939,
+     "median_pct": 1.0756089844985217,
+     "win_rate": 0.541871921182266,
+     "t": 4.1368998383140125,
+     "t_cluster_month": 3.397557931839825,
+     "drop_top5_mean_pct": 6.092173073778827,
+     "drop_top5_t_cluster": 3.044148664857506,
+     "top5": [
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 302.1922428330517
+      },
+      {
+       "code": "2482",
+       "sig": "2022-11-11",
+       "val_pct": 164.43514644351498
+      },
+      {
+       "code": "3017",
+       "sig": "2025-05-13",
+       "val_pct": 137.12298215802932
+      },
+      {
+       "code": "3047",
+       "sig": "2024-05-13",
+       "val_pct": 134.2342342342339
+      },
+      {
+       "code": "6442",
+       "sig": "2024-05-13",
+       "val_pct": 99.76891815628726
+      }
+     ]
+    },
+    "r50": {
+     "n": 203,
+     "n_months": 56,
+     "mean_pct": 4.700320687603387,
+     "median_pct": 2.294270208949878,
+     "win_rate": 0.7093596059113301,
+     "t": 6.201022831852244,
+     "t_cluster_month": 3.5692843019645966,
+     "drop_top5_mean_pct": 3.600911303012455,
+     "drop_top5_t_cluster": 3.4153642247761513,
+     "top5": [
+      {
+       "code": "2451",
+       "sig": "2025-11-11",
+       "val_pct": 66.33408166759544
+      },
+      {
+       "code": "3017",
+       "sig": "2025-05-13",
+       "val_pct": 57.13159414585458
+      },
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 48.706458825280954
+      },
+      {
+       "code": "2345",
+       "sig": "2025-05-13",
+       "val_pct": 35.0955274856809
+      },
+      {
+       "code": "8271",
+       "sig": "2026-03-11",
+       "val_pct": 33.91699946260947
+      }
+     ]
+    },
+    "peer_U": {
+     "n": 203,
+     "n_months": 56,
+     "mean_pct": 3.730669110309623,
+     "median_pct": 2.573611587013335,
+     "win_rate": 0.645320197044335,
+     "t": 4.888573232358008,
+     "t_cluster_month": 3.07727560896513,
+     "drop_top5_mean_pct": 2.584866895028742,
+     "drop_top5_t_cluster": 2.7154562982358907,
+     "top5": [
+      {
+       "code": "2451",
+       "sig": "2025-11-11",
+       "val_pct": 78.17454271473085
+      },
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 58.06087283288499
+      },
+      {
+       "code": "8271",
+       "sig": "2026-03-11",
+       "val_pct": 43.29098777714258
+      },
+      {
+       "code": "2344",
+       "sig": "2025-11-11",
+       "val_pct": 33.81306618430215
+      },
+      {
+       "code": "2337",
+       "sig": "2026-04-13",
+       "val_pct": 32.18271466810184
+      }
+     ]
+    },
+    "ex50": {
+     "n": 203,
+     "n_months": 56,
+     "mean_pct": 5.368663511575552,
+     "median_pct": -0.9696501163835247,
+     "win_rate": 0.4630541871921182,
+     "t": 2.5264574885149256,
+     "t_cluster_month": 2.392168914494381,
+     "drop_top5_mean_pct": 1.9390434076608756,
+     "drop_top5_t_cluster": 1.5191204894973251,
+     "top5": [
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 253.48578400777075
+      },
+      {
+       "code": "2482",
+       "sig": "2022-11-11",
+       "val_pct": 155.33940497976417
+      },
+      {
+       "code": "3047",
+       "sig": "2024-05-13",
+       "val_pct": 125.77841860561034
+      },
+      {
+       "code": "6442",
+       "sig": "2024-05-13",
+       "val_pct": 91.31310252766372
+      },
+      {
+       "code": "3017",
+       "sig": "2025-05-13",
+       "val_pct": 79.99138801217474
+      }
+     ]
+    },
+    "exP_U": {
+     "n": 203,
+     "n_months": 56,
+     "mean_pct": 6.338315088869316,
+     "median_pct": -0.4709596238215791,
+     "win_rate": 0.4827586206896552,
+     "t": 3.034023365874847,
+     "t_cluster_month": 2.7480288463305325,
+     "drop_top5_mean_pct": 2.8085345566782673,
+     "drop_top5_t_cluster": 2.1634407198911263,
+     "top5": [
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 244.1313700001667
+      },
+      {
+       "code": "2482",
+       "sig": "2022-11-11",
+       "val_pct": 147.321251492942
+      },
+      {
+       "code": "3017",
+       "sig": "2025-05-13",
+       "val_pct": 125.48910234855568
+      },
+      {
+       "code": "3047",
+       "sig": "2024-05-13",
+       "val_pct": 124.6117487220339
+      },
+      {
+       "code": "6442",
+       "sig": "2024-05-13",
+       "val_pct": 89.03464825447608
+      }
+     ]
+    },
+    "peer50_U": {
+     "n": 203,
+     "n_months": 56,
+     "mean_pct": -0.9696515772937645,
+     "median_pct": -0.04302723377610715,
+     "win_rate": 0.4975369458128079,
+     "t": -1.9930430979014448,
+     "t_cluster_month": -0.9455645047751197,
+     "drop_top5_mean_pct": -1.3176291498022712,
+     "drop_top5_t_cluster": -1.4419358045871637,
+     "top5": [
+      {
+       "code": "2642",
+       "sig": "2022-02-11",
+       "val_pct": 15.545929963310357
+      },
+      {
+       "code": "2731",
+       "sig": "2023-04-11",
+       "val_pct": 14.32565693457645
+      },
+      {
+       "code": "2451",
+       "sig": "2025-11-11",
+       "val_pct": 11.840461047135397
+      },
+      {
+       "code": "2458",
+       "sig": "2023-09-12",
+       "val_pct": 11.209377117630781
+      },
+      {
+       "code": "8222",
+       "sig": "2025-04-11",
+       "val_pct": 11.129876407562488
+      }
+     ]
+    }
+   },
+   "peer_lt5": {
+    "n": 1,
+    "ex50_mean_pct": 15.004769029101173,
+    "ex50_median_pct": 15.004769029101173
+   },
+   "all_trades_ex50": {
+    "n": 204,
+    "n_months": 56,
+    "mean_pct": 5.415899322935972,
+    "median_pct": -0.9522149245557388,
+    "win_rate": 0.46568627450980393,
+    "t": 2.5606337134287718,
+    "t_cluster_month": 2.410673821406996,
+    "drop_top5_mean_pct": 2.0047003203314295,
+    "drop_top5_t_cluster": 1.5412970524168323,
+    "top5": [
+     {
+      "code": "2408",
+      "sig": "2025-09-11",
+      "val_pct": 253.48578400777075
+     },
+     {
+      "code": "2482",
+      "sig": "2022-11-11",
+      "val_pct": 155.33940497976417
+     },
+     {
+      "code": "3047",
+      "sig": "2024-05-13",
+      "val_pct": 125.77841860561034
+     },
+     {
+      "code": "6442",
+      "sig": "2024-05-13",
+      "val_pct": 91.31310252766372
+     },
+     {
+      "code": "3017",
+      "sig": "2025-05-13",
+      "val_pct": 79.99138801217474
+     }
+    ]
+   },
+   "robust_BROAD": {
+    "exP": {
+     "n": 204,
+     "n_months": 56,
+     "mean_pct": 6.668648873918125,
+     "median_pct": -0.10687497447451969,
+     "win_rate": 0.4852941176470588,
+     "t": 3.1728788322029273,
+     "t_cluster_month": 2.852169441266634,
+     "drop_top5_mean_pct": 3.158949844788271,
+     "drop_top5_t_cluster": 2.2825361181185917,
+     "top5": [
+      {
+       "code": "2408",
+       "sig": "2025-09-11",
+       "val_pct": 247.2810215923513
+      },
+      {
+       "code": "2482",
+       "sig": "2022-11-11",
+       "val_pct": 146.63110397132607
+      },
+      {
+       "code": "3017",
+       "sig": "2025-05-13",
+       "val_pct": 125.91364965689056
+      },
+      {
+       "code": "3047",
+       "sig": "2024-05-13",
+       "val_pct": 123.61674739378543
+      },
+      {
+       "code": "6442",
+       "sig": "2024-05-13",
+       "val_pct": 88.33082855207817
+      }
+     ]
+    }
+   },
+   "robust_VW_U": {
+    "n": 203,
+    "n_months": 56,
+    "mean_pct": 4.582024021846811,
+    "median_pct": -0.5093424753199294,
+    "win_rate": 0.47783251231527096,
+    "t": 2.069528485337995,
+    "t_cluster_month": 2.090715800269307,
+    "drop_top5_mean_pct": 1.0021373472306583,
+    "drop_top5_t_cluster": 1.3486661450700166,
+    "top5": [
+     {
+      "code": "2408",
+      "sig": "2025-09-11",
+      "val_pct": 249.66022018298136
+     },
+     {
+      "code": "2482",
+      "sig": "2022-11-11",
+      "val_pct": 157.12833581985882
+     },
+     {
+      "code": "3017",
+      "sig": "2025-05-13",
+      "val_pct": 119.66631056383422
+     },
+     {
+      "code": "3047",
+      "sig": "2024-05-13",
+      "val_pct": 119.6243571646988
+     },
+     {
+      "code": "6442",
+      "sig": "2024-05-13",
+      "val_pct": 85.64845795185889
+     }
+    ]
+   }
+  },
+  "peer_count_U": {
+   "median": 32.0,
+   "q10": 11.0,
+   "q90": 77.0
+  },
+  "biggest_excluded_top": {
+   "2308": 52,
+   "2330": 50,
+   "2382": 47,
+   "3008": 26,
+   "2317": 19,
+   "2412": 18,
+   "2002": 14,
+   "2542": 14,
+   "5871": 14,
+   "1402": 12
+  },
+  "by_industry": {
+   "電子零組件業": {
+    "n": 53,
+    "ex50_mean_pct": 3.3789049597825804,
+    "exP_mean_pct": 4.28700468304818,
+    "peer50_mean_pct": -0.9080997232655988
+   },
+   "半導體業": {
+    "n": 50,
+    "ex50_mean_pct": 13.472565004624546,
+    "exP_mean_pct": 11.184469176719393,
+    "peer50_mean_pct": 2.288095827905152
+   },
+   "電腦及週邊設備業": {
+    "n": 47,
+    "ex50_mean_pct": 2.5695497823289006,
+    "exP_mean_pct": 4.252506500895232,
+    "peer50_mean_pct": -1.6829567185663319
+   },
+   "光電業": {
+    "n": 26,
+    "ex50_mean_pct": -1.812481241538629,
+    "exP_mean_pct": 0.533009878240379,
+    "peer50_mean_pct": -2.3454911197790085
+   },
+   "電機機械": {
+    "n": 22,
+    "ex50_mean_pct": 16.3886007292915,
+    "exP_mean_pct": 14.960237463706767,
+    "peer50_mean_pct": 1.4283632655847351
+   },
+   "其他電子業": {
+    "n": 19,
+    "ex50_mean_pct": 9.029945975260754,
+    "exP_mean_pct": 9.548161038055648,
+    "peer50_mean_pct": -0.5182150627948936
+   },
+   "通信網路業": {
+    "n": 18,
+    "ex50_mean_pct": 14.621500263966508,
+    "exP_mean_pct": 15.500758998783192,
+    "peer50_mean_pct": -0.8792587348166804
+   },
+   "其他業": {
+    "n": 16,
+    "ex50_mean_pct": 2.267486976280143,
+    "exP_mean_pct": 1.7912396072136836,
+    "peer50_mean_pct": 0.4762473690664586
+   },
+   "航運業": {
+    "n": 16,
+    "ex50_mean_pct": 16.378981084386385,
+    "exP_mean_pct": 3.9910324312449745,
+    "peer50_mean_pct": 12.387948653141411
+   },
+   "建材營造業": {
+    "n": 14,
+    "ex50_mean_pct": 3.3275575234523016,
+    "exP_mean_pct": 3.585960835207659,
+    "peer50_mean_pct": -0.258403311755358
+   },
+   "鋼鐵工業": {
+    "n": 14,
+    "ex50_mean_pct": -0.6396085165653186,
+    "exP_mean_pct": 1.7370616252124986,
+    "peer50_mean_pct": -2.3766701417778173
+   },
+   "電子通路業": {
+    "n": 13,
+    "ex50_mean_pct": -1.2929135062401342,
+    "exP_mean_pct": 0.5940035591747147,
+    "peer50_mean_pct": -1.886917065414849
+   },
+   "化學工業": {
+    "n": 12,
+    "ex50_mean_pct": 8.033569416105045,
+    "exP_mean_pct": 7.134896902734751,
+    "peer50_mean_pct": 0.8986725133702951
+   },
+   "生技醫療業": {
+    "n": 12,
+    "ex50_mean_pct": 14.599903385386751,
+    "exP_mean_pct": 15.632907544797058,
+    "peer50_mean_pct": -1.0330041594103099
+   },
+   "紡織纖維": {
+    "n": 12,
+    "ex50_mean_pct": -7.235275705642276,
+    "exP_mean_pct": -4.024795461751774,
+    "peer50_mean_pct": -3.210480243890504
+   },
+   "資訊服務業": {
+    "n": 8,
+    "ex50_mean_pct": 3.4809128552552777,
+    "exP_mean_pct": 2.636659428705031,
+    "peer50_mean_pct": 0.8442534265502465
+   },
+   "塑膠工業": {
+    "n": 7,
+    "ex50_mean_pct": 44.376848531625654,
+    "exP_mean_pct": 48.85035627278023,
+    "peer50_mean_pct": -4.473507741154579
+   },
+   "金融保險業": {
+    "n": 6,
+    "ex50_mean_pct": 1.7415691058952854,
+    "exP_mean_pct": 3.636400466508998,
+    "peer50_mean_pct": -1.8948313606137124
+   },
+   "電器電纜": {
+    "n": 4,
+    "ex50_mean_pct": -13.519685755257457,
+    "exP_mean_pct": -6.653966942776829,
+    "peer50_mean_pct": -6.865718812480629
+   },
+   "汽車工業": {
+    "n": 3,
+    "ex50_mean_pct": 3.2577850156145782,
+    "exP_mean_pct": 2.944966781766993,
+    "peer50_mean_pct": 0.3128182338475854
+   },
+   "觀光餐旅": {
+    "n": 3,
+    "ex50_mean_pct": 4.575836986693163,
+    "exP_mean_pct": 0.34626911290108664,
+    "peer50_mean_pct": 4.229567873792076
+   },
+   "貿易百貨業": {
+    "n": 2,
+    "ex50_mean_pct": 0.3056966641422243,
+    "exP_mean_pct": 1.8193052460874166,
+    "peer50_mean_pct": -1.5136085819451923
+   },
+   "食品工業": {
+    "n": 2,
+    "ex50_mean_pct": 2.122551413831669,
+    "exP_mean_pct": 3.563586427143502,
+    "peer50_mean_pct": -1.4410350133118321
+   },
+   "綠能環保": {
+    "n": 1,
+    "ex50_mean_pct": -9.927493606533632,
+    "exP_mean_pct": -3.6921192554011952,
+    "peer50_mean_pct": -6.235374351132437
+   }
+  },
+  "shipping_2020_2021": {
+   "n": 9,
+   "peer50_mean_pct": 20.60730649224332,
+   "exP_mean_pct": 15.135414771806948
+  }
+ },
+ "A3_acceptance": {
+  "since2019": 0.48125923742223775,
+  "full": 0.3408178045141339,
+  "maxdd": -0.3340389329005301,
+  "n_trades": 387,
+  "ok": true
+ },
+ "B": {
+  "note": "獨立複製：未 import／執行／讀取 s25lib.py、prep.py、describe.py、train.py、validate.py、posthoc.py；引擎 s20lib→s17lib→s10lib 預設旗標；觸發、規則、選擇、判定自寫",
+  "acceptance": {
+   "A0": {
+    "since2019": 0.48125923742223775,
+    "full": 0.3408178045141339,
+    "maxdd": -0.3340389329005301,
+    "ok": true
+   },
+   "A1_never_trigger": {
+    "trades_identical": true,
+    "nav_identical": true
+   },
+   "A3_fresh_no_trade_before_2022": true
+  },
+  "train": {
+   "window": [
+    "2016-01-30",
+    "2021-12-30"
+   ],
+   "summary": {
+    "CUR": {
+     "train_median": 0.3338982329938571,
+     "train_dd_median": -0.2647259565327127
+    },
+    "RMOM_HALF": {
+     "train_median": 0.34053451354807684,
+     "score_median_pp": 0.6105996314973994,
+     "n_imp_ge_min": 15,
+     "npos": 18,
+     "diff_min_pp": -0.3433849557231916,
+     "diff_max_pp": 2.280224769454331,
+     "dd_diff": {
+      "median_pp": -0.00282707986948294,
+      "npos": 9,
+      "n_ge025": 5,
+      "min_pp": -0.15922391189431284,
+      "max_pp": 0.7834861012234517
+     },
+     "y1618": {
+      "median_pp": 1.17293865141892,
+      "npos": 20,
+      "n_ge025": 20,
+      "min_pp": 0.34198169570112125,
+      "max_pp": 3.40163535377207
+     },
+     "y1921": {
+      "median_pp": -0.2306464493013971,
+      "npos": 7,
+      "n_ge025": 7,
+      "min_pp": -1.3898703399181311,
+      "max_pp": 2.8343162091061025
+     },
+     "months_triggered_shift0": 22,
+     "f1_dropped_shift0": 35
+    },
+    "RMOM_STOP": {
+     "train_median": 0.3384323750282844,
+     "score_median_pp": 0.7659336188956756,
+     "n_imp_ge_min": 15,
+     "npos": 15,
+     "diff_min_pp": -0.7098923735431528,
+     "diff_max_pp": 2.5711473868386125,
+     "dd_diff": {
+      "median_pp": 0.00043760688439586914,
+      "npos": 10,
+      "n_ge025": 7,
+      "min_pp": -0.4387847641560527,
+      "max_pp": 0.8037275218171547
+     },
+     "y1618": {
+      "median_pp": 2.383068934675514,
+      "npos": 20,
+      "n_ge025": 20,
+      "min_pp": 0.7158846229457394,
+      "max_pp": 4.565585897245472
+     },
+     "y1921": {
+      "median_pp": -1.5701991821027717,
+      "npos": 4,
+      "n_ge025": 3,
+      "min_pp": -4.6950518483482195,
+      "max_pp": 2.087102128840712
+     },
+     "months_triggered_shift0": 22,
+     "f1_dropped_shift0": 83
+    },
+    "MOM_HALF": {
+     "train_median": 0.3357334560944596,
+     "score_median_pp": 0.0039079447331169526,
+     "n_imp_ge_min": 4,
+     "npos": 10,
+     "diff_min_pp": -0.6642455305126971,
+     "diff_max_pp": 0.77014835658058,
+     "dd_diff": {
+      "median_pp": -0.0019366274705223674,
+      "npos": 9,
+      "n_ge025": 1,
+      "min_pp": -0.3303707169677539,
+      "max_pp": 0.6449874509293574
+     },
+     "y1618": {
+      "median_pp": -0.15947469383742474,
+      "npos": 6,
+      "n_ge025": 0,
+      "min_pp": -0.7869857141709069,
+      "max_pp": 0.16264229772402494
+     },
+     "y1921": {
+      "median_pp": 0.11410680974300869,
+      "npos": 11,
+      "n_ge025": 9,
+      "min_pp": -1.7716991878415023,
+      "max_pp": 1.9766087104386099
+     },
+     "months_triggered_shift0": 11,
+     "f1_dropped_shift0": 16
+    },
+    "MOM_STOP": {
+     "train_median": 0.33369118126978736,
+     "score_median_pp": -0.24834971242003734,
+     "n_imp_ge_min": 2,
+     "npos": 5,
+     "diff_min_pp": -1.9015839900774267,
+     "diff_max_pp": 0.5899775737707946,
+     "dd_diff": {
+      "median_pp": 0.00018333927403468842,
+      "npos": 10,
+      "n_ge025": 2,
+      "min_pp": -1.413103699614815,
+      "max_pp": 0.6461341761884287
+     },
+     "y1618": {
+      "median_pp": -0.3797775589630903,
+      "npos": 4,
+      "n_ge025": 2,
+      "min_pp": -1.5676310615277966,
+      "max_pp": 0.370068906978438
+     },
+     "y1921": {
+      "median_pp": -0.17165912303879205,
+      "npos": 7,
+      "n_ge025": 4,
+      "min_pp": -2.9732001246024264,
+      "max_pp": 1.4224766889823215
+     },
+     "months_triggered_shift0": 11,
+     "f1_dropped_shift0": 38
+    }
+   },
+   "order": [
+    "RMOM_STOP",
+    "RMOM_HALF",
+    "MOM_HALF",
+    "MOM_STOP"
+   ],
+   "frozen_rep": "RMOM_STOP",
+   "T0_pass": false,
+   "rule_effect": {
+    "RMOM_HALF": {
+     "+0": {
+      "months_triggered_train": 22,
+      "f1_dropped_train": 35,
+      "trig_months_train": [
+       "2016-06",
+       "2016-07",
+       "2016-08",
+       "2016-09",
+       "2016-10",
+       "2016-11",
+       "2016-12",
+       "2017-01",
+       "2017-02",
+       "2017-03",
+       "2017-04",
+       "2017-05",
+       "2017-06",
+       "2018-10",
+       "2018-11",
+       "2018-12",
+       "2019-01",
+       "2019-02",
+       "2019-03",
+       "2019-04",
+       "2019-05",
+       "2019-06"
+      ],
+      "months_triggered_valid": 11,
+      "trig_months_valid": [
+       "2022-02",
+       "2022-03",
+       "2022-04",
+       "2022-05",
+       "2022-06",
+       "2022-07",
+       "2022-08",
+       "2022-09",
+       "2022-10",
+       "2022-11",
+       "2022-12"
+      ]
+     },
+     "+1": {
+      "months_triggered_train": 22,
+      "f1_dropped_train": 36,
+      "trig_months_train": null,
+      "months_triggered_valid": 11,
+      "trig_months_valid": null
+     },
+     "+2": {
+      "months_triggered_train": 22,
+      "f1_dropped_train": 35,
+      "trig_months_train": null,
+      "months_triggered_valid": 11,
+      "trig_months_valid": null
+     },
+     "+3": {
+      "months_triggered_train": 22,
+      "f1_dropped_train": 37,
+      "trig_months_train": null,
+      "months_triggered_valid": 11,
+      "trig_months_valid": null
+     }
+    },
+    "RMOM_STOP": {
+     "+0": {
+      "months_triggered_train": 22,
+      "f1_dropped_train": 83,
+      "trig_months_train": [
+       "2016-06",
+       "2016-07",
+       "2016-08",
+       "2016-09",
+       "2016-10",
+       "2016-11",
+       "2016-12",
+       "2017-01",
+       "2017-02",
+       "2017-03",
+       "2017-04",
+       "2017-05",
+       "2017-06",
+       "2018-10",
+       "2018-11",
+       "2018-12",
+       "2019-01",
+       "2019-02",
+       "2019-03",
+       "2019-04",
+       "2019-05",
+       "2019-06"
+      ],
+      "months_triggered_valid": 11,
+      "trig_months_valid": [
+       "2022-02",
+       "2022-03",
+       "2022-04",
+       "2022-05",
+       "2022-06",
+       "2022-07",
+       "2022-08",
+       "2022-09",
+       "2022-10",
+       "2022-11",
+       "2022-12"
+      ]
+     },
+     "+1": {
+      "months_triggered_train": 22,
+      "f1_dropped_train": 82,
+      "trig_months_train": null,
+      "months_triggered_valid": 11,
+      "trig_months_valid": null
+     },
+     "+2": {
+      "months_triggered_train": 22,
+      "f1_dropped_train": 81,
+      "trig_months_train": null,
+      "months_triggered_valid": 11,
+      "trig_months_valid": null
+     },
+     "+3": {
+      "months_triggered_train": 22,
+      "f1_dropped_train": 81,
+      "trig_months_train": null,
+      "months_triggered_valid": 11,
+      "trig_months_valid": null
+     }
+    },
+    "MOM_HALF": {
+     "+0": {
+      "months_triggered_train": 11,
+      "f1_dropped_train": 16,
+      "trig_months_train": [
+       "2017-05",
+       "2017-06",
+       "2018-11",
+       "2019-01",
+       "2019-02",
+       "2019-03",
+       "2019-04",
+       "2019-05",
+       "2019-06",
+       "2019-07",
+       "2019-09"
+      ],
+      "months_triggered_valid": 6,
+      "trig_months_valid": [
+       "2022-11",
+       "2023-03",
+       "2025-07",
+       "2025-08",
+       "2025-11",
+       "2025-12"
+      ]
+     },
+     "+1": {
+      "months_triggered_train": 11,
+      "f1_dropped_train": 18,
+      "trig_months_train": null,
+      "months_triggered_valid": 6,
+      "trig_months_valid": null
+     },
+     "+2": {
+      "months_triggered_train": 11,
+      "f1_dropped_train": 19,
+      "trig_months_train": null,
+      "months_triggered_valid": 6,
+      "trig_months_valid": null
+     },
+     "+3": {
+      "months_triggered_train": 11,
+      "f1_dropped_train": 19,
+      "trig_months_train": null,
+      "months_triggered_valid": 6,
+      "trig_months_valid": null
+     }
+    },
+    "MOM_STOP": {
+     "+0": {
+      "months_triggered_train": 11,
+      "f1_dropped_train": 38,
+      "trig_months_train": [
+       "2017-05",
+       "2017-06",
+       "2018-11",
+       "2019-01",
+       "2019-02",
+       "2019-03",
+       "2019-04",
+       "2019-05",
+       "2019-06",
+       "2019-07",
+       "2019-09"
+      ],
+      "months_triggered_valid": 6,
+      "trig_months_valid": [
+       "2022-11",
+       "2023-03",
+       "2025-07",
+       "2025-08",
+       "2025-11",
+       "2025-12"
+      ]
+     },
+     "+1": {
+      "months_triggered_train": 11,
+      "f1_dropped_train": 38,
+      "trig_months_train": null,
+      "months_triggered_valid": 6,
+      "trig_months_valid": null
+     },
+     "+2": {
+      "months_triggered_train": 11,
+      "f1_dropped_train": 41,
+      "trig_months_train": null,
+      "months_triggered_valid": 6,
+      "trig_months_valid": null
+     },
+     "+3": {
+      "months_triggered_train": 11,
+      "f1_dropped_train": 41,
+      "trig_months_train": null,
+      "months_triggered_valid": 6,
+      "trig_months_valid": null
+     }
+    }
+   }
+  },
+  "fresh_capital_ratio": 2.5582245896943134,
+  "main_fresh": {
+   "CUR": {
+    "valid": 0.42991736907488876,
+    "valid_dd": -0.32802510991451195,
+    "seg": {
+     "2022": -0.29603639431636186,
+     "2024-07~2025-04": -0.32802510991451195
+    },
+    "n_trades": 205,
+    "first_entry": "2022-01-12"
+   },
+   "RMOM_STOP": {
+    "valid": 0.4027795723719585,
+    "valid_dd": -0.3369140605008937,
+    "seg": {
+     "2022": -0.32482173087009225,
+     "2024-07~2025-04": -0.3369140605008937
+    },
+    "n_trades": 176,
+    "first_entry": "2022-01-12"
+   }
+  },
+  "V3_block_union": {
+   "2408": [
+    [
+     "2025-09-12",
+     "2026-04-14"
+    ],
+    [
+     "2025-09-12",
+     "2026-04-14"
+    ]
+   ],
+   "3653": [
+    [
+     "2026-08-12",
+     "2026-10-14"
+    ],
+    [
+     "2026-08-12",
+     "2026-10-14"
+    ]
+   ],
+   "6446": [
+    [
+     "2026-06-12",
+     "2026-07-15"
+    ],
+    [
+     "2026-06-12",
+     "2026-07-15"
+    ]
+   ],
+   "2344": [
+    [
+     "2026-05-13",
+     "2026-07-15"
+    ],
+    [
+     "2026-05-13",
+     "2026-07-15"
+    ]
+   ],
+   "3017": [
+    [
+     "2025-05-14",
+     "2026-01-14"
+    ],
+    [
+     "2025-05-14",
+     "2026-01-14"
+    ]
+   ]
+  },
+  "valid": {
+   "pairs_FZ_vs_CUR": {
+    "valid": {
+     "median_pp": -2.2824190188837523,
+     "npos": 0,
+     "n_ge025": 0,
+     "min_pp": -4.5572396703648765,
+     "max_pp": -0.5320215156042529
+    },
+    "valid_dd": {
+     "median_pp": -0.379345999824221,
+     "npos": 10,
+     "n_ge025": 0,
+     "min_pp": -2.3529782273142286,
+     "max_pp": 0.17576703331314558
+    },
+    "blk": {
+     "median_pp": -2.365964141966359,
+     "npos": 0,
+     "n_ge025": 0,
+     "min_pp": -4.427091944343653,
+     "max_pp": -0.9058434569751084
+    },
+    "seg": {
+     "2022": {
+      "median_pp": -1.52289195482887,
+      "npos": 5,
+      "n_ge025": 5,
+      "min_pp": -6.409192361076476,
+      "max_pp": 1.093528105777708
+     },
+     "2024-07~2025-04": {
+      "median_pp": 0.1511949025711279,
+      "npos": 15,
+      "n_ge025": 0,
+      "min_pp": -0.8888950586381728,
+      "max_pp": 0.19181754898466297
+     }
+    }
+   },
+   "medians": {
+    "CUR": 0.3985678393177359,
+    "RMOM_HALF": 0.4062278044304306,
+    "RMOM_STOP": 0.372461588198418,
+    "MOM_HALF": 0.394342683065808,
+    "MOM_STOP": 0.37679379665875457
+   },
+   "medians_blk": {
+    "CUR": 0.34436516823761043,
+    "RMOM_STOP": 0.31809939220428995
+   }
+  },
+  "verdict": {
+   "T0": false,
+   "V1": false,
+   "V2": false,
+   "V3": false,
+   "V4": true,
+   "overall": "不通過"
+  },
+  "posthoc_valid_fresh": {
+   "RMOM_HALF": {
+    "valid": {
+     "median_pp": 0.15283076319538846,
+     "npos": 10,
+     "n_ge025": 10,
+     "min_pp": -0.29341704653116363,
+     "max_pp": 1.06792863488403
+    },
+    "dd": {
+     "median_pp": -0.006309484849226221,
+     "npos": 9,
+     "n_ge025": 0,
+     "min_pp": -0.12646590743909947,
+     "max_pp": 0.019334018731209657
+    },
+    "seg": {
+     "2022": {
+      "median_pp": 1.9444625967330986,
+      "npos": 20,
+      "n_ge025": 20,
+      "min_pp": 0.8729677917903245,
+      "max_pp": 4.131485389959599
+     },
+     "2024-07~2025-04": {
+      "median_pp": -0.006309484849226221,
+      "npos": 9,
+      "n_ge025": 0,
+      "min_pp": -0.12646590743909947,
+      "max_pp": 0.019334018731209657
+     }
+    }
+   },
+   "RMOM_STOP": {
+    "valid": {
+     "median_pp": -2.2824190188837523,
+     "npos": 0,
+     "n_ge025": 0,
+     "min_pp": -4.5572396703648765,
+     "max_pp": -0.5320215156042529
+    },
+    "dd": {
+     "median_pp": -0.379345999824221,
+     "npos": 10,
+     "n_ge025": 0,
+     "min_pp": -2.3529782273142286,
+     "max_pp": 0.17576703331314558
+    },
+    "seg": {
+     "2022": {
+      "median_pp": -1.52289195482887,
+      "npos": 5,
+      "n_ge025": 5,
+      "min_pp": -6.409192361076476,
+      "max_pp": 1.093528105777708
+     },
+     "2024-07~2025-04": {
+      "median_pp": 0.1511949025711279,
+      "npos": 15,
+      "n_ge025": 0,
+      "min_pp": -0.8888950586381728,
+      "max_pp": 0.19181754898466297
+     }
+    }
+   },
+   "MOM_HALF": {
+    "valid": {
+     "median_pp": -0.5504443253389169,
+     "npos": 4,
+     "n_ge025": 0,
+     "min_pp": -1.11076632802094,
+     "max_pp": 0.15651628883268653
+    },
+    "dd": {
+     "median_pp": 0.046940804744444176,
+     "npos": 15,
+     "n_ge025": 0,
+     "min_pp": -0.9987594768569141,
+     "max_pp": 0.15059583332802662
+    },
+    "seg": {
+     "2022": {
+      "median_pp": 0.0,
+      "npos": 0,
+      "n_ge025": 0,
+      "min_pp": 0.0,
+      "max_pp": 0.0
+     },
+     "2024-07~2025-04": {
+      "median_pp": 0.046940804744444176,
+      "npos": 15,
+      "n_ge025": 0,
+      "min_pp": -0.9987594768569141,
+      "max_pp": 0.15059583332802662
+     }
+    }
+   },
+   "MOM_STOP": {
+    "valid": {
+     "median_pp": -2.4854608066388284,
+     "npos": 5,
+     "n_ge025": 4,
+     "min_pp": -2.731876206788253,
+     "max_pp": 1.7803212816186909
+    },
+    "dd": {
+     "median_pp": 0.02982092464187125,
+     "npos": 13,
+     "n_ge025": 0,
+     "min_pp": -1.0435333121350698,
+     "max_pp": 0.05670035513568594
+    },
+    "seg": {
+     "2022": {
+      "median_pp": 0.0,
+      "npos": 0,
+      "n_ge025": 0,
+      "min_pp": 0.0,
+      "max_pp": 0.0
+     },
+     "2024-07~2025-04": {
+      "median_pp": 0.02982092464187125,
+      "npos": 13,
+      "n_ge025": 0,
+      "min_pp": -1.0435333121350698,
+      "max_pp": 0.05670035513568594
+     }
+    }
+   }
+  },
+  "cont_FZ_vs_CUR": {
+   "since2019": {
+    "median_pp": -2.246260801256905,
+    "npos": 0,
+    "n_ge025": 0,
+    "min_pp": -4.25221112734897,
+    "max_pp": -0.3283151728405542
+   },
+   "full": {
+    "median_pp": -0.6905451088215164,
+    "npos": 3,
+    "n_ge025": 2,
+    "min_pp": -1.501288483867591,
+    "max_pp": 0.8923061087325657
+   },
+   "valid": {
+    "median_pp": -2.2633067585762,
+    "npos": 0,
+    "n_ge025": 0,
+    "min_pp": -4.776218457446846,
+    "max_pp": -0.774129765443643
+   },
+   "maxdd": {
+    "median_pp": -0.7898598978981541,
+    "npos": 3,
+    "n_ge025": 1,
+    "min_pp": -2.2552684632249353,
+    "max_pp": 0.9420791540998175
+   }
+  },
+  "random_control": {
+   "n_months_valid": 11,
+   "FZ_diff_pp": -2.713779670293026,
+   "rand_diff_pp": [
+    -1.5988523626875306,
+    -0.8574978256530086,
+    -5.121600177699337,
+    -5.650226428087235,
+    -1.0444284299871098,
+    -3.009009539256202,
+    2.829222196516956,
+    -10.552760814250295,
+    0.13161790457874023,
+    -0.47411358114366475,
+    -5.219358899938387,
+    -2.135688859399365,
+    -4.443648824703739,
+    -6.41459970711824,
+    -2.1183057182881715,
+    -3.1135071618146215,
+    -1.707390140336229,
+    -0.77075436268077,
+    -3.4399625117683907,
+    -1.7533978725770671
+   ],
+   "rand_q10_50_90": [
+    -5.7266637559903355,
+    -2.1269972888437683,
+    -0.41354043257142337
+   ],
+   "FZ_percentile": 0.45,
+   "seeds": "20261116+i, i=0..19（複製員自訂；原研究種子未知）"
+  },
+  "meta": {
+   "runtime_s": 20.8,
+   "maxrss_mb": 1404
+  }
+ },
+ "B_paths": {
+  "cont": {
+   "CUR": {
+    "60萬|+0": {
+     "train": 0.3010394559782372,
+     "train_dd": -0.27878812449611845,
+     "y1618": 0.09486163270472492,
+     "y1921": 0.5375639202235158,
+     "since2019": 0.46752366899276243,
+     "full": 0.3185427322519814,
+     "valid": 0.4253828017424428,
+     "maxdd": -0.3279636183643946,
+     "seg": {
+      "2018": -0.18007370805212586,
+      "2020-03": -0.27845112637607605,
+      "2022": -0.28753522947834653,
+      "2024-07~2025-04": -0.3279636183643946
+     }
+    },
+    "80萬|+0": {
+     "train": 0.33811933146605044,
+     "train_dd": -0.2740797382011235,
+     "y1618": 0.13993164574210892,
+     "y1921": 0.562758209799066,
+     "since2019": 0.47727423024221105,
+     "full": 0.33841269567289434,
+     "valid": 0.4262435492536518,
+     "maxdd": -0.3324053764681041,
+     "seg": {
+      "2018": -0.16235014856500796,
+      "2020-03": -0.2733351339213981,
+      "2022": -0.287902312487629,
+      "2024-07~2025-04": -0.3324053764681041
+     }
+    },
+    "100萬|+0": {
+     "train": 0.3422419340284708,
+     "train_dd": -0.27026895525949746,
+     "y1618": 0.13963740092706844,
+     "y1921": 0.5726412491076054,
+     "since2019": 0.48125923742223775,
+     "full": 0.3408178045141339,
+     "valid": 0.42686801229634863,
+     "maxdd": -0.3340389329005301,
+     "seg": {
+      "2018": -0.1638129091505368,
+      "2020-03": -0.2692276539683395,
+      "2022": -0.2879409713028568,
+      "2024-07~2025-04": -0.3340389329005301
+     }
+    },
+    "150萬|+0": {
+     "train": 0.3574368401979162,
+     "train_dd": -0.2713396794814158,
+     "y1618": 0.1603470602518824,
+     "y1921": 0.5800818356009796,
+     "since2019": 0.48515055221633596,
+     "full": 0.34949042559635557,
+     "valid": 0.4287433049017404,
+     "maxdd": -0.3291707229840869,
+     "seg": {
+      "2018": -0.21280634651039065,
+      "2020-03": -0.27021806130559656,
+      "2022": -0.28789164945305024,
+      "2024-07~2025-04": -0.3291707229840869
+     }
+    },
+    "200萬|+0": {
+     "train": 0.3525325143618643,
+     "train_dd": -0.27019211279418387,
+     "y1618": 0.15480102623831682,
+     "y1921": 0.5761598900450049,
+     "since2019": 0.4837585974537957,
+     "full": 0.34695454415550286,
+     "valid": 0.4287853076467758,
+     "maxdd": -0.3291783936169055,
+     "seg": {
+      "2018": -0.20878945425992612,
+      "2020-03": -0.2689796315768499,
+      "2022": -0.28787805191677196,
+      "2024-07~2025-04": -0.3291783936169055
+     }
+    },
+    "60萬|+1": {
+     "train": 0.30254967184851034,
+     "train_dd": -0.2681787589660476,
+     "y1618": 0.09735336130572358,
+     "y1921": 0.5376906765311051,
+     "since2019": 0.4446981303245585,
+     "full": 0.30509802958081766,
+     "valid": 0.389461824986326,
+     "maxdd": -0.3927327105583238,
+     "seg": {
+      "2018": -0.16904369711798106,
+      "2020-03": -0.2681787589660476,
+      "2022": -0.31286798884826317,
+      "2024-07~2025-04": -0.3927327105583238
+     }
+    },
+    "80萬|+1": {
+     "train": 0.3085336495199593,
+     "train_dd": -0.2702686842727049,
+     "y1618": 0.08862312449536347,
+     "y1921": 0.5636699768947933,
+     "since2019": 0.4540515369539011,
+     "full": 0.3082401676617488,
+     "valid": 0.3894845891012102,
+     "maxdd": -0.39273279207342326,
+     "seg": {
+      "2018": -0.15688578823623878,
+      "2020-03": -0.2702686842727049,
+      "2022": -0.3128298100866589,
+      "2024-07~2025-04": -0.39273279207342326
+     }
+    },
+    "100萬|+1": {
+     "train": 0.32968413184119116,
+     "train_dd": -0.2634852622379228,
+     "y1618": 0.11686787048275726,
+     "y1921": 0.5742752312176886,
+     "since2019": 0.4584130170862655,
+     "full": 0.31962020343614905,
+     "valid": 0.3903777600084226,
+     "maxdd": -0.37867512443739615,
+     "seg": {
+      "2018": -0.16074440548997837,
+      "2020-03": -0.2634852622379228,
+      "2022": -0.31346211302022664,
+      "2024-07~2025-04": -0.37867512443739615
+     }
+    },
+    "150萬|+1": {
+     "train": 0.3318309761356262,
+     "train_dd": -0.2585095677652707,
+     "y1618": 0.11209014941439244,
+     "y1921": 0.585849746381397,
+     "since2019": 0.4614077126382947,
+     "full": 0.3200353492876855,
+     "valid": 0.3886483059484669,
+     "maxdd": -0.3833135002077923,
+     "seg": {
+      "2018": -0.1626297695329686,
+      "2020-03": -0.2585095677652707,
+      "2022": -0.3130711759507211,
+      "2024-07~2025-04": -0.3833135002077923
+     }
+    },
+    "200萬|+1": {
+     "train": 0.35507447250273083,
+     "train_dd": -0.25152742505157455,
+     "y1618": 0.13344364469618575,
+     "y1921": 0.6108458398439982,
+     "since2019": 0.46931351258184195,
+     "full": 0.331466883342995,
+     "valid": 0.3872512412172009,
+     "maxdd": -0.38106834406165735,
+     "seg": {
+      "2018": -0.19887762241593565,
+      "2020-03": -0.25152742505157455,
+      "2022": -0.3142927757045152,
+      "2024-07~2025-04": -0.38106834406165735
+     }
+    },
+    "60萬|+2": {
+     "train": 0.3168219180584113,
+     "train_dd": -0.25629559250770695,
+     "y1618": 0.12543234778774015,
+     "y1921": 0.5330647675154558,
+     "since2019": 0.432353111429824,
+     "full": 0.3058428317119857,
+     "valid": 0.3728029091409786,
+     "maxdd": -0.3461863507589741,
+     "seg": {
+      "2018": -0.1666891236276835,
+      "2020-03": -0.25629559250770695,
+      "2022": -0.30590827790454533,
+      "2024-07~2025-04": -0.3461863507589741
+     }
+    },
+    "80萬|+2": {
+     "train": 0.33593452015025016,
+     "train_dd": -0.25269773883816526,
+     "y1618": 0.12682380281645278,
+     "y1921": 0.5752799869643941,
+     "since2019": 0.4485823908123914,
+     "full": 0.3164691822076904,
+     "valid": 0.37463277972167486,
+     "maxdd": -0.34618488198815056,
+     "seg": {
+      "2018": -0.17391108381241793,
+      "2020-03": -0.25269773883816526,
+      "2022": -0.30587872427736473,
+      "2024-07~2025-04": -0.34618488198815056
+     }
+    },
+    "100萬|+2": {
+     "train": 0.34078832696136474,
+     "train_dd": -0.24412556538681185,
+     "y1618": 0.15114530509109758,
+     "y1921": 0.5541006246533784,
+     "since2019": 0.43897358635533235,
+     "full": 0.3176484477792041,
+     "valid": 0.371398767094159,
+     "maxdd": -0.3511619020779493,
+     "seg": {
+      "2018": -0.15773613693388266,
+      "2020-03": -0.24412556538681185,
+      "2022": -0.30768021581228633,
+      "2024-07~2025-04": -0.3511619020779493
+     }
+    },
+    "150萬|+2": {
+     "train": 0.34018169599045067,
+     "train_dd": -0.23980398466086672,
+     "y1618": 0.14116997268165,
+     "y1921": 0.5658553795131152,
+     "since2019": 0.4360559278489171,
+     "full": 0.31285791558561615,
+     "valid": 0.3604617737919358,
+     "maxdd": -0.3514107516844124,
+     "seg": {
+      "2018": -0.16511822120079533,
+      "2020-03": -0.23980398466086672,
+      "2022": -0.30758811485598414,
+      "2024-07~2025-04": -0.3514107516844124
+     }
+    },
+    "200萬|+2": {
+     "train": 0.3518751263945121,
+     "train_dd": -0.23702939654961697,
+     "y1618": 0.15259200320990796,
+     "y1921": 0.5775741460639587,
+     "since2019": 0.4416117108560509,
+     "full": 0.31974395487005025,
+     "valid": 0.36266048468610235,
+     "maxdd": -0.3529179902808358,
+     "seg": {
+      "2018": -0.19916796418205263,
+      "2020-03": -0.23702939654961697,
+      "2022": -0.31208099050363436,
+      "2024-07~2025-04": -0.3529179902808358
+     }
+    },
+    "60萬|+3": {
+     "train": 0.32472494360384174,
+     "train_dd": -0.26346666226433235,
+     "y1618": 0.11597426538239275,
+     "y1921": 0.5639518673741009,
+     "since2019": 0.4602151582493472,
+     "full": 0.3204749465020491,
+     "valid": 0.3989103760915569,
+     "maxdd": -0.30278179375597425,
+     "seg": {
+      "2018": -0.1744869955601731,
+      "2020-03": -0.26346666226433235,
+      "2022": -0.25402969070310955,
+      "2024-07~2025-04": -0.30278179375597425
+     }
+    },
+    "80萬|+3": {
+     "train": 0.3251065269139217,
+     "train_dd": -0.26671749571219494,
+     "y1618": 0.10208385873166637,
+     "y1921": 0.5839289664069447,
+     "since2019": 0.4672111203426925,
+     "full": 0.32058098106647237,
+     "valid": 0.3986789635068759,
+     "maxdd": -0.3027424159292179,
+     "seg": {
+      "2018": -0.17272221526547304,
+      "2020-03": -0.26671749571219494,
+      "2022": -0.2540050179354286,
+      "2024-07~2025-04": -0.3027424159292179
+     }
+    },
+    "100萬|+3": {
+     "train": 0.3313205200258109,
+     "train_dd": -0.27179891623747365,
+     "y1618": 0.12125851649999597,
+     "y1921": 0.5721076264654792,
+     "since2019": 0.46316986860403,
+     "full": 0.32392935218300445,
+     "valid": 0.39895828431816205,
+     "maxdd": -0.30264961144403957,
+     "seg": {
+      "2018": -0.1627288731688752,
+      "2020-03": -0.27179891623747365,
+      "2022": -0.25362269435305884,
+      "2024-07~2025-04": -0.30264961144403957
+     }
+    },
+    "150萬|+3": {
+     "train": 0.3318619458374641,
+     "train_dd": -0.2593758648849277,
+     "y1618": 0.10940019497945985,
+     "y1921": 0.5896449794487295,
+     "since2019": 0.4723660399781231,
+     "full": 0.3260416804266595,
+     "valid": 0.4035097715070952,
+     "maxdd": -0.30254837219454556,
+     "seg": {
+      "2018": -0.16608535924429346,
+      "2020-03": -0.2593758648849277,
+      "2022": -0.25358114085246153,
+      "2024-07~2025-04": -0.30254837219454556
+     }
+    },
+    "200萬|+3": {
+     "train": 0.33974061741266626,
+     "train_dd": -0.2659666508275026,
+     "y1618": 0.13260565173574634,
+     "y1921": 0.5762954238448066,
+     "since2019": 0.46947527474138306,
+     "full": 0.3313147927868654,
+     "valid": 0.4064275624826865,
+     "maxdd": -0.30468844369802495,
+     "seg": {
+      "2018": -0.19524038986510028,
+      "2020-03": -0.2659666508275026,
+      "2022": -0.25730757614948896,
+      "2024-07~2025-04": -0.30468844369802495
+     }
+    }
+   },
+   "RMOM_HALF": {
+    "60萬|+0": {
+     "train": 0.3081080576479136,
+     "train_dd": -0.27879147044571884,
+     "y1618": 0.10768167769712145,
+     "y1921": 0.5366320925740404,
+     "since2019": 0.4657777476700098,
+     "full": 0.32141083762381273,
+     "valid": 0.4231673560100764,
+     "maxdd": -0.3402047850200852,
+     "seg": {
+      "2018": -0.18227675131734833,
+      "2020-03": -0.2785797153636359,
+      "2022": -0.2780999722476132,
+      "2024-07~2025-04": -0.3402047850200852
+     }
+    },
+    "80萬|+0": {
+     "train": 0.3445361365159705,
+     "train_dd": -0.274994126508878,
+     "y1618": 0.148303706042745,
+     "y1921": 0.5664054132354597,
+     "since2019": 0.4771394309543282,
+     "full": 0.3408506855872082,
+     "valid": 0.42395618698582105,
+     "maxdd": -0.3323454044162414,
+     "seg": {
+      "2018": -0.16697575349696447,
+      "2020-03": -0.27367980995494445,
+      "2022": -0.2780469069406062,
+      "2024-07~2025-04": -0.3323454044162414
+     }
+    },
+    "100萬|+0": {
+     "train": 0.3461314783781957,
+     "train_dd": -0.27048667396020165,
+     "y1618": 0.15027612896305031,
+     "y1921": 0.5674589605924505,
+     "since2019": 0.47783117199351666,
+     "full": 0.3418770866620833,
+     "valid": 0.4244412594708149,
+     "maxdd": -0.3317445232609496,
+     "seg": {
+      "2018": -0.16963072695575399,
+      "2020-03": -0.2695431574310224,
+      "2022": -0.27803215659874936,
+      "2024-07~2025-04": -0.3317445232609496
+     }
+    },
+    "150萬|+0": {
+     "train": 0.3663736657822676,
+     "train_dd": -0.27139287512920507,
+     "y1618": 0.17981286021045584,
+     "y1921": 0.5750470594950461,
+     "since2019": 0.4806137054643902,
+     "full": 0.35241731923186936,
+     "valid": 0.4244962812799953,
+     "maxdd": -0.33417428972706975,
+     "seg": {
+      "2018": -0.21903728479254603,
+      "2020-03": -0.2700958086201469,
+      "2022": -0.2828489300438174,
+      "2024-07~2025-04": -0.33417428972706975
+     }
+    },
+    "200萬|+0": {
+     "train": 0.3699058163213904,
+     "train_dd": -0.2686909112200656,
+     "y1618": 0.17746321883342575,
+     "y1921": 0.5861287058022726,
+     "since2019": 0.48502618239228945,
+     "full": 0.3545065221974306,
+     "valid": 0.4251430174341484,
+     "maxdd": -0.33502483279996464,
+     "seg": {
+      "2018": -0.20559132536193092,
+      "2020-03": -0.2673691349657915,
+      "2022": -0.281626941409598,
+      "2024-07~2025-04": -0.33502483279996464
+     }
+    },
+    "60萬|+1": {
+     "train": 0.3061057389076365,
+     "train_dd": -0.2697709980849907,
+     "y1618": 0.10423589897395047,
+     "y1921": 0.5366342809800204,
+     "since2019": 0.44941991705169726,
+     "full": 0.3101506867378616,
+     "valid": 0.39744861364435735,
+     "maxdd": -0.3833675570672561,
+     "seg": {
+      "2018": -0.1735661500789466,
+      "2020-03": -0.2697709980849907,
+      "2022": -0.2711408057137459,
+      "2024-07~2025-04": -0.3833675570672561
+     }
+    },
+    "80萬|+1": {
+     "train": 0.32929771180027867,
+     "train_dd": -0.267285770212382,
+     "y1618": 0.10476132683038286,
+     "y1921": 0.5900642845234334,
+     "since2019": 0.4704881577915747,
+     "full": 0.32344484746655744,
+     "valid": 0.4003713833268179,
+     "maxdd": -0.378665004287414,
+     "seg": {
+      "2018": -0.16634803881188276,
+      "2020-03": -0.267285770212382,
+      "2022": -0.270890214846887,
+      "2024-07~2025-04": -0.378665004287414
+     }
+    },
+    "100萬|+1": {
+     "train": 0.34075162168612594,
+     "train_dd": -0.2556504012256883,
+     "y1618": 0.1330349574781189,
+     "y1921": 0.5780583106405839,
+     "since2019": 0.465529133817314,
+     "full": 0.3289725339727585,
+     "valid": 0.39931784685430305,
+     "maxdd": -0.3832298804980576,
+     "seg": {
+      "2018": -0.1640214445153212,
+      "2020-03": -0.2556504012256883,
+      "2022": -0.27046286029238664,
+      "2024-07~2025-04": -0.3832298804980576
+     }
+    },
+    "150萬|+1": {
+     "train": 0.34720073171184573,
+     "train_dd": -0.25786449171949744,
+     "y1618": 0.12660420340590517,
+     "y1921": 0.6018347901242078,
+     "since2019": 0.4740077535943932,
+     "full": 0.33232868855738307,
+     "valid": 0.3993572959117977,
+     "maxdd": -0.3833041601509314,
+     "seg": {
+      "2018": -0.16525839218630523,
+      "2020-03": -0.25786449171949744,
+      "2022": -0.27052413359089467,
+      "2024-07~2025-04": -0.3833041601509314
+     }
+    },
+    "200萬|+1": {
+     "train": 0.3608696600827588,
+     "train_dd": -0.25230173425644287,
+     "y1618": 0.1490456472871795,
+     "y1921": 0.6030739133242469,
+     "since2019": 0.4727533575424241,
+     "full": 0.33832023966004865,
+     "valid": 0.3967476131283254,
+     "maxdd": -0.382550871144274,
+     "seg": {
+      "2018": -0.19695791412499075,
+      "2020-03": -0.25230173425644287,
+      "2022": -0.2705275323814509,
+      "2024-07~2025-04": -0.382550871144274
+     }
+    },
+    "60萬|+2": {
+     "train": 0.3184877187377133,
+     "train_dd": -0.25651982205569035,
+     "y1618": 0.13103866301087197,
+     "y1921": 0.5295082340805126,
+     "since2019": 0.4306553583091359,
+     "full": 0.30644235958793886,
+     "valid": 0.37215001336937714,
+     "maxdd": -0.35460805700069264,
+     "seg": {
+      "2018": -0.16308243119626342,
+      "2020-03": -0.25651982205569035,
+      "2022": -0.28876238920086317,
+      "2024-07~2025-04": -0.35460805700069264
+     }
+    },
+    "80萬|+2": {
+     "train": 0.34031740541002775,
+     "train_dd": -0.2533929011619447,
+     "y1618": 0.14478341702940312,
+     "y1921": 0.5613812835652128,
+     "since2019": 0.4421114120952907,
+     "full": 0.31775300726444566,
+     "valid": 0.3722474159461566,
+     "maxdd": -0.3461897726822777,
+     "seg": {
+      "2018": -0.15132785458999276,
+      "2020-03": -0.2533929011619447,
+      "2022": -0.2890027962527826,
+      "2024-07~2025-04": -0.3461897726822777
+     }
+    },
+    "100萬|+2": {
+     "train": 0.35661191802944114,
+     "train_dd": -0.2407462326342863,
+     "y1618": 0.15712729107115986,
+     "y1921": 0.5824437867444394,
+     "since2019": 0.4496019418179249,
+     "full": 0.32613442993529174,
+     "valid": 0.3723085379358759,
+     "maxdd": -0.34617508152538057,
+     "seg": {
+      "2018": -0.15594200615289588,
+      "2020-03": -0.2407462326342863,
+      "2022": -0.2890254951767035,
+      "2024-07~2025-04": -0.34617508152538057
+     }
+    },
+    "150萬|+2": {
+     "train": 0.362983943684994,
+     "train_dd": -0.2401890783583327,
+     "y1618": 0.1751863262193707,
+     "y1921": 0.5733394643506777,
+     "since2019": 0.4389128376289546,
+     "full": 0.3246366339377105,
+     "valid": 0.360801497973144,
+     "maxdd": -0.35509630225265876,
+     "seg": {
+      "2018": -0.1975828745531646,
+      "2020-03": -0.2401890783583327,
+      "2022": -0.2887292302995774,
+      "2024-07~2025-04": -0.35509630225265876
+     }
+    },
+    "200萬|+2": {
+     "train": 0.35148764558911894,
+     "train_dd": -0.23663835430330482,
+     "y1618": 0.1589391589014153,
+     "y1921": 0.5683238411273532,
+     "since2019": 0.43754806330197904,
+     "full": 0.31903447556892695,
+     "valid": 0.3614186869436038,
+     "maxdd": -0.34990373531826346,
+     "seg": {
+      "2018": -0.19599815399047216,
+      "2020-03": -0.23663835430330482,
+      "2022": -0.28909100921285225,
+      "2024-07~2025-04": -0.34990373531826346
+     }
+    },
+    "60萬|+3": {
+     "train": 0.3256973540860071,
+     "train_dd": -0.2640643724180708,
+     "y1618": 0.12369719073700769,
+     "y1921": 0.55578984882821,
+     "since2019": 0.4611648763350944,
+     "full": 0.3234149255089178,
+     "valid": 0.4049758020285992,
+     "maxdd": -0.3020281268697613,
+     "seg": {
+      "2018": -0.17128765034454618,
+      "2020-03": -0.2640643724180708,
+      "2022": -0.24540060353632498,
+      "2024-07~2025-04": -0.3020281268697613
+     }
+    },
+    "80萬|+3": {
+     "train": 0.32553231902311786,
+     "train_dd": -0.2604261542624955,
+     "y1618": 0.11011791684983274,
+     "y1921": 0.5738248251696687,
+     "since2019": 0.46780709645487506,
+     "full": 0.3234229124860666,
+     "valid": 0.4052108924901605,
+     "maxdd": -0.3019866172041408,
+     "seg": {
+      "2018": -0.17225524649955748,
+      "2020-03": -0.2604261542624955,
+      "2022": -0.24492679150151908,
+      "2024-07~2025-04": -0.3019866172041408
+     }
+    },
+    "100萬|+3": {
+     "train": 0.3397721888981846,
+     "train_dd": -0.2640965559553168,
+     "y1618": 0.13624261351836964,
+     "y1921": 0.5714833755852611,
+     "since2019": 0.4669185367332209,
+     "full": 0.3308109292970498,
+     "valid": 0.40513565000093865,
+     "maxdd": -0.30187582882574693,
+     "seg": {
+      "2018": -0.15855483055752473,
+      "2020-03": -0.2640965559553168,
+      "2022": -0.24488725319625615,
+      "2024-07~2025-04": -0.30187582882574693
+     }
+    },
+    "150萬|+3": {
+     "train": 0.3347727639575093,
+     "train_dd": -0.2597720074897475,
+     "y1618": 0.11856294672438339,
+     "y1921": 0.583827388058735,
+     "since2019": 0.4737349445114436,
+     "full": 0.329705019092267,
+     "valid": 0.40885505766299657,
+     "maxdd": -0.3017703819848294,
+     "seg": {
+      "2018": -0.16320866645401033,
+      "2020-03": -0.2597720074897475,
+      "2022": -0.24487344757802199,
+      "2024-07~2025-04": -0.3017703819848294
+     }
+    },
+    "200萬|+3": {
+     "train": 0.33630676785543434,
+     "train_dd": -0.26434204500300107,
+     "y1618": 0.13602546869275756,
+     "y1921": 0.5637827681368601,
+     "since2019": 0.46938595126909055,
+     "full": 0.33229204915343225,
+     "valid": 0.41331012276023693,
+     "maxdd": -0.3034660377501168,
+     "seg": {
+      "2018": -0.20012166049067293,
+      "2020-03": -0.26434204500300107,
+      "2022": -0.2511140967679938,
+      "2024-07~2025-04": -0.3034660377501168
+     }
+    }
+   },
+   "RMOM_STOP": {
+    "60萬|+0": {
+     "train": 0.3070060274713018,
+     "train_dd": -0.2787909026353863,
+     "y1618": 0.11956911511563684,
+     "y1921": 0.5183131186861627,
+     "since2019": 0.44421285446933334,
+     "full": 0.3115418088232178,
+     "valid": 0.3997530282459887,
+     "maxdd": -0.3279594499888734,
+     "seg": {
+      "2018": -0.18369753226525432,
+      "2020-03": -0.27855789685424726,
+      "2022": -0.31546949602992935,
+      "2024-07~2025-04": -0.3279594499888734
+     }
+    },
+    "80萬|+0": {
+     "train": 0.33703444272082717,
+     "train_dd": -0.2740482588388695,
+     "y1618": 0.1563486089136683,
+     "y1921": 0.5388153002442797,
+     "since2019": 0.452230025280971,
+     "full": 0.32756559051379064,
+     "valid": 0.40061177596740016,
+     "maxdd": -0.3414824775890256,
+     "seg": {
+      "2018": -0.16536619373233752,
+      "2020-03": -0.2732768925074732,
+      "2022": -0.3156538164675119,
+      "2024-07~2025-04": -0.3414824775890256
+     }
+    },
+    "100萬|+0": {
+     "train": 0.33553562044900853,
+     "train_dd": -0.2673405665652101,
+     "y1618": 0.14679624715652584,
+     "y1921": 0.5478022347154226,
+     "since2019": 0.4556680071270429,
+     "full": 0.326901551679442,
+     "valid": 0.4008964207828618,
+     "maxdd": -0.34098950567424113,
+     "seg": {
+      "2018": -0.16924042900430825,
+      "2020-03": -0.2667459089449288,
+      "2022": -0.31564874881416227,
+      "2024-07~2025-04": -0.34098950567424113
+     }
+    },
+    "150萬|+0": {
+     "train": 0.3572030237574002,
+     "train_dd": -0.27132814920446,
+     "y1618": 0.17987892979761422,
+     "y1921": 0.5542249888493542,
+     "since2019": 0.45862643724883845,
+     "full": 0.33852451130810834,
+     "valid": 0.40189314829069334,
+     "maxdd": -0.3405199376421011,
+     "seg": {
+      "2018": -0.21834599174817992,
+      "2020-03": -0.2701996761418617,
+      "2022": -0.31571749628454737,
+      "2024-07~2025-04": -0.3405199376421011
+     }
+    },
+    "200萬|+0": {
+     "train": 0.35198305468894664,
+     "train_dd": -0.27016153313133906,
+     "y1618": 0.17451701860241697,
+     "y1921": 0.5492987488616723,
+     "since2019": 0.4574476861713348,
+     "full": 0.3362098091914265,
+     "valid": 0.4028330577596273,
+     "maxdd": -0.338692074487973,
+     "seg": {
+      "2018": -0.20593160278584066,
+      "2020-03": -0.2689329191206916,
+      "2022": -0.31577826955734545,
+      "2024-07~2025-04": -0.338692074487973
+     }
+    },
+    "60萬|+1": {
+     "train": 0.3083259358275714,
+     "train_dd": -0.26991772583646745,
+     "y1618": 0.11894111525530815,
+     "y1921": 0.5221589362460908,
+     "since2019": 0.4323921880802142,
+     "full": 0.30392514865075704,
+     "valid": 0.3790024434839494,
+     "maxdd": -0.39152046565855547,
+     "seg": {
+      "2018": -0.17401170125373688,
+      "2020-03": -0.26991772583646745,
+      "2022": -0.3021761965643014,
+      "2024-07~2025-04": -0.39152046565855547
+     }
+    },
+    "80萬|+1": {
+     "train": 0.33424512338834544,
+     "train_dd": -0.2667598953676483,
+     "y1618": 0.13114369144072224,
+     "y1921": 0.565551586302963,
+     "since2019": 0.4476236935012037,
+     "full": 0.31716322874907443,
+     "valid": 0.37848101737253725,
+     "maxdd": -0.3833120005324251,
+     "seg": {
+      "2018": -0.1764327015145628,
+      "2020-03": -0.2667598953676483,
+      "2022": -0.30226372105025656,
+      "2024-07~2025-04": -0.3833120005324251
+     }
+    },
+    "100萬|+1": {
+     "train": 0.337088441739817,
+     "train_dd": -0.26382320110590707,
+     "y1618": 0.14001898084696474,
+     "y1921": 0.5602738381392971,
+     "since2019": 0.4471252638469281,
+     "full": 0.31950083137178287,
+     "valid": 0.38062032731957096,
+     "maxdd": -0.3817004114855842,
+     "seg": {
+      "2018": -0.1634154992057648,
+      "2020-03": -0.26382320110590707,
+      "2022": -0.30239966691278464,
+      "2024-07~2025-04": -0.3817004114855842
+     }
+    },
+    "150萬|+1": {
+     "train": 0.3363277540963685,
+     "train_dd": -0.2589634386959473,
+     "y1618": 0.13660041774369525,
+     "y1921": 0.5630652493016706,
+     "since2019": 0.44782761185563413,
+     "full": 0.3189237483459637,
+     "valid": 0.3801667583837043,
+     "maxdd": -0.39256767229164646,
+     "seg": {
+      "2018": -0.16548392175356819,
+      "2020-03": -0.2589634386959473,
+      "2022": -0.3022160111117992,
+      "2024-07~2025-04": -0.39256767229164646
+     }
+    },
+    "200萬|+1": {
+     "train": 0.3479755487672993,
+     "train_dd": -0.2547512757234811,
+     "y1618": 0.156196890564559,
+     "y1921": 0.563895321360516,
+     "since2019": 0.44769911108013294,
+     "full": 0.32465690459532826,
+     "valid": 0.37950994356276446,
+     "maxdd": -0.3814771608836912,
+     "seg": {
+      "2018": -0.19598841502363573,
+      "2020-03": -0.2547512757234811,
+      "2022": -0.3023872439343436,
+      "2024-07~2025-04": -0.3814771608836912
+     }
+    },
+    "60萬|+2": {
+     "train": 0.32891047036946164,
+     "train_dd": -0.25715005200156393,
+     "y1618": 0.14289176490869426,
+     "y1921": 0.53779609917354,
+     "since2019": 0.4228069697021797,
+     "full": 0.30498108273814517,
+     "valid": 0.35535450415885084,
+     "maxdd": -0.35318212405693616,
+     "seg": {
+      "2018": -0.16411944639202636,
+      "2020-03": -0.25715005200156393,
+      "2022": -0.30943118852823603,
+      "2024-07~2025-04": -0.35318212405693616
+     }
+    },
+    "80萬|+2": {
+     "train": 0.3454222746536235,
+     "train_dd": -0.25420200512581526,
+     "y1618": 0.16108703526540813,
+     "y1921": 0.551717202869995,
+     "since2019": 0.4275146421845195,
+     "full": 0.31329058789113384,
+     "valid": 0.354996418046605,
+     "maxdd": -0.35498630664815156,
+     "seg": {
+      "2018": -0.14798282962671672,
+      "2020-03": -0.25420200512581526,
+      "2022": -0.3085949558832659,
+      "2024-07~2025-04": -0.35498630664815156
+     }
+    },
+    "100萬|+2": {
+     "train": 0.3581666313785863,
+     "train_dd": -0.2411556304521052,
+     "y1618": 0.16550892410853613,
+     "y1921": 0.5749716459417855,
+     "since2019": 0.4356904346269268,
+     "full": 0.3197745742168685,
+     "valid": 0.35497477355807305,
+     "maxdd": -0.35508826944567107,
+     "seg": {
+      "2018": -0.15314913463230584,
+      "2020-03": -0.2411556304521052,
+      "2022": -0.308564931605084,
+      "2024-07~2025-04": -0.35508826944567107
+     }
+    },
+    "150萬|+2": {
+     "train": 0.36494915728869715,
+     "train_dd": -0.23989670442666167,
+     "y1618": 0.18464730615015523,
+     "y1921": 0.5656065234342207,
+     "since2019": 0.4252603370820447,
+     "full": 0.318655735916469,
+     "valid": 0.34401568533834825,
+     "maxdd": -0.35350893239192416,
+     "seg": {
+      "2018": -0.19342317339531567,
+      "2020-03": -0.23989670442666167,
+      "2022": -0.3093838364382331,
+      "2024-07~2025-04": -0.35350893239192416
+     }
+    },
+    "200萬|+2": {
+     "train": 0.3562038662509397,
+     "train_dd": -0.23418638548528925,
+     "y1618": 0.1696831022695522,
+     "y1921": 0.5650689768688344,
+     "since2019": 0.42672177485682394,
+     "full": 0.3152805434235586,
+     "valid": 0.34654471078465954,
+     "maxdd": -0.35574398272694097,
+     "seg": {
+      "2018": -0.19079484667309776,
+      "2020-03": -0.23418638548528925,
+      "2022": -0.3087557639299999,
+      "2024-07~2025-04": -0.35574398272694097
+     }
+    },
+    "60萬|+3": {
+     "train": 0.3369164619008742,
+     "train_dd": -0.26457758208461934,
+     "y1618": 0.14241298767019472,
+     "y1921": 0.5567141428751528,
+     "since2019": 0.4286738192960071,
+     "full": 0.30855651972759457,
+     "valid": 0.35406144629776226,
+     "maxdd": -0.3251125948112139,
+     "seg": {
+      "2018": -0.1717070172771784,
+      "2020-03": -0.26457758208461934,
+      "2022": -0.3251125948112139,
+      "2024-07~2025-04": -0.30491099940872823
+     }
+    },
+    "80萬|+3": {
+     "train": 0.3351780218157867,
+     "train_dd": -0.26065557747414136,
+     "y1618": 0.1477397177041211,
+     "y1921": 0.5457555401703362,
+     "since2019": 0.4246890090692028,
+     "full": 0.3075973055571757,
+     "valid": 0.3538939037490958,
+     "maxdd": -0.32510905627481623,
+     "seg": {
+      "2018": -0.1548864835267434,
+      "2020-03": -0.26065557747414136,
+      "2022": -0.32510905627481623,
+      "2024-07~2025-04": -0.3049116215313775
+     }
+    },
+    "100萬|+3": {
+     "train": 0.35219816991601083,
+     "train_dd": -0.2637616410193021,
+     "y1618": 0.15389103378347158,
+     "y1921": 0.5765959351653616,
+     "since2019": 0.43555694884338614,
+     "full": 0.3162921417793425,
+     "valid": 0.35389765427232933,
+     "maxdd": -0.32510537575529497,
+     "seg": {
+      "2018": -0.15667011804744402,
+      "2020-03": -0.2637616410193021,
+      "2022": -0.32510537575529497,
+      "2024-07~2025-04": -0.30483108598515873
+     }
+    },
+    "150萬|+3": {
+     "train": 0.33977630831675176,
+     "train_dd": -0.2637637125264882,
+     "y1618": 0.1345424363011214,
+     "y1921": 0.5737727360916884,
+     "since2019": 0.43688161681222204,
+     "full": 0.3114125403588037,
+     "valid": 0.3574478600392266,
+     "maxdd": -0.3251010568267949,
+     "seg": {
+      "2018": -0.162219464180957,
+      "2020-03": -0.2637637125264882,
+      "2022": -0.3251010568267949,
+      "2024-07~2025-04": -0.30477604215776266
+     }
+    },
+    "200萬|+3": {
+     "train": 0.34835808257648226,
+     "train_dd": -0.26275169157982414,
+     "y1618": 0.1571562199421408,
+     "y1921": 0.5635129893247119,
+     "since2019": 0.43406279042271656,
+     "full": 0.31630190794818946,
+     "valid": 0.35866537790821806,
+     "maxdd": -0.3252932235084808,
+     "seg": {
+      "2018": -0.19337193749659032,
+      "2020-03": -0.26275169157982414,
+      "2022": -0.3252932235084808,
+      "2024-07~2025-04": -0.30181732816397133
+     }
+    }
+   },
+   "MOM_HALF": {
+    "60萬|+0": {
+     "train": 0.3037436502407771,
+     "train_dd": -0.2784231096582249,
+     "y1618": 0.09348195230099576,
+     "y1921": 0.545745798991716,
+     "since2019": 0.46447228413710184,
+     "full": 0.31622021117788535,
+     "valid": 0.4158663227855779,
+     "maxdd": -0.33770804747557037,
+     "seg": {
+      "2018": -0.1845092811110648,
+      "2020-03": -0.27810197428126404,
+      "2022": -0.28752923735769476,
+      "2024-07~2025-04": -0.33770804747557037
+     }
+    },
+    "80萬|+0": {
+     "train": 0.33607246138734026,
+     "train_dd": -0.2742719752730399,
+     "y1618": 0.13819635816883813,
+     "y1921": 0.5603565399245711,
+     "since2019": 0.46930749410185,
+     "full": 0.3328975257241311,
+     "valid": 0.41512590593589294,
+     "maxdd": -0.332386778807113,
+     "seg": {
+      "2018": -0.16614705100818605,
+      "2020-03": -0.27343558635011433,
+      "2022": -0.28791228134439883,
+      "2024-07~2025-04": -0.332386778807113
+     }
+    },
+    "100萬|+0": {
+     "train": 0.34429385955261127,
+     "train_dd": -0.27038528899282965,
+     "y1618": 0.13713849982831294,
+     "y1921": 0.5807321315264908,
+     "since2019": 0.4770496043006678,
+     "full": 0.33742747785321403,
+     "valid": 0.4157373062320828,
+     "maxdd": -0.33185848105620686,
+     "seg": {
+      "2018": -0.1707367434087882,
+      "2020-03": -0.26939624755348224,
+      "2022": -0.28793525450612345,
+      "2024-07~2025-04": -0.33185848105620686
+     }
+    },
+    "150萬|+0": {
+     "train": 0.365138323763722,
+     "train_dd": -0.2731152063110436,
+     "y1618": 0.15879328321402109,
+     "y1921": 0.5998479227053657,
+     "since2019": 0.48443908283019343,
+     "full": 0.3485785266573238,
+     "valid": 0.41658289150990213,
+     "maxdd": -0.3333082664991851,
+     "seg": {
+      "2018": -0.21715065032816294,
+      "2020-03": -0.27167885955057713,
+      "2022": -0.2917073317062491,
+      "2024-07~2025-04": -0.3333082664991851
+     }
+    },
+    "200萬|+0": {
+     "train": 0.3534070153201385,
+     "train_dd": -0.2702404077397491,
+     "y1618": 0.14693116909660775,
+     "y1921": 0.5886487363279462,
+     "since2019": 0.4807413484709364,
+     "full": 0.3426962131825255,
+     "valid": 0.4170606996824855,
+     "maxdd": -0.3291693986141775,
+     "seg": {
+      "2018": -0.2142872141355322,
+      "2020-03": -0.2690534011125013,
+      "2022": -0.2878798678865937,
+      "2024-07~2025-04": -0.3291693986141775
+     }
+    },
+    "60萬|+1": {
+     "train": 0.3024515502331091,
+     "train_dd": -0.26817153366022883,
+     "y1618": 0.09851337402644522,
+     "y1921": 0.5358908967806955,
+     "since2019": 0.43748379638307267,
+     "full": 0.3009440372566434,
+     "valid": 0.37921389422354834,
+     "maxdd": -0.39135897115747087,
+     "seg": {
+      "2018": -0.16781565116104402,
+      "2020-03": -0.26817153366022883,
+      "2022": -0.3128631814173741,
+      "2024-07~2025-04": -0.39135897115747087
+     }
+    },
+    "80萬|+1": {
+     "train": 0.3088122505334654,
+     "train_dd": -0.2702872936171059,
+     "y1618": 0.08955654762842813,
+     "y1921": 0.5630278205649424,
+     "since2019": 0.44728263539635593,
+     "full": 0.3043157818458193,
+     "valid": 0.37934333482962934,
+     "maxdd": -0.39137204199660225,
+     "seg": {
+      "2018": -0.15687137555055164,
+      "2020-03": -0.2702872936171059,
+      "2022": -0.31283313422708947,
+      "2024-07~2025-04": -0.39137204199660225
+     }
+    },
+    "100萬|+1": {
+     "train": 0.33659088788796354,
+     "train_dd": -0.263767451372796,
+     "y1618": 0.11805096372303603,
+     "y1921": 0.5887801857307606,
+     "since2019": 0.4571491775758656,
+     "full": 0.31918910885784446,
+     "valid": 0.3804853845223428,
+     "maxdd": -0.38186416986092364,
+     "seg": {
+      "2018": -0.16072472026090012,
+      "2020-03": -0.263767451372796,
+      "2022": -0.3144448760827111,
+      "2024-07~2025-04": -0.38186416986092364
+     }
+    },
+    "150萬|+1": {
+     "train": 0.33472972457354633,
+     "train_dd": -0.2588136385677122,
+     "y1618": 0.11333332337307134,
+     "y1921": 0.590928393748126,
+     "since2019": 0.4578648504966416,
+     "full": 0.31820177475616807,
+     "valid": 0.3804211638041497,
+     "maxdd": -0.3924023871446619,
+     "seg": {
+      "2018": -0.1626123182841931,
+      "2020-03": -0.2588136385677122,
+      "2022": -0.3130716843019783,
+      "2024-07~2025-04": -0.3924023871446619
+     }
+    },
+    "200萬|+1": {
+     "train": 0.34843201719760386,
+     "train_dd": -0.2548311322212521,
+     "y1618": 0.135070067673426,
+     "y1921": 0.5931288479655832,
+     "since2019": 0.4587090828806115,
+     "full": 0.3253070600735193,
+     "valid": 0.3805273868450323,
+     "maxdd": -0.3804653605069196,
+     "seg": {
+      "2018": -0.19883156386709078,
+      "2020-03": -0.2548311322212521,
+      "2022": -0.31432725493864544,
+      "2024-07~2025-04": -0.3804653605069196
+     }
+    },
+    "60萬|+2": {
+     "train": 0.31519733900000313,
+     "train_dd": -0.2560747143776282,
+     "y1618": 0.12274107413898494,
+     "y1921": 0.5328934929995104,
+     "since2019": 0.42339686372342644,
+     "full": 0.29939349066643506,
+     "valid": 0.35897685222340403,
+     "maxdd": -0.3462072075134054,
+     "seg": {
+      "2018": -0.16321735899949918,
+      "2020-03": -0.2560747143776282,
+      "2022": -0.30591441896821814,
+      "2024-07~2025-04": -0.3462072075134054
+     }
+    },
+    "80萬|+2": {
+     "train": 0.3353944508015789,
+     "train_dd": -0.2526073236870866,
+     "y1618": 0.12477689745768972,
+     "y1921": 0.5767999524823963,
+     "since2019": 0.4391164176181146,
+     "full": 0.3099047355847444,
+     "valid": 0.3592468389599761,
+     "maxdd": -0.34617283115587216,
+     "seg": {
+      "2018": -0.17106911787630585,
+      "2020-03": -0.2526073236870866,
+      "2022": -0.30586883001283893,
+      "2024-07~2025-04": -0.34617283115587216
+     }
+    },
+    "100萬|+2": {
+     "train": 0.339525213623048,
+     "train_dd": -0.24399312736477752,
+     "y1618": 0.14897956847860727,
+     "y1921": 0.554051112279325,
+     "since2019": 0.4297064478069115,
+     "full": 0.3111424290202929,
+     "valid": 0.35710339928403445,
+     "maxdd": -0.35056983079829884,
+     "seg": {
+      "2018": -0.14665311152173954,
+      "2020-03": -0.24399312736477752,
+      "2022": -0.3075554062656961,
+      "2024-07~2025-04": -0.35056983079829884
+     }
+    },
+    "150萬|+2": {
+     "train": 0.3385234067509273,
+     "train_dd": -0.2409481992010678,
+     "y1618": 0.1395342558427628,
+     "y1921": 0.5642150426316084,
+     "since2019": 0.4361609024339952,
+     "full": 0.3124397259363514,
+     "valid": 0.3615148712240941,
+     "maxdd": -0.35047734841610834,
+     "seg": {
+      "2018": -0.1538476676157713,
+      "2020-03": -0.2409481992010678,
+      "2022": -0.30625674361970134,
+      "2024-07~2025-04": -0.35047734841610834
+     }
+    },
+    "200萬|+2": {
+     "train": 0.34814410617936087,
+     "train_dd": -0.2357678423918419,
+     "y1618": 0.1537914301332759,
+     "y1921": 0.5674374242704354,
+     "since2019": 0.4384720132518518,
+     "full": 0.31810955584219736,
+     "valid": 0.36332240705664853,
+     "maxdd": -0.3522874104520599,
+     "seg": {
+      "2018": -0.1904908801385331,
+      "2020-03": -0.2357678423918419,
+      "2022": -0.312093024419519,
+      "2024-07~2025-04": -0.3522874104520599
+     }
+    },
+    "60萬|+3": {
+     "train": 0.3244498498843549,
+     "train_dd": -0.2634425169995378,
+     "y1618": 0.11185235786005054,
+     "y1921": 0.568923249731554,
+     "since2019": 0.45912092938147,
+     "full": 0.3185349002695288,
+     "valid": 0.39443900186831704,
+     "maxdd": -0.30244221813807926,
+     "seg": {
+      "2018": -0.17188831679213012,
+      "2020-03": -0.2634425169995378,
+      "2022": -0.2540447401394421,
+      "2024-07~2025-04": -0.30244221813807926
+     }
+    },
+    "80萬|+3": {
+     "train": 0.3256380485557402,
+     "train_dd": -0.26026762120290137,
+     "y1618": 0.10026184881016387,
+     "y1921": 0.587720916723721,
+     "since2019": 0.4658056969267561,
+     "full": 0.31914484221379325,
+     "valid": 0.3944173351142579,
+     "maxdd": -0.30244033869767517,
+     "seg": {
+      "2018": -0.16983612776927726,
+      "2020-03": -0.26026762120290137,
+      "2022": -0.2540043033247126,
+      "2024-07~2025-04": -0.30244033869767517
+     }
+    },
+    "100萬|+3": {
+     "train": 0.3314968005358745,
+     "train_dd": -0.2718190394424831,
+     "y1618": 0.12099898968357059,
+     "y1921": 0.5728697971423371,
+     "since2019": 0.4607434142553677,
+     "full": 0.3223328180632117,
+     "valid": 0.394767918611584,
+     "maxdd": -0.30234625276754623,
+     "seg": {
+      "2018": -0.1560511384455291,
+      "2020-03": -0.2718190394424831,
+      "2022": -0.25362191902801245,
+      "2024-07~2025-04": -0.30234625276754623
+     }
+    },
+    "150萬|+3": {
+     "train": 0.33307627729190004,
+     "train_dd": -0.259597535852933,
+     "y1618": 0.10596410067222317,
+     "y1921": 0.5972885181071204,
+     "since2019": 0.4722909349220459,
+     "full": 0.324936904914525,
+     "valid": 0.3991928382171197,
+     "maxdd": -0.3022852341431973,
+     "seg": {
+      "2018": -0.16030291698859733,
+      "2020-03": -0.259597535852933,
+      "2022": -0.25356834076794643,
+      "2024-07~2025-04": -0.3022852341431973
+     }
+    },
+    "200萬|+3": {
+     "train": 0.3380971402798403,
+     "train_dd": -0.2646127486036265,
+     "y1618": 0.1314094843704139,
+     "y1921": 0.5741014722666473,
+     "since2019": 0.4677628608915334,
+     "full": 0.3298807406561439,
+     "valid": 0.40498774597617393,
+     "maxdd": -0.30444848530841784,
+     "seg": {
+      "2018": -0.18857951680381912,
+      "2020-03": -0.2646127486036265,
+      "2022": -0.2573109484683189,
+      "2024-07~2025-04": -0.30444848530841784
+     }
+    }
+   },
+   "MOM_STOP": {
+    "60萬|+0": {
+     "train": 0.29396600680889096,
+     "train_dd": -0.27878287973469684,
+     "y1618": 0.09131720930109677,
+     "y1921": 0.525937667103741,
+     "since2019": 0.44560681203031915,
+     "full": 0.3038134162318238,
+     "valid": 0.3975672895618638,
+     "maxdd": -0.3382131407185036,
+     "seg": {
+      "2018": -0.18734159190894295,
+      "2020-03": -0.2783141582493236,
+      "2022": -0.28752730354547695,
+      "2024-07~2025-04": -0.3382131407185036
+     }
+    },
+    "80萬|+0": {
+     "train": 0.3336086760431314,
+     "train_dd": -0.2765502653153281,
+     "y1618": 0.13612387639098178,
+     "y1921": 0.5574441127208842,
+     "since2019": 0.45921308227272006,
+     "full": 0.3259400935150307,
+     "valid": 0.40099675540682655,
+     "maxdd": -0.3283541458514563,
+     "seg": {
+      "2018": -0.16850095018861377,
+      "2020-03": -0.2756776129455173,
+      "2022": -0.28767397381466553,
+      "2024-07~2025-04": -0.3283541458514563
+     }
+    },
+    "100萬|+0": {
+     "train": 0.32322609412769654,
+     "train_dd": -0.2755016009226635,
+     "y1618": 0.12909732853039868,
+     "y1921": 0.5429092478615811,
+     "since2019": 0.45403852376039056,
+     "full": 0.3205788632677511,
+     "valid": 0.4011187754849801,
+     "maxdd": -0.3282579403994631,
+     "seg": {
+      "2018": -0.17081267993516225,
+      "2020-03": -0.2747942523561375,
+      "2022": -0.2876568556609521,
+      "2024-07~2025-04": -0.3282579403994631
+     }
+    },
+    "150萬|+0": {
+     "train": 0.34928149035729117,
+     "train_dd": -0.2735232386182327,
+     "y1618": 0.1515409841308064,
+     "y1921": 0.573011542002881,
+     "since2019": 0.4658345278895655,
+     "full": 0.334716688744382,
+     "valid": 0.402596582749825,
+     "maxdd": -0.3310928343655084,
+     "seg": {
+      "2018": -0.21706114234815732,
+      "2020-03": -0.27230572766537764,
+      "2022": -0.287899253935165,
+      "2024-07~2025-04": -0.3310928343655084
+     }
+    },
+    "200萬|+0": {
+     "train": 0.34372900286212027,
+     "train_dd": -0.26888507221388014,
+     "y1618": 0.13912471562303885,
+     "y1921": 0.576758931564437,
+     "since2019": 0.467801074063275,
+     "full": 0.33223239044514585,
+     "valid": 0.40356684891858463,
+     "maxdd": -0.329212150341628,
+     "seg": {
+      "2018": -0.21521466131503586,
+      "2020-03": -0.2677081941558873,
+      "2022": -0.28788772553737274,
+      "2024-07~2025-04": -0.329212150341628
+     }
+    },
+    "60萬|+1": {
+     "train": 0.29933150587482715,
+     "train_dd": -0.26776169410831674,
+     "y1618": 0.08616895748849207,
+     "y1921": 0.5454745882589183,
+     "since2019": 0.43279918900168823,
+     "full": 0.29424333629872645,
+     "valid": 0.3665950004517924,
+     "maxdd": -0.39317504053607477,
+     "seg": {
+      "2018": -0.16716743991991923,
+      "2020-03": -0.26776169410831674,
+      "2022": -0.3131252701605791,
+      "2024-07~2025-04": -0.39317504053607477
+     }
+    },
+    "80萬|+1": {
+     "train": 0.2956702868280834,
+     "train_dd": -0.2700390082885027,
+     "y1618": 0.08317141733427746,
+     "y1921": 0.5410329669994094,
+     "since2019": 0.42979886169615056,
+     "full": 0.29145096750645116,
+     "valid": 0.3643998018182859,
+     "maxdd": -0.38943103283743163,
+     "seg": {
+      "2018": -0.1571997931821475,
+      "2020-03": -0.2700390082885027,
+      "2022": -0.31226801019019124,
+      "2024-07~2025-04": -0.38943103283743163
+     }
+    },
+    "100萬|+1": {
+     "train": 0.3259370991191357,
+     "train_dd": -0.26405855156307534,
+     "y1618": 0.1130800886546226,
+     "y1921": 0.5707134229456963,
+     "since2019": 0.44109759232507484,
+     "full": 0.3076285422008038,
+     "valid": 0.3655852809008324,
+     "maxdd": -0.3835520459086237,
+     "seg": {
+      "2018": -0.16107467860643898,
+      "2020-03": -0.26405855156307534,
+      "2022": -0.3134539034634708,
+      "2024-07~2025-04": -0.3835520459086237
+     }
+    },
+    "150萬|+1": {
+     "train": 0.33126822895446617,
+     "train_dd": -0.2584286807160089,
+     "y1618": 0.10500552285850584,
+     "y1921": 0.5943654377048362,
+     "since2019": 0.4504980406975303,
+     "full": 0.31105915510608373,
+     "valid": 0.3672592350554178,
+     "maxdd": -0.39329736960513184,
+     "seg": {
+      "2018": -0.16314718324748134,
+      "2020-03": -0.2584286807160089,
+      "2022": -0.3130713721961982,
+      "2024-07~2025-04": -0.39329736960513184
+     }
+    },
+    "200萬|+1": {
+     "train": 0.34437768350176556,
+     "train_dd": -0.2656584620477227,
+     "y1618": 0.12835514803911297,
+     "y1921": 0.5928386382536845,
+     "since2019": 0.45035263812963255,
+     "full": 0.3180413634211199,
+     "valid": 0.3678552658957539,
+     "maxdd": -0.3816618152219272,
+     "seg": {
+      "2018": -0.19913470114326237,
+      "2020-03": -0.2656584620477227,
+      "2022": -0.3143192772031822,
+      "2024-07~2025-04": -0.3816618152219272
+     }
+    },
+    "60萬|+2": {
+     "train": 0.315869712715652,
+     "train_dd": -0.2561670034308128,
+     "y1618": 0.12453377454846715,
+     "y1921": 0.5320679875190797,
+     "since2019": 0.4339307595858146,
+     "full": 0.30656812522113475,
+     "valid": 0.37581983298977284,
+     "maxdd": -0.3475290549865344,
+     "seg": {
+      "2018": -0.16384627973550203,
+      "2020-03": -0.2561670034308128,
+      "2022": -0.3059208704115316,
+      "2024-07~2025-04": -0.3475290549865344
+     }
+    },
+    "80萬|+2": {
+     "train": 0.3359457509509505,
+     "train_dd": -0.2526993168141062,
+     "y1618": 0.12794826146155103,
+     "y1921": 0.5737856534952563,
+     "since2019": 0.4491031503237175,
+     "full": 0.3171342503839749,
+     "valid": 0.3762518791605898,
+     "maxdd": -0.3475218945892681,
+     "seg": {
+      "2018": -0.16765188740258552,
+      "2020-03": -0.2526993168141062,
+      "2022": -0.3058687450468457,
+      "2024-07~2025-04": -0.3475218945892681
+     }
+    },
+    "100萬|+2": {
+     "train": 0.33956157592606173,
+     "train_dd": -0.2440011745847569,
+     "y1618": 0.14983576650468544,
+     "y1921": 0.5530137662375862,
+     "since2019": 0.4418511450169096,
+     "full": 0.31908252519384606,
+     "valid": 0.3764594512980699,
+     "maxdd": -0.3515384068778623,
+     "seg": {
+      "2018": -0.14520543504147687,
+      "2020-03": -0.2440011745847569,
+      "2022": -0.3075590944878551,
+      "2024-07~2025-04": -0.3515384068778623
+     }
+    },
+    "150萬|+2": {
+     "train": 0.3370440715142333,
+     "train_dd": -0.24065370719503787,
+     "y1618": 0.1355427509252778,
+     "y1921": 0.5661256110665274,
+     "since2019": 0.4383737965789565,
+     "full": 0.31265125566443475,
+     "valid": 0.36388459402947304,
+     "maxdd": -0.351406040092775,
+     "seg": {
+      "2018": -0.14996458202439433,
+      "2020-03": -0.24065370719503787,
+      "2022": -0.30625593179407595,
+      "2024-07~2025-04": -0.351406040092775
+     }
+    },
+    "200萬|+2": {
+     "train": 0.35004575662232873,
+     "train_dd": -0.23621474604075954,
+     "y1618": 0.1524537414738829,
+     "y1921": 0.5735581146356092,
+     "since2019": 0.4420979910533942,
+     "full": 0.32001085561141407,
+     "valid": 0.3655809759175055,
+     "maxdd": -0.35330900355111516,
+     "seg": {
+      "2018": -0.18904435689606403,
+      "2020-03": -0.23621474604075954,
+      "2022": -0.31208720018074276,
+      "2024-07~2025-04": -0.35330900355111516
+     }
+    },
+    "60萬|+3": {
+     "train": 0.32298183746381226,
+     "train_dd": -0.26360556385736156,
+     "y1618": 0.11853705291728733,
+     "y1921": 0.5564440248635978,
+     "since2019": 0.43779134702279277,
+     "full": 0.3071984617868617,
+     "valid": 0.3682794046954636,
+     "maxdd": -0.3022847201902191,
+     "seg": {
+      "2018": -0.172516656256395,
+      "2020-03": -0.26360556385736156,
+      "2022": -0.25408048667410166,
+      "2024-07~2025-04": -0.3022847201902191
+     }
+    },
+    "80萬|+3": {
+     "train": 0.3255429353422097,
+     "train_dd": -0.26025615395031065,
+     "y1618": 0.10421797405090971,
+     "y1921": 0.5819901174153066,
+     "since2019": 0.4468046136033892,
+     "full": 0.3085109609890835,
+     "valid": 0.3682531895134875,
+     "maxdd": -0.3022443004344708,
+     "seg": {
+      "2018": -0.17160025519189415,
+      "2020-03": -0.26025615395031065,
+      "2022": -0.2540085707049884,
+      "2024-07~2025-04": -0.3022443004344708
+     }
+    },
+    "100萬|+3": {
+     "train": 0.3341539189005507,
+     "train_dd": -0.27232573751534683,
+     "y1618": 0.12495920556978035,
+     "y1921": 0.5736714278874444,
+     "since2019": 0.4439343277965868,
+     "full": 0.31298870010502733,
+     "valid": 0.3683461143987905,
+     "maxdd": -0.30214757953859883,
+     "seg": {
+      "2018": -0.15359534425609211,
+      "2020-03": -0.27232573751534683,
+      "2022": -0.253624537583957,
+      "2024-07~2025-04": -0.30214757953859883
+     }
+    },
+    "150萬|+3": {
+     "train": 0.33377368649644334,
+     "train_dd": -0.25968228430907403,
+     "y1618": 0.1032355449377893,
+     "y1921": 0.6027618907917578,
+     "since2019": 0.4555651664698308,
+     "full": 0.3136807587725734,
+     "valid": 0.37052286104835375,
+     "maxdd": -0.30207891932349695,
+     "seg": {
+      "2018": -0.15846215057856705,
+      "2020-03": -0.25968228430907403,
+      "2022": -0.2535690758001147,
+      "2024-07~2025-04": -0.30207891932349695
+     }
+    },
+    "200萬|+3": {
+     "train": 0.3456403931503742,
+     "train_dd": -0.2623688658790956,
+     "y1618": 0.1322129147218527,
+     "y1921": 0.5905201907346298,
+     "since2019": 0.4535723800111111,
+     "full": 0.3212227638397547,
+     "valid": 0.37404313387994415,
+     "maxdd": -0.30422404185478613,
+     "seg": {
+      "2018": -0.18627053411114403,
+      "2020-03": -0.2623688658790956,
+      "2022": -0.25730721649284216,
+      "2024-07~2025-04": -0.30422404185478613
+     }
+    }
+   }
+  },
+  "fresh": {
+   "CUR": {
+    "60萬|+0": {
+     "valid": 0.42894448921947226,
+     "valid_dd": -0.32814264741500954,
+     "seg": {
+      "2022": -0.2964850473123627,
+      "2024-07~2025-04": -0.32814264741500954
+     }
+    },
+    "80萬|+0": {
+     "valid": 0.4296222917257815,
+     "valid_dd": -0.3280380436233865,
+     "seg": {
+      "2022": -0.2962246569994367,
+      "2024-07~2025-04": -0.3280380436233865
+     }
+    },
+    "100萬|+0": {
+     "valid": 0.42991736907488876,
+     "valid_dd": -0.32802510991451195,
+     "seg": {
+      "2022": -0.29603639431636186,
+      "2024-07~2025-04": -0.32802510991451195
+     }
+    },
+    "150萬|+0": {
+     "valid": 0.4302761684325769,
+     "valid_dd": -0.3280502827557228,
+     "seg": {
+      "2022": -0.2958880573849231,
+      "2024-07~2025-04": -0.3280502827557228
+     }
+    },
+    "200萬|+0": {
+     "valid": 0.4305149526393852,
+     "valid_dd": -0.32800971449238936,
+     "seg": {
+      "2022": -0.2958768825609014,
+      "2024-07~2025-04": -0.32800971449238936
+     }
+    },
+    "60萬|+1": {
+     "valid": 0.3974887837776695,
+     "valid_dd": -0.38820792353375444,
+     "seg": {
+      "2022": -0.3084867950115021,
+      "2024-07~2025-04": -0.38820792353375444
+     }
+    },
+    "80萬|+1": {
+     "valid": 0.39569035522529616,
+     "valid_dd": -0.3881558135240938,
+     "seg": {
+      "2022": -0.3082038790736731,
+      "2024-07~2025-04": -0.3881558135240938
+     }
+    },
+    "100萬|+1": {
+     "valid": 0.3959503388672374,
+     "valid_dd": -0.3881988832885911,
+     "seg": {
+      "2022": -0.3080981128748388,
+      "2024-07~2025-04": -0.3881988832885911
+     }
+    },
+    "150萬|+1": {
+     "valid": 0.39553761105844343,
+     "valid_dd": -0.39003248026116144,
+     "seg": {
+      "2022": -0.3079381309837149,
+      "2024-07~2025-04": -0.39003248026116144
+     }
+    },
+    "200萬|+1": {
+     "valid": 0.3957822868794969,
+     "valid_dd": -0.3900198547867355,
+     "seg": {
+      "2022": -0.30792486815929476,
+      "2024-07~2025-04": -0.3900198547867355
+     }
+    },
+    "60萬|+2": {
+     "valid": 0.3754122344696793,
+     "valid_dd": -0.3517708340382999,
+     "seg": {
+      "2022": -0.318933925628458,
+      "2024-07~2025-04": -0.3517708340382999
+     }
+    },
+    "80萬|+2": {
+     "valid": 0.37591771234664595,
+     "valid_dd": -0.3516691001051475,
+     "seg": {
+      "2022": -0.31853900726752704,
+      "2024-07~2025-04": -0.3516691001051475
+     }
+    },
+    "100萬|+2": {
+     "valid": 0.3762874478860043,
+     "valid_dd": -0.3516956430041377,
+     "seg": {
+      "2022": -0.3183732855810464,
+      "2024-07~2025-04": -0.3516956430041377
+     }
+    },
+    "150萬|+2": {
+     "valid": 0.3639245944082583,
+     "valid_dd": -0.35165779531812213,
+     "seg": {
+      "2022": -0.31818083380325723,
+      "2024-07~2025-04": -0.35165779531812213
+     }
+    },
+    "200萬|+2": {
+     "valid": 0.3618602439158587,
+     "valid_dd": -0.3516707243033015,
+     "seg": {
+      "2022": -0.318086001215507,
+      "2024-07~2025-04": -0.3516707243033015
+     }
+    },
+    "60萬|+3": {
+     "valid": 0.39964689485780225,
+     "valid_dd": -0.30412109273102594,
+     "seg": {
+      "2022": -0.26385430478745586,
+      "2024-07~2025-04": -0.30412109273102594
+     }
+    },
+    "80萬|+3": {
+     "valid": 0.4004681706811135,
+     "valid_dd": -0.3040108019535305,
+     "seg": {
+      "2022": -0.26355502058386804,
+      "2024-07~2025-04": -0.3040108019535305
+     }
+    },
+    "100萬|+3": {
+     "valid": 0.4008113440436325,
+     "valid_dd": -0.3039618289020525,
+     "seg": {
+      "2022": -0.2632998827842893,
+      "2024-07~2025-04": -0.3039618289020525
+     }
+    },
+    "150萬|+3": {
+     "valid": 0.40072285936369756,
+     "valid_dd": -0.30390666611702444,
+     "seg": {
+      "2022": -0.2637636012683223,
+      "2024-07~2025-04": -0.30390666611702444
+     }
+    },
+    "200萬|+3": {
+     "valid": 0.40237170923780563,
+     "valid_dd": -0.3038323338955857,
+     "seg": {
+      "2022": -0.26364454920572844,
+      "2024-07~2025-04": -0.3038323338955857
+     }
+    }
+   },
+   "RMOM_HALF": {
+    "60萬|+0": {
+     "valid": 0.4262876532345514,
+     "valid_dd": -0.3281304029040253,
+     "seg": {
+      "2022": -0.2789532964358048,
+      "2024-07~2025-04": -0.3281304029040253
+     }
+    },
+    "80萬|+0": {
+     "valid": 0.42668812126046984,
+     "valid_dd": -0.32798355538003066,
+     "seg": {
+      "2022": -0.27885394998278723,
+      "2024-07~2025-04": -0.32798355538003066
+     }
+    },
+    "100萬|+0": {
+     "valid": 0.42710925050685966,
+     "valid_dd": -0.3280429858964947,
+     "seg": {
+      "2022": -0.2787246426121185,
+      "2024-07~2025-04": -0.3280429858964947
+     }
+    },
+    "150萬|+0": {
+     "valid": 0.42744267047381035,
+     "valid_dd": -0.3279698031529259,
+     "seg": {
+      "2022": -0.27862679059751017,
+      "2024-07~2025-04": -0.3279698031529259
+     }
+    },
+    "200萬|+0": {
+     "valid": 0.42761922549435094,
+     "valid_dd": -0.3279558598149055,
+     "seg": {
+      "2022": -0.2785933906248226,
+      "2024-07~2025-04": -0.3279558598149055
+     }
+    },
+    "60萬|+1": {
+     "valid": 0.40599640729739184,
+     "valid_dd": -0.38945876480221275,
+     "seg": {
+      "2022": -0.2671719411119061,
+      "2024-07~2025-04": -0.38945876480221275
+     }
+    },
+    "80萬|+1": {
+     "valid": 0.4061245801967557,
+     "valid_dd": -0.38933328617334506,
+     "seg": {
+      "2022": -0.26702288050880196,
+      "2024-07~2025-04": -0.38933328617334506
+     }
+    },
+    "100萬|+1": {
+     "valid": 0.4063807827834758,
+     "valid_dd": -0.3894635423629821,
+     "seg": {
+      "2022": -0.2669682713586904,
+      "2024-07~2025-04": -0.3894635423629821
+     }
+    },
+    "150萬|+1": {
+     "valid": 0.40621689740728373,
+     "valid_dd": -0.3912025928377105,
+     "seg": {
+      "2022": -0.2668638166236539,
+      "2024-07~2025-04": -0.3912025928377105
+     }
+    },
+    "200萬|+1": {
+     "valid": 0.4062387114535775,
+     "valid_dd": -0.3912306430962713,
+     "seg": {
+      "2022": -0.2668535063664209,
+      "2024-07~2025-04": -0.3912306430962713
+     }
+    },
+    "60萬|+2": {
+     "valid": 0.37420019015832295,
+     "valid_dd": -0.3516506595057043,
+     "seg": {
+      "2022": -0.29718446629337225,
+      "2024-07~2025-04": -0.3516506595057043
+     }
+    },
+    "80萬|+2": {
+     "valid": 0.37428599696659703,
+     "valid_dd": -0.3515862334413501,
+     "seg": {
+      "2022": -0.2969650832436226,
+      "2024-07~2025-04": -0.3515862334413501
+     }
+    },
+    "100萬|+2": {
+     "valid": 0.37443423814259935,
+     "valid_dd": -0.3515023028168256,
+     "seg": {
+      "2022": -0.29689390193686616,
+      "2024-07~2025-04": -0.3515023028168256
+     }
+    },
+    "150萬|+2": {
+     "valid": 0.3622231682173873,
+     "valid_dd": -0.3514926875869756,
+     "seg": {
+      "2022": -0.29677285744563897,
+      "2024-07~2025-04": -0.3514926875869756
+     }
+    },
+    "200萬|+2": {
+     "valid": 0.36043551556620135,
+     "valid_dd": -0.35151473310407244,
+     "seg": {
+      "2022": -0.29672850015740293,
+      "2024-07~2025-04": -0.35151473310407244
+     }
+    },
+    "60萬|+3": {
+     "valid": 0.4061037318394287,
+     "valid_dd": -0.30425423335312096,
+     "seg": {
+      "2022": -0.25476519101110573,
+      "2024-07~2025-04": -0.30425423335312096
+     }
+    },
+    "80萬|+3": {
+     "valid": 0.4066716695655914,
+     "valid_dd": -0.3041191156685322,
+     "seg": {
+      "2022": -0.25467053636710757,
+      "2024-07~2025-04": -0.3041191156685322
+     }
+    },
+    "100萬|+3": {
+     "valid": 0.40679871632243825,
+     "valid_dd": -0.30417855663076787,
+     "seg": {
+      "2022": -0.25457020486638604,
+      "2024-07~2025-04": -0.30417855663076787
+     }
+    },
+    "150萬|+3": {
+     "valid": 0.40595014127999995,
+     "valid_dd": -0.30410560311318535,
+     "seg": {
+      "2022": -0.25451168989243256,
+      "2024-07~2025-04": -0.30410560311318535
+     }
+    },
+    "200萬|+3": {
+     "valid": 0.40664036881306975,
+     "valid_dd": -0.30407063865368045,
+     "seg": {
+      "2022": -0.2544749293917762,
+      "2024-07~2025-04": -0.30407063865368045
+     }
+    }
+   },
+   "RMOM_STOP": {
+    "60萬|+0": {
+     "valid": 0.4013255166221905,
+     "valid_dd": -0.336890734323278,
+     "seg": {
+      "2022": -0.32488446124445325,
+      "2024-07~2025-04": -0.336890734323278
+     }
+    },
+    "80萬|+0": {
+     "valid": 0.40235211365244017,
+     "valid_dd": -0.3368468884348469,
+     "seg": {
+      "2022": -0.3248517641448747,
+      "2024-07~2025-04": -0.3368468884348469
+     }
+    },
+    "100萬|+0": {
+     "valid": 0.4027795723719585,
+     "valid_dd": -0.3369140605008937,
+     "seg": {
+      "2022": -0.32482173087009225,
+      "2024-07~2025-04": -0.3369140605008937
+     }
+    },
+    "150萬|+0": {
+     "valid": 0.4029192911906554,
+     "valid_dd": -0.3369024776775724,
+     "seg": {
+      "2022": -0.3248024722440144,
+      "2024-07~2025-04": -0.3369024776775724
+     }
+    },
+    "200萬|+0": {
+     "valid": 0.4030632227859825,
+     "valid_dd": -0.33688277960780366,
+     "seg": {
+      "2022": -0.32479525809098353,
+      "2024-07~2025-04": -0.33688277960780366
+     }
+    },
+    "60萬|+1": {
+     "valid": 0.38634198325177027,
+     "valid_dd": -0.3870467566219704,
+     "seg": {
+      "2022": -0.29755151395372503,
+      "2024-07~2025-04": -0.3870467566219704
+     }
+    },
+    "80萬|+1": {
+     "valid": 0.38631879714462025,
+     "valid_dd": -0.3869263004171821,
+     "seg": {
+      "2022": -0.2975274681870037,
+      "2024-07~2025-04": -0.3869263004171821
+     }
+    },
+    "100萬|+1": {
+     "valid": 0.3878990025518225,
+     "valid_dd": -0.3868650555058176,
+     "seg": {
+      "2022": -0.2975216051631481,
+      "2024-07~2025-04": -0.3868650555058176
+     }
+    },
+    "150萬|+1": {
+     "valid": 0.38784305050976164,
+     "valid_dd": -0.38873618857260317,
+     "seg": {
+      "2022": -0.2975109417609937,
+      "2024-07~2025-04": -0.38873618857260317
+     }
+    },
+    "200萬|+1": {
+     "valid": 0.387978547975933,
+     "valid_dd": -0.3887208640235389,
+     "seg": {
+      "2022": -0.29750532047928524,
+      "2024-07~2025-04": -0.3887208640235389
+     }
+    },
+    "60萬|+2": {
+     "valid": 0.35704438517906967,
+     "valid_dd": -0.35001316370516844,
+     "seg": {
+      "2022": -0.3202761242063764,
+      "2024-07~2025-04": -0.35001316370516844
+     }
+    },
+    "80萬|+2": {
+     "valid": 0.3574816721464533,
+     "valid_dd": -0.3499790298364984,
+     "seg": {
+      "2022": -0.32020571044924373,
+      "2024-07~2025-04": -0.3499790298364984
+     }
+    },
+    "100萬|+2": {
+     "valid": 0.35777686421125954,
+     "valid_dd": -0.3499816428935997,
+     "seg": {
+      "2022": -0.32018543666125066,
+      "2024-07~2025-04": -0.3499816428935997
+     }
+    },
+    "150萬|+2": {
+     "valid": 0.3586043792522158,
+     "valid_dd": -0.34991325607837875,
+     "seg": {
+      "2022": -0.32016767487522735,
+      "2024-07~2025-04": -0.34991325607837875
+     }
+    },
+    "200萬|+2": {
+     "valid": 0.3452429440298279,
+     "valid_dd": -0.34991838841305134,
+     "seg": {
+      "2022": -0.32014442637999385,
+      "2024-07~2025-04": -0.34991838841305134
+     }
+    },
+    "60萬|+3": {
+     "valid": 0.35441776670912484,
+     "valid_dd": -0.32742069401635554,
+     "seg": {
+      "2022": -0.32742069401635554,
+      "2024-07~2025-04": -0.3022029172411793
+     }
+    },
+    "80萬|+3": {
+     "valid": 0.35495918721161845,
+     "valid_dd": -0.32738970715131477,
+     "seg": {
+      "2022": -0.32738970715131477,
+      "2024-07~2025-04": -0.30222213459376235
+     }
+    },
+    "100萬|+3": {
+     "valid": 0.3552469535605791,
+     "valid_dd": -0.32739180639505405,
+     "seg": {
+      "2022": -0.32739180639505405,
+      "2024-07~2025-04": -0.30206815848190505
+     }
+    },
+    "150萬|+3": {
+     "valid": 0.3554007362483227,
+     "valid_dd": -0.3273757464654239,
+     "seg": {
+      "2022": -0.3273757464654239,
+      "2024-07~2025-04": -0.3020139099615501
+     }
+    },
+    "200萬|+3": {
+     "valid": 0.35679931253415686,
+     "valid_dd": -0.327362116168728,
+     "seg": {
+      "2022": -0.327362116168728,
+      "2024-07~2025-04": -0.30201898571644625
+     }
+    }
+   },
+   "MOM_HALF": {
+    "60萬|+0": {
+     "valid": 0.41947254820917323,
+     "valid_dd": -0.33796907918541774,
+     "seg": {
+      "2022": -0.2964850473123627,
+      "2024-07~2025-04": -0.33796907918541774
+     }
+    },
+    "80萬|+0": {
+     "valid": 0.420210490522934,
+     "valid_dd": -0.33802563839195565,
+     "seg": {
+      "2022": -0.2962246569994367,
+      "2024-07~2025-04": -0.33802563839195565
+     }
+    },
+    "100萬|+0": {
+     "valid": 0.42055269531964745,
+     "valid_dd": -0.3380094544515927,
+     "seg": {
+      "2022": -0.29603639431636186,
+      "2024-07~2025-04": -0.3380094544515927
+     }
+    },
+    "150萬|+0": {
+     "valid": 0.4208170820881476,
+     "valid_dd": -0.33798249091113886,
+     "seg": {
+      "2022": -0.2958880573849231,
+      "2024-07~2025-04": -0.33798249091113886
+     }
+    },
+    "200萬|+0": {
+     "valid": 0.4210436389581469,
+     "valid_dd": -0.33798908268436634,
+     "seg": {
+      "2022": -0.2958768825609014,
+      "2024-07~2025-04": -0.33798908268436634
+     }
+    },
+    "60萬|+1": {
+     "valid": 0.3863811204974601,
+     "valid_dd": -0.38692342131921054,
+     "seg": {
+      "2022": -0.3084867950115021,
+      "2024-07~2025-04": -0.38692342131921054
+     }
+    },
+    "80萬|+1": {
+     "valid": 0.3874364999983282,
+     "valid_dd": -0.3866562647236196,
+     "seg": {
+      "2022": -0.3082038790736731,
+      "2024-07~2025-04": -0.3866562647236196
+     }
+    },
+    "100萬|+1": {
+     "valid": 0.3874733083854869,
+     "valid_dd": -0.3866929249553108,
+     "seg": {
+      "2022": -0.3080981128748388,
+      "2024-07~2025-04": -0.3866929249553108
+     }
+    },
+    "150萬|+1": {
+     "valid": 0.38713736581143476,
+     "valid_dd": -0.388540330271682,
+     "seg": {
+      "2022": -0.3079381309837149,
+      "2024-07~2025-04": -0.388540330271682
+     }
+    },
+    "200萬|+1": {
+     "valid": 0.38745459739535204,
+     "valid_dd": -0.38856852175632506,
+     "seg": {
+      "2022": -0.30792486815929476,
+      "2024-07~2025-04": -0.38856852175632506
+     }
+    },
+    "60萬|+2": {
+     "valid": 0.3727736416960923,
+     "valid_dd": -0.3512190655610419,
+     "seg": {
+      "2022": -0.318933925628458,
+      "2024-07~2025-04": -0.3512190655610419
+     }
+    },
+    "80萬|+2": {
+     "valid": 0.3731626810668356,
+     "valid_dd": -0.35111204783817285,
+     "seg": {
+      "2022": -0.31853900726752704,
+      "2024-07~2025-04": -0.35111204783817285
+     }
+    },
+    "100萬|+2": {
+     "valid": 0.37377643555508056,
+     "valid_dd": -0.3511101223899423,
+     "seg": {
+      "2022": -0.3183732855810464,
+      "2024-07~2025-04": -0.3511101223899423
+     }
+    },
+    "150萬|+2": {
+     "valid": 0.36162020264640593,
+     "valid_dd": -0.35107284488373425,
+     "seg": {
+      "2022": -0.31818083380325723,
+      "2024-07~2025-04": -0.35107284488373425
+     }
+    },
+    "200萬|+2": {
+     "valid": 0.3604899370602388,
+     "valid_dd": -0.35107536595652555,
+     "seg": {
+      "2022": -0.318086001215507,
+      "2024-07~2025-04": -0.35107536595652555
+     }
+    },
+    "60萬|+3": {
+     "valid": 0.4012120577461291,
+     "valid_dd": -0.3037340451133951,
+     "seg": {
+      "2022": -0.26385430478745586,
+      "2024-07~2025-04": -0.3037340451133951
+     }
+    },
+    "80萬|+3": {
+     "valid": 0.40175412809090183,
+     "valid_dd": -0.3036790919670741,
+     "seg": {
+      "2022": -0.26355502058386804,
+      "2024-07~2025-04": -0.3036790919670741
+     }
+    },
+    "100萬|+3": {
+     "valid": 0.40203499651635943,
+     "valid_dd": -0.3036727087098603,
+     "seg": {
+      "2022": -0.2632998827842893,
+      "2024-07~2025-04": -0.3036727087098603
+     }
+    },
+    "150萬|+3": {
+     "valid": 0.40215371764116736,
+     "valid_dd": -0.30358294582913725,
+     "seg": {
+      "2022": -0.2637636012683223,
+      "2024-07~2025-04": -0.30358294582913725
+     }
+    },
+    "200萬|+3": {
+     "valid": 0.40177783906323006,
+     "valid_dd": -0.3035610252013451,
+     "seg": {
+      "2022": -0.26364454920572844,
+      "2024-07~2025-04": -0.3035610252013451
+     }
+    }
+   },
+   "MOM_STOP": {
+    "60萬|+0": {
+     "valid": 0.4036362897787982,
+     "valid_dd": -0.3385123410315528,
+     "seg": {
+      "2022": -0.2964850473123627,
+      "2024-07~2025-04": -0.3385123410315528
+     }
+    },
+    "80萬|+0": {
+     "valid": 0.4040246572493924,
+     "valid_dd": -0.3384733767447372,
+     "seg": {
+      "2022": -0.2962246569994367,
+      "2024-07~2025-04": -0.3384733767447372
+     }
+    },
+    "100萬|+0": {
+     "valid": 0.40284369932270137,
+     "valid_dd": -0.3279039411463134,
+     "seg": {
+      "2022": -0.29603639431636186,
+      "2024-07~2025-04": -0.3279039411463134
+     }
+    },
+    "150萬|+0": {
+     "valid": 0.40314693562301573,
+     "valid_dd": -0.32784970945340375,
+     "seg": {
+      "2022": -0.2958880573849231,
+      "2024-07~2025-04": -0.32784970945340375
+     }
+    },
+    "200萬|+0": {
+     "valid": 0.4031961905715027,
+     "valid_dd": -0.3278376421621664,
+     "seg": {
+      "2022": -0.2958768825609014,
+      "2024-07~2025-04": -0.3278376421621664
+     }
+    },
+    "60萬|+1": {
+     "valid": 0.37194564655868323,
+     "valid_dd": -0.38781207834323606,
+     "seg": {
+      "2022": -0.3084867950115021,
+      "2024-07~2025-04": -0.38781207834323606
+     }
+    },
+    "80萬|+1": {
+     "valid": 0.3730748777136754,
+     "valid_dd": -0.38767644834466775,
+     "seg": {
+      "2022": -0.3082038790736731,
+      "2024-07~2025-04": -0.38767644834466775
+     }
+    },
+    "100萬|+1": {
+     "valid": 0.37338748223383433,
+     "valid_dd": -0.387654900819109,
+     "seg": {
+      "2022": -0.3080981128748388,
+      "2024-07~2025-04": -0.387654900819109
+     }
+    },
+    "150萬|+1": {
+     "valid": 0.3729532002302107,
+     "valid_dd": -0.38950510060951593,
+     "seg": {
+      "2022": -0.3079381309837149,
+      "2024-07~2025-04": -0.38950510060951593
+     }
+    },
+    "200萬|+1": {
+     "valid": 0.37314678096846654,
+     "valid_dd": -0.38952288993281925,
+     "seg": {
+      "2022": -0.30792486815929476,
+      "2024-07~2025-04": -0.38952288993281925
+     }
+    },
+    "60萬|+2": {
+     "valid": 0.3781266692090688,
+     "valid_dd": -0.3521993692975942,
+     "seg": {
+      "2022": -0.318933925628458,
+      "2024-07~2025-04": -0.3521993692975942
+     }
+    },
+    "80萬|+2": {
+     "valid": 0.3785826582359908,
+     "valid_dd": -0.3520997109274401,
+     "seg": {
+      "2022": -0.31853900726752704,
+      "2024-07~2025-04": -0.3520997109274401
+     }
+    },
+    "100萬|+2": {
+     "valid": 0.3785594229572975,
+     "valid_dd": -0.35213057359361044,
+     "seg": {
+      "2022": -0.3183732855810464,
+      "2024-07~2025-04": -0.35213057359361044
+     }
+    },
+    "150萬|+2": {
+     "valid": 0.37906944647331975,
+     "valid_dd": -0.35207735145386365,
+     "seg": {
+      "2022": -0.31818083380325723,
+      "2024-07~2025-04": -0.35207735145386365
+     }
+    },
+    "200萬|+2": {
+     "valid": 0.3796634567320456,
+     "valid_dd": -0.3520430403437004,
+     "seg": {
+      "2022": -0.318086001215507,
+      "2024-07~2025-04": -0.3520430403437004
+     }
+    },
+    "60萬|+3": {
+     "valid": 0.37499753049830975,
+     "valid_dd": -0.3035540891796691,
+     "seg": {
+      "2022": -0.26385430478745586,
+      "2024-07~2025-04": -0.3035540891796691
+     }
+    },
+    "80萬|+3": {
+     "valid": 0.37540831890782944,
+     "valid_dd": -0.30348183072565105,
+     "seg": {
+      "2022": -0.26355502058386804,
+      "2024-07~2025-04": -0.30348183072565105
+     }
+    },
+    "100萬|+3": {
+     "valid": 0.37546092410844034,
+     "valid_dd": -0.30344768914853204,
+     "seg": {
+      "2022": -0.2632998827842893,
+      "2024-07~2025-04": -0.30344768914853204
+     }
+    },
+    "150萬|+3": {
+     "valid": 0.37439973218175493,
+     "valid_dd": -0.3034238910813333,
+     "seg": {
+      "2022": -0.2637636012683223,
+      "2024-07~2025-04": -0.3034238910813333
+     }
+    },
+    "200萬|+3": {
+     "valid": 0.375275448573428,
+     "valid_dd": -0.3033467606893283,
+     "seg": {
+      "2022": -0.26364454920572844,
+      "2024-07~2025-04": -0.3033467606893283
+     }
+    }
+   }
+  },
+  "fresh_blk": {
+   "CUR": {
+    "60萬|+0": {
+     "valid": 0.3602701617529793
+    },
+    "80萬|+0": {
+     "valid": 0.3604190228394051
+    },
+    "100萬|+0": {
+     "valid": 0.3607124051636017
+    },
+    "150萬|+0": {
+     "valid": 0.361128404756645
+    },
+    "200萬|+0": {
+     "valid": 0.3612676826803085
+    },
+    "60萬|+1": {
+     "valid": 0.32932342726393604
+    },
+    "80萬|+1": {
+     "valid": 0.3296693991704083
+    },
+    "100萬|+1": {
+     "valid": 0.3298623296423533
+    },
+    "150萬|+1": {
+     "valid": 0.32956018614652627
+    },
+    "200萬|+1": {
+     "valid": 0.3296254604408111
+    },
+    "60萬|+2": {
+     "valid": 0.3177806150958944
+    },
+    "80萬|+2": {
+     "valid": 0.3183440438289977
+    },
+    "100萬|+2": {
+     "valid": 0.3183485749680355
+    },
+    "150萬|+2": {
+     "valid": 0.31911749009540946
+    },
+    "200萬|+2": {
+     "valid": 0.31917308461243943
+    },
+    "60萬|+3": {
+     "valid": 0.35886800683286757
+    },
+    "80萬|+3": {
+     "valid": 0.35910820114599407
+    },
+    "100萬|+3": {
+     "valid": 0.3595195065315355
+    },
+    "150萬|+3": {
+     "valid": 0.3596719794470833
+    },
+    "200萬|+3": {
+     "valid": 0.3598309767586918
+    }
+   },
+   "RMOM_STOP": {
+    "60萬|+0": {
+     "valid": 0.3285418865819616
+    },
+    "80萬|+0": {
+     "valid": 0.3295382453581417
+    },
+    "100萬|+0": {
+     "valid": 0.3300062199125495
+    },
+    "150萬|+0": {
+     "valid": 0.3301300410369623
+    },
+    "200萬|+0": {
+     "valid": 0.33034852115128643
+    },
+    "60萬|+1": {
+     "valid": 0.32026024194542146
+    },
+    "80萬|+1": {
+     "valid": 0.3205816084738615
+    },
+    "100萬|+1": {
+     "valid": 0.3208038950726022
+    },
+    "150萬|+1": {
+     "valid": 0.32042371258308733
+    },
+    "200萬|+1": {
+     "valid": 0.3205644420781437
+    },
+    "60萬|+2": {
+     "valid": 0.3018710034928904
+    },
+    "80萬|+2": {
+     "valid": 0.30217098864750924
+    },
+    "100萬|+2": {
+     "valid": 0.3023364708561518
+    },
+    "150萬|+2": {
+     "valid": 0.30250439250713446
+    },
+    "200萬|+2": {
+     "valid": 0.30274517918200616
+    },
+    "60萬|+3": {
+     "valid": 0.31459708738943104
+    },
+    "80萬|+3": {
+     "valid": 0.315517711859183
+    },
+    "100萬|+3": {
+     "valid": 0.31562272183677176
+    },
+    "150萬|+3": {
+     "valid": 0.315834284386201
+    },
+    "200萬|+3": {
+     "valid": 0.31593854246315844
+    }
+   }
+  }
+ },
+ "meta": {
+  "a23": {
+   "runtime_s": 4.8,
+   "maxrss_mb": 1404
+  },
+  "b": {
+   "runtime_s": 20.8,
+   "maxrss_mb": 1404
+  },
+  "code_sha256": {
+   "rep_s25_stats.py": "1d87e4060adcb320a55c22cea32b27307fd0657de0ec1840f165f537800667c5",
+   "rep_s25_lib.py": "5716ab8e994df5aa8ea77e966c9c11c9bd79d28f284917752d743ed9525b46c8",
+   "rep_s25_a1.py": "82334130820fef7ba50f50ab7aa5cfc593e9d157343d2b828a756c72e4de21fb",
+   "rep_s25_a23.py": "94ed7613a01575af524617299eeb4c5d11595a3cb9c69b24cd21d09a2b5c4a09",
+   "rep_s25_b.py": "504736c79fbdd69b2a9782f505d78086f16f46c63124c1cdb3adbf957af8593e",
+   "rep_s25_compare.py": "83eede07c0b2f79422c8644855c6631d9fb8696d571be600a4a073904a8d93ac"
+  }
+ }
+}
