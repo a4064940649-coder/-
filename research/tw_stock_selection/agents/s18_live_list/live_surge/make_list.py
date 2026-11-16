@@ -440,7 +440,7 @@ def held_status(res, code):
     elif not r['in_univ']:
         why = '不在股池（60 日均成交值 < 1,000 萬、收盤 < 10 或當天無成交）'
     elif r['surge'] is None:
-        why = '沒有 SURGE（營收缺值或歷史不足）'
+        why = '沒有 SURGE（營收缺值或歷史不足；若是 15 日營收期限的保險／金控股，換股日當月營收尚未公布，依規則賣出，屬正常，見 S41）'
     elif not r['above_ma60']:
         why = '跌破季線（還原收盤 ≤ 60 日均線）'
     else:

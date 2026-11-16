@@ -160,9 +160,11 @@ B['m'] = B['ym']
 sv = S_ref.stack(future_stack=True) if hasattr(pd.DataFrame, 'stack') else S_ref.stack()
 sv = sv[np.isfinite(sv)]
 pool_keys = set((str(m), c) for m, c in sv.index)
-B['in_pool'] = [(m, c) in pool_keys for m, c in zip(B['ym'], B['code'])]
+pool_keys_u = set((str(m), c) for m, c in sv.index if AV[m] < P.T and U[AV[m], P.ci[c]])
+B['in_pool_cols'] = [(m, c) in pool_keys for m, c in zip(B['ym'], B['code'])]
+B['in_pool'] = [(m, c) in pool_keys_u for m, c in zip(B['ym'], B['code'])]
 sii = B[B['market'] == 'sii']
-d1 = dict(coverage=cov, sii_all=stats(sii), strategy_pool=stats(sii[sii['in_pool']]), otc_reference=stats(B[B['market'] == 'otc']))
+d1 = dict(coverage=cov, sii_all=stats(sii), strategy_pool=stats(sii[sii['in_pool']]), pool_PCOLS_surge_only=stats(sii[sii['in_pool_cols']]), otc_reference=stats(B[B['market'] == 'otc']))
 x = sii[(sii['FP'] > 0) & (sii['CUR'] > 0)].copy()
 x['corr'] = np.round(x['FP']) != np.round(x['CUR'])
 tl_ok = x['TL'].notna()
@@ -280,7 +282,8 @@ def summ(nav, lg):
 
 def trade_keys(lg):
     x = lg.copy()
-    cols = [c for c in ('code', 'ent', 'exit', 'why') if c in x.columns]
+    x['ent'] = [str(P.IDX[t].date()) for t in x['ent_t']]; x['exit'] = [str(P.IDX[t].date()) for t in x['exit_t']]
+    cols = ['code', 'ent', 'exit', 'why']
     return set(tuple(str(v) for v in row) for row in x[cols].to_numpy()), cols
 
 
@@ -301,6 +304,14 @@ for k in ('FPM', 'FPA'):
     d = (nv.to_numpy() != nav0.to_numpy()) & ~(np.isnan(nv.to_numpy()) & np.isnan(nav0.to_numpy()))
     first = P.IDX[np.flatnonzero(d)[0]] if d.any() else None
     acc[f'{k}_first_nav_diff_date'] = str(first.date()) if first is not None else None
+    rel = np.abs(nv.to_numpy() / nav0.to_numpy() - 1)
+    big = np.flatnonzero(np.nan_to_num(rel) > 1e-9)
+    acc[f'{k}_first_nav_reldiff_gt_1e-9_date'] = str(P.IDX[big[0]].date()) if len(big) else None
+    acc[f'{k}_max_reldiff_before_first_gt_1e-9'] = float(np.nanmax(rel[:big[0]])) if len(big) else float(np.nanmax(rel))
+    for th in (1e-6, 1e-4, 1e-3):
+        bb = np.flatnonzero(np.nan_to_num(rel) > th)
+        acc[f'{k}_first_nav_reldiff_gt_{th:g}_date'] = str(P.IDX[bb[0]].date()) if len(bb) else None
+    acc[f'{k}_reldiff_at_first_diff'] = float(rel[big[0]]) if len(big) else 0.0
     acc[f'{k}_nav_identical_before_window'] = bool(first is None or first > DW)
 res['acceptance'] = acc
 
@@ -311,7 +322,8 @@ for k in SV:
     nx2, lx2, _ = run(k, 0, 1e6, 'strict_x2')
     o['cagr_window_costx2'] = stlib.cagr(nx2, DW, DE)
     kk, cols = trade_keys(lg)
-    o['n_trades_entered_window'] = int((pd.to_datetime(lg['ent']) > DW).sum()) if 'ent' in lg else None
+    o['n_trades_entered_window'] = int((P.IDX[lg['ent_t'].to_numpy()] > DW).sum())
+    o['n_closed_window'] = int(((P.IDX[lg['ent_t'].to_numpy()] > DW) & (lg['why'] != 'open_end')).sum())
     if k != 'CUR':
         k0, _ = trade_keys(lg0)
         o['trades_only_in_this'] = len(kk - k0); o['trades_only_in_CUR'] = len(k0 - kk)
