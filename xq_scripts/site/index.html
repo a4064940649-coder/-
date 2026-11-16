@@ -1,59 +1,168 @@
 <meta name="dash-one-writer">
 <style>
-.mx { display: grid; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); }
+.mx { display: grid; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); min-width: 0; }
+.mx * { box-sizing: border-box; }
 .mx h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
 .mx h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-sm); text-wrap: balance; }
+.mx h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-xs); }
 .mx .lede { color: var(--color-fg-muted); margin: var(--cds-gap-xs) 0 0; max-width: 65ch; line-height: 1.6; }
 .mx .card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
-.mx .today { display: grid; gap: var(--cds-gap-sm); }
-.mx .today .act { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2rem; line-height: 1.2; }
-.mx .today .act.go { color: var(--color-warn); }
-.mx .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--cds-gap-md); margin-top: var(--cds-gap-sm); }
-.mx .fact .k { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .02em; }
-.mx .fact .v { font-size: var(--cds-font-size-heading); font-variant-numeric: tabular-nums; }
-.mx .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--cds-gap-lg); }
-.mx .tw { overflow-x: auto; }
+.mx .k { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .02em; }
+.mx .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: var(--cds-gap-md); margin-top: var(--cds-gap-sm); }
+.mx .fact .v { font-size: var(--cds-font-size-heading); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.mx .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: var(--cds-gap-lg); }
+.mx .tw { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
 .mx table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
 .mx th, .mx td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
 .mx th { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); }
 .mx th.l, .mx td.l { text-align: left; }
-.mx .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: var(--cds-font-size-caption); border: 1px solid var(--color-border-line); }
+.mx .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: var(--cds-font-size-caption); border: 1px solid var(--color-border-line); white-space: nowrap; }
 .mx .pill.buy { color: var(--color-ok); border-color: var(--color-ok); }
 .mx .pill.sell { color: var(--color-bad); border-color: var(--color-bad); }
 .mx .pill.hold { color: var(--color-fg-muted); }
 .mx tr.pick td { font-weight: var(--cds-font-weight-medium); }
 .mx .neg { color: var(--color-bad); }
-.mx .note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; margin: var(--cds-gap-sm) 0 0; }
+.mx .pos { color: var(--color-ok); }
+.mx .note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; margin: var(--cds-gap-sm) 0 0; max-width: 75ch; }
 .mx .chartbox { position: relative; min-height: 320px; }
+.mx .chartbox.small { min-height: 200px; }
+.mx .chartbox svg { display: block; }
 .mx .chartbox svg text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); }
-.mx .tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 6px 10px; font-size: var(--cds-font-size-caption); line-height: 1.6; white-space: nowrap; }
+.mx .tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 6px 10px; font-size: var(--cds-font-size-caption); line-height: 1.6; white-space: nowrap; z-index: 2; }
 .mx .legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-bottom: var(--cds-gap-sm); }
 .mx .sw { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
 .mx ol.steps { margin: 0; padding-left: 1.3em; line-height: 1.8; max-width: 70ch; }
-.mx .chartbox.small { min-height: 200px; }
 .mx h2.sub { margin-top: var(--cds-gap-lg); }
-.mx .calcrow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cds-gap-sm); margin-bottom: var(--cds-gap-sm); font-size: var(--cds-font-size-body); }
-.mx .calcin { font: inherit; font-variant-numeric: tabular-nums; padding: 4px 8px; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); width: 12em; max-width: 100%; }
-.mx .pos { color: var(--color-ok); }
 .mx details summary { cursor: pointer; font-weight: var(--cds-font-weight-medium); }
+
+/* 今日行動卡 */
+.mx .hero { display: grid; gap: var(--cds-gap-md); border-width: 2px; }
+.mx .hero.go { border-color: var(--color-warn); }
+.mx .hero-top { display: flex; flex-wrap: wrap; gap: var(--cds-gap-lg); align-items: flex-start; justify-content: space-between; }
+.mx .hero-main { flex: 1 1 260px; min-width: 0; }
+.mx .hero .act { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: clamp(1.7rem, 6vw, 2.4rem); line-height: 1.2; margin: 2px 0 4px; }
+.mx .hero.go .act { color: var(--color-warn); }
+.mx .hero .detail { margin: 0; line-height: 1.6; max-width: 60ch; }
+.mx .count { flex: 0 1 220px; min-width: 160px; padding: var(--cds-pad-md); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); }
+.mx .count .num { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.mx .count .unit { font-size: var(--cds-font-size-body); color: var(--color-fg-muted); margin-left: 4px; }
+.mx .count .when { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; margin-top: 4px; }
+.mx .warnbox { margin: 0; padding: var(--cds-pad-sm) var(--cds-pad-md); border-left: 3px solid var(--color-warn); background: var(--color-bg); border-radius: var(--cds-radius); line-height: 1.6; font-size: var(--cds-font-size-body); }
+.mx .swap { border-top: 1px solid var(--color-border-line); padding-top: var(--cds-gap-sm); }
+.mx .swap summary { padding: 4px 0; }
+.mx .swapgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: var(--cds-gap-md); margin-top: var(--cds-gap-sm); }
+.mx .swapgrid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.mx .swapgrid li { display: grid; gap: 1px; padding: 6px 10px; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); }
+.mx .swapgrid li .nm { font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; }
+.mx .swapgrid li .why { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.mx .swapgrid h3.s { color: var(--color-bad); }
+.mx .swapgrid h3.b { color: var(--color-ok); }
+.mx .swapgrid ul:empty::after { content: "沒有"; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.mx .disclaim { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; line-height: 1.6; }
+
+/* 下單計算 */
+.mx .calcrow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cds-gap-sm); margin-bottom: var(--cds-gap-sm); font-size: var(--cds-font-size-body); }
+.mx .calcin { font: inherit; font-variant-numeric: tabular-nums; padding: 4px 8px; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); width: 11em; max-width: 100%; }
+.mx .calcin.sm { width: 7.5em; text-align: right; }
+.mx .ingrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: var(--cds-gap-sm) var(--cds-gap-md); margin-bottom: var(--cds-gap-sm); }
+.mx .ingrid label { display: grid; gap: 2px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.mx .ingrid .calcin { width: 100%; }
+.mx .btn { font: inherit; font-size: var(--cds-font-size-caption); padding: 4px 10px; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); cursor: pointer; }
+.mx .btn:hover { border-color: var(--color-fg-muted); }
+.mx .calc-msgs { margin: var(--cds-gap-xs) 0 0; padding-left: 1.2em; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; }
+.mx tfoot td { font-weight: var(--cds-font-weight-medium); }
+
+/* 風險 */
+.mx ul.risks { margin: 0; padding-left: 1.2em; display: grid; gap: var(--cds-gap-sm); line-height: 1.7; max-width: 80ch; }
+.mx ul.risks b.n { font-variant-numeric: tabular-nums; }
 </style>
 
 <div class="mx">
   <header id="top">
     <h1>月營收驚奇操盤台</h1>
-    <p class="lede">今天的決定：<b data-draw="act-inline" data-source="status" data-field="動作" data-row="0">—</b>。現行策略（XQ 20＋21 號）每月只換股一次：每月第一個日期 ≥ 11 的交易日收盤後產生名單，隔天開盤先賣後買。</p>
+    <p class="lede">今天的決定：<b data-draw="act-inline" data-source="status" data-field="動作" data-row="0">—</b>。策略（XQ 20＋21 號）每月只換股一次：每月第一個日期 ≥ 11 的交易日收盤後產生名單，隔天開盤先賣後買。</p>
   </header>
 
-  <section class="card today" id="today">
-    <div class="fact"><span class="k">今天</span></div>
-    <div class="act" data-draw="act" data-source="status" data-field="動作" data-row="0">—</div>
-    <p class="lede" data-draw="detail" data-source="status" data-field="說明" data-row="0">—</p>
-    <div class="facts">
-      <div class="fact"><div class="k">下次產生名單（訊號日）</div><div class="v" data-draw="nextsig" data-source="status" data-field="下次訊號日" data-row="0">—</div></div>
-      <div class="fact"><div class="k">距下次產生名單</div><div class="v"><span data-draw="countdown">—</span> 天</div></div>
-      <div class="fact"><div class="k">下次開盤執行</div><div class="v" data-draw="nextexec" data-source="status" data-field="下次執行日" data-row="0">—</div></div>
-      <div class="fact"><div class="k">本月訊號日（營收月份）</div><div class="v"><span data-draw="sig" data-source="status" data-field="本月訊號日" data-row="0">—</span>（<span data-draw="revm" data-source="status" data-field="營收月份" data-row="0">—</span>）</div></div>
-      <div class="fact"><div class="k">資料更新到</div><div class="v" data-draw="asof" data-source="status" data-field="資料最後一天" data-row="0">—</div></div>
+  <section class="card hero" id="today" aria-live="polite">
+    <div class="hero-top">
+      <div class="hero-main">
+        <div class="k">今天的決定（<span data-draw="today-date" data-source="status" data-field="今天" data-row="0">—</span>）</div>
+        <div class="act" data-draw="act" data-source="status" data-field="動作" data-row="0">—</div>
+        <p class="detail" data-draw="detail" data-source="status" data-field="說明" data-row="0">—</p>
+      </div>
+      <div class="count" id="countdown">
+        <div class="k">距下次產生名單</div>
+        <div><span class="num" data-draw="countdown">—</span><span class="unit">天</span></div>
+        <div class="when"><span data-draw="nextsig" data-source="status" data-field="下次訊號日" data-row="0">—</span> 收盤後產生名單<br><span data-draw="nextexec" data-source="status" data-field="下次執行日" data-row="0">—</span> 開盤執行</div>
+      </div>
+    </div>
+
+    <p class="warnbox st-pending" hidden>今天是換股日，但本頁的換股清單還是上個月的。新名單產生後（建議晚上 22 點後）本頁會更新；在那之前可以用 XQ 20、21 號的結果。</p>
+    <p class="warnbox st-stale" hidden>這是 <b data-draw="today-date2" data-source="status" data-field="今天" data-row="0">—</b> 的決定，今天（<b data-draw="tp-today">—</b>）的資料還沒更新。<span class="st-stale-swap" hidden>今天可能就是換股日，請留意晚上的新名單。</span></p>
+
+    <details class="swap" id="swap">
+      <summary><span class="st-go-sig" hidden>今天收盤後的名單：明天開盤要賣、要買的股票</span><span class="st-go-exec" hidden>今天開盤要做的：先賣後買</span><span class="st-idle">本月已執行的賣買（<span data-draw="exec-date" data-source="status" data-field="本月執行日" data-row="0">—</span> 開盤）</span></summary>
+      <div class="swapgrid">
+        <div><h3 class="s">賣出</h3><ul data-draw="sell-list" data-source="actions"></ul></div>
+        <div><h3 class="b">買進</h3><ul data-draw="buy-list" data-source="actions"></ul></div>
+        <div><h3>續抱（不用動）</h3><ul data-draw="keep-list" data-source="actions"></ul></div>
+      </div>
+      <p class="note">開盤先賣後買；開盤就漲停的不追、處置股不買。每檔要買幾股，看下面「我的下單計算」。</p>
+    </details>
+    <p class="disclaim">這是策略的決定與研究中心的回測，不是投資建議；要不要下單、下多少由你自己決定。本頁不會替你下單。</p>
+  </section>
+
+  <section class="card" id="calc">
+    <h2>我的下單計算</h2>
+    <p class="note" style="margin-top:0">依本月換股清單（訊號日 <span data-draw="sig-date" data-source="status" data-field="本月訊號日" data-row="0">—</span>、執行日 <span data-draw="exec-date" data-source="status" data-field="本月執行日" data-row="0">—</span>）。參考價是最新收盤（<span data-draw="pxday" data-source="status" data-field="價格日期" data-row="0">—</span>），實際成交以開盤價為準，股數請照開盤價再算一次。沒有扣手續費與證交稅。<span class="st-idle">本月已換股完成；下次換股日名單更新後，這裡會改用新名單。</span></p>
+    <div class="grid2">
+      <div id="calc-new">
+        <h3>新開始的人</h3>
+        <label class="calcrow" for="calc-total">總資產（元）<input id="calc-total" class="calcin" type="number" min="0" step="10000" value="1000000" inputmode="numeric"></label>
+        <div class="tw" data-source="actions status">
+          <table>
+            <thead><tr><th class="l">項目</th><th class="l">代號</th><th>金額</th><th>參考價</th><th>股數</th></tr></thead>
+            <tbody data-draw="calc-new"></tbody>
+            <tbody>
+              <tr><td class="l">0050 底倉（30%）</td><td class="l">0050</td><td data-draw="n-base-amt"></td><td data-draw="p0"></td><td data-draw="n-base-sh"></td></tr>
+              <tr><td class="l">衛星沒用完的錢也買 0050</td><td class="l">0050</td><td data-draw="n-rest-amt"></td><td data-draw="p0"></td><td data-draw="n-rest-sh"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">0050 底倉＝總資產 30%；本月「買進」每檔＝衛星（70%）÷ 10；其餘衛星資金也買 0050。新開始的人不用買「續抱」的股票。零股可以買。</p>
+      </div>
+
+      <div id="calc-hold">
+        <h3>已照策略持有的人</h3>
+        <p class="note" style="margin-top:0">填你現在的股數（只存在這個瀏覽器）。換股日照規則算出要賣、要買幾股。</p>
+        <div class="ingrid">
+          <label for="h-e50">0050 總股數<input id="h-e50" class="calcin" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></label>
+          <label for="h-base">其中底倉股數（不知道就留空）<input id="h-base" class="calcin" type="number" min="0" step="1" inputmode="numeric" placeholder="留空＝重設成 30%"></label>
+          <label for="h-cash">現金（元）<input id="h-cash" class="calcin" type="number" min="0" step="1000" inputmode="numeric" placeholder="0"></label>
+        </div>
+        <div class="tw" data-source="actions">
+          <table>
+            <thead><tr><th class="l">代號</th><th class="l">名稱</th><th class="l">本月</th><th>我的股數</th></tr></thead>
+            <tbody data-draw="hold-inputs"></tbody>
+          </table>
+        </div>
+        <div class="calcrow" style="margin-top: var(--cds-gap-sm)"><button type="button" class="btn" id="h-fill">用策略目前持股比例試填（照「新開始的人」的總資產）</button><button type="button" class="btn" id="h-clear">清空</button></div>
+        <div class="facts">
+          <div class="fact"><div class="k">總資產（參考價）</div><div class="v" data-draw="h-total">—</div></div>
+          <div class="fact"><div class="k">衛星占比</div><div class="v" data-draw="h-sat">—</div></div>
+          <div class="fact"><div class="k">底倉</div><div class="v" data-draw="h-base-out">—</div></div>
+          <div class="fact"><div class="k">每檔金額</div><div class="v" data-draw="h-per">—</div></div>
+        </div>
+        <div class="tw" style="margin-top: var(--cds-gap-sm)" data-source="actions status">
+          <table>
+            <thead><tr><th class="l">動作</th><th class="l">代號</th><th class="l">名稱</th><th>股數</th><th>參考價</th><th>約金額</th></tr></thead>
+            <tbody data-draw="h-orders"></tbody>
+            <tfoot><tr><td class="l">換股後</td><td class="l">0050</td><td class="l">總股數</td><td data-draw="h-e50-after"></td><td data-draw="p0"></td><td data-draw="h-cash-after"></td></tr></tfoot>
+          </table>
+        </div>
+        <ul class="calc-msgs" data-draw="h-msgs"></ul>
+        <p class="note">規則：衛星資金＝總資產 − 底倉股數 × 0050 價格；衛星占總資產超出 60%～80% 才把底倉重設回 30%。賣出清單的持股全部賣掉；已持有的不重買；每檔＝衛星 ÷ 10、持股最多 10 檔；錢不夠先用現金、再賣 0050；買不到一半金額就跳過；最後剩下現金 ≥ 2 萬買 0050。底倉表格最後一列的「約金額」是換股後剩下的現金。</p>
+      </div>
     </div>
   </section>
 
@@ -73,38 +182,47 @@
       <h2>策略目前持股</h2>
       <div class="tw">
         <table data-source="holdings" data-row-key="代號">
-          <thead><tr><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th class="l" data-field="狀態">狀態</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th data-field="訊號日收盤">訊號日收盤</th><th data-field="最新收盤">最新收盤</th><th data-field="本月以來%">漲跌 %</th></tr></thead>
+          <thead><tr><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th class="l" data-field="狀態">狀態</th><th data-field="股數">股數</th><th data-field="起始價">起始價</th><th data-field="訊號日收盤">訊號日收盤</th><th data-field="最新收盤">最新收盤</th><th data-field="本月以來%">本月漲跌 %</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th></tr></thead>
           <tbody data-draw="holdings"></tbody>
         </table>
       </div>
-      <p class="note">漲跌％從本月訊號日收盤算到最新收盤（<span data-draw="asof2" data-source="status" data-field="資料最後一天" data-row="0">—</span>）。另有 0050 底倉（總資產 30%）；衛星每檔＝衛星資金 ÷ 10，沒用完的錢也放 0050。</p>
+      <p class="note">股數是 100 萬比例的策略持股；起始價＝上線起始日（2026-11-12）開盤價。本月漲跌％從本月訊號日收盤算到最新收盤（<span data-draw="asof2" data-source="status" data-field="資料最後一天" data-row="0">—</span>）。0050＝底倉 30%＋衛星沒用完的錢。</p>
     </section>
   </div>
 
-  <div class="grid2">
-    <section class="card" id="live">
-      <h2>上線後表現（2026-11-12 起）</h2>
-      <div class="facts">
-        <div class="fact"><div class="k">策略</div><div class="v" data-draw="live-s" data-source="live_sum" data-field="報酬%" data-where="項目=策略">—</div></div>
-        <div class="fact"><div class="k">0050</div><div class="v" data-draw="live-e" data-source="live_sum" data-field="報酬%" data-where="項目=0050">—</div></div>
-        <div class="fact"><div class="k">交易日數</div><div class="v" data-draw="live-n" data-source="live_sum" data-field="交易日數" data-where="項目=策略">—</div></div>
+  <section class="card" id="live">
+    <h2>上線後表現（2026-11-12 起）</h2>
+    <div class="facts">
+      <div class="fact"><div class="k">策略累積報酬</div><div class="v" data-draw="live-s" data-source="live_sum" data-field="報酬%" data-where="項目=策略">—</div></div>
+      <div class="fact"><div class="k">0050 累積報酬</div><div class="v" data-draw="live-e" data-source="live_sum" data-field="報酬%" data-where="項目=0050">—</div></div>
+      <div class="fact"><div class="k">策略 − 0050</div><div class="v"><span data-draw="live-diff" data-source="live_diff">—</span> 個百分點</div></div>
+      <div class="fact"><div class="k">交易日數</div><div class="v" data-draw="live-n" data-source="live_sum" data-field="交易日數" data-where="項目=策略">—</div></div>
+    </div>
+    <div class="grid2" style="margin-top: var(--cds-gap-md)">
+      <div>
+        <h3>累積報酬（%）</h3>
+        <div class="legend"><span><i class="sw" data-draw="sw0"></i>策略</span><span><i class="sw" data-draw="sw2"></i>0050</span></div>
+        <div class="chartbox small" data-draw="livechart" data-source="live"></div>
       </div>
-      <div class="chartbox small" data-draw="livechart" data-source="live"></div>
-      <p class="note">策略＝11/12 開盤換股後的持股（含 0050 底倉），起始＝100 萬；用官方收盤價每天更新。這是策略照規則運作的紀錄，不是你的帳戶。</p>
-    </section>
+      <div>
+        <h3>每檔持股貢獻（個百分點）</h3>
+        <div class="chartbox" style="min-height: 150px" data-draw="contrib" data-source="contrib"></div>
+        <p class="note">貢獻＝股數 ×（最新收盤 − 起始價）÷ 起始總市值。全部加起來約等於策略的累積報酬。</p>
+      </div>
+    </div>
+    <p class="note">策略＝11/12 開盤換股後的持股（含 0050），起始＝100 萬；用官方收盤價每天更新，未含除息。這是策略照規則運作的紀錄，不是你的帳戶。只有幾天的表現看不出好壞。</p>
+  </section>
 
-    <section class="card" id="calc">
-      <h2>我的下單計算</h2>
-      <label class="calcrow" for="calc-total">總資產（元）<input id="calc-total" class="calcin" type="number" min="100000" step="10000" value="1000000" inputmode="numeric"></label>
-      <div class="tw" data-source="actions status">
-        <table>
-          <thead><tr><th class="l">項目</th><th class="l">代號</th><th>每檔金額</th><th>參考價</th><th>建議股數</th></tr></thead>
-          <tbody data-draw="calc"></tbody>
-        </table>
-      </div>
-      <p class="note">新開始的人：0050 底倉＝總資產 30%；本月「買進」每檔＝衛星（70%）÷ 10；其餘衛星資金也買 0050。參考價用最新收盤，實際成交用開盤價，股數請照開盤價再算一次。零股可買，買不到一半金額就跳過。</p>
-    </section>
-  </div>
+  <section class="card" id="risk">
+    <h2>風險提示：回測裡最難熬的地方</h2>
+    <ul class="risks" data-source="risk">
+      <li><b>最大回撤</b>：回測最多從高點跌 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=回撤_單一路徑">—</b>（2024-07 到 2025-04 關稅衝擊），和 0050 的 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=0050_回撤">—</b> 差不多。換 20 個起始日的中位數 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=回撤_20條中位數">—</b>，差的時候 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=回撤_壞的時候">—</b>。</li>
+      <li><b>最差年份</b>：<b class="n" data-draw="worst-year" data-source="worst_year" data-field="年" data-row="0">—</b> 年策略 <b class="n" data-draw="worst-ret" data-source="worst_year" data-field="現行策略" data-row="0">—</b>（0050 同年 <b class="n" data-draw="worst-etf" data-source="worst_year" data-field="0050" data-row="0">—</b>）。也會長時間輸 0050：2025 年滾動 12 個月最多落後 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=落後0050最多">—</b>，約 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=落後時間比例">—</b> 的時間是落後的。</li>
+      <li><b>報酬集中在少數大贏家</b>：最賺 5 筆占已平倉損益 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=最賺5筆占比">—</b>；完全不買這 5 檔，2019 年起每年從 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=年化_全部">—</b> 降到 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=年化_不買最賺5檔">—</b>。只有 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=勝率">—</b> 的交易賺錢，靠賺的平均 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=賺的平均">—</b> 抵掉賠的平均 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=賠的平均">—</b>。不要自己加條件，可能剛好篩掉下一個大贏家。</li>
+      <li><b>晚下單的代價</b>：晚 1 天下單每年少約 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=晚1天少">—</b>，晚 2 天少約 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=晚2天少">—</b>、最大回撤變 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=晚2天回撤">—</b>。每月都準時開盤下單，可預期每年約 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=準時可預期">—</b>；有時晚 0～4 天約 <b class="n" data-draw="rk" data-source="risk" data-field="數值" data-where="項目=有時晚可預期">—</b>。損失一半來自晚賣，賣出和買進都要在換股隔天開盤做。</li>
+    </ul>
+    <p class="note">出處：研究中心回測（xq_scripts/README.md 第 12、14、15、16 節，底倉衛星操作說明第 1、5 節；嚴成本、只上市、排除創新板）。最差年份由逐年報酬算出。回測不保證未來。</p>
+  </section>
 
   <section class="card" id="top20">
     <h2>本月排名前 20（季線上、依 SURGE）</h2>
@@ -120,14 +238,14 @@
   <section class="card" id="perf">
     <h2>回測：100 萬會變多少</h2>
     <div class="legend">
-      <span><i class="sw" style="background: var(--cds-chart-series-1, currentColor)" data-draw="sw0"></i>現行策略（研究中心版）</span>
+      <span><i class="sw" data-draw="sw0"></i>現行策略（研究中心版）</span>
       <span><i class="sw" data-draw="sw1"></i>XQ 版（20＋21 號固定門檻）</span>
       <span><i class="sw" data-draw="sw2"></i>0050（含息）</span>
     </div>
     <div class="chartbox" data-draw="nav" data-source="nav"></div>
     <h2 class="sub">回撤：從最高點跌了多少</h2>
     <div class="chartbox small" data-draw="dd" data-source="nav"></div>
-    <p class="note">對數縱軸。嚴成本：手續費 2.8 折、證交稅、每邊半個跳動點＋0.3% 滑價；只上市、排除創新板。單一條回測路徑；換 20 個起始日，現行策略 2019 年起每年中位數約 46%，偶爾晚 0～4 天下單約 43%。回測不保證未來。</p>
+    <p class="note">對數縱軸。週資料畫的，會看不到週中低點（日資料的最大回撤見上面風險提示）。嚴成本：手續費 2.8 折、證交稅、每邊半個跳動點＋0.3% 滑價；只上市、排除創新板。單一條回測路徑；換 20 個起始日，現行策略 2019 年起每年中位數約 46%，偶爾晚 0～4 天下單約 43%。回測不保證未來。</p>
   </section>
 
   <section class="card" id="yearly">
@@ -147,27 +265,76 @@
       <li>訊號日收盤後（建議 22 點後，營收比較齊）看本頁或在 XQ 跑 20、21 號。</li>
       <li>持股出現在賣出清單的，隔天開盤賣掉。</li>
       <li>買進清單照 SURGE 由高到低，買到持股滿 10 檔；已持有的不重買；開盤就漲停的不追、處置股不買。</li>
-      <li>每檔金額＝（總資產 − 0050 底倉市值）÷ 10；買不到一半金額就跳過；剩下現金超過 2 萬買 0050。</li>
+      <li>每檔金額＝（總資產 − 0050 底倉市值）÷ 10；買不到一半金額就跳過；剩下現金 2 萬以上買 0050。</li>
       <li>衛星占總資產超出 60%～80%，把底倉重設回總資產 30%。</li>
     </ol>
-    <p class="note">不要自己加移動停損、只買量增或只買營收持續成長等條件，研究都測過會變差。這是研究中心的回測與名單，不是投資建議；要不要投入、投多少由你決定。</p>
+    <p class="note">不要自己加移動停損、只買量增或只買營收持續成長等條件，研究都測過會變差。這是策略的決定與研究中心的回測，不是投資建議；要不要投入、投多少、何時下單由你決定。</p>
   </section>
 </div>
 
 <script>
 (function () {
+  // ---------- 共用 ----------
   const st = () => dash.data('status');
-  const field = (f) => { const s = st(); return s.status === 'ok' && s.data[0] ? String(s.data[0][f] ?? '—') : '—'; };
-  ['act-inline', 'detail', 'nextsig', 'nextexec', 'sig', 'revm', 'asof'].forEach((n) => {
-    const map = { 'act-inline': '動作', detail: '說明', nextsig: '下次訊號日', nextexec: '下次執行日', sig: '本月訊號日', revm: '營收月份', asof: '資料最後一天' };
-    dash.draw(n, (el) => { el.textContent = field(map[n]); });
+  const field = (f) => { const s = st(); return s.status === 'ok' && s.data[0] && s.data[0][f] !== null && s.data[0][f] !== undefined ? String(s.data[0][f]) : '—'; };
+  const fmt = (v, d) => (v === null || v === undefined || v === '' || isNaN(+v)) ? '—' : (+v).toFixed(d);
+  const money = (v) => (v === null || !isFinite(v)) ? '—' : Math.round(v).toLocaleString('zh-TW');
+  const intf = (v) => (v === null || !isFinite(v)) ? '—' : Math.round(v).toLocaleString('zh-TW');
+  const tpToday = () => { try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); } catch (e) { return new Date().toISOString().slice(0, 10); } };
+  const dayDiff = (a, b) => Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000);
+  const stage = () => field('階段');
+  const GO = ['sig', 'exec'];
+  let autoOpened = false;
+
+  // 依階段切換整句（只設 hidden／open／class）
+  dash.onData(() => {
+    const s = st(); const ok = s.status === 'ok' && s.data[0];
+    const sg = ok ? String(s.data[0]['階段'] || 'idle') : 'idle';
+    const today = ok ? String(s.data[0]['今天']) : '';
+    const tp = tpToday();
+    const show = (sel, on) => document.querySelectorAll(sel).forEach((el) => { el.hidden = !on; });
+    show('.mx .st-go-sig', sg === 'sig');
+    show('.mx .st-go-exec', sg === 'exec');
+    show('.mx .st-idle', GO.indexOf(sg) < 0);
+    show('.mx .st-pending', sg === 'sig_pending' || sg === 'exec_pending');
+    const stale = ok && today && tp > today;
+    show('.mx .st-stale', !!stale);
+    show('.mx .st-stale-swap', !!(stale && ok && tp >= String(s.data[0]['下次訊號日'])));
+    document.querySelectorAll('.mx .hero').forEach((el) => el.classList.toggle('go', ok && sg !== 'idle'));
+    if (ok && GO.indexOf(sg) >= 0 && !autoOpened) { autoOpened = true; document.querySelectorAll('.mx details.swap').forEach((el) => { el.open = true; }); }
   });
-  dash.draw('act', (el) => { const v = field('動作'); el.textContent = v; el.classList.toggle('go', v.indexOf('換股') >= 0); });
+
+  const simple = { 'act-inline': '動作', act: '動作', detail: '說明', nextsig: '下次訊號日', nextexec: '下次執行日', 'today-date': '今天', 'today-date2': '今天', 'exec-date': '本月執行日', 'sig-date': '本月訊號日', asof2: '資料最後一天', pxday: '價格日期' };
+  Object.keys(simple).forEach((n) => dash.draw(n, (el) => { el.textContent = field(simple[n]); }));
+  dash.draw('tp-today', (el) => { el.textContent = tpToday(); });
+  dash.draw('countdown', (el) => {
+    const v = field('下次訊號日'); if (v === '—') { el.textContent = '—'; return; }
+    el.textContent = String(Math.max(0, dayDiff(tpToday(), v)));
+  });
   dash.draw('sw0', (el) => { el.style.background = dash.colors[0]; });
   dash.draw('sw1', (el) => { el.style.background = dash.colors[1]; });
   dash.draw('sw2', (el) => { el.style.background = dash.colors[2]; });
 
-  const fmt = (v, d) => (v === null || v === undefined || v === '' || isNaN(+v)) ? '—' : (+v).toFixed(d);
+  // ---------- 今日行動卡的清單 ----------
+  function swapList(ul, act) {
+    ul.replaceChildren();
+    const a = dash.data('actions'); if (a.status !== 'ok') return;
+    a.data.filter((r) => r['動作'] === act).forEach((r) => {
+      const li = document.createElement('li');
+      const nm = document.createElement('span'); nm.className = 'nm';
+      const code = document.createElement('span'); code.textContent = r['代號'] + ' ';
+      const name = document.createElement('span'); name.textContent = r['名稱'];
+      name.setAttribute('data-source', 'actions'); name.setAttribute('data-field', '名稱'); name.setAttribute('data-where', '代號=' + encodeURIComponent(r['代號']));
+      nm.append(code, name);
+      const why = document.createElement('span'); why.className = 'why'; why.textContent = r['原因'] || '';
+      li.append(nm, why); ul.appendChild(li);
+    });
+  }
+  dash.draw('sell-list', (ul) => swapList(ul, '賣出'));
+  dash.draw('buy-list', (ul) => swapList(ul, '買進'));
+  dash.draw('keep-list', (ul) => swapList(ul, '續抱'));
+
+  // ---------- 表格 ----------
   function fillTable(tbody, id, cols, rowFn) {
     const s = dash.data(id);
     tbody.replaceChildren();
@@ -186,37 +353,82 @@
       tbody.appendChild(tr);
     });
   }
-  const pill = (v) => { const sp = document.createElement('span'); sp.className = 'pill ' + (v === '買進' || v === '新買' ? 'buy' : v === '賣出' ? 'sell' : 'hold'); sp.textContent = v; return sp; };
+  const pill = (v) => { const sp = document.createElement('span'); sp.className = 'pill ' + (v === '買進' || v === '新買' ? 'buy' : v === '賣出' ? 'sell' : 'hold'); sp.textContent = v ?? '—'; return sp; };
   const pct = (v, r, td) => { if (+v < 0) td.classList.add('neg'); return fmt(v, 1) + '%'; };
+  const pct2 = (v, r, td) => { if (v === null || v === undefined) return '—'; if (+v < 0) td.classList.add('neg'); return fmt(v, 2) + '%'; };
 
   dash.draw('actions', (tb) => fillTable(tb, 'actions', { key: '代號', list: [
     ['動作', 'l', pill], ['代號', 'l'], ['名稱', 'l'], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['原因', 'l']] }));
   dash.draw('holdings', (tb) => fillTable(tb, 'holdings', { key: '代號', list: [
-    ['代號', 'l'], ['名稱', 'l'], ['狀態', 'l', pill], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['訊號日收盤', '', (v) => fmt(v, 2)], ['最新收盤', '', (v) => fmt(v, 2)], ['本月以來%', '', pct]] }));
+    ['代號', 'l'], ['名稱', 'l'], ['狀態', 'l', pill], ['股數', '', (v) => intf(v === null || v === undefined ? null : +v)], ['起始價', '', (v) => fmt(v, 2)], ['訊號日收盤', '', (v) => fmt(v, 2)], ['最新收盤', '', (v) => fmt(v, 2)], ['本月以來%', '', pct2], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)]] }));
   dash.draw('top20', (tb) => fillTable(tb, 'top20', { key: '代號', list: [
     ['名次', '', (v) => fmt(v, 0)], ['代號', 'l'], ['名稱', 'l'], ['SURGE', '', (v) => fmt(v, 2)], ['前20日漲幅%', '', (v) => fmt(v, 1)], ['距季線%', '', (v) => fmt(v, 1)], ['收盤', '', (v) => fmt(v, 2)], ['入選', 'l']] },
     (tr, r) => { if (r['入選'] === '是') tr.className = 'pick'; }));
   dash.draw('yearly', (tb) => fillTable(tb, 'yearly', { key: '年', list: [
     ['年', 'l'], ['現行策略', '', pct], ['XQ版', '', pct], ['0050', '', pct]] }));
 
+  // ---------- 計算值 ----------
+  dash.calc('live_sum', { inputs: ['live'], title: '上線後報酬', description: '最新一天相對起始 100 萬的累積報酬',
+    fn: (live) => { if (!live.length) return []; const a = live[live.length - 1];
+      return [{ 項目: '策略', '報酬%': +((a['策略'] / 1e6 - 1) * 100).toFixed(2), 交易日數: live.length },
+              { 項目: '0050', '報酬%': +((a['0050'] / 1e6 - 1) * 100).toFixed(2), 交易日數: live.length }]; } });
+  dash.calc('live_diff', { inputs: ['live'], title: '上線後策略減 0050', description: '策略累積報酬減 0050 累積報酬（個百分點）',
+    fn: (live) => { if (!live.length) return null; const a = live[live.length - 1];
+      return +(((a['策略'] - a['0050']) / 1e6) * 100).toFixed(2); } });
+  dash.calc('contrib', { inputs: ['holdings'], title: '每檔持股貢獻', description: '股數 ×（最新收盤 − 起始價）÷ 起始總市值，單位個百分點',
+    fn: (holdings) => {
+      const rows = holdings.filter((r) => +r['股數'] > 0 && +r['起始價'] > 0 && +r['最新收盤'] > 0);
+      const base = rows.reduce((s, r) => s + r['股數'] * r['起始價'], 0);
+      if (!base) return [];
+      return rows.map((r) => ({ 代號: r['代號'], 名稱: r['名稱'], 損益: Math.round(r['股數'] * (r['最新收盤'] - r['起始價'])),
+        貢獻: +((r['股數'] * (r['最新收盤'] - r['起始價']) / base) * 100).toFixed(2) }));
+    } });
+  dash.calc('worst_year', { inputs: ['yearly'], title: '回測最差年份', description: '逐年報酬裡現行策略最低的一年（2015 只有半年，不算）',
+    fn: (yearly) => { const full = yearly.filter((r) => +r['年'] >= 2016); if (!full.length) return [];
+      const w = full.reduce((m, r) => (+r['現行策略'] < +m['現行策略'] ? r : m), full[0]);
+      return [{ '年': w['年'], '現行策略': w['現行策略'], '0050': w['0050'] }]; } });
+
+  const signed = (el, v, unit) => { el.textContent = v === null || v === undefined || !isFinite(v) ? '—' : (v > 0 ? '+' : '') + (+v).toFixed(2) + (unit || ''); el.classList.toggle('neg', v !== null && v < 0); el.classList.toggle('pos', v !== null && v > 0); };
+  const sumv = (who, f) => { const s = dash.data('live_sum'); if (s.status !== 'ok' || !s.data) return null; const r = s.data.find((x) => x['項目'] === who); return r ? r[f] : null; };
+  dash.draw('live-s', (el) => signed(el, sumv('策略', '報酬%'), '%'));
+  dash.draw('live-e', (el) => signed(el, sumv('0050', '報酬%'), '%'));
+  dash.draw('live-diff', (el) => { const s = dash.data('live_diff'); signed(el, s.status === 'ok' ? s.data : null, ''); });
+  dash.draw('live-n', (el) => { const v = sumv('策略', '交易日數'); el.textContent = v === null ? '—' : String(v); });
+
+  // 風險數字
+  dash.draw('rk', (el) => {
+    const s = dash.data('risk'); const w = (el.getAttribute('data-where') || '').split('=')[1];
+    const r = s.status === 'ok' ? s.data.find((x) => x['項目'] === decodeURIComponent(w || '')) : null;
+    if (!r) { el.textContent = '—'; return; }
+    const v = +r['數值']; const u = r['單位'];
+    el.textContent = (u === '%' ? String(v) + '%' : String(v) + ' ' + u);
+  });
+  const wy = (f) => { const s = dash.data('worst_year'); return s.status === 'ok' && s.data && s.data[0] ? s.data[0][f] : null; };
+  dash.draw('worst-year', (el) => { const v = wy('年'); el.textContent = v === null ? '—' : String(v); });
+  dash.draw('worst-ret', (el) => { const v = wy('現行策略'); el.textContent = v === null ? '—' : fmt(v, 1) + '%'; });
+  dash.draw('worst-etf', (el) => { const v = wy('0050'); el.textContent = v === null ? '—' : fmt(v, 1) + '%'; });
+
+  // ---------- 圖 ----------
+  const P = d3.utcParse('%Y-%m-%d');
+  function placeTip(box, tip, cx, W) { const bw = box.clientWidth, sx = bw / W; tip.hidden = false; const tw = tip.offsetWidth || 160; let left = cx * sx + 12; if (left + tw > bw) left = Math.max(0, cx * sx - tw - 12); tip.style.left = left + 'px'; tip.style.top = '8px'; }
+
   dash.draw('nav', (box) => {
     const s = dash.data('nav');
     box.replaceChildren();
     if (s.status !== 'ok' || !s.data.length) { box.textContent = s.status === 'error' ? '無法載入' : '—'; return; }
     const keys = ['現行策略', 'XQ版', '0050'];
-    const parse = d3.utcParse('%Y-%m-%d');
-    const rows = s.data.map((r) => ({ t: parse(r['日期']), v: keys.map((k) => +r[k]) }));
-    const W = Math.max(300, box.clientWidth || 600), H = 320, ml = 64, mr = 90, mt = 10, mb = 26;
+    const rows = s.data.map((r) => ({ t: P(r['日期']), v: keys.map((k) => +r[k]) }));
+    const W = Math.max(280, box.clientWidth || 600), H = 320, ml = 56, mr = W < 420 ? 64 : 84, mt = 10, mb = 26;
     const x = d3.scaleUtc().domain(d3.extent(rows, (r) => r.t)).range([ml, W - mr]);
     const y = d3.scaleLog().domain([7e5, d3.max(rows, (r) => d3.max(r.v)) * 1.1]).range([H - mb, mt]);
     const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
-      .attr('aria-label', '現行策略、XQ 版與 0050 的 100 萬回測資產成長曲線');
+      .attr('aria-label', '現行策略、XQ 版與 0050 的 100 萬回測資產成長曲線（2015-07 起，對數縱軸）');
     const wan = (v) => v >= 1e8 ? (v / 1e8).toFixed(2) + ' 億' : Math.round(v / 1e4).toLocaleString() + ' 萬';
-    const ticks = [1e6, 2e6, 5e6, 1e7, 2e7].filter((t) => t <= y.domain()[1]);
+    const ticks = [1e6, 2e6, 5e6, 1e7, 2e7, 5e7].filter((t) => t <= y.domain()[1]);
     svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y).attr('y2', y).style('stroke', 'var(--cds-chart-grid)');
     svg.append('g').selectAll('text').data(ticks).join('text').attr('x', ml - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text(wan);
     svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).ticks(Math.max(3, Math.floor(W / 90))).tickFormat(d3.utcFormat('%Y')).tickSizeOuter(0))
-      .call((g) => g.select('.domain').style('stroke', 'var(--cds-chart-axis)')).call((g) => g.selectAll('line').style('stroke', 'var(--cds-chart-axis)'));
+      .call((g) => g.selectAll('line,.domain').style('stroke', 'var(--cds-chart-axis)'));
     keys.forEach((k, i) => {
       svg.append('path').datum(rows).attr('fill', 'none').attr('stroke-width', 2).style('stroke', dash.colors[i])
         .attr('d', d3.line().x((r) => x(r.t)).y((r) => y(r.v[i])));
@@ -235,88 +447,240 @@
         tip.replaceChildren();
         const h = document.createElement('div'); h.textContent = d3.utcFormat('%Y-%m-%d')(r.t); tip.appendChild(h);
         keys.forEach((k, i) => { const d = document.createElement('div'); const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = dash.colors[i]; d.appendChild(sw); d.appendChild(document.createTextNode(k + '：' + wan(r.v[i]))); tip.appendChild(d); });
-        tip.hidden = false;
-        const bw = box.clientWidth, sx = bw / W; let left = cx * sx + 12; if (left + 180 > bw) left = cx * sx - 192;
-        tip.style.left = left + 'px'; tip.style.top = '10px';
+        placeTip(box, tip, cx, W);
       })
       .on('pointerleave', () => { hl.attr('opacity', 0); tip.hidden = true; });
   });
 
-  // 距下次產生名單
-  dash.draw('countdown', (el) => {
-    const v = field('下次訊號日'); if (v === '—') { el.textContent = '—'; return; }
-    const t = new Date(v + 'T00:00:00+08:00'); const now = new Date();
-    el.textContent = String(Math.max(0, Math.ceil((t - now) / 86400000)));
-  });
-  dash.draw('asof2', (el) => { el.textContent = field('資料最後一天'); });
-  // 上線後摘要
-  dash.calc('live_sum', { inputs: ['live'], title: '上線後報酬', description: '最新一天相對起始 100 萬的報酬',
-    fn: (live) => { if (!live.length) return []; const a = live[live.length - 1];
-      return [{ 項目: '策略', '報酬%': +((a['策略'] / 1e6 - 1) * 100).toFixed(2), 交易日數: live.length },
-              { 項目: '0050', '報酬%': +((a['0050'] / 1e6 - 1) * 100).toFixed(2), 交易日數: live.length }]; } });
-  const sumv = (who, f) => { const s = dash.data('live_sum'); if (s.status !== 'ok' || !s.data) return null; const r = s.data.find((x) => x['項目'] === who); return r ? r[f] : null; };
-  const signed = (el, v) => { el.textContent = v === null ? '—' : (v > 0 ? '+' : '') + v.toFixed(2) + '%'; el.classList.toggle('neg', v !== null && v < 0); el.classList.toggle('pos', v !== null && v > 0); };
-  dash.draw('live-s', (el) => signed(el, sumv('策略', '報酬%')));
-  dash.draw('live-e', (el) => signed(el, sumv('0050', '報酬%')));
-  dash.draw('live-n', (el) => { const v = sumv('策略', '交易日數'); el.textContent = v === null ? '—' : String(v); });
-
   function lineChart(box, rows, keys, opts) {
     box.replaceChildren();
-    const W = Math.max(280, box.clientWidth || 500), H = opts.h, ml = 56, mr = opts.mr, mt = 10, mb = 24;
+    const W = Math.max(260, box.clientWidth || 500), H = opts.h, ml = 52, mr = opts.mr, mt = 10, mb = 24;
     const x = d3.scaleUtc().domain(d3.extent(rows, (r) => r.t)).range([ml, W - mr]);
     const lo = opts.lo ?? d3.min(rows, (r) => d3.min(r.v)), hi = opts.hi ?? d3.max(rows, (r) => d3.max(r.v));
     const y = d3.scaleLinear().domain(lo === hi ? [lo - 1, hi + 1] : [lo, hi]).nice().range([H - mb, mt]);
     const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', opts.aria);
     const tk = y.ticks(4);
-    svg.append('g').selectAll('line').data(tk).join('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y).attr('y2', y).style('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('line').data(tk).join('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y).attr('y2', y).style('stroke', (t) => t === 0 ? 'var(--cds-chart-reference)' : 'var(--cds-chart-grid)');
     svg.append('g').selectAll('text').data(tk).join('text').attr('x', ml - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text(opts.fmt);
-    svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).ticks(Math.min(rows.length, Math.max(2, Math.floor(W / 90)))).tickFormat(d3.utcFormat(opts.tf)).tickSizeOuter(0))
+    const nt = Math.max(2, Math.floor(W / 70));
+    const ax = d3.axisBottom(x).tickSizeOuter(0);
+    if (rows.length <= nt) ax.tickValues(rows.map((r) => r.t)).tickFormat((t, i) => (opts.tickLabel ? opts.tickLabel(rows[i]) : null) || d3.utcFormat(opts.tf)(t));
+    else ax.ticks(nt).tickFormat(d3.utcFormat(opts.tf));
+    svg.append('g').attr('transform', `translate(0,${H - mb})`).call(ax)
       .call((g) => g.selectAll('line,.domain').style('stroke', 'var(--cds-chart-axis)'));
-    keys.forEach((k, i) => svg.append('path').datum(rows).attr('fill', 'none').attr('stroke-width', 2).style('stroke', dash.colors[opts.ci ? opts.ci[i] : i])
+    const col = (i) => dash.colors[opts.ci ? opts.ci[i] : i];
+    keys.forEach((k, i) => svg.append('path').datum(rows).attr('fill', 'none').attr('stroke-width', 2).style('stroke', col(i))
       .attr('d', d3.line().x((r) => x(r.t)).y((r) => y(r.v[i]))));
-    if (rows.length < 40) keys.forEach((k, i) => svg.append('g').selectAll('circle').data(rows).join('circle').attr('r', 3.5).attr('cx', (r) => x(r.t)).attr('cy', (r) => y(r.v[i])).style('fill', dash.colors[opts.ci ? opts.ci[i] : i]));
+    if (rows.length < 40) keys.forEach((k, i) => svg.append('g').selectAll('circle').data(rows).join('circle').attr('r', 3.5).attr('cx', (r) => x(r.t)).attr('cy', (r) => y(r.v[i])).style('fill', col(i)));
     const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; box.appendChild(tip);
     const bis = d3.bisector((r) => r.t).center;
     const hl = svg.append('line').attr('y1', mt).attr('y2', H - mb).style('stroke', 'var(--cds-chart-reference)').attr('opacity', 0);
-    svg.append('rect').attr('x', ml).attr('y', mt).attr('width', W - mr - ml).attr('height', H - mt - mb).attr('fill', 'transparent')
+    svg.append('rect').attr('x', ml).attr('y', mt).attr('width', Math.max(1, W - mr - ml)).attr('height', H - mt - mb).attr('fill', 'transparent')
       .on('pointermove', (ev) => { const [px] = d3.pointer(ev); const r = rows[bis(rows, x.invert(px))]; const cx = x(r.t);
         hl.attr('x1', cx).attr('x2', cx).attr('opacity', 1); tip.replaceChildren();
-        const h = document.createElement('div'); h.textContent = d3.utcFormat('%Y-%m-%d')(r.t); tip.appendChild(h);
-        keys.forEach((k, i) => { const d = document.createElement('div'); d.textContent = k + '：' + opts.fmt(r.v[i]); tip.appendChild(d); });
-        tip.hidden = false; const bw = box.clientWidth, sx = bw / W; let left = cx * sx + 12; if (left + 170 > bw) left = cx * sx - 182; tip.style.left = left + 'px'; tip.style.top = '8px'; })
+        const h = document.createElement('div'); h.textContent = opts.tipHead ? opts.tipHead(r) : d3.utcFormat('%Y-%m-%d')(r.t); tip.appendChild(h);
+        keys.forEach((k, i) => { const d = document.createElement('div'); const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = col(i); d.appendChild(sw); d.appendChild(document.createTextNode(k + '：' + opts.fmt(r.v[i]))); tip.appendChild(d); });
+        placeTip(box, tip, cx, W); })
       .on('pointerleave', () => { hl.attr('opacity', 0); tip.hidden = true; });
   }
-  const P = d3.utcParse('%Y-%m-%d');
+
   dash.draw('livechart', (box) => {
     const s = dash.data('live'); if (s.status !== 'ok' || !s.data.length) { box.replaceChildren(); box.textContent = s.status === 'error' ? '無法載入' : '—'; return; }
-    const rows = [{ t: d3.utcDay.offset(P(s.data[0]['日期']), -1), v: [1e6, 1e6] }].concat(s.data.map((r) => ({ t: P(r['日期']), v: [+r['策略'], +r['0050']] })));
-    lineChart(box, rows, ['策略', '0050'], { h: 200, mr: 16, tf: '%m/%d', ci: [0, 2], aria: '上線後策略與 0050 的資產變化',
-      fmt: (v) => Math.round(v / 1e4).toLocaleString() + ' 萬' });
+    const r0 = (v) => (v / 1e6 - 1) * 100;
+    const rows = [{ t: d3.utcDay.offset(P(s.data[0]['日期']), -1), v: [0, 0], start: true }].concat(s.data.map((r) => ({ t: P(r['日期']), v: [r0(+r['策略']), r0(+r['0050'])] })));
+    lineChart(box, rows, ['策略', '0050'], { h: 200, mr: 16, tf: '%m/%d', ci: [0, 2], aria: '上線後策略與 0050 的累積報酬（%），起點為 2026-11-12 開盤',
+      tipHead: (r) => r.start ? '起點（11/12 開盤）' : d3.utcFormat('%Y-%m-%d')(r.t), tickLabel: (r) => r.start ? '起點' : null,
+      fmt: (v) => (v > 0 ? '+' : '') + v.toFixed(2) + '%' });
   });
+
+  dash.draw('contrib', (box) => {
+    const s = dash.data('contrib');
+    box.replaceChildren();
+    if (s.status !== 'ok' || !s.data || !s.data.length) { box.textContent = s.status === 'error' ? '無法載入' : '—'; return; }
+    const rows = s.data.slice().sort((a, b) => b['貢獻'] - a['貢獻']);
+    const W = Math.max(260, box.clientWidth || 400), bh = 22, gap = 8, mt = 6, mb = 6;
+    const H = mt + mb + rows.length * (bh + gap);
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+      .attr('aria-label', '每檔持股對策略累積報酬的貢獻（個百分點）：' + rows.map((r) => r['名稱'] + ' ' + (r['貢獻'] > 0 ? '+' : '') + r['貢獻'].toFixed(2)).join('、'));
+    const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r, i) => `translate(0,${mt + i * (bh + gap)})`);
+    const labels = g.append('text').attr('x', 0).attr('y', bh / 2 + 4).text((r) => r['代號'] + ' ' + r['名稱']);
+    // 名稱寬度照畫出來的量
+    let lw = 0; labels.each(function (r) { lw = Math.max(lw, this.getComputedTextLength() || (r['名稱'].length * 13 + 40)); }); lw += 10;
+    const vw = 56;
+    const ext = d3.max(rows, (r) => Math.abs(r['貢獻'])) || 1;
+    const x = d3.scaleLinear().domain([-ext, ext]).range([lw + vw, Math.max(lw + vw + 40, W - vw)]);
+    svg.insert('line', ':first-child').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 0).attr('y2', H).style('stroke', 'var(--cds-chart-axis)');
+    const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; box.appendChild(tip);
+    g.append('rect').attr('x', (r) => Math.min(x(0), x(r['貢獻']))).attr('width', (r) => Math.max(1, Math.abs(x(r['貢獻']) - x(0)))).attr('y', 2).attr('height', bh - 4).attr('rx', 2)
+      .style('fill', (r) => r['貢獻'] >= 0 ? 'var(--color-ok)' : 'var(--color-bad)');
+    g.append('text').attr('y', bh / 2 + 4).attr('x', (r) => r['貢獻'] >= 0 ? x(r['貢獻']) + 4 : x(r['貢獻']) - 4).attr('text-anchor', (r) => r['貢獻'] >= 0 ? 'start' : 'end')
+      .text((r) => (r['貢獻'] > 0 ? '+' : '') + r['貢獻'].toFixed(2));
+    g.append('rect').attr('x', 0).attr('width', W).attr('height', bh + gap).attr('y', -gap / 2).attr('fill', 'transparent')
+      .on('pointermove', (ev, r) => {
+        tip.replaceChildren();
+        [r['代號'] + ' ' + r['名稱'], '貢獻：' + (r['貢獻'] > 0 ? '+' : '') + r['貢獻'].toFixed(2) + ' 個百分點', '損益（100 萬比例）：' + (r['損益'] > 0 ? '+' : '') + money(r['損益']) + ' 元']
+          .forEach((t) => { const d = document.createElement('div'); d.textContent = t; tip.appendChild(d); });
+        tip.hidden = false; const [px, py] = d3.pointer(ev, box); const bw = box.clientWidth; const tw = tip.offsetWidth || 180;
+        tip.style.left = Math.max(0, Math.min(bw - tw, px + 12)) + 'px'; tip.style.top = (py + 14) + 'px';
+      })
+      .on('pointerleave', () => { tip.hidden = true; });
+  });
+
   dash.draw('dd', (box) => {
-    const s = dash.data('nav'); if (s.status !== 'ok' || !s.data.length) { box.replaceChildren(); box.textContent = '—'; return; }
+    const s = dash.data('nav'); if (s.status !== 'ok' || !s.data.length) { box.replaceChildren(); box.textContent = s.status === 'error' ? '無法載入' : '—'; return; }
     const keys = ['現行策略', 'XQ版', '0050']; const pk = [0, 0, 0];
     const rows = s.data.map((r) => ({ t: P(r['日期']), v: keys.map((k, i) => { pk[i] = Math.max(pk[i], +r[k]); return (+r[k] / pk[i] - 1) * 100; }) }));
-    lineChart(box, rows, keys, { h: 200, mr: 16, hi: 0, tf: '%Y', aria: '三條回測的回撤曲線', fmt: (v) => v.toFixed(0) + '%' });
+    lineChart(box, rows, keys, { h: 200, mr: 16, hi: 0, tf: '%Y', aria: '現行策略、XQ 版與 0050 的回測回撤曲線（週資料，%）', fmt: (v) => v.toFixed(0) + '%' });
   });
-  // 下單計算
-  dash.draw('calc', {
-    mount: (tb) => { const inp = document.getElementById('calc-total'); const h = () => dash.draw('calc'); if (inp) inp.addEventListener('input', h); return { inp, h }; },
-    update: (tb, m) => {
-      tb.replaceChildren();
-      const a = dash.data('actions'); const total = Math.max(0, +(m.inp ? m.inp.value : 0) || 0);
-      const add = (label, code, amt, px) => { const tr = document.createElement('tr');
-        [label, code, Math.round(amt).toLocaleString(), px ? px.toFixed(2) : '—', px ? Math.floor(amt / px).toLocaleString() : '—'].forEach((v, i) => { const td = document.createElement('td'); if (i < 2) td.className = 'l'; td.textContent = v; tr.appendChild(td); });
-        tb.appendChild(tr); };
-      if (a.status !== 'ok') return;
-      const base = total * 0.3, per = total * 0.7 / 10;
-      const buys = a.data.filter((r) => r['動作'] === '買進');
-      const epv = +field('0050最新收盤'); const ep = isNaN(epv) || !epv ? null : epv;
-      buys.forEach((r) => add('本月買進 ' + r['名稱'], r['代號'], per, +(r['最新收盤'] || r['訊號日收盤'])));
-      const rest = total * 0.7 - per * buys.length;
-      add('0050 底倉（30%）', '0050', base, ep);
-      add('衛星剩下的錢也買 0050', '0050', rest, ep);
-    },
+
+  // ---------- 下單計算 ----------
+  const LS_KEY = 'surge-calc-v1';
+  const loadState = () => { try { const o = JSON.parse(window.localStorage.getItem(LS_KEY) || '{}'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; } };
+  const saveState = (o) => { try { window.localStorage.setItem(LS_KEY, JSON.stringify(o)); } catch (e) { /* 無法儲存就算了 */ } };
+  let saved = loadState();
+  const $ = (id) => document.getElementById(id);
+  const numIn = (id) => { const el = $(id); if (!el || el.value === '') return null; const v = +el.value; return isFinite(v) && v >= 0 ? v : null; };
+  // 還原輸入（只設 value）
+  [['calc-total', 'total'], ['h-e50', 'e50'], ['h-base', 'base'], ['h-cash', 'cash']].forEach(([id, k]) => { const el = $(id); if (el && saved[k] !== undefined && saved[k] !== null) el.value = saved[k]; });
+
+  const p0 = () => { const v = +field('0050最新收盤'); return isFinite(v) && v > 0 ? v : null; };
+  const pxOf = (r) => { const v = +(r['最新收盤'] || r['訊號日收盤']); return isFinite(v) && v > 0 ? v : null; };
+  const actRows = () => { const a = dash.data('actions'); return a.status === 'ok' ? a.data : null; };
+
+  // 新開始的人
+  function calcNew() {
+    const rows = actRows(); const total = numIn('calc-total') || 0; const e = p0();
+    if (!rows) return null;
+    const per = total * 0.7 / 10;
+    const buys = rows.filter((r) => r['動作'] === '買進').slice(0, 10).map((r) => { const px = pxOf(r); const sh = px ? Math.floor(per / px) : null; return { r, px, sh, amt: sh !== null ? sh * px : per }; });
+    const used = buys.reduce((s, b) => s + (b.sh !== null ? b.amt : 0), 0);
+    const base = total * 0.3, rest = total * 0.7 - used;
+    return { buys, base, rest, e, baseSh: e ? Math.floor(base / e) : null, restSh: e ? Math.floor(rest / e) : null };
+  }
+  const tdRow = (cells) => { const tr = document.createElement('tr'); cells.forEach(([v, cls]) => { const td = document.createElement('td'); if (cls) td.className = cls; if (v instanceof Node) td.appendChild(v); else td.textContent = v; tr.appendChild(td); }); return tr; };
+  dash.draw('calc-new', (tb) => {
+    tb.replaceChildren(); const c = calcNew(); if (!c) return;
+    c.buys.forEach((b) => tb.appendChild(tdRow([['買進 ' + b.r['名稱'], 'l'], [b.r['代號'], 'l'], [money(b.amt)], [b.px ? b.px.toFixed(2) : '—'], [b.sh !== null ? intf(b.sh) : '—']])));
   });
+  dash.draw('n-base-amt', (el) => { const c = calcNew(); el.textContent = c ? money(c.base) : ''; });
+  dash.draw('n-rest-amt', (el) => { const c = calcNew(); el.textContent = c ? money(c.rest) : ''; });
+  dash.draw('n-base-sh', (el) => { const c = calcNew(); el.textContent = c && c.baseSh !== null ? intf(c.baseSh) : ''; });
+  dash.draw('n-rest-sh', (el) => { const c = calcNew(); el.textContent = c && c.restSh !== null ? intf(c.restSh) : ''; });
+  dash.draw('p0', (el) => { const e = p0(); el.textContent = e ? e.toFixed(2) : ''; });
+
+  // 已持有的人：每檔股數輸入
+  const holdShares = () => { const o = {}; document.querySelectorAll('.mx input[data-code]').forEach((el) => { const v = el.value === '' ? 0 : +el.value; o[el.getAttribute('data-code')] = isFinite(v) && v > 0 ? Math.floor(v) : 0; }); return o; };
+  const inputSig = new WeakMap();
+  dash.draw('hold-inputs', (tb) => {
+    const rows = actRows();
+    if (!rows) { tb.replaceChildren(); return; }
+    const sig = rows.map((r) => r['代號'] + r['動作']).join('|');
+    if (inputSig.get(tb) === sig && tb.children.length) return; // 清單沒變就不重畫，保留正在輸入的值
+    const keep = Object.assign({}, (saved.sh || {}), holdShares());
+    tb.replaceChildren(); inputSig.set(tb, sig);
+    rows.forEach((r) => {
+      const inp = document.createElement('input'); inp.type = 'number'; inp.min = '0'; inp.step = '1'; inp.inputMode = 'numeric'; inp.className = 'calcin sm'; inp.placeholder = '0';
+      inp.setAttribute('data-code', r['代號']); inp.setAttribute('aria-label', r['代號'] + ' ' + r['名稱'] + ' 我的股數');
+      if (keep[r['代號']]) inp.value = String(keep[r['代號']]);
+      const tr = tdRow([[r['代號'], 'l'], [r['名稱'], 'l'], [pill(r['動作']), 'l'], [inp]]);
+      tr.dataset.key = encodeURIComponent(r['代號']);
+      tb.appendChild(tr);
+    });
+  });
+
+  function calcHold() {
+    const rows = actRows(); const e = p0(); if (!rows || !e) return null;
+    const sh = holdShares(); let e50 = numIn('h-e50') || 0; let cash = numIn('h-cash') || 0; const baseIn = numIn('h-base');
+    const msgs = []; const orders = [];
+    let stockVal = 0; rows.forEach((r) => { const px = pxOf(r); if (px && sh[r['代號']]) stockVal += sh[r['代號']] * px; });
+    const A = stockVal + e50 * e + cash;
+    if (A <= 0) return { empty: true };
+    let B = baseIn === null ? A * 0.3 / e : baseIn; let baseNote;
+    if (baseIn === null) msgs.push('沒填底倉股數：視為把底倉設成總資產 30%。');
+    let sat = (A - B * e) / A; const sat0 = sat; let reset = false;
+    if (baseIn !== null && (sat < 0.6 || sat > 0.8)) {
+      const old = B; B = Math.floor(A * 0.3 / e); reset = true;
+      baseNote = '重設成 ' + intf(B) + ' 股';
+      msgs.push('衛星占比 ' + (sat * 100).toFixed(1) + '% 超出 60%～80%：底倉從 ' + intf(old) + ' 股重設成 ' + intf(B) + ' 股（只改帳，不用交易）。');
+      if (e50 < B) msgs.push('手上 0050 少於新的底倉股數：照規則要把個股依市值等比例賣掉補足（回測 11 年沒發生過），這個情形請自己確認。');
+      sat = (A - B * e) / A;
+    } else if (baseIn !== null) { baseNote = '不動（' + intf(B) + ' 股）'; }
+    else { B = Math.floor(B); baseNote = intf(B) + ' 股'; sat = (A - B * e) / A; }
+    const per = (A - B * e) / 10;
+    // 先賣
+    rows.filter((r) => r['動作'] === '賣出').forEach((r) => { const n = sh[r['代號']] || 0; const px = pxOf(r); if (n > 0 && px) { cash += n * px; orders.push({ act: '賣出', r, n: -n, px, amt: n * px }); } });
+    let held = rows.filter((r) => r['動作'] !== '賣出' && (sh[r['代號']] || 0) > 0).length;
+    // 再買
+    const buys = rows.filter((r) => r['動作'] === '買進').slice().sort((a, b) => (+a['名次'] || 99) - (+b['名次'] || 99) || (+b['SURGE'] || 0) - (+a['SURGE'] || 0));
+    let e50Sold = 0;
+    buys.forEach((r) => {
+      const px = pxOf(r); if (!px) return;
+      if ((sh[r['代號']] || 0) > 0) { msgs.push(r['代號'] + ' ' + r['名稱'] + ' 已持有，不重買。'); return; }
+      if (held >= 10) { msgs.push(r['代號'] + ' ' + r['名稱'] + '：持股已滿 10 檔，不買。'); return; }
+      const avail = cash + e50 * e; const budget = Math.min(per, avail);
+      if (budget < per / 2) { msgs.push(r['代號'] + ' ' + r['名稱'] + '：能用的錢不到每檔金額的一半，跳過。'); return; }
+      const n = Math.floor(budget / px); if (n <= 0) { msgs.push(r['代號'] + ' ' + r['名稱'] + '：錢不夠買 1 股，跳過。'); return; }
+      const cost = n * px;
+      if (cash < cost) { const need = Math.ceil((cost - cash) / e); e50 -= need; e50Sold += need; cash += need * e; }
+      cash -= cost; held += 1; orders.push({ act: '買進', r, n, px, amt: cost });
+    });
+    if (e50Sold > 0) msgs.push('買股的錢不夠：先用現金，再賣 0050 共 ' + intf(e50Sold) + ' 股。');
+    if (e50 < B) { msgs.push('賣掉的 0050 動用到底倉：底倉股數改成 ' + intf(e50) + ' 股。'); B = e50; }
+    let e50Bought = 0;
+    if (cash >= 20000) { e50Bought = Math.floor(cash / e); cash -= e50Bought * e; msgs.push('剩下現金 2 萬以上：買 0050 ' + intf(e50Bought) + ' 股。'); }
+    else if (cash > 0) msgs.push('剩下現金不到 2 萬，留著。');
+    const net = e50Bought - e50Sold;
+    if (net !== 0) orders.push({ act: net > 0 ? '買進' : '賣出', r: { 代號: '0050', 名稱: '元大台灣50' }, n: net, px: e, amt: Math.abs(net) * e });
+    if (!orders.length) msgs.unshift('照目前填的股數，本月清單不用買賣。');
+    return { A, sat, sat0, reset, B, baseNote, per, orders, e50After: e50 + e50Bought, cash, msgs };
+  }
+  dash.draw('h-total', (el) => { const c = calcHold(); el.textContent = c && !c.empty ? money(c.A) : '—'; });
+  dash.draw('h-sat', (el) => { const c = calcHold(); el.textContent = c && !c.empty ? (c.reset ? (c.sat0 * 100).toFixed(1) + '% → ' : '') + (c.sat * 100).toFixed(1) + '%' : '—'; });
+  dash.draw('h-base-out', (el) => { const c = calcHold(); el.textContent = c && !c.empty ? c.baseNote : '—'; });
+  dash.draw('h-per', (el) => { const c = calcHold(); el.textContent = c && !c.empty ? money(c.per) : '—'; });
+  dash.draw('h-e50-after', (el) => { const c = calcHold(); el.textContent = c && !c.empty ? intf(c.e50After) : ''; });
+  dash.draw('h-cash-after', (el) => { const c = calcHold(); el.textContent = c && !c.empty ? money(c.cash) : ''; });
+  dash.draw('h-orders', (tb) => {
+    tb.replaceChildren(); const c = calcHold(); if (!c || c.empty) return;
+    c.orders.forEach((o) => {
+      const tr = tdRow([[pill(o.act), 'l'], [o.r['代號'], 'l'], [o.r['名稱'], 'l'], [(o.n > 0 ? '+' : '') + intf(o.n)], [o.px.toFixed(2)], [money(o.amt)]]);
+      tb.appendChild(tr);
+    });
+  });
+  dash.draw('h-msgs', (ul) => {
+    ul.replaceChildren(); const c = calcHold();
+    const list = !c ? [] : c.empty ? ['填入你目前的股數與現金，就會算出換股日要賣、要買幾股。'] : c.msgs;
+    list.forEach((t) => { const li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
+  });
+
+  const NEW_DRAWS = ['calc-new', 'n-base-amt', 'n-rest-amt', 'n-base-sh', 'n-rest-sh'];
+  const HOLD_DRAWS = ['h-total', 'h-sat', 'h-base-out', 'h-per', 'h-e50-after', 'h-cash-after', 'h-orders', 'h-msgs'];
+  function persist() {
+    saved = { total: $('calc-total') ? $('calc-total').value : '', e50: $('h-e50') ? $('h-e50').value : '', base: $('h-base') ? $('h-base').value : '', cash: $('h-cash') ? $('h-cash').value : '', sh: holdShares() };
+    saveState(saved);
+  }
+  // 只監聽，重算交給各個 drawing
+  document.querySelectorAll('.mx #calc').forEach((card) => {
+    card.addEventListener('input', (ev) => {
+      persist();
+      if (ev.target && ev.target.id === 'calc-total') NEW_DRAWS.forEach((n) => dash.draw(n));
+      HOLD_DRAWS.forEach((n) => dash.draw(n));
+    });
+  });
+  document.querySelectorAll('.mx #h-fill').forEach((btn) => btn.addEventListener('click', () => {
+    const h = dash.data('holdings'); if (h.status !== 'ok') return;
+    const base = h.data.reduce((s, r) => s + (+r['股數'] || 0) * (+r['最新收盤'] || 0), 0);
+    const target = numIn('calc-total') || 0; if (!base || !target) return;
+    const f = target / base; const by = {}; h.data.forEach((r) => { by[r['代號']] = Math.round((+r['股數'] || 0) * f); });
+    document.querySelectorAll('.mx input[data-code]').forEach((el) => { const v = by[el.getAttribute('data-code')]; el.value = v ? String(v) : ''; });
+    document.querySelectorAll('.mx #h-e50').forEach((el) => { el.value = by['0050'] ? String(by['0050']) : ''; });
+    document.querySelectorAll('.mx #h-base').forEach((el) => { el.value = ''; });
+    document.querySelectorAll('.mx #h-cash').forEach((el) => { el.value = ''; });
+    persist(); HOLD_DRAWS.forEach((n) => dash.draw(n));
+  }));
+  document.querySelectorAll('.mx #h-clear').forEach((btn) => btn.addEventListener('click', () => {
+    document.querySelectorAll('.mx input[data-code], .mx #h-e50, .mx #h-base, .mx #h-cash').forEach((el) => { el.value = ''; });
+    persist(); HOLD_DRAWS.forEach((n) => dash.draw(n));
+  }));
 })();
 </script>
