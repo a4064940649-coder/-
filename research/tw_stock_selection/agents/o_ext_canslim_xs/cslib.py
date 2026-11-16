@@ -18,6 +18,10 @@ DISP_CSV = AG / 'o_disposal_list_pit_audit_pkl18' / 'data' / 'universe_announce.
 END = pd.Timestamp('2026-10-22')        # 0050 與加權指數檔的最後一天
 ODD_DATE = pd.Timestamp('2020-10-26')   # 盤中零股上路；之前只能整股
 MISSING = -999.0
+# 除權息參考價修正（2026-11-16 加，opt-in；規則＝agents/data_exright_fix/exr_common.corrected_chg(mode='main')）。
+# 預設 False：Panel 與加這段之前逐位相同。True：見 exright_fix_chg()。也可用 Panel(exright_fix=True) 單次指定。
+EXRIGHT_FIX = False
+TWT49U_DIR = Path('/home/user/-/research/tw_stock_selection/raw/twt49u/twse-exright')   # 證交所 TWT49U 封存（見同層 README.md）
 
 
 def sha_bytes(b):
@@ -74,6 +78,49 @@ def build_panel(force=False):
     return out
 
 
+def load_twt49u(d=None):
+    """讀 TWT49U 封存（四碼普通股；同日同代號留最後一筆）。欄位 date、code、prev_close、ref_price、value、type。"""
+    fr = [pd.read_csv(f, dtype={'code': str}) for f in sorted(Path(d or TWT49U_DIR).glob('*/*.csv.gz'))]
+    e = pd.concat(fr, ignore_index=True)
+    e['date'] = pd.to_datetime(e['date'])
+    e = e[e['code'].str.fullmatch(r'[1-9]\d{3}')]
+    return e.drop_duplicates(['date', 'code'], keep='last')
+
+
+def exright_fix_chg(IDX, COLS, C, CHG, MK, ev):
+    """官方日 K 的漲跌價差在除權息日與「前一日無成交」日一律是 0（agents/data_exright_fix/AUDIT.md）。回傳（修正後 CHG 複本, 資訊 dict）。
+    逐行同 exr_common.corrected_chg(mode='main')：
+    (a) 上市（MK＝1）、當天在 TWT49U、漲跌價差＝0（或缺值）→ CHG＝收盤 − TWT49U 參考價；
+        收盤落在參考價 ±10.1% 以外（現金增資除權，TWT49U 參考價含現增理論價）→ 改用前一成交收盤。
+    (b) 上市、不在 TWT49U、漲跌價差＝0、收盤對前一成交收盤有變、前一日無成交、漲跌 ≤ 10.5% → CHG＝收盤 − 前一成交收盤。
+    其餘（上櫃、超過 10.5% 的參考價重設、原因不明）不動。只看當日與過去，所以截斷面板前後算結果相同。"""
+    IDX = pd.DatetimeIndex(IDX); CHG = np.array(CHG, dtype=float, copy=True)
+    T, N = C.shape
+    has = np.isfinite(C) & (C > 0)
+    CF = pd.DataFrame(np.where(has, C, np.nan)).ffill().to_numpy()
+    prevC = np.vstack([np.full((1, N), np.nan), CF[:-1]])
+    zero = np.nan_to_num(CHG) == 0
+    with np.errstate(invalid='ignore'):
+        z = has & np.isfinite(prevC) & zero & (np.abs(C - prevC) > 1e-9)
+    REFX = np.full((T, N), np.nan)
+    ci = {c: j for j, c in enumerate(COLS)}; di = {d: i for i, d in enumerate(IDX)}
+    e = ev[ev['code'].isin(ci) & ev['date'].isin(di)]
+    REFX[e['date'].map(di).to_numpy(), e['code'].map(ci).to_numpy()] = e['ref_price'].to_numpy()
+    inx = np.isfinite(REFX) & (MK == 1)
+    prev_tr = np.vstack([np.zeros((1, N), bool), has[:-1]])
+    m = has & inx & zero
+    with np.errstate(invalid='ignore', divide='ignore'):
+        rr = C / REFX
+        oob = m & ~((rr >= 0.899) & (rr <= 1.101))
+        REFX[oob] = prevC[oob]
+        CHG[m] = C[m] - REFX[m]
+        m3 = z & ~inx & ~prev_tr & (MK == 1) & (np.abs(C / prevC - 1) <= 0.105)
+    CHG[m3] = C[m3] - prevC[m3]
+    info = dict(n_twt49u=int(m.sum()), n_rights_issue_fallback=int(oob.sum()), n_prev_untraded=int(m3.sum()),
+                n_total=int(m.sum() + m3.sum()), twt49u_last=str(ev['date'].max().date()) if len(ev) else None)
+    return CHG, info
+
+
 def tick(p):
     p = np.asarray(p, float)
     return np.select([p < 10, p < 50, p < 100, p < 500, p < 1000], [0.01, 0.05, 0.1, 0.5, 1.0], 5.0)
@@ -82,13 +129,19 @@ def tick(p):
 class Panel:
     """載入面板並算出訊號與成交需要的全部陣列（列＝交易日，欄＝股票）。"""
 
-    def __init__(self):
+    def __init__(self, exright_fix=None):
+        """exright_fix：None＝用模組設定 EXRIGHT_FIX（預設 False）；True＝漲跌價差先經 exright_fix_chg() 修正（除權息用 TWT49U 參考價、
+        前一日無成交用前一成交收盤），再算參考價 REF、含息報酬 R、漲跌停價。False 時與 2026-11-16 之前逐位相同。"""
         z = np.load(build_panel(), allow_pickle=False)
         idx = pd.DatetimeIndex(z['IDX']); keep = idx <= END
         self.IDX = idx[keep]; self.COLS = np.array(z['COLS']); self.T, self.N = int(keep.sum()), len(self.COLS)
         g = lambda k: z[k][keep]
         self.O, self.H, self.L, self.C = g('O'), g('H'), g('L'), g('C')
         self.VOL, self.AMT, self.CHG, self.MK = g('VOL'), g('AMT'), g('CHG'), g('MK')
+        self.exright_fix = bool(EXRIGHT_FIX if exright_fix is None else exright_fix)
+        self.exright_info = None
+        if self.exright_fix:
+            self.CHG, self.exright_info = exright_fix_chg(self.IDX, self.COLS, self.C, self.CHG, self.MK, load_twt49u())
         C, O = self.C, self.O
         self.has = np.isfinite(C) & (C > 0)                               # 當日有成交
         self.listed = self.MK > 0                                          # 當日在官方日 K 內（含無成交）

@@ -56,9 +56,11 @@ def build_panel():
     return out
 
 
-def load():
+def load(exright_fix=None):
+    """exright_fix：None＝照 cslib.EXRIGHT_FIX（預設 False，逐位同舊版）；True＝除權息參考價修正（cslib.Panel 說明）。
+    上層的 s2lib～s20lib.load() 沒有這個參數，要開就先設 cslib.EXRIGHT_FIX = True 再 load()。"""
     build_panel()
-    P = cslib.Panel()
+    P = cslib.Panel(exright_fix=exright_fix)
     e = pd.read_csv(S1 / 'e50_ohlc.csv', parse_dates=['date']).set_index('date').reindex(P.IDX)
     P.E50O_raw = e['open'].to_numpy()
     ratio = (e['open'] / e['close']).to_numpy()
