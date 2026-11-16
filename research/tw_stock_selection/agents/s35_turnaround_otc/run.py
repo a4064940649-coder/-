@@ -51,7 +51,19 @@ def attach(df0):
     return d
 
 
-df = attach(df)
+SMOKE = '--smoke' in sys.argv                              # 冒煙測試：報酬全部換成亂數（不看真實報酬），輸出到 scratchpad
+_rng = np.random.default_rng(0)
+
+
+def smoke(d):
+    if SMOKE:
+        for col in ('ret', 'ex50', 'exP', 'peer', 'r50', 'excess'):
+            if col in d:
+                d[col] = np.where(np.isfinite(d[col]), _rng.normal(0, 0.2, len(d)), np.nan)
+    return d
+
+
+df = smoke(attach(df))
 df = df[np.isfinite(df['ret'])].reset_index(drop=True)
 print('outcomes', f'{time.time()-t0:.0f}s', rss(), 'MB', flush=True)
 out = {'PREREG_sha256': PR_SHA, 'note': '上櫃 F1 逐筆，E0 持有期，不扣成本；超額單位為小數（_pct 為 %）'}
@@ -100,7 +112,7 @@ out['drop_top5_exP'] = cluster_diff(d5['exP'], d5['TA'].astype(float), d5['month
 dd = df[np.isfinite(df['exP'])]
 out['median_diff_exP_pct'] = float((dd.loc[dd['TA'], 'exP'].median() - dd.loc[~dd['TA'], 'exP'].median()) * 100)
 out['n_ind_dose'] = {int(k): grp_stats(g['exP']) for k, g in dd.groupby('n_ind')}
-print('tests', json.dumps(out['primary'], default=str), flush=True)
+print('tests done', flush=True)
 
 # ---------------------------------------------------------------- 上櫃除權息悲觀界（訊號、名單不變；只換持有期與同業報酬的價格序列）
 C, has = P.C, P.has
@@ -112,7 +124,7 @@ R2 = np.where(np.abs(R2) > 0.5, P.R, R2)
 G0, REF0 = P.G, P.REF
 P.G = np.cumprod(1 + R2, axis=0); P.REF = np.where(z, prev, REF0)
 del R2, CFt
-dfs = attach(df[['month', 'k', 'code', 'j', 'grp', 'TA', 'half']].copy())
+dfs = smoke(attach(df[['month', 'k', 'code', 'j', 'grp', 'TA', 'half']].copy()))
 P.G, P.REF = G0, REF0
 del G0, REF0, prev, z
 gc.collect()
@@ -166,7 +178,11 @@ if passed:
                                  note='以上櫃樣本的效果與變異估算；上市 F1 每月檔數取情境值；假設上市與上櫃變異相近')
 cols = ['month', 'code', 'mk', 'lma_rank', 'surge', 'ret20', 'PTH', 'mu', 'mu_sigma', 'ROE', 'roe_lagq', 'PTH_LOW', 'MU_LE0', 'ROE_LOW', 'n_ind', 'TA', 'half',
         'ret', 'r50', 'peer', 'n_peer', 'ex50', 'exP', 'how', 'hold_days']
-df[cols].to_csv(H / 'f1_otc.csv.gz', index=False, float_format='%.5f')
+OUTD = s35lib.S35 if SMOKE else H
+df[cols].to_csv(OUTD / 'f1_otc.csv.gz', index=False, float_format='%.5f')
 out['meta'] = dict(runtime_s=round(time.time() - t0, 1), maxrss_mb=rss(), panel_last=str(P.IDX[-1].date()))
-(H / 'results.json').write_text(json.dumps(out, ensure_ascii=False, indent=1, default=str))
+(OUTD / ('smoke_results.json' if SMOKE else 'results.json')).write_text(json.dumps(out, ensure_ascii=False, indent=1, default=str))
+if SMOKE:
+    print('SMOKE OK', out['meta'])
+    sys.exit(0)
 print(json.dumps({k: out[k] for k in ('primary', 'secondary_ex50', 'halves', 'meta')}, ensure_ascii=False, default=str)[:4000])
