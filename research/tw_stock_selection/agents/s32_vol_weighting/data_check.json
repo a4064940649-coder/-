@@ -1,0 +1,298 @@
+{
+ "panel": {
+  "T": 2876,
+  "N": 2142,
+  "last": "2026-10-22"
+ },
+ "acceptance": {
+  "exright_fix": true,
+  "patch": [
+   {
+    "old": "def simulate_s10(",
+    "new": "def simulate_w("
+   },
+   {
+    "old": "    sigrows = S['sigrows']; RQ = S.get('RQ', {})\n",
+    "new": "    sigrows = S['sigrows']; RQ = S.get('RQ', {})\n    WM = S.get('wmul') or {}\n"
+   },
+   {
+    "old": "            target = u\n",
+    "new": "            target = u * WM.get((k, int(j)), 1.0)\n"
+   },
+   {
+    "old": "    stockfrac = np.full(T, np.nan); bser = np.full(T, np.nan); bser[t0] = B\n",
+    "new": "    stockfrac = np.full(T, np.nan); bser = np.full(T, np.nan); bser[t0] = B\n    maxw = np.full(T, np.nan); hhi = np.full(T, np.nan); nposd = np.zeros(T, np.int16)\n"
+   },
+   {
+    "old": "        stockfrac[t] = tot / nav[t]; bser[t] = B\n",
+    "new": "        stockfrac[t] = tot / nav[t]; bser[t] = B\n        if pos:\n            _vv = [p['v'] for p in pos.values()]\n            maxw[t] = max(_vv) / nav[t]; nposd[t] = len(_vv)\n            hhi[t] = sum((x / tot) ** 2 for x in _vv) if tot > 0 else np.nan\n        else:\n            maxw[t] = 0.0\n"
+   },
+   {
+    "old": "    st['stockfrac'] = pd.Series(stockfrac[t0:T], index=P.IDX[t0:T]);",
+    "new": "    st['maxw'] = pd.Series(maxw[t0:T], index=P.IDX[t0:T]); st['hhi'] = pd.Series(hhi[t0:T], index=P.IDX[t0:T]); st['nposd'] = pd.Series(nposd[t0:T], index=P.IDX[t0:T])\n    st['stockfrac'] = pd.Series(stockfrac[t0:T], index=P.IDX[t0:T]);"
+   }
+  ],
+  "A0": {
+   "since2019": 0.48991278775035196,
+   "full": 0.34543340603574313,
+   "maxdd": -0.3211451024786043,
+   "n_closed": 381,
+   "ok": true
+  },
+  "CUR_maxw": {
+   "max": 0.24000923220986237,
+   "mean": 0.09476547586636633
+  },
+  "A1|+0|100萬": {
+   "nav_bitwise": true,
+   "trades_bitwise": true,
+   "nav_bitwise_explicit_ones": true
+  },
+  "A1|+2|150萬": {
+   "nav_bitwise": true,
+   "trades_bitwise": true,
+   "nav_bitwise_explicit_ones": true
+  },
+  "A1|+3|60萬": {
+   "nav_bitwise": true,
+   "trades_bitwise": true,
+   "nav_bitwise_explicit_ones": true
+  }
+ },
+ "IV60": {
+  "train": {
+   "n_months": 69,
+   "n_names": 281,
+   "m_q": [
+    0.5,
+    0.6488025430262275,
+    0.7518330430569329,
+    0.9731523413536883,
+    1.2001158683371118,
+    1.4851944860296926,
+    1.5
+   ],
+   "share_at_lo": 0.028469750889679714,
+   "share_at_hi": 0.099644128113879,
+   "share_m_eq_1": 0.014234875444839857,
+   "months_sum_dev_max": 0.5,
+   "months_single": 4
+  },
+  "valid": {
+   "n_months": 56,
+   "n_names": 242,
+   "m_q": [
+    0.5,
+    0.707877272826363,
+    0.8370331105681055,
+    0.9810248603826786,
+    1.1209155205972658,
+    1.4056135639356837,
+    1.5
+   ],
+   "share_at_lo": 0.004132231404958678,
+   "share_at_hi": 0.0743801652892562,
+   "share_m_eq_1": 0.024793388429752067,
+   "months_sum_dev_max": 8.881784197001252e-16,
+   "months_single": 6
+  }
+ },
+ "IVAR60": {
+  "train": {
+   "n_months": 69,
+   "n_names": 281,
+   "m_q": [
+    0.5,
+    0.5,
+    0.5114439402415758,
+    1.0,
+    1.4881418884321032,
+    1.5,
+    1.5
+   ],
+   "share_at_lo": 0.2491103202846975,
+   "share_at_hi": 0.2491103202846975,
+   "share_m_eq_1": 0.042704626334519574,
+   "months_sum_dev_max": 0.5,
+   "months_single": 4
+  },
+  "valid": {
+   "n_months": 56,
+   "n_names": 242,
+   "m_q": [
+    0.5,
+    0.5,
+    0.6796695620872218,
+    0.9970852622379032,
+    1.2509373546829154,
+    1.5,
+    1.5
+   ],
+   "share_at_lo": 0.17768595041322313,
+   "share_at_hi": 0.17355371900826447,
+   "share_m_eq_1": 0.04132231404958678,
+   "months_sum_dev_max": 1.0,
+   "months_single": 6
+  }
+ },
+ "IB60": {
+  "train": {
+   "n_months": 69,
+   "n_names": 281,
+   "m_q": [
+    0.5,
+    0.5,
+    0.6870973291826395,
+    0.9814837528677551,
+    1.3383687355833465,
+    1.5,
+    1.5
+   ],
+   "share_at_lo": 0.13523131672597866,
+   "share_at_hi": 0.1601423487544484,
+   "share_m_eq_1": 0.03914590747330961,
+   "months_sum_dev_max": 8.881784197001252e-16,
+   "months_single": 4
+  },
+  "valid": {
+   "n_months": 56,
+   "n_names": 242,
+   "m_q": [
+    0.5,
+    0.5,
+    0.7433010599058363,
+    0.9864479777897479,
+    1.2579644997027604,
+    1.5,
+    1.5
+   ],
+   "share_at_lo": 0.10743801652892562,
+   "share_at_hi": 0.128099173553719,
+   "share_m_eq_1": 0.045454545454545456,
+   "months_sum_dev_max": 1.7763568394002505e-15,
+   "months_single": 6
+  }
+ },
+ "HV3": {
+  "train": {
+   "n_months": 69,
+   "n_names": 281,
+   "m_q": [
+    0.6,
+    0.6,
+    0.6363636363636364,
+    1.2,
+    1.25,
+    1.3333333333333333,
+    1.3333333333333333
+   ],
+   "share_at_lo": 0.0,
+   "share_at_hi": 0.0,
+   "share_m_eq_1": 0.014234875444839857,
+   "months_sum_dev_max": 0.0,
+   "months_single": 4
+  },
+  "valid": {
+   "n_months": 56,
+   "n_names": 242,
+   "m_q": [
+    0.6,
+    0.6,
+    0.6363636363636364,
+    1.2,
+    1.25,
+    1.3333333333333333,
+    1.3333333333333333
+   ],
+   "share_at_lo": 0.0,
+   "share_at_hi": 0.0,
+   "share_m_eq_1": 0.024793388429752067,
+   "months_sum_dev_max": 0.0,
+   "months_single": 6
+  }
+ },
+ "HV3_CASH": {
+  "train": {
+   "n_months": 69,
+   "n_names": 281,
+   "m_q": [
+    0.5,
+    0.5,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "share_at_lo": 0.40213523131672596,
+   "share_at_hi": 0.0,
+   "share_m_eq_1": 0.597864768683274,
+   "months_sum_dev_max": 2.0,
+   "months_single": 4
+  },
+  "valid": {
+   "n_months": 56,
+   "n_names": 242,
+   "m_q": [
+    0.5,
+    0.5,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "share_at_lo": 0.3884297520661157,
+   "share_at_hi": 0.0,
+   "share_m_eq_1": 0.6115702479338843,
+   "months_sum_dev_max": 2.0,
+   "months_single": 6
+  }
+ },
+ "features_train": {
+  "n": 281,
+  "sig60_missing": 0.0,
+  "beta60_missing": 0.0,
+  "sig60_ann_q": [
+   0.24387748222700759,
+   0.3357389158958502,
+   0.4552839180609465,
+   0.6135557675866417,
+   0.7838802446174535
+  ],
+  "beta60_q": [
+   0.045182279116991415,
+   0.35310814036125854,
+   0.686778398005565,
+   1.0470314512252774,
+   1.4812078516887175
+  ],
+  "beta_below_floor": 0.19217081850533807,
+  "corr_sig_beta": 0.24802974148765305,
+  "within_month_sig_ratio_max_min_median": 2.1637534076712583
+ },
+ "features_valid": {
+  "n": 242,
+  "sig60_missing": 0.0,
+  "beta60_missing": 0.0,
+  "sig60_ann_q": [
+   0.3039490772324036,
+   0.38661563512843056,
+   0.5109667319144393,
+   0.6262972045088749,
+   0.7604300668812782
+  ],
+  "beta60_q": [
+   0.12262285293814863,
+   0.37868192246901944,
+   0.7173665235008704,
+   1.0674316668123898,
+   1.3583683258513044
+  ],
+  "beta_below_floor": 0.1322314049586777,
+  "corr_sig_beta": 0.518225721468599,
+  "within_month_sig_ratio_max_min_median": 1.799645124983344
+ },
+ "runtime_s": 50.3,
+ "maxrss_mb": 1823
+}

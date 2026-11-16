@@ -1,0 +1,37 @@
+{
+ "written_at": "2026-11-16T19:05:31",
+ "PREREG_sha256": "da8bd5abb97def4857aff980bb545949c83652c855c4ebc9c266931758ee99de",
+ "frozen_rule": {
+  "id": "IB60",
+  "q": "inv_beta60",
+  "desc": "反 β（Betting Against Beta 精神）：倍數 ∝ 1／max(β60, 0.25)，β60＝同窗對 0050 日報酬迴歸斜率；預算中性，夾在 [0.5, 1.5]"
+ },
+ "T0_pass": true,
+ "T0_text": "訓練期找到可用的波動度權重",
+ "train_score": {
+  "train_median": 0.3443135057531834,
+  "train_dd_median": -0.2583198185063664,
+  "calmar_median": 1.3426483762040207,
+  "beta_median": 0.8737690019869543,
+  "maxw_max_median": 0.31000634762503465,
+  "maxw_mean_median": 0.10820216270195757,
+  "effn_mean_median": 3.6862085178951185,
+  "n_imp": 15,
+  "n_calmar_imp": 13,
+  "n_dd_imp": 12,
+  "ann_diff_median_pp": 1.245489936381805,
+  "ann_npos": 15,
+  "ann_diff_min_pp": -2.3513685460139655,
+  "ann_diff_max_pp": 3.0175179149443565,
+  "dd_diff_median_pp": 0.5643256244630246,
+  "calmar_diff_median": 0.08585171812806724,
+  "y1618_median_pp": 0.002590513732991795,
+  "y1921_median_pp": 2.8749424079263286
+ },
+ "control": {
+  "id": "HV3_CASH",
+  "q": "hv3_cash",
+  "desc": "對照（不參與選擇與判定）：σ60 最高 ceil(n／3) 檔減半、其餘不變、不重新分配（省下的錢照引擎放 0050）＝降低衛星曝險，用來分離「降曝險」與「重新分配」"
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或上下限。"
+}

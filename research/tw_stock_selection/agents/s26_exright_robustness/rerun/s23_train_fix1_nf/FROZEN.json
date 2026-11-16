@@ -1,0 +1,40 @@
+{
+ "written_at": "2026-11-16T18:57:11",
+ "PREREG_sha256": "5e4627b7a76da35469ce8e54ea7be64f2dab21ee3e7221525b886b256edcae00",
+ "frozen_rule": {
+  "id": "BRD_STOP_Q20",
+  "var": "BRD3",
+  "q": 0.2,
+  "action": "stop",
+  "desc": "全市場 SURGE 廣度（股池中 SURGE ≥ 2 比例，3 個月平均）低於訓練期第 20 百分位 → 這個月不新買，空位放 0050；既有持股照 E0",
+  "thr": 0.04310124711113451
+ },
+ "T0_pass": true,
+ "T0_text": "訓練期找到可用的環境減碼規則",
+ "train_score": {
+  "train_median": 0.338293241901932,
+  "train_dd_median": -0.2620355252249295,
+  "calmar_median": 1.2826969954106213,
+  "seg_median": {
+   "2018": -0.16426499106003561,
+   "2020-03": -0.2620355252249295
+  },
+  "n_improved": 19,
+  "cagr_diff_median_pp": 0.26211913909343076,
+  "cagr_diff_min_pp": -0.6267864543633594,
+  "cagr_diff_max_pp": 3.6593495896688477,
+  "cagr_npos": 14,
+  "dd_diff_median_pp": 0.02610429218039556,
+  "dd_npos": 14,
+  "calmar_diff_median": 0.011059919836940546,
+  "calmar_npos": 14,
+  "y1618_median_pp": -0.13171502122432122,
+  "y1921_median_pp": 0.958053879230758,
+  "seg_diff_median_pp": {
+   "2018": 0.0074423695231695675,
+   "2020-03": 0.031213508163369097
+  },
+  "months_triggered_shift0": 14
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或門檻。"
+}

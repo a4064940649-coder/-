@@ -1,0 +1,39 @@
+{
+ "written_at": "2026-11-16T17:01:12",
+ "PREREG_sha256": "84e9c7e5854b863f552eb80f3184e77bfb69b290f3aa367d9788410b013a2400",
+ "frozen_rule": {
+  "id": "SWAP_P2",
+  "kind": "swap",
+  "res": [
+   "PEER",
+   2
+  ],
+  "missing": "keep",
+  "desc": "換股：先照 FLT_P2 剔除 F1 中不共振者，再照 FILL_P2 從 L_MA 第 11～20 名共振者遞補到 10 檔"
+ },
+ "T0_pass": false,
+ "T0_text": "訓練期沒有找到（仍凍結分數最高的一條，驗證期只描述）",
+ "train_score": {
+  "train_median": 0.345057134951396,
+  "train_min": 0.26834360854014894,
+  "train_max": 0.3950351279298485,
+  "train_dd_median": -0.29851010165161607,
+  "score_median_pp": 1.5640452315572206,
+  "npos": 13,
+  "diff_min_pp": -5.367377656698813,
+  "diff_max_pp": 5.424680096848378,
+  "dd_diff_median_pp": -3.9522726189816,
+  "y1618_median_pp": 4.1077306104171925,
+  "y1618_npos": 20,
+  "y1921_median_pp": -4.054718912751209,
+  "y1921_npos": 9,
+  "n_changed_shift0": 251
+ },
+ "control": {
+  "id": "FILL_ALL",
+  "kind": "fill",
+  "res": null,
+  "desc": "對照（不參與選擇）：F1 不足 10 檔時，從 L_MA 第 11～20 名 RET20 > 10% 者依 SURGE 遞補，不看共振；用來分離「遞補本身」與「共振」"
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或門檻。"
+}

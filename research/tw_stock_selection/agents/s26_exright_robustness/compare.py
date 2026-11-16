@@ -9,7 +9,8 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import common, jdiff
 
-AG, RUN = common.AG, common.SCR / 'run'
+AG = common.AG
+RUN = common.HERE / 'rerun'          # runx.py 輸出（scratchpad/s26/run/<tag>/）中的結果檔已複製到這裡；navs／trades 不保留
 pp = lambda x: None if x is None else round(float(x) * 100, 2)
 r2 = lambda x: None if x is None else round(float(x), 2)
 
@@ -90,15 +91,24 @@ def s7(r):
     c = r['cells']
     dl = lambda cid, d: c[cid]['delay'][str(d)]['since2019']
     return dict(main_WN_70L=dict(r19=pp(dl('WN_70L', 0)['cagr']), dd=pp(dl('WN_70L', 0)['maxdd'])),
-                lock_effect={k: dict(ret_diff_pp_2019=r2(v['ret_diff_pp']['since2019']), dd_shallower_pp=r2(v['dd_shallower_pp'])) for k, v in r['lock_effect'].items()},
+                lock_effect={k: dict(ret_diff_pp_2019=r2(v['ret_diff_pp']['since2019']), keep_ratio_2019=r2(v['keep_ratio']['since2019'] * 100), dd_shallower_pp=r2(v['dd_shallower_pp'])) for k, v in r['lock_effect'].items()},
                 delay_cost_pp={cid: {d: r2(c[cid]['delay_cost_pp'][d]['since2019']) for d in ('1', '2')} for cid in ('WN_70L', 'W10_70L', 'WN_70')},
                 delay2_maxdd={cid: pp(dl(cid, 2)['maxdd']) for cid in ('WN_70L', 'W10_70L', 'WN_70')},
                 frontier_a_since2019=r['tradeoff']['frontier_a_since2019'], frontier_b_since2019=r['tradeoff']['frontier_b_since2019'],
                 classes={k: v['class'] for k, v in c.items()})
 
 
+def s7q(r):
+    if r is None:
+        return None
+    q7 = r['Q7_delay_capitals']; q5 = r['Q5_paths_paired']
+    return dict(delay_cost_5cap_median_pp={c: {d: r2(q7[c][d]['median_cost_pp']) for d in ('1', '2')} for c in ('WN_70L', 'W10_70L', 'WN_70')},
+                lock_paths_paired={k: dict(median_pp=r2(v['median']), npos=v['n_pos']) for k, v in q5.items()})
+
+
 S['S7'] = dict(title='S7 底倉鎖定與晚下單', main='鎖定 vs 不鎖定（報酬差、回撤差）、晚 1／2 天代價、前緣、分類',
-               before=s7(a), after=s7(b), soft=soft('s7_run_fix1'), accept_fail_after=accept_fail(b))
+               before=s7(a), after=s7(b), soft=soft('s7_run_fix1'), accept_fail_after=accept_fail(b),
+               posthoc_before=s7q(old('s7_locked_base', 'results_posthoc.json')), posthoc_after=s7q(new('s7_run_fix1', 'results_posthoc.json')))
 
 # ---------------------------------------------------------------- S8
 a, b = old('s8_drawdown_cap'), new('s8_run_fix1')
@@ -134,24 +144,36 @@ if rep:
             srcmap[cid] = ('s8', cid)
         else:
             srcmap[cid] = ('s7', cid)
-    R = {'s6': (old('s6_satellite_sizing'), new('s6_run_fix1')), 's7': (old('s7_locked_base'), new('s7_run_fix1')), 's8': (old('s8_drawdown_cap'), new('s8_run_fix1'))}
+    PD = (J(common.OUT / 'paths_dd_fix0.json'), J(common.OUT / 'paths_dd_fix1.json'))     # paths_dd.py 補算的 S6／S7 12 格
+    R = {'s8': (old('s8_drawdown_cap'), new('s8_run_fix1'))}
 
     def fit(which):
         xs, ys, ok = [], [], True
         for cid, (src, k) in srcmap.items():
-            r = R[src][which]
-            if r is None:
+            if src == 's8':
+                r = R['s8'][which]
+                v = None if r is None else r['cells'][k]['paths20']['maxdd_median']
+            else:
+                v = None if PD[which] is None else PD[which]['cells'][k]['maxdd_median']
+            if v is None:
                 ok = False; break
-            xs.append(tab[cid]['per_stock_w_daily']); ys.append(r['cells'][k]['paths20']['maxdd_median'] * 100)
+            xs.append(tab[cid]['per_stock_w_daily']); ys.append(v * 100)
         if not ok:
             return None
         x, y = np.array(xs), np.array(ys)
         bb = np.polyfit(x, y, 1); yh = np.polyval(bb, x)
         rr = 1 - ((y - yh) ** 2).sum() / ((y - y.mean()) ** 2).sum()
         return dict(intercept_pct=round(float(bb[1]), 2), slope=round(float(bb[0]), 3), r2=round(float(rr), 3), n=len(x),
-                    weight_for_minus36=round(float((-36 - bb[1]) / bb[0]), 2))
+                    weight_for_minus36=round(float((-36 - bb[1]) / bb[0]), 2), y={c: round(float(v), 2) for c, v in zip(srcmap, y)})
     S['S8']['formula'] = dict(desc='回撤中位數（%）≈ 截距 + 斜率 × 每檔占總資產（%）；17 格；x＝複製員 my_numbers.json 的每檔權重（修正前，金額規則決定），y＝研究員引擎 20 條回撤中位數',
                               published='−23.1% − 1.58 ×（R² 0.935；每檔 ≤ 約 8.2% 才在 −36% 內）', before=fit(0), after=fit(1))
+    # README 第 15 節「修正後怎麼選」表（20 條中位數 報酬／回撤）
+    sel = {'W10_70': 's6', 'W7_70': 's6', 'W10_100': 's6', 'WN_70': 's6', 'WN_80L': 's7', 'WN_100': 's6', 'W10_70L': 's7'}
+    S['S8']['readme15_table'] = {c: dict(before=[pp(PD[0]['cells'][c]['median']), pp(PD[0]['cells'][c]['maxdd_median'])] if PD[0] else None,
+                                         after=[pp(PD[1]['cells'][c]['median']), pp(PD[1]['cells'][c]['maxdd_median'])] if PD[1] else None) for c in sel}
+    S['S8']['paths_dd_s6s7'] = {c: dict(before=pp(PD[0]['cells'][c]['maxdd_median']), after=pp(PD[1]['cells'][c]['maxdd_median']),
+                                        within36_before=PD[0]['cells'][c]['n_dd_within_36'], within36_after=PD[1]['cells'][c]['n_dd_within_36'])
+                                for c in PD[1]['cells']} if PD[0] and PD[1] else None
 
 # ---------------------------------------------------------------- S9
 a, b = old('s9_signal_timing'), new('s9_run_fix1')
@@ -326,7 +348,7 @@ def s25d(r):
     if r is None:
         return None
     m = r['A3']['all']['main（同業≥5，U 股池等權）']
-    f = lambda k: dict(mean_pct=r2(m[k]['mean_pct']), t=r2(m[k]['t']), median_pct=r2(m[k]['median_pct']), drop_top5_mean_pct=r2(m[k]['drop_top5_mean_pct']))
+    f = lambda k: dict(mean_pct=r2(m[k]['mean_pct']), t_cluster_month=r2(m[k]['t_cluster_month']), median_pct=r2(m[k]['median_pct']), drop_top5_mean_pct=r2(m[k]['drop_top5_mean_pct']))
     return dict(n=m['ret']['n'], vs_peer=f('exP_U'), vs_0050=f('ex50'), peer_minus_0050=f('peer50_U'))
 
 
@@ -339,4 +361,121 @@ out = dict(meta=dict(desc='S26：除權息修正（cslib.EXRIGHT_FIX=True）後�
                               'S22': '資料不足，沒有算報酬，沒有判定可重驗'}),
            studies=S)
 common.dump('results_full.json', out)
-print('studies', list(S))
+
+# ---------------------------------------------------------------- 逐題對照表（判定用主比較；數字取自上面的 S）
+g = lambda sid, *ks: [S[sid][w] and _dig(S[sid][w], ks) for w in ('before', 'after')]
+
+
+def _dig(x, ks):
+    for k in ks:
+        x = x[k]
+    return x
+
+
+def row(sid, item, before, after, changed, note=''):
+    return dict(題目=sid, 判定用主比較=item, 修正前=before, 修正後=after, 判定是否改變=changed, 備註=note)
+
+
+T = []
+b, a = S['S9']['before'], S['S9']['after']
+T.append(row('S9', 'A10 在 7 個定義的名次（W10_70／WN_70，2019 起單一路徑）', f"{b['A10_rank']['W10_70']}／{b['A10_rank']['WN_70']}", f"{a['A10_rank']['W10_70']}／{a['A10_rank']['WN_70']}", '否', '判「是，剛好最好」不變'))
+T.append(row('S9', 'A10 − 家族中位數（門檻 3）→ 偏樂觀、改用家族中位數', f"{b['A10_minus_median_pp']['W10_70']}／{b['A10_minus_median_pp']['WN_70']} 個百分點", f"{a['A10_minus_median_pp']['W10_70']}／{a['A10_minus_median_pp']['WN_70']} 個百分點", '否', '兩格都仍 ≥ 3'))
+T.append(row('S9', '家族重估：A10～A15 100 條中位數／差的 10%（W10_70）', f"{b['W10_70']['fam100_A10_A15_median']}%／{b['W10_70']['fam100_p10']}%", f"{a['W10_70']['fam100_A10_A15_median']}%／{a['W10_70']['fam100_p10']}%", '否', f"WN_70：{b['WN_70']['fam100_A10_A15_median']}% → {a['WN_70']['fam100_A10_A15_median']}%"))
+T.append(row('S9', '開盤 vs 收盤（收盤較好的定義數／差的中位數，W10_70）', f"{b['W10_70']['close_better_n']}／7，{b['W10_70']['close_minus_open_median_pp']}", f"{a['W10_70']['close_better_n']}／7，{a['W10_70']['close_minus_open_median_pp']}", '否', f"WN_70：{b['WN_70']['close_better_n']}／7 → {a['WN_70']['close_better_n']}／7；兩格仍判「開盤」"))
+T.append(row('S9', '八項檢查（36 組合中值得上 XQ 測）', f"{b['n_class_pass']}", f"{a['n_class_pass']}", '否', 'A08、A09 仍是「有條件」，失敗項目相同'))
+b, a = S['S10']['before'], S['S10']['after']
+T.append(row('S10', 'E0 在 11 個出場的名次（20 條中位數，W10_70／WN_70）', f"{b['E0_rank_path_median']['W10_70']}／{b['E0_rank_path_median']['WN_70']}", f"{a['E0_rank_path_median']['W10_70']}／{a['E0_rank_path_median']['WN_70']}", '否', '仍「不是最好」，出場沒被挑過'))
+T.append(row('S10', '穩定地比較好（MANO 20 條配對中位數 W10_70／WN_70）', f"{b['any_stable_better']}；+{b['MANO_W10_70']['median_pp']}／+{b['MANO_WN_70']['median_pp']}（20／20）", f"{a['any_stable_better']}；+{a['MANO_W10_70']['median_pp']}／+{a['MANO_WN_70']['median_pp']}（20／20）", '否', '仍只有 MANO；研究中心「列可選、不改預設」不受影響'))
+T.append(row('S10', '移動停損能否壓回撤', b['trailing_stop_cuts_dd'], a['trailing_stop_cuts_dd'], '否', '次要：DMA60｜WN_70 報酬由「差不多」變「比標準差」、回撤由「有效率地壓」變「能壓」'))
+b, a = S['S17']['before'], S['S17']['after']
+T.append(row('S17', 'STD 在 7 個定義的名次（W10_70／WN_70）', f"{b['STD_rank_path_median']['W10_70']}／{b['STD_rank_path_median']['WN_70']}", f"{a['STD_rank_path_median']['W10_70']}／{a['STD_rank_path_median']['WN_70']}", '否', '「前段」不變'))
+T.append(row('S17', 'STD − 家族中位數（門檻 3）→ 是否因定義打折', f"{b['STD_minus_family_median_pp']['W10_70']}／{b['STD_minus_family_median_pp']['WN_70']}：兩格都不必", f"{a['STD_minus_family_median_pp']['W10_70']}／{a['STD_minus_family_median_pp']['WN_70']}：W10_70 不必；WN_70 跨過門檻「偏樂觀」", '是（只有 WN_70）',
+         f"WN_70 家族中位數 W36 由 53.03% 降到 51.90%；依事前規則 WN_70 改用 140 條中位數 {a['reestimate']['WN_70']['paths140_median']}%（差的 10% {a['reestimate']['WN_70']['paths140_p10']}%）。現行 W10_70 不受影響；S9 已把 WN_70 預期打到約 50%，實務數字不變"))
+T.append(row('S17', '穩定地比較好（NOMU 20 條配對中位數 W10_70／WN_70）', f"NOMU；+{b['NOMU']['W10_70']['median_pp']}／+{b['NOMU']['WN_70']['median_pp']}", f"NOMU；+{a['NOMU']['W10_70']['median_pp']}／+{a['NOMU']['WN_70']['median_pp']}", '否', '研究中心「列可選、不改預設」不受影響'))
+b, a = S['S19']['before'], S['S19']['after']
+T.append(row('S19', 'J1 門檻版 − 名次版（20 條配對中位數；W10_70／純衛星）', f"{b['W10_70']['XT_minus_E0_median']}「{b['W10_70']['J1']}」／{b['SAT']['XT_minus_E0_median']}「{b['SAT']['J1']}」", f"{a['W10_70']['XT_minus_E0_median']}「{a['W10_70']['J1']}」／{a['SAT']['XT_minus_E0_median']}「{a['SAT']['J1']}」", '否', '次要：W10_70 的 2019～2023 分段由「略有不同（較高）」變「接近」'))
+T.append(row('S19', 'J2 差距來源（W10_70／純衛星）', f"{b['W10_70']['J2']}／{b['SAT']['J2']}", f"{a['W10_70']['J2']}／{a['SAT']['J2']}", '否', f"門檻分量 W10_70 {b['W10_70']['decomposition']['門檻（XU−XR）']} → {a['W10_70']['decomposition']['門檻（XU−XR）']}"))
+T.append(row('S19', 'J4 動態門檻', b['J4'], a['J4'], '否', ''))
+for sid in ('S21', 'S23', 'S25', 'S20'):
+    b, a = S[sid]['before'], S[sid]['after']; tb, ta = S[sid]['train_before'], S[sid]['train_after']
+    vv = lambda x: '／'.join(f"{k}{'過' if x[k] else '不過'}" for k in ('T0', 'V1', 'V2', 'V3', 'V4'))
+    note = f"驗證窗配對差中位數 {b['valid_median_pp']} → {a['valid_median_pp']}（{b['valid_npos']}／20 → {a['valid_npos']}／20）；回撤 {b['valid_dd_median_pp']} → {a['valid_dd_median_pp']}"
+    note += f"；修正後重跑訓練期仍凍結 {ta['frozen']}" + ('（T0 由不過變過）' if (ta['T0_pass'] and not tb['T0_pass']) else '')
+    T.append(row(sid, f"凍結 {b['frozen_rule']} 的驗證判定", f"{vv(b)} → {b['overall']}", f"{vv(a)} → {a['overall']}", '否' if a['overall'] == b['overall'] else '是', note))
+b, a = S['S13']['before'], S['S13']['after']
+T.append(row('S13', '凍結 ADVCHG ≥ 0.296 的驗證判定（V1～V4）', '／'.join(f"{k}{'過' if v['ok'] else '不過'}" for k, v in b['checks'].items()) + ' → 不通過',
+             '／'.join(f"{k}{'過' if v['ok'] else '不過'}" for k, v in a['checks'].items()) + ' → 不通過', '否',
+             f"修正後重跑訓練期會凍結 {S['S13']['train_after']['feature']}（原 ADVCHG）；該特徵在原事後表驗證期 AUC 0.499 < 0.55，V1 不會過，判定不變（沒有另跑驗證，不增加 N）"))
+b, a = S['S6']['before'], S['S6']['after']
+T.append(row('S6', '效率前緣（2019 起單一路徑）', '、'.join(b['frontier_since2019']), '、'.join(a['frontier_since2019']), '部分',
+             f"主格 WN_70 由「不在前緣（被 RWN_70 支配）」變「在前緣」：{b['main_WN_70']['r19']}%／{b['main_WN_70']['dd']}% → {a['main_WN_70']['r19']}%／{a['main_WN_70']['dd']}%；8 格仍全部「值得上 XQ 測」"))
+T.append(row('S6', '名次加權 20 條配對差（RW10−W10／RWN−WN）', f"+{b['RW10_minus_W10_paths']['median_pp']}（{b['RW10_minus_W10_paths']['npos']}／20）／+{b['RWN_minus_WN_paths']['median_pp']}（{b['RWN_minus_WN_paths']['npos']}／20）",
+             f"+{a['RW10_minus_W10_paths']['median_pp']}（{a['RW10_minus_W10_paths']['npos']}／20）／+{a['RWN_minus_WN_paths']['median_pp']}（{a['RWN_minus_WN_paths']['npos']}／20）", '否', 'RWN 的好處縮小（更支持「名次加權只列可選」）'))
+b, a = S['S7']['before'], S['S7']['after']; pb, pa = S['S7']['posthoc_before'], S['S7']['posthoc_after']
+T.append(row('S7', '鎖定代價：WN_70L − WN_70（2019 起單一路徑／20 條配對中位數）；回撤變淺', f"{b['lock_effect']['WN_70L_vs_WN_70']['ret_diff_pp_2019']}／{pb['lock_paths_paired']['WN_70L_minus_WN_70']['median_pp']}（{pb['lock_paths_paired']['WN_70L_minus_WN_70']['npos']}／20）；{b['lock_effect']['WN_70L_vs_WN_70']['dd_shallower_pp']}",
+             f"{a['lock_effect']['WN_70L_vs_WN_70']['ret_diff_pp_2019']}／{pa['lock_paths_paired']['WN_70L_minus_WN_70']['median_pp']}（{pa['lock_paths_paired']['WN_70L_minus_WN_70']['npos']}／20）；{a['lock_effect']['WN_70L_vs_WN_70']['dd_shallower_pp']}", '部分',
+             f"「鎖定只少約 2 個百分點、回撤沒變淺」：單一路徑變成少約 5 個百分點且回撤深 2.4（WN_70 自己回撤變淺到 {S['S6']['after']['main_WN_70']['dd']}%）；20 條配對中位數仍約 −2（路徑差，同原複製員結論）。W10 版 {b['lock_effect']['W10_70L_vs_W10_70']['ret_diff_pp_2019']} → {a['lock_effect']['W10_70L_vs_W10_70']['ret_diff_pp_2019']}"))
+T.append(row('S7', '晚 1／2 天代價（5 種資金中位數，WN_70L／W10_70L）', f"{pb['delay_cost_5cap_median_pp']['WN_70L']['1']}／{pb['delay_cost_5cap_median_pp']['WN_70L']['2']}；{pb['delay_cost_5cap_median_pp']['W10_70L']['1']}／{pb['delay_cost_5cap_median_pp']['W10_70L']['2']}",
+             f"{pa['delay_cost_5cap_median_pp']['WN_70L']['1']}／{pa['delay_cost_5cap_median_pp']['WN_70L']['2']}；{pa['delay_cost_5cap_median_pp']['W10_70L']['1']}／{pa['delay_cost_5cap_median_pp']['W10_70L']['2']}", '否', '「晚下單很貴、押越多越貴、晚下單用 W10」方向不變'))
+T.append(row('S7', '主格 WN_70L 是否在前緣（本題 9 格）', '在', '在' if 'WN_70L' in a['frontier_a_since2019'] else '不在（被 WN_70 支配）', '部分', '分類 9 格仍全部「值得上 XQ 測」'))
+b, a = S['S8']['before'], S['S8']['after']
+T.append(row('S8', '主格 WN_70L_C12：回撤 ≥ −36%／保住率 ≥ 75%／20 條 ≥ 15 條變淺 → 能／不能',
+             f"{b['main_C12']['dd']}%／{b['main_C12']['keep_2019']}%／{b['main_C12']['paths_dd_shallower_n']} 條 → {b['main_verdict']['verdict']}",
+             f"{a['main_C12']['dd']}%／{a['main_C12']['keep_2019']}%／{a['main_C12']['paths_dd_shallower_n']} 條 → {a['main_verdict']['verdict']}", '否',
+             f"第三項由不過變過、單一路徑由深 1.13 變淺 1.10，但第一項仍不過，判定仍「不能」；WN_60L 單一路徑 {b['main_C12']['WN_60L_dd']}% → {a['main_C12']['WN_60L_dd']}%"))
+f = S['S8']['formula']
+T.append(row('S8', '回撤公式（17 格：20 條回撤中位數 ≈ 截距 − 斜率 × 每檔占總資產）', f"{f['before']['intercept_pct']} {f['before']['slope']}×（R² {f['before']['r2']}；−36% 的每檔上限 {f['before']['weight_for_minus36']}%）",
+             f"{f['after']['intercept_pct']} {f['after']['slope']}×（R² {f['after']['r2']}；{f['after']['weight_for_minus36']}%）", '否', '經驗法則「每檔多 1 個百分點、回撤深約 1.6、每檔 ≤ 約 8% 才在 −36% 內」不變'))
+for sid in ('S11', 'S12', 'S14', 'S15', 'S16'):
+    ch = S[sid]['generic_verdict_changes'] or []
+    T.append(row(sid, S[sid]['main'], '（見 results_full.json）', f"判定欄位逐項比對：{len(ch)} 項不同", '否',
+                 '；'.join(f"{c['path']} {c['before']}→{c['after']}" for c in ch) or '全部判定字串相同'))
+b, a = S['S24']['before'], S['S24']['after']
+T.append(row('S24', '（描述）CAPM β／α（t）；主模型 α（t）', f"{b['capm_beta']}／{b['capm_alpha']}（{b['capm_alpha_t']}）；{b['main_alpha']}（{b['main_alpha_t']}）", f"{a['capm_beta']}／{a['capm_alpha']}（{a['capm_alpha_t']}）；{a['main_alpha']}（{a['main_alpha_t']}）", '否', '「β≈1、主模型 α 不顯著」不變；因子用修正後價格重建'))
+b, a = S['S25_describe']['before'], S['S25_describe']['after']
+T.append(row('S25', '（描述）每筆扣同業超額（t，按月群聚）', f"{b['vs_peer']['mean_pct']}%（{b['vs_peer']['t_cluster_month']}）", f"{a['vs_peer']['mean_pct']}%（{a['vs_peer']['t_cluster_month']}）", '否', f"同業 − 0050：{b['peer_minus_0050']['mean_pct']} → {a['peer_minus_0050']['mean_pct']}"))
+T.append(row('S18', '名單產生器驗收（非判定）', '—', '未重跑', '不適用', out['meta']['not_run']['S18']))
+T.append(row('S22', '資料不足', '—', '未重跑', '不適用', out['meta']['not_run']['S22']))
+
+res = dict(meta=dict(題目='S26 除權息修正後，過去結論還成立嗎？', 修正='cslib.EXRIGHT_FIX=True（TWT49U 參考價；前一日無成交用前一成交收盤）',
+                     方法='runx.py 原封執行各題腳本（只切換旗標、快取與輸出改到 scratchpad；assert 改成記錄），修正前＝原資料夾結果檔', harness=out['meta']['harness_check'],
+                     驗收='各題修正後只有「重現修正前公布值」那一條（A0／A1）不符，其餘驗收全部通過；S20 訓練期另有 PREREG 分位數門檻與修正後 F1 重算值不符（照 PREREG 原門檻執行）',
+                     資料窺探族群N='不變（只重跑既有規則與既有凍結規則；S13 修正後會凍結的新特徵沒有另跑驗證）'),
+           table=T)
+json.dump(res, open(common.HERE / 'results.json', 'w'), ensure_ascii=False, indent=1)
+
+# ---------------------------------------------------------------- risk_update.json
+s9b, s9a = S['S9']['before'], S['S9']['after']; s7b, s7a = S['S7'], S['S7']
+R7b, R7a = s7b['posthoc_before']['delay_cost_5cap_median_pp']['W10_70L'], s7a['posthoc_after']['delay_cost_5cap_median_pp']['W10_70L']
+RISK = [
+    dict(項目='晚1天少', 修正前=3.6, 修正後=round(-R7a['1'], 1), 單位='個百分點',
+         出處計算方式=f"S7 W10_70L（衛星 70%、每檔＝衛星 ÷ 10、底倉不能動），晚 1 天 2019 起少多少；5 種資金（60～200 萬）配對中位數。修正前 {-R7b['1']}（＝100 萬單一路徑 3.61）；修正後 5 種資金中位數 {-R7a['1']}，100 萬單一路徑 {-S['S7']['after']['delay_cost_pp']['W10_70L']['1']}"),
+    dict(項目='晚2天少', 修正前=5.3, 修正後=round(-R7a['2'], 1), 單位='個百分點',
+         出處計算方式=f"同上，晚 2 天。修正前 {-R7b['2']}；修正後 5 種資金中位數 {-R7a['2']}，100 萬單一路徑 {-S['S7']['after']['delay_cost_pp']['W10_70L']['2']}"),
+    dict(項目='晚2天回撤', 修正前=-36.4, 修正後=round(S['S7']['after']['delay2_maxdd']['W10_70L'], 1), 單位='%',
+         出處計算方式=f"S7 W10_70L 晚 2 天、100 萬單一路徑的全期最大回撤（修正前 {S['S7']['before']['delay2_maxdd']['W10_70L']}，修正後 {S['S7']['after']['delay2_maxdd']['W10_70L']}）"),
+    dict(項目='有時晚可預期', 修正前=43, 修正後=round(s9a['W10_70']['fam100_A10_A15_median']), 單位='%',
+         出處計算方式=f"S9 W10_70 開盤、訊號日 A10～A15 × 20 條路徑＝100 條的 2019 起年化中位數（修正前 {s9b['W10_70']['fam100_A10_A15_median']}，修正後 {s9a['W10_70']['fam100_A10_A15_median']}）"),
+    dict(項目='有時晚_差的10%', 修正前=41, 修正後=round(s9a['W10_70']['fam100_p10']), 單位='%',
+         出處計算方式=f"同上 100 條的第 10 百分位（修正前 {s9b['W10_70']['fam100_p10']}，修正後 {s9a['W10_70']['fam100_p10']}）；README 第 16 節表「壞的時候」報酬"),
+    dict(項目='有時晚_回撤中位數', 修正前=-33, 修正後=round(s9a['W10_70']['fam100_dd_median']), 單位='%',
+         出處計算方式=f"同上 100 條最大回撤中位數（修正前 {s9b['W10_70']['fam100_dd_median']}，修正後 {s9a['W10_70']['fam100_dd_median']}）"),
+    dict(項目='回撤_壞的時候', 修正前=-36.0, 修正後=round(s9a['W10_70']['fam100_dd_p10'], 1), 單位='%',
+         出處計算方式=f"同上 100 條最大回撤的最深 10%（第 10 百分位；修正前 {s9b['W10_70']['fam100_dd_p10']}，修正後 {s9a['W10_70']['fam100_dd_p10']}）"),
+    dict(項目='準時可預期', 修正前=46.5, 修正後=round(s9a['W10_70']['ontime_regression']['intercept'], 1), 單位='%',
+         出處計算方式=f"S9 複製員口徑：A10～A15 開盤 100 條路徑，x＝定義平均延遲（日曆，A10 0、A11 0.62、A12 1.29、A13 1.98、A15 3.36 天）＋位移，對 2019 起年化做直線迴歸，截距＝延遲 0。同法用修正前 results.json 得 {s9b['W10_70']['ontime_regression']['intercept']}（複製員自己的路徑得 46.46），修正後 {s9a['W10_70']['ontime_regression']['intercept']}；斜率 {s9b['W10_70']['ontime_regression']['slope_pp_per_day']} → {s9a['W10_70']['ontime_regression']['slope_pp_per_day']} 個百分點／天"),
+    dict(項目='回撤_20條中位數', 修正前=-34.0, 修正後=round(s9a['W10_70']['A10_paths20_dd_median'], 1), 單位='%',
+         出處計算方式=f"S9／S10 E0 W10_70 的 20 條路徑（5 種資金 × 位移 0～3）最大回撤中位數（修正前 {s9b['W10_70']['A10_paths20_dd_median']}，修正後 {s9a['W10_70']['A10_paths20_dd_median']}）；網站已是 −33.5，核對一致"),
+    dict(項目='WN版_有時晚可預期／差的10%（README 第 16 節第 2 列）', 修正前='51／44', 修正後=f"{round(s9a['WN_70']['fam100_A10_A15_median'])}／{round(s9a['WN_70']['fam100_p10'])}", 單位='%',
+         出處計算方式=f"S9 WN_70 100 條中位數 {s9b['WN_70']['fam100_A10_A15_median']} → {s9a['WN_70']['fam100_A10_A15_median']}；第 10 百分位 {s9b['WN_70']['fam100_p10']} → {s9a['WN_70']['fam100_p10']}；回撤中位數 {s9b['WN_70']['fam100_dd_median']} → {s9a['WN_70']['fam100_dd_median']}，最深 10% {s9b['WN_70']['fam100_dd_p10']} → {s9a['WN_70']['fam100_dd_p10']}"),
+    dict(項目='WN版_準時可預期', 修正前=59, 修正後=round(s9a['WN_70']['ontime_regression']['intercept'], 1), 單位='%',
+         出處計算方式=f"同「準時可預期」方法，WN_70（修正前同法 {s9b['WN_70']['ontime_regression']['intercept']}，修正後 {s9a['WN_70']['ontime_regression']['intercept']}）"),
+]
+for c, lab in (('WN_70L', 'README 第 14 節：每檔＝衛星 ÷ 實際檔數，底倉不能動'), ('WN_70', 'README 第 14 節：每檔＝衛星 ÷ 實際檔數，底倉可以賣')):
+    pb_, pa_ = s7b['posthoc_before']['delay_cost_5cap_median_pp'][c], s7a['posthoc_after']['delay_cost_5cap_median_pp'][c]
+    RISK.append(dict(項目=f'{lab}：晚 1 天／晚 2 天少／晚 2 天回撤', 修正前=f"{-pb_['1']:.1f}／{-pb_['2']:.1f}／{S['S7']['before']['delay2_maxdd'][c]}",
+                     修正後=f"{-pa_['1']:.1f}／{-pa_['2']:.1f}／{S['S7']['after']['delay2_maxdd'][c]}", 單位='個百分點／%',
+                     出處計算方式='S7 posthoc Q7（5 種資金配對中位數）；回撤＝100 萬單一路徑晚 2 天全期最大回撤'))
+json.dump(dict(meta=dict(說明='網站 xq_scripts/site/data/risk.json 與 README 標「修正前」的數字，在 cslib.EXRIGHT_FIX=True 下重算。不直接改網站與 README，由總監整合。數字四捨五入同原欄位位數；原始值見出處計算方式。'),
+               rows=RISK), open(common.HERE / 'risk_update.json', 'w'), ensure_ascii=False, indent=1)
+print('table rows', len(T), 'risk rows', len(RISK))

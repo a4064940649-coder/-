@@ -1,0 +1,39 @@
+{
+ "written_at": "2026-11-16T18:56:39",
+ "PREREG_sha256": "84e9c7e5854b863f552eb80f3184e77bfb69b290f3aa367d9788410b013a2400",
+ "frozen_rule": {
+  "id": "SWAP_P2",
+  "kind": "swap",
+  "res": [
+   "PEER",
+   2
+  ],
+  "missing": "keep",
+  "desc": "換股：先照 FLT_P2 剔除 F1 中不共振者，再照 FILL_P2 從 L_MA 第 11～20 名共振者遞補到 10 檔"
+ },
+ "T0_pass": true,
+ "T0_text": "訓練期找到可用的產業共振規則",
+ "train_score": {
+  "train_median": 0.34788291504083324,
+  "train_min": 0.27000149935804996,
+  "train_max": 0.397658604954654,
+  "train_dd_median": -0.30217702620389814,
+  "score_median_pp": 2.3082651445484825,
+  "npos": 15,
+  "diff_min_pp": -4.336822796024298,
+  "diff_max_pp": 6.451613361645947,
+  "dd_diff_median_pp": -3.9926251467103597,
+  "y1618_median_pp": 4.062638065465407,
+  "y1618_npos": 20,
+  "y1921_median_pp": -2.6063549852788914,
+  "y1921_npos": 9,
+  "n_changed_shift0": 245
+ },
+ "control": {
+  "id": "FILL_ALL",
+  "kind": "fill",
+  "res": null,
+  "desc": "對照（不參與選擇）：F1 不足 10 檔時，從 L_MA 第 11～20 名 RET20 > 10% 者依 SURGE 遞補，不看共振；用來分離「遞補本身」與「共振」"
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或門檻。"
+}

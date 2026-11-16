@@ -1,0 +1,36 @@
+{
+ "written_at": "2026-11-16T19:05:07",
+ "PREREG_sha256": "63904f24b6acb159ef06255585033c73301ff8a1aa95258fd50e302bd4698c9c",
+ "frozen_rule": {
+  "id": "RANK_PTH",
+  "kind": "rank",
+  "score": "PTH",
+  "desc": "(a) 排序：L_MA 前 20 名內依「SURGE 名次＋PTH 名次」（等權；同分依 SURGE；PTH 缺值以同期百分位 0.5 代入）重排，取前 10 名為池，再要求 RET20 > 10%；買進順序照新排序"
+ },
+ "T0_pass": false,
+ "T0_text": "訓練期沒有找到（仍凍結分數最高的一條，驗證期只描述）",
+ "train_score": {
+  "train_median": 0.33101894901949414,
+  "train_min": 0.2925270188682092,
+  "train_max": 0.3584705894885829,
+  "train_dd_median": -0.2832930285952611,
+  "score_median_pp": -0.3816947159362094,
+  "n_imp_ge_min": 7,
+  "npos": 8,
+  "diff_min_pp": -2.7214814270215104,
+  "diff_max_pp": 1.5956448744342877,
+  "dd_diff_median_pp": -3.03002609679226,
+  "y1618_median_pp": 0.7171754575474476,
+  "y1618_npos": 13,
+  "y1921_median_pp": -2.24396156704032,
+  "y1921_npos": 2,
+  "n_changed_shift0": 143
+ },
+ "control": {
+  "id": "FILL_ALL",
+  "kind": "fill",
+  "score": null,
+  "desc": "對照（不參與選擇）：F1 不足 10 檔時，從 L_MA 第 11～20 名 RET20 > 10% 者依 SURGE 遞補，不看 PTH（同 S21／S29 FILL_ALL）"
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或門檻。"
+}
