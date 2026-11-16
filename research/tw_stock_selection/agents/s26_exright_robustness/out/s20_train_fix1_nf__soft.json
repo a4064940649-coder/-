@@ -1,0 +1,34 @@
+{
+ "study": "s20_persistent_growth",
+ "script": "train.py",
+ "fix": true,
+ "tag": "s20_train_fix1_nf",
+ "soft_asserts": [
+  {
+   "line": 62,
+   "msg": "('門檻與 PREREG 不符', {'id': 'MS33', 'feat': 'MS', 'op': '>=', 'thr': -0.005505430893077396, 'q': '1/3', 'desc': 'F1 名單中 μ÷σ ≥ -0.005505（訓練期 F1 的 1/3 分位數，約留 2/3）才買'}, -0.006977995390598064)"
+  },
+  {
+   "line": 62,
+   "msg": "('門檻與 PREREG 不符', {'id': 'MS50', 'feat': 'MS', 'op': '>=', 'thr': 0.23619318639113435, 'q': '1/2', 'desc': 'F1 名單中 μ÷σ ≥ 0.236193（訓練期 F1 中位數，約留 1/2）才買'}, 0.23540085416509074)"
+  },
+  {
+   "line": 62,
+   "msg": "('門檻與 PREREG 不符', {'id': 'MS67', 'feat': 'MS', 'op': '>=', 'thr': 0.48267890943270125, 'q': '2/3', 'desc': 'F1 名單中 μ÷σ ≥ 0.482679（訓練期 F1 的 2/3 分位數，約留 1/3）才買'}, 0.47890226057111)"
+  },
+  {
+   "line": 72,
+   "msg": "('驗收失敗', {'P0': True, 'e50_fix': [{'date': '2025-06-11', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}, {'date': '2025-06-12', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}, {'date': '2025-06-13', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}, {'date': '2025-06-16', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}, {'date': '2025-06-17', 'before_open_raw': None, 'before_E50O': 363.5009, 'E50': 363.5009, 'E50_prev': 363.5009, 'close_raw': None, 'after_open_raw': 188.65, 'after_E50O': 363.5009}], 'A0': {'since2019': 0.48991278775035196, 'full': 0.34543340603574313, 'maxdd': -0.3211451024786043, 'ok': False}, 'A2': {'trades_identical': True, 'nav_identical': True}})"
+  }
+ ],
+ "peak_mb": 1424,
+ "secs": 18,
+ "panel_exright_fix": true,
+ "exright_info": {
+  "n_twt49u": 9826,
+  "n_rights_issue_fallback": 11,
+  "n_prev_untraded": 6461,
+  "n_total": 16287,
+  "twt49u_last": "2026-10-29"
+ }
+}

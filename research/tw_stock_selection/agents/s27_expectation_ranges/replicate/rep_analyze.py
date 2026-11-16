@@ -242,6 +242,13 @@ def alert_eval(TS, hw):
             else:
                 ext = v.max(axis=1); ok = [int(g) for g in GRID['D'] if (ext >= g).mean() <= fa]; th[k] = int(min(ok))
         thr[fa_name] = th
+    # 門檻邊界：EFF 5 年誤報率在格點上的曲線（看門檻是否落在 10%／5% 邊界附近）
+    curve = {}
+    for k in 'ABCDE':
+        v = eff[k]; ext = v.max(axis=1) if k == 'D' else v.min(axis=1)
+        gl = [int(g) for g in GRID['D']] if k == 'D' else ([round(hw - g, 4) for g in GRID['C']] if k == 'C' else [float(g) for g in GRID[k]])
+        curve[k] = {str(g): r4((ext >= g).mean() if k == 'D' else (ext < g).mean()) for g in gl}
+    out_curve = curve
     out = {}
     for fa_name, th in thr.items():
         o = {}
@@ -254,6 +261,7 @@ def alert_eval(TS, hw):
         for nm, fn in combos.items():
             o[nm] = dict(prob={sc: {h: r4(fn(F[sc])[:, :n].any(axis=1).mean()) for h, n in HOR.items()} for sc in TS})
         out[fa_name] = o
+    out['eff_5y_curve'] = out_curve
     return out
 
 
