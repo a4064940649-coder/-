@@ -10,13 +10,13 @@ import math
 import numpy as np, pandas as pd
 
 
-def make_px(P):
-    """回傳均價代理 (a) VWAP（成交金額÷成交股數，不在最低～最高之間改 (b)）與 (b) (開＋高＋低＋收)/4，以及 (a) 改用 (b) 的格數。"""
+def make_px(P, tol=0.0):
+    """回傳均價代理 (a) VWAP（成交金額÷成交股數，不在 最低×(1−tol)～最高×(1＋tol) 之間改 (b)）與 (b) (開＋高＋低＋收)/4，以及 (a) 改用 (b) 的格數。"""
     O, H, L, C = P.O, P.H, P.L, P.C
     with np.errstate(invalid='ignore', divide='ignore'):
         A4 = (O + H + L + C) / 4.0
         V = P.AMT / P.VOL
-        bad = ~(np.isfinite(V) & (V >= L - 1e-9) & (V <= H + 1e-9))
+        bad = ~(np.isfinite(V) & (V >= L * (1 - tol) - 1e-9) & (V <= H * (1 + tol) + 1e-9))
     AV = np.where(bad, A4, V)
     nfb = int((bad & np.isfinite(O) & (O > 0)).sum())
     nfb_t0 = int((bad[P.t0:] & np.isfinite(O[P.t0:]) & (O[P.t0:] > 0)).sum())

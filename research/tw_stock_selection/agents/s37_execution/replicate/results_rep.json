@@ -3,9 +3,10 @@
   "start": "2015-07-01",
   "since2019_from": "2018-12-28",
   "end": "2026-10-22",
-  "avgv_fallback_cells_all": 27435,
-  "avgv_fallback_cells_from_t0": 26712,
-  "runtime_s": 21.1,
+  "avgv_fallback_cells_all": 10726,
+  "avgv_fallback_cells_from_t0": 10412,
+  "avgv_fallback_cells_tol0": 27435,
+  "runtime_s": 23.9,
   "maxrss_mb": 1403
  },
  "acceptance": {
@@ -45,7 +46,7 @@
    "gap_lt_m3": 0.026615969581749048,
    "avgv_vs_open": {
     "n": 1841,
-    "mean": 0.001020509414120296,
+    "mean": 0.0010205088907307793,
     "p5": -0.03338496573273442,
     "p25": -0.012526326111985786,
     "p50": -0.000797650779344572,
@@ -120,7 +121,7 @@
    "gap_lt_m3": 0.018140589569160998,
    "avgv_vs_open": {
     "n": 441,
-    "mean": 0.00013232340801899457,
+    "mean": 0.00013232333508674427,
     "p5": -0.034649836879392826,
     "p25": -0.013133208280137865,
     "p50": -0.0015192965467127895,
@@ -195,13 +196,13 @@
    "gap_lt_m3": 0.02175191064079953,
    "avgv_vs_open": {
     "n": 1701,
-    "mean": -0.00026039817519628,
+    "mean": -0.0002598592635741766,
     "p5": -0.030887788862989374,
     "p25": -0.01139400885489894,
     "p50": -0.0010235068488355648,
     "p75": 0.009960785577663112,
     "p95": 0.03516255874752372,
-    "gt0": 0.47677836566725457
+    "gt0": 0.4773662551440329
    },
    "avg4_vs_open": {
     "n": 1701,
@@ -267,7 +268,7 @@
    "gap_lt_m3": 0.015584415584415584,
    "avgv_vs_open": {
     "n": 385,
-    "mean": -0.0013737592253877705,
+    "mean": -0.0013737610667072875,
     "p5": -0.03169711378177009,
     "p25": -0.011930624092448383,
     "p50": -0.0025296179152729525,
@@ -321,13 +322,103 @@
    "open_limdn_then_opened": 0
   },
   "exit_defer": {
-   "n_exit_events": 7929,
+   "n_sell_attempts_incl_deferred": 7929,
+   "n_exit_events": 7884,
    "n_deferred": 20,
    "defer_days": {
     "1": 10,
     "3": 5,
     "4": 5
    }
+  },
+  "entry_unique_to_one_path_2026": [
+   {
+    "date": "2026-05-18",
+    "code": "7750",
+    "path": "200萬|+3",
+    "result": "bought"
+   },
+   {
+    "date": "2026-06-17",
+    "code": "2347",
+    "path": "200萬|+3",
+    "result": "bought"
+   }
+  ],
+  "entry_all_paths_excl_unique2026": {
+   "n": 1839,
+   "n_no_trade": 0,
+   "gap": {
+    "n": 1839,
+    "mean": 0.006747553571760622,
+    "p5": -0.01955476927613148,
+    "p25": -0.0010610942611969931,
+    "p50": 0.004950495049504955,
+    "p75": 0.013767786286551953,
+    "p95": 0.038068433695192805,
+    "gt0": 0.6427406199021207
+   },
+   "gap_gt3": 0.08428493746601413,
+   "gap_gt5": 0.030451332245785754,
+   "gap_gt7": 0.01631321370309951,
+   "gap_lt_m3": 0.026644915715062535,
+   "avgv_vs_open": {
+    "n": 1839,
+    "mean": 0.001017904050361299,
+    "p5": -0.03339902951762514,
+    "p25": -0.012573787640392797,
+    "p50": -0.000797650779344572,
+    "p75": 0.012166539418480005,
+    "p95": 0.044802817903171255,
+    "gt0": 0.478520935290919
+   },
+   "avg4_vs_open": {
+    "n": 1839,
+    "mean": 0.0002753850922670924,
+    "p5": -0.026597370644664418,
+    "p25": -0.00980311758957425,
+    "p50": -0.001320422535211141,
+    "p75": 0.00880993237674832,
+    "p95": 0.03383527897784716,
+    "gt0": 0.4551386623164764
+   },
+   "high_vs_open": {
+    "n": 1839,
+    "mean": 0.025309796209321,
+    "p5": 0.0,
+    "p25": 0.006315901445344219,
+    "p50": 0.017569546120058455,
+    "p75": 0.035541726819727115,
+    "p95": 0.08044215180545328,
+    "gt0": 0.8907014681892332
+   },
+   "low_vs_open": {
+    "n": 1839,
+    "mean": -0.023852428139074514,
+    "p5": -0.06487958244287359,
+    "p25": -0.032461703580837165,
+    "p50": -0.018803418803418848,
+    "p75": -0.008875817336729652,
+    "p95": 0.0,
+    "gt0": 0.0
+   },
+   "close_vs_open": {
+    "n": 1839,
+    "mean": -0.0003558277011781177,
+    "p5": -0.05276602956129619,
+    "p25": -0.020205305994131673,
+    "p50": -0.0028011204481792618,
+    "p75": 0.01601474338306419,
+    "p95": 0.06559534081104405,
+    "gt0": 0.43230016313213704
+   },
+   "open_limup": 14,
+   "open_limup_rate": 0.0076128330614464385,
+   "one_line_limup": 5,
+   "open_limup_then_opened": 9,
+   "limup_vol_ratio_median": 1.5434224511476795,
+   "limup_vol_ratio_lt05": 0.35714285714285715,
+   "all_vol_ratio_median": 1.1384345722410016
   },
   "entry_result_counts": {
    "bought": 1447,
@@ -414,55 +505,67 @@
     "fill_rate": 0.8082563824008691,
     "queue_at_limup": 0,
     "miss": 353,
-    "fill_vs_open_mean": -0.006464513508658652,
-    "fill_vs_ref_mean": -0.004393627586571709,
-    "fwd20_from_open_filled_median": 0.008583690987124637,
-    "fwd20_from_open_missed_median": 0.057361376673039866
+    "fill_vs_open_mean": -0.006466481121889424,
+    "fill_vs_ref_mean": -0.004395640970845574,
+    "fwd20_from_open_filled_median": 0.007074292570742657,
+    "fwd20_from_open_missed_median": 0.057142857142857384,
+    "fwd20_full_only_filled_median": 0.008583690987124637,
+    "fwd20_full_only_missed_median": 0.057361376673039866
    },
    "0.01": {
     "fill_rate": 0.9179793590439979,
     "queue_at_limup": 0,
     "miss": 151,
-    "fill_vs_open_mean": -0.002901399241272774,
-    "fill_vs_ref_mean": 0.0006558451758956205,
-    "fwd20_from_open_filled_median": 0.0123456790123464,
-    "fwd20_from_open_missed_median": 0.057361376673039866
+    "fill_vs_open_mean": -0.0031663589945558246,
+    "fill_vs_ref_mean": 0.00038540865140807685,
+    "fwd20_from_open_filled_median": 0.011616049113202798,
+    "fwd20_from_open_missed_median": 0.057361376673039866,
+    "fwd20_full_only_filled_median": 0.0123456790123464,
+    "fwd20_full_only_missed_median": 0.057361376673039866
    },
    "0.02": {
     "fill_rate": 0.9608908202064096,
     "queue_at_limup": 0,
     "miss": 72,
-    "fill_vs_open_mean": -0.0013692466543597296,
-    "fill_vs_ref_mean": 0.0030989309365509897,
-    "fwd20_from_open_filled_median": 0.01397466253325863,
-    "fwd20_from_open_missed_median": 0.07721748257566541
+    "fill_vs_open_mean": -0.0014971860124314356,
+    "fill_vs_ref_mean": 0.002967010847704368,
+    "fwd20_from_open_filled_median": 0.012448132780083387,
+    "fwd20_from_open_missed_median": 0.07721748257566541,
+    "fwd20_full_only_filled_median": 0.01397466253325863,
+    "fwd20_full_only_missed_median": 0.07721748257566541
    },
    "0.03": {
     "fill_rate": 0.9793590439978272,
     "queue_at_limup": 0,
     "miss": 38,
-    "fill_vs_open_mean": -0.0007737757463710043,
-    "fill_vs_ref_mean": 0.004402750420387281,
-    "fwd20_from_open_filled_median": 0.015228818800247623,
-    "fwd20_from_open_missed_median": 0.06167088662381759
+    "fill_vs_open_mean": -0.0008415615531113742,
+    "fill_vs_ref_mean": 0.004332156775612753,
+    "fwd20_from_open_filled_median": 0.013513513513513598,
+    "fwd20_from_open_missed_median": 0.06167088662381759,
+    "fwd20_full_only_filled_median": 0.015228818800247623,
+    "fwd20_full_only_missed_median": 0.06167088662381759
    },
    "0.05": {
     "fill_rate": 0.9869636067354699,
     "queue_at_limup": 0,
     "miss": 24,
-    "fill_vs_open_mean": -0.00025985773214261227,
-    "fill_vs_ref_mean": 0.0053383042827633235,
-    "fwd20_from_open_filled_median": 0.015410466019976532,
-    "fwd20_from_open_missed_median": 0.06468912351265277
+    "fill_vs_open_mean": -0.00027577962492310906,
+    "fill_vs_ref_mean": 0.0053214069606116795,
+    "fwd20_from_open_filled_median": 0.014000000000000012,
+    "fwd20_from_open_missed_median": 0.06468912351265277,
+    "fwd20_full_only_filled_median": 0.015410466019976532,
+    "fwd20_full_only_missed_median": 0.06468912351265277
    },
    "0.07": {
     "fill_rate": 0.9929386203150462,
     "queue_at_limup": 0,
     "miss": 13,
-    "fill_vs_open_mean": -0.0001828892537614172,
-    "fill_vs_ref_mean": 0.005902125437654094,
-    "fwd20_from_open_filled_median": 0.015514809590973178,
-    "fwd20_from_open_missed_median": 0.07239819004524883
+    "fill_vs_open_mean": -0.00019074056238640958,
+    "fill_vs_ref_mean": 0.00589356790323043,
+    "fwd20_from_open_filled_median": 0.01404225352112698,
+    "fwd20_from_open_missed_median": 0.07239819004524883,
+    "fwd20_full_only_filled_median": 0.015514809590973178,
+    "fwd20_full_only_missed_median": 0.07239819004524883
    },
    "limup": {
     "fill_rate": 0.9923954372623575,
@@ -470,8 +573,89 @@
     "miss": 0,
     "fill_vs_open_mean": 0.0,
     "fill_vs_ref_mean": 0.006023994532097112,
-    "fwd20_from_open_filled_median": 0.015410466019976532,
-    "fwd20_from_open_missed_median": null
+    "fwd20_from_open_filled_median": 0.014000000000000012,
+    "fwd20_from_open_missed_median": null,
+    "fwd20_full_only_filled_median": 0.015410466019976532,
+    "fwd20_full_only_missed_median": null
+   }
+  },
+  "entry_limit_order_sim_excl_unique2026": {
+   "0.0": {
+    "fill_rate": 0.8080478520935291,
+    "queue_at_limup": 0,
+    "miss": 353,
+    "fill_vs_open_mean": -0.00647446150438452,
+    "fill_vs_ref_mean": -0.004392338583096385,
+    "fwd20_from_open_filled_median": 0.007346492707475782,
+    "fwd20_from_open_missed_median": 0.057142857142857384,
+    "fwd20_full_only_filled_median": 0.008720930232558155,
+    "fwd20_full_only_missed_median": 0.057361376673039866
+   },
+   "0.01": {
+    "fill_rate": 0.9178901576943991,
+    "queue_at_limup": 0,
+    "miss": 151,
+    "fill_vs_open_mean": -0.0031701106047389476,
+    "fill_vs_ref_mean": 0.0003933435913503744,
+    "fwd20_from_open_filled_median": 0.01172472999895191,
+    "fwd20_from_open_missed_median": 0.057361376673039866,
+    "fwd20_full_only_filled_median": 0.012448132780083387,
+    "fwd20_full_only_missed_median": 0.057361376673039866
+   },
+   "0.02": {
+    "fill_rate": 0.9608482871125612,
+    "queue_at_limup": 0,
+    "miss": 72,
+    "fill_vs_open_mean": -0.0014988806202553535,
+    "fill_vs_ref_mean": 0.002977513045222869,
+    "fwd20_from_open_filled_median": 0.012499999999999512,
+    "fwd20_from_open_missed_median": 0.07721748257566541,
+    "fwd20_full_only_filled_median": 0.014124406495631403,
+    "fwd20_full_only_missed_median": 0.07721748257566541
+   },
+   "0.03": {
+    "fill_rate": 0.9793365959760739,
+    "queue_at_limup": 0,
+    "miss": 38,
+    "fill_vs_open_mean": -0.000842496102309721,
+    "fill_vs_ref_mean": 0.0043439766950303035,
+    "fwd20_from_open_filled_median": 0.013864818024263315,
+    "fwd20_from_open_missed_median": 0.06167088662381759,
+    "fwd20_full_only_filled_median": 0.015306122448979775,
+    "fwd20_full_only_missed_median": 0.06167088662381759
+   },
+   "0.05": {
+    "fill_rate": 0.9869494290375204,
+    "queue_at_limup": 0,
+    "miss": 24,
+    "fill_vs_open_mean": -0.00027608351431696374,
+    "fill_vs_ref_mean": 0.005334225789945566,
+    "fwd20_from_open_filled_median": 0.014084507042253946,
+    "fwd20_from_open_missed_median": 0.06468912351265277,
+    "fwd20_full_only_filled_median": 0.015757404795486374,
+    "fwd20_full_only_missed_median": 0.06468912351265277
+   },
+   "0.07": {
+    "fill_rate": 0.9929309407286568,
+    "queue_at_limup": 0,
+    "miss": 13,
+    "fill_vs_open_mean": -0.00019094947866503655,
+    "fill_vs_ref_mean": 0.005906936193003838,
+    "fwd20_from_open_filled_median": 0.014124406495631403,
+    "fwd20_from_open_missed_median": 0.07239819004524883,
+    "fwd20_full_only_filled_median": 0.01599999999999957,
+    "fwd20_full_only_missed_median": 0.07239819004524883
+   },
+   "limup": {
+    "fill_rate": 0.9923871669385536,
+    "queue_at_limup": 14,
+    "miss": 0,
+    "fill_vs_open_mean": 0.0,
+    "fill_vs_ref_mean": 0.006037513080252716,
+    "fwd20_from_open_filled_median": 0.014084507042253946,
+    "fwd20_from_open_missed_median": null,
+    "fwd20_full_only_filled_median": 0.015757404795486374,
+    "fwd20_full_only_missed_median": null
    }
   },
   "entry_limup_followup": [
@@ -634,6 +818,52 @@
     }
    },
    "AVGV": {
+    "standard": {
+     "since2019": 0.47655160009288267,
+     "full": 0.3338791465395232,
+     "maxdd": -0.3347629445553548,
+     "n_closed": 381,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 389,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 178162827.48130772,
+     "slip": 1451646.438786404
+    },
+    "paths_median": {
+     "since2019": 0.45913086640915823,
+     "full": 0.3202337122333101,
+     "maxdd": -0.34581141227415646,
+     "n_closed": 387.5,
+     "blk_limup": 1.0,
+     "n_defer_buy": 0.0
+    },
+    "vs_BASE": {
+     "since2019": {
+      "standard_pp": -1.3361187657469298,
+      "median_pp": -0.7799146854356453,
+      "min_pp": -2.687190850260057,
+      "max_pp": -0.20881414539559717,
+      "n_worse": 20
+     },
+     "full": {
+      "standard_pp": -1.155425949621991,
+      "median_pp": -0.3260703568644163,
+      "min_pp": -3.0451123984716055,
+      "max_pp": 0.5319437049946751,
+      "n_worse": 17
+     },
+     "maxdd": {
+      "standard_pp": -1.3617842076750541,
+      "median_pp": -0.12809265267279546,
+      "min_pp": -2.0091483137189226,
+      "max_pp": 1.8408321359619007,
+      "n_worse": 14
+     }
+    }
+   },
+   "AVGV_TOL0": {
     "standard": {
      "since2019": 0.47655160890361614,
      "full": 0.3338791520403863,
@@ -1082,6 +1312,268 @@
     }
    },
    "AVGV": {
+    "60萬|+0": {
+     "since2019": 0.4688765130491215,
+     "full": 0.3202777439141071,
+     "maxdd": -0.32248622044391173,
+     "n_closed": 351,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 359,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 91178030.08539443,
+     "slip": 741396.1120667071
+    },
+    "80萬|+0": {
+     "since2019": 0.45962742483862007,
+     "full": 0.31355247245829787,
+     "maxdd": -0.32231357349607714,
+     "n_closed": 359,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 367,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 115956029.7597688,
+     "slip": 942703.1689955551
+    },
+    "100萬|+0": {
+     "since2019": 0.47655160009288267,
+     "full": 0.3338791465395232,
+     "maxdd": -0.3347629445553548,
+     "n_closed": 381,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 389,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 178162827.48130772,
+     "slip": 1451646.438786404
+    },
+    "150萬|+0": {
+     "since2019": 0.47937828075222244,
+     "full": 0.33959184527725506,
+     "maxdd": -0.3262079196617136,
+     "n_closed": 396,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 404,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 275113671.6267589,
+     "slip": 2243581.0110300295
+    },
+    "200萬|+0": {
+     "since2019": 0.48186686641064624,
+     "full": 0.34059096154588087,
+     "maxdd": -0.3256283741207472,
+     "n_closed": 403,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 411,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 369857467.2688941,
+     "slip": 3020123.203380093
+    },
+    "60萬|+1": {
+     "since2019": 0.44338601405535516,
+     "full": 0.30651054817632795,
+     "maxdd": -0.36755351244086,
+     "n_closed": 363,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 372,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 88781572.72364606,
+     "slip": 715237.0588056688
+    },
+    "80萬|+1": {
+     "since2019": 0.44318578740437076,
+     "full": 0.3027399704862139,
+     "maxdd": -0.37582611604712834,
+     "n_closed": 373,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 382,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 118720314.77015892,
+     "slip": 956414.507317106
+    },
+    "100萬|+1": {
+     "since2019": 0.45389181828668046,
+     "full": 0.31947481078138384,
+     "maxdd": -0.36495779932791905,
+     "n_closed": 392,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 401,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 165305307.96710184,
+     "slip": 1331672.7171479717
+    },
+    "150萬|+1": {
+     "since2019": 0.4586343079796964,
+     "full": 0.32018968055251307,
+     "maxdd": -0.37186824105896055,
+     "n_closed": 409,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 418,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 256424144.81557843,
+     "slip": 2068805.8209699844
+    },
+    "200萬|+1": {
+     "since2019": 0.46386285242603886,
+     "full": 0.32915879253635305,
+     "maxdd": -0.36776050511217406,
+     "n_closed": 416,
+     "blk_limup": 1,
+     "sell_defer_limdn": 0,
+     "n_buy": 425,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 370676485.4700135,
+     "slip": 2988099.0799496737
+    },
+    "60萬|+2": {
+     "since2019": 0.4253397110357502,
+     "full": 0.2998994056773996,
+     "maxdd": -0.3678361351531506,
+     "n_closed": 347,
+     "blk_limup": 0,
+     "sell_defer_limdn": 0,
+     "n_buy": 354,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 84995103.91473678,
+     "slip": 687902.1807672358
+    },
+    "80萬|+2": {
+     "since2019": 0.4408587393283041,
+     "full": 0.3118876866760738,
+     "maxdd": -0.3584996615059872,
+     "n_closed": 366,
+     "blk_limup": 0,
+     "sell_defer_limdn": 0,
+     "n_buy": 373,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 122766661.63957658,
+     "slip": 993917.8580244302
+    },
+    "100萬|+2": {
+     "since2019": 0.42919105628141296,
+     "full": 0.3134365114557711,
+     "maxdd": -0.36335564636979223,
+     "n_closed": 383,
+     "blk_limup": 0,
+     "sell_defer_limdn": 0,
+     "n_buy": 390,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 160608756.6856046,
+     "slip": 1300338.9645884375
+    },
+    "150萬|+2": {
+     "since2019": 0.43240080015118343,
+     "full": 0.30703647355440644,
+     "maxdd": -0.3568598799929581,
+     "n_closed": 396,
+     "blk_limup": 0,
+     "sell_defer_limdn": 0,
+     "n_buy": 403,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 221943596.9756486,
+     "slip": 1798906.9850368768
+    },
+    "200萬|+2": {
+     "since2019": 0.4302550487186214,
+     "full": 0.31285255494505226,
+     "maxdd": -0.3569877027227103,
+     "n_closed": 406,
+     "blk_limup": 0,
+     "sell_defer_limdn": 0,
+     "n_buy": 413,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 314315821.88740426,
+     "slip": 2549867.224474115
+    },
+    "60萬|+3": {
+     "since2019": 0.4564961298468191,
+     "full": 0.3213838318215618,
+     "maxdd": -0.3059048435384434,
+     "n_closed": 358,
+     "blk_limup": 3,
+     "sell_defer_limdn": 0,
+     "n_buy": 366,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 97834760.60114089,
+     "slip": 796370.3913200838
+    },
+    "80萬|+3": {
+     "since2019": 0.46148689283389066,
+     "full": 0.3212128178060989,
+     "maxdd": -0.3059176570750647,
+     "n_closed": 377,
+     "blk_limup": 3,
+     "sell_defer_limdn": 0,
+     "n_buy": 385,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 131271933.27640134,
+     "slip": 1068359.7656835045
+    },
+    "100萬|+3": {
+     "since2019": 0.46305007650842356,
+     "full": 0.3317737996276724,
+     "maxdd": -0.30595432957412594,
+     "n_closed": 394,
+     "blk_limup": 3,
+     "sell_defer_limdn": 0,
+     "n_buy": 402,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 180707609.51721197,
+     "slip": 1471083.957376218
+    },
+    "150萬|+3": {
+     "since2019": 0.4723539844879432,
+     "full": 0.32737811170553455,
+     "maxdd": -0.30598341206751434,
+     "n_closed": 406,
+     "blk_limup": 3,
+     "sell_defer_limdn": 0,
+     "n_buy": 414,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 264952530.61032727,
+     "slip": 2153325.737822552
+    },
+    "200萬|+3": {
+     "since2019": 0.47061253744033205,
+     "full": 0.33316306920452377,
+     "maxdd": -0.3051070074288613,
+     "n_closed": 421,
+     "blk_limup": 3,
+     "sell_defer_limdn": 0,
+     "n_buy": 429,
+     "n_defer_try": 0,
+     "n_defer_buy": 0,
+     "buy_val": 367547969.9756506,
+     "slip": 2994215.119949784
+    }
+   },
+   "AVGV_TOL0": {
     "60萬|+0": {
      "since2019": 0.4688765208919117,
      "full": 0.32027774878604265,

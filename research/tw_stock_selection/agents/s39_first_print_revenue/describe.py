@@ -111,6 +111,20 @@ out['company_concentration'] = dict(n_companies_corrected=int(len(cc)), n_compan
 big = dall[dall['corr'] & (dall['rel'].abs() >= 0.10)].sort_values('rel')
 out['big_corrections'] = [dict(code=y.code, m=str(y.m), FP=float(y.FP), TL=float(y.TL), CUR=float(y.CUR), rel=float(y.rel), in_pool=bool(y.in_pool), ind=y.ind)
                           for y in big.itertuples()]
+# 更正性質分類：用 m+12 首次快照的「去年當月營收」（同一來源 MOPS 一年後顯示的 m 營收）
+vv = fp[['code', 'm', 'V12']].copy(); vv['m'] = vv['m'] - 12
+cl = dall[dall['corr']].drop(columns=['V12', 'V1']).merge(vv, on=['code', 'm'], how='left')
+def cls(y):
+    if not np.isfinite(y.V12):
+        return '無一年後資料（m ≥ 2025-10）'
+    if round(y.V12) == round(y.CUR):
+        return 'MOPS 事後更正（一年後 MOPS 顯示＝目前值）'
+    if round(y.V12) == round(y.FP):
+        return '一年後 MOPS 仍顯示首次值（研究中心檔來源／口徑不同，或一年後才改）'
+    return '三者皆不同'
+cl['cls'] = [cls(y) for y in cl.itertuples()]
+out['correction_nature'] = {k: dict(n=int(len(g)), in_pool=int(g['in_pool'].sum()), abs_rel_median=float(g['rel'].abs().median()))
+                            for k, g in cl.groupby('cls')}
 # 舊月份：首次快照的「去年當月營收」V12 vs CUR(m−12)
 v = fp[['code', 'm', 'V12']].copy(); v['m'] = v['m'] - 12
 v = v.merge(r[r['market'] == 'sii'][['m', 'code', 'revenue_k_twd']], on=['m', 'code']).rename(columns={'revenue_k_twd': 'CUR'})

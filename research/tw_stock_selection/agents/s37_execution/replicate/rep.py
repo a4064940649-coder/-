@@ -36,7 +36,8 @@ for a in ('CHG', 'HF', 'VOLF', 'adjH', 'HI240', 'MA60', 'nbar', 'F_HI', 'IDXC', 
     if hasattr(P, a):
         delattr(P, a)
 gc.collect()
-AV, A4, NFB, NFB_T0 = xengine.make_px(P)
+AV, A4, NFB, NFB_T0 = xengine.make_px(P, tol=1e-3)              # 主結果：容差 0.1%（與原研究 avgv_fallback_cells＝10726 格相同）
+AV0, _, NFB0, _ = xengine.make_px(P, tol=0.0)                   # 敏感度：容差 0（本複製員最初的實作）
 print('載入', round(time.time() - T0), 's', rss(), 'MB', flush=True)
 
 lastb = lambda d: P.IDX[P.IDX < pd.Timestamp(d)][-1]
@@ -54,7 +55,7 @@ def summ(nav, lg, st):
                 buy_val=float(st['buy_val']), slip=float(st['slip']))
 
 
-res = dict(meta=dict(start=str(D0.date()), since2019_from=str(D19.date()), end=str(DE.date()), avgv_fallback_cells_all=NFB, avgv_fallback_cells_from_t0=NFB_T0))
+res = dict(meta=dict(start=str(D0.date()), since2019_from=str(D19.date()), end=str(DE.date()), avgv_fallback_cells_all=NFB, avgv_fallback_cells_from_t0=NFB_T0, avgv_fallback_cells_tol0=NFB0))
 
 # ---------------------------------------------------------------- 驗收：標準路徑、A1（20 條路徑 simulate_x(open) vs simulate_s10）
 a1 = 0.0; base_runs = {}
@@ -90,9 +91,11 @@ def qd(x):
     return dict(n=int(len(x)), mean=float(x.mean()), p5=float(q[0]), p25=float(q[1]), p50=float(q[2]), p75=float(q[3]), p95=float(q[4]), gt0=float((x > 0).mean()))
 
 
-def fwd20(t, j, base_open=True):
-    """t 日開盤 → t+20 日收盤（含息還原）。"""
+def fwd20(t, j, trunc=True):
+    """t 日開盤 → t+20 日收盤（含息還原）。trunc＝True：資料不足 20 日者算到最後一個交易日（與原研究相同）；False：不足者不計。"""
     t2 = t + 20
+    if trunc:
+        t2 = min(t2, P.T - 1)
     if t2 >= P.T or not (np.isfinite(O[t, j]) and O[t, j] > 0) or not np.isfinite(G[t2, j]) or not np.isfinite(G[t, j]):
         return np.nan
     return float(G[t2, j] / G[t, j] * C[t, j] / O[t, j] - 1)
@@ -138,7 +141,11 @@ for key, (nav, lg, st) in base_runs.items():
 p1 = {}
 p1['entry_all_paths'] = describe(list(ent), 'B'); p1['entry_standard'] = describe(list(ent_std), 'B')
 p1['exit_all_paths'] = describe(list(ex), 'S'); p1['exit_standard'] = describe(list(ex_std), 'S')
-p1['exit_defer'] = dict(n_exit_events=n_exit_events, n_deferred=int(sum(defer_days.values())), defer_days={str(k): v for k, v in sorted(defer_days.items())})
+p1['exit_defer'] = dict(n_sell_attempts_incl_deferred=n_exit_events, n_exit_events=int(sum(1 for key in base_runs for a in base_runs[key][2]['ex_att'] if a[2] in ('sold', 'partial'))), n_deferred=int(sum(defer_days.values())), defer_days={str(k): v for k, v in sorted(defer_days.items())})
+ONLY1 = {k: [kk for kk, (_, _, st_) in base_runs.items() if any((a[0], a[1]) == k for a in st_['ent_att'])] for k in ent}
+p1['entry_unique_to_one_path_2026'] = [dict(date=str(P.IDX[k[0]].date()), code=str(P.COLS[k[1]]), path=v[0], result=ent[k]) for k, v in ONLY1.items() if len(v) == 1 and P.IDX[k[0]].year == 2026]
+EX2 = set(k for k, v in ONLY1.items() if len(v) == 1 and P.IDX[k[0]].year == 2026)
+p1['entry_all_paths_excl_unique2026'] = describe([k for k in ent if k not in EX2], 'B')
 p1['entry_result_counts'] = pd.Series(list(ent.values())).value_counts().to_dict()
 p1['exit_result_counts'] = pd.Series(list(ex.values())).value_counts().to_dict()
 yr = {}
@@ -149,27 +156,43 @@ for (t, j) in ent:
         d['open_limup'] += int(O[t, j] >= LU[t, j] - 1e-9); d['gaps'].append(O[t, j] / REF[t, j] - 1); d['av'].append(AV[t, j] / O[t, j] - 1)
 p1['entry_yearly'] = {str(y): dict(n=d['n'], open_limup=d['open_limup'], gap_median=float(np.median(d['gaps'])), avgv_vs_open_median=float(np.median(d['av']))) for y, d in sorted(yr.items())}
 
-# 限價模擬（買進嘗試，全路徑去重）
-LO = {}
-keys = [k for k in ent if np.isfinite(O[k]) and O[k] > 0]
-nall = len(ent)
-for x in (0.0, 0.01, 0.02, 0.03, 0.05, 0.07, 'limup'):
-    fills = []; miss_f = []; fill_f = []; q = 0; miss = 0
-    for (t, j) in keys:
-        lim = LU[t, j] if x == 'limup' else REF[t, j] * (1 + x)
-        if lim >= LU[t, j] - 1e-9 and O[t, j] >= LU[t, j] - 1e-9:
-            q += 1; continue                                   # 開盤鎖漲停：排隊，視為沒買到
-        if O[t, j] <= lim + 1e-9:
-            px = O[t, j]
-        elif L[t, j] <= lim + 1e-9:
-            px = lim
-        else:
-            miss += 1; miss_f.append(fwd20(t, j)); continue
-        fills.append((px / O[t, j] - 1, px / REF[t, j] - 1)); fill_f.append(fwd20(t, j))
-    fa = np.array(fills)
-    LO[str(x)] = dict(fill_rate=len(fills) / nall, queue_at_limup=q, miss=miss, fill_vs_open_mean=float(fa[:, 0].mean()), fill_vs_ref_mean=float(fa[:, 1].mean()),
-                      fwd20_from_open_filled_median=float(np.nanmedian(fill_f)), fwd20_from_open_missed_median=float(np.nanmedian(miss_f)) if miss_f else None)
-p1['entry_limit_order_sim'] = LO
+# 限價模擬（買進嘗試，全路徑去重）；限價取「參考價×(1＋x) 以下最近的合法跳動價」（真實委託只能掛在跳動點上）
+import math
+
+
+def floor_tick(x):
+    tk = float(cslib.tick(x)); v = math.floor(x / tk + 1e-9) * tk
+    if v > x + 1e-9:
+        v -= tk
+    return round(v, 4)
+
+
+def limit_sim(ents):
+    LO = {}
+    keys = [k for k in ents if np.isfinite(O[k]) and O[k] > 0]
+    nall = len(ents)
+    for x in (0.0, 0.01, 0.02, 0.03, 0.05, 0.07, 'limup'):
+        fills = []; miss_f = []; fill_f = []; q = 0; miss = 0; miss_n = []; fill_n = []
+        for (t, j) in keys:
+            lim = LU[t, j] if x == 'limup' else floor_tick(REF[t, j] * (1 + x))
+            if lim >= LU[t, j] - 1e-9 and O[t, j] >= LU[t, j] - 1e-9:
+                q += 1; continue                                   # 開盤鎖漲停：排隊，視為沒買到
+            if O[t, j] <= lim + 1e-9:
+                px = O[t, j]
+            elif L[t, j] <= lim + 1e-9:
+                px = lim
+            else:
+                miss += 1; miss_f.append(fwd20(t, j)); miss_n.append(fwd20(t, j, False)); continue
+            fills.append((px / O[t, j] - 1, px / REF[t, j] - 1)); fill_f.append(fwd20(t, j)); fill_n.append(fwd20(t, j, False))
+        fa = np.array(fills)
+        LO[str(x)] = dict(fill_rate=len(fills) / nall, queue_at_limup=q, miss=miss, fill_vs_open_mean=float(fa[:, 0].mean()), fill_vs_ref_mean=float(fa[:, 1].mean()),
+                          fwd20_from_open_filled_median=float(np.nanmedian(fill_f)), fwd20_from_open_missed_median=float(np.nanmedian(miss_f)) if miss_f else None,
+                          fwd20_full_only_filled_median=float(np.nanmedian(fill_n)), fwd20_full_only_missed_median=float(np.nanmedian(miss_n)) if miss_n else None)
+    return LO
+
+
+p1['entry_limit_order_sim'] = limit_sim(list(ent))
+p1['entry_limit_order_sim_excl_unique2026'] = limit_sim([k for k in ent if k not in EX2])
 fu = []
 for (t, j) in ent:
     if np.isfinite(O[t, j]) and O[t, j] >= LU[t, j] - 1e-9:
@@ -189,7 +212,7 @@ res['part1'] = p1
 print('第 1 部分完成', round(time.time() - T0), 's', rss(), 'MB', flush=True)
 
 # ---------------------------------------------------------------- 第 2 部分：成交價敏感度
-VAR = dict(BASE=dict(fill='open'), AVGV=dict(fill='avgv'), AVG4=dict(fill='avg4'), OPEN05=dict(fill='open05'), DEFER=dict(fill='open', defer=True))
+VAR = dict(BASE=dict(fill='open'), AVGV=dict(fill='avgv'), AVGV_TOL0=dict(fill='avgv', AV=AV0), AVG4=dict(fill='avg4'), OPEN05=dict(fill='open05'), DEFER=dict(fill='open', defer=True))
 paths = {v: {} for v in VAR}
 for key, (nav, lg, st) in base_runs.items():
     paths['BASE'][key] = summ(nav, lg, st)
@@ -200,7 +223,8 @@ for v, kw in VAR.items():
     for s in SH:
         for cap in CAPS:
             key = f'{int(cap/1e4)}萬|+{s}'
-            nav, lg, st = xengine.simulate_x(P, SIG[s], U, s10lib, AV=AV, A4=A4, capital=cap, cap_pct=0.05, **kw, **CELL)
+            kw2 = dict(AV=AV, A4=A4); kw2.update(kw)
+            nav, lg, st = xengine.simulate_x(P, SIG[s], U, s10lib, capital=cap, cap_pct=0.05, **kw2, **CELL)
             paths[v][key] = summ(nav, lg, st)
         if QUICK:
             break
