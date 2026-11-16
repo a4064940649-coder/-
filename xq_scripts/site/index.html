@@ -1,0 +1,212 @@
+<meta name="dash-one-writer">
+<style>
+.mx { display: grid; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); }
+.mx h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.mx h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-sm); text-wrap: balance; }
+.mx .lede { color: var(--color-fg-muted); margin: var(--cds-gap-xs) 0 0; max-width: 65ch; line-height: 1.6; }
+.mx .card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+.mx .today { display: grid; gap: var(--cds-gap-sm); }
+.mx .today .act { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2rem; line-height: 1.2; }
+.mx .today .act.go { color: var(--color-warn); }
+.mx .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--cds-gap-md); margin-top: var(--cds-gap-sm); }
+.mx .fact .k { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .02em; }
+.mx .fact .v { font-size: var(--cds-font-size-heading); font-variant-numeric: tabular-nums; }
+.mx .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--cds-gap-lg); }
+.mx .tw { overflow-x: auto; }
+.mx table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+.mx th, .mx td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+.mx th { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); }
+.mx th.l, .mx td.l { text-align: left; }
+.mx .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: var(--cds-font-size-caption); border: 1px solid var(--color-border-line); }
+.mx .pill.buy { color: var(--color-ok); border-color: var(--color-ok); }
+.mx .pill.sell { color: var(--color-bad); border-color: var(--color-bad); }
+.mx .pill.hold { color: var(--color-fg-muted); }
+.mx tr.pick td { font-weight: var(--cds-font-weight-medium); }
+.mx .neg { color: var(--color-bad); }
+.mx .note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; margin: var(--cds-gap-sm) 0 0; }
+.mx .chartbox { position: relative; min-height: 320px; }
+.mx .chartbox svg text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); }
+.mx .tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 6px 10px; font-size: var(--cds-font-size-caption); line-height: 1.6; white-space: nowrap; }
+.mx .legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-bottom: var(--cds-gap-sm); }
+.mx .sw { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.mx ol.steps { margin: 0; padding-left: 1.3em; line-height: 1.8; max-width: 70ch; }
+.mx details summary { cursor: pointer; font-weight: var(--cds-font-weight-medium); }
+</style>
+
+<div class="mx">
+  <header id="top">
+    <h1>月營收驚奇操盤台</h1>
+    <p class="lede">今天的決定：<b data-draw="act-inline" data-source="status" data-field="動作" data-row="0">—</b>。現行策略（XQ 20＋21 號）每月只換股一次：每月第一個日期 ≥ 11 的交易日收盤後產生名單，隔天開盤先賣後買。</p>
+  </header>
+
+  <section class="card today" id="today">
+    <div class="fact"><span class="k">今天</span></div>
+    <div class="act" data-draw="act" data-source="status" data-field="動作" data-row="0">—</div>
+    <p class="lede" data-draw="detail" data-source="status" data-field="說明" data-row="0">—</p>
+    <div class="facts">
+      <div class="fact"><div class="k">下次產生名單（訊號日）</div><div class="v" data-draw="nextsig" data-source="status" data-field="下次訊號日" data-row="0">—</div></div>
+      <div class="fact"><div class="k">下次開盤執行</div><div class="v" data-draw="nextexec" data-source="status" data-field="下次執行日" data-row="0">—</div></div>
+      <div class="fact"><div class="k">本月訊號日（營收月份）</div><div class="v"><span data-draw="sig" data-source="status" data-field="本月訊號日" data-row="0">—</span>（<span data-draw="revm" data-source="status" data-field="營收月份" data-row="0">—</span>）</div></div>
+      <div class="fact"><div class="k">資料更新到</div><div class="v" data-draw="asof" data-source="status" data-field="資料最後一天" data-row="0">—</div></div>
+    </div>
+  </section>
+
+  <div class="grid2">
+    <section class="card" id="actions">
+      <h2>本月換股清單</h2>
+      <div class="tw">
+        <table data-source="actions" data-row-key="代號">
+          <thead><tr><th class="l" data-field="動作">動作</th><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th class="l" data-field="原因">原因</th></tr></thead>
+          <tbody data-draw="actions"></tbody>
+        </table>
+      </div>
+      <p class="note">這是策略持股延續到本月的結果（研究中心回測持股）。新開始的人只買「買進」那幾檔，其餘資金放 0050，不用買「續抱」的股票。</p>
+    </section>
+
+    <section class="card" id="holdings">
+      <h2>策略目前持股</h2>
+      <div class="tw">
+        <table data-source="holdings" data-row-key="代號">
+          <thead><tr><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th class="l" data-field="狀態">狀態</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th data-field="訊號日收盤">訊號日收盤</th></tr></thead>
+          <tbody data-draw="holdings"></tbody>
+        </table>
+      </div>
+      <p class="note">另有 0050 底倉（總資產 30%）；衛星每檔＝衛星資金 ÷ 10，沒用完的錢也放 0050。</p>
+    </section>
+  </div>
+
+  <section class="card" id="top20">
+    <h2>本月排名前 20（季線上、依 SURGE）</h2>
+    <div class="tw">
+      <table data-source="top20" data-row-key="代號">
+        <thead><tr><th data-field="名次">名次</th><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th data-field="SURGE">SURGE</th><th data-field="前20日漲幅%">前 20 日漲幅 %</th><th data-field="距季線%">距季線 %</th><th data-field="收盤">收盤</th><th class="l" data-field="入選">入選</th></tr></thead>
+        <tbody data-draw="top20"></tbody>
+      </table>
+    </div>
+    <p class="note">入選＝前 10 名而且前 20 日漲幅超過 10%。持股掉出前 20 名或跌破季線，換股日就賣。</p>
+  </section>
+
+  <section class="card" id="perf">
+    <h2>回測：100 萬會變多少</h2>
+    <div class="legend">
+      <span><i class="sw" style="background: var(--cds-chart-series-1, currentColor)" data-draw="sw0"></i>現行策略（研究中心版）</span>
+      <span><i class="sw" data-draw="sw1"></i>XQ 版（20＋21 號固定門檻）</span>
+      <span><i class="sw" data-draw="sw2"></i>0050（含息）</span>
+    </div>
+    <div class="chartbox" data-draw="nav" data-source="nav"></div>
+    <p class="note">對數縱軸。嚴成本：手續費 2.8 折、證交稅、每邊半個跳動點＋0.3% 滑價；只上市、排除創新板。單一條回測路徑；換 20 個起始日，現行策略 2019 年起每年中位數約 46%，偶爾晚 0～4 天下單約 43%。回測不保證未來。</p>
+  </section>
+
+  <section class="card" id="yearly">
+    <h2>逐年報酬</h2>
+    <div class="tw">
+      <table data-source="yearly" data-row-key="年">
+        <thead><tr><th class="l" data-field="年">年</th><th data-field="現行策略">現行策略</th><th data-field="XQ版">XQ 版</th><th data-field="0050">0050</th></tr></thead>
+        <tbody data-draw="yearly"></tbody>
+      </table>
+    </div>
+    <p class="note">2015 年從 7 月起（還沒有訊號，資金全在 0050）；2026 年到 10 月 22 日。</p>
+  </section>
+
+  <section class="card" id="howto">
+    <h2>每月怎麼做</h2>
+    <ol class="steps">
+      <li>訊號日收盤後（建議 22 點後，營收比較齊）看本頁或在 XQ 跑 20、21 號。</li>
+      <li>持股出現在賣出清單的，隔天開盤賣掉。</li>
+      <li>買進清單照 SURGE 由高到低，買到持股滿 10 檔；已持有的不重買；開盤就漲停的不追、處置股不買。</li>
+      <li>每檔金額＝（總資產 − 0050 底倉市值）÷ 10；買不到一半金額就跳過；剩下現金超過 2 萬買 0050。</li>
+      <li>衛星占總資產超出 60%～80%，把底倉重設回總資產 30%。</li>
+    </ol>
+    <p class="note">不要自己加移動停損、只買量增或只買營收持續成長等條件，研究都測過會變差。這是研究中心的回測與名單，不是投資建議；要不要投入、投多少由你決定。</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  const st = () => dash.data('status');
+  const field = (f) => { const s = st(); return s.status === 'ok' && s.data[0] ? String(s.data[0][f] ?? '—') : '—'; };
+  ['act-inline', 'detail', 'nextsig', 'nextexec', 'sig', 'revm', 'asof'].forEach((n) => {
+    const map = { 'act-inline': '動作', detail: '說明', nextsig: '下次訊號日', nextexec: '下次執行日', sig: '本月訊號日', revm: '營收月份', asof: '資料最後一天' };
+    dash.draw(n, (el) => { el.textContent = field(map[n]); });
+  });
+  dash.draw('act', (el) => { const v = field('動作'); el.textContent = v; el.classList.toggle('go', v.indexOf('換股') >= 0); });
+  dash.draw('sw0', (el) => { el.style.background = dash.colors[0]; });
+  dash.draw('sw1', (el) => { el.style.background = dash.colors[1]; });
+  dash.draw('sw2', (el) => { el.style.background = dash.colors[2]; });
+
+  const fmt = (v, d) => (v === null || v === undefined || v === '' || isNaN(+v)) ? '—' : (+v).toFixed(d);
+  function fillTable(tbody, id, cols, rowFn) {
+    const s = dash.data(id);
+    tbody.replaceChildren();
+    if (s.status !== 'ok') return;
+    s.data.forEach((r) => {
+      const tr = document.createElement('tr');
+      tr.dataset.key = encodeURIComponent(String(r[cols.key]));
+      if (rowFn) rowFn(tr, r);
+      cols.list.forEach(([k, cls, f]) => {
+        const td = document.createElement('td');
+        if (cls) td.className = cls;
+        const out = f ? f(r[k], r, td) : (r[k] ?? '—');
+        if (out instanceof Node) td.appendChild(out); else td.textContent = out;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  }
+  const pill = (v) => { const sp = document.createElement('span'); sp.className = 'pill ' + (v === '買進' || v === '新買' ? 'buy' : v === '賣出' ? 'sell' : 'hold'); sp.textContent = v; return sp; };
+  const pct = (v, r, td) => { if (+v < 0) td.classList.add('neg'); return fmt(v, 1) + '%'; };
+
+  dash.draw('actions', (tb) => fillTable(tb, 'actions', { key: '代號', list: [
+    ['動作', 'l', pill], ['代號', 'l'], ['名稱', 'l'], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['原因', 'l']] }));
+  dash.draw('holdings', (tb) => fillTable(tb, 'holdings', { key: '代號', list: [
+    ['代號', 'l'], ['名稱', 'l'], ['狀態', 'l', pill], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['訊號日收盤', '', (v) => fmt(v, 2)]] }));
+  dash.draw('top20', (tb) => fillTable(tb, 'top20', { key: '代號', list: [
+    ['名次', '', (v) => fmt(v, 0)], ['代號', 'l'], ['名稱', 'l'], ['SURGE', '', (v) => fmt(v, 2)], ['前20日漲幅%', '', (v) => fmt(v, 1)], ['距季線%', '', (v) => fmt(v, 1)], ['收盤', '', (v) => fmt(v, 2)], ['入選', 'l']] },
+    (tr, r) => { if (r['入選'] === '是') tr.className = 'pick'; }));
+  dash.draw('yearly', (tb) => fillTable(tb, 'yearly', { key: '年', list: [
+    ['年', 'l'], ['現行策略', '', pct], ['XQ版', '', pct], ['0050', '', pct]] }));
+
+  dash.draw('nav', (box) => {
+    const s = dash.data('nav');
+    box.replaceChildren();
+    if (s.status !== 'ok' || !s.data.length) { box.textContent = s.status === 'error' ? '無法載入' : '—'; return; }
+    const keys = ['現行策略', 'XQ版', '0050'];
+    const parse = d3.utcParse('%Y-%m-%d');
+    const rows = s.data.map((r) => ({ t: parse(r['日期']), v: keys.map((k) => +r[k]) }));
+    const W = Math.max(300, box.clientWidth || 600), H = 320, ml = 64, mr = 90, mt = 10, mb = 26;
+    const x = d3.scaleUtc().domain(d3.extent(rows, (r) => r.t)).range([ml, W - mr]);
+    const y = d3.scaleLog().domain([7e5, d3.max(rows, (r) => d3.max(r.v)) * 1.1]).range([H - mb, mt]);
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+      .attr('aria-label', '現行策略、XQ 版與 0050 的 100 萬回測資產成長曲線');
+    const wan = (v) => v >= 1e8 ? (v / 1e8).toFixed(2) + ' 億' : Math.round(v / 1e4).toLocaleString() + ' 萬';
+    const ticks = [1e6, 2e6, 5e6, 1e7, 2e7].filter((t) => t <= y.domain()[1]);
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y).attr('y2', y).style('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(ticks).join('text').attr('x', ml - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text(wan);
+    svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).ticks(Math.max(3, Math.floor(W / 90))).tickFormat(d3.utcFormat('%Y')).tickSizeOuter(0))
+      .call((g) => g.select('.domain').style('stroke', 'var(--cds-chart-axis)')).call((g) => g.selectAll('line').style('stroke', 'var(--cds-chart-axis)'));
+    keys.forEach((k, i) => {
+      svg.append('path').datum(rows).attr('fill', 'none').attr('stroke-width', 2).style('stroke', dash.colors[i])
+        .attr('d', d3.line().x((r) => x(r.t)).y((r) => y(r.v[i])));
+    });
+    const last = rows[rows.length - 1];
+    const ends = keys.map((k, i) => ({ k, i, y: y(last.v[i]), v: last.v[i] })).sort((a, b) => a.y - b.y);
+    for (let j = 1; j < ends.length; j++) if (ends[j].y - ends[j - 1].y < 14) ends[j].y = ends[j - 1].y + 14;
+    svg.append('g').selectAll('text').data(ends).join('text').attr('x', W - mr + 6).attr('y', (d) => d.y + 4).text((d) => wan(d.v));
+    const hl = svg.append('line').attr('y1', mt).attr('y2', H - mb).style('stroke', 'var(--cds-chart-reference)').attr('opacity', 0);
+    const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; box.appendChild(tip);
+    const bis = d3.bisector((r) => r.t).center;
+    svg.append('rect').attr('x', ml).attr('y', mt).attr('width', W - mr - ml).attr('height', H - mt - mb).attr('fill', 'transparent')
+      .on('pointermove', (ev) => {
+        const [px] = d3.pointer(ev); const r = rows[bis(rows, x.invert(px))]; const cx = x(r.t);
+        hl.attr('x1', cx).attr('x2', cx).attr('opacity', 1);
+        tip.replaceChildren();
+        const h = document.createElement('div'); h.textContent = d3.utcFormat('%Y-%m-%d')(r.t); tip.appendChild(h);
+        keys.forEach((k, i) => { const d = document.createElement('div'); const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = dash.colors[i]; d.appendChild(sw); d.appendChild(document.createTextNode(k + '：' + wan(r.v[i]))); tip.appendChild(d); });
+        tip.hidden = false;
+        const bw = box.clientWidth, sx = bw / W; let left = cx * sx + 12; if (left + 180 > bw) left = cx * sx - 192;
+        tip.style.left = left + 'px'; tip.style.top = '10px';
+      })
+      .on('pointerleave', () => { hl.attr('opacity', 0); tip.hidden = true; });
+  });
+})();
+</script>
