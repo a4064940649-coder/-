@@ -1,0 +1,1854 @@
+{
+ "acceptance": {
+  "av_rebuilt_equal": true,
+  "firstseen_T_prev_eq_gitlog_prev_snapshot": "49136/49136",
+  "A0_engine_current": {
+   "since2019": 0.48991278775035196,
+   "full": 0.34543340603574313,
+   "maxdd": -0.3211451024786043,
+   "n_closed": 381,
+   "ok": true
+  },
+  "cur_S_identical": true
+ },
+ "step1": {
+  "n_months": 141,
+  "case_counts": {
+   "safe": 138,
+   "problem": 3
+  },
+  "problem_months": [
+   {
+    "rev_month": "2019-01",
+    "tenth": "2019-02-10",
+    "deadline_statutory": "2019-02-11",
+    "special": "金管會特例：春節連假延至 2019-02-15（全體）",
+    "special_scope": "all",
+    "deadline_actual": "2019-02-15",
+    "signal_day": "2019-02-12",
+    "case": "problem",
+    "trading_days_short": 3,
+    "deadline_ins15": null,
+    "ins15_case": null,
+    "ins15_trading_days_short": null
+   },
+   {
+    "rev_month": "2020-01",
+    "tenth": "2020-02-10",
+    "deadline_statutory": "2020-02-10",
+    "special": "疫情：受影響公司經申請可延至 2020-02-15（非全體，敏感度）",
+    "special_scope": "sens",
+    "deadline_actual": "2020-02-17",
+    "signal_day": "2020-02-11",
+    "case": "problem",
+    "trading_days_short": 4,
+    "deadline_ins15": null,
+    "ins15_case": null,
+    "ins15_trading_days_short": null
+   },
+   {
+    "rev_month": "2023-03",
+    "tenth": "2023-04-10",
+    "deadline_statutory": "2023-04-10",
+    "special": "金管會公告：清明連假延至 2023-04-12（全體）",
+    "special_scope": "all",
+    "deadline_actual": "2023-04-12",
+    "signal_day": "2023-04-11",
+    "case": "problem",
+    "trading_days_short": 1,
+    "deadline_ins15": null,
+    "ins15_case": null,
+    "ins15_trading_days_short": null
+   }
+  ],
+  "ins15": [
+   {
+    "rev_month": "2026-01",
+    "signal_day": "2026-02-11",
+    "deadline_ins15": "2026-02-23",
+    "ins15_case": "problem",
+    "ins15_trading_days_short": 1.0
+   },
+   {
+    "rev_month": "2026-02",
+    "signal_day": "2026-03-11",
+    "deadline_ins15": "2026-03-16",
+    "ins15_case": "problem",
+    "ins15_trading_days_short": 3.0
+   },
+   {
+    "rev_month": "2026-03",
+    "signal_day": "2026-04-13",
+    "deadline_ins15": "2026-04-15",
+    "ins15_case": "problem",
+    "ins15_trading_days_short": 2.0
+   },
+   {
+    "rev_month": "2026-04",
+    "signal_day": "2026-05-12",
+    "deadline_ins15": "2026-05-15",
+    "ins15_case": "problem",
+    "ins15_trading_days_short": 3.0
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "deadline_ins15": "2026-06-15",
+    "ins15_case": "problem",
+    "ins15_trading_days_short": 2.0
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "deadline_ins15": "2026-07-15",
+    "ins15_case": "problem",
+    "ins15_trading_days_short": 1.0
+   },
+   {
+    "rev_month": "2026-07",
+    "signal_day": "2026-08-11",
+    "deadline_ins15": "2026-08-17",
+    "ins15_case": "problem",
+    "ins15_trading_days_short": 4.0
+   },
+   {
+    "rev_month": "2026-08",
+    "signal_day": "2026-09-11",
+    "deadline_ins15": "2026-09-15",
+    "ins15_case": "problem",
+    "ins15_trading_days_short": 2.0
+   },
+   {
+    "rev_month": "2026-09",
+    "signal_day": "2026-10-13",
+    "deadline_ins15": "2026-10-15",
+    "ins15_case": "problem",
+    "ins15_trading_days_short": 2.0
+   }
+  ],
+  "vs_original_calendar": {
+   "n": 141,
+   "signal_day_eq": 141,
+   "deadline_actual_eq": 141,
+   "deadline_statutory_eq": 141,
+   "ins15_eq": 141
+  }
+ },
+ "step2": {
+  "n_months": 28,
+  "univ_cells_total": 17658,
+  "univ_cat_spec": {
+   "OK": 17118,
+   "UNKNOWN": 268,
+   "LATE_GAP": 183,
+   "UNSEEN_LATE": 71,
+   "LATE_SURE": 18
+  },
+  "univ_cat_refined": {
+   "OK": 17118,
+   "UNKNOWN": 255,
+   "LATE_GAP_DL": 182,
+   "UNSEEN_LATE": 71,
+   "LATE_SURE": 18,
+   "LATE_LEGAL": 13,
+   "LATE_GAP": 1
+  },
+  "f1_total": 130,
+  "f1_by_cat_spec": {
+   "OK": 127,
+   "UNKNOWN": 2,
+   "UNSEEN_LATE": 1
+  },
+  "f1_by_cat_refined": {
+   "OK": 127,
+   "UNKNOWN": 2,
+   "UNSEEN_LATE": 1
+  },
+  "top20_total": 560,
+  "top20_by_cat_spec": {
+   "OK": 542,
+   "UNKNOWN": 9,
+   "UNSEEN_LATE": 5,
+   "LATE_GAP": 4
+  },
+  "top20_by_cat_refined": {
+   "OK": 542,
+   "UNKNOWN": 8,
+   "UNSEEN_LATE": 5,
+   "LATE_GAP_DL": 4,
+   "LATE_LEGAL": 1
+  },
+  "f1_not_ok": [
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "code": "2887",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "code": "2885",
+    "cat": "UNSEEN_LATE",
+    "cat2": "UNSEEN_LATE",
+    "src": "tasi",
+    "ins15": "True"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "code": "2425",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   }
+  ],
+  "top20_not_ok": [
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "code": "2851",
+    "cat": "LATE_GAP",
+    "cat2": "LATE_GAP_DL",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "code": "2887",
+    "cat": "LATE_GAP",
+    "cat2": "LATE_GAP_DL",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "code": "3032",
+    "cat": "LATE_GAP",
+    "cat2": "LATE_GAP_DL",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "code": "3694",
+    "cat": "LATE_GAP",
+    "cat2": "LATE_GAP_DL",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "code": "2316",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "code": "2887",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "code": "6914",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2025-12",
+    "signal_day": "2026-01-13",
+    "code": "2442",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2025-12",
+    "signal_day": "2026-01-13",
+    "code": "2887",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2025-12",
+    "signal_day": "2026-01-13",
+    "code": "3703",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2026-02",
+    "signal_day": "2026-03-11",
+    "code": "2850",
+    "cat": "UNSEEN_LATE",
+    "cat2": "UNSEEN_LATE",
+    "src": "tasi",
+    "ins15": "True"
+   },
+   {
+    "rev_month": "2026-04",
+    "signal_day": "2026-05-12",
+    "code": "2850",
+    "cat": "UNSEEN_LATE",
+    "cat2": "UNSEEN_LATE",
+    "src": "tasi",
+    "ins15": "True"
+   },
+   {
+    "rev_month": "2026-04",
+    "signal_day": "2026-05-12",
+    "code": "2851",
+    "cat": "UNSEEN_LATE",
+    "cat2": "UNSEEN_LATE",
+    "src": "tasi",
+    "ins15": "True"
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "code": "2832",
+    "cat": "UNSEEN_LATE",
+    "cat2": "UNSEEN_LATE",
+    "src": "tasi",
+    "ins15": "True"
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "code": "2885",
+    "cat": "UNSEEN_LATE",
+    "cat2": "UNSEEN_LATE",
+    "src": "tasi",
+    "ins15": "True"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "code": "2207",
+    "cat": "UNKNOWN",
+    "cat2": "LATE_LEGAL",
+    "src": "tasi",
+    "ins15": "True"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "code": "2330",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "code": "2425",
+    "cat": "UNKNOWN",
+    "cat2": "UNKNOWN",
+    "src": "tasi",
+    "ins15": "False"
+   }
+  ],
+  "pm_masked_by_month": {
+   "2026-01": 11,
+   "2026-02": 11,
+   "2026-03": 10,
+   "2026-04": 11,
+   "2026-05": 11,
+   "2026-06": 13,
+   "2026-07": 12,
+   "2026-08": 12,
+   "2026-09": 12
+  },
+  "pm_masked_ins15": 102,
+  "pm_masked_non_ins15": [
+   {
+    "rev_month": "2026-09",
+    "code": "2884",
+    "cat2": "LATE_SURE",
+    "src": "screener"
+   }
+  ],
+  "non_ins15_late_spec": [
+   {
+    "rev_month": "2025-08",
+    "cat": "LATE_GAP",
+    "0": "182"
+   },
+   {
+    "rev_month": "2026-09",
+    "cat": "LATE_SURE",
+    "0": "1"
+   }
+  ],
+  "s36_zero_day": [
+   {
+    "rev_month": "2025-05",
+    "code": "5469",
+    "cat": "OK",
+    "T": "2025-06-11 18:16:38+08:00",
+    "T_prev": "2025-06-10 18:16:48+08:00",
+    "in_f1": "True"
+   },
+   {
+    "rev_month": "2025-06",
+    "code": "3712",
+    "cat": "OK",
+    "T": "2025-07-11 18:25:38+08:00",
+    "T_prev": "2025-07-10 18:25:53+08:00",
+    "in_f1": "True"
+   },
+   {
+    "rev_month": "2025-10",
+    "code": "2344",
+    "cat": "OK",
+    "T": "2025-11-11 18:28:12+08:00",
+    "T_prev": "2025-11-10 18:27:27+08:00",
+    "in_f1": "True"
+   },
+   {
+    "rev_month": "2026-03",
+    "code": "2347",
+    "cat": "OK",
+    "T": "2026-04-13 18:18:13+08:00",
+    "T_prev": "2026-04-10 18:24:35+08:00",
+    "in_f1": "True"
+   },
+   {
+    "rev_month": "2026-04",
+    "code": "6005",
+    "cat": "OK",
+    "T": "2026-05-12 18:17:11+08:00",
+    "T_prev": "2026-05-11 18:17:34+08:00",
+    "in_f1": "True"
+   },
+   {
+    "rev_month": "2026-07",
+    "code": "3003",
+    "cat": "OK",
+    "T": "2026-08-11 18:17:08+08:00",
+    "T_prev": "2026-08-10 18:16:54+08:00",
+    "in_f1": "True"
+   }
+  ],
+  "vs_original_cells": {
+   "n_orig": 1082,
+   "n_both": 1082,
+   "orig_not_in_mine": 0,
+   "cat2_eq_orig": 1076,
+   "mismatches": [
+    {
+     "rev_month": "2026-09",
+     "code": "2816",
+     "cat": "LATE_SURE",
+     "cat2": "LATE_SURE",
+     "cat_o": "LATE_GAP",
+     "src": "screener"
+    },
+    {
+     "rev_month": "2026-09",
+     "code": "2880",
+     "cat": "LATE_SURE",
+     "cat2": "LATE_SURE",
+     "cat_o": "LATE_GAP",
+     "src": "screener"
+    },
+    {
+     "rev_month": "2026-09",
+     "code": "2886",
+     "cat": "LATE_SURE",
+     "cat2": "LATE_SURE",
+     "cat_o": "LATE_GAP",
+     "src": "screener"
+    },
+    {
+     "rev_month": "2026-09",
+     "code": "2887",
+     "cat": "LATE_SURE",
+     "cat2": "LATE_SURE",
+     "cat_o": "LATE_GAP",
+     "src": "screener"
+    },
+    {
+     "rev_month": "2026-09",
+     "code": "2892",
+     "cat": "LATE_SURE",
+     "cat2": "LATE_SURE",
+     "cat_o": "LATE_GAP",
+     "src": "screener"
+    },
+    {
+     "rev_month": "2026-09",
+     "code": "5880",
+     "cat": "LATE_SURE",
+     "cat2": "LATE_SURE",
+     "cat_o": "LATE_GAP",
+     "src": "screener"
+    }
+   ],
+   "ins15_mismatch": [
+    {
+     "rev_month": "2024-08",
+     "code": "2892",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-04",
+     "code": "2882",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-04",
+     "code": "2885",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-08",
+     "code": "2207",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-08",
+     "code": "2832",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-08",
+     "code": "2850",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-08",
+     "code": "2851",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-08",
+     "code": "2885",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-08",
+     "code": "2887",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-08",
+     "code": "2892",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-09",
+     "code": "2207",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-09",
+     "code": "2832",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-09",
+     "code": "2850",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-09",
+     "code": "2851",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-09",
+     "code": "2885",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-09",
+     "code": "2887",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-10",
+     "code": "2887",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-11",
+     "code": "2887",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-12",
+     "code": "2207",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-12",
+     "code": "2850",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-12",
+     "code": "2851",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-12",
+     "code": "2885",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-12",
+     "code": "2887",
+     "ins15": "False",
+     "ins15_o": "True"
+    },
+    {
+     "rev_month": "2025-12",
+     "code": "2891",
+     "ins15": "False",
+     "ins15_o": "True"
+    }
+   ]
+  },
+  "tasi_monthly": [
+   {
+    "rev_month": "2024-06",
+    "signal_day": "2024-07-11",
+    "deadline_actual": "2024-07-10",
+    "tasi_last_snapshot": "2024-07-12 18:22:01+08:00",
+    "n_rev": 1809,
+    "n_seen": 1706,
+    "share_by_deadline_night": 0.9181868435599779,
+    "share_by_signal_night": 0.9430624654505252,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2024-07",
+    "signal_day": "2024-08-13",
+    "deadline_actual": "2024-08-12",
+    "tasi_last_snapshot": "2024-08-12 18:22:11+08:00",
+    "n_rev": 1807,
+    "n_seen": 1687,
+    "share_by_deadline_night": 0.9335915882678473,
+    "share_by_signal_night": 0.9335915882678473,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2024-08",
+    "signal_day": "2024-09-11",
+    "deadline_actual": "2024-09-10",
+    "tasi_last_snapshot": "2024-09-12 18:21:21+08:00",
+    "n_rev": 1816,
+    "n_seen": 1711,
+    "share_by_deadline_night": 0.9201541850220264,
+    "share_by_signal_night": 0.9421806167400881,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2024-09",
+    "signal_day": "2024-10-14",
+    "deadline_actual": "2024-10-11",
+    "tasi_last_snapshot": "2024-10-14 18:21:14+08:00",
+    "n_rev": 1822,
+    "n_seen": 1721,
+    "share_by_deadline_night": 0.9385290889132821,
+    "share_by_signal_night": 0.9445664105378705,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2024-10",
+    "signal_day": "2024-11-12",
+    "deadline_actual": "2024-11-11",
+    "tasi_last_snapshot": "2024-11-12 18:21:21+08:00",
+    "n_rev": 1825,
+    "n_seen": 1722,
+    "share_by_deadline_night": 0.9342465753424658,
+    "share_by_signal_night": 0.9435616438356165,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2024-11",
+    "signal_day": "2024-12-11",
+    "deadline_actual": "2024-12-10",
+    "tasi_last_snapshot": "2024-12-11 18:21:26+08:00",
+    "n_rev": 1828,
+    "n_seen": 1729,
+    "share_by_deadline_night": 0.9168490153172867,
+    "share_by_signal_night": 0.9458424507658644,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2024-12",
+    "signal_day": "2025-01-13",
+    "deadline_actual": "2025-01-10",
+    "tasi_last_snapshot": "2025-01-13 18:21:14+08:00",
+    "n_rev": 1834,
+    "n_seen": 1735,
+    "share_by_deadline_night": 0.9045801526717557,
+    "share_by_signal_night": 0.9460196292257361,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-01",
+    "signal_day": "2025-02-11",
+    "deadline_actual": "2025-02-10",
+    "tasi_last_snapshot": "2025-02-12 18:21:23+08:00",
+    "n_rev": 1832,
+    "n_seen": 1738,
+    "share_by_deadline_night": 0.9039301310043668,
+    "share_by_signal_night": 0.9486899563318777,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-02",
+    "signal_day": "2025-03-11",
+    "deadline_actual": "2025-03-10",
+    "tasi_last_snapshot": "2025-03-11 18:21:40+08:00",
+    "n_rev": 1832,
+    "n_seen": 1742,
+    "share_by_deadline_night": 0.9072052401746725,
+    "share_by_signal_night": 0.9508733624454149,
+    "date_95": "2025-03-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-03",
+    "signal_day": "2025-04-11",
+    "deadline_actual": "2025-04-10",
+    "tasi_last_snapshot": "2025-04-14 18:16:26+08:00",
+    "n_rev": 1832,
+    "n_seen": 1742,
+    "share_by_deadline_night": 0.925764192139738,
+    "share_by_signal_night": 0.9508733624454149,
+    "date_95": "2025-04-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-04",
+    "signal_day": "2025-05-13",
+    "deadline_actual": "2025-05-12",
+    "tasi_last_snapshot": "2025-05-12 18:16:43+08:00",
+    "n_rev": 1833,
+    "n_seen": 1713,
+    "share_by_deadline_night": 0.9345335515548282,
+    "share_by_signal_night": 0.9345335515548282,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-05",
+    "signal_day": "2025-06-11",
+    "deadline_actual": "2025-06-10",
+    "tasi_last_snapshot": "2025-06-11 18:16:38+08:00",
+    "n_rev": 1843,
+    "n_seen": 1762,
+    "share_by_deadline_night": 0.9278350515463918,
+    "share_by_signal_night": 0.9560499186109603,
+    "date_95": "2025-06-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-06",
+    "signal_day": "2025-07-11",
+    "deadline_actual": "2025-07-10",
+    "tasi_last_snapshot": "2025-07-11 18:25:38+08:00",
+    "n_rev": 1841,
+    "n_seen": 1760,
+    "share_by_deadline_night": 0.9348180336773493,
+    "share_by_signal_night": 0.9560021727322108,
+    "date_95": "2025-07-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-07",
+    "signal_day": "2025-08-12",
+    "deadline_actual": "2025-08-11",
+    "tasi_last_snapshot": "2025-08-12 18:26:37+08:00",
+    "n_rev": 1844,
+    "n_seen": 1768,
+    "share_by_deadline_night": 0.9468546637744034,
+    "share_by_signal_night": 0.9587852494577006,
+    "date_95": "2025-08-12",
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-08",
+    "signal_day": "2025-09-11",
+    "deadline_actual": "2025-09-10",
+    "tasi_last_snapshot": "2025-09-12 18:27:17+08:00",
+    "n_rev": 1849,
+    "n_seen": 1776,
+    "share_by_deadline_night": 0.6284478096268253,
+    "share_by_signal_night": 0.6284478096268253,
+    "date_95": "2025-09-12",
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-09",
+    "signal_day": "2025-10-14",
+    "deadline_actual": "2025-10-13",
+    "tasi_last_snapshot": "2025-10-13 20:33:38+08:00",
+    "n_rev": 1846,
+    "n_seen": 1567,
+    "share_by_deadline_night": 0.8488624052004333,
+    "share_by_signal_night": 0.8488624052004333,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-10",
+    "signal_day": "2025-11-11",
+    "deadline_actual": "2025-11-10",
+    "tasi_last_snapshot": "2025-11-12 18:28:19+08:00",
+    "n_rev": 1844,
+    "n_seen": 1785,
+    "share_by_deadline_night": 0.539587852494577,
+    "share_by_signal_night": 0.9680043383947939,
+    "date_95": "2025-11-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-11",
+    "signal_day": "2025-12-11",
+    "deadline_actual": "2025-12-10",
+    "tasi_last_snapshot": "2025-12-11 18:32:51+08:00",
+    "n_rev": 1844,
+    "n_seen": 1796,
+    "share_by_deadline_night": 0.6290672451193059,
+    "share_by_signal_night": 0.9739696312364425,
+    "date_95": "2025-12-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2025-12",
+    "signal_day": "2026-01-13",
+    "deadline_actual": "2026-01-12",
+    "tasi_last_snapshot": "2026-01-12 18:28:44+08:00",
+    "n_rev": 1849,
+    "n_seen": 1566,
+    "share_by_deadline_night": 0.8469442942130881,
+    "share_by_signal_night": 0.8469442942130881,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2026-01",
+    "signal_day": "2026-02-11",
+    "deadline_actual": "2026-02-10",
+    "tasi_last_snapshot": "2026-02-12 18:16:50+08:00",
+    "n_rev": 1843,
+    "n_seen": 1794,
+    "share_by_deadline_night": 0.6077048290830168,
+    "share_by_signal_night": 0.9734129137276181,
+    "date_95": "2026-02-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2026-02",
+    "signal_day": "2026-03-11",
+    "deadline_actual": "2026-03-10",
+    "tasi_last_snapshot": "2026-03-12 18:29:40+08:00",
+    "n_rev": 1844,
+    "n_seen": 1797,
+    "share_by_deadline_night": 0.5818872017353579,
+    "share_by_signal_night": 0.9734273318872018,
+    "date_95": "2026-03-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2026-03",
+    "signal_day": "2026-04-13",
+    "deadline_actual": "2026-04-10",
+    "tasi_last_snapshot": "2026-04-13 18:18:13+08:00",
+    "n_rev": 1846,
+    "n_seen": 1803,
+    "share_by_deadline_night": 0.5823401950162513,
+    "share_by_signal_night": 0.97670639219935,
+    "date_95": "2026-04-13",
+    "date_99": null
+   },
+   {
+    "rev_month": "2026-04",
+    "signal_day": "2026-05-12",
+    "deadline_actual": "2026-05-11",
+    "tasi_last_snapshot": "2026-05-12 18:17:11+08:00",
+    "n_rev": 1848,
+    "n_seen": 1814,
+    "share_by_deadline_night": 0.829004329004329,
+    "share_by_signal_night": 0.9816017316017316,
+    "date_95": "2026-05-12",
+    "date_99": null
+   },
+   {
+    "rev_month": "2026-05",
+    "signal_day": "2026-06-11",
+    "deadline_actual": "2026-06-10",
+    "tasi_last_snapshot": "2026-06-12 18:16:50+08:00",
+    "n_rev": 1849,
+    "n_seen": 1823,
+    "share_by_deadline_night": 0.6457544618712818,
+    "share_by_signal_night": 0.9843158464034614,
+    "date_95": "2026-06-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2026-06",
+    "signal_day": "2026-07-14",
+    "deadline_actual": "2026-07-13",
+    "tasi_last_snapshot": "2026-07-13 18:16:59+08:00",
+    "n_rev": 1850,
+    "n_seen": 1640,
+    "share_by_deadline_night": 0.8864864864864865,
+    "share_by_signal_night": 0.8864864864864865,
+    "date_95": null,
+    "date_99": null
+   },
+   {
+    "rev_month": "2026-07",
+    "signal_day": "2026-08-11",
+    "deadline_actual": "2026-08-10",
+    "tasi_last_snapshot": "2026-08-12 18:16:39+08:00",
+    "n_rev": 1841,
+    "n_seen": 1822,
+    "share_by_deadline_night": 0.5480717001629549,
+    "share_by_signal_night": 0.9891363389462249,
+    "date_95": "2026-08-11",
+    "date_99": null
+   },
+   {
+    "rev_month": "2026-08",
+    "signal_day": "2026-09-11",
+    "deadline_actual": "2026-09-10",
+    "tasi_last_snapshot": "2026-09-14 18:16:55+08:00",
+    "n_rev": 1850,
+    "n_seen": 1835,
+    "share_by_deadline_night": 0.6545945945945946,
+    "share_by_signal_night": 0.9897297297297297,
+    "date_95": "2026-09-11",
+    "date_99": "2026-09-14"
+   },
+   {
+    "rev_month": "2026-09",
+    "signal_day": "2026-10-13",
+    "deadline_actual": "2026-10-12",
+    "tasi_last_snapshot": "2026-10-12 18:16:52+08:00",
+    "n_rev": 1850,
+    "n_seen": 1543,
+    "share_by_deadline_night": 0.8340540540540541,
+    "share_by_signal_night": 0.8340540540540541,
+    "date_95": null,
+    "date_99": null
+   }
+  ],
+  "tasi_monthly_vs_original": {
+   "n": 28,
+   "n_rev_eq": 27,
+   "n_seen_eq": 27,
+   "max_abs_diff_share_signal": 0.15783345270635696,
+   "max_abs_diff_share_deadline": 0.11997515092160849
+  }
+ },
+ "engine": {
+  "window": [
+   "2024-06-28",
+   "2026-10-22"
+  ],
+  "since2019_from": "2018-12-28",
+  "standard": {
+   "CUR": {
+    "since2019": 0.48991278775035196,
+    "full": 0.34543340603574313,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.6194981301441089,
+    "maxdd_window": -0.3211451024786043,
+    "n_closed_all": 381,
+    "end_nav": 28670779.158126563,
+    "since2019_costx2": 0.43143583109867234,
+    "cagr_window_costx2": 0.5567497812529338
+   },
+   "DL": {
+    "since2019": 0.4885002822433431,
+    "full": 0.3445517360906727,
+    "maxdd_full": -0.32119049020243395,
+    "cagr_window": 0.6194831271563708,
+    "maxdd_window": -0.32119049020243395,
+    "n_closed_all": 382,
+    "end_nav": 28459000.73865949,
+    "since2019_costx2": 0.43184660543630815,
+    "cagr_window_costx2": 0.5568116835342067,
+    "first_nav_diff_date": "2019-02-13",
+    "trades_only_in_this": 16,
+    "trades_only_in_CUR": 15,
+    "d_since2019_pp": -0.14125055070088877,
+    "d_full_pp": -0.08816699450704402,
+    "d_maxdd_full_pp": -0.004538772382967071,
+    "d_cagr_window_pp": -0.0015002987738155227,
+    "d_maxdd_window_pp": -0.004538772382967071,
+    "d_since2019_costx2_pp": 0.041077433763581084,
+    "d_cagr_window_costx2_pp": 0.006190228127289643
+   },
+   "DL20": {
+    "since2019": 0.48178300858761114,
+    "full": 0.3403553471454166,
+    "maxdd_full": -0.3291874544853364,
+    "cagr_window": 0.622131525367934,
+    "maxdd_window": -0.3291874544853364,
+    "n_closed_all": 381,
+    "end_nav": 27470431.761771042,
+    "since2019_costx2": 0.43014278632660385,
+    "cagr_window_costx2": 0.5567142136882164,
+    "first_nav_diff_date": "2019-02-13",
+    "trades_only_in_this": 20,
+    "trades_only_in_CUR": 20,
+    "d_since2019_pp": -0.8129779162740824,
+    "d_full_pp": -0.5078058890326531,
+    "d_maxdd_full_pp": -0.804235200673209,
+    "d_cagr_window_pp": 0.2633395223825108,
+    "d_maxdd_window_pp": -0.804235200673209,
+    "d_since2019_costx2_pp": -0.12930447720684857,
+    "d_cagr_window_costx2_pp": -0.0035567564717453592
+   },
+   "PM": {
+    "since2019": 0.4889746703394715,
+    "full": 0.34484787257949234,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.616059481220304,
+    "maxdd_window": -0.3211451024786043,
+    "n_closed_all": 380,
+    "end_nav": 28529973.57697595,
+    "since2019_costx2": 0.4306807803746304,
+    "cagr_window_costx2": 0.5539803742361384,
+    "first_nav_diff_date": "2026-06-12",
+    "trades_only_in_this": 0,
+    "trades_only_in_CUR": 1,
+    "d_since2019_pp": -0.09381174108804569,
+    "d_full_pp": -0.058553345625078634,
+    "d_maxdd_full_pp": 0.0,
+    "d_cagr_window_pp": -0.34386489238049656,
+    "d_maxdd_window_pp": 0.0,
+    "d_since2019_costx2_pp": -0.07550507240419169,
+    "d_cagr_window_costx2_pp": -0.27694070167954
+   },
+   "PMS": {
+    "since2019": 0.4889746703394715,
+    "full": 0.34484787257949234,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.616059481220304,
+    "maxdd_window": -0.3211451024786043,
+    "n_closed_all": 380,
+    "end_nav": 28529973.57697595,
+    "since2019_costx2": 0.4306807803746304,
+    "cagr_window_costx2": 0.5539803742361384,
+    "first_nav_diff_date": "2026-06-12",
+    "trades_only_in_this": 0,
+    "trades_only_in_CUR": 1,
+    "d_since2019_pp": -0.09381174108804569,
+    "d_full_pp": -0.058553345625078634,
+    "d_maxdd_full_pp": 0.0,
+    "d_cagr_window_pp": -0.34386489238049656,
+    "d_maxdd_window_pp": 0.0,
+    "d_since2019_costx2_pp": -0.07550507240419169,
+    "d_cagr_window_costx2_pp": -0.27694070167954
+   },
+   "PMW": {
+    "since2019": 0.48494589342539696,
+    "full": 0.3423319825884763,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.6013504778582905,
+    "maxdd_window": -0.3211451024786043,
+    "n_closed_all": 381,
+    "end_nav": 27932111.93168215,
+    "since2019_costx2": 0.4270244781219297,
+    "cagr_window_costx2": 0.540618655404367,
+    "first_nav_diff_date": "2025-09-12",
+    "trades_only_in_this": 4,
+    "trades_only_in_CUR": 4,
+    "d_since2019_pp": -0.4966894324955007,
+    "d_full_pp": -0.3101423447266827,
+    "d_maxdd_full_pp": 0.0,
+    "d_cagr_window_pp": -1.8147652285818383,
+    "d_maxdd_window_pp": 0.0,
+    "d_since2019_costx2_pp": -0.4411352976742666,
+    "d_cagr_window_costx2_pp": -1.6131125848566796
+   },
+   "PST": {
+    "since2019": 0.48764912896807,
+    "full": 0.34402033107346197,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.6112095011668135,
+    "maxdd_window": -0.3211451024786043,
+    "n_closed_all": 381,
+    "end_nav": 28332046.23963476,
+    "since2019_costx2": 0.4292682241242196,
+    "cagr_window_costx2": 0.548808653193013,
+    "first_nav_diff_date": "2026-06-12",
+    "trades_only_in_this": 3,
+    "trades_only_in_CUR": 3,
+    "d_since2019_pp": -0.22636587822819632,
+    "d_full_pp": -0.14130749622811578,
+    "d_maxdd_full_pp": 0.0,
+    "d_cagr_window_pp": -0.8288628977295431,
+    "d_maxdd_window_pp": 0.0,
+    "d_since2019_costx2_pp": -0.21676069744527293,
+    "d_cagr_window_costx2_pp": -0.7941128059920866
+   },
+   "ALL": {
+    "since2019": 0.4875617247721724,
+    "full": 0.3439657562340761,
+    "maxdd_full": -0.32119049020243395,
+    "cagr_window": 0.6160396361334672,
+    "maxdd_window": -0.32119049020243395,
+    "n_closed_all": 381,
+    "end_nav": 28319037.397780344,
+    "since2019_costx2": 0.4310917092094426,
+    "cagr_window_costx2": 0.5540435266054164,
+    "first_nav_diff_date": "2019-02-13",
+    "trades_only_in_this": 16,
+    "trades_only_in_CUR": 16,
+    "d_since2019_pp": -0.23510629781795522,
+    "d_full_pp": -0.14676498016670259,
+    "d_maxdd_full_pp": -0.004538772382967071,
+    "d_cagr_window_pp": -0.34584940106416884,
+    "d_maxdd_window_pp": -0.004538772382967071,
+    "d_since2019_costx2_pp": -0.03441218892297204,
+    "d_cagr_window_costx2_pp": -0.2706254647517392
+   },
+   "PM_SPEC": {
+    "since2019": 0.48494589342539696,
+    "full": 0.3423319825884763,
+    "maxdd_full": -0.3211451024786043,
+    "cagr_window": 0.6013504778582905,
+    "maxdd_window": -0.3211451024786043,
+    "n_closed_all": 381,
+    "end_nav": 27932111.93168215,
+    "since2019_costx2": 0.4270244781219297,
+    "cagr_window_costx2": 0.540618655404367,
+    "first_nav_diff_date": "2025-09-12",
+    "trades_only_in_this": 4,
+    "trades_only_in_CUR": 4,
+    "d_since2019_pp": -0.4966894324955007,
+    "d_full_pp": -0.3101423447266827,
+    "d_maxdd_full_pp": 0.0,
+    "d_cagr_window_pp": -1.8147652285818383,
+    "d_maxdd_window_pp": 0.0,
+    "d_since2019_costx2_pp": -0.4411352976742666,
+    "d_cagr_window_costx2_pp": -1.6131125848566796
+   },
+   "ALL_SPEC": {
+    "since2019": 0.483529670834806,
+    "full": 0.341447079451743,
+    "maxdd_full": -0.32119049020243395,
+    "cagr_window": 0.6013049503556149,
+    "maxdd_window": -0.32119049020243395,
+    "n_closed_all": 382,
+    "end_nav": 27724558.856839977,
+    "since2019_costx2": 0.4274128223020024,
+    "cagr_window_costx2": 0.5406028281579851,
+    "first_nav_diff_date": "2019-02-13",
+    "trades_only_in_this": 19,
+    "trades_only_in_CUR": 18,
+    "d_since2019_pp": -0.6383116915545939,
+    "d_full_pp": -0.39863265840001105,
+    "d_maxdd_full_pp": -0.004538772382967071,
+    "d_cagr_window_pp": -1.8193179788493996,
+    "d_maxdd_window_pp": -0.004538772382967071,
+    "d_since2019_costx2_pp": -0.4023008796669947,
+    "d_cagr_window_costx2_pp": -1.6146953094948735
+   }
+  },
+  "paths_pairs": {
+   "DL": {
+    "since2019": {
+     "median_pp": -0.2978085436255329,
+     "min_pp": -1.434212872169227,
+     "max_pp": 0.07776005530004682,
+     "n_lower": 18,
+     "n_higher": 2,
+     "n_equal": 0
+    },
+    "cagr_window": {
+     "median_pp": -0.03786859142796972,
+     "min_pp": -3.0480598066277453,
+     "max_pp": 0.11229313310705535,
+     "n_lower": 14,
+     "n_higher": 6,
+     "n_equal": 0
+    },
+    "maxdd_full": {
+     "median_pp": 0.021556384884274804,
+     "min_pp": -0.004538772382967071,
+     "max_pp": 0.1938489369348373,
+     "n_lower": 5,
+     "n_higher": 15,
+     "n_equal": 0
+    }
+   },
+   "DL20": {
+    "since2019": {
+     "median_pp": -0.5764428537437527,
+     "min_pp": -1.0696915610378,
+     "max_pp": -0.1391093193199966,
+     "n_lower": 20,
+     "n_higher": 0,
+     "n_equal": 0
+    },
+    "cagr_window": {
+     "median_pp": -0.027697071382870586,
+     "min_pp": -0.5022762675805037,
+     "max_pp": 0.2633395223825108,
+     "n_lower": 12,
+     "n_higher": 8,
+     "n_equal": 0
+    },
+    "maxdd_full": {
+     "median_pp": 0.018937148783398916,
+     "min_pp": -0.8386837457588503,
+     "max_pp": 0.589541935095883,
+     "n_lower": 7,
+     "n_higher": 13,
+     "n_equal": 0
+    }
+   },
+   "PM": {
+    "since2019": {
+     "median_pp": 0.0,
+     "min_pp": -0.10135541160092298,
+     "max_pp": 0.5663131706266089,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "cagr_window": {
+     "median_pp": 0.0,
+     "min_pp": -0.3757946140271695,
+     "max_pp": 2.0416734292133976,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_full": {
+     "median_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    }
+   },
+   "PMS": {
+    "since2019": {
+     "median_pp": 0.0,
+     "min_pp": -0.10135541160092298,
+     "max_pp": 0.5663131706266089,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "cagr_window": {
+     "median_pp": 0.0,
+     "min_pp": -0.3757946140271695,
+     "max_pp": 2.0416734292133976,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_full": {
+     "median_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    }
+   },
+   "PMW": {
+    "since2019": {
+     "median_pp": 0.0,
+     "min_pp": -0.517909075809686,
+     "max_pp": 0.5663131706266089,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "cagr_window": {
+     "median_pp": 0.0,
+     "min_pp": -1.8932059256516531,
+     "max_pp": 2.0416734292133976,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_full": {
+     "median_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    }
+   },
+   "PST": {
+    "since2019": {
+     "median_pp": -0.1977572004432826,
+     "min_pp": -0.5918824820881685,
+     "max_pp": 0.0,
+     "n_lower": 15,
+     "n_higher": 0,
+     "n_equal": 5
+    },
+    "cagr_window": {
+     "median_pp": -0.7260639527207013,
+     "min_pp": -2.101849504940745,
+     "max_pp": 0.0,
+     "n_lower": 15,
+     "n_higher": 0,
+     "n_equal": 5
+    },
+    "maxdd_full": {
+     "median_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    }
+   },
+   "ALL": {
+    "since2019": {
+     "median_pp": -0.34589622277048093,
+     "min_pp": -1.434212872169227,
+     "max_pp": 0.6381038704551312,
+     "n_lower": 15,
+     "n_higher": 5,
+     "n_equal": 0
+    },
+    "cagr_window": {
+     "median_pp": -0.08133224843314135,
+     "min_pp": -3.0480598066277453,
+     "max_pp": 2.0462094898103356,
+     "n_lower": 13,
+     "n_higher": 7,
+     "n_equal": 0
+    },
+    "maxdd_full": {
+     "median_pp": 0.021556384884274804,
+     "min_pp": -0.004538772382967071,
+     "max_pp": 0.1938489369348373,
+     "n_lower": 5,
+     "n_higher": 15,
+     "n_equal": 0
+    }
+   },
+   "PM_SPEC": {
+    "since2019": {
+     "median_pp": 0.0,
+     "min_pp": -0.517909075809686,
+     "max_pp": 0.14603001669448723,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "cagr_window": {
+     "median_pp": 0.0,
+     "min_pp": -1.8932059256516531,
+     "max_pp": 0.5232286505795658,
+     "n_lower": 5,
+     "n_higher": 5,
+     "n_equal": 10
+    },
+    "maxdd_full": {
+     "median_pp": 0.0,
+     "min_pp": 0.0,
+     "max_pp": 0.0,
+     "n_lower": 0,
+     "n_higher": 0,
+     "n_equal": 20
+    }
+   },
+   "ALL_SPEC": {
+    "since2019": {
+     "median_pp": -0.50789260878914,
+     "min_pp": -1.434212872169227,
+     "max_pp": 0.2208465819745431,
+     "n_lower": 15,
+     "n_higher": 5,
+     "n_equal": 0
+    },
+    "cagr_window": {
+     "median_pp": -0.08133224843314135,
+     "min_pp": -3.0480598066277453,
+     "max_pp": 0.5279091651388734,
+     "n_lower": 13,
+     "n_higher": 7,
+     "n_equal": 0
+    },
+    "maxdd_full": {
+     "median_pp": 0.021556384884274804,
+     "min_pp": -0.004538772382967071,
+     "max_pp": 0.1938489369348373,
+     "n_lower": 5,
+     "n_higher": 15,
+     "n_equal": 0
+    }
+   }
+  },
+  "n_cells_masked": {
+   "PM|+0": 103,
+   "PM|+1": 65,
+   "PM|+2": 32,
+   "PM|+3": 11,
+   "PMS|+0": 102,
+   "PMS|+1": 65,
+   "PMS|+2": 32,
+   "PMS|+3": 11,
+   "PMW|+0": 285,
+   "PMW|+1": 65,
+   "PMW|+2": 32,
+   "PMW|+3": 11,
+   "PST|+0": 103,
+   "PST|+1": 65,
+   "PST|+2": 32,
+   "PST|+3": 11,
+   "ALL|+0": 103,
+   "ALL|+1": 65,
+   "ALL|+2": 32,
+   "ALL|+3": 11,
+   "PM_SPEC|+0": 272,
+   "PM_SPEC|+1": 44,
+   "PM_SPEC|+2": 0,
+   "PM_SPEC|+3": 0,
+   "ALL_SPEC|+0": 272,
+   "ALL_SPEC|+1": 44,
+   "ALL_SPEC|+2": 0,
+   "ALL_SPEC|+3": 0
+  },
+  "f1_diff_months": {
+   "DL": {
+    "2019-01": {
+     "sig_date": "2019-02-18",
+     "cur_sig_date": "2019-02-12",
+     "f1": [
+      "1515",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ],
+     "cur_f1": [
+      "9904",
+      "1515",
+      "6282",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ]
+    },
+    "2023-03": {
+     "sig_date": "2023-04-13",
+     "cur_sig_date": "2023-04-11",
+     "f1": [
+      "1752",
+      "3025",
+      "2731",
+      "2634",
+      "6197",
+      "1519"
+     ],
+     "cur_f1": [
+      "3025",
+      "2731",
+      "1519",
+      "1529"
+     ]
+    }
+   },
+   "DL20": {
+    "2019-01": {
+     "sig_date": "2019-02-18",
+     "cur_sig_date": "2019-02-12",
+     "f1": [
+      "1515",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ],
+     "cur_f1": [
+      "9904",
+      "1515",
+      "6282",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ]
+    },
+    "2020-01": {
+     "sig_date": "2020-02-18",
+     "cur_sig_date": "2020-02-11",
+     "f1": [
+      "6416",
+      "3545",
+      "8131"
+     ],
+     "cur_f1": [
+      "4142",
+      "6416",
+      "1519"
+     ]
+    },
+    "2023-03": {
+     "sig_date": "2023-04-13",
+     "cur_sig_date": "2023-04-11",
+     "f1": [
+      "1752",
+      "3025",
+      "2731",
+      "2634",
+      "6197",
+      "1519"
+     ],
+     "cur_f1": [
+      "3025",
+      "2731",
+      "1519",
+      "1529"
+     ]
+    }
+   },
+   "PM": {
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "PMS": {
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "PMW": {
+    "2025-08": {
+     "sig_date": "2025-09-11",
+     "cur_sig_date": "2025-09-11",
+     "f1": [
+      "2408",
+      "4739",
+      "2374",
+      "6579"
+     ],
+     "cur_f1": [
+      "2408",
+      "4739",
+      "2374"
+     ]
+    },
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "PST": {
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "2851",
+      "2850",
+      "3022",
+      "8021"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "ALL": {
+    "2019-01": {
+     "sig_date": "2019-02-18",
+     "cur_sig_date": "2019-02-12",
+     "f1": [
+      "1515",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ],
+     "cur_f1": [
+      "9904",
+      "1515",
+      "6282",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ]
+    },
+    "2023-03": {
+     "sig_date": "2023-04-13",
+     "cur_sig_date": "2023-04-11",
+     "f1": [
+      "1752",
+      "3025",
+      "2731",
+      "2634",
+      "6197",
+      "1519"
+     ],
+     "cur_f1": [
+      "3025",
+      "2731",
+      "1519",
+      "1529"
+     ]
+    },
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "PM_SPEC": {
+    "2025-08": {
+     "sig_date": "2025-09-11",
+     "cur_sig_date": "2025-09-11",
+     "f1": [
+      "2408",
+      "4739",
+      "2374",
+      "6579"
+     ],
+     "cur_f1": [
+      "2408",
+      "4739",
+      "2374"
+     ]
+    },
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   },
+   "ALL_SPEC": {
+    "2019-01": {
+     "sig_date": "2019-02-18",
+     "cur_sig_date": "2019-02-12",
+     "f1": [
+      "1515",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ],
+     "cur_f1": [
+      "9904",
+      "1515",
+      "6282",
+      "9935",
+      "2379",
+      "2375",
+      "3596",
+      "5269"
+     ]
+    },
+    "2023-03": {
+     "sig_date": "2023-04-13",
+     "cur_sig_date": "2023-04-11",
+     "f1": [
+      "1752",
+      "3025",
+      "2731",
+      "2634",
+      "6197",
+      "1519"
+     ],
+     "cur_f1": [
+      "3025",
+      "2731",
+      "1519",
+      "1529"
+     ]
+    },
+    "2025-08": {
+     "sig_date": "2025-09-11",
+     "cur_sig_date": "2025-09-11",
+     "f1": [
+      "2408",
+      "4739",
+      "2374",
+      "6579"
+     ],
+     "cur_f1": [
+      "2408",
+      "4739",
+      "2374"
+     ]
+    },
+    "2026-05": {
+     "sig_date": "2026-06-11",
+     "cur_sig_date": "2026-06-11",
+     "f1": [
+      "2059",
+      "6446",
+      "3022",
+      "8021",
+      "3004"
+     ],
+     "cur_f1": [
+      "2059",
+      "6446",
+      "3022",
+      "2885",
+      "8021",
+      "3004"
+     ]
+    }
+   }
+  }
+ },
+ "runtime_s": 47.9,
+ "maxrss_mb": 1402
+}

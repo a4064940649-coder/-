@@ -302,16 +302,17 @@ assert acc['A0_engine_current']['ok'], acc['A0_engine_current']
 for k in ('FPM', 'FPA'):
     nv, _ = RUN[(k, 0, 1e6)]
     d = (nv.to_numpy() != nav0.to_numpy()) & ~(np.isnan(nv.to_numpy()) & np.isnan(nav0.to_numpy()))
-    first = P.IDX[np.flatnonzero(d)[0]] if d.any() else None
+    first = nv.index[np.flatnonzero(d)[0]] if d.any() else None
     acc[f'{k}_first_nav_diff_date'] = str(first.date()) if first is not None else None
     rel = np.abs(nv.to_numpy() / nav0.to_numpy() - 1)
     big = np.flatnonzero(np.nan_to_num(rel) > 1e-9)
-    acc[f'{k}_first_nav_reldiff_gt_1e-9_date'] = str(P.IDX[big[0]].date()) if len(big) else None
+    acc[f'{k}_first_nav_reldiff_gt_1e-9_date'] = str(nv.index[big[0]].date()) if len(big) else None
     acc[f'{k}_max_reldiff_before_first_gt_1e-9'] = float(np.nanmax(rel[:big[0]])) if len(big) else float(np.nanmax(rel))
     for th in (1e-6, 1e-4, 1e-3):
         bb = np.flatnonzero(np.nan_to_num(rel) > th)
-        acc[f'{k}_first_nav_reldiff_gt_{th:g}_date'] = str(P.IDX[bb[0]].date()) if len(bb) else None
+        acc[f'{k}_first_nav_reldiff_gt_{th:g}_date'] = str(nv.index[bb[0]].date()) if len(bb) else None
     acc[f'{k}_reldiff_at_first_diff'] = float(rel[big[0]]) if len(big) else 0.0
+    assert nv.index.equals(nav0.index)
     acc[f'{k}_nav_identical_before_window'] = bool(first is None or first > DW)
 res['acceptance'] = acc
 
