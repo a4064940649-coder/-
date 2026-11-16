@@ -251,7 +251,7 @@ def basket_index(P, Hb, FR):
     return dict(Dc=Dc, Do=Do, turns=turn)
 
 
-def mix_index(P, A, B, wa=0.5):
+def mix_index(P, B, wa=0.5):
     """A＝0050（E50／E50O）、B＝組合指數 dict；每月最後交易日收盤拉回 wa／1−wa，移轉金額計雙邊成本。"""
     T = P.T
     idx = pd.DatetimeIndex(P.IDX)
