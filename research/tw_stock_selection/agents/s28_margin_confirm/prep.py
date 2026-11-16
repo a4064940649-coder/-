@@ -68,7 +68,7 @@ for per in ('train', 'valid'):
         if grp == 'F1':
             miss = d[~np.isfinite(d['DGM'])]
             o[grp]['DGM_missing_examples'] = miss['code'].value_counts().head(10).to_dict()
-            o[grp]['DGM_missing_fin_format'] = {str(FQ['ind'].get(c, '無財報')): int(v) for c, v in miss['code'].map(lambda c: FQ['ind'].get(c, '無財報')).value_counts().items()}
+            o[grp]['DGM_missing_fin_format'] = {str(c): int(v) for c, v in miss['code'].map(lambda c: FQ['ind'].get(c, '無財報')).value_counts().items()}
     chk[per] = o
 # 規則改動（只數檔數）
 eff = {}
