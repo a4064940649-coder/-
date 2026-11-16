@@ -1,0 +1,443 @@
+{
+ "panel": {
+  "T": 2876,
+  "N": 2142,
+  "last": "2026-10-22",
+  "exright_fix": true,
+  "exright_info": {
+   "n_twt49u": 9826,
+   "n_rights_issue_fallback": 11,
+   "n_prev_untraded": 6461,
+   "n_total": 16287,
+   "twt49u_last": "2026-10-29"
+  }
+ },
+ "fin_source": {
+  "file": "agents/o_pead_margin_surprise_low_attention/data/fin_long.parquet（MOPS XBRL 單季財報，公開封存 jb7k6295r7-bot/tw-stock-data；只讀）",
+  "first_q": "2013Q1",
+  "last_q": "2026Q2",
+  "n_codes": 3057,
+  "fields": "rev_s 單季營收、gp_s 單季毛利、opi_s 單季營業利益（Q4＝全年減前三季）",
+  "dgm_first_q": "2014Q1（需要前一年同季）",
+  "avail_file": "avail_dates.parquet（市場可得日 A；上市 2017-04 起直接觀察證交所 BWIBBU 欄位切換日，之前推斷）"
+ },
+ "pit_rule": "訊號列 k（日期 d）：季 kq 可用 ⇔ 法定期限 deadline(kq) < d 且（市場可得日 A 缺值或 A < d）；取法定期限已過的最新季，該檔該季 A ≥ d（晚交）時往回 1 季。法定期限：證交法第 36 條 Q1 5/15、Q2 8/14、Q3 11/14、Q4 次年 3/31（金融保險、-KY 的 Q2 為 8/31，訊號日 9/10 之後，不影響）。訊號日次日開盤才進場，所以進場前財報已公告。",
+ "pit_by_signal_month": {
+  "days_after_deadline_min": 11,
+  "days_after_deadline_max": 119,
+  "by_calendar_month": {
+   "1": {
+    "kq_quarter": [
+     "Q3"
+    ],
+    "days_after_deadline": [
+     58,
+     60
+    ]
+   },
+   "2": {
+    "kq_quarter": [
+     "Q3"
+    ],
+    "days_after_deadline": [
+     89,
+     99
+    ]
+   },
+   "3": {
+    "kq_quarter": [
+     "Q3"
+    ],
+    "days_after_deadline": [
+     117,
+     119
+    ]
+   },
+   "4": {
+    "kq_quarter": [
+     "Q4"
+    ],
+    "days_after_deadline": [
+     11,
+     13
+    ]
+   },
+   "5": {
+    "kq_quarter": [
+     "Q4"
+    ],
+    "days_after_deadline": [
+     41,
+     43
+    ]
+   },
+   "6": {
+    "kq_quarter": [
+     "Q1"
+    ],
+    "days_after_deadline": [
+     27,
+     30
+    ]
+   },
+   "7": {
+    "kq_quarter": [
+     "Q1"
+    ],
+    "days_after_deadline": [
+     57,
+     60
+    ]
+   },
+   "8": {
+    "kq_quarter": [
+     "Q1"
+    ],
+    "days_after_deadline": [
+     88,
+     90
+    ]
+   },
+   "9": {
+    "kq_quarter": [
+     "Q2"
+    ],
+    "days_after_deadline": [
+     28,
+     30
+    ]
+   },
+   "10": {
+    "kq_quarter": [
+     "Q2"
+    ],
+    "days_after_deadline": [
+     59,
+     62
+    ]
+   },
+   "11": {
+    "kq_quarter": [
+     "Q2"
+    ],
+    "days_after_deadline": [
+     89,
+     91
+    ]
+   },
+   "12": {
+    "kq_quarter": [
+     "Q3"
+    ],
+    "days_after_deadline": [
+     27,
+     29
+    ]
+   }
+  },
+  "first": {
+   "month": "2016-01",
+   "sig_date": "2016-02-16",
+   "kq": "2015Q3",
+   "days_after_deadline": 94
+  },
+  "last": {
+   "month": "2026-09",
+   "sig_date": "2026-10-13",
+   "kq": "2026Q2",
+   "days_after_deadline": 60
+  }
+ },
+ "train": {
+  "F1": {
+   "n": 281,
+   "n_months": 69,
+   "kq_found": 0.9928825622775801,
+   "used_fallback_prev_q": 0.0,
+   "RY_avail": 0.9928825622775801,
+   "DGM_avail": 0.9822064056939501,
+   "DOPM_avail": 0.9715302491103203,
+   "age_days_median": 104.0,
+   "age_days_max": 164.0,
+   "RY_pos": 0.6868327402135231,
+   "RY_le0": 0.30604982206405695,
+   "DGM_q": [
+    -3.7445990355583105,
+    -0.6936146571349264,
+    1.6319869759495522,
+    4.1915963997434496,
+    9.898441790295333
+   ],
+   "DOPM_q": [
+    -6.231379125537477,
+    -0.7005557713240074,
+    2.0402502458978455,
+    5.472998814843702,
+    12.161009649644509
+   ],
+   "share_RYpos_DGM_lt_m2": 0.08540925266903915,
+   "share_RYpos_DGM_lt_m5": 0.042704626334519574,
+   "share_RYle0_DGM_lt_m2": 0.06761565836298933,
+   "DGM_missing_examples": {
+    "1409": 2,
+    "3413": 1,
+    "2905": 1,
+    "6024": 1
+   },
+   "DGM_missing_fin_format": {
+    "無財報": 1
+   }
+  },
+  "R11_20": {
+   "n": 240,
+   "n_months": 68,
+   "kq_found": 0.9916666666666667,
+   "used_fallback_prev_q": 0.004166666666666667,
+   "RY_avail": 0.9916666666666667,
+   "DGM_avail": 0.9875,
+   "DOPM_avail": 0.9916666666666667,
+   "age_days_median": 104.0,
+   "age_days_max": 195.0,
+   "RY_pos": 0.7291666666666666,
+   "RY_le0": 0.2625,
+   "DGM_q": [
+    -4.687307870086467,
+    -1.2588792551025212,
+    1.7793271726268212,
+    4.426404100683132,
+    10.022453063654297
+   ],
+   "DOPM_q": [
+    -5.2861935784538145,
+    -0.26617094197344515,
+    2.170409456605022,
+    6.162755968352017,
+    13.88407060719341
+   ],
+   "share_RYpos_DGM_lt_m2": 0.13333333333333333,
+   "share_RYpos_DGM_lt_m5": 0.058333333333333334,
+   "share_RYle0_DGM_lt_m2": 0.06666666666666667
+  }
+ },
+ "valid": {
+  "F1": {
+   "n": 242,
+   "n_months": 56,
+   "kq_found": 0.9793388429752066,
+   "used_fallback_prev_q": 0.0,
+   "RY_avail": 0.9793388429752066,
+   "DGM_avail": 0.9669421487603306,
+   "DOPM_avail": 0.9710743801652892,
+   "age_days_median": 105.0,
+   "age_days_max": 164.0,
+   "RY_pos": 0.768595041322314,
+   "RY_le0": 0.21074380165289255,
+   "DGM_q": [
+    -6.927083026517786,
+    -1.815158935912202,
+    0.8060986211910308,
+    3.295121404050301,
+    9.343777872756082
+   ],
+   "DOPM_q": [
+    -8.881035720325501,
+    -1.5760053696204854,
+    1.0642170855897999,
+    5.46591426427282,
+    12.260936322247558
+   ],
+   "share_RYpos_DGM_lt_m2": 0.1652892561983471,
+   "share_RYpos_DGM_lt_m5": 0.06611570247933884,
+   "share_RYle0_DGM_lt_m2": 0.0743801652892562,
+   "DGM_missing_examples": {
+    "3135": 2,
+    "4142": 1,
+    "2834": 1,
+    "2851": 1,
+    "2887": 1,
+    "6005": 1,
+    "2885": 1
+   },
+   "DGM_missing_fin_format": {
+    "無財報": 1
+   }
+  },
+  "R11_20": {
+   "n": 218,
+   "n_months": 54,
+   "kq_found": 0.9908256880733946,
+   "used_fallback_prev_q": 0.0,
+   "RY_avail": 0.9908256880733946,
+   "DGM_avail": 0.9770642201834863,
+   "DOPM_avail": 0.9862385321100917,
+   "age_days_median": 104.0,
+   "age_days_max": 164.0,
+   "RY_pos": 0.7706422018348624,
+   "RY_le0": 0.22018348623853212,
+   "DGM_q": [
+    -5.466478938815264,
+    -1.7380481765052136,
+    1.3110985740526937,
+    5.8224420393827625,
+    11.842415763576692
+   ],
+   "DOPM_q": [
+    -5.740553407784204,
+    -1.4171049078224156,
+    1.6584040205967865,
+    6.844457854770544,
+    15.626801711103482
+   ],
+   "share_RYpos_DGM_lt_m2": 0.1559633027522936,
+   "share_RYpos_DGM_lt_m5": 0.06880733944954129,
+   "share_RYle0_DGM_lt_m2": 0.0779816513761468
+  }
+ },
+ "rule_effect_preview": {
+  "BAN_GM2": {
+   "train": {
+    "n_orig": 281,
+    "n_new": 257,
+    "removed": 24,
+    "added": 0,
+    "months_changed": 22,
+    "n_months": 71
+   },
+   "valid": {
+    "n_orig": 242,
+    "n_new": 202,
+    "removed": 40,
+    "added": 0,
+    "months_changed": 29,
+    "n_months": 58
+   }
+  },
+  "BAN_GM5": {
+   "train": {
+    "n_orig": 281,
+    "n_new": 269,
+    "removed": 12,
+    "added": 0,
+    "months_changed": 12,
+    "n_months": 71
+   },
+   "valid": {
+    "n_orig": 242,
+    "n_new": 226,
+    "removed": 16,
+    "added": 0,
+    "months_changed": 16,
+    "n_months": 58
+   }
+  },
+  "BAN_GMOP": {
+   "train": {
+    "n_orig": 281,
+    "n_new": 266,
+    "removed": 15,
+    "added": 0,
+    "months_changed": 15,
+    "n_months": 71
+   },
+   "valid": {
+    "n_orig": 242,
+    "n_new": 216,
+    "removed": 26,
+    "added": 0,
+    "months_changed": 18,
+    "n_months": 58
+   }
+  },
+  "SWAP_GM2": {
+   "train": {
+    "n_orig": 281,
+    "n_new": 444,
+    "removed": 24,
+    "added": 187,
+    "months_changed": 67,
+    "n_months": 71
+   },
+   "valid": {
+    "n_orig": 242,
+    "n_new": 373,
+    "removed": 40,
+    "added": 171,
+    "months_changed": 55,
+    "n_months": 58
+   }
+  }
+ },
+ "turnaround_check": {
+  "train": {
+   "turnaround_mu_le0": {
+    "n": 95,
+    "RY_le0": 0.5684210526315789,
+    "flag_GM2": 0.05263157894736842,
+    "flag_GM5": 0.031578947368421054,
+    "DGM_lt_m2_any_RY": 0.18947368421052632,
+    "DGM_median": 1.6319869759495522
+   },
+   "mu_gt0": {
+    "n": 186,
+    "RY_le0": 0.17204301075268819,
+    "flag_GM2": 0.10215053763440861,
+    "flag_GM5": 0.04838709677419355,
+    "DGM_lt_m2_any_RY": 0.13440860215053763,
+    "DGM_median": 1.632157737051973
+   },
+   "mu_missing": {
+    "n": 0,
+    "RY_le0": null,
+    "flag_GM2": null,
+    "flag_GM5": null,
+    "DGM_lt_m2_any_RY": null,
+    "DGM_median": null
+   }
+  },
+  "valid": {
+   "turnaround_mu_le0": {
+    "n": 74,
+    "RY_le0": 0.5135135135135135,
+    "flag_GM2": 0.12162162162162163,
+    "flag_GM5": 0.04054054054054054,
+    "DGM_lt_m2_any_RY": 0.35135135135135137,
+    "DGM_median": 0.2236803707519358
+   },
+   "mu_gt0": {
+    "n": 168,
+    "RY_le0": 0.07738095238095238,
+    "flag_GM2": 0.18452380952380953,
+    "flag_GM5": 0.07738095238095238,
+    "DGM_lt_m2_any_RY": 0.19047619047619047,
+    "DGM_median": 0.9281427121589205
+   },
+   "mu_missing": {
+    "n": 0,
+    "RY_le0": null,
+    "flag_GM2": null,
+    "flag_GM5": null,
+    "DGM_lt_m2_any_RY": null,
+    "DGM_median": null
+   }
+  }
+ },
+ "A_on_used_quarters": {
+  "train": {
+   "has_A": 1.0,
+   "A_before_signal": 1.0
+  },
+  "valid": {
+   "has_A": 1.0,
+   "A_before_signal": 1.0
+  }
+ },
+ "sufficiency": {
+  "rule": "訓練期與驗證期 F1 的 DGM 可用率都 ≥ 80%，且每個訊號列都能決定 PIT 季別",
+  "DGM_avail_train": 0.9822064056939501,
+  "DGM_avail_valid": 0.9669421487603306,
+  "pit_ok": true,
+  "verdict": "資料足夠"
+ },
+ "runtime_s": 52.4,
+ "maxrss_mb": 1980
+}

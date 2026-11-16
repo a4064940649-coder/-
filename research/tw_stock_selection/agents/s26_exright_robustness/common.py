@@ -27,7 +27,7 @@ def redirect():
     """所有已載入模組裡指向舊 scratchpad 的模組層級 Path 變數，一律改成 CACHE（只改記憶體中的變數，不改檔案）。"""
     n = 0
     for name, mod in list(sys.modules.items()):
-        if mod is None or not hasattr(mod, '__file__') or not mod.__file__ or str(AG) not in str(mod.__file__):
+        if name in ('__main__', 'common') or mod is None or not hasattr(mod, '__file__') or not mod.__file__ or str(AG) not in str(mod.__file__):
             continue
         for k, v in list(vars(mod).items()):
             if isinstance(v, Path) and 'scratchpad' in str(v) and k not in ('SCR',):
