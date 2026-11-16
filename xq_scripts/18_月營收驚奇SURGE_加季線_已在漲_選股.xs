@@ -35,7 +35,7 @@ Input: MinRet20(10), RetLen(20), UseMA60(1), MALen(60), MinAvgValue(1000), MinPr
 // MinSurge：SURGE 下限；0 = 不設（只靠排序取前 10）
 Var: MissingValue(-999999999), Idx(0), Idx2(0), RevA(0), RevB(0), RevOK(true),
      D0(0), Dk(0), SumD(0), SumD2(0), MeanD(0), VarD(0), Surge(-999),
-     AvgValue(0), IsRebal(true), DayNow(0), DayPrev(0), MAval(0), MAOK(true), Bias(0),
+     AvgValue(0), IsRebal(true), DayNow(0), DayPrev(0), MAval(0), MAOK(true), MaBias(0),
      Ret20(-999), RetOK(true);
 SetTotalBar(100);
 SetBackBar(100);
@@ -67,8 +67,8 @@ end;
 AvgValue = Average(Close * Volume, LiqDays) / 10;
 // 季線：收盤 > MALen 日均線
 MAval = Average(Close, MALen);
-Bias = 0;
-if MAval > 0 then Bias = (Close / MAval - 1) * 100;
+MaBias = 0;
+if MAval > 0 then MaBias = (Close / MAval - 1) * 100;
 MAOK = true;
 if UseMA60 = 1 then begin
     MAOK = false;
@@ -95,6 +95,6 @@ if IsRebal and Close >= MinPrice
    and Surge >= MinSurge then Ret = 1;
 OutputField(1, Surge, 2, "SURGE");
 OutputField(2, AvgValue, 0, "60日均成交值(萬)");
-OutputField(3, Bias, 1, "距季線%");
+OutputField(3, MaBias, 1, "距季線%");
 OutputField(4, Ret20, 1, "前20日漲幅%");
 OutputField(5, D0, 0, "本月營收年增金額");
