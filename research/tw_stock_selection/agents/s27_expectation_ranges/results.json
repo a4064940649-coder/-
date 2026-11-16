@@ -1,6 +1,8 @@
 {
  "spec_sha256": "c55511bcc8365ec7464d1a6269fad781f221d7c654e57a4e87d438fde964d7c8",
- "spec_deviations": [],
+ "spec_deviations": [
+  "事後新增（看過主模擬結果後才加，只是描述、不改門檻）：警戒組合 A_and_E_posthoc（A 與 E 同月觸發）、TWO_OR_MORE_posthoc（同月 ≥ 2 條觸發）；歷史檢查加 current_2026_10（各條在 2026-10 月底的現值）。"
+ ],
  "build_meta": {
   "spec_sha256": "c55511bcc8365ec7464d1a6269fad781f221d7c654e57a4e87d438fde964d7c8",
   "start": "2015-07-01",
@@ -3124,6 +3126,44 @@
         "5y": 0.4679
        }
       }
+     },
+     "A_and_E_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0109,
+        "3y": 0.0267,
+        "5y": 0.0451
+       },
+       "HALF": {
+        "1y": 0.0971,
+        "3y": 0.2061,
+        "5y": 0.3004
+       },
+       "ZERO": {
+        "1y": 0.3642,
+        "3y": 0.5904,
+        "5y": 0.7418
+       }
+      }
+     },
+     "TWO_OR_MORE_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0146,
+        "3y": 0.0423,
+        "5y": 0.0689
+       },
+       "HALF": {
+        "1y": 0.1124,
+        "3y": 0.2597,
+        "5y": 0.3759
+       },
+       "ZERO": {
+        "1y": 0.4028,
+        "3y": 0.6695,
+        "5y": 0.8109
+       }
+      }
      }
     },
     "fa5": {
@@ -3267,6 +3307,44 @@
         "1y": 0.0,
         "3y": 0.1249,
         "5y": 0.2855
+       }
+      }
+     },
+     "A_and_E_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0055,
+        "3y": 0.0125,
+        "5y": 0.0208
+       },
+       "HALF": {
+        "1y": 0.0559,
+        "3y": 0.1254,
+        "5y": 0.191
+       },
+       "ZERO": {
+        "1y": 0.269,
+        "3y": 0.471,
+        "5y": 0.6208
+       }
+      }
+     },
+     "TWO_OR_MORE_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0067,
+        "3y": 0.0186,
+        "5y": 0.0302
+       },
+       "HALF": {
+        "1y": 0.0616,
+        "3y": 0.1593,
+        "5y": 0.2485
+       },
+       "ZERO": {
+        "1y": 0.2881,
+        "3y": 0.5371,
+        "5y": 0.7026
        }
       }
      }
@@ -4051,6 +4129,44 @@
         "5y": 0.4094
        }
       }
+     },
+     "A_and_E_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0124,
+        "3y": 0.0275,
+        "5y": 0.0449
+       },
+       "HALF": {
+        "1y": 0.0875,
+        "3y": 0.1786,
+        "5y": 0.2655
+       },
+       "ZERO": {
+        "1y": 0.3199,
+        "3y": 0.5255,
+        "5y": 0.6808
+       }
+      }
+     },
+     "TWO_OR_MORE_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0172,
+        "3y": 0.0417,
+        "5y": 0.0694
+       },
+       "HALF": {
+        "1y": 0.1021,
+        "3y": 0.2277,
+        "5y": 0.3416
+       },
+       "ZERO": {
+        "1y": 0.3516,
+        "3y": 0.6073,
+        "5y": 0.7612
+       }
+      }
      }
     },
     "fa5": {
@@ -4194,6 +4310,44 @@
         "1y": 0.0,
         "3y": 0.0868,
         "5y": 0.2334
+       }
+      }
+     },
+     "A_and_E_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0054,
+        "3y": 0.013,
+        "5y": 0.0229
+       },
+       "HALF": {
+        "1y": 0.0524,
+        "3y": 0.1118,
+        "5y": 0.1729
+       },
+       "ZERO": {
+        "1y": 0.2334,
+        "3y": 0.4134,
+        "5y": 0.5621
+       }
+      }
+     },
+     "TWO_OR_MORE_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0069,
+        "3y": 0.0169,
+        "5y": 0.0317
+       },
+       "HALF": {
+        "1y": 0.0591,
+        "3y": 0.1375,
+        "5y": 0.2223
+       },
+       "ZERO": {
+        "1y": 0.2521,
+        "3y": 0.4744,
+        "5y": 0.6446
        }
       }
      }
@@ -4831,6 +4985,44 @@
         "5y": 0.4783
        }
       }
+     },
+     "A_and_E_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.01,
+        "3y": 0.0245,
+        "5y": 0.0367
+       },
+       "HALF": {
+        "1y": 0.1046,
+        "3y": 0.2187,
+        "5y": 0.3164
+       },
+       "ZERO": {
+        "1y": 0.3767,
+        "3y": 0.6039,
+        "5y": 0.7567
+       }
+      }
+     },
+     "TWO_OR_MORE_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0135,
+        "3y": 0.0391,
+        "5y": 0.0593
+       },
+       "HALF": {
+        "1y": 0.1199,
+        "3y": 0.2817,
+        "5y": 0.4064
+       },
+       "ZERO": {
+        "1y": 0.4269,
+        "3y": 0.7011,
+        "5y": 0.8448
+       }
+      }
      }
     },
     "fa5": {
@@ -4974,6 +5166,44 @@
         "1y": 0.0,
         "3y": 0.1585,
         "5y": 0.3343
+       }
+      }
+     },
+     "A_and_E_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0038,
+        "3y": 0.0121,
+        "5y": 0.0179
+       },
+       "HALF": {
+        "1y": 0.0674,
+        "3y": 0.1511,
+        "5y": 0.2264
+       },
+       "ZERO": {
+        "1y": 0.3078,
+        "3y": 0.5261,
+        "5y": 0.6831
+       }
+      }
+     },
+     "TWO_OR_MORE_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.005,
+        "3y": 0.0161,
+        "5y": 0.0258
+       },
+       "HALF": {
+        "1y": 0.0722,
+        "3y": 0.1787,
+        "5y": 0.2748
+       },
+       "ZERO": {
+        "1y": 0.3285,
+        "3y": 0.5916,
+        "5y": 0.755
        }
       }
      }
@@ -5611,6 +5841,44 @@
         "5y": 0.6987
        }
       }
+     },
+     "A_and_E_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0126,
+        "3y": 0.0284,
+        "5y": 0.0422
+       },
+       "HALF": {
+        "1y": 0.1335,
+        "3y": 0.2452,
+        "5y": 0.3452
+       },
+       "ZERO": {
+        "1y": 0.475,
+        "3y": 0.7026,
+        "5y": 0.8354
+       }
+      }
+     },
+     "TWO_OR_MORE_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0188,
+        "3y": 0.0461,
+        "5y": 0.0691
+       },
+       "HALF": {
+        "1y": 0.1679,
+        "3y": 0.3117,
+        "5y": 0.4321
+       },
+       "ZERO": {
+        "1y": 0.5327,
+        "3y": 0.7728,
+        "5y": 0.8897
+       }
+      }
      }
     },
     "fa5": {
@@ -5756,6 +6024,44 @@
         "5y": 0.4854
        }
       }
+     },
+     "A_and_E_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0061,
+        "3y": 0.0144,
+        "5y": 0.0215
+       },
+       "HALF": {
+        "1y": 0.0802,
+        "3y": 0.1547,
+        "5y": 0.227
+       },
+       "ZERO": {
+        "1y": 0.3648,
+        "3y": 0.5778,
+        "5y": 0.7253
+       }
+      }
+     },
+     "TWO_OR_MORE_posthoc": {
+      "prob": {
+       "EFF": {
+        "1y": 0.0076,
+        "3y": 0.0195,
+        "5y": 0.0297
+       },
+       "HALF": {
+        "1y": 0.0892,
+        "3y": 0.1926,
+        "5y": 0.2822
+       },
+       "ZERO": {
+        "1y": 0.3951,
+        "3y": 0.6475,
+        "5y": 0.7902
+       }
+      }
      }
     }
    }
@@ -5781,26 +6087,36 @@
   "history_check_summary": {
    "A": {
     "paths_triggered": 0,
+    "current_median": 0.112,
+    "current_worst": 0.0745,
     "worst_value_median": -0.0083,
     "worst_value_worst": -0.0296
    },
    "B": {
     "paths_triggered": 0,
+    "current_median": 0.304,
+    "current_worst": 0.2247,
     "worst_value_median": -0.1344,
     "worst_value_worst": -0.1535
    },
    "C": {
     "paths_triggered": 0,
+    "current_median": -0.0593,
+    "current_worst": -0.0737,
     "worst_value_median": -0.2586,
     "worst_value_worst": -0.2791
    },
    "D": {
     "paths_triggered": 2,
+    "current_median": 9.0,
+    "current_worst": 9,
     "worst_value_median": 26.0,
     "worst_value_worst": 50
    },
    "E": {
     "paths_triggered": 0,
+    "current_median": -0.0716,
+    "current_worst": -0.1386,
     "worst_value_median": -0.1722,
     "worst_value_worst": -0.1933
    }
@@ -5809,27 +6125,32 @@
    "A": {
     "n_months": 0,
     "months": [],
-    "worst": 0.0147
+    "worst": 0.0147,
+    "current_2026_10": 0.1533
    },
    "B": {
     "n_months": 0,
     "months": [],
-    "worst": -0.1337
+    "worst": -0.1337,
+    "current_2026_10": 0.3451
    },
    "C": {
     "n_months": 0,
     "months": [],
-    "worst": -0.2514
+    "worst": -0.2514,
+    "current_2026_10": -0.0534
    },
    "D": {
     "n_months": 0,
     "months": [],
-    "worst": 26
+    "worst": 26,
+    "current_2026_10": 9
    },
    "E": {
     "n_months": 0,
     "months": [],
-    "worst": -0.1498
+    "worst": -0.1498,
+    "current_2026_10": -0.0663
    }
   },
   "history_check_per_path": {
@@ -5837,544 +6158,644 @@
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0196
+     "worst": -0.0196,
+     "current_2026_10": 0.1592
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.127
+     "worst": -0.127,
+     "current_2026_10": 0.3349
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2547
+     "worst": -0.2547,
+     "current_2026_10": -0.0534
     },
     "D": {
      "n_months": 1,
      "months": [
       "2020-03"
      ],
-     "worst": 50
+     "worst": 50,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1409
+     "worst": -0.1409,
+     "current_2026_10": -0.0541
     }
    },
    "80萬|+0": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": 0.0148
+     "worst": 0.0148,
+     "current_2026_10": 0.1527
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.135
+     "worst": -0.135,
+     "current_2026_10": 0.345
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2514
+     "worst": -0.2514,
+     "current_2026_10": -0.0534
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 26
+     "worst": 26,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1498
+     "worst": -0.1498,
+     "current_2026_10": -0.0663
     }
    },
    "100萬|+0": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": 0.0147
+     "worst": 0.0147,
+     "current_2026_10": 0.1533
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1337
+     "worst": -0.1337,
+     "current_2026_10": 0.3451
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2514
+     "worst": -0.2514,
+     "current_2026_10": -0.0534
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 26
+     "worst": 26,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1498
+     "worst": -0.1498,
+     "current_2026_10": -0.0663
     }
    },
    "150萬|+0": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": 0.0191
+     "worst": 0.0191,
+     "current_2026_10": 0.1596
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1322
+     "worst": -0.1322,
+     "current_2026_10": 0.3546
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.251
+     "worst": -0.251,
+     "current_2026_10": -0.0536
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 25
+     "worst": 25,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.153
+     "worst": -0.153,
+     "current_2026_10": -0.0673
     }
    },
    "200萬|+0": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": 0.0179
+     "worst": 0.0179,
+     "current_2026_10": 0.1597
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1319
+     "worst": -0.1319,
+     "current_2026_10": 0.3545
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2508
+     "worst": -0.2508,
+     "current_2026_10": -0.0537
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 25
+     "worst": 25,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1528
+     "worst": -0.1528,
+     "current_2026_10": -0.0673
     }
    },
    "60萬|+1": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0169
+     "worst": -0.0169,
+     "current_2026_10": 0.0802
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.148
+     "worst": -0.148,
+     "current_2026_10": 0.2781
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.263
+     "worst": -0.263,
+     "current_2026_10": -0.065
     },
     "D": {
      "n_months": 1,
      "months": [
       "2020-03"
      ],
-     "worst": 50
+     "worst": 50,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1705
+     "worst": -0.1705,
+     "current_2026_10": -0.076
     }
    },
    "80萬|+1": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0148
+     "worst": -0.0148,
+     "current_2026_10": 0.0839
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1535
+     "worst": -0.1535,
+     "current_2026_10": 0.2968
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2633
+     "worst": -0.2633,
+     "current_2026_10": -0.0657
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 49
+     "worst": 49,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1813
+     "worst": -0.1813,
+     "current_2026_10": -0.0918
     }
    },
    "100萬|+1": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": 0.0101
+     "worst": 0.0101,
+     "current_2026_10": 0.0809
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1387
+     "worst": -0.1387,
+     "current_2026_10": 0.2844
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2628
+     "worst": -0.2628,
+     "current_2026_10": -0.0653
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 33
+     "worst": 33,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1639
+     "worst": -0.1639,
+     "current_2026_10": -0.0772
     }
    },
    "150萬|+1": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": 0.0015
+     "worst": 0.0015,
+     "current_2026_10": 0.0813
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1388
+     "worst": -0.1388,
+     "current_2026_10": 0.2849
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2629
+     "worst": -0.2629,
+     "current_2026_10": -0.0653
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 34
+     "worst": 34,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1639
+     "worst": -0.1639,
+     "current_2026_10": -0.0771
     }
    },
    "200萬|+1": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": 0.0147
+     "worst": 0.0147,
+     "current_2026_10": 0.085
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1432
+     "worst": -0.1432,
+     "current_2026_10": 0.2973
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2625
+     "worst": -0.2625,
+     "current_2026_10": -0.0658
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 27
+     "worst": 27,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1694
+     "worst": -0.1694,
+     "current_2026_10": -0.0794
     }
    },
    "60萬|+2": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0121
+     "worst": -0.0121,
+     "current_2026_10": 0.0919
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1342
+     "worst": -0.1342,
+     "current_2026_10": 0.3726
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2743
+     "worst": -0.2743,
+     "current_2026_10": -0.0732
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 24
+     "worst": 24,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1751
+     "worst": -0.1751,
+     "current_2026_10": -0.0476
     }
    },
    "80萬|+2": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0121
+     "worst": -0.0121,
+     "current_2026_10": 0.0947
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1406
+     "worst": -0.1406,
+     "current_2026_10": 0.3862
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2753
+     "worst": -0.2753,
+     "current_2026_10": -0.0737
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 26
+     "worst": 26,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.182
+     "worst": -0.182,
+     "current_2026_10": -0.0529
     }
    },
    "100萬|+2": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0121
+     "worst": -0.0121,
+     "current_2026_10": 0.0947
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1406
+     "worst": -0.1406,
+     "current_2026_10": 0.3859
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2753
+     "worst": -0.2753,
+     "current_2026_10": -0.0737
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 19
+     "worst": 19,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1822
+     "worst": -0.1822,
+     "current_2026_10": -0.053
     }
    },
    "150萬|+2": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0115
+     "worst": -0.0115,
+     "current_2026_10": 0.092
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1345
+     "worst": -0.1345,
+     "current_2026_10": 0.3739
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2741
+     "worst": -0.2741,
+     "current_2026_10": -0.073
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 26
+     "worst": 26,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1739
+     "worst": -0.1739,
+     "current_2026_10": -0.0475
     }
    },
    "200萬|+2": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0296
+     "worst": -0.0296,
+     "current_2026_10": 0.0745
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.143
+     "worst": -0.143,
+     "current_2026_10": 0.3107
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2791
+     "worst": -0.2791,
+     "current_2026_10": -0.0726
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 22
+     "worst": 22,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1814
+     "worst": -0.1814,
+     "current_2026_10": -0.056
     }
    },
    "60萬|+3": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0091
+     "worst": -0.0091,
+     "current_2026_10": 0.1296
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1042
+     "worst": -0.1042,
+     "current_2026_10": 0.2247
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2302
+     "worst": -0.2302,
+     "current_2026_10": -0.0445
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 26
+     "worst": 26,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1918
+     "worst": -0.1918,
+     "current_2026_10": -0.137
     }
    },
    "80萬|+3": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": 0.0024
+     "worst": 0.0024,
+     "current_2026_10": 0.1295
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.104
+     "worst": -0.104,
+     "current_2026_10": 0.2253
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2298
+     "worst": -0.2298,
+     "current_2026_10": -0.0446
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 35
+     "worst": 35,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1926
+     "worst": -0.1926,
+     "current_2026_10": -0.1379
     }
    },
    "100萬|+3": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0074
+     "worst": -0.0074,
+     "current_2026_10": 0.1294
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1037
+     "worst": -0.1037,
+     "current_2026_10": 0.2256
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2298
+     "worst": -0.2298,
+     "current_2026_10": -0.0448
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 24
+     "worst": 24,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1933
+     "worst": -0.1933,
+     "current_2026_10": -0.1386
     }
    },
    "150萬|+3": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": -0.0161
+     "worst": -0.0161,
+     "current_2026_10": 0.1401
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1051
+     "worst": -0.1051,
+     "current_2026_10": 0.2574
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2297
+     "worst": -0.2297,
+     "current_2026_10": -0.0436
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 27
+     "worst": 27,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1854
+     "worst": -0.1854,
+     "current_2026_10": -0.1236
     }
    },
    "200萬|+3": {
     "A": {
      "n_months": 0,
      "months": [],
-     "worst": 0.0062
+     "worst": 0.0062,
+     "current_2026_10": 0.1471
     },
     "B": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1214
+     "worst": -0.1214,
+     "current_2026_10": 0.2739
     },
     "C": {
      "n_months": 0,
      "months": [],
-     "worst": -0.2329
+     "worst": -0.2329,
+     "current_2026_10": -0.0423
     },
     "D": {
      "n_months": 0,
      "months": [],
-     "worst": 24
+     "worst": 24,
+     "current_2026_10": 9
     },
     "E": {
      "n_months": 0,
      "months": [],
-     "worst": -0.1668
+     "worst": -0.1668,
+     "current_2026_10": -0.1106
     }
    }
   },
@@ -6411,6 +6832,6 @@
    }
   }
  },
- "peak_mb": 505,
- "secs": 5
+ "peak_mb": 506,
+ "secs": 4
 }

@@ -259,18 +259,23 @@ def run_block(base, bmin, bmax, full=True):
             e5, z5 = tab[key]['prob']['EFF']['5y'], tab[key]['prob']['ZERO']['5y']
             tab[key]['zero_over_eff_5y'] = r4(z5 / e5) if e5 else None
         # 組合：任一條；A 且 D 同月
-        anyp = {}; adp = {}
+        anyp = {}; adp = {}; aep = {}; twop = {}
         for sc in SCEN:
             raw = al[sc]['raw']
-            hit = np.zeros(raw['A'].shape, bool)
+            hit = np.zeros(raw['A'].shape, bool); cnt = np.zeros(raw['A'].shape, np.int8); H1 = {}
             for key in 'ABCDE':
                 if th[key] is not None:
                     x = raw[key]
-                    hit |= (np.nan_to_num(x, nan=np.inf) < th[key]) if key != 'D' else (x >= th[key])
+                    h1 = (np.nan_to_num(x, nan=np.inf) < th[key]) if key != 'D' else (x >= th[key])
+                    hit |= h1; cnt += h1; H1[key] = h1
+            ae = H1['A'] & H1['E']
+            aep[sc] = {f'{y}y': r4(ae[:, 37:last + 1].any(axis=1).mean()) for y, last in ((1, 48), (3, 72), (5, 96))}
+            twop[sc] = {f'{y}y': r4((cnt >= 2)[:, 37:last + 1].any(axis=1).mean()) for y, last in ((1, 48), (3, 72), (5, 96))}
             ad = (np.nan_to_num(raw['A'], nan=np.inf) < th['A']) & (raw['D'] >= th['D']) if th['A'] is not None and th['D'] is not None else np.zeros_like(hit)
             anyp[sc] = {f'{y}y': r4(hit[:, 37:last + 1].any(axis=1).mean()) for y, last in ((1, 48), (3, 72), (5, 96))}
             adp[sc] = {f'{y}y': r4(ad[:, 37:last + 1].any(axis=1).mean()) for y, last in ((1, 48), (3, 72), (5, 96))}
         tab['ANY'] = dict(prob=anyp); tab['A_and_D'] = dict(prob=adp)
+        tab['A_and_E_posthoc'] = dict(prob=aep); tab['TWO_OR_MORE_posthoc'] = dict(prob=twop)
         alerts[f'fa{int(fa*100)}'] = tab
     out['alerts'] = alerts
     # 固定參考門檻的觸發曲線（方便產品擁有者看）
@@ -309,9 +314,12 @@ for p in PATHS:
             continue
         hit = (np.nan_to_num(x, nan=np.inf) < TH[key]) if key != 'D' else (x >= TH[key])
         worst = np.nanmin(x) if key != 'D' else np.nanmax(x)
-        hp[key] = dict(n_months=int(hit.sum()), months=[str(m.index[i]) for i in np.where(hit)[0]][:24], worst=r4(worst) if key != 'D' else int(worst))
+        hp[key] = dict(n_months=int(hit.sum()), months=[str(m.index[i]) for i in np.where(hit)[0]][:24], worst=r4(worst) if key != 'D' else int(worst),
+                       current_2026_10=r4(x[-1]) if key != 'D' else int(x[-1]))
     hist_trig[p] = hp
 hist_sum = {key: dict(paths_triggered=int(sum(hist_trig[p].get(key, {}).get('n_months', 0) > 0 for p in PATHS)),
+                      current_median=(r4(np.median([hist_trig[p][key]['current_2026_10'] for p in PATHS])) if TH[key] is not None else None),
+                      current_worst=((r4(min(hist_trig[p][key]['current_2026_10'] for p in PATHS)) if key != 'D' else int(max(hist_trig[p][key]['current_2026_10'] for p in PATHS))) if TH[key] is not None else None),
                       worst_value_median=r4(np.median([hist_trig[p][key]['worst'] for p in PATHS])) if TH[key] is not None else None,
                       worst_value_worst=(r4(min(hist_trig[p][key]['worst'] for p in PATHS)) if key != 'D' else int(max(hist_trig[p][key]['worst'] for p in PATHS))) if TH[key] is not None else None)
             for key in 'ABCDE'}
@@ -322,35 +330,46 @@ part3 = dict(thresholds_fa10=TH, thresholds_fa5={k: (v['threshold'] if v else No
 
 # ------------------------------------------------------------------ part4 網站表
 S = main['scenarios']
+AL = main['alerts']['fa10']
 pct = lambda x: int(round(100 * x))
+sg = lambda x: f'{pct(x)}'.replace('-', '−')
 def rng_(d, lo='p10', hi='p90'):
-    return f'{pct(d[lo])}% ～ {pct(d[hi])}%'
+    return f'{sg(d[lo])}% ～ {sg(d[hi])}%'
 dgap = part1['since2016']['daily_minus_monthly_maxdd']
 h1 = part1['since2016']['summary_20paths']
+fa = lambda k: f'策略有效時 5 年內誤報 {pct(AL[k]["prob"]["EFF"]["5y"])}%；α 歸零時 5 年內觸發 {pct(AL[k]["prob"]["ZERO"]["5y"])}%'
 rows = []
 for h, nm in ((12, '未來 1 年'), (36, '未來 3 年'), (60, '未來 5 年')):
-    rows.append(dict(item=f'{nm}報酬（年化）', normal_range=rng_(S['EFF'][f'{h}m']['strat_ann']),
-                     reference_0050=rng_(S['EFF'][f'{h}m']['b0050_ann']),
-                     note=f'模擬 P10～P90（策略有效情境；過去 10 年重抽，偏樂觀）。α 歸零時中位數 {pct(S["ZERO"][f"{h}m"]["strat_ann"]["p50"])}%。'))
-rows.append(dict(item='某 12 個月輸 0050', normal_range=f'5 年內發生機率 {pct(S["EFF"]["events_5y"]["any_12m_behind"])}%；歷史 20 條中位數有 {pct(h1["R12.frac_neg"]["median"])}% 的 12 個月窗輸 0050',
-                 alert=f'滾動 12 個月落後 0050 超過 {-pct(TH["B"])} 個百分點' if TH['B'] is not None else None,
-                 note='單看「這一年輸 0050」不是失效證據（α 歸零時也只多一點）。'))
-rows.append(dict(item='輸 0050 的機率', normal_range=f'1 年 {pct(S["EFF"]["12m"]["p_lose_to_0050"])}%／3 年 {pct(S["EFF"]["36m"]["p_lose_to_0050"])}%／5 年 {pct(S["EFF"]["60m"]["p_lose_to_0050"])}%',
-                 note=f'α 歸零時 1 年 {pct(S["ZERO"]["12m"]["p_lose_to_0050"])}%／3 年 {pct(S["ZERO"]["36m"]["p_lose_to_0050"])}%／5 年 {pct(S["ZERO"]["60m"]["p_lose_to_0050"])}%。'))
-rows.append(dict(item='滾動 3 年對 0050 年化超額', normal_range=f'歷史 20 條中位數最低 {pct(h1["R36.min"]["median"])} 個百分點（最差路徑 {pct(h1["R36.min"]["worst"])}）',
-                 alert=f'低於 {pct(TH["A"])} 個百分點／年' if TH['A'] is not None else None, note='每月底檢查；需要 36 個月資料。'))
-rows.append(dict(item='連續落後 0050（相對財富未創新高）', normal_range=f'歷史最長 {int(h1["lag_longest_m"]["median"])} 個月（20 條中位數），最差 {int(h1["lag_longest_m"]["worst"])} 個月；5 年內 ≥ 12 個月機率 {pct(S["EFF"]["60m"]["p_lag_ge12"])}%',
-                 alert=f'連續 {TH["D"]} 個月底都沒追回前高' if TH['D'] is not None else None, note=f'α 歸零時 5 年內 ≥ 12 個月機率 {pct(S["ZERO"]["60m"]["p_lag_ge12"])}%，所以「落後一年多」本身不是失效證據。'))
-rows.append(dict(item='最大回撤（5 年內）', normal_range=f'月底口徑中位數 {pct(S["EFF"]["60m"]["maxdd_p50"])}%、P90 {pct(S["EFF"]["60m"]["maxdd_p90"])}%；歷史日口徑最差 {pct(HIST_WORST_MDD_D)}%',
-                 alert=f'月底淨值對前高回撤深於 {pct(TH["C"])}%' if TH['C'] is not None else None,
-                 note=f'日內回撤通常比月底口徑再深約 {-pct(dgap["median"])} 個百分點（歷史最多 {-pct(dgap["worst"])}）。'))
-rows.append(dict(item='相對 0050 的最深落後（相對財富對前高）', normal_range=f'歷史 20 條中位數 {pct(h1["rel_maxdd"]["median"])}%，最差 {pct(h1["rel_maxdd"]["worst"])}%',
-                 alert=f'深於 {pct(TH["E"])}%' if TH['E'] is not None else None))
+    e = S['EFF'][f'{h}m']
+    rows.append(dict(item=f'{nm}報酬（年化）', common_range_p25_p75=rng_(e['strat_ann'], 'p25', 'p75'), normal_range_p10_p90=rng_(e['strat_ann']),
+                     median=f'{sg(e["strat_ann"]["p50"])}%', reference_0050_p10_p90=rng_(e['b0050_ann']), alert=None,
+                     note=f'α 打一半時中位數 {sg(S["HALF"][f"{h}m"]["strat_ann"]["p50"])}%、α 歸零時 {sg(S["ZERO"][f"{h}m"]["strat_ann"]["p50"])}%。'))
+rows.append(dict(item='輸 0050 的機率', normal_range_p10_p90=f'1 年 {pct(S["EFF"]["12m"]["p_lose_to_0050"])}%／3 年 {pct(S["EFF"]["36m"]["p_lose_to_0050"])}%／5 年 {pct(S["EFF"]["60m"]["p_lose_to_0050"])}%', alert=None,
+                 note=f'α 打一半時 {pct(S["HALF"]["12m"]["p_lose_to_0050"])}%／{pct(S["HALF"]["36m"]["p_lose_to_0050"])}%／{pct(S["HALF"]["60m"]["p_lose_to_0050"])}%；α 歸零時 {pct(S["ZERO"]["12m"]["p_lose_to_0050"])}%／{pct(S["ZERO"]["36m"]["p_lose_to_0050"])}%／{pct(S["ZERO"]["60m"]["p_lose_to_0050"])}%（波動較大，所以歸零時輸的機率略高於一半）。'))
+rows.append(dict(item='滾動 12 個月對 0050 超額', normal_range_p10_p90=f'歷史 20 條中位數：P10 {sg(h1["R12.p10"]["median"])}、中位數 +{pct(h1["R12.p50"]["median"])} 個百分點；最差 {sg(h1["R12.min"]["worst"])} 個百分點；某 12 個月輸 0050 在 5 年內幾乎一定發生（{pct(S["EFF"]["events_5y"]["any_12m_behind"])}%）',
+                 alert=f'落後 0050 超過 {-pct(TH["B"])} 個百分點', note=fa('B') + '。「這一年輸 0050」本身不是失效證據。'))
+rows.append(dict(item='滾動 3 年對 0050 年化超額', normal_range_p10_p90=f'歷史 20 條最低值中位數 {sg(h1["R36.min"]["median"])} 個百分點、最差 {sg(h1["R36.min"]["worst"])}；模擬 5 年後 P10 +{pct(S["EFF"]["60m"]["excess_ann"]["p10"])}',
+                 alert=f'低於 {sg(TH["A"])} 個百分點／年', note=fa('A') + '。最有用的單一警戒線之一。'))
+rows.append(dict(item='相對 0050 的最深落後（策略÷0050 對前高）', normal_range_p10_p90=f'歷史 20 條中位數 {sg(h1["rel_maxdd"]["median"])}%、最差 {sg(h1["rel_maxdd"]["worst"])}%',
+                 alert=f'深於 {sg(TH["E"])}%', note=fa('E') + '。最有用的單一警戒線之一。'))
+rows.append(dict(item='連續落後 0050（策略÷0050 沒創新高的月數）', normal_range_p10_p90=f'歷史最長中位數 {int(h1["lag_longest_m"]["median"])} 個月、最差 {int(h1["lag_longest_m"]["worst"])} 個月；5 年內 ≥ 12 個月 {pct(S["EFF"]["60m"]["p_lag_ge12"])}%、≥ 24 個月 {pct(S["EFF"]["60m"]["p_lag_ge24"])}%',
+                 alert=f'不單獨使用（要 {TH["D"]} 個月才有 10% 誤報；歷史 20 條有 {part3["history_check_summary"]["D"]["paths_triggered"]} 條碰過）', note=f'α 歸零時 5 年內 ≥ 12 個月 {pct(S["ZERO"]["60m"]["p_lag_ge12"])}%：「落後一年多」有效、無效都很常見，不能當失效證據。'))
+rows.append(dict(item='最大回撤', normal_range_p10_p90=f'5 年內月底口徑中位數 {sg(S["EFF"]["60m"]["maxdd_p50"])}%、P90 {sg(S["EFF"]["60m"]["maxdd_p90"])}%；歷史日口徑中位數 {sg(h1["maxdd_daily"]["median"])}%、最差 {sg(HIST_WORST_MDD_D)}%',
+                 alert=f'月底淨值對前高回撤深於 {sg(TH["C"])}%（約等於日內 {sg(TH["C"] + dgap["median"])}% 左右）', note=fa('C') + f'。回撤主要跟大盤走，偵測力最弱；日內通常比月底再深約 {-pct(dgap["median"])} 個百分點（歷史最多 {-pct(dgap["worst"])}）。'))
+rows.append(dict(item='回撤恢復時間', normal_range_p10_p90=f'歷史 ≥ 20% 回撤谷底到收復最長約 {int(round(h1["recover_ge20_max_m"]["median"]))} 個月（最差 {int(round(h1["recover_ge20_max_m"]["worst"]))}）；前高到收復最長約 {int(round(h1["longest_underwater_m"]["median"]))} 個月（最差 {int(round(h1["longest_underwater_m"]["worst"]))}）', alert=None,
+                 note=f'0050 同期最長水下 {int(round(part1["since2016"]["bench_0050"]["longest_underwater_m"]))} 個月。'))
+AE = main['alerts']['fa10']['A_and_E_posthoc']['prob']; TW = main['alerts']['fa10']['TWO_OR_MORE_posthoc']['prob']; AN = main['alerts']['fa10']['ANY']['prob']
+lights = [dict(level='黃燈（注意、每月追蹤）', condition='上面任一條警戒線觸發', false_alarm_5y=f'{pct(AN["EFF"]["5y"])}%', detect_if_alpha_zero_5y=f'{pct(AN["ZERO"]["5y"])}%'),
+          dict(level='紅燈（正式檢討策略）', condition='同一個月 2 條以上觸發（例如 3 年超額 < ' + sg(TH['A']) + ' 且相對落後深於 ' + sg(TH['E']) + '%）',
+               false_alarm_5y=f'{pct(TW["EFF"]["5y"])}%', detect_if_alpha_zero_5y=f'{pct(TW["ZERO"]["5y"])}%')]
 site = dict(title='現行策略（E0／W10_70）正常範圍與警戒線', as_of='2026-10-22', source='agents/s27_expectation_ranges/results.json',
-            caveat='模擬從 2016-02～2026-10 的月報酬重抽（成對、區塊 6～12 個月、10,000 次），假設未來像過去 10 年；實際可能更差。警戒線觸發代表「值得檢討」，不是自動停用。',
-            rows=rows)
+            caveat='模擬從 2016-02～2026-10 的月報酬重抽（策略與 0050 同月成對、區塊 6～12 個月、10,000 次、20 條執行路徑隨機抽），假設未來像過去 10 年，屬樂觀情境；實際可能更差。警戒線觸發代表「值得檢討」，不是自動停用。每月底用月底淨值檢查。',
+            rows=rows, lights=lights,
+            status_2026_10=dict(R36=f'+{pct(part3["history_check_std"]["A"]["current_2026_10"])} 個百分點／年', R12=f'+{pct(part3["history_check_std"]["B"]["current_2026_10"])} 個百分點',
+                                drawdown=f'{sg(part3["history_check_std"]["C"]["current_2026_10"])}%', rel_drawdown=f'{sg(part3["history_check_std"]["E"]["current_2026_10"])}%',
+                                lag_months=part3['history_check_std']['D']['current_2026_10'], verdict='全部在正常範圍內，沒有任何警戒線觸發'))
 
-results = dict(spec_sha256=(H / 'SPEC.sha256').read_text().split()[0], spec_deviations=[], build_meta=json.load(open(H / 'build_meta.json')),
+results = dict(spec_sha256=(H / 'SPEC.sha256').read_text().split()[0], spec_deviations=['事後新增（看過主模擬結果後才加，只是描述、不改門檻）：警戒組合 A_and_E_posthoc（A 與 E 同月觸發）、TWO_OR_MORE_posthoc（同月 ≥ 2 條觸發）；歷史檢查加 current_2026_10（各條在 2026-10 月底的現值）。'], build_meta=json.load(open(H / 'build_meta.json')),
                part1_history=part1, part2_simulation=part2, part3_alerts=part3, peak_mb=None, secs=None)
 results['peak_mb'] = rss(); results['secs'] = round(time.time() - t_all)
 json.dump(results, open(H / 'results.json', 'w'), ensure_ascii=False, indent=1, default=lambda o: o.item() if hasattr(o, 'item') else str(o))

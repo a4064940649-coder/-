@@ -1,0 +1,236 @@
+{
+ "topic": "S31 產業中性化：SURGE 改「產業內排名」或「限制單一產業檔數」，能不能更好、更分散？",
+ "written_at": "2026-11-16T18:53:44",
+ "status_at_write": "只跑過 prep.py（data_check.json）：面板（除權息修正開）、PIT 產業涵蓋、同業家數、各規則改動名單檔數與名單層產業集中度；沒有算任何報酬。",
+ "basis": "S25：扣同業籃子後每筆超額 +6.75%（t 4.00），產業本身貢獻 −0.07% → 選股贏在同業內挑對公司；S21：產業共振篩選失敗（會擋掉自己先爆的大贏家）；課程單元 03：類股集中是陷阱、尺要對準同業；學術上產業中性化常降低雜訊。",
+ "s31lib_sha256_at_write": "4dee4ed583dfee8c3bc7345e909257d083ae3fbd895e6897c40211c430fd3b4a",
+ "prep_sha256_at_write": "fefdf978242a42d8e15d5b6dc0c976922676b3d1f6923388d1bc46b65665c4d5",
+ "baseline（不改定義）": "S10 的 E0／W10_70（XQ 20＋21 號預設）：嚴成本、只上市、排除創新板、A10 訊號日次日開盤、F1 進場（L_MA 依 SURGE 前 10 名中 RET20 > 10%）、E0 出場（跌出 L_MA 前 20 名）；衛星 70%、每檔＝衛星 ÷ 10；0050 停牌日用前一日收盤（s17lib）。SURGE＝STD（s17lib.rev_family，σ > 0）。引擎 s20lib→s17lib→s10lib.simulate_s10，直接 import 重用，不改共用引擎。**cslib.EXRIGHT_FIX = True（除權息參考價修正）**。",
+ "industry_data": {
+  "file": "agents/o_lc_sector_rotation_pit/raw/industry_pit.csv（只讀、不複製；用 s21lib.industry_matrix：訊號日當天有效段，「未分類」→ 缺值）",
+  "coverage": "股池產業涵蓋率：訓練期最低 1.000、驗證期最低 0.997；股池內同業（不含自己）≥ 5 家比例：訓練 0.955、驗證 0.964；F1 同業 < 5 家：訓練 0.021、驗證 0.000（同業家數中位數 27／36）",
+  "caveat": "同 S21：2017-07-06～2023-01-16 沒有快照（改類別的公司落後換、2017-07 後新上市用 2023 快照，輕微回填）。"
+ },
+ "peer_group": "同業＝訊號列股池 U[k]（只上市、流動性、非創新板）且當月 SURGE 有值、同一 PIT 產業的股票（同 S25 A3 的同業候選股池；排名用途不排除最大市值股）。同業（不含自己）≥ 5 家才用產業內統計，不足或產業缺值者用全股池統計。",
+ "rule_form": {
+  "candidates（4 條，全部計入 N；參與訓練期選擇）": [
+   {
+    "id": "IND_PCT",
+    "kind": "score",
+    "score": "ind_pct",
+    "desc": "產業內百分位：訊號列股池（只上市、流動性、非創新板、SURGE 有值）依當時 PIT 產業分組，SURGE 在同業內的百分位（平均名次 ÷ 家數）；同業（不含自己）< 5 家或產業缺值者用全股池百分位。L_MA 依此分數排序（同分依 SURGE），前 10 名中 RET20 > 10% 進場；跌出前 20 名出場。"
+   },
+   {
+    "id": "DEMED",
+    "kind": "score",
+    "score": "demed",
+    "desc": "扣同業中位數：分數＝SURGE − 同業（含自己，同一股池）SURGE 中位數；同業（不含自己）< 5 家或缺值者扣全股池中位數。排序、進場、出場同 IND_PCT。"
+   },
+   {
+    "id": "MIX",
+    "kind": "score",
+    "score": "mix",
+    "desc": "部分中性化：分數＝0.5 × 全股池百分位＋0.5 × 產業內百分位（產業內百分位定義同 IND_PCT）。排序、進場、出場同 IND_PCT。"
+   },
+   {
+    "id": "CAP2",
+    "kind": "cap",
+    "cap": 2,
+    "desc": "限檔：現行 F1，但單一 PIT 產業最多 2 檔（依 SURGE 名次保留前 2 檔）；剔除幾檔就從 L_MA 第 11～20 名依 SURGE 遞補幾檔，遞補須 RET20 > 10% 且該產業未滿 2 檔；出場 E0 不動。產業缺值者不受限。"
+   }
+  ],
+  "common": "score 類（IND_PCT、DEMED、MIX）：新分數取代 SURGE 做 L_MA 排序（同分依 SURGE），進場＝前 10 名中 RET20 > 10%，出場＝跌出新排序前 20 名（現行 E0 同一條規則，排序換成新分數；進出場一致，否則依新分數買進的股票會被舊排序立刻賣掉）。cap 類（CAP2）：只改當月買進名單，遞補只在 L_MA 前 20 名內，出場 E0 不動。L_MA 的 60 日均線條件、RET20 > 10%、每檔金額、衛星比例全部不變。",
+  "rule_effect_preview（data_check，只數檔數）": {
+   "IND_PCT": {
+    "train": {
+     "n_orig": 281,
+     "n_new": 249,
+     "removed": 98,
+     "added": 66,
+     "months_changed": 63,
+     "n_months": 71,
+     "list_div": {
+      "orig_ind": {
+       "max_same_mean": 1.704225352112676,
+       "frac_months_ge3": 0.14084507042253522
+      },
+      "new_ind": {
+       "max_same_mean": 0.9859154929577465,
+       "frac_months_ge3": 0.0
+      }
+     },
+     "top20_changed_per_month_mean": 7.183098591549296
+    },
+    "valid": {
+     "n_orig": 242,
+     "n_new": 239,
+     "removed": 85,
+     "added": 82,
+     "months_changed": 52,
+     "n_months": 58,
+     "list_div": {
+      "orig_ind": {
+       "max_same_mean": 1.7241379310344827,
+       "frac_months_ge3": 0.15517241379310345
+      },
+      "new_ind": {
+       "max_same_mean": 0.9827586206896551,
+       "frac_months_ge3": 0.0
+      }
+     },
+     "top20_changed_per_month_mean": 7.862068965517241
+    }
+   },
+   "DEMED": {
+    "train": {
+     "n_orig": 281,
+     "n_new": 279,
+     "removed": 63,
+     "added": 61,
+     "months_changed": 55,
+     "n_months": 71,
+     "list_div": {
+      "orig_ind": {
+       "max_same_mean": 1.704225352112676,
+       "frac_months_ge3": 0.14084507042253522
+      },
+      "new_ind": {
+       "max_same_mean": 1.6619718309859155,
+       "frac_months_ge3": 0.1267605633802817
+      }
+     },
+     "top20_changed_per_month_mean": 4.323943661971831
+    },
+    "valid": {
+     "n_orig": 242,
+     "n_new": 239,
+     "removed": 59,
+     "added": 56,
+     "months_changed": 52,
+     "n_months": 58,
+     "list_div": {
+      "orig_ind": {
+       "max_same_mean": 1.7241379310344827,
+       "frac_months_ge3": 0.15517241379310345
+      },
+      "new_ind": {
+       "max_same_mean": 1.7241379310344827,
+       "frac_months_ge3": 0.1206896551724138
+      }
+     },
+     "top20_changed_per_month_mean": 4.672413793103448
+    }
+   },
+   "MIX": {
+    "train": {
+     "n_orig": 281,
+     "n_new": 269,
+     "removed": 63,
+     "added": 51,
+     "months_changed": 57,
+     "n_months": 71,
+     "list_div": {
+      "orig_ind": {
+       "max_same_mean": 1.704225352112676,
+       "frac_months_ge3": 0.14084507042253522
+      },
+      "new_ind": {
+       "max_same_mean": 1.2253521126760563,
+       "frac_months_ge3": 0.028169014084507043
+      }
+     },
+     "top20_changed_per_month_mean": 3.4507042253521125
+    },
+    "valid": {
+     "n_orig": 242,
+     "n_new": 237,
+     "removed": 53,
+     "added": 48,
+     "months_changed": 48,
+     "n_months": 58,
+     "list_div": {
+      "orig_ind": {
+       "max_same_mean": 1.7241379310344827,
+       "frac_months_ge3": 0.15517241379310345
+      },
+      "new_ind": {
+       "max_same_mean": 1.2241379310344827,
+       "frac_months_ge3": 0.017241379310344827
+      }
+     },
+     "top20_changed_per_month_mean": 3.6379310344827585
+    }
+   },
+   "CAP2": {
+    "train": {
+     "n_orig": 281,
+     "n_new": 277,
+     "removed": 16,
+     "added": 12,
+     "months_changed": 10,
+     "n_months": 71,
+     "list_div": {
+      "orig_ind": {
+       "max_same_mean": 1.704225352112676,
+       "frac_months_ge3": 0.14084507042253522
+      },
+      "new_ind": {
+       "max_same_mean": 1.4788732394366197,
+       "frac_months_ge3": 0.0
+      }
+     }
+    },
+    "valid": {
+     "n_orig": 242,
+     "n_new": 241,
+     "removed": 16,
+     "added": 15,
+     "months_changed": 9,
+     "n_months": 58,
+     "list_div": {
+      "orig_ind": {
+       "max_same_mean": 1.7241379310344827,
+       "frac_months_ge3": 0.15517241379310345
+      },
+      "new_ind": {
+       "max_same_mean": 1.4655172413793103,
+       "frac_months_ge3": 0.0
+      }
+     }
+    }
+   }
+  }
+ },
+ "windows": {
+  "train": "訊號日 2016-02～2021-12（營收月份 2016-01～2021-11）；訓練窗淨值 2016-01-29 → 2021-12-30（全期連續模擬切出，同 S21 train.py）",
+  "valid": "訊號日 2022-01～2026-10（營收月份 2021-12～2026-09）；重新起跑：只保留營收月份 ≥ 2021-12 的訊號，驗證窗 2021-12-30 → 2026-10-22（同 S21 validate.py）"
+ },
+ "paths": "20 條路徑＝訊號日位移 0～3 天 × 起始資金 60／80／100／150／200 萬（同 S21、S25）",
+ "selection": "訓練期分數＝規則 − 現行 CUR 的訓練窗年化差，20 條路徑中位數（個百分點）；最高者凍結（同分依改善路徑數、再依改動檔數少者）。T0（沿用 S25，含改善最小幅度）：分數 ≥ +1 個百分點，且年化差 ≥ +0.25 個百分點的路徑 ≥ 14／20。T0 不過仍凍結分數最高者，驗證期只描述、判定必為不通過。",
+ "verdict（驗證期只跑一次，沿用 S25）": {
+  "V1": "驗證窗（重新起跑）年化差為正的路徑 ≥ 15／20",
+  "V2": "配對差中位數 ≥ +2 個百分點",
+  "V3": "禁買 CUR 與凍結規則各自（重新起跑主跑）最賺 5 筆期間的聯集後，配對差中位數 > 0",
+  "V4": "兩段空頭（2022；2024-07～2025-04）段內最大回撤配對差中位數都不深於 −2 個百分點",
+  "overall": "T0 且 V1～V4 全過＝通過；否則不通過，停在描述，不換規則重跑、不寫 XQ 修改建議"
+ },
+ "diversification（描述，不參與判定）": {
+  "holdings": "每日持股依進場訊號日 PIT 產業分組（檔數；W10 每檔等額，近似金額）：單一產業最大占比的日平均（主）、最大產業檔數、產業數、「同產業 ≥ 3 檔」天數比例、單一產業最大占比的日最大值",
+  "top5": "最賺 5 筆占比（s17lib.top5_share：已平倉最賺 5 筆損益 ÷ 淨值增加）",
+  "list": "每月買進名單最大同產業檔數平均、「同產業 ≥ 3 檔」月份比例",
+  "where": "訓練窗：4 條規則全報；驗證窗（重新起跑）與全期連續：CUR 與凍結規則"
+ },
+ "random_control（描述，不參與判定）": "凍結規則的「產業標籤隨機打散」對照：每個訊號列把股池內產業代碼隨機重排（各產業家數不變），其餘照凍結規則，20 次（種子 3101～3120）；報驗證窗（重新起跑，100 萬、位移 0）與全期 2019 起年化分布，以及凍結規則落在第幾名。用來分辨「真的產業」與「任意分組」。",
+ "acceptance": {
+  "A0": "CUR 全期主跑（除權息修正開）重現：2019 起 48.99%、全期 34.54%、回撤 −32.11%（±0.025 個百分點）、已平倉 381 筆",
+  "A1": "恆等分數（score＝SURGE）的 build_rule 與 make_signal_s10 的 sig、X 逐格相同（prep 已驗：{\"sig_identical\": true, \"X_identical\": true}），且淨值與交易逐筆相同",
+  "A2": "build_rule 每個訊號列重現的 F1 與 make_signal_s10 完全相同（assert）"
+ },
+ "N": "資料窺探族群：S25 完成時 2,861（S26～S30 並行，以研究中心彙整為準）；本題 +4（4 條候選；隨機對照不計）",
+ "predictions（事前預測）": {
+  "P1": "IND_PCT 改動最大（訓練期換掉約 35% 的 F1、前 20 名每月約 7 檔不同），很可能為負：會把熱門產業第 2、3 強（常是真正的大贏家，如半導體、電子零組件）換成冷門產業的第 1 名",
+  "P2": "DEMED、MIX 介於 −2～+1；CAP2 改動很小（訓練期 10 個月、16 檔），分數接近 0，難以達到 +1",
+  "P3": "分散度：IND_PCT、MIX 單一產業最大占比明顯下降；最賺 5 筆占比不一定下降（S21 經驗：換股反而更集中）",
+  "P4": "整體通過機率約 10%；最可能卡在 T0"
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "written_at": "2026-11-16T18:54:38",
+ "PREREG_sha256": "dda95fd9d7671addf0e0a7a925436a9d6ae16f14e42dc9a0d18d7f46d3fc331d",
+ "frozen_rule": {
+  "id": "DEMED",
+  "kind": "score",
+  "score": "demed",
+  "desc": "扣同業中位數：分數＝SURGE − 同業（含自己，同一股池）SURGE 中位數；同業（不含自己）< 5 家或缺值者扣全股池中位數。排序、進場、出場同 IND_PCT。"
+ },
+ "T0_pass": false,
+ "T0_text": "訓練期沒有找到（仍凍結分數最高的一條，驗證期只描述）",
+ "train_score": {
+  "train_median": 0.3283010808087806,
+  "train_min": 0.3032284286806295,
+  "train_max": 0.3680610866451164,
+  "train_dd_median": -0.2725069643064329,
+  "score_median_pp": 0.20662488687395175,
+  "npos": 11,
+  "n_improve_025": 10,
+  "diff_min_pp": -1.6608800426348491,
+  "diff_max_pp": 2.16591411849143,
+  "dd_diff_median_pp": -0.8979701642785443,
+  "y1618_median_pp": -0.9018663287654993,
+  "y1618_npos": 7,
+  "y1921_median_pp": 1.2824062054279661,
+  "y1921_npos": 16,
+  "n_changed_shift0": 124
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或門檻。"
+}

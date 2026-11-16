@@ -41,8 +41,8 @@ RULES = [
          desc='排序：L_MA 前 20 名內依「SURGE 名次＋QMV 名次」（等權；同分依 SURGE）重排，取前 10 名為池，再要求 RET20 > 10%；買進順序照新排序'),
     dict(id='FLT_Q', kind='filter_rel', score='Q', frac=1 / 3,
          desc='篩選：F1 名單內依 Q（ROE 百分位）排序，剔除最差的 floor(n／3) 檔（Q 缺值以 0.5 代入；同分剔除 SURGE 較低者）；不遞補，錢照引擎放 0050'),
-    dict(id='FILL_QMV', kind='fill', score='QMV',
-         desc='遞補：F1 不足 10 檔時，從 L_MA 第 11～20 名中 RET20 > 10% 者，依 QMV 由高到低遞補到 10 檔'),
+    dict(id='FILL_QMV', kind='fill', score='QMV', min=0.5,
+         desc='遞補：F1 不足 10 檔時，從 L_MA 第 11～20 名中 RET20 > 10% 且 QMV ≥ 0.5（三分項同期百分位平均在中位數以上）者，依 QMV 由高到低遞補到 10 檔'),
     dict(id='FLT_V', kind='filter_abs', score='V', thr=0.2,
          desc='篩選（課程 GARP：成長不能買太貴）：F1 名單內剔除 V（E/P 同期股池百分位）< 0.2（全市場最貴 1/5，含虧損股）者；V 缺值保留；不遞補'),
     dict(id='RANK_QM', kind='rank', score='QM',
@@ -186,6 +186,7 @@ def apply_rule_row(P, k, s, o_ma, tgt, sc, rule):
         if len(new) < 10:
             el = [int(j) for j in o_ma[10:20] if r20[j] > 0.10]
             if sc is not None:
+                el = [j for j in el if sc[j] >= rule.get('min', -np.inf)]
                 el = sorted(el, key=lambda j: (-sc[j], -s[j]))
             for j in el:
                 if len(new) >= 10:

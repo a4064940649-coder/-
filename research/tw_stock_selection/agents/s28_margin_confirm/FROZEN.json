@@ -1,0 +1,31 @@
+{
+ "written_at": "2026-11-16T18:52:15",
+ "PREREG_sha256": "4f43e2792402049f7f552687c5ed0eabbd1d820dad84652c23699ca3e6ec2c38",
+ "frozen_rule": {
+  "id": "BAN_GMOP",
+  "kind": "filter",
+  "gm": 2.0,
+  "opm": 2.0,
+  "desc": "禁買：最近一季「單季營收年增 > 0」且「毛利率年減 > 2 個百分點」且「營業利益率年減 > 2 個百分點」（獲利率惡化連營業利益都確認）者不買；不遞補"
+ },
+ "T0_pass": false,
+ "T0_text": "訓練期沒有找到（仍凍結分數最高的一條，驗證期只描述）",
+ "train_score": {
+  "train_median": 0.3395297644499542,
+  "train_min": 0.301555870030757,
+  "train_max": 0.3590792960329299,
+  "train_dd_median": -0.25987702412047736,
+  "score_median_pp": 0.5590823263538658,
+  "npos": 16,
+  "diff_min_pp": -0.5083772481574877,
+  "diff_max_pp": 0.9632885183609163,
+  "dd_diff_median_pp": 0.016470732550133427,
+  "y1618_median_pp": -0.4088964253135652,
+  "y1618_npos": 7,
+  "y1921_median_pp": 1.7271926615452293,
+  "y1921_npos": 16,
+  "n_changed_shift0": 15,
+  "n_improve025": 14
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或門檻。"
+}

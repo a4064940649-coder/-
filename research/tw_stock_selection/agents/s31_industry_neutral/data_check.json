@@ -1,0 +1,243 @@
+{
+ "panel": {
+  "T": 2876,
+  "N": 2142,
+  "last": "2026-10-22",
+  "exright_fix": true,
+  "exright_info": {
+   "n_twt49u": 9826,
+   "n_rights_issue_fallback": 11,
+   "n_prev_untraded": 6461,
+   "n_total": 16287,
+   "twt49u_last": "2026-10-29"
+  }
+ },
+ "industries": [
+  "光電業",
+  "其他業",
+  "其他電子業",
+  "化學工業",
+  "半導體業",
+  "塑膠工業",
+  "居家生活",
+  "建材營造業",
+  "數位雲端",
+  "橡膠工業",
+  "水泥工業",
+  "汽車工業",
+  "油電燃氣業",
+  "玻璃陶瓷",
+  "生技醫療業",
+  "紡織纖維",
+  "綠能環保",
+  "航運業",
+  "觀光餐旅",
+  "貿易百貨業",
+  "資訊服務業",
+  "通信網路業",
+  "造紙工業",
+  "運動休閒",
+  "金融保險業",
+  "鋼鐵工業",
+  "電器電纜",
+  "電子通路業",
+  "電子零組件業",
+  "電機機械",
+  "電腦及週邊設備業",
+  "食品工業"
+ ],
+ "train": {
+  "n_months": 71,
+  "ind_coverage_min": 1.0,
+  "share_universe_peers_ge5": 0.9549590047592742,
+  "F1_n": 281,
+  "F1_peers_lt5": 0.021352313167259787,
+  "F1_peers_median": 27.0
+ },
+ "valid": {
+  "n_months": 58,
+  "ind_coverage_min": 0.9967159277504105,
+  "share_universe_peers_ge5": 0.9639656088326969,
+  "F1_n": 242,
+  "F1_peers_lt5": 0.0,
+  "F1_peers_median": 35.5
+ },
+ "A1_identity_builder": {
+  "sig_identical": true,
+  "X_identical": true
+ },
+ "rule_effect_preview": {
+  "IND_PCT": {
+   "train": {
+    "n_orig": 281,
+    "n_new": 249,
+    "removed": 98,
+    "added": 66,
+    "months_changed": 63,
+    "n_months": 71,
+    "list_div": {
+     "orig_ind": {
+      "max_same_mean": 1.704225352112676,
+      "frac_months_ge3": 0.14084507042253522
+     },
+     "new_ind": {
+      "max_same_mean": 0.9859154929577465,
+      "frac_months_ge3": 0.0
+     }
+    },
+    "top20_changed_per_month_mean": 7.183098591549296
+   },
+   "valid": {
+    "n_orig": 242,
+    "n_new": 239,
+    "removed": 85,
+    "added": 82,
+    "months_changed": 52,
+    "n_months": 58,
+    "list_div": {
+     "orig_ind": {
+      "max_same_mean": 1.7241379310344827,
+      "frac_months_ge3": 0.15517241379310345
+     },
+     "new_ind": {
+      "max_same_mean": 0.9827586206896551,
+      "frac_months_ge3": 0.0
+     }
+    },
+    "top20_changed_per_month_mean": 7.862068965517241
+   }
+  },
+  "DEMED": {
+   "train": {
+    "n_orig": 281,
+    "n_new": 279,
+    "removed": 63,
+    "added": 61,
+    "months_changed": 55,
+    "n_months": 71,
+    "list_div": {
+     "orig_ind": {
+      "max_same_mean": 1.704225352112676,
+      "frac_months_ge3": 0.14084507042253522
+     },
+     "new_ind": {
+      "max_same_mean": 1.6619718309859155,
+      "frac_months_ge3": 0.1267605633802817
+     }
+    },
+    "top20_changed_per_month_mean": 4.323943661971831
+   },
+   "valid": {
+    "n_orig": 242,
+    "n_new": 239,
+    "removed": 59,
+    "added": 56,
+    "months_changed": 52,
+    "n_months": 58,
+    "list_div": {
+     "orig_ind": {
+      "max_same_mean": 1.7241379310344827,
+      "frac_months_ge3": 0.15517241379310345
+     },
+     "new_ind": {
+      "max_same_mean": 1.7241379310344827,
+      "frac_months_ge3": 0.1206896551724138
+     }
+    },
+    "top20_changed_per_month_mean": 4.672413793103448
+   }
+  },
+  "MIX": {
+   "train": {
+    "n_orig": 281,
+    "n_new": 269,
+    "removed": 63,
+    "added": 51,
+    "months_changed": 57,
+    "n_months": 71,
+    "list_div": {
+     "orig_ind": {
+      "max_same_mean": 1.704225352112676,
+      "frac_months_ge3": 0.14084507042253522
+     },
+     "new_ind": {
+      "max_same_mean": 1.2253521126760563,
+      "frac_months_ge3": 0.028169014084507043
+     }
+    },
+    "top20_changed_per_month_mean": 3.4507042253521125
+   },
+   "valid": {
+    "n_orig": 242,
+    "n_new": 237,
+    "removed": 53,
+    "added": 48,
+    "months_changed": 48,
+    "n_months": 58,
+    "list_div": {
+     "orig_ind": {
+      "max_same_mean": 1.7241379310344827,
+      "frac_months_ge3": 0.15517241379310345
+     },
+     "new_ind": {
+      "max_same_mean": 1.2241379310344827,
+      "frac_months_ge3": 0.017241379310344827
+     }
+    },
+    "top20_changed_per_month_mean": 3.6379310344827585
+   }
+  },
+  "CAP2": {
+   "train": {
+    "n_orig": 281,
+    "n_new": 277,
+    "removed": 16,
+    "added": 12,
+    "months_changed": 10,
+    "n_months": 71,
+    "list_div": {
+     "orig_ind": {
+      "max_same_mean": 1.704225352112676,
+      "frac_months_ge3": 0.14084507042253522
+     },
+     "new_ind": {
+      "max_same_mean": 1.4788732394366197,
+      "frac_months_ge3": 0.0
+     }
+    }
+   },
+   "valid": {
+    "n_orig": 242,
+    "n_new": 241,
+    "removed": 16,
+    "added": 15,
+    "months_changed": 9,
+    "n_months": 58,
+    "list_div": {
+     "orig_ind": {
+      "max_same_mean": 1.7241379310344827,
+      "frac_months_ge3": 0.15517241379310345
+     },
+     "new_ind": {
+      "max_same_mean": 1.4655172413793103,
+      "frac_months_ge3": 0.0
+     }
+    }
+   }
+  }
+ },
+ "train_F1_by_industry_top10": {
+  "半導體業": 46,
+  "電子零組件業": 41,
+  "電腦及週邊設備業": 29,
+  "其他業": 20,
+  "光電業": 19,
+  "航運業": 17,
+  "電機機械": 16,
+  "紡織纖維": 13,
+  "生技醫療業": 11,
+  "鋼鐵工業": 11
+ },
+ "runtime_s": 5.6,
+ "maxrss_mb": 1523
+}

@@ -1,0 +1,37 @@
+{
+ "written_at": "2026-11-16T18:54:14",
+ "PREREG_sha256": "3ba2de2fc2b713ba164d8fe5b6bfe55e14db69356b18808b6d646cedb885bbde",
+ "frozen_rule": {
+  "id": "FILL_QMV",
+  "kind": "fill",
+  "score": "QMV",
+  "min": 0.5,
+  "desc": "遞補：F1 不足 10 檔時，從 L_MA 第 11～20 名中 RET20 > 10% 且 QMV ≥ 0.5（三分項同期百分位平均在中位數以上）者，依 QMV 由高到低遞補到 10 檔"
+ },
+ "T0_pass": true,
+ "T0_text": "訓練期找到可用的 QMV 規則",
+ "train_score": {
+  "train_median": 0.34940994344083287,
+  "train_min": 0.3078478749952449,
+  "train_max": 0.39065022600499755,
+  "train_dd_median": -0.27159870307293255,
+  "score_median_pp": 2.268070415998158,
+  "n_imp_ge_min": 19,
+  "npos": 19,
+  "diff_min_pp": -0.8819001019594985,
+  "diff_max_pp": 4.631605965093621,
+  "dd_diff_median_pp": -0.7910367979055144,
+  "y1618_median_pp": 1.7946416039347213,
+  "y1618_npos": 17,
+  "y1921_median_pp": 2.0873526316554147,
+  "y1921_npos": 16,
+  "n_changed_shift0": 120
+ },
+ "control": {
+  "id": "FILL_ALL",
+  "kind": "fill",
+  "score": null,
+  "desc": "對照（不參與選擇）：F1 不足 10 檔時，從 L_MA 第 11～20 名 RET20 > 10% 者依 SURGE 遞補，不看 QMV（同 S21 FILL_ALL）"
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或門檻。"
+}
