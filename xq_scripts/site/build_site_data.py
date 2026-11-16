@@ -1,12 +1,23 @@
 # 產生「月營收驚奇操盤台」網站的資料檔（JSON：{rows, meta}）。
 # 用法：python3 -I -B xq_scripts/site/build_site_data.py <lists/YYYY-MM.csv> <lists/YYYY-MM_backtest_holdings.csv> <list.json> <profit.json> <今天YYYY-MM-DD> <下次訊號日> <下次執行日> <輸出資料夾> [<官方日K倉庫> <換股後持股csv> <上線起始日>]
 # 後三個參數有給時，另外產生 live.json（策略上線後每日淨值，起始日開盤＝100 萬，對照 0050）並在持股、換股清單加上最新收盤；持股另加股數、起始價與 0050 一列。
+#   換股後持股 csv 旁邊若有同月份的現金檔（holdings_after_YYYY-MM.csv → cash_after_YYYY-MM.txt，內容是一個數字，# 開頭為註解），
+#   現金會計入 live.json 的策略淨值（起點與每日都加上現金）。
+# <profit.json> 由 make_profit.py 產生（0050 用精確含息還原價，週標籤＝當週最後一個交易日）。
 # 另產生 risk.json（README 的回測風險數字，標明出處）。
-import csv, json, sys, os
+import csv, json, sys, os, re
 lst_csv, hold_csv, lst_json, profit_json, today, next_sig, next_exec, outdir = sys.argv[1:9]
 tsd = sys.argv[9] if len(sys.argv) > 9 else None
 state_csv = sys.argv[10] if len(sys.argv) > 10 else None
 live_start = sys.argv[11] if len(sys.argv) > 11 else None
+cash_file = re.sub(r'holdings_after_([^/]+)\.csv$', r'cash_after_\1.txt', state_csv) if state_csv else None
+def read_cash(p):
+    if not p or p == state_csv or not os.path.exists(p): return 0.0, None
+    for line in open(p, encoding='utf-8-sig'):
+        line = line.split('#', 1)[0].strip().replace(',', '')
+        if line: return float(line), p
+    return 0.0, p
+cash, cash_src = read_cash(cash_file)
 import subprocess
 def day_prices(date):
     try:
@@ -65,10 +76,11 @@ if tsd:
     for x in acts:
         c = last_px.get(x["代號"], (None, None))[1]
         x["最新收盤"] = c
-        x["本月以來%"] = round((c / x["訊號日收盤"] - 1) * 100, 2) if (c and x["訊號日收盤"]) else None
-dump("actions", acts, [{"label": "來源", "value": os.path.basename(hold_csv) + "（策略回測持股延續到本月的換股結果）"}])
+        x["訊號日以來%"] = round((c / x["訊號日收盤"] - 1) * 100, 2) if (c and x["訊號日收盤"]) else None
+dump("actions", acts, [{"label": "來源", "value": os.path.basename(hold_csv) + "（策略回測持股延續到本月的換股結果）"},
+                       {"label": "訊號日以來%", "value": "最新收盤 ÷ 訊號日收盤 − 1（基準是訊號日收盤，不是成交日開盤；持股表的「本月以來%」才是對起始價）"}])
 # 目前持股（有換股後持股 csv 時加「股數」與「起始價」＝上線起始日開盤價，並加一列 0050）
-hold = [ {k: x.get(k) for k in ("代號", "名稱", "名次", "SURGE", "訊號日收盤", "最新收盤", "本月以來%")} | {"狀態": "新買" if x["動作"] == "買進" else "續抱"} for x in acts if x["動作"] in ("續抱", "買進")]
+hold = [ {k: x.get(k) for k in ("代號", "名稱", "名次", "SURGE", "訊號日收盤", "最新收盤")} | {"狀態": "新買" if x["動作"] == "買進" else "續抱"} for x in acts if x["動作"] in ("續抱", "買進")]
 hold_meta = [{"label": "說明", "value": "另有 0050（底倉 30%＋衛星沒用完的資金）"}]
 if tsd and state_csv:
     sh = {r["代號"]: float(r["股數"]) for r in rd(state_csv)}
@@ -76,13 +88,20 @@ if tsd and state_csv:
     ps = day_prices(L["sig_date"]) or {}
     if "0050" in sh:
         c0 = last_px.get("0050", (None, None))[1]; s0 = ps.get("0050", (None, None))[1]
-        hold.append({"代號": "0050", "名稱": "元大台灣50", "名次": None, "SURGE": None, "訊號日收盤": s0, "最新收盤": c0,
-                     "本月以來%": round((c0 / s0 - 1) * 100, 2) if (c0 and s0) else None, "狀態": "0050"})
+        hold.append({"代號": "0050", "名稱": "元大台灣50", "名次": None, "SURGE": None, "訊號日收盤": s0, "最新收盤": c0, "狀態": "0050"})
     for x in hold:
         x["股數"] = sh.get(x["代號"])
         x["起始價"] = (p0 or {}).get(x["代號"], (None, None))[0]
     hold_meta += [{"label": "股數", "value": os.path.basename(state_csv) + "（100 萬比例的策略持股）"},
                   {"label": "起始價", "value": f"{live_start} 開盤價（上線起始）"}]
+    if cash_src:
+        hold_meta.append({"label": "現金", "value": f"另有現金 {cash:,.0f} 元（{os.path.basename(cash_src)}），已計入 live.json 淨值"})
+# 本月以來%：有起始價時＝最新收盤 ÷ 起始價 − 1（和起始價欄、live.json 同一個起點）；沒有起始價時才用訊號日收盤
+for x in hold:
+    b = x.get("起始價") or None; c = x.get("最新收盤")
+    if b is None: b = x.get("訊號日收盤")
+    x["本月以來%"] = round((c / b - 1) * 100, 2) if (c and b) else None
+hold_meta.append({"label": "本月以來%", "value": "最新收盤 ÷ 起始價（上線起始日開盤）− 1；沒有起始價時改用訊號日收盤當基準"})
 dump("holdings", hold, hold_meta)
 # 前 20 名
 top = [{"名次": t["rank_ma"], "代號": t["code"], "名稱": t["name"], "SURGE": round(t["surge"], 3), "前20日漲幅%": round(t["ret20"] * 100, 1),
@@ -91,7 +110,7 @@ dump("top20", top, [{"label": "定義", "value": "收盤在季線上的上市股
 # 風險提示：README 的回測數字（寫成常數，標明出處）
 RISK = [
     ("回撤_單一路徑", -33.4, "%", "最大回撤（100 萬、標準換股日那一條，2024-07 到 2025-04）", "xq_scripts/README.md 第 12 節"),
-    ("回撤_20條中位數", -34.0, "%", "最大回撤，20 個起始日的中位數", "xq_scripts/README.md 第 15 節"),
+    ("回撤_20條中位數", -34.0, "%", "最大回撤，20 個起始日的中位數（第 15 節「修正後怎麼選」表「衛星 70%，每檔＝衛星 ÷ 10」那列 46.3%／−34.0%；同節上表「底倉不能動」那列是 −34.3%）", "xq_scripts/README.md 第 15 節「修正後怎麼選」"),
     ("回撤_壞的時候", -36.0, "%", "最大回撤，100 條路徑裡差的 10%", "xq_scripts/README.md 第 16 節"),
     ("0050_回撤", -34.0, "%", "0050 同期最大回撤（2022）", "xq_scripts/README.md 第 12 節"),
     ("落後0050最多", 17.6, "個百分點", "2025 年 0050 大漲時，滾動 12 個月最多落後 0050", "xq_scripts/README.md 第 12 節"),
@@ -102,9 +121,9 @@ RISK = [
     ("勝率", 51.2, "%", "賺錢的交易比例（379 筆）", "xq_scripts/README.md 第 12 節"),
     ("賺的平均", 27.16, "%", "賺錢的交易平均賺", "xq_scripts/README.md 第 12 節"),
     ("賠的平均", -9.24, "%", "賠錢的交易平均賠", "xq_scripts/README.md 第 12 節"),
-    ("晚1天少", 3.6, "個百分點", "晚 1 天下單，2019 年起每年少（每檔＝衛星 ÷ 10）", "xq_scripts/README.md 第 14 節"),
-    ("晚2天少", 5.3, "個百分點", "晚 2 天下單，2019 年起每年少", "xq_scripts/README.md 第 14 節"),
-    ("晚2天回撤", -36.4, "%", "晚 2 天下單的最大回撤", "xq_scripts/README.md 第 14 節"),
+    ("晚1天少", 3.6, "個百分點", "晚 1 天下單，2019 年起每年少（第 14 節「每檔＝衛星 ÷ 10，底倉不能動」那列）", "xq_scripts/README.md 第 14 節「晚下單很貴」表"),
+    ("晚2天少", 5.3, "個百分點", "晚 2 天下單，2019 年起每年少（第 14 節「每檔＝衛星 ÷ 10，底倉不能動」那列）", "xq_scripts/README.md 第 14 節「晚下單很貴」表"),
+    ("晚2天回撤", -36.4, "%", "晚 2 天下單的最大回撤（第 14 節「每檔＝衛星 ÷ 10，底倉不能動」那列）", "xq_scripts/README.md 第 14 節「晚下單很貴」表"),
     ("準時可預期", 46.5, "%", "每月都準時開盤下單的可預期年報酬（2019 年起）", "xq_scripts/README.md 第 16 節"),
     ("有時晚可預期", 43, "%", "有時晚 0～4 天下單的可預期年報酬（100 條路徑中位數）", "xq_scripts/README.md 第 16 節"),
 ]
@@ -113,10 +132,12 @@ dump("risk", [{"項目": a, "數值": b, "單位": c, "說明": d, "出處": e} 
 # 回測淨值（週）與逐年
 nav = [{"日期": d, "現行策略": c, "XQ版": x, "0050": e} for d, c, x, e in zip(P["dates"], P["cur"], P["xq"], P["etf"])]
 dump("nav", nav, [{"label": "說明", "value": "100 萬起始、嚴成本回測；現行＝研究中心名次版 W10_70；XQ版＝20＋21 號固定門檻；0050 含息"},
-                  {"label": "來源", "value": "research/tw_stock_selection/agents/s19_xq_threshold/navs.csv.gz"}])
+                  {"label": "來源", "value": "現行、XQ版：research/tw_stock_selection/agents/s19_xq_threshold/navs.csv.gz；0050：精確含息還原價（研究引擎同一來源，不用 navs 的整數欄）；由 make_profit.py 產生 profit.json"},
+                  {"label": "日期", "value": "每週取最後一個交易日，日期就是那一天（不超過回測最後一天）"}])
 yrs = sorted(P["years"]["cur"].keys())
 dump("yearly", [{"年": int(y), "現行策略": P["years"]["cur"][y], "XQ版": P["years"]["xq"][y], "0050": P["years"]["etf"][y]} for y in yrs],
-     [{"label": "說明", "value": "2015 為 7 月起；2026 到 10/22"}])
+     [{"label": "說明", "value": "2015 為 7 月起；2026 到 10/22"},
+      {"label": "0050", "value": "用精確含息還原價算（make_profit.py），不用 navs.csv.gz 的整數欄"}])
 # 上線後每日淨值
 if tsd and state_csv and live_start:
     sh = {r["代號"]: float(r["股數"]) for r in rd(state_csv)}
@@ -126,11 +147,13 @@ if tsd and state_csv and live_start:
         px = day_prices(d)
         if not px: continue
         if base is None:
-            base = sum(sh[k] * px[k][0] for k in sh if k in px and px[k][0]); e_base = px["0050"][0]
-        nav = sum(sh[k] * px[k][1] for k in sh if k in px and px[k][1])
+            base = sum(sh[k] * px[k][0] for k in sh if k in px and px[k][0]) + cash; e_base = px["0050"][0]
+        nav = sum(sh[k] * px[k][1] for k in sh if k in px and px[k][1]) + cash
         rows.append({"日期": d, "策略": round(nav / base * 1e6), "0050": round(px["0050"][1] / e_base * 1e6)})
-    dump("live", rows, [{"label": "起始", "value": f"{live_start} 開盤＝100 萬（策略換股後持股，含 0050 底倉）"},
-                        {"label": "持股檔", "value": os.path.basename(state_csv)}, {"label": "價格", "value": "官方日 K 收盤（未含除息調整）"}])
+    dump("live", rows, [{"label": "起始", "value": f"{live_start} 開盤＝100 萬（策略換股後持股，含 0050 底倉" + (f"與現金 {cash:,.0f} 元）" if cash_src else "）")},
+                        {"label": "持股檔", "value": os.path.basename(state_csv)},
+                        {"label": "現金", "value": (f"{cash:,.0f} 元（{os.path.basename(cash_src)}，起點與每日都計入）" if cash_src else "無現金檔，以 0 計")},
+                        {"label": "價格", "value": "官方日 K 收盤（未含除息調整）"}])
 # 0050 最新收盤寫進 status（給頁面下單計算用）
 if last_px:
     stp = os.path.join(outdir, "status.json"); S = json.load(open(stp, encoding="utf-8"))
