@@ -109,7 +109,8 @@ def s8(r):
         return None
     c = r['cells']; v = r['vs_WN_70L']
     return dict(main_verdict=r['main_verdict'],
-                main_C12=dict(r19=pp(c['WN_70L_C12']['runs']['strict']['since2019']['cagr']) if 'runs' in c['WN_70L_C12'] and 'strict' in c['WN_70L_C12']['runs'] else None,
+                main_C12=dict(r19=pp(c['WN_70L_C12']['delay']['0']['since2019']['cagr']), dd=pp(c['WN_70L_C12']['delay']['0']['since2019']['maxdd']),
+                              WN_70L_dd=pp(c['WN_70L']['delay']['0']['since2019']['maxdd']), WN_60L_dd=pp(c['WN_60L']['delay']['0']['since2019']['maxdd']),
                               dd_shallower_pp=r2(v['WN_70L_C12']['dd_shallower_pp']), keep_2019=r2(v['WN_70L_C12']['keep_ratio']['since2019'] * 100),
                               paths_dd_shallower_n=v['WN_70L_C12']['paths_dd_shallower_n']),
                 paths_dd_median={k: pp(x['paths20']['maxdd_median']) for k, x in c.items()},

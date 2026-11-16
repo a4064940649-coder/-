@@ -122,7 +122,6 @@ def _neutral(q, lo=LO, hi=HI):
     m = n * q / q.sum()
     fixed = np.zeros(n, bool)
     for _ in range(100):
-        m = np.where(fixed, m, m)
         over = (~fixed) & (m > hi + 1e-12); under = (~fixed) & (m < lo - 1e-12)
         if not over.any() and not under.any():
             break
