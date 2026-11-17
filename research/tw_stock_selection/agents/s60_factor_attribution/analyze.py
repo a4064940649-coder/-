@@ -100,6 +100,21 @@ for w, spans in PW.items():
     pre[w] = {m: reg(d, 'R_E0', f) for m, f in PRE.items()}
 R['pre2015_exploratory'] = pre
 R['pre2015_note'] = 'S55 凍結規則淨值（待 R55 重現、存活者偏誤、2014 前除權息日報酬記 0）；2015 前無財報故無 HML／RMW／CMA；探索性，不寫入履歷'
+# 未來 10 年情境（事後、說明用，非預測）：用 E0 W_FULL M4 曝險 × 假設溢酬，對 0050 年化超額（算術，百分點）
+m4 = main['R_E0']['W_FULL']['M4_C4REV']
+b4 = m4['beta']
+insample = {f: prem['W_FULL'][f]['ann'] for f in ('MKT', 'SMB', 'HML', 'MOM', 'RMOM')}
+scen = {
+ 'A_樣本內溢酬＋樣本內α': dict(prem=insample, alpha=m4['alpha_ann']),
+ 'B_樣本內溢酬、α＝0': dict(prem=insample, alpha=0.0),
+ 'C_動能／營收溢酬減半、小型與價值＝0、市場 6、α＝0': dict(prem=dict(MKT=6.0, SMB=0.0, HML=0.0, MOM=insample['MOM'] / 2, RMOM=insample['RMOM'] / 2), alpha=0.0),
+ 'D_C＋α 取一半': dict(prem=dict(MKT=6.0, SMB=0.0, HML=0.0, MOM=insample['MOM'] / 2, RMOM=insample['RMOM'] / 2), alpha=m4['alpha_ann'] / 2),
+ 'E_動能／營收溢酬歸零、市場 6、α＝0': dict(prem=dict(MKT=6.0, SMB=0.0, HML=0.0, MOM=0.0, RMOM=0.0), alpha=0.0),
+}
+R['forward_scenarios_posthoc'] = {k: dict(assumed_premia=v['prem'], alpha=v['alpha'],
+                                          excess_vs_0050=round(v['alpha'] + (b4['MKT'] - 1) * v['prem']['MKT'] + sum(b4[f] * v['prem'][f] for f in ('SMB', 'HML', 'MOM', 'RMOM')), 2))
+                                  for k, v in scen.items()}
+R['forward_scenarios_note'] = '事後說明用；用 M4 全期曝險，未扣未來成本變化；E0 歷史 CAPM 殘差波動大，單一 10 年實現值的標準差遠大於情境差'
 (H / 'results.json').write_text(json.dumps(R, ensure_ascii=False, indent=1, default=str))
 
 # 簡表
