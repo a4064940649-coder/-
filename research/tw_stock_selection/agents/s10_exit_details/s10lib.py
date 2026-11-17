@@ -53,6 +53,7 @@ def make_signal_s10(P, univ, RT, shift=0, depth=10, mom_lo=0.10, nsel=10):
         k = k0 + shift
         if k >= P.T:
             continue
+        s = cslib.ins15_mask_row(P, m, k, s)              # cslib.INS15_MASK（預設 False＝原樣）：15 日期限公司訊號日看不到當月營收 → 缺值
         fin = univ[k] & np.isfinite(s)
         ok_ma = fin & P.F_MA60[k]
         o_ma = np.flatnonzero(ok_ma)[np.argsort(-s[ok_ma], kind='stable')]

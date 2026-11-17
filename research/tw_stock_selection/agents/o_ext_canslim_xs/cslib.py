@@ -22,6 +22,17 @@ MISSING = -999.0
 # 預設 False：Panel 與加這段之前逐位相同。True：見 exright_fix_chg()。也可用 Panel(exright_fix=True) 單次指定。
 EXRIGHT_FIX = False
 TWT49U_DIR = Path('/home/user/-/research/tw_stock_selection/raw/twt49u/twse-exright')   # 證交所 TWT49U 封存（見同層 README.md）
+# 營收申報期限修正（2026-11-17 加，opt-in；依據 agents/s40_revenue_deadline_pit 建議 1、2 與 agents/s41_ins15_handling 處理 A；
+# 驗證見 agents/deadline_engine_fix/）。兩個預設都是 False：與加這段之前逐位相同。資料檔見 REV_DEADLINE_DIR/README.md。
+# DEADLINE_FIX＝True：rev_avail_days(pit=True) 對例外表 apply＝1 的月份（2019-01、2023-03），期限改用延後後的日子
+#   （2019-02-15、2023-04-12），可得日＝延後期限（含）以後第一個交易日的下一個交易日；2020-01（只限申請公司）只註記不改。
+# INS15_MASK＝True：名單內公司（保險業及具保險子公司，ins15_list.csv）自 start_month 起，若訊號列（含位移）早於
+#   15 日期限日（次月 15 日（含）以後第一個交易日），該股當月 SURGE 視為缺值（＝實盤 make_list.py：看不到＝沒有 SURGE）。
+#   目前接在 s10lib.make_signal_s10（現行 E0 引擎）；其他訊號函式不讀這個開關。
+DEADLINE_FIX = False
+INS15_MASK = False
+REV_DEADLINE_DIR = Path('/home/user/-/research/tw_stock_selection/raw/rev_deadline_exceptions')
+_REV_DL_CACHE = {}
 
 
 def sha_bytes(b):
@@ -248,13 +259,65 @@ def load_eps(P, pit=True):
     return dict(EpsQ0=sq['eps_s'], EpsQ4=sq['eps_q4'], EpsY0=sy['eps_y'], EpsY3=sy['eps_y3'], info=info)
 
 
+def deadline_exceptions():
+    """{營收月份 Period: 延後後的期限日}：REV_DEADLINE_DIR/deadline_exceptions.csv 中 apply＝1 的列（主管機關對全體的特例延長）。"""
+    if 'ext' not in _REV_DL_CACHE:
+        d = pd.read_csv(REV_DEADLINE_DIR / 'deadline_exceptions.csv', dtype=str)
+        d = d[d['apply'].str.strip() == '1']
+        _REV_DL_CACHE['ext'] = {pd.Period(r.rev_month, 'M'): pd.Timestamp(r.actual_deadline) for r in d.itertuples()}
+    return _REV_DL_CACHE['ext']
+
+
+def ins15_list():
+    """[(代碼, 起始營收月份 Period, 結束營收月份 Period 或 None, 期限日)]：REV_DEADLINE_DIR/ins15_list.csv。"""
+    if 'ins15' not in _REV_DL_CACHE:
+        d = pd.read_csv(REV_DEADLINE_DIR / 'ins15_list.csv', dtype=str).fillna('')
+        _REV_DL_CACHE['ins15'] = [(r.code.strip(), pd.Period(r.start_month, 'M'), pd.Period(r.end_month, 'M') if r.end_month.strip() else None,
+                                   int(r.deadline_day)) for r in d.itertuples()]
+    return _REV_DL_CACHE['ins15']
+
+
+def ins15_hidden_cols(P, m, k):
+    """INS15_MASK 開啟時：營收月份 m、訊號列 k（含位移）下看不到當月營收的欄位號（P.COLS 序）。關閉時回傳空 list。
+    看不到＝名單內、m 在 [start_month, end_month]、且 k 早於期限日（次月 deadline_day 日（含）以後第一個交易日；期限日＝訊號日視為當晚可見，同 S40／S41）。"""
+    if not INS15_MASK:
+        return []
+    out = []
+    for code, m0, m1, dd in ins15_list():
+        if m < m0 or (m1 is not None and m > m1):
+            continue
+        kd = int(np.searchsorted(P.IDX.values, np.datetime64((m + 1).to_timestamp() + pd.Timedelta(days=dd - 1)), side='left'))
+        if kd > k:
+            j = np.flatnonzero(np.asarray(P.COLS) == code)
+            if len(j):
+                out.append(int(j[0]))
+    return out
+
+
+def ins15_mask_row(P, m, k, s):
+    """訊號函式用：INS15_MASK 關閉時原樣回傳 s（同一個物件）；開啟時回傳把看不到的欄位設成 NaN 的複本。s 的欄位須與 P.COLS 同序。"""
+    if not INS15_MASK:
+        return s
+    cols = ins15_hidden_cols(P, m, k)
+    if not cols:
+        return s
+    assert len(s) == len(P.COLS)
+    s = np.array(s, dtype=float, copy=True)
+    s[cols] = np.nan
+    return s
+
+
 def rev_avail_days(P, months, pit=True):
     """月營收 m 的可用日（面板列號）：PIT＝次月 10 日（非交易日順延到下一個交易日）之後的第一個交易日；
-    非 PIT＝當月最後一個日曆日之後（含當日）的第一個交易日。"""
+    非 PIT＝當月最後一個日曆日之後（含當日）的第一個交易日。
+    DEADLINE_FIX＝True 且 pit：例外表（deadline_exceptions()）的月份，期限改成延後後的日子（同樣規則：期限（含）以後第一個交易日的下一個交易日）。"""
     out = {}
+    ext = deadline_exceptions() if (pit and DEADLINE_FIX) else {}
     for m in months:
         if pit:
             d10 = (m + 1).to_timestamp() + pd.Timedelta(days=9)
+            if m in ext:
+                d10 = max(d10, ext[m])
             k = int(np.searchsorted(P.IDX.values, np.datetime64(d10), side='left'))   # 期限日（順延後）
             out[m] = k + 1
         else:

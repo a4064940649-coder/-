@@ -1,0 +1,32 @@
+{
+ "written_at": "2026-11-17T02:50:29",
+ "PREREG_sha256": "434d649965bd6e4f1a6d096885d47f36350a4745cb8ed4e219a86c584bd6bd8b",
+ "frozen_rule": {
+  "id": "ABS_2.5",
+  "kind": "ABS",
+  "theta": 2.5,
+  "family": "R1 絕對門檻",
+  "desc": "F1 且 SURGE ≥ 2.5：同上，門檻 2.5（＝XQ 20 號 MinSurge 預設值）。"
+ },
+ "theta_selected_R1": "ABS_2.5",
+ "T0_pass": false,
+ "T0_text": "訓練期沒有找到（仍凍結分數最高的一條，驗證期只描述）",
+ "train_score": {
+  "train_median": 0.33645947429153367,
+  "train_min": 0.30169910227238317,
+  "train_max": 0.35851947406168483,
+  "train_dd_median": -0.27206594624227165,
+  "score_median_pp": 0.3768790551309187,
+  "npos": 14,
+  "n_ge025": 12,
+  "diff_min_pp": -0.6880962558684978,
+  "diff_max_pp": 3.0048111921663345,
+  "dd_diff_median_pp": -0.91969580070978,
+  "y1618_median_pp": 0.5614879782203652,
+  "y1618_npos": 16,
+  "y1921_median_pp": -0.07557689493816744,
+  "y1921_npos": 10,
+  "n_removed_shift0": 45
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換規則或門檻。"
+}

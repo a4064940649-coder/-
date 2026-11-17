@@ -1,0 +1,154 @@
+{
+ "s39_cur_wrapper_bitwise": true,
+ "A0_current_reproduced": {
+  "since2019": 0.48991278775035196,
+  "full": 0.34543340603574313,
+  "maxdd": -0.3211451024786043,
+  "n_trades": 381,
+  "ok": true
+ },
+ "holdings": {
+  "n_position_months": 197,
+  "seen_share": 0.9847715736040609,
+  "early_share": 0.8934010152284264,
+  "held_at_r_share": 0.8934010152284264,
+  "lead_days_dist": {
+   "1": 39,
+   "2": 45,
+   "3": 45,
+   "4": 20,
+   "5": 19,
+   "6": 7,
+   "7": 1
+  },
+  "surge_fp_quantiles": {
+   "0.05": -0.08857358157635248,
+   "0.1": 0.5520549964238861,
+   "0.25": 1.6809033979888142,
+   "0.5": 2.630335191795861,
+   "0.75": 3.448675031563151,
+   "0.9": 4.3836236347827295
+  },
+  "surge_fp_nan": 0,
+  "fp_vs_cur_differs": 0,
+  "prev20_quantiles": {
+   "0.1": 1.81915523668495,
+   "0.5": 2.194708806942069,
+   "0.9": 3.430450316047601
+  },
+  "e0_exit_at_k_share": 0.5113636363636364,
+  "note": "持股月＝官方訊號列 k0 收盤時 CUR 持有的 (月份, 股票)；held_at_r＝新營收在 k0 前已首次可見、且可見時已持有（可提早賣的對象）。lead＝k0 − r（提早賣比現行早幾個交易日）。e0_exit_at_k＝官方日本來就會被 E0 賣掉（跌出 L_MA 前 20 或 ≤ 季線）。"
+ },
+ "trigger_preview": {
+  "XA_THR|0.0（格點外，參考）": {
+   "train": {
+    "n_flag": 9,
+    "n_months": 7,
+    "e0_exit_at_k_anyway": 9,
+    "share_e0_anyway": 1.0
+   },
+   "valid": {
+    "n_flag": 1,
+    "n_months": 1,
+    "e0_exit_at_k_anyway": 1,
+    "share_e0_anyway": 1.0
+   }
+  },
+  "XA_THR|0.5": {
+   "train": {
+    "n_flag": 16,
+    "n_months": 11,
+    "e0_exit_at_k_anyway": 16,
+    "share_e0_anyway": 1.0
+   },
+   "valid": {
+    "n_flag": 2,
+    "n_months": 2,
+    "e0_exit_at_k_anyway": 2,
+    "share_e0_anyway": 1.0
+   }
+  },
+  "XA_THR|1.0": {
+   "train": {
+    "n_flag": 20,
+    "n_months": 11,
+    "e0_exit_at_k_anyway": 20,
+    "share_e0_anyway": 1.0
+   },
+   "valid": {
+    "n_flag": 3,
+    "n_months": 3,
+    "e0_exit_at_k_anyway": 3,
+    "share_e0_anyway": 1.0
+   }
+  },
+  "XA_THR|1.5": {
+   "train": {
+    "n_flag": 31,
+    "n_months": 12,
+    "e0_exit_at_k_anyway": 31,
+    "share_e0_anyway": 1.0
+   },
+   "valid": {
+    "n_flag": 10,
+    "n_months": 6,
+    "e0_exit_at_k_anyway": 10,
+    "share_e0_anyway": 1.0
+   }
+  },
+  "XA_THR|2.0": {
+   "train": {
+    "n_flag": 46,
+    "n_months": 14,
+    "e0_exit_at_k_anyway": 44,
+    "share_e0_anyway": 0.9565217391304348
+   },
+   "valid": {
+    "n_flag": 14,
+    "n_months": 6,
+    "e0_exit_at_k_anyway": 14,
+    "share_e0_anyway": 1.0
+   }
+  },
+  "XA_NEG_MA20|0.0": {
+   "train": {
+    "n_flag": 5,
+    "n_months": 5,
+    "e0_exit_at_k_anyway": 5,
+    "share_e0_anyway": 1.0
+   },
+   "valid": {
+    "n_flag": 0,
+    "n_months": 0,
+    "e0_exit_at_k_anyway": 0,
+    "share_e0_anyway": null
+   }
+  },
+  "XA_PREV20|prev20": {
+   "train": {
+    "n_flag": 46,
+    "n_months": 14,
+    "e0_exit_at_k_anyway": 43,
+    "share_e0_anyway": 0.9347826086956522
+   },
+   "valid": {
+    "n_flag": 36,
+    "n_months": 11,
+    "e0_exit_at_k_anyway": 29,
+    "share_e0_anyway": 0.8055555555555556
+   }
+  }
+ },
+ "trigger_note": "只用 CUR 持股估計（加入規則後持股會變，實際筆數以引擎為準）；不看任何報酬。share_e0_anyway 高＝規則多半只是把 E0 的賣出提早幾天。",
+ "data_sufficiency": {
+  "months": 28,
+  "caveats": [
+   "只有上市（現行股池本來就只上市）",
+   "Tasi 時間是快照上界，週末前後公布的會晚 1～2 天才賣（保守）",
+   "28 個月切兩段各 14 個月，提早賣只影響少數筆交易，檢定力很低",
+   "首次值 SURGE 用 s39 FPM（當月 D 用首次值；μ、σ 用目前值）"
+  ]
+ },
+ "runtime_s": 9.7,
+ "maxrss_mb": 1413
+}
