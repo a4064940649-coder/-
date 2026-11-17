@@ -1,0 +1,508 @@
+{
+ "written_at": "2026-11-17T05:08:17.976896+00:00",
+ "purpose": "S55 把凍結的現行規則往 2015-07 以前延伸：盤點 2015-07 以前的本地資料與公開來源（本檔不含任何報酬數字）",
+ "engine_panel_now": {
+  "stlib.load / s2lib.load / s10lib.load / s17lib.load / s20lib.load / s47lib.load": "全部經 stlib.build_panel → cslib.Panel：讀 cslib.TMP/panel_cs.npz（快取；不存在時 cslib.build_panel 用 git cat-file 從 raw/jb7k6295r7-bot_tw-stock-data 的 data/universe/daily/YYYY-MM-DD.csv 建）",
+  "daily_source_first_date": "2015-01-05（官方日 K 倉庫 data/universe/daily 第一天；上市＋上櫃，含成交股數、成交金額、漲跌價差、逐日市場別）",
+  "panel_end": "cslib.END＝2026-10-22（P.T＝2876 列、P.N＝2142 欄）",
+  "backtest_start": "stlib.START＝2015-07-01（P.t0）；訊號月份另有 s17lib.FIRST_MONTH＝2016-01（σ24 從 2013 IFRS 斷點後要 24 個月才算得出）",
+  "other_inputs": {
+   "月營收": "stlib.REV_CSV＝/home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv（s17lib.rev_family 讀；本身從 2005-01 起）",
+   "0050 還原收盤": "cslib.E50_CSV＝/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv",
+   "0050 原始開高低收": "S1/e50_ohlc.csv（stlib.build_panel 從同一官方日 K 倉庫抽 0050；2015-01-05 起）",
+   "加權指數": "cslib.TWII_CSV＝/home/user/jonatw/finlab-txd/data/raw/taiex_twii.csv",
+   "除權息": "cslib.TWT49U_DIR＝raw/twt49u/twse-exright（EXRIGHT_FIX）",
+   "營收期限例外／保險 15 日": "raw/rev_deadline_exceptions（DEADLINE_FIX／INS15_MASK）",
+   "創新板": "s4lib.innov_panel：官方日 K name 欄（2021 起才有創新板）"
+  }
+ },
+ "datasets": {
+  "monthly_revenue": {
+   "local": "/home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv",
+   "first_month": "2005-01",
+   "last_month": "2026-09",
+   "twse_sii_codes_by_year": {
+    "2005": 701,
+    "2006": 716,
+    "2007": 724,
+    "2008": 744,
+    "2009": 786,
+    "2010": 779,
+    "2011": 839,
+    "2012": 838,
+    "2013": 812,
+    "2014": 832,
+    "2015": 849,
+    "2016": 860,
+    "2017": 874,
+    "2018": 888,
+    "2019": 900,
+    "2020": 913,
+    "2021": 926,
+    "2022": 952,
+    "2023": 969,
+    "2024": 985,
+    "2025": 992,
+    "2026": 994
+   },
+   "pre2015_usable": "可用：2005-01 起全市場（MOPS t21sc03 彙總頁解析，revenue_longhistory 已驗證與 rev_5y 重疊期 99.6% 相同）",
+   "defects": [
+    "2013 IFRS 口徑斷點（2012 個體→2013 合併）：引擎把 2013 年的年增量 D 一律設缺值（凍結規則的一部分）→ σ24 在 2013-01～2015-12 全缺，凍結規則在這 36 個月沒有訊號、也不出場",
+    "2013 起只剩當時仍上市的公司（2013～2015 下市者營收只到 2012）；但這段本來就沒有訊號，不影響選股"
+   ],
+   "revenue_coverage_of_priced_twse_stocks": {
+    "2008": {
+     "price_stock_months": 8234,
+     "with_revenue": 8130,
+     "revenue_coverage_of_priced": 0.9874,
+     "revenue_without_price": 593
+    },
+    "2009": {
+     "price_stock_months": 8370,
+     "with_revenue": 8204,
+     "revenue_coverage_of_priced": 0.9802,
+     "revenue_without_price": 684
+    },
+    "2010": {
+     "price_stock_months": 9029,
+     "with_revenue": 8716,
+     "revenue_coverage_of_priced": 0.9653,
+     "revenue_without_price": 569
+    },
+    "2011": {
+     "price_stock_months": 9304,
+     "with_revenue": 8924,
+     "revenue_coverage_of_priced": 0.9592,
+     "revenue_without_price": 459
+    },
+    "2012": {
+     "price_stock_months": 9643,
+     "with_revenue": 9169,
+     "revenue_coverage_of_priced": 0.9508,
+     "revenue_without_price": 507
+    },
+    "2013": {
+     "price_stock_months": 9868,
+     "with_revenue": 8753,
+     "revenue_coverage_of_priced": 0.887,
+     "revenue_without_price": 901
+    },
+    "2014": {
+     "price_stock_months": 10225,
+     "with_revenue": 9029,
+     "revenue_coverage_of_priced": 0.883,
+     "revenue_without_price": 827
+    },
+    "2015": {
+     "price_stock_months": 5177,
+     "with_revenue": 4570,
+     "revenue_coverage_of_priced": 0.8828,
+     "revenue_without_price": 468
+    }
+   },
+   "twse_codes_last_revenue_before_2012_12": 76,
+   "twse_codes_last_revenue_2012_12": 54,
+   "survivorship": {
+    "twse_delisted_2008_to_2012_in_price_panel": 34,
+    "of_which_revenue_until_within_3m_of_last_trade": 1,
+    "twse_delisted_2013_to_2015H1_in_price_panel": 11,
+    "of_which_revenue_until_within_3m_of_last_trade_2013_15": 0,
+    "delisted_list": [
+     {
+      "code": "1311",
+      "last_trade": "2008-04-10",
+      "last_rev_month": "2007-03"
+     },
+     {
+      "code": "1523",
+      "last_trade": "2010-08-19",
+      "last_rev_month": "2009-07"
+     },
+     {
+      "code": "1606",
+      "last_trade": "2008-09-10",
+      "last_rev_month": "2007-09"
+     },
+     {
+      "code": "1716",
+      "last_trade": "2010-12-21",
+      "last_rev_month": "2009-11"
+     },
+     {
+      "code": "2315",
+      "last_trade": "2013-08-30",
+      "last_rev_month": "2011-12"
+     },
+     {
+      "code": "2350",
+      "last_trade": "2010-06-15",
+      "last_rev_month": "2009-05"
+     },
+     {
+      "code": "2384",
+      "last_trade": "2014-11-18",
+      "last_rev_month": "2012-12"
+     },
+     {
+      "code": "2391",
+      "last_trade": "2010-08-03",
+      "last_rev_month": "2009-07"
+     },
+     {
+      "code": "2403",
+      "last_trade": "2010-11-08",
+      "last_rev_month": "2009-10"
+     },
+     {
+      "code": "2411",
+      "last_trade": "2008-10-22",
+      "last_rev_month": "2007-09"
+     },
+     {
+      "code": "2432",
+      "last_trade": "2008-08-25",
+      "last_rev_month": "2026-09"
+     },
+     {
+      "code": "2446",
+      "last_trade": "2009-11-18",
+      "last_rev_month": "2008-10"
+     },
+     {
+      "code": "2447",
+      "last_trade": "2008-01-23",
+      "last_rev_month": "2006-12"
+     },
+     {
+      "code": "2452",
+      "last_trade": "2010-03-24",
+      "last_rev_month": "2009-02"
+     },
+     {
+      "code": "2463",
+      "last_trade": "2011-05-25",
+      "last_rev_month": "2009-11"
+     },
+     {
+      "code": "2473",
+      "last_trade": "2012-11-21",
+      "last_rev_month": "2009-11"
+     },
+     {
+      "code": "2494",
+      "last_trade": "2008-10-22",
+      "last_rev_month": "2007-09"
+     },
+     {
+      "code": "2526",
+      "last_trade": "2010-03-25",
+      "last_rev_month": "2009-03"
+     },
+     {
+      "code": "2837",
+      "last_trade": "2014-09-01",
+      "last_rev_month": "2011-12"
+     },
+     {
+      "code": "2854",
+      "last_trade": "2011-09-20",
+      "last_rev_month": "2009-11"
+     },
+     {
+      "code": "3009",
+      "last_trade": "2010-03-05",
+      "last_rev_month": "2009-02"
+     },
+     {
+      "code": "3020",
+      "last_trade": "2008-01-02",
+      "last_rev_month": "2006-12"
+     },
+     {
+      "code": "3061",
+      "last_trade": "2014-12-23",
+      "last_rev_month": "2011-12"
+     },
+     {
+      "code": "3063",
+      "last_trade": "2010-03-19",
+      "last_rev_month": "2009-02"
+     },
+     {
+      "code": "3271",
+      "last_trade": "2008-06-17",
+      "last_rev_month": "2007-06"
+     },
+     {
+      "code": "3367",
+      "last_trade": "2011-09-28",
+      "last_rev_month": "2009-11"
+     },
+     {
+      "code": "3534",
+      "last_trade": "2011-09-22",
+      "last_rev_month": "2009-11"
+     },
+     {
+      "code": "3599",
+      "last_trade": "2013-05-20",
+      "last_rev_month": "2011-12"
+     },
+     {
+      "code": "3614",
+      "last_trade": "2010-09-17",
+      "last_rev_month": "2009-08"
+     },
+     {
+      "code": "3638",
+      "last_trade": "2014-09-09",
+      "last_rev_month": null
+     },
+     {
+      "code": "3697",
+      "last_trade": "2014-01-15",
+      "last_rev_month": null
+     },
+     {
+      "code": "5280",
+      "last_trade": "2014-12-19",
+      "last_rev_month": null
+     },
+     {
+      "code": "5854",
+      "last_trade": "2011-11-18",
+      "last_rev_month": "2009-11"
+     },
+     {
+      "code": "6012",
+      "last_trade": "2011-04-19",
+      "last_rev_month": "2009-11"
+     },
+     {
+      "code": "6119",
+      "last_trade": "2012-02-22",
+      "last_rev_month": "2009-11"
+     },
+     {
+      "code": "6255",
+      "last_trade": "2010-09-02",
+      "last_rev_month": "2009-08"
+     },
+     {
+      "code": "8008",
+      "last_trade": "2013-07-11",
+      "last_rev_month": "2011-12"
+     },
+     {
+      "code": "8078",
+      "last_trade": "2014-02-14",
+      "last_rev_month": "2011-12"
+     },
+     {
+      "code": "8199",
+      "last_trade": "2012-12-20",
+      "last_rev_month": null
+     },
+     {
+      "code": "9101",
+      "last_trade": "2008-05-28",
+      "last_rev_month": null
+     },
+     {
+      "code": "9102",
+      "last_trade": "2010-12-07",
+      "last_rev_month": null
+     },
+     {
+      "code": "9104",
+      "last_trade": "2012-08-27",
+      "last_rev_month": null
+     },
+     {
+      "code": "9151",
+      "last_trade": "2013-10-14",
+      "last_rev_month": null
+     },
+     {
+      "code": "9915",
+      "last_trade": "2008-02-21",
+      "last_rev_month": "2007-02"
+     },
+     {
+      "code": "9922",
+      "last_trade": "2010-06-18",
+      "last_rev_month": "2009-05"
+     }
+    ]
+   }
+  },
+  "daily_k": {
+   "engine_official_cache": "2015-01-05 起（上市＋上櫃）",
+   "data_panel/panel": "2004-01-02～2026-10-22，上市普通股＋已下市上市股（1,249 檔；來源 Asoul/tsec ≤2019-05、k66 STOCK_DAY 2010～2023 等；有收、開、高、成交金額、還原、報酬，沒有低、成交股數、漲跌價差）",
+   "asoul_tsec_local": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/tsec_all（1,921 檔，1992～2019-05-16，證交所原始行情含開高低收、股數、金額、漲跌價差（除權息日標 X）、含已下市股；在別的工作階段 scratchpad，可能被清掉 → S55 已把用到的部分另存 raw/pre2015/asoul_twse_2007_2015H1.csv.gz＋sha256 清單）",
+   "built_pre_panel": {
+    "range": [
+     "2007-01-02",
+     "2015-06-30"
+    ],
+    "T": 2105,
+    "N": 926,
+    "n_asoul_rows": 1531951,
+    "n_x_rows": 9214,
+    "n_cells_filled_from_data_panel": 72224,
+    "close_match_vs_data_panel": 1.0,
+    "per_year": {
+     "2007": {
+      "days": 247,
+      "median_twse_listed": 674,
+      "median_traded": 671
+     },
+     "2008": {
+      "days": 249,
+      "median_twse_listed": 685,
+      "median_traded": 675
+     },
+     "2009": {
+      "days": 251,
+      "median_twse_listed": 695,
+      "median_traded": 692
+     },
+     "2010": {
+      "days": 251,
+      "median_twse_listed": 748,
+      "median_traded": 746
+     },
+     "2011": {
+      "days": 247,
+      "median_twse_listed": 770,
+      "median_traded": 767
+     },
+     "2012": {
+      "days": 250,
+      "median_twse_listed": 803,
+      "median_traded": 797
+     },
+     "2013": {
+      "days": 246,
+      "median_twse_listed": 819,
+      "median_traded": 815
+     },
+     "2014": {
+      "days": 248,
+      "median_twse_listed": 851,
+      "median_traded": 847
+     },
+     "2015": {
+      "days": 116,
+      "median_twse_listed": 862,
+      "median_traded": 858
+     }
+    },
+    "vs_official_2015H1": {
+     "C": {
+      "n": 99549,
+      "match": 1.0
+     },
+     "O": {
+      "n": 99549,
+      "match": 1.0
+     },
+     "AMT": {
+      "n": 99964,
+      "match": 1.0
+     },
+     "CHG": {
+      "n": 81896,
+      "match": 1.0
+     },
+     "MK_twse_cells_official": 99965,
+     "MK_twse_cells_mine": 99964,
+     "MK_agree": 0.9999900683298903,
+     "official_twse_codes_2015H1_missing_in_mine": [
+      "4733"
+     ]
+    },
+    "n_codes_last_trade_before_2015_06": 59
+   },
+   "adjusted_price": "引擎自己用漲跌價差算含息報酬 R（參考價＝收盤−漲跌價差）；Asoul 除權息日漲跌價差標 X → 記 0（同官方 2015 起格式，當日報酬＝0）",
+   "turnover_amount": "有（Asoul 成交金額；股池 60 日均額 ≥ 1,000 萬用）"
+  },
+  "ex_rights_twt49u": {
+   "local_first_date": "2014-01-16",
+   "local_months": 154,
+   "pre2014": "本地沒有。證交所 TWT49U（rwd/zh/exRight/TWT49U）2026-11-17 第一次測試可連（2008-07 回 267 筆，HTTP 200），之後同主機請求被斷線（connection reset）→ 依紀律停止、沒有抓",
+   "impact": "2007-01～2013-12 除權息日（Asoul 9,214 個 X 列中的大部分）無法用參考價修正，當日報酬記 0（＝EXRIGHT_FIX 關閉時的舊行為）；data_exright_fix 量過這個修正對 2019 起年化 +0.86 個百分點 → 對策略偏保守"
+  },
+  "listing_list": {
+   "historical": "沒有逐日上市清單檔；上市與否用 data_panel（已去掉轉上市前的櫃買期）＋ Asoul 列判斷；現行清單 stock_list.csv 只有現存股",
+   "delisted_coverage": "價格面板 2008-01～2015-05 最後交易的上市股 45 檔（Asoul 含已下市股）"
+  },
+  "0050": {
+   "adj_close": "2003-07-01～2026-10-22（jonatw/finlab-txd etf_0050.csv，含息還原）",
+   "raw_ohlc": "2015-01-05 起（官方日 K 快取）；2007～2014 沒有 → 引擎內建退路：開盤／收盤比＝1（0050 換手用當日還原收盤代替開盤）、跳動點用 100 元的 0.05",
+   "twse_stock_day": "STOCK_DAY 只提供 2010-01-04 以後（2007-01 試抓回「查詢日期小於99年1月4日」）；2010-01 那次請求被斷線，停止"
+  },
+  "twii": "1999-01-05～2026-10-22（本地）",
+  "rev_deadline_exceptions": "例外表只有 2019-01、2020-01（不套用）、2023-03；2015 以前的特例延長（若有）沒有登錄 → 用法定 10 日；保險 15 日名單從 2026-01 起，2015 以前不影響",
+  "price_limit": "2015-06-01 以前漲跌幅 7%（TWT49U 2008-07 回應的漲停價也證實 7%）；引擎固定用 10% 算漲跌停價"
+ },
+ "public_sources_probe": [
+  {
+   "host": "mopsov.twse.com.tw",
+   "what": "月營收彙總 t21sc03",
+   "result": "代理 403（CONNECT tunnel failed）→ 停止",
+   "time": "2026-11-17"
+  },
+  {
+   "host": "api.finmindtrade.com",
+   "what": "FinMind 公開 API",
+   "result": "代理 403 → 停止",
+   "time": "2026-11-17"
+  },
+  {
+   "host": "www.twse.com.tw",
+   "what": "STOCK_DAY／TWT49U",
+   "result": "前 3 次 HTTP 200（STOCK_DAY 2010-01 0050、TWT49U 2008-07 有資料）；第 4 次（fetch_twse.py 第二輪第一個請求）connection reset（代理紀錄：tunnel closed after 3s）→ 視為被擋，停止，不換方法",
+   "log": [
+    {
+     "url": "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20070101&stockNo=0050",
+     "http": "200",
+     "bytes": 71,
+     "t": "2026-11-17T05:03:17",
+     "curl_err": "",
+     "stat": "查詢日期小於99年1月4日，請重新查詢!"
+    },
+    {
+     "url": "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20100101&stockNo=0050",
+     "http": "000",
+     "bytes": 0,
+     "t": "2026-11-17T05:03:43",
+     "curl_err": "curl: (35) Recv failure: Connection reset by peer\n",
+     "stat": null
+    }
+   ]
+  }
+ ],
+ "earliest_signal": {
+  "revenue_first": "2005-01",
+  "D_first（年增量需要 12 個月前）": "2006-01",
+  "sigma24_first_signal_month（需要前 24 個 D）": "2008-01",
+  "first_signal_day": "2008-01 營收的可得日（2008-02-10 期限，順延後的下一個交易日）",
+  "last_signal_month_before_IFRS_gap": "2012-12（訊號日約 2013-01-11）",
+  "gap": "2013-01～2015-12 營收月份 SURGE 全缺（凍結規則），訊號恢復於 2016-01（＝現行正式回測的第一個訊號月）"
+ },
+ "verdict": {
+  "sufficient": true,
+  "why": "跑凍結規則需要的四樣核心資料都在本地且含已下市股：上市日 K（Asoul 證交所原始，含開高低收、成交金額、漲跌價差）2007～2015、月營收 2005 起、0050 含息還原 2003 起、加權指數。2015 上半年與官方日 K 收盤、開盤、成交金額、漲跌價差 100% 相同。",
+  "approximations": [
+   "2014 以前除權息日報酬記 0（沒有 TWT49U 參考價；偏保守）",
+   "2007～2014 0050 用當日還原收盤代替開盤成交（只影響底倉與空位 0050 的進出價，量小）",
+   "漲跌停價固定 10%（2015-06 以前實際 7%）：可能把 7%～10% 之間的開盤當成可買／可賣；事前登記照凍結引擎不改，事後報告受影響筆數",
+   "72,224 個格子（data_panel 有、Asoul 沒有）沒有低價、股數、漲跌價差（引擎改用收盤對前收）"
+  ],
+  "missing_and_how_to_get": [
+   "TWT49U 2007-01～2013-12：證交所 rwd/zh/exRight/TWT49U 每月一次共 84 次請求（約 10 分鐘）；本環境被斷線，需研究中心另找可連的環境或第三方鏡像",
+   "0050 原始開盤 2007-01～2014-12：證交所 STOCK_DAY 只到 2010-01；2007～2009 需 MI_INDEX 逐日（約 750 次請求）或第三方資料"
+  ]
+ }
+}
