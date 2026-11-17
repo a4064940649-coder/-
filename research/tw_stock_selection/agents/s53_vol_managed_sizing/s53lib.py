@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """S53 共用程式庫：波動調整部位家族（A 個股層 1/σ60、B 組合層衛星波動目標），選股、出場、股池一律不動。
 鏈：s51lib → s47lib → s20lib → s17lib → s10lib（全部不改，只讀）；正式開關 cslib.EXRIGHT_FIX、DEADLINE_FIX、INS15_MASK 全開（s47lib 匯入時設定）。
-引擎副本 simulate_s53：取 s51lib 已替換好的原始碼（＝s10lib.simulate_s10 ＋ S47 的 ndiv/idle ＋ S51 的 n_sized 計數器），再做 6 處字串替換後 exec（原檔不動）：
+引擎副本 simulate_s53：取 s51lib 已替換好的原始碼（＝s10lib.simulate_s10 ＋ S47 的 ndiv/idle ＋ S51 的 n_sized 計數器），再做 9 處字串替換（6 組功能）後 exec（原檔不動）：
   (1) 函式名 simulate_s53，新參數 wmult=None, vt=None；
   (2) A：買進目標 target＝u × wmult[k][j]（k＝訊號列 t−1；wmult 沒有的股票＝1）；
   (3) 新陣列 sret（衛星持股日報酬）、satser（每個換股執行日用的衛星目標）；
