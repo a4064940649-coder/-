@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """S55 資料補抓（只抓公開資料；被擋就停，不換方法繞）：
-(1) 0050 每月日成交（證交所 STOCK_DAY）2007-01～2015-06 → raw/pre2015/twse_0050_stock_day/YYYY-MM.json（原始回應）＋ e50_ohlc_pre2015.csv
+(1) 0050 每月日成交（證交所 STOCK_DAY）2010-01～2015-06（STOCK_DAY 只提供 2010-01-04 以後；2007-01 試抓回「查詢日期小於99年1月4日」） → raw/pre2015/twse_0050_stock_day/YYYY-MM.json（原始回應）＋ e50_ohlc_pre2015.csv
 (2) 除權除息計算結果表（證交所 TWT49U）2007-01～2013-12 → raw/pre2015/twt49u_raw/YYYY-MM.json（原始回應）
     ＋ raw/pre2015/twt49u/twse-exright/YYYY/YYYY-MM.csv.gz（與 raw/twt49u 同格式：date,code,prev_close,ref_price,value,type）
 每次請求間隔 3.5 秒；任何一次非 200、非 JSON 或 stat 不是 OK（且不是「查無資料」）→ 立即停止並記錄。
@@ -48,7 +48,7 @@ num = lambda x: pd.to_numeric(str(x).replace(',', '').strip(), errors='coerce')
 
 # (1) 0050
 rows = []
-for ym in months('2007-01', '2015-06'):
+for ym in months('2010-01', '2015-06'):
     d = get(f'https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date={ym.replace("-", "")}01&stockNo=0050',
             RAW / 'twse_0050_stock_day' / f'{ym}.json')
     for r in d.get('data', []) or []:
