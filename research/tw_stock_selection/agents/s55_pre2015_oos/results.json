@@ -1,0 +1,545 @@
+{
+ "spec_sha256": "ec7c20c0104d516e7f752accbbd89db751e45966d5fe025526fe04d92bee6858",
+ "prereg_sha256": "8efec406b36be40495b6a6f34e76588603ed7683e044b8dc926f5fb5517949e8",
+ "windows": {
+  "primary": {
+   "months": 61,
+   "period": "2008-01～2013-01",
+   "cagr_strategy": 0.029933371830177746,
+   "cagr_0050": 0.018411161915508734,
+   "excess": {
+    "T": 61,
+    "mean_m": 0.0010590907186456204,
+    "sd_m": 0.016250693530207153,
+    "ann_excess_pp": 1.2709088623747444,
+    "ann_te_pp": 5.629405370509925,
+    "IR_ann": 0.22576254128588757,
+    "t_iid": 0.5090098417450285,
+    "t_nw6": 0.5057053633526972,
+    "skew": 0.2633394316683946,
+    "kurt": 3.1695328793443283,
+    "rho1": 0.07296224367735088,
+    "hit_rate": 0.5081967213114754
+   },
+   "beta": 1.0025282222284382,
+   "corr": 0.9733614211803843,
+   "cagr_diff_pp": 1.1522209914669013,
+   "maxdd_strategy": -0.492118187774477,
+   "maxdd_0050": -0.5238283034614535
+  },
+  "secondary": {
+   "months": 90,
+   "period": "2008-01～2015-06",
+   "cagr_strategy": 0.04000417309921134,
+   "cagr_0050": 0.05196867958824791,
+   "excess": {
+    "T": 90,
+    "mean_m": -0.0009163838584622466,
+    "sd_m": 0.01529834937836502,
+    "ann_excess_pp": -1.099660630154696,
+    "ann_te_pp": 5.2995036790535925,
+    "IR_ann": -0.2075025694389324,
+    "t_iid": -0.5682691901099269,
+    "t_nw6": -0.5220808723114365,
+    "skew": 0.3444642519780609,
+    "kurt": 3.305168047253567,
+    "rho1": 0.06903550482081075,
+    "hit_rate": 0.4777777777777778
+   },
+   "beta": 0.9827045277781171,
+   "corr": 0.9662251558027625,
+   "cagr_diff_pp": -1.1964506489036575,
+   "maxdd_strategy": -0.492118187774477,
+   "maxdd_0050": -0.5238283034614535
+  },
+  "stuck_2013_02_to_2015_06": {
+   "months": 29,
+   "period": "2013-02～2015-06",
+   "cagr_strategy": 0.061510153297329895,
+   "cagr_0050": 0.12620809426006496,
+   "excess": {
+    "T": 29,
+    "mean_m": -0.005071692451689139,
+    "sd_m": 0.012313797347205453,
+    "ann_excess_pp": -6.086030942026967,
+    "ann_te_pp": 4.2656245278933405,
+    "IR_ann": -1.4267619904728623,
+    "t_iid": -2.2179916506133135,
+    "t_nw6": -2.5590689831048317,
+    "skew": 0.049359673785334596,
+    "kurt": 2.5393943110950956,
+    "rho1": -0.10539057678519734,
+    "hit_rate": 0.41379310344827586
+   },
+   "beta": 0.6958366186929664,
+   "corr": 0.8688585230876064,
+   "cagr_diff_pp": -6.469794096273507
+  },
+  "in_sample_2015_07_to_2026_10": {
+   "months": 136,
+   "period": "2015-07～2026-10",
+   "cagr_strategy": 0.3431501730874791,
+   "cagr_0050": 0.21089379466431435,
+   "excess": {
+    "T": 136,
+    "mean_m": 0.00973742585606096,
+    "sd_m": 0.04679373426600784,
+    "ann_excess_pp": 11.68491102727315,
+    "ann_te_pp": 16.20982504492046,
+    "IR_ann": 0.7208536177837868,
+    "t_iid": 2.426754890881175,
+    "t_nw6": 2.9119840033942612,
+    "skew": 1.4796899209146428,
+    "kurt": 8.123971491115974,
+    "rho1": -0.11679095981361377,
+    "hit_rate": 0.4852941176470588
+   },
+   "beta": 0.9801433557225694,
+   "corr": 0.7743370625660034,
+   "cagr_diff_pp": 13.225637842316473
+  },
+  "merged_primary_plus_IS": {
+   "months": 197,
+   "period": "2008-01～2026-10",
+   "cagr_strategy": 0.23713689891628964,
+   "cagr_0050": 0.14769388691607332,
+   "excess": {
+    "T": 197,
+    "mean_m": 0.0070502256358460575,
+    "sd_m": 0.04006499258059037,
+    "ann_excess_pp": 8.46027076301527,
+    "ann_te_pp": 13.878920550890525,
+    "IR_ann": 0.6095770007468214,
+    "t_iid": 2.469852755536579,
+    "t_nw6": 2.796852129411232,
+    "skew": 1.7932778818612134,
+    "kurt": 10.87967191663413,
+    "rho1": -0.09539917922994787,
+    "hit_rate": 0.49238578680203043
+   },
+   "beta": 0.9955290779563009,
+   "corr": 0.8386668174707936,
+   "cagr_diff_pp": 8.94430120002163
+  },
+  "merged_secondary_plus_IS": {
+   "months": 226,
+   "period": "2008-01～2026-10",
+   "cagr_strategy": 0.21306869360872183,
+   "cagr_0050": 0.14491409868253902,
+   "excess": {
+    "T": 226,
+    "mean_m": 0.0054947582706313634,
+    "sd_m": 0.03786408584934471,
+    "ann_excess_pp": 6.593709924757636,
+    "ann_te_pp": 13.116504094642961,
+    "IR_ann": 0.5027033024333547,
+    "t_iid": 2.1816010543232656,
+    "t_nw6": 2.363740276004308,
+    "skew": 1.9569705670141022,
+    "kurt": 12.197626259008697,
+    "rho1": -0.08283996158083574,
+    "hit_rate": 0.4823008849557522
+   },
+   "beta": 0.9901790321132952,
+   "corr": 0.8370551407337777,
+   "cagr_diff_pp": 6.815459492618281
+  }
+ },
+ "by_year": {
+  "2008": {
+   "months": 12,
+   "strategy": -0.3660236124594721,
+   "b0050": -0.42043558457160535,
+   "diff_pp": 5.441197211213322
+  },
+  "2009": {
+   "months": 12,
+   "strategy": 0.8511298140062311,
+   "b0050": 0.7499574695285529,
+   "diff_pp": 10.11723444776782
+  },
+  "2010": {
+   "months": 12,
+   "strategy": 0.18064215869197198,
+   "b0050": 0.13127596758706717,
+   "diff_pp": 4.936619110490481
+  },
+  "2011": {
+   "months": 12,
+   "strategy": -0.17941657039229197,
+   "b0050": -0.15813542112861512,
+   "diff_pp": -2.1281149263676857
+  },
+  "2012": {
+   "months": 12,
+   "strategy": 0.005742677578956634,
+   "b0050": 0.11924627384839104,
+   "diff_pp": -11.35035962694344
+  },
+  "2013": {
+   "months": 12,
+   "strategy": 0.0874374545749923,
+   "b0050": 0.11676163189596966,
+   "diff_pp": -2.9324177320977363
+  },
+  "2014": {
+   "months": 12,
+   "strategy": 0.07945641354395261,
+   "b0050": 0.16664049199997466,
+   "diff_pp": -8.718407845602204
+  },
+  "2015": {
+   "months": 6,
+   "strategy": -0.00019374699204488532,
+   "b0050": 0.03814467406872901,
+   "diff_pp": -3.8338421060773897
+  }
+ },
+ "decision": {
+  "rule": "primary 窗：年化超額 > 0 且 Newey-West t > 1.65 →「支持」；年化超額 > 0 但 t ≤ 1.65 →「方向一致但不顯著」；年化超額 ≤ 0 →「不支持」。secondary 窗同規則，只報是否與 primary 同判定。",
+  "primary_ann_excess_pp": 1.2709088623747444,
+  "primary_t_nw6": 0.5057053633526972,
+  "verdict": "方向一致但不顯著",
+  "secondary_ann_excess_pp": -1.099660630154696,
+  "secondary_t_nw6": -0.5220808723114365,
+  "secondary_same_verdict": false
+ },
+ "trades": {
+  "n_signal_months": 60,
+  "first_signal": "2008-02-13",
+  "last_signal": "2013-01-11",
+  "avg_n_tgt": 3.3,
+  "n_trades": 146,
+  "n_closed": 141,
+  "why_counts": {
+   "rule": 141,
+   "open_end": 5
+  },
+  "win_rate_closed": 0.41134751773049644,
+  "avg_npos": 4.268712977921378,
+  "avg_idle_frac": 0.7378029265148893,
+  "top5_share_of_gain": 0.6352410636185879,
+  "open_end_positions": 5
+ },
+ "diagnostics": {
+  "buys_open_at_or_above_7pct_limit_pre_2015_06": 5,
+  "sells_open_at_or_below_7pct_limit_pre_2015_06": 0,
+  "held_exright_days_without_twt49u_pre2014": 21,
+  "survivorship": {
+   "total_univ_ma60_surge_nan": 1752,
+   "total_of_which_delisted_within_15m": 176,
+   "per_month": [
+    {
+     "month": "2008-01",
+     "n_univ_ma60_surge_nan": 13,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2008-02",
+     "n_univ_ma60_surge_nan": 30,
+     "of_which_last_trade_within_15m": 5
+    },
+    {
+     "month": "2008-03",
+     "n_univ_ma60_surge_nan": 39,
+     "of_which_last_trade_within_15m": 4
+    },
+    {
+     "month": "2008-04",
+     "n_univ_ma60_surge_nan": 38,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2008-05",
+     "n_univ_ma60_surge_nan": 8,
+     "of_which_last_trade_within_15m": 1
+    },
+    {
+     "month": "2008-06",
+     "n_univ_ma60_surge_nan": 0,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2008-07",
+     "n_univ_ma60_surge_nan": 10,
+     "of_which_last_trade_within_15m": 1
+    },
+    {
+     "month": "2008-08",
+     "n_univ_ma60_surge_nan": 1,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2008-09",
+     "n_univ_ma60_surge_nan": 0,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2008-10",
+     "n_univ_ma60_surge_nan": 1,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2008-11",
+     "n_univ_ma60_surge_nan": 10,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2008-12",
+     "n_univ_ma60_surge_nan": 12,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2009-01",
+     "n_univ_ma60_surge_nan": 12,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2009-02",
+     "n_univ_ma60_surge_nan": 16,
+     "of_which_last_trade_within_15m": 1
+    },
+    {
+     "month": "2009-03",
+     "n_univ_ma60_surge_nan": 37,
+     "of_which_last_trade_within_15m": 3
+    },
+    {
+     "month": "2009-04",
+     "n_univ_ma60_surge_nan": 35,
+     "of_which_last_trade_within_15m": 4
+    },
+    {
+     "month": "2009-05",
+     "n_univ_ma60_surge_nan": 35,
+     "of_which_last_trade_within_15m": 3
+    },
+    {
+     "month": "2009-06",
+     "n_univ_ma60_surge_nan": 27,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2009-07",
+     "n_univ_ma60_surge_nan": 34,
+     "of_which_last_trade_within_15m": 5
+    },
+    {
+     "month": "2009-08",
+     "n_univ_ma60_surge_nan": 41,
+     "of_which_last_trade_within_15m": 6
+    },
+    {
+     "month": "2009-09",
+     "n_univ_ma60_surge_nan": 52,
+     "of_which_last_trade_within_15m": 10
+    },
+    {
+     "month": "2009-10",
+     "n_univ_ma60_surge_nan": 42,
+     "of_which_last_trade_within_15m": 8
+    },
+    {
+     "month": "2009-11",
+     "n_univ_ma60_surge_nan": 27,
+     "of_which_last_trade_within_15m": 9
+    },
+    {
+     "month": "2009-12",
+     "n_univ_ma60_surge_nan": 55,
+     "of_which_last_trade_within_15m": 12
+    },
+    {
+     "month": "2010-01",
+     "n_univ_ma60_surge_nan": 11,
+     "of_which_last_trade_within_15m": 5
+    },
+    {
+     "month": "2010-02",
+     "n_univ_ma60_surge_nan": 18,
+     "of_which_last_trade_within_15m": 5
+    },
+    {
+     "month": "2010-03",
+     "n_univ_ma60_surge_nan": 40,
+     "of_which_last_trade_within_15m": 6
+    },
+    {
+     "month": "2010-04",
+     "n_univ_ma60_surge_nan": 14,
+     "of_which_last_trade_within_15m": 4
+    },
+    {
+     "month": "2010-05",
+     "n_univ_ma60_surge_nan": 7,
+     "of_which_last_trade_within_15m": 3
+    },
+    {
+     "month": "2010-06",
+     "n_univ_ma60_surge_nan": 34,
+     "of_which_last_trade_within_15m": 4
+    },
+    {
+     "month": "2010-07",
+     "n_univ_ma60_surge_nan": 44,
+     "of_which_last_trade_within_15m": 6
+    },
+    {
+     "month": "2010-08",
+     "n_univ_ma60_surge_nan": 37,
+     "of_which_last_trade_within_15m": 6
+    },
+    {
+     "month": "2010-09",
+     "n_univ_ma60_surge_nan": 27,
+     "of_which_last_trade_within_15m": 5
+    },
+    {
+     "month": "2010-10",
+     "n_univ_ma60_surge_nan": 30,
+     "of_which_last_trade_within_15m": 4
+    },
+    {
+     "month": "2010-11",
+     "n_univ_ma60_surge_nan": 39,
+     "of_which_last_trade_within_15m": 4
+    },
+    {
+     "month": "2010-12",
+     "n_univ_ma60_surge_nan": 36,
+     "of_which_last_trade_within_15m": 3
+    },
+    {
+     "month": "2011-01",
+     "n_univ_ma60_surge_nan": 36,
+     "of_which_last_trade_within_15m": 1
+    },
+    {
+     "month": "2011-02",
+     "n_univ_ma60_surge_nan": 32,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2011-03",
+     "n_univ_ma60_surge_nan": 34,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2011-04",
+     "n_univ_ma60_surge_nan": 51,
+     "of_which_last_trade_within_15m": 4
+    },
+    {
+     "month": "2011-05",
+     "n_univ_ma60_surge_nan": 35,
+     "of_which_last_trade_within_15m": 3
+    },
+    {
+     "month": "2011-06",
+     "n_univ_ma60_surge_nan": 27,
+     "of_which_last_trade_within_15m": 1
+    },
+    {
+     "month": "2011-07",
+     "n_univ_ma60_surge_nan": 11,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2011-08",
+     "n_univ_ma60_surge_nan": 8,
+     "of_which_last_trade_within_15m": 1
+    },
+    {
+     "month": "2011-09",
+     "n_univ_ma60_surge_nan": 16,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2011-10",
+     "n_univ_ma60_surge_nan": 29,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2011-11",
+     "n_univ_ma60_surge_nan": 9,
+     "of_which_last_trade_within_15m": 1
+    },
+    {
+     "month": "2011-12",
+     "n_univ_ma60_surge_nan": 28,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2012-01",
+     "n_univ_ma60_surge_nan": 85,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2012-02",
+     "n_univ_ma60_surge_nan": 87,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2012-03",
+     "n_univ_ma60_surge_nan": 38,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2012-04",
+     "n_univ_ma60_surge_nan": 12,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2012-05",
+     "n_univ_ma60_surge_nan": 9,
+     "of_which_last_trade_within_15m": 0
+    },
+    {
+     "month": "2012-06",
+     "n_univ_ma60_surge_nan": 41,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2012-07",
+     "n_univ_ma60_surge_nan": 54,
+     "of_which_last_trade_within_15m": 1
+    },
+    {
+     "month": "2012-08",
+     "n_univ_ma60_surge_nan": 60,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2012-09",
+     "n_univ_ma60_surge_nan": 28,
+     "of_which_last_trade_within_15m": 3
+    },
+    {
+     "month": "2012-10",
+     "n_univ_ma60_surge_nan": 10,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2012-11",
+     "n_univ_ma60_surge_nan": 37,
+     "of_which_last_trade_within_15m": 2
+    },
+    {
+     "month": "2012-12",
+     "n_univ_ma60_surge_nan": 63,
+     "of_which_last_trade_within_15m": 4
+    }
+   ]
+  },
+  "exright_info": {
+   "n_twt49u": 748,
+   "n_rights_issue_fallback": 0,
+   "n_prev_untraded": 3671,
+   "n_total": 4419,
+   "twt49u_last": "2026-10-29"
+  },
+  "e50_open_missing": 1989
+ },
+ "runtime_s": 3.1,
+ "maxrss_mb": 806
+}

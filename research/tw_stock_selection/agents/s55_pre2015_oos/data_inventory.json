@@ -1,5 +1,5 @@
 {
- "written_at": "2026-11-17T05:08:17.976896+00:00",
+ "written_at": "2026-11-17T05:09:37.664133+00:00",
  "purpose": "S55 把凍結的現行規則往 2015-07 以前延伸：盤點 2015-07 以前的本地資料與公開來源（本檔不含任何報酬數字）",
  "engine_panel_now": {
   "stlib.load / s2lib.load / s10lib.load / s17lib.load / s20lib.load / s47lib.load": "全部經 stlib.build_panel → cslib.Panel：讀 cslib.TMP/panel_cs.npz（快取；不存在時 cslib.build_panel 用 git cat-file 從 raw/jb7k6295r7-bot_tw-stock-data 的 data/universe/daily/YYYY-MM-DD.csv 建）",
@@ -107,6 +107,14 @@
     "of_which_revenue_until_within_3m_of_last_trade": 1,
     "twse_delisted_2013_to_2015H1_in_price_panel": 11,
     "of_which_revenue_until_within_3m_of_last_trade_2013_15": 0,
+    "n_delisted_with_revenue": 36,
+    "months_last_trade_minus_last_revenue_median": 13.0,
+    "months_gap_quartiles": [
+     13.0,
+     13.0,
+     22.0
+    ],
+    "reading": "下市股的營收大多在最後交易前約 12～14 個月就斷了（2009-11、2011-12 兩個斷點特別多，像是 MOPS 彙總頁在事後重製時刪掉已下市公司）→ 下市前最後一年 SURGE 缺值、不可能入選＝存活者偏誤（方向多半對策略有利：下市前一年多為營運惡化或被併購）；TDR（91xx）本來就沒有營收",
     "delisted_list": [
      {
       "code": "1311",

@@ -1,0 +1,157 @@
+{
+ "id": "s58_lunar_new_year_revenue",
+ "title": "S58 春節讓 1、2 月營收 YoY 失真：「1、2 月合併計算 YoY」的修正（C1／C2／C3）能不能取代現行？——訓練→凍結→驗證一次（S25 改良判定）",
+ "written_at": "2026-11-17T05:15:37",
+ "status_at_write": "只讀過 S17（s17lib、FINDINGS）、S50（SPEC／PREREG／程式）、S25 判定、S34（FINDINGS、PREREG、s34lib）；只跑過 describe.py（第 0 步描述，results_describe.json，無報酬）。本題沒有跑任何模擬。",
+ "s58lib_sha256_at_write": "ea7dd7b8f9f7baf15ec4fe43c2c46be2842c4b0aa052a08d83b72af33a9229b4",
+ "describe_sha256_at_write": "3cff46e9a1a6b3fe727b3f6c425c82f5af93ba61ceb8eb95c95b0e8c0a9df0b8",
+ "results_describe_sha256": "4d1557b0bcd9699410fd52ef7ad352f77ab418897ee938e479c785efdbda0901",
+ "surge_definition": "STD（s17lib.rev_family）：D(m)＝營收(m) − 營收(m−12)（千元；同代碼優先上市、營收 ≤ 0 缺值、2013 年 IFRS 斷點缺值）；SURGE＝(D(m) − μ24)／σ24，μ、σ 用 D(m−1…m−24) 全部有值、σ > 0；營收月份 ≥ 2016-01 才有值。營收月份 m 的訊號日＝cslib.rev_avail_days（次月 10 日（順延）後第一個交易日；DEADLINE_FIX 例外月份延後；INS15_MASK 名單公司期限前看不到）。所以「1 月營收」＝約 2/11 的換股、「2 月營收」＝約 3/11 的換股。",
+ "engine": {
+  "chain": "s20lib → s17lib → s10lib（全部 import，不改任何既有檔案）；setup 逐行照 agents/s50_exit_candidate_validation/s50lib.py。",
+  "flags": "cslib.EXRIGHT_FIX＝True（load 前）；SURGE（STD）在 DEADLINE_FIX／INS15_MASK 關閉下建，之後兩者＝True、cslib.rev_avail_days(P, months, True)；s17lib.e50_fix_suspension。三個正式開關全開。",
+  "universe": "stlib.universe(P, 'twse') & ~創新板",
+  "signal": "F1＋E0 不動：s10lib.make_signal_s10(P, U, RT′, shift, depth=10, mom_lo=0.10, nsel=10)，RT′＝(候選的 SURGE 矩陣, 同一組可得日)。進場（L_MA 前 10 名 × RET20 > 10%）與出場（跌出 L_MA 前 20 名）都用候選的 SURGE。",
+  "simulate": "s10lib.simulate_s10(P, S′, U, cost=COSTS['strict'], capital, sat_w=0.7, sizing='W10', lock=False)＝W10_70、嚴成本。",
+  "paths": "20 條：資金 {60, 80, 100, 150, 200} 萬 × 換股日位移 {0, 1, 2, 3}；主跑＝100 萬、位移 0。"
+ },
+ "candidates（事前固定，共 3 條＋現行；只改營收月份 1、2 月兩列，其他月份逐格＝現行）": {
+  "CUR": "現行 STD。",
+  "C1": "營收月份 1 月的 SURGE 列整列缺值 → make_signal_s10 跳過該列＝2 月換股日暫停（不買不賣，持股與 E0 名單沿用前一月，抱到 3 月換股日）。2 月營收照現行。",
+  "C2": "營收月份 1 月列 ← 前一年 12 月的 STD SURGE（12 月營收 1 月中已公告；1 月訊號日只有 1 月資料，故改用 12 月訊號；股池、60 日均線、RET20 照 2 月訊號日當天）；營收月份 2 月列 ← 合併 SURGE：D′＝D 序列每年 1、2 月都換成「(1＋2 月合計) − (去年 1＋2 月合計)」÷ 2（其中一個月缺值用另一個月，同 S34），z＝(D′(2 月) − μ24′)／σ24′，μ、σ 用 D′(m−1…m−24)（視窗內歷年 1、2 月也是合併值），s17lib.zscore（σ > 0）。資料限制（事前已知，第 0 步看到）：2015-12 的 STD SURGE 因 2013 IFRS 斷點無值 → 2016 年 1 月列整列缺值，等同 C1 的暫停。",
+  "C3": "只在「春節月份互換年」套 C2，其他年份＝現行。互換年＝該年春節（農曆正月初一）所在國曆月份 ≠ 前一年（日曆前一年即公告，無前視）。互換年：[2013, 2014, 2015, 2017, 2018, 2020, 2021, 2023, 2024, 2025, 2026]（訓練期 2017、2018、2020、2021；驗證期 2023、2024、2025、2026；2016、2019、2022 非互換）。",
+  "INS15 註": "C2／C3 的 1 月列沿用 12 月分數，但 make_signal_s10 仍以營收月份 1 月套 INS15 遮罩（保險類公司 2 月訊號日看不到 → 缺值）；保守，不改共用程式。"
+ },
+ "lny_table": {
+  "table": {
+   "2013": {
+    "lny_day1": "2013-02-10",
+    "chuxi": "2013-02-09",
+    "lny_month": 2,
+    "swap_vs_prev": true,
+    "last_trade": "2013-02-06",
+    "reopen": "2013-02-18"
+   },
+   "2014": {
+    "lny_day1": "2014-01-31",
+    "chuxi": "2014-01-30",
+    "lny_month": 1,
+    "swap_vs_prev": true,
+    "last_trade": "2014-01-27",
+    "reopen": "2014-02-05"
+   },
+   "2015": {
+    "lny_day1": "2015-02-19",
+    "chuxi": "2015-02-18",
+    "lny_month": 2,
+    "swap_vs_prev": true,
+    "last_trade": "2015-02-13",
+    "reopen": "2015-02-24"
+   },
+   "2016": {
+    "lny_day1": "2016-02-08",
+    "chuxi": "2016-02-07",
+    "lny_month": 2,
+    "swap_vs_prev": false,
+    "last_trade": "2016-02-03",
+    "reopen": "2016-02-15"
+   },
+   "2017": {
+    "lny_day1": "2017-01-28",
+    "chuxi": "2017-01-27",
+    "lny_month": 1,
+    "swap_vs_prev": true,
+    "last_trade": "2017-01-24",
+    "reopen": "2017-02-02"
+   },
+   "2018": {
+    "lny_day1": "2018-02-16",
+    "chuxi": "2018-02-15",
+    "lny_month": 2,
+    "swap_vs_prev": true,
+    "last_trade": "2018-02-12",
+    "reopen": "2018-02-21"
+   },
+   "2019": {
+    "lny_day1": "2019-02-05",
+    "chuxi": "2019-02-04",
+    "lny_month": 2,
+    "swap_vs_prev": false,
+    "last_trade": "2019-01-30",
+    "reopen": "2019-02-11"
+   },
+   "2020": {
+    "lny_day1": "2020-01-25",
+    "chuxi": "2020-01-24",
+    "lny_month": 1,
+    "swap_vs_prev": true,
+    "last_trade": "2020-01-20",
+    "reopen": "2020-01-30"
+   },
+   "2021": {
+    "lny_day1": "2021-02-12",
+    "chuxi": "2021-02-11",
+    "lny_month": 2,
+    "swap_vs_prev": true,
+    "last_trade": "2021-02-05",
+    "reopen": "2021-02-17"
+   },
+   "2022": {
+    "lny_day1": "2022-02-01",
+    "chuxi": "2022-01-31",
+    "lny_month": 2,
+    "swap_vs_prev": false,
+    "last_trade": "2022-01-26",
+    "reopen": "2022-02-07"
+   },
+   "2023": {
+    "lny_day1": "2023-01-22",
+    "chuxi": "2023-01-21",
+    "lny_month": 1,
+    "swap_vs_prev": true,
+    "last_trade": "2023-01-17",
+    "reopen": "2023-01-30"
+   },
+   "2024": {
+    "lny_day1": "2024-02-10",
+    "chuxi": "2024-02-09",
+    "lny_month": 2,
+    "swap_vs_prev": true,
+    "last_trade": "2024-02-05",
+    "reopen": "2024-02-15"
+   },
+   "2025": {
+    "lny_day1": "2025-01-29",
+    "chuxi": "2025-01-28",
+    "lny_month": 1,
+    "swap_vs_prev": true,
+    "last_trade": "2025-01-22",
+    "reopen": "2025-02-03"
+   },
+   "2026": {
+    "lny_day1": "2026-02-17",
+    "chuxi": "2026-02-16",
+    "lny_month": 2,
+    "swap_vs_prev": true,
+    "last_trade": "2026-02-11",
+    "reopen": "2026-02-23"
+   }
+  },
+  "source": "農曆正月初一的國曆日期：交通部中央氣象署天文站「農曆與國曆對照表」（公開曆書）、行政院人事行政總處各年「政府行政機關辦公日曆表」；除夕＝正月初一前一天。天文曆法決定，前一年即公告（無前視）。與 S34 同一張表；另以 TWSE 加權指數日資料（taiex_twii.csv）1～2 月最長無交易空檔核對。",
+  "closure_check": "每年加權指數 1～2 月最長休市空檔的多數平日所在月份與正月初一月份 14/14 相同。"
+ },
+ "windows": {
+  "train": "訊號日 2016-02～2021-12（營收月份 ≤ 2021-11）；訓練窗淨值 2016-01-29 → 2021-12-30，從全期連續模擬切出（同 S50）。受影響換股：2016～2021 每年 2 月（C1／C2／C3）與 3 月（C2／C3）。",
+  "valid": "訊號日 2022-01～2026-10（營收月份 ≥ 2021-12）；重新起跑：s20lib.fresh_from 只保留營收月份 ≥ 2021-12 的訊號，驗證窗 2021-12-30 → 2026-10-22；起始資金縮放使現行主跑 2021-12-30 淨值＝各路徑資金（同 S50）。受影響換股：2022～2026 每年 2、3 月（C3 不含 2022）。",
+  "posthoc": "事後描述（不影響判定）：「2、3 月換股期間」＝現行營收月份 1 月訊號列收盤 → 營收月份 3 月訊號列收盤（涵蓋 2 月、3 月兩次換股的持有期），各年候選 − 現行的期間報酬差（20 條中位數）；全期連續模擬三個候選的分段差。"
+ },
+ "acceptance": {
+  "A0": "本檔重建的 STD（s17lib.zscore 對 D，不遮 2016 前）在營收月份 ≥ 2016-01 與 rev_family 的 S 逐格相同（含缺值位置）。",
+  "A1": "影響範圍：C1／C2／C3 的訊號（info 名單、sig、X）在營收月份 1、2 月以外的列與現行逐格相同（位移 0～3）。",
+  "A2": "現行主跑 2019 起 48.76%（0.4875617247721724）、全期、全期回撤、已出場 381 筆與 deadline_engine_fix/out/results.json ALL 逐位相同；20 條 2019 起逐條相同。",
+  "A3": "重新起跑的現行主跑：2022-01-01 前沒有任何股票進場；乾跑（目標＝現行）配對差全為 0。",
+  "rule": "任一不符 → 停止、不報結果。"
+ },
+ "scripts": "s58lib.py（共用）、describe.py（第 0 步描述）、prereg_write.py（本檔）、train.py（驗收＋訓練＋凍結：寫 results_train.json、FROZEN.json／FROZEN.sha256；已存在就拒絕）、validate.py（凍結後只跑一次：寫 results.json；已存在就拒絕；含事後描述）。",
+ "resources": "單行程；峰值記憶體 ≤ 3GB；python3 -I -B；暫存 /tmp/claude-0/-home-user/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/s58/（結束刪除）；不存淨值。"
+}

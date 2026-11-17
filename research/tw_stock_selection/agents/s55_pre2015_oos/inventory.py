@@ -45,6 +45,8 @@ for c, d in dl.items():
 dl_df = pd.DataFrame(dl_info)
 dl_pre13 = dl_df[pd.to_datetime(dl_df['last_trade']) < pd.Timestamp('2013-01-01')]
 dl_post13 = dl_df[pd.to_datetime(dl_df['last_trade']) >= pd.Timestamp('2013-01-01')]
+gaps = [(pd.Timestamp(x.last_trade).to_period('M') - pd.Period(x.last_rev_month, 'M')).n for x in dl_df.itertuples()
+        if x.last_rev_month and pd.Period(x.last_rev_month, 'M') <= pd.Timestamp(x.last_trade).to_period('M')]
 rev_ok = lambda d: int(sum(1 for x in d.itertuples() if x.last_rev_month and pd.Period(x.last_rev_month) >= pd.Timestamp(x.last_trade).to_period('M') - 3))
 
 e50 = pd.read_csv('/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv', parse_dates=['date'])
@@ -55,7 +57,7 @@ t49_first = pd.read_csv(t49[0])['date'].min()
 fl = json.loads((ROOT / 'raw/pre2015/fetch_log.json').read_text())
 
 inv = {
-    'written_at': pd.Timestamp.utcnow().isoformat(),
+    'written_at': pd.Timestamp.now('UTC').isoformat(),
     'purpose': 'S55 把凍結的現行規則往 2015-07 以前延伸：盤點 2015-07 以前的本地資料與公開來源（本檔不含任何報酬數字）',
     'engine_panel_now': {
         'stlib.load / s2lib.load / s10lib.load / s17lib.load / s20lib.load / s47lib.load': '全部經 stlib.build_panel → cslib.Panel：讀 cslib.TMP/panel_cs.npz（快取；不存在時 cslib.build_panel 用 git cat-file 從 raw/jb7k6295r7-bot_tw-stock-data 的 data/universe/daily/YYYY-MM-DD.csv 建）',
@@ -80,6 +82,9 @@ inv = {
             'twse_codes_last_revenue_before_2012_12': int(len(stop_before_2013)), 'twse_codes_last_revenue_2012_12': int(len(stop_2012_12)),
             'survivorship': {'twse_delisted_2008_to_2012_in_price_panel': int(len(dl_pre13)), 'of_which_revenue_until_within_3m_of_last_trade': rev_ok(dl_pre13),
                              'twse_delisted_2013_to_2015H1_in_price_panel': int(len(dl_post13)), 'of_which_revenue_until_within_3m_of_last_trade_2013_15': rev_ok(dl_post13),
+                             'n_delisted_with_revenue': len(gaps), 'months_last_trade_minus_last_revenue_median': float(np.median(gaps)),
+                             'months_gap_quartiles': [float(np.percentile(gaps, q)) for q in (25, 50, 75)],
+                             'reading': '下市股的營收大多在最後交易前約 12～14 個月就斷了（2009-11、2011-12 兩個斷點特別多，像是 MOPS 彙總頁在事後重製時刪掉已下市公司）→ 下市前最後一年 SURGE 缺值、不可能入選＝存活者偏誤（方向多半對策略有利：下市前一年多為營運惡化或被併購）；TDR（91xx）本來就沒有營收',
                              'delisted_list': dl_info}},
         'daily_k': {
             'engine_official_cache': '2015-01-05 起（上市＋上櫃）',
