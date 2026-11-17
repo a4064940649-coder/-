@@ -33,7 +33,15 @@ holdings.csv：欄位「代號,股數」（也接受 code,shares）；0050 也�
 - 開啟時規則同 cslib.exright_fix_chg（＝exr_common.corrected_chg(mode='main')）：上市除權息日用證交所 TWT49U 參考價
   （封存 raw/twt49u/，--twt49u-dir 可改；現增除權收盤落在參考價 ±10.1% 外改用前收）；上市前一日無成交且漲跌 ≤ 10.5% 用前一成交收盤。
 - meta.exright.unverified：前 20 名、F1、持股在近 60 個交易日裡「漲跌價差＝0、收盤有變、又不在 TWT49U」的格子（含 TWT49U 封存還沒涵蓋的日子），請人工確認。
-- compute() 的 exright 參數預設 False（validate.py 等舊呼叫逐位不變）；CLI 預設開啟。"""
+- compute() 的 exright 參數預設 False（validate.py 等舊呼叫逐位不變）；CLI 預設開啟。
+
+營收申報期限例外（2026-11-17 加；list 預設開啟，--no-deadline-fix 關閉；輸出 meta.deadline 標明）
+- 開啟時換股日用共用引擎的例外表（cslib.deadline_exceptions()＝raw/rev_deadline_exceptions/deadline_exceptions.csv 中 apply＝1 的月份，
+  目前 2019-01 延至 2019-02-15、2023-03 延至 2023-04-12）：該營收月份的 10 日改成延後後的期限，訊號日＝期限（含）以後第一個交易日的下一個交易日
+  （＝cslib.rev_avail_days 開 DEADLINE_FIX，正式回測 2026-11-17 起同口徑）。不在例外表的月份與關閉時完全相同。
+- 實盤本來就看不到未公布的營收；這個開關主要是讓歷史重算與正式回測一致（例外表每年依金管會公告更新，見該資料夾 README）。
+- 15 日期限的保險／金控股（S41）：換股日當月營收尚未公布＝沒有 SURGE，依規則賣出（見持股說明），與正式回測的 INS15_MASK 一致，不需另外開關。
+- compute() 的 deadline 參數預設 False（validate.py 等舊呼叫逐位不變）；CLI 預設開啟。"""
 import argparse, csv, io, json, math, os, re, subprocess, sys
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -50,6 +58,15 @@ INNOV_PAT = re.compile(r'-(KY)?創$')
 CODE_PAT = re.compile(r'^[1-9]\d{3}$')
 COLS_USE = ['date', 'stock_id', 'name', 'market', 'open', 'high', 'low', 'close', 'volume', 'amount', 'change']
 TWT49U_DEFAULT = '/home/user/-/research/tw_stock_selection/raw/twt49u/twse-exright'
+CSLIB_DIR = '/home/user/-/research/tw_stock_selection/agents/o_ext_canslim_xs'   # 期限例外表讀 cslib.deadline_exceptions()
+
+
+def deadline_exceptions():
+    """{營收月份 Period: 延後後的期限日}（cslib.deadline_exceptions()，apply＝1 的列）。"""
+    if CSLIB_DIR not in sys.path:
+        sys.path.insert(0, CSLIB_DIR)
+    import cslib
+    return cslib.deadline_exceptions()
 
 
 def tick(p):
@@ -280,10 +297,13 @@ def exright_fix_chg(IDX, COLS, C, CHG, MK, ev):
 
 
 # ---------------------------------------------------------------- 訊號日
-def signal_day(D, month):
-    """訊號月份 → (訊號日索引, 次一交易日索引或 None, 說明)。資料不夠新時索引為 None。"""
+def signal_day(D, month, deadline=False):
+    """訊號月份 → (訊號日索引, 次一交易日索引或 None, 說明)。資料不夠新時索引為 None。
+    deadline：True＝營收月份在期限例外表時，10 日改用延後後的期限（同 cslib.rev_avail_days 開 DEADLINE_FIX）。"""
     m = pd.Period(month, freq='M')
     d10 = m.to_timestamp() + pd.Timedelta(days=9)
+    if deadline:
+        d10 = max(d10, deadline_exceptions().get(m - 1, d10))
     k = int(np.searchsorted(D.IDX.values, np.datetime64(d10), side='left'))
     if k >= len(D.dates):
         return None, None, f'日 K 最新到 {D.dates[-1]}，還沒有 {d10.date()}（含）之後的交易日'
@@ -293,10 +313,12 @@ def signal_day(D, month):
     return k + 1, ex, ''
 
 
-def est_signal_day(month):
+def est_signal_day(month, deadline=False):
     """沒有日 K 時的預估（只扣週末，不扣國定假日）。"""
     m = pd.Period(month, freq='M')
     d = m.to_timestamp() + pd.Timedelta(days=9)
+    if deadline:
+        d = max(d, deadline_exceptions().get(m - 1, d))
     while d.weekday() >= 5:
         d += pd.Timedelta(days=1)
     d += pd.Timedelta(days=1)
@@ -306,12 +328,19 @@ def est_signal_day(month):
 
 
 # ---------------------------------------------------------------- 計算
-def compute(D, month, window=WINDOW, allow_partial=False, exright=False, twt49u_dir=TWT49U_DEFAULT, extra_codes=()):
+def compute(D, month, window=WINDOW, allow_partial=False, exright=False, twt49u_dir=TWT49U_DEFAULT, extra_codes=(), deadline=False):
     """回傳當月的 L_MA 排名、F1、全部股票在訊號日的欄位（dict）。
-    exright：True＝除權息參考價修正（見檔頭）；False＝舊口徑（逐位同 2026-11-16 之前）。extra_codes：另外要做可疑格子檢查的代號（持股）。"""
-    ks, kx, why = signal_day(D, month)
+    exright：True＝除權息參考價修正（見檔頭）；False＝舊口徑（逐位同 2026-11-16 之前）。extra_codes：另外要做可疑格子檢查的代號（持股）。
+    deadline：True＝換股日套用營收期限例外表（見檔頭）；False＝舊口徑（逐位同 2026-11-17 之前）。"""
+    ks, kx, why = signal_day(D, month, deadline)
     m_sig = pd.Period(month, freq='M'); m_rev = m_sig - 1
-    out = dict(signal_month=str(m_sig), rev_month=str(m_rev), data_last_day=D.dates[-1], est_signal_day=est_signal_day(month))
+    out = dict(signal_month=str(m_sig), rev_month=str(m_rev), data_last_day=D.dates[-1], est_signal_day=est_signal_day(month, deadline))
+    if deadline:
+        ext = deadline_exceptions().get(m_rev)
+        out['deadline'] = dict(on=True, rule='cslib.deadline_exceptions()（raw/rev_deadline_exceptions/deadline_exceptions.csv，apply＝1）',
+                               exception=None if ext is None else str(ext.date()),
+                               note=(f'{m_rev} 營收期限延至 {ext.date()}，訊號日＝期限（含）以後第一個交易日的下一個交易日' if ext is not None
+                                     else f'{m_rev} 不在例外表，換股日照一般規則'))
     if ks is None:
         out.update(status='資料不足', reason=why); return out
     S = D.surge_table()
@@ -737,6 +766,9 @@ def md_report(res, pl, meta):
             L.append(f"- 請人工確認（近 60 日漲跌價差＝0、收盤有變、不在 TWT49U）：" + '、'.join(f"{u['code']} {u['date']}（{u['fixed']}）" for u in x['unverified']))
     elif x:
         L.append('- 除權息參考價修正：關閉（舊口徑）')
+    dl = meta.get('deadline') or {}
+    if dl:
+        L.append(f"- 營收期限例外表：{'開啟' if dl.get('on') else '關閉'}（{dl.get('note', '')}）")
     L.append('- 這是紙上追蹤，不下真錢單。'); L.append('')
     L.append('## L_MA 前 20 名'); L.append('')
     L.append('| 名次 | 代號 | 名稱 | SURGE | RET20 | 季線上 | 距季線 | 60 日均成交值（萬） | 收盤 | F1 |')
@@ -804,6 +836,9 @@ def main(argv=None):
                    help='除權息參考價修正（預設開啟；TWT49U 封存，見檔頭）')
     a.add_argument('--no-exright-fix', dest='exright_fix', action='store_false', help='關閉修正（舊口徑，和 2026-11-16 之前的名單逐位相同）')
     a.add_argument('--twt49u-dir', default=TWT49U_DEFAULT, help='TWT49U 封存資料夾（YYYY/YYYY-MM.csv.gz）')
+    a.add_argument('--deadline-fix', dest='deadline_fix', action='store_true', default=True,
+                   help='換股日套用營收期限例外表（預設開啟；cslib.deadline_exceptions()，見檔頭）')
+    a.add_argument('--no-deadline-fix', dest='deadline_fix', action='store_false', help='關閉（換股日一律 10 日規則，和 2026-11-17 之前逐位相同）')
     f = sub.add_parser('fill')
     f.add_argument('--paper-log', required=True)
     f.add_argument('--repo', action='append', default=None)
@@ -828,9 +863,10 @@ def main(argv=None):
     D = Data(repos, rev_csv=args.rev_csv, rev_cutoff=args.rev_cutoff)
     hold0 = read_holdings(args.holdings) if args.holdings else None
     res = compute(D, args.month, allow_partial=args.allow_partial_rev, exright=args.exright_fix, twt49u_dir=args.twt49u_dir,
-                  extra_codes=[c for c in (hold0 or {}) if c != '0050'])
+                  extra_codes=[c for c in (hold0 or {}) if c != '0050'], deadline=args.deadline_fix)
     meta = dict(data_last_day=D.dates[-1], repos=[f'{r.path}@{r.head}' for r in D.repos], overlap_blob_diff=D.overlap_diff, rev=D.rev_info,
-                exright=res.pop('exright', None))
+                exright=res.pop('exright', None),
+                deadline=res.pop('deadline', None) or dict(on=False, note='舊口徑：換股日一律用 10 日規則，不看期限例外表'))
     sup = D.rev_info.get('supplement', {})
     meta['rev_note'] = f"tw_revenue.csv 到 {D.rev_info.get('rev_csv_last_month')}" + (('；補充：' + '、'.join(f'{k}（公開資訊觀測站彙總表，{v["n_rows"]} 筆）' for k, v in sup.items())) if sup else '')
     if res['status'] != '有訊號':

@@ -8,9 +8,9 @@
   - 出處：`research/tw_stock_selection/agents/audit_live_2026-11/AUDIT_REPORT.md` 問題 3、audit.json 的 `cash_left_implied_by_state`。
 - 下次（2026-12）產生名單：
   `python3 -I -B research/tw_stock_selection/agents/s18_live_list/live_surge/make_list.py list --month 2026-12 --holdings xq_scripts/site/state/holdings_after_2026-11.csv --cash 12126 --base-shares 1995 --repo research/tw_stock_selection/raw/jb7k6295r7-bot_tw-stock-data --repo <暫存>/tsd --out-prefix research/tw_stock_selection/agents/s18_live_list/lists/2026-12_strategy`
-  （2026-11-16 起 make_list.py 預設開啟除權息參考價修正，輸出 meta.exright 會標明；TWT49U 封存 `research/tw_stock_selection/raw/twt49u/` 要每月補，見該資料夾 README。）
+  （2026-11-16 起 make_list.py 預設開啟除權息參考價修正，輸出 meta.exright 會標明；TWT49U 封存 `research/tw_stock_selection/raw/twt49u/` 要每月補，見該資料夾 README。2026-11-17 起另預設開啟 `--deadline-fix`：換股日套用營收期限例外表 `research/tw_stock_selection/raw/rev_deadline_exceptions/`（每年依金管會公告更新），輸出 meta.deadline 標明。）
   然後**照成交日開盤的實際價格**算換股後持股（照輸出的賣出／續抱／買進與股數），存成 `holdings_after_2026-12.csv`，剩下的現金存成 `cash_after_2026-12.txt`（沒有現金也寫 0）。
-- 回測淨值與逐年（profit.json）：`python3 -I -B xq_scripts/site/make_profit.py`（2026-11-16 起預設讀 `xq_scripts/site/navs_exright.csv.gz`＝除權息修正後、XQ版用統一後換股日，由 `research/tw_stock_selection/agents/exright_engine_fix/run_engine.py 1` 產生；修正前是 s19 navs.csv.gz，可當第一個參數給；0050 用精確含息還原價，不用 navs 的整數欄；週標籤＝當週最後一個交易日）。
+- 回測淨值與逐年（profit.json）：`python3 -I -B xq_scripts/site/make_profit.py`（2026-11-17 起預設讀 `xq_scripts/site/navs_official.csv.gz`＝正式數字（除權息＋期限修正），由 `research/tw_stock_selection/agents/official_nav/run_official.py` 產生；只修除權息的 `navs_exright.csv.gz`（exright_engine_fix/run_engine.py 1）與修正前的 s19 navs.csv.gz 保留，可當第一個參數給；XQ版用統一後換股日；0050 用精確含息還原價，不用 navs 的整數欄；週標籤＝當週最後一個交易日）。
 - 網站資料：`python3 -I -B xq_scripts/site/build_site_data.py <月份 csv> <策略持股 csv> <月份 json> xq_scripts/site/profit.json <今天> <下次訊號日> <下次執行日> xq_scripts/site/data [<官方日K倉庫> <換股後持股 csv> <上線起始日>]`（後三個參數讓 holdings 加股數、起始價與 0050 一列，並產生 live.json；持股表「本月以來%」＝最新收盤 ÷ 起始價 − 1，換股清單 actions 的欄位叫「訊號日以來%」＝對訊號日收盤）
 - 網站：https://claude.ai/artifact/BB8g52evYQx8gSKGXyECnk（資料集 status、actions、holdings、top20、nav、yearly、live、risk；上傳新檔後更新 datasets/<id> 的 source.url 與 updated）
 
