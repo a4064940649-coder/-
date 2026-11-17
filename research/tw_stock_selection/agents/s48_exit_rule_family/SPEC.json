@@ -1,0 +1,48 @@
+{
+ "id": "s48_exit_rule_family",
+ "title": "S48 出場規則 E0（跌出 L_MA 前 20 名、或換股日收盤 ≤ 60 日均線就賣）的兩個數字有沒有被挑過——家族檢查（同 S45／S46）",
+ "written": "2026-11-17T04:34，寫於本題任何非現行格報酬計算之前（只讀過程式碼與既有 FINDINGS；現行格的數字已知＝deadline_engine_fix ALL）",
+ "engine": {
+  "chain": "s20lib → s17lib → s10lib（全部 import，不改任何既有檔案）；做法逐行照 agents/s46_momentum_gate_family/run.py（其現行格已逐位重現 deadline_engine_fix ALL）。",
+  "flags": "cslib.EXRIGHT_FIX＝True（load 前）；SURGE（s17lib.rev_family STD）在 DEADLINE_FIX／INS15_MASK 關閉下建，之後 cslib.DEADLINE_FIX＝True、cslib.INS15_MASK＝True，用 cslib.rev_avail_days(P, months, True) 算可得日；s17lib.e50_fix_suspension。三個正式開關全開。",
+  "universe": "stlib.universe(P, 'twse') & ~創新板（s4lib.innov_panel）。",
+  "entry": "F1 不動：s10lib.make_signal_s10(P, U, RT, shift, depth=10, mom_lo=0.10, nsel=10)（L_MA＝股池內、SURGE 有值、還原收盤 > 60 日均線，依 SURGE 排；前 10 名中 RET20 > 10%，不遞補）。進場的 60 日均線（P.F_MA60）不動。",
+  "exit_code_location": "現行 E0 在 s10lib.make_signal_s10：每個訊號列 k，o_ma＝L_MA 依 SURGE 排序；XV['E0'][k,:]＝True、XV['E0'][k, o_ma[:20]]＝False（『20』寫死在 for key, n in (('E0', 20), …)）；60 日均線是 P.F_MA60＝P.G > P.MA60（s2lib.load，P.MA60＝stlib.rmean(P.G, 60)），與進場 L_MA 用的是同一個矩陣、同一個 o_ma 名單 → 在共用程式裡進場與出場的 60MA 是同一個參數，沒有獨立開關。s17lib 只負責 SURGE 與 0050 修正，不設定出場。",
+  "decoupling": "可以分開（不改共用程式）：照 S10 已驗證的拆法（S10 驗收 A2：『SURGE ≥ 當月 L_MA 第 20 名分數 且 還原收盤 > 60 日均線』與『L_MA 前 20 名』不同格數 0），本題在 run.py 自己重建每個訊號列的出場矩陣 X，再交給 s10lib.simulate_s10（S['X'] 換掉，進場 sig／rank 不動）。所以本題只改出場那個 60MA，進場 L_MA 的 60MA 不動，不需要聯動版。",
+  "exit_rule_cell": "出場格 (N, M)：每個訊號列 k（只在換股訊號日檢查，同 E0；月中不檢查）——fin＝股池內且當月 SURGE 有值（INS15 遮掉＝缺值，同 E0）；thr_N＝當月 L_MA（進場名單，60MA 篩過）第 N 名的 SURGE 分數，L_MA 不足 N 檔時 −∞；續抱＝fin 且 SURGE ≥ thr_N（N＝不用排名時省略此條件）且 還原收盤 > M 日簡單均線（M＝不用均線時省略此條件）；不續抱 → 標記待賣，次一交易日開盤賣（同 E0 引擎）。(20, 60) 必須與 XV['E0'] 逐格相同（驗收 A1，四個位移）。(N, 不用均線) ＝ S10 的 MANO 寫法（名次門檻仍取自 L_MA 名單），(N, 20) ＝ S10 的 MA20 寫法。",
+  "ma_def": "M 日均線＝stlib.rmean(P.G, M)（min_periods＝M，P.G＝還原收盤，EXRIGHT_FIX 版）；F_MA_M＝P.G > MA_M（NaN 比較為 False）。(60) 必須與 P.F_MA60 逐格相同（驗收 A0）。",
+  "simulate": "s10lib.simulate_s10(P, S', U, cost=COSTS['strict'], capital=資金, sat_w=0.7, sizing='W10', lock=False)＝W10_70，嚴成本，min_frac 0.5；不開 trail／requal。",
+  "paths": "20 條：資金 {60, 80, 100, 150, 200} 萬 × 換股日位移 {0, 1, 2, 3}。主跑＝100 萬、位移 0。",
+  "current_cell": "(N＝20, M＝60)；驗收：主跑 2019 起 48.76%（0.4875617247721724）、已出場 381 筆、全期與全期回撤，20 條逐條與 deadline_engine_fix/out/results.json ALL 逐位相同（中位數 46.40%）。不符就停止、不報結果。"
+ },
+ "family": {
+  "exit_rank_N": [
+   15,
+   20,
+   25,
+   30,
+   "不用排名"
+  ],
+  "exit_ma_M": [
+   20,
+   40,
+   60,
+   120,
+   "不用均線"
+  ],
+  "excluded": "(不用排名, 不用均線)——沒有出場規則（只剩離開股池／營收缺值），不列入。",
+  "n_cells": 24,
+  "fixed": "F1 進場、W10_70、嚴成本、20 條路徑、只在換股訊號日檢查出場，全部不動。"
+ },
+ "metrics_per_cell": [
+  "2019 起年化（2018 最後交易日 → 2026-10-22）：主跑、20 條中位數、最小、最大、第 10 百分位",
+  "最大回撤：全期（2015-07 起）與 2019 起，主跑與 20 條中位數",
+  "全期年化（主跑）",
+  "交易數：主跑已出場筆數（why ≠ open_end）、買進筆數；20 條已出場筆數中位數",
+  "平均持有天數：已出場交易 exit_t − ent_t（交易日）平均與中位數，主跑與 20 條中位數",
+  "平均持股檔數（avg_npos）",
+  "分段年化：2019-01～2023-12、2024-01 起（逐條配對）；2016-03～2018-12（2016-02 最後交易日 → 2018 最後交易日，事後描述，不影響判定）"
+ ],
+ "outputs": "results.json（全部格子與路徑，不存淨值）、run.py、SPEC.json／PREREG.json 與 sha256、FINDINGS.md（若可寫）。暫存 /tmp/claude-0/-home-user/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/s48/（結束刪除）。",
+ "resources": "單行程；峰值記憶體 ≤ 3GB；python3 -I -B；輸出 ≤ 50MB。"
+}

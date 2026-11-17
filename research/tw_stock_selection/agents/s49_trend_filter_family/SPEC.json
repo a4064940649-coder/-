@@ -1,0 +1,43 @@
+{
+ "id": "s49_trend_filter_family",
+ "title": "S49 進場排名 L_MA 的「站上 60 日均線」條件與 SURGE 24 個月 μ／σ 視窗有沒有被挑過——家族檢查（同 S45／S46）",
+ "written": "2026-11-17，寫於本題任何報酬計算之前（只讀過程式碼與既有 FINDINGS）",
+ "where_ma60_lives（讀程式確認）": {
+  "definition": "s2_surge_strict_details/s2lib.py load()：P.MA60 = stlib.rmean(P.G, 60)（還原收盤 60 日簡單均線，min_periods＝60）；P.F_MA60 = P.G > P.MA60。",
+  "entry_use": "s10_exit_details/s10lib.py make_signal_s10()：ok_ma = fin & P.F_MA60[k]；o_ma＝ok_ma 依 SURGE 由大到小（＝L_MA）；買進名單＝o_ma 前 depth 名中 RET20 > mom_lo，最多 nsel 檔。",
+  "exit_use": "同一函式：E0 的 X＝訊號列上不在 o_ma 前 20 名（同一個 o_ma，所以「跌破季線」與「掉出前 20 名」是同一條規則）。",
+  "same_parameter": "是：現行程式裡進場與 E0 出場共用同一個 P.F_MA60／o_ma，沒有分開的參數。",
+  "separable": "可以分開：本題自己的訊號函式（make_signal_s10 E0 部分的逐行複製）同時算兩個排名：o_ex＝F_MA60 的 L_MA（只用來產生 E0 的 X，與現行完全相同）、o_en＝F_MA_n（或不設均線）的排名（只用來產生買進名單）。所以照題目做「只改進場、出場 E0 保持 60MA」，不必改做聯動版。改出場（聯動）的是同時在跑的 S48，本題不做。",
+  "consequence": "進場均線 ≠ 60 時，買進的股票若在下個換股日仍在 60 日均線之下（或不在 L_MA60 前 20 名），會照 E0 賣出；這是「只改進場」的必然結果，照實報告（另報買進當下在 60 日均線之下的比例）。"
+ },
+ "surge_window_dimension": {
+  "decision": "不重做。S17（s17_surge_definition_family）已在定義家族裡做過 μ／σ 視窗 12／24／36 個月（W12、STD、W36），條件同 F1＋E0＋W10_70＋嚴成本＋20 條路徑，只差當時引擎沒有 EXRIGHT_FIX／DEADLINE_FIX／INS15_MASK。照題目指示只做均線維 6 格，視窗維引用 S17 的結果並說明（W10_70：W12 35.50%、STD 46.23%、W36 44.34%；三格子家族中位數 44.34%，STD − 中位數 +1.89 個百分點 < 3；S26 除權息修正後 STD−7 定義家族中位數 2.00）。"
+ },
+ "engine": {
+  "chain": "s20lib → s17lib → s10lib（全部 import，不改任何既有檔案）",
+  "flags": "cslib.EXRIGHT_FIX = True、cslib.DEADLINE_FIX = True、cslib.INS15_MASK = True（正式設定）。做法逐行照 S46 run.py／deadline_engine_fix ALL：SURGE（s17lib.rev_family STD）在開關關閉下建，再開 DEADLINE_FIX 用 cslib.rev_avail_days(P, months, True) 算可得日；INS15_MASK 在訊號函式裡用 cslib.ins15_mask_row 讀；s17lib.e50_fix_suspension。",
+  "universe": "stlib.universe(P, 'twse') & ~創新板（s4lib.innov_panel）。",
+  "moving_averages": "MA_n = stlib.rmean(P.G, n)（同 s2lib 的 MA60 寫法，min_periods＝n），F_MA_n = P.G > MA_n；n ∈ {20, 40, 60, 120, 240}；NONE＝不設均線條件（全部 True）。驗收：自算的 F_MA60 必須與 P.F_MA60 逐格相同。",
+  "signal": "本題 signal_s49(P, U, RT, shift, ent)：make_signal_s10 的 E0 部分逐行複製；唯一差別是買進池 pool＝o_en[:10]（o_en＝fin & F_MA_ent 依 SURGE 排序），E0 的 X 仍由 o_ex＝fin & P.F_MA60 前 20 名產生。其他（k0 < 61 跳過、股池內有值 < 50 檔跳過、INS15 遮罩、RET20 > 10%、nsel 10、同分依欄位順序 stable 排序、rank＝SURGE）全部不動。驗收：ent＝60 時 sig／rank／X／info 必須與 s10lib.make_signal_s10 逐格相同。",
+  "exit": "E0（X＝訊號列不在 L_MA60 前 20 名）。不動。",
+  "simulate": "s10lib.simulate_s10(P, S, U, cost=COSTS['strict'], capital=資金, sat_w=0.7, sizing='W10', lock=False)＝W10_70，嚴成本。",
+  "paths": "20 條：資金 {60, 80, 100, 150, 200} 萬 × 換股日位移 {0, 1, 2, 3}。主跑＝100 萬、位移 0。",
+  "current_cell": "進場均線 60（＝現行 F1）；驗收應重現 2019 起 48.76%、已出場 381 筆、20 條逐位等於 deadline_engine_fix ALL（中位數 46.40%）。"
+ },
+ "family": {
+  "entry_ma": [20, 40, 60, 120, 240, "NONE"],
+  "n_cells": 6,
+  "fixed": "F1（L 前 10 名、RET20 > 10%、不遞補）、E0、W10_70、嚴成本、20 條路徑、SURGE＝STD（24 個月 μ／σ）。"
+ },
+ "metrics_per_cell": [
+  "2019 起年化：主跑、20 條中位數／最小／最大／第 10 百分位",
+  "最大回撤：全期、2019 起（主跑、20 條中位數）",
+  "全期年化（主跑）",
+  "交易數：主跑已出場筆數、買進筆數；20 條已出場筆數中位數",
+  "平均持股：主跑 avg_npos、20 條中位數",
+  "分段：2019-01～2023-12、2024-01 起（逐條配對）；事後描述段 2016-03～2018-12（2016-02 最後交易日 → 2018 最後交易日）與逐年",
+  "每月名單平均檔數、名單 0 檔月數、L_MA_ent 平均檔數；買進名單中當下還原收盤 ≤ 60 日均線的比例（位移 0）；最早有名單的訊號月份"
+ ],
+ "outputs": "results.json、run.py、SPEC.json／PREREG.json 與 sha256（PREREG.sha256 同時記兩檔）、code.sha256；FINDINGS.md 若無法寫入則全文放最後回覆。暫存：/tmp/claude-0/-home-user/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/s49/（結束刪除）。不存淨值大檔。",
+ "resources": "單行程；峰值記憶體 ≤ 3GB；python3 -I -B；輸出 ≤ 50MB。"
+}
