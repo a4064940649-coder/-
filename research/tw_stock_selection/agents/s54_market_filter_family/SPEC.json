@@ -1,0 +1,59 @@
+{
+ "id": "s54_market_filter_family",
+ "title": "S54 大盤濾網家族：0050 趨勢轉弱時暫停衛星新買進（已持有照 E0 出場），回撤能否變淺而報酬不掉太多",
+ "written": "2026-11-17T04:54，寫於本題任何非現行格報酬計算之前（只讀過程式碼與既有 FINDINGS；現行格數字已知＝deadline_engine_fix ALL）",
+ "literature": "Faber (2007) A Quantitative Approach to Tactical Asset Allocation, Journal of Wealth Management（10 個月均線趨勢濾網）；Daniel & Moskowitz (2016) Momentum crashes, JFE（空頭後動能崩跌）；課程講義（類股輪動、Beta）。",
+ "prior_work_checked": {
+  "S29": "BACKLOG 的 S29 是課程 QMV（品質／動能／估值排序），FINDINGS 內沒有大盤濾網或法人 regime；與本題不重疊。",
+  "S22": "法人籌碼確認：資料不足（三大法人逐股只到 2021-10 起），沒做。",
+  "S23（真正做過的 regime 題）": "現行衛星、只在換股日判斷：BRD_STOP_Q20／Q33（SURGE 廣度）、LMA_STOP_Q20／Q33、MA_HALF（0050 < 200 日線新買減半）、MA_STOP（0050 含息收盤 < 200 日均線 → 不新買、錢進 0050）、MA_EXIT（同上並清出衛星）。舊引擎（三個正式開關關閉，48.13%）。FINDINGS 明寫『放現金版沒做』。",
+  "其他": "timing_switch（加權指數 < 200 日線 → 整個策略換現金／0050，舊主策略、全切換）、breadth_derisk（新高家數減碼到現金，舊 n10）、o_concentration_regime（0050 與主策略輪動）、S30／S38（固定降曝險，不是濾網）、S47（空位常態留現金 −8.15、回撤淺 8.6，沒有濾網）。",
+  "dedup_decision": "8 格中『0050 > 200 日均線 × 暫停新買進（空位買 0050）』就是 S23 MA_STOP（同定義：0050 含息還原收盤 vs 含當日 200 日簡單均線、只在換股訊號日判斷、沒買的錢由引擎掃進 0050）→ 依指示不重做，只引用 S23 數字（舊引擎，與本題不能逐位比較），不計入本題新增 N。本題實際新跑 7 格：60／120 日均線、60 日報酬 × 空位買 0050（3 格），以及 4 個指標 × 空位留現金（4 格，S23 沒做過現金版）。"
+ },
+ "engine": {
+  "chain": "s20lib → s17lib → s10lib（全部 import，不改任何既有檔案）；載入與訊號逐行照 agents/s48_exit_rule_family/run.py（其現行格已逐位重現 deadline_engine_fix ALL）。",
+  "flags": "cslib.EXRIGHT_FIX＝True（load 前）；SURGE（STD）在 DEADLINE_FIX／INS15_MASK 關閉下建，之後兩者設 True，用 cslib.rev_avail_days(P, months, True)；s17lib.e50_fix_suspension。三個正式開關全開。",
+  "universe_entry_exit": "股池 twse & ~創新板；F1＝make_signal_s10(depth=10, mom_lo=0.10, nsel=10)；出場 E0（XV['E0']）完全不動；simulate W10_70（sat_w=0.7, sizing='W10', lock=False）、嚴成本。",
+  "filter_signal": "每條路徑的每個訊號列 k（訊號日收盤，次一交易日開盤執行），只用 ≤ k 的資料：E＝P.E50（0050 含息還原收盤，已做 e50_fix_suspension；用還原價是因為 2025-06 0050 1 拆 4，原始收盤不連續）。MA_n＝E[k−n+1..k] 簡單平均（需滿 n 筆，不足視為『不弱』）；弱＝E[k] ≤ MA_n（即『收盤 > 均線』不成立）。R60＝E[k] ÷ E[k−60] − 1；弱＝R60 ≤ 0。",
+  "action_stop_0050": "弱的訊號列：當月買進名單 sig[k,:]＝False、rank[k,:]＝NaN（照 S23 apply_regime 'stop'），既有持股照 E0；沒買的錢與賣出的錢照原引擎掃進 0050。直接用 s10lib.simulate_s10。",
+  "action_stop_cash": "同上不新買；另外從該訊號列的執行日（k+1）起到下一個訊號列執行日的前一天，衛星空位留現金（利率 0）：0050 部位只維持在底倉簿記 B（差 ≥ 2 萬才補買或賣回，照 S47 idle='cash' 已驗證的寫法），衛星賣股的錢留現金；下一個『不弱』訊號列的執行日起恢復原行為（現金 ≥ 2 萬整筆掃進 0050）。底倉 30%（B）不動。實作：inspect 取 s10lib.simulate_s10 原始碼，只做 3 處字串替換後 exec（原檔不動），新參數 cashmode（長度 T 的布林陣列）；全 False 時必須與 simulate_s10 逐位相同（驗收 A3）。",
+  "paths": "20 條：資金 {60, 80, 100, 150, 200} 萬 × 換股日位移 {0,1,2,3}；主跑＝100 萬、位移 0。",
+  "current_cell": "不設濾網＝現行；驗收 A2：主跑 2019 起 48.76%（0.4875617247721724）、已出場 381 筆、全期、全期回撤與 deadline_engine_fix/out/results.json ALL 逐位相同，20 條逐條相同（中位數 46.40%）。不符就停止、不報結果。"
+ },
+ "family": {
+  "indicators": [
+   "MA60：0050 > 60 日均線",
+   "MA120：> 120 日均線",
+   "MA200：> 200 日均線",
+   "R60：0050 過去 60 日報酬 > 0"
+  ],
+  "actions": [
+   "E50：暫停新買進（空位買 0050）",
+   "CASH：暫停新買進（空位留現金）"
+  ],
+  "cells_total": 8,
+  "cells_run": [
+   "MA60_E50",
+   "MA120_E50",
+   "R60_E50",
+   "MA60_CASH",
+   "MA120_CASH",
+   "MA200_CASH",
+   "R60_CASH"
+  ],
+  "cell_cited_not_run": {
+   "MA200_E50": "＝S23 MA_STOP（舊引擎），引用其全期連續數字：2019 起年化差 −5.82 個百分點（0／20）、全期回撤淺 0.40（15／20）、2018 段淺 1.77、2020-03 段深 1.02、2022 段深 1.47、2024-07～2025-04 段淺 1.19（20／20）。"
+  },
+  "plus": "現行（不設濾網）"
+ },
+ "metrics_per_cell": [
+  "2019 起年化（2018 最後交易日 → 2026-10-22）：主跑、20 條中位數、最小、最大",
+  "最大回撤：全期（2015-07 起）與 2019 起；主跑與 20 條中位數",
+  "Calmar＝2019 起年化 ÷ |全期最大回撤|（同 S47 定義）；主跑與 20 條中位數",
+  "逐條配對（對現行）：Calmar 差、2019 起年化差、全期回撤差（正＝變淺）的正數條數與中位數",
+  "四段空頭（s17lib.SEGMENTS：2018、2020-01～06、2022、2024-07～2025-04）段內最大跌幅：20 條中位數與逐條差（正＝變淺）",
+  "觸發（弱）訊號列數：位移 0，2016 起與 2019 起；觸發月份清單；已出場筆數、平均持股、衛星現金平均占比"
+ ],
+ "outputs": "results.json（不存淨值）、run.py、prereg_write.py、SPEC.json／PREREG.json 與 sha256、FINDINGS.md（若可寫）。暫存 scratchpad/s54/（結束刪除）。",
+ "resources": "單行程；峰值記憶體 ≤ 3GB；python3 -I -B。"
+}
