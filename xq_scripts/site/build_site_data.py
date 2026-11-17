@@ -73,6 +73,7 @@ for r in H:
 last_px = {}; last_day = None
 if tsd:
     days = trade_days(); last_day = days[-1]; last_px = day_prices(last_day) or {}
+    if last_day and last_day > L["data_last_day"]: L["data_last_day"] = last_day  # 資料最後一天跟著最新股價日（名單日只用在訊號日欄位）
     for x in acts:
         c = last_px.get(x["代號"], (None, None))[1]
         x["最新收盤"] = c
@@ -167,6 +168,8 @@ if tsd and state_csv and live_start:
 # 0050 最新收盤寫進 status（給頁面下單計算用）
 if last_px:
     stp = os.path.join(outdir, "status.json"); S = json.load(open(stp, encoding="utf-8"))
-    S["rows"][0]["0050最新收盤"] = last_px.get("0050", (None, None))[1]; S["rows"][0]["價格日期"] = last_day
+    S["rows"][0]["0050最新收盤"] = last_px.get("0050", (None, None))[1]; S["rows"][0]["價格日期"] = last_day; S["rows"][0]["資料最後一天"] = L["data_last_day"]
+    for m in S["meta"]:
+        if m.get("label") == "資料最後一天": m["value"] = L["data_last_day"]
     json.dump(S, open(stp, "w", encoding="utf-8"), ensure_ascii=False)
 print("ok", outdir, last_day)
