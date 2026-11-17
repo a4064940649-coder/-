@@ -249,11 +249,12 @@ def v2_alt(tag, capf, a=VA_A, sg=SGV):
     for s in SHIFTS:
         for cap in CAPS:
             k = f'{int(cap/1e4)}萬|+{s}'
-            A[k] = valid_m(sim(sg[s], FZ, capf(cap)), a)
-            B[k] = valid_m(sim(sg[s], 'CUR', capf(cap)), a)
+            A[k] = valid_m(sim(sg[s], FZ, capf(cap))[0], a)
+            B[k] = valid_m(sim(sg[s], 'CUR', capf(cap))[0], a)
     sens[tag] = dict(V2=pairs(A, B, 'cagr'), fz_median=med(A, 'cagr'), cur_median=med(B, 'cagr'))
     log('敏感度', tag, sens[tag])
 v2_alt('no_scale（起始資金不縮放，2015-07-01 就是 60～200 萬）', lambda c: c)
+v2_alt('scale_2.558_rounded', lambda c: c / 2.558)
 v2_alt('window_from_2021-12-31_next_trading_day', lambda c: c / ratio, a=P.IDX[P.IDX > VA_A][0])
 res['V2_sensitivity'] = sens
 # 連續模擬切驗證窗（非重新起跑，只供對照）
@@ -261,7 +262,7 @@ A, B = {}, {}
 for s in SHIFTS:
     for cap in CAPS:
         k = f'{int(cap/1e4)}萬|+{s}'
-        A[k] = valid_m(sim(SG[s], FZ, cap)); B[k] = valid_m(sim(SG[s], 'CUR', cap))
+        A[k] = valid_m(sim(SG[s], FZ, cap)[0]); B[k] = valid_m(sim(SG[s], 'CUR', cap)[0])
 res['V2_sensitivity']['continuous_slice（非重新起跑）'] = dict(V2=pairs(A, B, 'cagr'), fz_median=med(A, 'cagr'), cur_median=med(B, 'cagr'))
 log('連續切窗', res['V2_sensitivity']['continuous_slice（非重新起跑）'])
 
