@@ -1,0 +1,21 @@
+{
+ "study": "official_nav/resync",
+ "script": "check_shim.py",
+ "mode": "official",
+ "tag": "check_shim_official",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true
+ },
+ "shim": {
+  "make_signal_ins15_calls": 4,
+  "ins15_masked_rows": 20,
+  "signal_rows_adjusted": 2,
+  "av_family_adjusted": 2
+ },
+ "soft_asserts": [],
+ "peak_mb": 1642,
+ "secs": 6,
+ "panel_exright_fix": true
+}

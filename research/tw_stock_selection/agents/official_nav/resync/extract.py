@@ -130,9 +130,10 @@ ok1 = all(not acc[k] for k in ('S9_vs_s26_rerun', 'S7_posthoc_vs_s26_rerun', 'S7
                                 'S27_site_table_vs_original', 'S42_vs_original', 'XAS_vs_original'))
 ok2 = all(x['ok'] for x in acc['site_numbers_reproduced'])
 acc['pass_exright_reproduces_old'] = bool(ok1 and ok2)
-acc['pass_official_matches_official_nav'] = bool(acc['official_S27_std_vs_navs_official_max_abs'] < 0.006 and acc['official_S42_CUR_vs_4876_ok']
+acc['shim_check'] = {m: J(HERE / 'out' / f'check_shim_{m}.json') for m in ('exright', 'official')}
+acc['pass_official_matches_official_nav'] = bool(acc['shim_check']['official']['pass'] and acc['shim_check']['exright']['pass'] and acc['official_S27_std_vs_navs_official_max_abs'] < 0.006 and acc['official_S42_CUR_vs_4876_ok']
                                                  and abs(NEW['S9']['A10_paths20_median'] - pp(ro['paths_summary']['cagr19_median'])) < 0.005)
-soft = {p.stem.replace('__soft', ''): dict(shim=J(p)['shim'], n_soft=len(J(p)['soft_asserts']), soft_lines=[x['line'] for x in J(p)['soft_asserts']], peak_mb=J(p)['peak_mb'])
+soft = {p.stem.replace('__soft', ''): dict(shim=J(p)['shim'], n_soft=len(J(p)['soft_asserts']), soft_lines=[x['line'] for x in J(p)['soft_asserts']], soft_msgs=[x['msg'][:400] for x in J(p)['soft_asserts']], peak_mb=J(p)['peak_mb'])
         for p in sorted((HERE / 'out').glob('*__soft.json'))}
 res = dict(meta=dict(說明='網站風險表「只修除權息時算的」各列，用正式引擎（cslib.EXRIGHT_FIX、DEADLINE_FIX、INS15_MASK 全開）重算；2026-11-17。'
                          '舊＝exright 模式（只開 EXRIGHT_FIX，逐位重現舊結果檔）；新＝official 模式。'

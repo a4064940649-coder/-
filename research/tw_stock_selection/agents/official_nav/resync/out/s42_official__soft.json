@@ -1,0 +1,26 @@
+{
+ "study": "s42_realistic_expectation",
+ "script": "run.py",
+ "mode": "official",
+ "tag": "s42_official",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true
+ },
+ "shim": {
+  "make_signal_ins15_calls": 0,
+  "ins15_masked_rows": 0,
+  "signal_rows_adjusted": 0,
+  "av_family_adjusted": 6
+ },
+ "soft_asserts": [
+  {
+   "line": 116,
+   "msg": "'驗收失敗'"
+  }
+ ],
+ "peak_mb": 1404,
+ "secs": 104,
+ "panel_exright_fix": true
+}

@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+"""S52 資料窺探校正後的顯著性：寫 SPEC.json、PREREG.json 並記 sha256（寫於任何焦點策略報酬統計計算之前）。
+用法：python3 -I -B prereg_write.py"""
+import json, hashlib, datetime
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds')
+
+N_SOURCES = {
+    'anchor': 'agents/BACKLOG.md 第 289 行 S34：「N≈2,884」（研究中心最後一次明寫的彙總總數）',
+    'increments_after_anchor': {
+        'S36 公告即進場（agents/BACKLOG.md）': 9, 'S43 營收公布即提早出場（agents/BACKLOG.md）': 6,
+        'S44 名次＋最低 SURGE 門檻（agents/BACKLOG.md）': 5, 'S45 股池門檻家族（BACKLOG.md）': 14,
+        'S46 動能門檻家族（BACKLOG.md）': 44, 'S49 進場均線家族（BACKLOG.md）': 5, 'S48 出場規則家族（BACKLOG.md）': 23,
+        'S47 資金配置家族（BACKLOG.md）': 13, 'S50 出場候選訓練／驗證（BACKLOG.md）': 3},
+    'total': 3006,
+    'note': '2,884＋9＋6＋5＋14＋44＋5＋23＋13＋3＝3,006。委託方口徑「約 2,990」（差 16，可能是 S50 的 +3 與 S36 的部分不重複計）；DSR／折扣在 2,990 與 3,006 之間差異可忽略，主值取較保守的 3,006。'
+             'G3 門檻原文另有「≥ 2,319 條」（o_main_spa_breaks 長歷史族群）。',
+}
+
+SPEC = {
+    'topic': 'S52 資料窺探校正後的顯著性：現行策略 E0|W10_70 對 0050 的超額，扣掉約 3,000 次試驗後是否仍顯著',
+    'written_at': now,
+    'focus': {
+        'series': 'xq_scripts/site/navs_official.csv.gz 欄 E0|W10_70（正式淨值，起算 2015-07-01＝100 萬，終點 2026-10-22）；基準＝同檔 0050 欄（含息總報酬淨值）',
+        'checks_before_stats': '已確認（只比對淨值終值比，未算任何報酬統計）：S45 A1000_P10 與 S47 S70_D10（＝現行格，三個開關全開）的日淨值與正式 E0 終值比＝1.0',
+    },
+    'monthly': {
+        'construction': '日淨值取每個日曆月最後一個交易日；第一個月以 2015-07-01 淨值為基底；最後一個月 2026-10 為部分月（到 10-22）。月報酬＝NAV_m/NAV_{m-1}−1；月超額＝策略月報酬−0050 月報酬（算術差）。',
+        'windows': {'full': '2015-07～2026-10（136 個月）', 'since2019': '2019-01～2026-10（以 2018 最後交易日為基底；94 個月）'},
+        'stats': '月超額平均、標準差、年化超額（×12）、資訊比率 IR＝平均/標準差（月），年化×√12；對無風險 1%（月 (1.01)^(1/12)−1）的 Sharpe；偏態（樣本偏態）、峰態（非超額峰態，常態＝3）、一階自相關、月數；另報幾何年化（CAGR）策略與 0050 及差。',
+    },
+    'N': N_SOURCES,
+    'methods': {
+        'PSR_DSR': {
+            'ref': 'Bailey, D. H., & López de Prado, M. (2014). The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and Non-Normality. Journal of Portfolio Management, 40(5), 94–107；PSR 出自 Bailey & López de Prado (2012), The Sharpe Ratio Efficient Frontier, Journal of Risk, 15(2), 3–44。',
+            'formula': 'z＝(SR−SR*)·√(T−1)/√(1−γ3·SR+(γ4−1)/4·SR²)，PSR(SR*)＝Φ(z)；SR、SR* 都用月頻未年化；γ4 為非超額峰態。DSR＝PSR(SR0)，SR0＝√V[SR]·((1−γ)Φ⁻¹(1−1/N)+γΦ⁻¹(1−1/(N·e)))，γ＝0.5772（Euler-Mascheroni）。',
+            'min_sharpe': '「需要的最低 Sharpe」＝使 DSR＝0.95 的 SR（在焦點的 T、γ3、γ4 下數值求解），年化×√12 報告；另報 SR0 年化。',
+            'V_SR': {
+                'main': '廣族群實估：agents/o_main_spa_breaks/data/family_excess.parquet（研究中心歷來淨值成員 6,872 欄的「訊號日窗」對 0050 超額；窗≈1 個月），取窗起點 ≥ 2015-07-01（2019 窗：≥ 2019-01-01）且該期間無缺值的成員，完全相同的欄去重後，各成員窗 SR（平均/標準差）的樣本變異數（ddof=1）。窗頻 SR 視同月頻。',
+                'secondary': ['近親族群實估：S45 15 格＋S46 45 格＋S47 16 格＋S48 24 格（去重）月超額 SR 的變異數（只代表參數鄰域，偏小）',
+                              '文獻值：Bailey & López de Prado (2014) 數值例 V[SR]＝0.5（年化）→ 月頻 0.5/12'],
+            },
+            'N_grid': [3006, 100, 500, 1000, 3000, 'Li-Ji 有效試驗數（廣族群）', 'Nyholt 有效試驗數（廣族群）'],
+        },
+        'haircut': {
+            'ref': 'Harvey, C. R., & Liu, Y. (2015). Backtesting. Journal of Portfolio Management, 42(1), 13–28；多重檢定架構見 Harvey, C. R., Liu, Y., & Zhu, H. (2016). …and the Cross-Section of Expected Returns. Review of Financial Studies, 29(1), 5–68；Holm, S. (1979). A Simple Sequentially Rejective Multiple Test Procedure. Scandinavian Journal of Statistics, 6(2), 65–70；Benjamini, Y., & Yekutieli, D. (2001). The Control of the False Discovery Rate in Multiple Testing under Dependency. Annals of Statistics, 29(4), 1165–1188。',
+            'procedure': 't＝SR_年化·√(T/12)（＝月 SR·√T，iid，與 HL 2015 相同；自相關另報）；單一檢定雙尾 p＝2(1−Φ(t))；Bonferroni p_adj＝min(N·p,1)；Holm 與 BHY 需要其他 N−1 個檢定的 p：用廣族群（同窗、無缺值、去重）各成員超額 t 的雙尾 p 經驗分布，按分位數 (k−0.5)/(N−1) 擴展成 N−1 個，再加入焦點；Holm：焦點排名 r 的 p_adj＝max_{j≤r} min((N−j+1)p_(j),1)；BHY：p_adj_(i)＝min_{k≥i} min(N·c(N)/k·p_(k),1)，c(N)＝Σ1/j。打折後 t＝Φ⁻¹(1−p_adj/2)，打折後年化 SR＝t/√(T/12)，折扣＝1−SR_adj/SR；等效打折後年化超額＝年化算術超額×SR_adj/SR。N 主值 3,006，另報 100、500、1,000、3,000。',
+        },
+        'SPA': {
+            'refs': 'Hansen, P. R. (2005). A Test for Superior Predictive Ability. Journal of Business & Economic Statistics, 23(4), 365–380；White, H. (2000). A Reality Check for Data Snooping. Econometrica, 68(5), 1097–1126；Politis, D. N., & Romano, J. P. (1994). The Stationary Bootstrap. Journal of the American Statistical Association, 89(428), 1303–1313。',
+            'impl': '沿用 agents/o_main_spa_breaks/spa_lib.py（唯讀 import，不改；已由 o5 獨立複製驗證）：mcp_tests(D, W, L, var=\'pr\', focus)；平穩 bootstrap 同一組索引套用所有成員；焦點 p＝p_SPA_c_focus（以焦點自己的標準化 t 對照族群最大值的重新置中分布）；同時報 White RC 焦點 p、族群最大值 SPA_c p、StepM 焦點 p、單一檢定 p。',
+            'B': 5000, 'L_main': 6, 'L_sens': [3, 12], 'seed': 5252,
+            'families': {
+                'near': '近親族群（月頻日曆月，2015-07～2026-10 與 2019 起）：S45 15＋S46 45＋S47 16＋S48 24＝100 格，去完全相同欄後；S45、S47 讀既有 navs.csv.gz；S46、S48 只存摘要，由 gen_family.py 唯讀 import 同一引擎鏈重跑主路徑（100 萬、位移 +0），驗收：現行格與 deadline_engine_fix ALL 的 since2019 逐位相同、且與正式 E0 日淨值相同。焦點＝現行格。',
+                'broad': '廣族群（窗頻，同 V_SR main 的成員）＋焦點正式 E0 以同一窗格點（窗起點 ≥ 2015-07-01 的訊號日、終點 2026-10-12）對 0050 的窗超額；0050 窗報酬與 o_main_spa_breaks/data/bench.parquet r0050 比對（記最大差）。',
+            },
+        },
+    },
+    'resources': '峰值記憶體 ≤ 3GB；暫存 /tmp/claude-0/-home-user/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/s52/（結束刪除）；python3 -I -B；不改共用引擎與既有研究、xq_scripts 只讀、不碰 s51_*、不 git。',
+    'outputs': 'SPEC.json、PREREG.json（＋sha256）、prereg_write.py、gen_family.py、run.py、family_monthly_excess.csv.gz、results.json、FINDINGS.md',
+}
+
+PREREG = {
+    'topic': 'S52 判定規則（寫於任何焦點報酬統計之前）',
+    'written_at': now,
+    'primary_window': 'full（2015-07～2026-10）；2019 起為次要',
+    'decision': {
+        'criteria': {
+            'C1_DSR': 'DSR（N＝3,006、V[SR]＝廣族群實估）≥ 0.95',
+            'C2_SPA': '廣族群 Hansen SPA_c 焦點 p（L＝6）< 0.05',
+            'C3_haircut': 'Harvey-Liu BHY（N＝3,006）打折後 p < 0.05（等同打折後 t > 1.96）',
+        },
+        'labels': {
+            '扣資料窺探後仍顯著': 'C1、C2、C3 全過',
+            '部分通過（證據不一致）': '過 1～2 項',
+            '扣資料窺探後不顯著': '0 項通過',
+        },
+        'G3_link': '研究中心 G3（SPA p < 0.05 且 DSR ≥ 0.95）＝C1＋C2；本題結果直接回填 G3 狀態。',
+    },
+    'one_sentence_template': '「現行策略 2015-07～2026-10 對 0050 年化超額 X 個百分點（資訊比率 Y）；以研究中心累計約 3,000 次試驗做 Deflated Sharpe、Harvey-Liu 打折與 Hansen SPA 校正後，〔判定〕（DSR a、SPA p b、打折後年化超額約 c 個百分點）。」',
+    'predictions': '事前猜測：單一檢定 t 約 2～3；DSR（N 3,006、廣族群變異）< 0.95；近親族群 SPA p 低（現行在 S46 排第 1，但族群窄），廣族群 SPA p > 0.10；BHY 打折 50%～100%。',
+    'no_change_rule': '本題是方法題，不改任何策略規則或預設；只回填顯著性等級與履歷一句話。',
+}
+
+for name, obj in (('SPEC', SPEC), ('PREREG', PREREG)):
+    p = HERE / f'{name}.json'
+    p.write_text(json.dumps(obj, ensure_ascii=False, indent=1))
+    h = hashlib.sha256(p.read_bytes()).hexdigest()
+    (HERE / f'{name}.sha256').write_text(f'{h}  {name}.json\n')
+    print(name, h)
