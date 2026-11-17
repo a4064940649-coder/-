@@ -1,0 +1,19 @@
+{
+ "id": "S60",
+ "written_before_running_regressions": "2026-11-17",
+ "spec_ref": "SPEC.json（sha256 見 SPEC.sha256）",
+ "primary": "E0，W_FULL，M4_C4REV 的年化 α 與 NW t",
+ "secondary": ["E0 W_19 M4（與 S24 7.68／S26 8.91 對照）", "E0 W_FULL M5_FF5、M6", "對 0050 超額拆解中最大正貢獻的因子"],
+ "decision_rules": {
+  "alpha_sig": "t ≥ 2.0 稱「扣因子後仍顯著」；1.0 ≤ t < 2.0「方向為正但不顯著」；t < 1.0「與零無法區分」；另註 Harvey-Liu-Zhu t ≥ 3.0",
+  "factor_main": "對 0050 超額的拆解中，b_k×mean(F_k)×12 最大的正項＝超額主要來源；若 (β−1)×市場項絕對值更大則一併說明",
+  "explained_share": "因子解釋比例＝1 − α_M4／α_CAPM（同窗）"
+ },
+ "predictions_from_prior": {
+  "CAPM_alpha_W_FULL": "約 +11～+13，t > 2（S24 2015-07 起 11.70、S26 修正後更高）",
+  "M4_alpha_W_19": "約 +7～+9，t < 2（S24 7.68、S26 8.91）",
+  "largest_factor": "MOM 或 RMOM（S24）；SMB 貢獻為負（2019 起小型股溢酬為負）"
+ },
+ "pre2015": "探索性；S55 淨值待 R55 重現，任何結果不寫入履歷",
+ "no_strategy_change": "本題只做歸因，不改策略、不改參數"
+}
