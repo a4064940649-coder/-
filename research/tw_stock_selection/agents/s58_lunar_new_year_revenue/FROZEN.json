@@ -1,0 +1,36 @@
+{
+ "written_at": "2026-11-17T05:15:52",
+ "SPEC_sha256": "1689d144e62de719776c78c4fe7a8486127384f21a3705f8c24f4205c04527b8",
+ "PREREG_sha256": "4e4973b145070760e3c48dd3836191b42c6a0533d838c63f186f9581ea541913",
+ "frozen": "CUR",
+ "frozen_desc": "現行：每月照 STD SURGE 換股",
+ "validate_target": "C1",
+ "validate_target_desc": "1 月營收的換股（2 月）暫停：不買不賣、持股沿用前一月；其餘月份照現行",
+ "T0_pass": false,
+ "train_score": {
+  "train_median": 0.3322397599057483,
+  "train_min": 0.2916895301385882,
+  "train_max": 0.34888451940726406,
+  "train_dd_median": -0.28212071529838906,
+  "y1618_median": 0.1314105942345588,
+  "y1921_median": 0.5554305024196412,
+  "n_closed_train_median": 168.0,
+  "score_median_pp": -0.015235013871583991,
+  "npos": 10,
+  "n_ge025": 5,
+  "diff_min_pp": -1.5649764352106743,
+  "diff_max_pp": 1.1082737780149676,
+  "dd_diff_median_pp": -1.9602710915391341,
+  "n_dd_shallower": 0,
+  "y1618_median_pp": 0.46323453638948964,
+  "y1618_npos": 17,
+  "y1921_median_pp": -0.7214391339553372,
+  "y1921_npos": 1
+ },
+ "order": [
+  "C1",
+  "C2",
+  "C3"
+ ],
+ "note": "凍結後 validate.py 只跑一次；不得換候選。frozen＝CUR（不改）或 T0 不過時，validate_target 只作描述，總判定必為「不改」。"
+}
