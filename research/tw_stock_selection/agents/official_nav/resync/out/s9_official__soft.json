@@ -1,0 +1,26 @@
+{
+ "study": "s9_signal_timing",
+ "script": "run.py",
+ "mode": "official",
+ "tag": "s9_official",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true
+ },
+ "shim": {
+  "make_signal_ins15_calls": 74,
+  "ins15_masked_rows": 378,
+  "signal_rows_adjusted": 22,
+  "av_family_adjusted": 0
+ },
+ "soft_asserts": [
+  {
+   "line": 86,
+   "msg": "('驗收失敗', {'P0': True, 'A1_av_identical': True, 'A1_signal_identical': True, 'A0_W10_70': {'since2019': 0.48756125669507, 'full': 0.34396546396589067, 'maxdd': -0.32119049020243395, 'ok': False}, 'A2_W10_70': {'nav_identical': True, 'trades_identical': True}, 'A0_WN_70': {'since2019': 0.6366854802798276, 'full': 0.45009728778514946, 'maxdd': -0.3740850212329486, 'ok': False}, 'A2_WN_70': {'nav_identical': True, 'trades_identical': True}})"
+  }
+ ],
+ "peak_mb": 1360,
+ "secs": 59,
+ "panel_exright_fix": true
+}
