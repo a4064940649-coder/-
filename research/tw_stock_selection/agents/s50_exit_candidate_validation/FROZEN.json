@@ -1,0 +1,40 @@
+{
+ "written_at": "2026-11-17T04:43:34",
+ "SPEC_sha256": "71167cd2fda26009d04c1317216040e30ed21c9374ad6cba5952f5d7752012b0",
+ "PREREG_sha256": "1fb4cc5ec7c65c96ae09bc22072c267dc0804f853173e343f2aead87bf28b98f",
+ "frozen": "C2",
+ "frozen_cell": [
+  null,
+  20
+ ],
+ "frozen_desc": "不用排名＋20 日均線：只要股池內、SURGE 有值且換股日還原收盤 > 20 日均線就續抱",
+ "validate_target": "C2",
+ "validate_target_desc": "不用排名＋20 日均線：只要股池內、SURGE 有值且換股日還原收盤 > 20 日均線就續抱",
+ "T0_pass": true,
+ "train_score": {
+  "train_median": 0.3874189786175156,
+  "train_min": 0.33528005555866347,
+  "train_max": 0.4623559466069391,
+  "train_dd_median": -0.2680323737821379,
+  "y1618_median": 0.12313215499277153,
+  "y1921_median": 0.6908237061132623,
+  "n_closed_train_median": 173.0,
+  "score_median_pp": 6.529815622302237,
+  "npos": 20,
+  "n_ge025": 19,
+  "diff_min_pp": 0.23226793853026173,
+  "diff_max_pp": 11.740715066560782,
+  "dd_diff_median_pp": -0.10899742366525245,
+  "n_dd_shallower": 7,
+  "y1618_median_pp": -0.674361156667358,
+  "y1618_npos": 7,
+  "y1921_median_pp": 15.052671836232967,
+  "y1921_npos": 20
+ },
+ "order": [
+  "C2",
+  "C1",
+  "C3"
+ ],
+ "note": "凍結後 validate.py 只跑一次；不得換候選。frozen＝CUR（不改）或 T0 不過時，validate_target 只作描述，總判定必為「不改」。"
+}

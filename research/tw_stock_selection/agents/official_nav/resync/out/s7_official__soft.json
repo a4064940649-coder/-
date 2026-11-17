@@ -1,0 +1,21 @@
+{
+ "study": "s7_locked_base",
+ "script": "posthoc.py",
+ "mode": "official",
+ "tag": "s7_official",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true
+ },
+ "shim": {
+  "make_signal_ins15_calls": 1,
+  "ins15_masked_rows": 9,
+  "signal_rows_adjusted": 0,
+  "av_family_adjusted": 0
+ },
+ "soft_asserts": [],
+ "peak_mb": 1365,
+ "secs": 7,
+ "panel_exright_fix": true
+}
