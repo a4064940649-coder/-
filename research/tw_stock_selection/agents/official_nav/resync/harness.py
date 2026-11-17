@@ -70,6 +70,9 @@ libs = sorted({a.name for n in ast.walk(tree) if isinstance(n, ast.Import) for a
 if script == 'run_engine.py':
     addpath('s19_xq_threshold'); libs.append('s19lib')
 for m in libs:
+    hit = sorted(AG.glob(f'*/{m}.py'))                         # 腳本自己 sys.path.insert(AG / ...) 的資料夾（AG 被改到 scratchpad 後找不到），這裡先補上
+    if hit and m != 'cslib':
+        addpath(hit[0].parent.name)
     __import__(m)
 
 

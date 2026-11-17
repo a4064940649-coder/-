@@ -1,0 +1,36 @@
+{
+ "id": "s50_exit_candidate_validation",
+ "title": "S50 出場候選（S48 事後看到的 C1／C2／C3）能不能取代現行 E0？——訓練→凍結→驗證一次（S25 改良判定）",
+ "written_at": "2026-11-17T04:41:25",
+ "status_at_write": "只讀過 S48（FINDINGS、run.py、results.json）、S25／S44 的 PREREG 與程式；本題沒有跑任何模擬。s50lib.py 已寫好（sha256 見下）。",
+ "s50lib_sha256_at_write": "4ea2a453944cb416199d1247a863f303276731e4512b011d49a772675b63e2c6",
+ "engine": {
+  "chain": "s20lib → s17lib → s10lib（全部 import，不改任何既有檔案）；載入與自建出場矩陣逐行照 agents/s48_exit_rule_family/run.py。",
+  "flags": "cslib.EXRIGHT_FIX＝True（load 前）；SURGE（STD）在 DEADLINE_FIX／INS15_MASK 關閉下建，之後兩者＝True、cslib.rev_avail_days(P, months, True)；s17lib.e50_fix_suspension。三個正式開關全開。",
+  "universe": "stlib.universe(P, 'twse') & ~創新板",
+  "entry": "F1 不動：s10lib.make_signal_s10(P, U, RT, shift, depth=10, mom_lo=0.10, nsel=10)；進場 60 日均線（P.F_MA60）不動。",
+  "exit_cell": "出場格 (N, M)＝S48 定義：每個訊號列 k，續抱＝股池內且 SURGE 有值（INS15 遮掉＝缺值）且 SURGE ≥ 當月 L_MA 第 N 名分數（N＝不用時省略）且 還原收盤 > M 日均線（M＝不用時省略）；否則次一交易日開盤賣。只在換股訊號日檢查。",
+  "simulate": "s10lib.simulate_s10(P, S', U, cost=COSTS['strict'], capital, sat_w=0.7, sizing='W10', lock=False)＝W10_70、嚴成本。",
+  "paths": "20 條：資金 {60, 80, 100, 150, 200} 萬 × 換股日位移 {0, 1, 2, 3}；主跑＝100 萬、位移 0。"
+ },
+ "candidates（事前固定，共 3 條＋現行）": {
+  "CUR": "(N 20, M 60)：現行 E0",
+  "C1": "(N 20, M 120)：前 20 名＋120 日均線",
+  "C2": "(不用排名, M 20)：不用排名＋20 日均線",
+  "C3": "(N 20, 不用均線)：前 20 名＋不用均線（S48 鄰近候選；＝S10 MANO 寫法）"
+ },
+ "windows": {
+  "train": "訊號日 2016-02～2021-12（營收月份 ≤ 2021-11）；訓練窗淨值 2016-01-29 → 2021-12-30，從全期連續模擬切出（同 S44／S25）。",
+  "valid": "訊號日 2022-01～2026-10（營收月份 ≥ 2021-12）；重新起跑：s20lib.fresh_from 只保留營收月份 ≥ 2021-12 的訊號（出場矩陣不動），驗證窗 2021-12-30 → 2026-10-22；起始資金縮放使現行主跑 2021-12-30 淨值＝各路徑資金（同 S44）。",
+  "posthoc": "事後描述（不影響判定）：全期連續模擬 2016-03～2018-12（2016-02 最後交易日 → 2018 最後交易日）與 2024 起（2023 最後交易日 → 2026-10-22）分段，四個設定 × 20 條。"
+ },
+ "acceptance": {
+  "A0": "rmean(P.G, 60) 重建 F_MA60 與 P.F_MA60 逐格相同。",
+  "A1": "(20, 60) 自建出場矩陣與 make_signal_s10 的 XV[E0] 在位移 0～3 逐格相同。",
+  "A2": "現行主跑 2019 起 48.76%（0.4875617247721724）、全期、全期回撤、已出場 381 筆與 deadline_engine_fix/out/results.json ALL 逐位相同；20 條 2019 起逐條相同。",
+  "A3": "重新起跑的現行主跑：2022-01-01 前沒有任何股票進場。",
+  "rule": "任一不符 → 停止、不報結果。驗收放在 train.py 開頭，只印驗收數字（現行格數字已知）。"
+ },
+ "scripts": "s50lib.py（共用）、prereg_write.py（本檔）、train.py（驗收＋訓練＋凍結：寫 results_train.json、FROZEN.json／FROZEN.sha256；FROZEN 已存在就拒絕）、validate.py（凍結後只跑一次：寫 results.json；已存在就拒絕；含事後分段描述）。",
+ "resources": "單行程；峰值記憶體 ≤ 3GB；python3 -I -B；暫存 /tmp/claude-0/-home-user/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/s50/（結束刪除）；不存淨值。"
+}
