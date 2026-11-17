@@ -69,14 +69,21 @@ fam = fam[fam.index >= '2015-07-01']
 n_win = len(fam)
 fam = fam.loc[:, fam.notna().all()]
 n_nonan = fam.shape[1]
-fam = fam.T.drop_duplicates().T
+# 敏感度：逐位完全相同去重（不剔恆為 0）→ 2,420 條
+fam_exact = fam.T.drop_duplicates().T
+sr_exact = fam_exact.mean() / fam_exact.std(ddof=1)
+V_exact = float(np.var(sr_exact.values, ddof=1))
+# 主值：去重容許浮點雜訊（四捨五入到 1e-12 後相同即視為同一欄）；剔除恆為 0（|值| 全 < 1e-10，如 w4 BENCH_0050 對 0050 的超額）
+keep = ~fam.round(12).T.duplicated().values
+fam = fam.loc[:, keep]
 n_dedup = fam.shape[1]
-fam = fam.loc[:, fam.std(ddof=1) > 0]
+fam = fam.loc[:, fam.abs().max() > 1e-10]
 n_final = fam.shape[1]
 D = fam.values.astype(np.float64)
 sr_fam = D.mean(0) / D.std(0, ddof=1)
 V = float(np.var(sr_fam, ddof=1))
-R['broad_family'] = dict(windows=n_win, members_nonan=n_nonan, members_dedup=n_dedup, members_final=n_final,
+R['broad_family'] = dict(windows=n_win, members_nonan=n_nonan, members_dedup_tol1e12=n_dedup, members_final=n_final,
+                         members_exact_dedup=int(fam_exact.shape[1]), sd_SR_ann_exact2420=math.sqrt(V_exact * 12),
                          sd_SR_ann=math.sqrt(V * 12), max_SR_ann=float(sr_fam.max() * math.sqrt(12)))
 
 # DSR（月頻、焦點＝日曆月底序列）
@@ -93,6 +100,7 @@ R['DSR'] = {str(N): dsr_block(N) for N in [N_MAIN, 100, 500, 1000, 3000, 2990, 3
 R['DSR']['spa_lib_crosscheck_N3006'] = dict(SR0_ann=lib['SR0'] * math.sqrt(12), DSR=lib['DSR'])
 R['DSR']['focus_SR_ann'] = sr * math.sqrt(12)
 R['DSR']['lit_V0.5'] = dsr_block(N_MAIN, 0.5 / 12)
+R['DSR']['exact2420_N3006'] = dsr_block(N_MAIN, V_exact)
 
 # ---------- 4. Harvey-Liu 打折 ----------
 t_focus = sr * math.sqrt(T)
@@ -184,7 +192,7 @@ def clean(o):
 json.dump(clean(R), open(HERE / 'results.json', 'w'), ensure_ascii=False, indent=1)
 
 # ---------- compare.csv ----------
-H = R['haircut']; Sm = R['SPA']['my_seed_L6']; C = cut['last_le_partial0']
+H = R['haircut']; Sm = R['SPA']['my_seed_L6']; C = cut['first_ge_partial0']
 rows = [
  ('1 月數', 136, full['months'], 0), ('1 策略年化%', 34.32, full['cagr_strat'] * 100, 0.05),
  ('1 0050年化%', 21.09, full['cagr_0050'] * 100, 0.05), ('1 月超額年化（百分點）', 11.68, full['ex_mean_ann_pp'], 0.05),

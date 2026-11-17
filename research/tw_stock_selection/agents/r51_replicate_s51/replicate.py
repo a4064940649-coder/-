@@ -57,10 +57,13 @@ gc.collect()
 log('載入完成')
 
 lastb = lambda d: P.IDX[P.IDX < pd.Timestamp(d)][-1]
-TR_A, TR_B = pd.Timestamp('2016-01-29'), pd.Timestamp('2021-12-30')
+# 訓練窗起點＝2016-02 前最後一個交易日＝2016-01-30（週六補班日，在 P.IDX 內）；SPEC 文字寫 2016-01-29，FINDINGS 寫 01-30。
+# 兩者都算（TR_A_ALT＝SPEC 字面 01-29），主結果用 01-30（＝「訊號 2016-02 起」的窗定義）。
+TR_A, TR_B = lastb('2016-02-01'), pd.Timestamp('2021-12-30')
+TR_A_ALT = pd.Timestamp('2016-01-29')
 VA_A, VA_B = pd.Timestamp('2021-12-30'), P.IDX[-1]
 D19 = lastb('2019-01-01')
-assert TR_A in P.IDX and TR_B in P.IDX
+assert str(TR_A.date()) == '2016-01-30' and TR_A_ALT in P.IDX and TR_B in P.IDX
 
 
 def sim(sg, cell, cap, cost='strict', block=None, counter=False):
@@ -92,7 +95,7 @@ def ex2020(nav):
 def train_m(nav):
     c, d = stlib.cagr(nav, TR_A, TR_B), stlib.maxdd(nav, TR_A, TR_B)
     e, ed = ex2020(nav)
-    return dict(cagr=c, dd=d, calmar=c / abs(d), ex20=e, ex20_dd=ed,
+    return dict(cagr=c, dd=d, calmar=c / abs(d), ex20=e, ex20_dd=ed, cagr_0129=stlib.cagr(nav, TR_A_ALT, TR_B), dd_0129=stlib.maxdd(nav, TR_A_ALT, TR_B),
                 since2019=stlib.cagr(nav, D19, VA_B), full=stlib.cagr(nav, P.IDX[P.t0], VA_B), full_dd=stlib.maxdd(nav, P.IDX[P.t0], VA_B))
 
 
@@ -145,16 +148,17 @@ for s in SHIFTS:
     log('訓練 位移', s)
 A2 = max(abs(TRN['CUR'][k]['since2019'] - ref['paths']['ALL'][k]['since2019']) for k in KEYS)
 res['A2_max_abs_gap_vs_deadline_ALL_pp'] = A2 * 100
+res['train_window'] = dict(start=str(TR_A.date()), end=str(TR_B.date()), note='2016-01-30 為週六補班交易日；SPEC 字面 2016-01-29 的結果另列 *_0129')
 
 train = {}
 for c in CELLS:
-    train[c] = dict(cell=CELLNAME[c], median=med(TRN[c], 'cagr'), dd_median=med(TRN[c], 'dd'), calmar_median=med(TRN[c], 'calmar'),
+    train[c] = dict(cell=CELLNAME[c], median=med(TRN[c], 'cagr'), median_spec_literal_0129=med(TRN[c], 'cagr_0129'), dd_median_0129=med(TRN[c], 'dd_0129'), dd_median=med(TRN[c], 'dd'), calmar_median=med(TRN[c], 'calmar'),
                     ex20_median=med(TRN[c], 'ex20'), ex20_dd_median=med(TRN[c], 'ex20_dd'),
                     full_since2019_median=med(TRN[c], 'since2019'), full_median=med(TRN[c], 'full'), full_dd_median=med(TRN[c], 'full_dd'))
     if c != 'CUR':
         train[c].update(median_minus_cur_pp=(train[c]['median'] - train['CUR']['median']) * 100,
                         dd_median_minus_cur_pp=(train[c]['dd_median'] - train['CUR']['dd_median']) * 100,
-                        paired=pairs(TRN[c], TRN['CUR'], 'cagr'), paired_dd=pairs(TRN[c], TRN['CUR'], 'dd'),
+                        paired=pairs(TRN[c], TRN['CUR'], 'cagr'), paired_0129=pairs(TRN[c], TRN['CUR'], 'cagr_0129'), paired_dd=pairs(TRN[c], TRN['CUR'], 'dd'),
                         ex20_paired=pairs(TRN[c], TRN['CUR'], 'ex20'), ex20_dd_paired=pairs(TRN[c], TRN['CUR'], 'ex20_dd'),
                         ex20_median_minus_cur_pp=(train[c]['ex20_median'] - train['CUR']['ex20_median']) * 100,
                         ex20_dd_median_minus_cur_pp=(train[c]['ex20_dd_median'] - train['CUR']['ex20_dd_median']) * 100)
@@ -287,6 +291,8 @@ def row(item, s51, r51, unit='%'):
 for c, a, b in (('CUR', 33.27, -26.36), ('C1', 36.92, -25.77), ('C2', 35.80, -25.75), ('C3', 35.67, -26.14)):
     row(f'訓練 中位數 {CELLNAME[c]}', a, train[c]['median'] * 100)
     row(f'訓練 回撤中位數 {CELLNAME[c]}', b, train[c]['dd_median'] * 100)
+for c, a in (('CUR', 33.27), ('C1', 36.92), ('C2', 35.80), ('C3', 35.67)):
+    row(f'（對照）訓練 中位數 {CELLNAME[c]}，起點照 SPEC 字面 2016-01-29', a, train[c]['median_spec_literal_0129'] * 100)
 row('訓練 C1 減現行（中位數差）', 3.65, train['C1']['median_minus_cur_pp'], 'pp')
 row('去掉2020 C1 成對差', 1.30, train['C1']['ex20_paired']['median_pp'], 'pp')
 row('去掉2020 C1 回撤中位數差', -2.28, train['C1']['ex20_dd_median_minus_cur_pp'], 'pp')
