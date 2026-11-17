@@ -1,0 +1,35 @@
+{
+ "topic": "S47 資金配置家族：規格（引擎、資料、驗收、資源）",
+ "written_at": "2026-11-17T04:37:53+00:00",
+ "engine_chain": "s47lib → s20lib → s17lib → s10lib → s9lib → … → stlib → cslib（全部不改）；cslib.EXRIGHT_FIX＝True、DEADLINE_FIX＝True、INS15_MASK＝True（load 前設定）；s17lib.e50_fix_suspension（0050 停牌日開盤用前一日收盤）；SURGE＝s17lib.rev_family STD（σ>0）；股池＝stlib.universe(P,\"twse\") & ~創新板；s10lib.make_signal_s10(shift)（F1：L_MA 前 10 名中 RET20>10%、不遞補）；s10lib.variant_S(E0)；嚴成本；cap_pct＝0.05；min_frac＝0.5；lock＝False；band＝0.10；slots＝10；sweep_min＝2 萬。",
+ "current_allocation_from_code": {
+  "where": "agents/s10_exit_details/s10lib.py simulate_s10：B＝(1−sat_w)×起始資金（底倉簿記，每天跟 0050 漲跌）；換股執行日開盤先賣、再拉回（|衛星÷淨值 − sat_w| > 10 個百分點才把 B 設回 (1−sat_w)×淨值）、再買；買進每檔目標 u＝max(開盤估淨值 − B, 0) ÷ 10（sizing＝\"W10\"）；最多 10 檔（slots）；股數 × 開盤 < 0.5 × u 不買；買股錢不夠可賣 0050（含底倉）；e50_net：現金 ≥ 2 萬整筆掃進 0050（底倉與空位共用一個 0050 部位）＝「空位買 0050」。",
+  "name": "W10_70：S6 的格名（sizing W10＝衛星 ÷ 10、sat_w 0.7）；S5 主格 W70_T10 事前指定衛星 70%；S6 事前主格是 WN_70、W10_70 是對照；之後研究中心以回撤較淺把 W10_70 定為現行。"
+ },
+ "variants": {
+  "sat_w": "衛星比例 50／60／70／80／100%（直接改 simulate_s10 的 sat_w；100% 時 B 恆為 0、不拉回）。",
+  "div": "每檔＝衛星 ÷ 8／÷ 10／÷ 12：÷ 10 走原引擎 simulate_s10(sizing=\"W10\")；÷ 8、÷ 12 走 s47lib.simulate_s47(ndiv=8/12)（s10lib.simulate_s10 原始碼字串替換：只改除數；檔數上限仍 10，所以 ÷ 12 時衛星最多用 10/12）。",
+  "idle_cash": "空位留現金：simulate_s47(idle=\"cash\")：0050 部位只維持在底倉簿記 B（B − 0050 ≥ 2 萬且現金 ≥ 2 萬就用現金補買 min(現金, 差額)；0050 − B ≥ 2 萬就賣回現金，計手續費、半跳動點、0.1% 稅），其餘閒置錢留現金、利率 0；買股錢不夠仍可賣 0050（同現行）。只跑 70%×÷10。",
+  "src_sha256": {
+   "simulate_s10": "606cf0e4c024f1c9bd7376876c71833f589190e17bad7cce92bab4aed68519aa",
+   "simulate_s47": "2d4a72bf0e806591b794f2626a8be788295ecc6216bf07ca4bb5b7af9b6b9c2b"
+  }
+ },
+ "data": "公開封存官方日 K（上市，含下市）、月營收 tw_revenue（同 s2lib）、TWT49U 除權息參考價、營收期限例外表與 15 日期限名單（raw/rev_deadline_exceptions）、0050 日 K。面板 T＝2876、N＝2142、最後一天 2026-10-22；淨值起算 2015-07-01。",
+ "windows": "2019 起＝2018 最後交易日 → 2026-10-22；全期＝2015-07-01 起；2024 起＝2023 最後交易日起；分段 2019-01～2023-12、2024-01 起；最大回撤＝全期。",
+ "paths": "20 條＝本金 {60, 80, 100, 150, 200} 萬 × 位移 {0,1,2,3}（訊號列往後移 s 個交易日）；訊號與配置無關，同一位移所有格共用同一份訊號。",
+ "acceptance": {
+  "P0": "面板 T＝2876、N＝2142、最後一天 2026-10-22。（第 0 步已過）",
+  "A0": "現行格 100 萬位移 0：2019 起 48.76%、全期 34.40%、最大回撤 −32.12%、已平倉 381 筆，且與 deadline_engine_fix ALL 逐位相同。（第 0 步已過）",
+  "A2": "現行格 20 條路徑 2019 起年化與最大回撤和 deadline_engine_fix ALL 逐條相同（差 0）。（第 0 步已過）",
+  "A3": "simulate_s47(ndiv=None／10, idle=\"e50\") 在現行格 20 條路徑與 simulate_s10 淨值、交易逐位相同（第 0 步已過）；run.py 另在 S50_D10 的 100 萬位移 0 再驗一次 ndiv=10 副本＝原引擎。",
+  "official_nav": "xq_scripts/site/navs_official.csv.gz「E0|W10_70」2,760 天對現行主跑淨值最大差 0.0050 元（檔案 2 位小數）。（第 0 步已過）"
+ },
+ "resources": "單行程；python3 -I -B；峰值記憶體 ≤ 3GB（第 0 步 1869 MB）；暫存 scratchpad/s47/（結束刪除）；輸出 ≤ 50MB（results.json、navs.csv.gz 只存 16 個主跑＋0050）。",
+ "no_touch": "不改共用引擎與既有研究；xq_scripts 只讀；不碰 s46_*、trend-radar、o_g8p2a_protocol_addendum、live_tracking/main_forward、o_forward_infra_live；不 commit／push。",
+ "code_sha256_at_write": {
+  "s47lib.py": "91ac704b1a753f0fe33ce0f196cb8094f7a88e14b41d4f3cba42a22ac32168df",
+  "prep.py": "067dc6ad213db24a53c1e9a1cd323dc58711ea81a99c7b1a1b4dfce2fca8402d",
+  "prereg_write.py": "9ae65ade89256be393a1b0d1807eaa5ca4b44403d805c614a558ea93674a09e7"
+ }
+}
