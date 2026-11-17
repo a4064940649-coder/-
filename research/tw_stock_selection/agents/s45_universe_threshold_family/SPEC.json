@@ -1,0 +1,28 @@
+{
+ "topic": "S45 股池門檻家族：規格（引擎、資料、驗收、資源）",
+ "written_at": "2026-11-17T04:26:03+00:00",
+ "engine_chain": "s45lib → s20lib → s17lib → s10lib → s9lib → … → stlib → cslib（全部不改）；cslib.EXRIGHT_FIX＝True、DEADLINE_FIX＝True、INS15_MASK＝True（load 前設定）；s17lib.e50_fix_suspension（0050 停牌日開盤用前一日收盤）；SURGE＝s17lib.rev_family STD（σ>0）；s10lib.make_signal_s10(shift)（F1：L_MA 前 10 名中 RET20>10%、不遞補）；s10lib.variant_S(E0)；s10lib.simulate_s10(嚴成本, W10, sat_w=0.7, lock=False, cap_pct=0.05, min_frac=0.5)。",
+ "current_universe_from_code": {
+  "where": "agents/s1_shortterm_leaderboard/stlib.py load()：amt＝where(P.listed, nan_to_num(P.AMT), nan)；P.V60＝amt 的 60 日滾動平均（min_periods=60）；P.liq＝(P.V60 >= 1e7) & (P.C >= 10) & P.has & P.not91；stlib.universe(P,\"twse\")＝P.liq & (P.MK==1)；現行引擎再 & ~創新板（s4lib.innov_panel）。",
+  "units": "P.AMT＝官方成交金額（元）；P.C＝官方原始收盤（未還原）；P.has＝當日有成交；not91＝代碼不以 91 開頭（TDR）。",
+  "where_used": "股池同時用在 (1) 訊號列：make_signal_s10 的 fin＝univ[k] & SURGE 有值（排名、L_MA 前 10／前 20 出場名次、當月有值 < 50 檔不換股）；(2) 引擎買進：cand＝sig[t−1] & univ[t−1]。兩處同一個 U。",
+  "wrapper": "s45lib.universe(P, INNOV, adv, px)：同一公式只換 1e7 與 10；(1e7,10) 與 stlib.universe & ~INNOV 逐位相同（第 0 步已驗：A1_universe_bitwise_equal＝True）。"
+ },
+ "data": "公開封存官方日 K（上市，含下市）、月營收 tw_revenue（同 s2lib）、TWT49U 除權息參考價、營收期限例外表與 15 日期限名單（raw/rev_deadline_exceptions）、0050 日 K。面板 T＝2876、N＝2142、最後一天 2026-10-22；淨值起算 2015-07-01。",
+ "windows": "2019 起＝2018 最後交易日 → 2026-10-22；全期＝2015-07-01 起；2024 起＝2023 最後交易日起；分段 2019-01～2023-12、2024-01 起；最大回撤＝全期。",
+ "paths": "20 條＝本金 {60, 80, 100, 150, 200} 萬 × 位移 {0,1,2,3}（訊號列往後移 s 個交易日、用移後那天的股池／均線／RET20 重算名單與出場名次；營收月份不變；INS15 遮罩依位移後日期）。",
+ "acceptance": {
+  "P0": "面板 T＝2876、N＝2142、最後一天 2026-10-22。",
+  "A1": "現行格股池與 stlib.universe(P,\"twse\") & ~INNOV 逐位相同。",
+  "A0": "現行格 100 萬位移 0：2019 起 48.76%、全期 34.40%、最大回撤 −32.12%、已平倉 381 筆（±0.025 個百分點），並與 agents/deadline_engine_fix/out/results.json 的 ALL 標準路徑逐位相同。",
+  "A2": "現行格 20 條路徑的 2019 起年化與 deadline_engine_fix ALL 的 20 條逐條相同（差 < 1e-9）。",
+  "official_nav": "xq_scripts/site/navs_official.csv.gz 若存在就對照現行格淨值（寫題時不存在）。"
+ },
+ "resources": "單行程；python3 -I -B；峰值記憶體 ≤ 3GB（逐格算完即釋放訊號矩陣）；暫存 scratchpad/s45/（結束刪除）；輸出 ≤ 50MB（results.json、navs.csv.gz 只存 15 個主跑＋0050、trades.csv.gz 只存主跑）。",
+ "no_touch": "不改共用引擎與既有研究；不碰 xq_scripts、s46_*、trend-radar、o_g8p2a_protocol_addendum、live_tracking/main_forward、o_forward_infra_live；不 commit。",
+ "code_sha256_at_write": {
+  "s45lib.py": "5b37284ed69847cd23ed223a2aea793efb5924e9301186d77d140b4073175ad7",
+  "prep.py": "f4e23f095b818cee4f70d9b6e161d8079d3f3a9447cad58451fde0aea5ad9083",
+  "prereg_write.py": "211357c15554effff7f1de223091bd8efb9f708313b432227acb0a763b7321ba"
+ }
+}
