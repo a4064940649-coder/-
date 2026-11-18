@@ -1,0 +1,33 @@
+{
+ "plan": "S69 前瞻驗證計畫（凍結版 v1）",
+ "plan_sha256": "c1174beecfef89e34a898dfe665f4d45445858a2c26f7e40ae57532c5dad702d",
+ "plan_sha_ok": true,
+ "input": "/home/user/-/xq_scripts/site/data/live.json",
+ "start_date": "2026-11-12",
+ "last_date": "2026-11-17",
+ "trading_days": 4,
+ "calendar_days": 6,
+ "complete_months": 0,
+ "cumulative": {
+  "strategy_return_pct": -8.786499999999997,
+  "b0050_return_pct": -9.178699999999996,
+  "excess_pp": 0.3921999999999981,
+  "relative_pct": 0.4318370250150583
+ },
+ "interim_monthly_stats": null,
+ "bayes_descriptive": null,
+ "formal_looks_done": [],
+ "status": "尚未到第 1 次正式檢視：未判定",
+ "next_review": {
+  "look": 1,
+  "review_month": "2027-10",
+  "date_estimate": "2027-10-29（該月最後一個平日；遇休市改為該月最後交易日）",
+  "n_months": 12,
+  "efficacy_t_min": 18.627786736504152,
+  "futility_t3_max": -4.0245200925518265
+ },
+ "warnings": [
+  "輸入檔註明價格「未含除息調整」：跨除息日後超額會失真，正式檢視前必須改成含息總報酬口徑。",
+  "實盤只有 4 個交易日、0 個完整月：任何超額、t 值都沒有統計意義，不得據以判斷策略有沒有用。"
+ ]
+}
