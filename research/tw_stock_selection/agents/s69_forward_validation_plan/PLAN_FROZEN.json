@@ -1,0 +1,106 @@
+{
+ "plan": "S69 前瞻驗證計畫（凍結版 v1）",
+ "spec_sha256": "271f5962651c37bb85ecb2220cc30c47072b634a30deb678b3113ceb45df2ad3",
+ "prereg_sha256": "f24dd37de101ba2a7771b2eb9a7a45e0069470fb7f1f5d29d146ce11cab35120",
+ "start_date": "2026-11-12",
+ "start_nav": 1000000,
+ "benchmark": "0050（含息）",
+ "series": "網站正式產品實盤逐日淨值（策略、0050）",
+ "month_rule": "日曆月；第 1 個月＝2026-11-12 開盤（100 萬）到 2026-11 最後交易日；之後以每月最後交易日淨值計",
+ "statistic": "x＝策略月報酬 − 0050 月報酬；m＝12×平均(x)（個百分點）；t＝平均(x)/(標準差(x, ddof=1)/√n)；t3＝(平均(x) − 0.25 個百分點)/(同一標準誤)",
+ "delta1_pp": 3.0,
+ "alpha_one_sided": 0.05,
+ "gamma_futility": 0.1,
+ "efficacy_spending": "Lan-DeMets O'Brien-Fleming 型",
+ "futility_spending": "Kim-DeMets 線性（non-binding）",
+ "looks": [
+  {
+   "look": 1,
+   "review_month": "2027-10",
+   "n_months": 12,
+   "efficacy_t_min": 18.627786736504152,
+   "futility_t3_max": -4.0245200925518265,
+   "pragmatic_stop_if_m_lt0": false
+  },
+  {
+   "look": 2,
+   "review_month": "2028-10",
+   "n_months": 24,
+   "efficacy_t_min": 5.278275913514081,
+   "futility_t3_max": -3.2909754991985882,
+   "pragmatic_stop_if_m_lt0": false
+  },
+  {
+   "look": 3,
+   "review_month": "2029-10",
+   "n_months": 36,
+   "efficacy_t_min": 3.726505391729833,
+   "futility_t3_max": -3.007018853170438,
+   "pragmatic_stop_if_m_lt0": false
+  },
+  {
+   "look": 4,
+   "review_month": "2030-10",
+   "n_months": 48,
+   "efficacy_t_min": 3.0591683498978446,
+   "futility_t3_max": -2.82496220974655,
+   "pragmatic_stop_if_m_lt0": false
+  },
+  {
+   "look": 5,
+   "review_month": "2031-10",
+   "n_months": 60,
+   "efficacy_t_min": 2.665185528858801,
+   "futility_t3_max": -2.6862462859405203,
+   "pragmatic_stop_if_m_lt0": true
+  },
+  {
+   "look": 6,
+   "review_month": "2032-10",
+   "n_months": 72,
+   "efficacy_t_min": 2.396388914054859,
+   "futility_t3_max": -2.571508155351347,
+   "pragmatic_stop_if_m_lt0": true
+  },
+  {
+   "look": 7,
+   "review_month": "2033-10",
+   "n_months": 84,
+   "efficacy_t_min": 2.197281649480654,
+   "futility_t3_max": -2.4720937692161042,
+   "pragmatic_stop_if_m_lt0": true
+  },
+  {
+   "look": 8,
+   "review_month": "2034-10",
+   "n_months": 96,
+   "efficacy_t_min": 2.041799463996215,
+   "futility_t3_max": -2.3833921473092836,
+   "pragmatic_stop_if_m_lt0": true
+  },
+  {
+   "look": 9,
+   "review_month": "2035-10",
+   "n_months": 108,
+   "efficacy_t_min": 1.9158411483400295,
+   "futility_t3_max": -2.302646190471374,
+   "pragmatic_stop_if_m_lt0": true
+  },
+  {
+   "look": 10,
+   "review_month": "2036-10",
+   "n_months": 120,
+   "efficacy_t_min": 1.8110030902225844,
+   "futility_t3_max": -2.2280678788161694,
+   "pragmatic_stop_if_m_lt0": true
+  }
+ ],
+ "terminal": "第 10 次仍未判定：m ≥ +3 → 擁有者決定（未證實、降低期望）；m < +3 → 停用改 0050",
+ "middle_zones": "m ≥ +3 續做；0 ≤ m < 3 續做、降低期望；m < 0 且第 1～4 次 續做、降低期望並看 S27 警戒線",
+ "governance": "自 2026-11-12 起算；本檔產出後不得更改，要改必須另題事前登記並保留本檔與 sha256；正式判定只在 10 個檢視日做；淨值須為含息總報酬口徑",
+ "planning_te_pp": 16.20982510012307,
+ "prior_main": {
+  "mu": 2.0,
+  "sd": 5.0
+ }
+}
