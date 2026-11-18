@@ -10,7 +10,9 @@
 #     換股前開盤總值（舊持股 × 開盤＋舊現金，含期間領到的現金股利）− 換股後開盤總值（新持股 × 開盤＋新現金）＝這次換股的交易成本
 #     （嚴成本：半個跳動點＋每邊 0.3% 滑價＋手續費＋證交稅，已經反映在現金檔裡；帳本不另外算費用，只量差額）。
 #   - 成本：移動平均成本，用開盤成交價（未含費用）。賣出的已實現損益＝賣出股數 ×（開盤價 − 平均成本）；費用另列「交易成本」。
-#     恆等式：總損益＝已實現價差＋已出清持股領過的現金股利 − 交易成本＋（目前持股市值 − 成本＋目前持股領過的現金股利）。
+#   - 現金股利：每一段期間領到的現金股利先留在現金，下一次換股時全部算進可用現金（現金檔是換股後的「全部現金」）；
+#     帳本在換股那一刻把這一段的股利記成已實現（不管那檔有沒有賣）。最近一次換股之後領到的，記在各持股那一列（未實現那一邊）。
+#     恆等式：總損益＝已實現價差＋歷次換股以前領到的現金股利 − 交易成本＋（目前持股市值 − 成本＋最近一次換股之後領到的現金股利）。
 # 段落表（segments.csv）：月份,生效日,持股檔,現金檔,底倉股數,備註；路徑相對於段落表所在資料夾；生效日＝執行日（開盤換股）。
 import csv, os, re, subprocess
 
@@ -160,23 +162,24 @@ def build_ledger(segs, A, px_start):
         n = s0["sh"][k]; o = (px_start.get(k) or (None, None))[0]
         if not n: continue
         if not o: raise SystemExit(f"持股 {k} 缺起始日 {s0['生效日']} 開盤價，無法算成本")
-        pos[k] = {"sh": n, "sh0": n, "px0": o, "cb": n * o, "since": s0["生效日"], "div0": 0.0, "lots": 1}
+        pos[k] = {"sh": n, "sh0": n, "px0": o, "cb": n * o, "since": s0["生效日"], "div0": 0.0, "divh0": 0.0, "lots": 1}
         trades.append({"換股序": 0, "月份": s0["月份"], "成交日": s0["生效日"], "動作": "起始", "代號": k, "股數": n, "成交價": o, "金額": n * o})
     seg_open = {k: p["px0"] for k, p in pos.items()}; prev_div = {}
     for i, sw in enumerate(A.get("switch_log") or [], 1):
         d = sw["日期"]; b = sw["sh_before"]; a = sw["sh_after"]; opn = sw["open"]; dv = sw["div_before"]; seg = segs[i]
         if seg["生效日"] != d: raise SystemExit(f"換股紀錄 {d} 和段落表第 {i + 1} 段的生效日 {seg['生效日']} 不同")
-        gross = 0.0; cdiv = 0.0; sells = buys = 0.0
+        gross = 0.0; sells = buys = 0.0
         for k in sorted(set(b) | set(a)):
             n0 = b.get(k, 0.0); n1 = a.get(k, 0.0); o = opn[k]
-            if k in pos and abs(pos[k]["sh"] - n0) > EPS: pos[k]["sh"] = n0          # 期間除權／分割調整過股數（成本不變）
+            if k in pos and abs(pos[k]["sh"] - n0) > EPS:                            # 期間除權／分割調整過股數：成本不變，每股平均成本按新股數攤
+                pos[k].update({"sh": n0, "sh0": n0, "px0": pos[k]["cb"] / n0, "lots": pos[k]["lots"] + 1})
             if n1 < n0 - EPS:
                 p = pos[k]; sold = n0 - n1; cost = p["cb"] * sold / n0; amt = sold * o; allout = n1 <= EPS
-                dk = (dv.get(k, 0.0) - p["div0"]) if allout else 0.0
+                dk = (dv.get(k, 0.0) - p["divh0"]) if allout else 0.0        # 這個部位從買進到出清領過的現金股利（說明用；已分別記在各次換股的「現金股利」）
                 trades.append({"換股序": i, "月份": seg["月份"], "成交日": d, "動作": "賣出", "代號": k, "股數": sold, "成交價": o, "金額": amt,
                                "平均成本": cost / sold, "成本金額": cost, "已實現損益": amt - cost, "持有起日": p["since"], "全部出清": allout,
-                               "期間現金股利": dk, "沒有開盤價": k in sw["noopen"]})
-                gross += amt - cost; cdiv += dk; sells += amt
+                               "持有期間現金股利": dk, "沒有開盤價": k in sw["noopen"]})
+                gross += amt - cost; sells += amt
                 if allout: del pos[k]
                 else: p["cb"] -= cost; p["sh"] = n1; p["sh0"] = n1; p["px0"] = p["cb"] / n1; p["lots"] += 1
             elif n1 > n0 + EPS:
@@ -186,11 +189,13 @@ def build_ledger(segs, A, px_start):
                 if k in pos:
                     p = pos[k]; p["cb"] += amt; p["sh"] = n1; p["sh0"] = n1; p["px0"] = p["cb"] / n1; p["lots"] += 1
                 else:
-                    pos[k] = {"sh": n1, "sh0": n1, "px0": o, "cb": amt, "since": d, "div0": dv.get(k, 0.0), "lots": 1}
+                    pos[k] = {"sh": n1, "sh0": n1, "px0": o, "cb": amt, "since": d, "div0": dv.get(k, 0.0), "divh0": dv.get(k, 0.0), "lots": 1}
+        for k in pos: pos[k]["div0"] = dv.get(k, 0.0)                       # 換股以前領到的股利都已算進這次的可用現金（記成已實現）；之後的另外累計
+        cdiv = sum(dv.values()) - sum(prev_div.values())                   # 這一段期間（上次換股到這次換股開盤前）領到的現金股利
         seg_open = {k: opn[k] for k in a}
         sws.append({"換股序": i, "月份": seg["月份"], "日期": d, "換股前開盤總值": sw["value_before"], "換股後開盤總值": sw["value_after"],
-                    "交易成本": sw["value_before"] - sw["value_after"], "賣出金額": sells, "買進金額": buys, "已實現價差": gross, "出清持股現金股利": cdiv,
-                    "換股前現金": sw["cash_before"], "換股後現金": sw["cash_after"], "期間現金股利": sum(dv.values()) - sum(prev_div.values()),
+                    "交易成本": sw["value_before"] - sw["value_after"], "賣出金額": sells, "買進金額": buys, "已實現價差": gross, "期間現金股利": cdiv,
+                    "換股前現金": sw["cash_before"], "換股後現金": sw["cash_after"],
                     "沒有開盤價": list(sw["noopen"]), "sh_before": dict(b), "sh_after": dict(a), "open": dict(opn)})
         prev_div = dict(dv)
     for k, p in pos.items():
@@ -198,12 +203,12 @@ def build_ledger(segs, A, px_start):
         p["sh_now"] = A["sh"][k]; p["div"] = A["div"].get(k, 0.0) - p["div0"]
     if sorted(pos) != sorted(k for k, v in A["sh"].items() if v): raise SystemExit("帳本部位和模擬結果的持股不同")
     return {"pos": pos, "trades": trades, "switches": sws, "real_gross": sum(s["已實現價差"] for s in sws),
-            "closed_div": sum(s["出清持股現金股利"] for s in sws), "costs": sum(s["交易成本"] for s in sws), "seg_open": seg_open}
+            "real_div": sum(s["期間現金股利"] for s in sws), "costs": sum(s["交易成本"] for s in sws), "seg_open": seg_open}
 
 
 def check_identity(A, LED, last_close):
-    """總損益＝已實現價差＋出清持股股利 − 交易成本＋未實現（含目前持股已領股利）。回傳（總損益, 已實現合計, 未實現, 殘差），都是持股檔口徑。"""
+    """總損益＝已實現價差＋歷次換股以前領到的現金股利 − 交易成本＋未實現（目前持股市值 − 成本＋最近一次換股之後領到的股利）。回傳（總損益, 已實現合計, 未實現, 殘差），都是持股檔口徑。"""
     unreal = sum(p["sh_now"] * last_close[k] - p["cb"] + p["div"] for k, p in LED["pos"].items())
-    real = LED["real_gross"] + LED["closed_div"] - LED["costs"]
+    real = LED["real_gross"] + LED["real_div"] - LED["costs"]
     tot = A["nav"] - A["base"]
     return tot, real, unreal, tot - real - unreal
