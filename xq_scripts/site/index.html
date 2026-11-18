@@ -77,6 +77,31 @@
 .mx .opt { min-width: 0; padding: var(--cds-pad-md); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); }
 .mx .optp { margin: 0 0 var(--cds-gap-xs); line-height: 1.6; font-size: var(--cds-font-size-body); }
 .mx #calc-hold-box > summary { font-size: var(--cds-font-size-heading); }
+/* 帳戶總覽 */
+.mx .acct-top { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm) var(--cds-gap-xl, 28px); align-items: flex-end; }
+.mx .acct-top > div { min-width: 0; }
+.mx .big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: clamp(1.7rem, 6vw, 2.4rem); line-height: 1.2; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.mx .big .unit, .mx .fact .unit { font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-body); color: var(--color-fg-muted); margin-left: 4px; }
+.mx .fact .sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+/* 持股表的現金、合計列；換股清單的備註 */
+.mx tr.cash td { color: var(--color-fg-muted); }
+.mx tr.total td { font-weight: 700; border-top: 2px solid var(--color-fg-muted); border-bottom: 0; }
+.mx td.wrap { white-space: normal; min-width: 16em; max-width: 28em; line-height: 1.5; }
+/* 換股點位 */
+.mx .pill.keep { color: var(--color-ok); border-color: var(--color-ok); }
+.mx .rulebox { margin: var(--cds-gap-sm) 0 0; padding: var(--cds-pad-sm) var(--cds-pad-md); border-left: 3px solid var(--color-warn); background: var(--color-bg); border-radius: var(--cds-radius); line-height: 1.7; font-size: var(--cds-font-size-body); overflow-wrap: anywhere; }
+.mx .rulebox p { margin: 0; }
+.mx .rulebox p + p { margin-top: var(--cds-gap-xs); }
+.mx .exits { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: var(--cds-gap-md); margin-top: var(--cds-gap-md); }
+.mx .exit { display: grid; gap: var(--cds-gap-sm); align-content: start; min-width: 0; padding: var(--cds-pad-md); border: 1px solid var(--color-border-line); border-left-width: 4px; border-radius: var(--cds-radius); background: var(--color-bg); }
+.mx .exit.sell { border-left-color: var(--color-bad); }
+.mx .exit.keep { border-left-color: var(--color-ok); }
+.mx .exit-head { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs) var(--cds-gap-sm); align-items: center; justify-content: space-between; }
+.mx .exit-head .nm { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; }
+.mx .exit-head .pill { white-space: normal; }
+.mx .exit .facts { margin-top: 0; gap: var(--cds-gap-sm); grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr)); }
+.mx .exit .txt { margin: 0; line-height: 1.7; font-size: var(--cds-font-size-body); overflow-wrap: anywhere; }
+.mx .exit .txt .k { display: block; }
 /* 風險 */
 .mx ul.risks { margin: 0; padding-left: 1.2em; display: grid; gap: var(--cds-gap-sm); line-height: 1.7; max-width: 80ch; }
 .mx ul.risks b.n { font-variant-numeric: tabular-nums; }
@@ -87,6 +112,24 @@
     <h1>月營收驚奇操盤台</h1>
     <p class="lede">今天的決定：<b data-draw="act-inline" data-source="status" data-field="動作" data-row="0">—</b>。策略（XQ 20＋21 號）每月只換股一次：每月第一個日期 ≥ 11 的交易日收盤後產生名單，隔天開盤先賣後買。</p>
   </header>
+
+  <section class="card" id="account">
+    <h2>帳戶總覽（策略模擬帳戶）</h2>
+    <div class="acct-top">
+      <div><div class="k">目前總資產</div><div class="big"><span data-draw="acc-total" data-source="status" data-field="目前總資產" data-row="0">—</span><span class="unit">元</span></div></div>
+      <div><div class="k">累計損益（現在賺或虧多少）</div><div class="big"><span data-draw="acc-pnl" data-source="status" data-field="累計損益金額" data-row="0">—</span><span class="unit">元</span> <span data-draw="acc-pct" data-source="status" data-field="累計損益%" data-row="0">—</span></div></div>
+    </div>
+    <div class="facts">
+      <div class="fact"><div class="k">起始資金</div><div class="v"><span data-draw="acc-start" data-source="status" data-field="起始資金" data-row="0">—</span><span class="unit">元</span></div></div>
+      <div class="fact"><div class="k">個股市值（<span data-draw="acc-n" data-source="status" data-field="個股檔數" data-row="0">—</span> 檔）</div><div class="v"><span data-draw="acc-stock" data-source="status" data-field="個股市值合計" data-row="0">—</span><span class="unit">元</span></div></div>
+      <div class="fact"><div class="k">0050 市值</div><div class="v"><span data-draw="acc-e50" data-source="status" data-field="0050市值" data-row="0">—</span><span class="unit">元</span></div></div>
+      <div class="fact"><div class="k">現金</div><div class="v"><span data-draw="acc-cash" data-source="status" data-field="現金" data-row="0">—</span><span class="unit">元</span></div></div>
+      <div class="fact"><div class="k">同期只買 0050 的結果</div><div class="v"><span data-draw="acc-e50only" data-source="status" data-field="同期只買0050總資產" data-row="0">—</span><span class="unit">元</span></div><div class="sub">損益 <span data-draw="acc-e50pct" data-source="status" data-field="同期只買0050損益%" data-row="0">—</span></div></div>
+      <div class="fact"><div class="k">策略比只買 0050</div><div class="v"><span data-draw="acc-lead" data-source="status" data-field="領先0050_個百分點" data-row="0">—</span><span class="unit">個百分點</span></div></div>
+      <div class="fact"><div class="k">資料日期（收盤）</div><div class="v" data-draw="acc-asof" data-source="status" data-field="資料最後一天" data-row="0">—</div></div>
+    </div>
+    <p class="note"><span data-draw="acc-cap" data-source="status" data-field="起始資金" data-row="0">—</span>模擬帳戶，<span data-draw="acc-day0" data-source="status" data-field="帳戶起始日" data-row="0">—</span> 開盤起算；未扣手續費與證交稅，價格未含除息調整。這是策略照規則運作的模擬帳戶，不是任何人的實際帳戶。目前總資產＝個股市值＋0050 市值＋現金；累計損益＝目前總資產 − 起始資金；同期只買 0050＝起始日開盤把起始資金全部買 0050 到最新收盤。每檔的股數、成本、損益看下面「策略目前持股」，什麼價位會換股看「換股點位」。</p>
+  </section>
 
   <section class="card hero" id="today">
     <div class="hero-top">
@@ -186,29 +229,44 @@
     </details>
   </section>
 
-  <div class="grid2">
-    <section class="card" id="actions">
-      <h2>本月換股清單</h2>
-      <div class="tw">
-        <table data-source="actions" data-row-key="代號">
-          <thead><tr><th class="l" data-field="動作">動作</th><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th class="l" data-field="原因">原因</th></tr></thead>
-          <tbody data-draw="actions"></tbody>
-        </table>
-      </div>
-      <p class="note">這是策略持股延續到本月的結果（研究中心回測持股）。新開始的人只買「買進」那幾檔，其餘資金放 0050，不用買「續抱」的股票。</p>
-    </section>
+  <section class="card" id="holdings">
+    <h2>策略目前持股（買多少、成本、現在賺賠）</h2>
+    <div class="tw">
+      <table data-source="holdings" data-row-key="代號">
+        <thead><tr><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th class="l" data-field="狀態">狀態</th><th data-field="帳戶股數">帳戶股數</th><th data-field="起始價">買進價（起始價）</th><th data-field="最新收盤">最新收盤</th><th data-field="成本金額">成本金額</th><th data-field="最新市值">最新市值</th><th data-field="損益金額">損益金額</th><th data-field="損益%">損益 %</th><th data-field="占總資產%">占總資產 %</th></tr></thead>
+        <tbody data-draw="holdings"></tbody>
+      </table>
+    </div>
+    <p class="note">金額單位是元，帳戶股數與金額都是模擬帳戶口徑（<span data-draw="acc-day0" data-source="status" data-field="帳戶起始日" data-row="0">—</span> 開盤＝<span data-draw="acc-start" data-source="status" data-field="起始資金" data-row="0">—</span> 元）。買進價（起始價）＝帳戶起始日的開盤價，本月新買的股票就是成交價。成本金額＝帳戶股數 × 買進價；最新市值＝帳戶股數 × 最新收盤（<span data-draw="asof2" data-source="status" data-field="資料最後一天" data-row="0">—</span>）；損益金額＝最新市值 − 成本金額；損益％＝最新收盤 ÷ 買進價 − 1（合計列＝累計損益 ÷ 起始資金）。帳戶股數四捨五入到整數股，自己乘價格會和金額欄差幾十元。0050＝底倉 30%＋衛星沒用完的錢。未扣手續費與證交稅。</p>
+  </section>
 
-    <section class="card" id="holdings">
-      <h2>策略目前持股</h2>
-      <div class="tw">
-        <table data-source="holdings" data-row-key="代號">
-          <thead><tr><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th class="l" data-field="狀態">狀態</th><th data-field="股數">股數</th><th data-field="起始價">起始價</th><th data-field="訊號日收盤">訊號日收盤</th><th data-field="最新收盤">最新收盤</th><th data-field="本月以來%">本月漲跌 %</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th></tr></thead>
-          <tbody data-draw="holdings"></tbody>
-        </table>
-      </div>
-      <p class="note">股數是 100 萬比例的策略持股；起始價＝上線起始日（2026-11-12）開盤價。本月漲跌％從本月訊號日收盤算到最新收盤（<span data-draw="asof2" data-source="status" data-field="資料最後一天" data-row="0">—</span>）。0050＝底倉 30%＋衛星沒用完的錢。</p>
-    </section>
-  </div>
+  <section class="card" id="exit">
+    <h2>換股點位：什麼情況會賣</h2>
+    <div class="facts">
+      <div class="fact"><div class="k">下次檢查日（收盤後）</div><div class="v" data-draw="nx-check" data-source="status" data-field="下次換股檢查日" data-row="0">—</div></div>
+      <div class="fact"><div class="k">下次執行日（開盤先賣後買）</div><div class="v" data-draw="nx-exec" data-source="status" data-field="下次換股執行日" data-row="0">—</div></div>
+      <div class="fact"><div class="k">若今天就檢查，會賣</div><div class="v"><span data-draw="nx-sell" data-source="status" data-field="試算會賣檔數" data-row="0">—</span> ／ <span data-draw="acc-n" data-source="status" data-field="個股檔數" data-row="0">—</span><span class="unit">檔個股</span></div></div>
+      <div class="fact"><div class="k">試算用的資料日期</div><div class="v" data-draw="nx-base" data-source="status" data-field="試算基準日" data-row="0">—</div></div>
+    </div>
+    <div class="rulebox">
+      <p><b>只在換股訊號日檢查，平常跌破不賣；季線每天會變，價位是以最新資料估計。</b></p>
+      <p data-draw="nx-rule" data-source="status" data-field="下次檢查條件" data-row="0">—</p>
+      <p data-draw="nx-trial" data-source="status" data-field="試算說明" data-row="0">—</p>
+    </div>
+    <div class="exits" data-draw="exit-cards" data-source="holdings"></div>
+    <p class="note">季線＝60 日均線（還原收盤口徑）；季線價位是把季線換算成今天的股價，距季線％＝最新收盤相對季線的距離，負數＝已在季線下。名次：訊號日名次是本月名單當天的排名，月內不變；試算名次是用同一份營收、最新股價重排，季線下的股票不列入排名。「目前狀態」是「若今天就是訊號日」的試算，不是賣出訊號；下次檢查日會改用新月份營收重新排名，結果可能不同。</p>
+  </section>
+
+  <section class="card" id="actions">
+    <h2>本月換股清單（成交紀錄）</h2>
+    <div class="tw">
+      <table data-source="actions" data-row-key="代號">
+        <thead><tr><th class="l" data-field="動作">動作</th><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th class="l" data-field="原因">原因</th><th data-field="帳戶股數">帳戶股數</th><th class="l" data-field="成交日">成交日</th><th data-field="成交價">成交價</th><th data-field="金額">金額</th><th class="l" data-field="備註">備註</th></tr></thead>
+        <tbody data-draw="actions"></tbody>
+      </table>
+    </div>
+    <p class="note">這是策略持股延續到本月的結果（研究中心回測持股）。帳戶股數與金額（元）是模擬帳戶口徑；成交價＝執行日開盤價（模擬帳戶假設開盤成交，不是券商成交回報），未扣手續費、證交稅與滑價。續抱沒有買賣，成交日、成交價、金額是「—」。賣出各檔當初的買進成本與已實現損益：資料不足，沒有列。0050 本月的買賣寫在「換股點位」0050 那張卡的「本月交易」。新開始的人只買「買進」那幾檔，其餘資金放 0050，不用買「續抱」的股票。</p>
+  </section>
 
   <section class="card" id="live">
     <h2>上線後表現（2026-11-12 起）</h2>
@@ -227,7 +285,7 @@
       <div>
         <h3>每檔持股貢獻（個百分點）</h3>
         <div class="chartbox" style="min-height: 150px" data-draw="contrib" data-source="contrib"></div>
-        <p class="note">貢獻＝股數 ×（最新收盤 − 起始價）÷ 起始總市值。全部加起來約等於策略的累積報酬。</p>
+        <p class="note">貢獻＝每檔損益金額 ÷ 起始資金（和持股表同一個帳戶口徑）。全部加起來＝帳戶累計損益％；現金沒有損益，不列。</p>
       </div>
     </div>
     <p class="note">策略＝11/12 開盤換股後的持股（含 0050），起始＝100 萬；用官方收盤價每天更新，未含除息。這是策略照規則運作的紀錄，不是你的帳戶。只有幾天的表現看不出好壞。</p>
@@ -377,10 +435,30 @@
   const pct = (v, r, td) => { if (+v < 0) td.classList.add('neg'); return fmt(v, 1) + '%'; };
   const pct2 = (v, r, td) => { if (v === null || v === undefined) return '—'; if (+v < 0) td.classList.add('neg'); return fmt(v, 2) + '%'; };
 
+  // 數字：缺值、空字串、非數字一律當成沒有（顯示「—」）
+  const nv = (v) => (v === null || v === undefined || v === '' || !isFinite(+v)) ? null : +v;
+  const txt = (v) => (v === null || v === undefined || v === '') ? '—' : String(v);
+  const tone = (el, n) => { el.classList.toggle('neg', n !== null && n < 0); el.classList.toggle('pos', n !== null && n > 0); };
+  const sMoney = (n) => n === null ? '—' : (n > 0 ? '+' : '') + Math.round(n).toLocaleString('zh-TW');
+  const sPct = (n, d) => n === null ? '—' : (n > 0 ? '+' : '') + n.toFixed(d === undefined ? 2 : d) + '%';
+  const AGG = ['現金', '合計'];
+  // 列別：舊資料沒有這一欄時用代號判斷
+  const kindOf = (r) => { const k = r['列別']; if (k !== null && k !== undefined && k !== '') return String(k); const c = String(r['代號']); return AGG.indexOf(c) >= 0 ? c : (c === '0050' ? '0050' : '個股'); };
+  const cMoney = (v) => money(nv(v));
+  const cInt = (v) => intf(nv(v));
+  const cSMoney = (v, r, td) => { const n = nv(v); tone(td, n); return sMoney(n); };
+  const cSPct = (v, r, td) => { const n = nv(v); tone(td, n); return sPct(n); };
+  const cPct2 = (v) => { const n = nv(v); return n === null ? '—' : n.toFixed(2) + '%'; };
+
   dash.draw('actions', (tb) => fillTable(tb, 'actions', { key: '代號', list: [
-    ['動作', 'l', pill], ['代號', 'l'], ['名稱', 'l'], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['原因', 'l']] }));
+    ['動作', 'l', pill], ['代號', 'l'], ['名稱', 'l'], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['原因', 'l', txt],
+    ['帳戶股數', '', cInt], ['成交日', 'l', txt], ['成交價', '', (v) => fmt(v, 2)], ['金額', '', cMoney], ['備註', 'l wrap', txt]] }));
   dash.draw('holdings', (tb) => fillTable(tb, 'holdings', { key: '代號', list: [
-    ['代號', 'l'], ['名稱', 'l'], ['狀態', 'l', pill], ['股數', '', (v) => intf(v === null || v === undefined ? null : +v)], ['起始價', '', (v) => fmt(v, 2)], ['訊號日收盤', '', (v) => fmt(v, 2)], ['最新收盤', '', (v) => fmt(v, 2)], ['本月以來%', '', pct2], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)]] }));
+    ['代號', 'l'], ['名稱', 'l', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : txt(v)], ['狀態', 'l', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : pill(v)],
+    ['帳戶股數', '', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : cInt(v)], ['起始價', '', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : fmt(v, 2)], ['最新收盤', '', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : fmt(v, 2)],
+    ['成本金額', '', cMoney], ['最新市值', '', cMoney], ['損益金額', '', cSMoney],
+    ['損益%', '', (v, r, td) => cSPct(nv(v) === null ? r['本月以來%'] : v, r, td)], ['占總資產%', '', cPct2]] },
+    (tr, r) => { const k = kindOf(r); if (k === '現金') tr.className = 'cash'; else if (k === '合計') tr.className = 'total'; }));
   dash.draw('top20', (tb) => fillTable(tb, 'top20', { key: '代號', list: [
     ['名次', '', (v) => fmt(v, 0)], ['代號', 'l'], ['名稱', 'l'], ['SURGE', '', (v) => fmt(v, 2)], ['前20日漲幅%', '', (v) => fmt(v, 1)], ['距季線%', '', (v) => fmt(v, 1)], ['收盤', '', (v) => fmt(v, 2)], ['入選', 'l']] },
     (tr, r) => { if (r['入選'] === '是') tr.className = 'pick'; }));
@@ -395,12 +473,21 @@
   dash.calc('live_diff', { inputs: ['live'], title: '上線後策略減 0050', description: '策略累積報酬減 0050 累積報酬（個百分點）',
     fn: (live) => { if (!live.length) return null; const a = live[live.length - 1];
       return +(((a['策略'] - a['0050']) / 1e6) * 100).toFixed(2); } });
-  dash.calc('contrib', { inputs: ['holdings'], title: '每檔持股貢獻', description: '股數 ×（最新收盤 − 起始價）÷ 起始總市值，單位個百分點',
+  dash.calc('contrib', { inputs: ['holdings'], title: '每檔持股貢獻', description: '每檔損益金額 ÷ 起始資金（合計列的成本金額），單位個百分點；現金、合計列不算。舊資料沒有損益金額時改用 股數 ×（最新收盤 − 起始價）÷ 起始總市值',
     fn: (holdings) => {
-      const rows = holdings.filter((r) => +r['股數'] > 0 && +r['起始價'] > 0 && +r['最新收盤'] > 0);
-      const base = rows.reduce((s, r) => s + r['股數'] * r['起始價'], 0);
+      const rows = holdings.filter((r) => AGG.indexOf(kindOf(r)) < 0);
+      if (rows.some((r) => nv(r['損益金額']) !== null)) {
+        const tot = holdings.find((r) => kindOf(r) === '合計');
+        let base = tot ? nv(tot['成本金額']) : null;
+        if (!base) base = holdings.filter((r) => kindOf(r) !== '合計').reduce((s, r) => s + (nv(r['成本金額']) || 0), 0);
+        if (!base || base <= 0) return [];
+        return rows.filter((r) => nv(r['損益金額']) !== null).map((r) => ({ 代號: r['代號'], 名稱: txt(r['名稱']), 損益: Math.round(nv(r['損益金額'])),
+          貢獻: +((nv(r['損益金額']) / base) * 100).toFixed(2) }));
+      }
+      const old = rows.filter((r) => +r['股數'] > 0 && +r['起始價'] > 0 && +r['最新收盤'] > 0);
+      const base = old.reduce((s, r) => s + r['股數'] * r['起始價'], 0);
       if (!base) return [];
-      return rows.map((r) => ({ 代號: r['代號'], 名稱: r['名稱'], 損益: Math.round(r['股數'] * (r['最新收盤'] - r['起始價'])),
+      return old.map((r) => ({ 代號: r['代號'], 名稱: txt(r['名稱']), 損益: Math.round(r['股數'] * (r['最新收盤'] - r['起始價'])),
         貢獻: +((r['股數'] * (r['最新收盤'] - r['起始價']) / base) * 100).toFixed(2) }));
     } });
   dash.calc('worst_year', { inputs: ['yearly'], title: '回測最差年份', description: '逐年報酬裡現行策略最低的一年（2015 只有半年，不算）',
@@ -414,6 +501,62 @@
   dash.draw('live-e', (el) => signed(el, sumv('0050', '報酬%'), '%'));
   dash.draw('live-diff', (el) => { const s = dash.data('live_diff'); signed(el, s.status === 'ok' ? s.data : null, ''); });
   dash.draw('live-n', (el) => { const v = sumv('策略', '交易日數'); el.textContent = v === null ? '—' : String(v); });
+
+  // ---------- 帳戶總覽 ----------
+  const sv = (f) => { const s = st(); if (s.status !== 'ok' || !s.data || !s.data[0]) return null; const v = s.data[0][f]; return v === undefined || v === '' ? null : v; };
+  const acctMoney = { 'acc-total': '目前總資產', 'acc-start': '起始資金', 'acc-stock': '個股市值合計', 'acc-e50': '0050市值', 'acc-cash': '現金', 'acc-e50only': '同期只買0050總資產' };
+  Object.keys(acctMoney).forEach((n) => dash.draw(n, (el) => { el.textContent = money(nv(sv(acctMoney[n]))); }));
+  dash.draw('acc-pnl', (el) => { const n = nv(sv('累計損益金額')); el.textContent = sMoney(n); tone(el, n); });
+  dash.draw('acc-pct', (el) => { const n = nv(sv('累計損益%')); el.textContent = n === null ? '' : '（' + sPct(n) + '）'; tone(el, n); });
+  dash.draw('acc-e50pct', (el) => { const n = nv(sv('同期只買0050損益%')); el.textContent = sPct(n); tone(el, n); });
+  dash.draw('acc-lead', (el) => { const n = nv(sv('領先0050_個百分點')); el.textContent = n === null ? '—' : (n < 0 ? '落後 ' : '領先 ') + Math.abs(n).toFixed(2); tone(el, n); });
+  dash.draw('acc-n', (el) => { el.textContent = cInt(sv('個股檔數')); });
+  dash.draw('acc-asof', (el) => { el.textContent = field('資料最後一天'); });
+  dash.draw('acc-day0', (el) => { el.textContent = txt(sv('帳戶起始日')); });
+  dash.draw('acc-cap', (el) => { const n = nv(sv('起始資金')); el.textContent = n === null ? '' : (n % 1e4 === 0 ? (n / 1e4).toLocaleString('zh-TW') + ' 萬' : money(n) + ' 元'); });
+
+  // ---------- 換股點位 ----------
+  dash.draw('nx-check', (el) => { const v = sv('下次換股檢查日'); el.textContent = v === null ? field('下次訊號日') : String(v); });
+  dash.draw('nx-exec', (el) => { const v = sv('下次換股執行日'); el.textContent = v === null ? field('下次執行日') : String(v); });
+  dash.draw('nx-sell', (el) => { el.textContent = cInt(sv('試算會賣檔數')); });
+  dash.draw('nx-base', (el) => { el.textContent = txt(sv('試算基準日')); });
+  dash.draw('nx-rule', (el) => { el.textContent = txt(sv('下次檢查條件')); });
+  dash.draw('nx-trial', (el) => { el.textContent = txt(sv('試算說明')); });
+  const mk = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+  const srcOf = (el, f, code) => { el.setAttribute('data-source', 'holdings'); el.setAttribute('data-field', f); el.setAttribute('data-where', '代號=' + encodeURIComponent(code)); return el; };
+  dash.draw('exit-cards', (box) => {
+    const s = dash.data('holdings');
+    box.replaceChildren();
+    if (s.status !== 'ok' || !s.data) { box.textContent = s.status === 'error' ? '無法載入' : '—'; return; }
+    const rows = s.data.filter((r) => AGG.indexOf(kindOf(r)) < 0);
+    if (!rows.length) { box.textContent = '—'; return; }
+    rows.forEach((r) => {
+      const code = String(r['代號']); const etf = kindOf(r) === '0050';
+      const state = txt(r['目前狀態']);
+      const tn = state.indexOf('會賣') === 0 ? 'sell' : state.indexOf('續抱') === 0 ? 'keep' : 'hold';
+      const card = mk('div', 'exit ' + tn); card.dataset.key = encodeURIComponent(code);
+      const head = mk('div', 'exit-head');
+      const nm = mk('span', 'nm'); nm.append(mk('span', '', code + ' '), srcOf(mk('span', '', txt(r['名稱'])), '名稱', code));
+      const pl = srcOf(mk('span', 'pill ' + tn, state === '—' ? '目前狀態：—' : state), '目前狀態', code);
+      head.append(nm, pl); card.appendChild(head);
+      const facts = mk('div', 'facts');
+      const fact = (label, f, value, n) => { const d = mk('div', 'fact'); const v = srcOf(mk('div', 'v', value), f, code); if (n !== undefined) tone(v, n); d.append(mk('div', 'k', label), v); facts.appendChild(d); };
+      const na = '不適用';
+      const ma = nv(r['季線價位']), px = nv(r['最新收盤']), gap = nv(r['距季線%']);
+      fact('季線價位（約）', '季線價位', etf ? na : (ma === null ? '—' : ma.toFixed(2) + ' 元'));
+      fact('最新收盤', '最新收盤', px === null ? '—' : px.toFixed(2) + ' 元');
+      fact('距季線', '距季線%', etf ? na : sPct(gap), etf ? undefined : gap);
+      const r0 = nv(r['名次']); const hasTry = Object.prototype.hasOwnProperty.call(r, '試算名次'); const r1 = nv(r['試算名次']);
+      const rk = (n) => '第 ' + n.toFixed(0) + ' 名';
+      fact('名次：訊號日 → 試算', '試算名次', etf ? na : (r0 === null ? '—' : rk(r0)) + ' → ' + (r1 !== null ? rk(r1) : hasTry ? '不在排名內' : '—'));
+      card.appendChild(facts);
+      const para = (label, f, always) => { const v = r[f]; if (!always && (v === null || v === undefined || v === '')) return; const p = mk('p', 'txt'); p.append(mk('span', 'k', label), srcOf(mk('span', '', txt(v)), f, code)); card.appendChild(p); };
+      para('出場條件', '出場條件', true);
+      para('本月交易', '本月交易', true);
+      para('備註', '備註', false);
+      box.appendChild(card);
+    });
+  });
 
   // 風險數字
   dash.draw('rk', (el) => {
@@ -538,7 +681,7 @@
     g.append('rect').attr('x', 0).attr('width', W).attr('height', bh + gap).attr('y', -gap / 2).attr('fill', 'transparent')
       .on('pointermove', (ev, r) => {
         tip.replaceChildren();
-        [r['代號'] + ' ' + r['名稱'], '貢獻：' + (r['貢獻'] > 0 ? '+' : '') + r['貢獻'].toFixed(2) + ' 個百分點', '損益（100 萬比例）：' + (r['損益'] > 0 ? '+' : '') + money(r['損益']) + ' 元']
+        [r['代號'] + ' ' + r['名稱'], '貢獻：' + (r['貢獻'] > 0 ? '+' : '') + r['貢獻'].toFixed(2) + ' 個百分點', '損益：' + (r['損益'] > 0 ? '+' : '') + money(r['損益']) + ' 元']
           .forEach((t) => { const d = document.createElement('div'); d.textContent = t; tip.appendChild(d); });
         tip.hidden = false; const [px, py] = d3.pointer(ev, box); const bw = box.clientWidth; const tw = tip.offsetWidth || 180;
         tip.style.left = Math.max(0, Math.min(bw - tw, px + 12)) + 'px'; tip.style.top = (py + 14) + 'px';
