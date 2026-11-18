@@ -12,6 +12,37 @@
   然後**照成交日開盤的實際價格**算換股後持股（照輸出的賣出／續抱／買進與股數），存成 `holdings_after_2026-12.csv`，剩下的現金存成 `cash_after_2026-12.txt`（沒有現金也寫 0）。
 - 回測淨值與逐年（profit.json）：`python3 -I -B xq_scripts/site/make_profit.py`（2026-11-17 起預設讀 `xq_scripts/site/navs_official.csv.gz`＝正式數字（除權息＋期限修正），由 `research/tw_stock_selection/agents/official_nav/run_official.py` 產生；只修除權息的 `navs_exright.csv.gz`（exright_engine_fix/run_engine.py 1）與修正前的 s19 navs.csv.gz 保留，可當第一個參數給；XQ版用統一後換股日；0050 用精確含息還原價，不用 navs 的整數欄；週標籤＝當週最後一個交易日）。
 - 網站資料：`python3 -I -B xq_scripts/site/build_site_data.py <月份 csv> <策略持股 csv> <月份 json> xq_scripts/site/profit.json <今天> <下次訊號日> <下次執行日> xq_scripts/site/data [<官方日K倉庫> <換股後持股 csv> <上線起始日>]`（後三個參數讓 holdings 加股數、起始價與 0050 一列，並產生 live.json；持股表「本月以來%」＝最新收盤 ÷ 起始價 − 1，換股清單 actions 的欄位叫「訊號日以來%」＝對訊號日收盤）
+  - 選用的第 12 個參數＝`make_list.py` 的位置、第 13 個參數＝TWT49U 封存資料夾（預設 `research/tw_stock_selection/raw/twt49u/twse-exright`）。
+  - 2026-11 這一版實際用的指令（2026-11-18 重產）：
+    `python3 -I -B xq_scripts/site/build_site_data.py research/tw_stock_selection/agents/s18_live_list/lists/2026-11_exright.csv research/tw_stock_selection/agents/s18_live_list/lists/2026-11_backtest_holdings_exright.csv research/tw_stock_selection/agents/s18_live_list/lists/2026-11_exright.json xq_scripts/site/profit.json 2026-11-18 2026-12-11 2026-12-14 xq_scripts/site/data <暫存>/tsd xq_scripts/site/state/holdings_after_2026-11.csv 2026-11-12`
+- **live.json 含息總報酬口徑（2026-11-18 起；`xq_scripts/site/live_tr.py`，S69 前瞻驗證計畫的要求）**：
+  - 以前 live.json 只用官方日 K 收盤（未含除息調整），跨除息日後策略與 0050 的比較會失真。現在策略帳戶與 0050 對照帳戶用同一段程式（`live_tr.simulate`）：
+    - 起始日**之後**遇到持股的除息日：現金股利（息值 × 股數）加進帳戶現金，**留在現金、不再投入**。起始日當天除權息的不算（開盤價已是除權息後）。
+    - 除權、權息、ETF 分割、面額變更、減資：股數 × 調整倍數（＝前收 ÷ 參考價；分割取整數倍）。
+      權息合併、現金增資除權、退還股款的減資，官方表沒有把現金和股數分開，一律用股數調整（等同那筆現金在事件日以參考價再投入），事件紀錄標「近似」，不猜拆分比例。
+  - **除權息資料來源**：官方日 K 倉庫的日期軸事件檔 `data/universe/exright`（上市除權息，每日一檔、有事件才有檔）、`etfsplit`、`parvalue`、`reduce`（上櫃是 `otcexright`、`otcparvalue`、`otcreduce`），讀 git HEAD；
+    倉庫沒有那一天的除權息檔才用研究中心 TWT49U 封存 `research/tw_stock_selection/raw/twt49u/`（目前只到 2026-10-29）。2026-11-18 重產時倉庫的除權息檔到 **2026-11-18**。
+  - **資料不足時不猜**：live、holdings、status 的 meta 都有三列——「除權息資料涵蓋」（`covered_through`＝最後一個有事件檔的日子）、「期間除權息事件」（`n_events`、`n_events_0050`）、
+    「除權息警告」（`warning`＝true／false）。除權息資料最後一天早於最新股價日時，警告寫「上市除權息資料只涵蓋到 X，之後（到 Y）未調整」，程式同時在 stderr 印出；
+    另外列出「漲跌價差＝0 但收盤有變、又不在除權息資料」的可疑格子（只提示、不調整）。看到警告要先更新官方日 K 倉庫（或補 TWT49U 封存）再重產。
+    注意：沒有事件的日子倉庫不會有檔，所以倉庫若停在一個剛好沒有事件的日子，警告可能是多報；不會少報。
+  - **持股表（holdings）遇到除權息時**：現金股利的錢放在「現金」列（成本金額＝起始現金、最新市值＝起始現金＋已領股利），損益記在該股那一列
+    （該股 損益金額＝最新市值 − 成本金額＋已領現金股利，損益% 同口徑；現金列損益記 0），所以「各列損益加總＝累計損益」「個股＋0050＋現金＝合計＝live 最後一天」照舊逐元檢查。
+    除權／分割後「股數」欄是調整後股數（成本仍用起始股數 × 起始價）。該股「備註」與合計列「備註」會寫出事件。
+  - **沒有事件時數字和舊算法逐元相同**：2026-11-12～11-17 持股（3311、4938、2480、1802、0050）沒有任何除權息事件，2026-11-18 重產後 8 個資料檔的 rows 和改版前逐位相同，只有 meta 變。
+  - **測試**：`python3 -I -B xq_scripts/site/test_live_tr.py <官方日K倉庫>`（歷史假想：只持有 0050，起始日設在除息日前一個交易日／分割前；含息後帳戶報酬對 `data/adj/0050.csv` 還原因子算的含息還原報酬）。
+    改 `live_tr.py` 之後要跑，全部通過才重產資料。2026-11-18 的結果存在 `research/tw_stock_selection/agents/r69_replicate_s69/live_tr_test.json`。
+  - **已知限制（要產品擁有者決定）**：現金股利留在現金、不再投入（2026-11-18 任務指定的做法）。
+    - 策略帳戶：現金在下次換股會重新配置——**每月做 `holdings_after_YYYY-MM.csv`／`cash_after_YYYY-MM.txt` 時要把期間領到的現金股利算進去**（金額見 holdings 現金列備註的「持股檔口徑」）。
+    - 0050 對照帳戶：股利會一直閒置，長期比「含息還原（股利再投入）」的 0050 低，等於讓策略相對 0050 佔便宜。
+      歷史試算（`test_live_tr.py` 的 E 項）：2015-07-01～2026-10-22 只買 0050，現金留著期末 6.77 倍、含息還原 8.78 倍，**每年約少 2.8 個百分點**（期末現金占 9%）。
+      `build_site_data.py` 開頭的 `BENCH_REINVEST`（預設 False）改成 True 就是「除息日收盤買回 0050」（測試 A'、C''：和含息還原報酬差 < 0.05 個百分點）。
+      0050 下次除息（約 2027-01）之前兩種做法數字相同；**在那之前、最晚 S69 第 1 次檢視（2027-10）之前要決定**，改了在這裡註記變更日。
+    - 驗收「含息後帳戶報酬＝含息還原報酬，差 < 0.05 個百分點」：現金留著的做法只在短窗、除息後漲跌不大時成立（差的理論值＝股利 ÷ 期初總值 ×（1 − 期末收盤 ÷ 參考價），
+      扣掉這項後殘差 < 0.001 個百分點）；例如 2026-01-22 除息後 5 天漲 4%，差是 −0.057 個百分點。
+  - **不連網的環境**：官方日 K 倉庫是 blob:none 的部分複製，`git show` 讀本機沒有的檔會向 GitHub 抓。除權息事件檔抓不到時 `live_tr.load_events` 會記在 `unreadable`、
+    「除權息警告」會寫「有 N 個除權息事件檔讀不到內容」，不會當成沒有事件。要保證不連網：先設 `GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=protocol.allow GIT_CONFIG_VALUE_0=never`。
+  - 目前 `build_site_data.py` 整段期間只用一份換股後持股檔（從上線起始日算到最新一天）；2026-12 換股後要怎麼把多個月份的持股檔接起來，還沒做（改版前就是這樣）。
 - **持股頁完整交易資訊（2026-11-18 起；後三個參數有給時才有）**：
   - **帳戶口徑**：策略模擬帳戶，起始日（2026-11-12）開盤＝100 萬元。持股檔股數在那天開盤連現金是 917,733 元，不是剛好 100 萬（live.json 一直把它正規化成 100 萬）。
     所以金額欄一律＝持股檔股數 × 換算倍數（100 萬 ÷ 917,733.4＝1.089641）× 價格；「股數」欄仍是持股檔原始股數，「帳戶股數」＝股數 × 換算倍數（四捨五入到整數股，只供閱讀）。百分比不受影響。

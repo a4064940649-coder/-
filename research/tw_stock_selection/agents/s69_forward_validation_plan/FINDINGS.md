@@ -1,6 +1,6 @@
 # FINDINGS：S69 十年前瞻驗證計畫（E0|W10_70 實盤逐日淨值對 0050）
 
-（子代理不能寫 .md，由研究中心總監依其最後回覆存檔；全部數字見 results.json、plain_table.json；凍結界線在 PLAN_FROZEN.json。SPEC sha256 271f5962651c37bb85ecb2220cc30c47072b634a30deb678b3113ceb45df2ad3、PREREG sha256 f24dd37de101ba2a7771b2eb9a7a45e0069470fb7f1f5d29d146ce11cab35120、PLAN_FROZEN sha256 c1174beecfef89e34a898dfe665f4d45445858a2c26f7e40ae57532c5dad702d。**狀態：未獨立重現（待 R69）；停用規則是否採用由產品擁有者決定。**）
+（子代理不能寫 .md，由研究中心總監依其最後回覆存檔；全部數字見 results.json、plain_table.json；凍結界線在 PLAN_FROZEN.json。SPEC sha256 271f5962651c37bb85ecb2220cc30c47072b634a30deb678b3113ceb45df2ad3、PREREG sha256 f24dd37de101ba2a7771b2eb9a7a45e0069470fb7f1f5d29d146ce11cab35120、PLAN_FROZEN sha256 c1174beecfef89e34a898dfe665f4d45445858a2c26f7e40ae57532c5dad702d。**狀態：2026-11-18 R69 獨立重現成功（72 項全符）；停用規則是否採用由產品擁有者決定。**）
 
 ## 結論
 以樣本內追蹤誤差（16.2 個百分點）來看，10 年前瞻紀錄也很難在統計上回答「策略有沒有用」：真實年化超額 +5 時，10 年後單尾 5% 顯著的機率只有 17%（常態假設 25%）；+12 才有 84%。所以計畫除正式界線外，另登記一條「滿 5 年累積超額為負就停用」的務實線。
@@ -38,3 +38,7 @@
 2. 有效界線實際型一誤差約 1%（偏保守）；要拿回檢定力需另題登記。
 3. 待 R69 重現後才對外使用。
 4. o 系列主策略前瞻線（live_tracking/main_forward）與本計畫是兩條線，對外要分清楚。
+
+## R69 補記
+- 正式無效界線觸發了 SPEC 的 size_contingency：理論 Kim-DeMets 界線在真實 +3 時誤判無效 21.4%（> 11%），z 界線放大約 1.33 倍後 ≤ 10%；有效界線未觸發（型一誤差約 1.06%）。PLAN_FROZEN 符合 PREREG。
+- 網站 live.json 已改含息總報酬口徑（xq_scripts/site/live_tr.py）；0050 對照帳戶股利在除息日收盤再投入（BENCH_REINVEST＝True，2026-11-18 起），否則長期每年少算約 2.8 個百分點。

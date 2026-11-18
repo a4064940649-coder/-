@@ -11,6 +11,7 @@
 - 誰在讀：
   - `agents/o_ext_canslim_xs/cslib.py` 的 `Panel(exright_fix=True)`（預設 False＝不讀，舊結果逐位相同）。
   - `agents/s18_live_list/live_surge/make_list.py --exright-fix`（預設開啟）。
+  - `xq_scripts/site/live_tr.py`（2026-11-18 起；網站 live.json 的含息口徑）：只當備援——官方日 K 倉庫 `data/universe/exright` 沒有那一天的檔時才用這裡的事件。
 - 每月補資料：2026-10-29 之後的事件還沒有。請每月從證交所 TWT49U（或同一鏡像）補 `twse-exright/YYYY/YYYY-MM.csv.gz`，
   同格式，補完重算 `SHA256SUMS`（`find twse-exright -name '*.csv.gz' | sort | xargs sha256sum > SHA256SUMS`），並更新本檔「涵蓋」。
   沒補到的月份：除權息日的漲跌價差仍是 0（當天報酬記 0、少算股利），名單產生器會在 meta 列出這段期間名單股的可疑格子。
