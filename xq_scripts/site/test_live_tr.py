@@ -9,6 +9,7 @@
 #      只比到 2026-08-11：navs 的 0050 欄從 2026-08-12 起和官方日 K 收盤的日報酬每天差 ±0.05～0.19 個百分點（價格來源不同，和除息無關）。
 #   A'、C'' 同 A、C，但現金股利在除息日收盤買回（simulate(reinvest=True)，0050 對照帳戶的另一種做法），原始差應 < 0.05 個百分點
 #   D 把倉庫事件檔當成沒有、只用研究中心 TWT49U 封存重算 C，結果應相同
+#   F、G 跨月銜接（simulate 的 switches）：換成相同持股＝和不換股逐位相同；除息日開盤換股，舊持股領得到當天股利
 #   E（說明用，不設門檻）2015-07-01～2026-10-22 只買 0050：現金留著 對 還原（股利再投入），量化「現金不再投入」的長期差
 # 注意：官方日 K 倉庫若是 blob:none 的部分複製，讀本機沒有的舊日檔會向遠端抓（要連網）。不能連網時先設
 #   GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=protocol.allow GIT_CONFIG_VALUE_0=never，缺檔會直接報錯而不是去抓。
@@ -80,6 +81,21 @@ ev2, _ = LT.load_events(tsd, "2026-07-20", "2026-10-22", {"0050"}, ARCH, {})
 D = LT.simulate({"0050": 1000.0}, 0.0, [d for d in DAYS if "2026-07-20" <= d <= "2026-10-22"], px_of, ev2, "2026-07-20")
 res.append({"測試": "D 只用 TWT49U 封存重算 C", "含息帳戶報酬%": round((D["nav"] / D["base"] - 1) * 100, 4), "差_個百分點": round((D["nav"] / D["base"] - A["nav"] / A["base"]) * 100, 6),
             "容許_個百分點": 1e-6, "通過": bool(abs(D["nav"] / D["base"] - A["nav"] / A["base"]) < 1e-8 and len(D["log"]) == 1)})
+# F、G（2026-11-19 加，跨月銜接的 switches）：
+#   F 換股日把帳戶「換成一模一樣的持股與現金」（一次在平常日 2026-08-03、一次就在除息日 2026-07-21）→ 每日淨值和不換股（C）逐位相同、換股前後開盤總值相同
+#   G 除息日 2026-07-21 開盤把 0050 全部換成現金（現金＝換股前開盤總值）→ 舊持股領得到當天的股利：期末淨值＝1000 股 × 除息日開盤＋股利
+dC = [d for d in DAYS if "2026-07-20" <= d <= "2026-10-22"]
+evC, _ = LT.load_events(tsd, "2026-07-20", "2026-10-22", {"0050"}, ARCH, FD)
+divC = sum(l["現金股利"] for l in A["log"])
+for sd in ("2026-08-03", "2026-07-21"):
+    Fx = LT.simulate({"0050": 1000.0}, 0.0, dC, px_of, evC, "2026-07-20", switches={sd: {"sh": {"0050": 1000.0}, "cash": divC}})
+    w = Fx["switch_log"][0]
+    res.append({"測試": f"F 換股日 {sd} 換成相同持股與現金（switches）", "每日淨值和不換股相同": Fx["rows"] == A["rows"], "換股前後開盤總值差": w["value_before"] - w["value_after"],
+                "通過": bool(Fx["rows"] == A["rows"] and w["value_before"] == w["value_after"] and w["cash_before"] == divC and len(Fx["log"]) == len(A["log"]))})
+o21 = px_of("2026-07-21")["0050"][0]
+G = LT.simulate({"0050": 1000.0}, 0.0, dC, px_of, evC, "2026-07-20", switches={"2026-07-21": {"sh": {}, "cash": 1000.0 * o21 + divC}})
+res.append({"測試": "G 除息日 2026-07-21 開盤全部換成現金（舊持股領當天股利）", "期末淨值": G["nav"], "應為": 1000.0 * o21 + divC, "現金股利": divC,
+            "通過": bool(divC > 0 and abs(G["nav"] - (1000.0 * o21 + divC)) < 1e-9 and G["switch_log"][0]["value_before"] == G["switch_log"][0]["value_after"] and all(v == G["nav"] for d, v in G["rows"] if d >= "2026-07-21"))})
 # E：長期「現金不再投入」的差（說明用）。只讀起訖兩天的日 K：事件一次套在期末（現金股利不再投入，所以結果和逐日算相同）
 dl = ["2015-07-01", "2026-10-22"]
 evL, _ = LT.load_events(tsd, dl[0], dl[-1], {"0050"}, ARCH, FD)

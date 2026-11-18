@@ -139,11 +139,16 @@ def apply_event(ev, shares, prev_close=None):
     return 0.0, shares * fac, log
 
 
-def simulate(sh0, cash0, days, px_of, events, start, reinvest=False):
+def simulate(sh0, cash0, days, px_of, events, start, reinvest=False, switches=None):
     """帳戶逐日總值。sh0＝{代號: 股數}；px_of(日)＝{代號: (開盤, 收盤)}；events＝{日期: [事件]}。
     reinvest＝False（預設）：現金股利留在帳戶現金；True：現金股利在除息日以當天收盤買回同一檔（只給對照與測試用，零股、不計費用）。
+    switches（2026-11-19 加，跨月銜接用）＝{換股執行日: {"sh": 換股後持股, "cash": 換股後現金}}：那一天先把當天的除權息事件套到舊持股
+    （除息日開盤才賣仍領得到股利），再在開盤把帳戶換成新持股與新現金；當天收盤用新持股算。換股前後的開盤總值記在 switch_log，
+    兩者的差＝這次換股的交易成本（由持股檔與現金檔決定，這裡不另外算費用）。不給 switches 時和以前逐位相同。
     回傳 dict：rows＝[(日, 收盤總值)]、base＝起始日開盤總值（含現金）、nav＝最後一天總值、sh＝最後股數、cash＝最後現金、
-    div＝{代號: 累計現金股利}、log＝已套用事件紀錄。"""
+    div＝{代號: 累計現金股利}、log＝已套用事件紀錄、switch_log＝[每次換股的前後狀態]。"""
+    switches = dict(switches or {}); sw_log = []
+    if any(d <= start for d in switches): raise ValueError("換股日必須晚於帳戶起始日：" + "、".join(sorted(d for d in switches if d <= start)))
     sh = dict(sh0); cash = cash0; base = None; nav = None; rows = []; log = []; div = {}
     prev_day = None; prev_px = {}
     ev_days = sorted(events)
@@ -163,11 +168,26 @@ def simulate(sh0, cash0, days, px_of, events, start, reinvest=False):
                         sh[k] += c / px[k][1]; lg["再投入"] = f"以 {d} 收盤 {px[k][1]:g} 買回 {c / px[k][1]:.6f} 股"
                     else:
                         cash += c
+            if d in switches:
+                sw = switches.pop(d); new = {k: v for k, v in sw["sh"].items() if v}
+                opn = {}; noopen = []
+                for k in sorted(set(sh) | set(new)):
+                    o = px[k][0] if (k in px and px[k][0]) else None
+                    if o is None:                      # 當天沒有開盤價（停牌、整天無成交）：用前一個收盤估值，並記下來
+                        o = (prev_px.get(k) or (None, None))[1]; noopen.append(k)
+                    if o is None: raise ValueError(f"換股日 {d} 的 {k} 沒有開盤價也沒有前一個收盤，無法估值")
+                    opn[k] = o
+                v0 = sum(sh[k] * opn[k] for k in sh) + cash
+                rec = {"日期": d, "sh_before": dict(sh), "cash_before": cash, "div_before": dict(div), "open": opn, "noopen": noopen, "value_before": v0}
+                sh = dict(new); cash = sw["cash"]
+                rec.update({"sh_after": dict(sh), "cash_after": cash, "value_after": sum(sh[k] * opn[k] for k in sh) + cash})
+                sw_log.append(rec)
         nav = sum(sh[k] * px[k][1] for k in sh if k in px and px[k][1]) + cash
         rows.append((d, nav)); prev_day = d
         for k in sh:
             if k in px and px[k][1]: prev_px[k] = px[k]
-    return {"rows": rows, "base": base, "nav": nav, "sh": sh, "cash": cash, "div": div, "log": log}
+    if switches: raise ValueError("換股日不是交易日或晚於資料最後一天：" + "、".join(sorted(switches)))
+    return {"rows": rows, "base": base, "nav": nav, "sh": sh, "cash": cash, "div": div, "log": log, "switch_log": sw_log}
 
 
 def markets(tsd, day, codes):
