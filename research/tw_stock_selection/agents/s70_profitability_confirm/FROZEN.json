@@ -1,0 +1,61 @@
+{
+ "written_at": "2026-11-18T04:06:18",
+ "PREREG_sha256": "0fcabade99481c3bdfac0359bd4b59e382239670e613dd4fdd067a7626e4109c",
+ "selected": "不改",
+ "frozen_for_validation": "C1",
+ "T0_pass": false,
+ "selection": {
+  "order": [
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "top": "C1",
+  "cond_return_ge_cur_plus1": false,
+  "cond_dd_not_deeper_than_cur_minus2": true,
+  "selected": "不改",
+  "frozen_for_validation": "C1",
+  "T0_pass": false,
+  "T0_text": "T0：成對中位數 +0.36 個百分點、≥ +0.25 的路徑 13/20"
+ },
+ "train_summary": {
+  "train_median": 0.33518656951900605,
+  "train_min": 0.30496623269017165,
+  "train_max": 0.3598745207272209,
+  "train_dd_median": -0.25850749140653595,
+  "n_trades_median": 159.0,
+  "avg_stockfrac_median": 0.2554871556704702,
+  "train_calmar_median": 1.302134078962219,
+  "median_minus_cur_pp": 0.25158712098403146,
+  "dd_median_minus_cur_pp": 0.5115477287018333,
+  "paired_median_pp": 0.36497481211988925,
+  "npos": 13,
+  "n_ge025": 13,
+  "paired_min_pp": -1.3183261112029498,
+  "paired_max_pp": 3.6770465266447783,
+  "paired_dd_median_pp": 0.47192783476480704,
+  "n_dd_shallower": 19,
+  "paired_calmar_median": 0.04213217225664445,
+  "calmar_npos": 16,
+  "y1618_median_pp": 1.4307040580908592,
+  "y1618_npos": 18,
+  "y1921_median_pp": -1.3330586103828534,
+  "y1921_npos": 7,
+  "by_shift_median_pp": {
+   "+0": 1.2865932951491965,
+   "+1": 0.36917149387156734,
+   "+2": -0.9579773967023808,
+   "+3": -0.23326666824832198
+  }
+ },
+ "train_summary_cur": {
+  "train_median": 0.33267069830916574,
+  "train_min": 0.29737751459128847,
+  "train_max": 0.3501983618288038,
+  "train_dd_median": -0.2636229686935543,
+  "n_trades_median": 189.5,
+  "avg_stockfrac_median": 0.29246434405480115,
+  "train_calmar_median": 1.2561370446078883
+ },
+ "note": "凍結後 validate.py 只跑一次；不得換候選。selected＝「不改」時，仍以訓練期中位數最高的候選跑驗證期，只作描述，總判定為不通過。"
+}

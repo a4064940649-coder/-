@@ -5,11 +5,21 @@
 #   現金會計入 live.json 的策略淨值（起點與每日都加上現金）。
 # <profit.json> 由 make_profit.py 產生（0050 用精確含息還原價，週標籤＝當週最後一個交易日）。
 # 另產生 risk.json（README 的回測風險數字，標明出處）。
+# 2026-11-18 起（後三個參數有給時）持股頁列出完整交易資訊：
+#   holdings 每列加 帳戶股數、成本金額、最新市值、損益金額、損益%、占總資產%、季線價位、距季線%、試算名次、目前狀態、出場條件、本月交易、備註，
+#   並加「現金」「合計」兩列；status 加帳戶起始日、起始資金、目前總資產、累計損益、同期 0050、下次檢查條件；actions 加股數、成交價、金額。
+#   金額一律是「100 萬帳戶口徑」：持股檔股數在起始日開盤連現金不是剛好 100 萬，live.json 一直把它正規化成 100 萬；
+#   這裡用同一個換算倍數（100 萬 ÷ 起始日開盤總值），所以合計列總資產＝live.json 最後一筆策略淨值（不一致就報錯、不寫檔）。
+#   季線（60 日均線）與試算名次直接呼叫名單產生器 make_list.py 的 compute()／held_status()（還原收盤口徑同策略 E0），
+#   先在訊號日重算一次、和名單的前 20 名與距季線逐檔比對（不同就報錯），再把日期換成最新一天試算。
+#   make_list.py 預設讀 ../../research/tw_stock_selection/agents/s18_live_list/live_surge/make_list.py，可用第 12 個參數另外指定（需要 numpy／pandas）。
 import csv, json, sys, os, re
 lst_csv, hold_csv, lst_json, profit_json, today, next_sig, next_exec, outdir = sys.argv[1:9]
 tsd = sys.argv[9] if len(sys.argv) > 9 else None
 state_csv = sys.argv[10] if len(sys.argv) > 10 else None
 live_start = sys.argv[11] if len(sys.argv) > 11 else None
+ml_path = sys.argv[12] if len(sys.argv) > 12 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "research", "tw_stock_selection", "agents", "s18_live_list", "live_surge", "make_list.py")
+START_CAPITAL = 1000000
 cash_file = re.sub(r'holdings_after_([^/]+)\.csv$', r'cash_after_\1.txt', state_csv) if state_csv else None
 def read_cash(p):
     if not p or p == state_csv or not os.path.exists(p): return 0.0, None
@@ -32,14 +42,70 @@ def day_prices(date):
 def trade_days():
     txt = subprocess.run(["git", "-C", tsd, "ls-tree", "--name-only", "HEAD", "data/universe/daily/"], capture_output=True, text=True, check=True).stdout
     return sorted(x.rsplit("/", 1)[1][:-4] for x in txt.split())
+md = lambda d: f"{int(d[5:7])}/{int(d[8:10])}"          # 2026-12-11 → 12/11
+def alloc(vals, total):
+    """把一組金額四捨五入成整數元，而且加總剛好等於 total（最大餘數法）；逐列金額與合計才會逐元一致。"""
+    fl = [int(v // 1) for v in vals]; left = int(total) - sum(fl)
+    if not 0 <= left <= len(vals): raise SystemExit(f"金額分配檢查失敗：各列合計 {sum(vals):.2f} 和總數 {total} 對不上")
+    for i in sorted(range(len(vals)), key=lambda i: -(vals[i] - fl[i]))[:left]: fl[i] += 1
+    return fl
+def live_rows_calc(sh):
+    """上線後每日淨值（起始日開盤＝100 萬）。回傳（每日列, 起始日開盤總值含現金, 最新一天總值含現金）。"""
+    rows = []; base = None; e_base = None; nav = None
+    for d in [d for d in trade_days() if d >= live_start]:
+        px = day_prices(d)
+        if not px: continue
+        if base is None:
+            base = sum(sh[k] * px[k][0] for k in sh if k in px and px[k][0]) + cash; e_base = px["0050"][0]
+        nav = sum(sh[k] * px[k][1] for k in sh if k in px and px[k][1]) + cash
+        rows.append({"日期": d, "策略": round(nav / base * 1e6), "0050": round(px["0050"][1] / e_base * 1e6)})
+    return rows, base, nav
+def ma_trial(codes):
+    """季線與「若今天就是訊號日」的試算：呼叫名單產生器 make_list.py（同策略 E0 的還原收盤口徑）。
+    回傳 {代號: {季線價位, 距季線%, 試算名次, 目前狀態, 原因}}, 說明 dict。"""
+    import importlib.util
+    if not os.path.exists(ml_path): raise SystemExit(f"找不到名單產生器 {ml_path}（季線與試算名次要用它）；可用第 12 個參數指定")
+    sp = importlib.util.spec_from_file_location("make_list", ml_path); ml = importlib.util.module_from_spec(sp); sp.loader.exec_module(ml)
+    M = L.get("meta") or {}
+    cut = (((M.get("rev") or {}).get("supplement") or {}).get(L["rev_month"]) or {}).get("cutoff")
+    exr_on = bool((M.get("exright") or {}).get("on")); dl_on = bool((M.get("deadline") or {}).get("on"))
+    D = ml.Data([ml.RAW_DEFAULT, tsd], rev_cutoff=cut)
+    if D.dates[-1] != last_day: raise SystemExit(f"名單產生器讀到的日 K 最後一天 {D.dates[-1]} 和網站資料 {last_day} 不同")
+    # 1) 訊號日重算，和名單逐檔比對（確認口徑相同）
+    r1 = ml.compute(D, L["signal_month"], exright=exr_on, extra_codes=codes, deadline=dl_on)
+    if r1.get("status") != "有訊號" or r1.get("sig_date") != L["sig_date"]: raise SystemExit("季線口徑檢查失敗：訊號日重算沒有訊號或日期不同")
+    if [t["code"] for t in r1["top20"]] != [t["code"] for t in L["top20"]]: raise SystemExit("季線口徑檢查失敗：訊號日重算的前 20 名和名單不同")
+    dmax = max(abs(a["dist_ma60"] - b["dist_ma60"]) for a, b in zip(r1["top20"], L["top20"]))
+    if dmax > 1e-9: raise SystemExit(f"季線口徑檢查失敗：訊號日重算的距季線和名單最大差 {dmax}")
+    # 2) 把「訊號日」換成最新一天再算一次（營收仍是名單那一份；只有股價、季線、股池是最新的）
+    ml.signal_day = lambda D_, month, deadline=False: (len(D_.dates) - 1, None, "")
+    r2 = ml.compute(D, L["signal_month"], exright=exr_on, extra_codes=codes, deadline=dl_on)
+    if r2.get("status") != "有訊號" or r2.get("sig_date") != last_day: raise SystemExit("試算失敗：最新一天沒有訊號或日期不同")
+    out = {}
+    for c in codes:
+        st, r = ml.held_status(r2, c)
+        if r is None or r.get("dist_ma60") is None or not r.get("close"):
+            out[c] = {"季線價位": None, "距季線%": None, "試算名次": None, "目前狀態": "會賣：" + st["reason"], "原因": st["reason"]}; continue
+        if st["action"] == "續抱": cur = "續抱"
+        elif "跌破季線" in st["reason"]: cur = "會賣：跌破季線"
+        elif "前 20 名" in st["reason"]: cur = "會賣：跌出前 20 名"
+        else: cur = "會賣：" + st["reason"]
+        out[c] = {"季線價位": round(r["close"] / (1 + r["dist_ma60"]), 2), "距季線%": round(r["dist_ma60"] * 100, 2), "試算名次": r["rank_ma"],
+                  "目前狀態": cur, "原因": st["reason"], "_close": r["close"]}
+    x = r2.get("exright") or {}
+    info = {"訊號日比對": f"訊號日 {L['sig_date']} 重算：前 20 名代號順序相同、距季線最大差 {dmax:.1e}", "營收截止": cut, "除權息修正": exr_on,
+            "未確認格子": [f"{u['code']} {u['date']}（{u['fixed']}）" for u in (x.get("unverified") or []) if u["code"] in codes],
+            "封存之後的日子": len(x.get("days_after_twt49u_in_window") or []), "封存最後一天": x.get("twt49u_last"), "試算季線上檔數": r2.get("n_ma")}
+    return out, info
 os.makedirs(outdir, exist_ok=True)
 L = json.load(open(lst_json, encoding='utf-8'))
 P = json.load(open(profit_json, encoding='utf-8'))
 src = os.path.basename(__file__)
 code_txt = open(__file__, encoding='utf-8').read()
+OUT = {}
 def dump(name, rows, extra):
     meta = [{"label": "產生程式", "value": src}, {"label": "資料最後一天", "value": L["data_last_day"]}] + extra + [{"label": src, "value": code_txt, "type": "code", "lang": "python"}]
-    json.dump({"rows": rows, "meta": meta}, open(os.path.join(outdir, name + ".json"), "w", encoding="utf-8"), ensure_ascii=False)
+    OUT[name] = {"rows": rows, "meta": meta}      # 全部算完、檢查都過了才一起寫檔（見檔尾）
 def rd(p):
     with open(p, encoding='utf-8-sig') as f: return list(csv.DictReader(f))
 H = rd(hold_csv)
@@ -78,8 +144,50 @@ if tsd:
         c = last_px.get(x["代號"], (None, None))[1]
         x["最新收盤"] = c
         x["訊號日以來%"] = round((c / x["訊號日收盤"] - 1) * 100, 2) if (c and x["訊號日收盤"]) else None
+# 策略帳戶（100 萬帳戶口徑）：持股檔股數 × 換算倍數；換算倍數＝100 萬 ÷ 起始日開盤總值（含現金），和 live.json 的正規化相同
+ACC = None; act_meta = []
+if tsd and state_csv and live_start:
+    sh_state = {r["代號"]: float(r["股數"]) for r in rd(state_csv)}
+    px_start = day_prices(live_start) or {}
+    for k in sh_state:
+        if not px_start.get(k, (None, None))[0] or not last_px.get(k, (None, None))[1]: raise SystemExit(f"持股 {k} 缺起始日開盤價或最新收盤，無法算帳戶金額")
+    live_rows, base_raw, nav_raw = live_rows_calc(sh_state)
+    if not live_rows or live_rows[0]["日期"] != live_start or live_rows[-1]["日期"] != last_day: raise SystemExit("live 每日淨值的起訖日和起始日／最新股價日不同")
+    ACC = {"sh": sh_state, "f": START_CAPITAL / base_raw, "base_raw": base_raw, "nav_raw": nav_raw, "live": live_rows}
+    ACC["total"] = nav_raw * ACC["f"]
+    if round(ACC["total"]) != live_rows[-1]["策略"]: raise SystemExit(f"帳戶總資產 {ACC['total']:.2f} 和 live 最後一天 {live_rows[-1]['策略']} 不一致")
+# 本月換股紀錄：每筆補 股數、帳戶股數、成交日、成交價（執行日開盤）、金額、備註
+if tsd:
+    px_exec = day_prices(L["exec_date"]) if L.get("exec_date") else None
+    for x, r in zip(acts, [r for r in H if r["區塊"].startswith(("持股_賣出", "持股_續抱", "F1"))]):
+        lst_sh = num(r.get("建議股數")); note = []
+        st_sh = ACC["sh"].get(x["代號"]) if ACC else None
+        if x["動作"] == "賣出":
+            x["股數"] = lst_sh
+            if lst_sh is None: note.append("股數資料不足（名單沒有這檔的股數）")
+        else:
+            x["股數"] = st_sh if st_sh is not None else lst_sh
+            if st_sh is not None and lst_sh is not None and st_sh != lst_sh:
+                note.append(f"名單建議 {lst_sh:,.0f} 股（以訊號日收盤估）；帳戶沿用已發布的 {st_sh:,.0f} 股（見 state/README.md）")
+            if x["股數"] is None: note.append("股數資料不足")
+        x["帳戶股數"] = round(x["股數"] * ACC["f"]) if (ACC and x["股數"] is not None) else None
+        if x["動作"] == "續抱":
+            x["成交日"] = None; x["成交價"] = None; x["金額"] = None; note.append("續抱，本月沒有買賣")
+        else:
+            o = (px_exec or {}).get(x["代號"], (None, None))[0]
+            x["成交日"] = L.get("exec_date"); x["成交價"] = o
+            x["金額"] = round(x["股數"] * ACC["f"] * o) if (ACC and o and x["股數"] is not None) else None
+            if o is None: note.append("成交價資料不足（官方日 K 沒有執行日開盤價）")
+            elif x["金額"] is None: note.append("金額資料不足")
+        x["備註"] = "；".join(note) if note else None
+    act_meta = [{"label": "股數", "value": "持股檔口徑：賣出＝名單的持有股數（" + os.path.basename(hold_csv) + " 的建議股數欄）；續抱、買進＝換股後持股檔（" + (os.path.basename(state_csv) if state_csv else "無") + "）的股數"},
+                {"label": "帳戶股數", "value": "100 萬帳戶口徑＝股數 × 換算倍數" + (f" {ACC['f']:.6f}" if ACC else "") + "，四捨五入到整數股（只供閱讀；金額用未四捨五入的股數算）"},
+                {"label": "成交價", "value": f"執行日 {L.get('exec_date')} 的官方日 K 開盤價（模擬帳戶假設開盤成交；不是實際券商成交回報）。續抱沒有買賣，成交日、成交價、金額是空的"},
+                {"label": "金額", "value": "100 萬帳戶口徑＝股數 × 換算倍數 × 成交價，四捨五入到元；沒有扣手續費、證交稅、滑價"},
+                {"label": "備註", "value": "空值＝不適用；資料來源沒有的欄位會在這裡寫「資料不足」，不用猜的"},
+                {"label": "沒有的資料", "value": "賣出各檔當初的買進成本與已實現損益：資料不足（state 與 lists 都沒有）。0050 本月的買賣寫在持股表 0050 那一列的「本月交易」"}]
 dump("actions", acts, [{"label": "來源", "value": os.path.basename(hold_csv) + "（策略回測持股延續到本月的換股結果）"},
-                       {"label": "訊號日以來%", "value": "最新收盤 ÷ 訊號日收盤 − 1（基準是訊號日收盤，不是成交日開盤；持股表的「本月以來%」才是對起始價）"}])
+                       {"label": "訊號日以來%", "value": "最新收盤 ÷ 訊號日收盤 − 1（基準是訊號日收盤，不是成交日開盤；持股表的「本月以來%」才是對起始價）"}] + act_meta)
 # 目前持股（有換股後持股 csv 時加「股數」與「起始價」＝上線起始日開盤價，並加一列 0050）
 hold = [ {k: x.get(k) for k in ("代號", "名稱", "名次", "SURGE", "訊號日收盤", "最新收盤")} | {"狀態": "新買" if x["動作"] == "買進" else "續抱"} for x in acts if x["動作"] in ("續抱", "買進")]
 hold_meta = [{"label": "說明", "value": "另有 0050（底倉 30%＋衛星沒用完的資金）"}]
@@ -93,16 +201,117 @@ if tsd and state_csv:
     for x in hold:
         x["股數"] = sh.get(x["代號"])
         x["起始價"] = (p0 or {}).get(x["代號"], (None, None))[0]
-    hold_meta += [{"label": "股數", "value": os.path.basename(state_csv) + "（100 萬比例的策略持股）"},
+    hold_meta += [{"label": "股數", "value": os.path.basename(state_csv) + "（持股檔原始股數：回測持股按比例縮放＋本月新買；金額口徑見「帳戶口徑」）"},
                   {"label": "起始價", "value": f"{live_start} 開盤價（上線起始）"}]
     if cash_src:
-        hold_meta.append({"label": "現金", "value": f"另有現金 {cash:,.0f} 元（{os.path.basename(cash_src)}），已計入 live.json 淨值"})
+        hold_meta.append({"label": "現金", "value": f"另有現金 {cash:,.0f} 元（{os.path.basename(cash_src)}；持股檔口徑），已計入 live.json 淨值"})
 # 本月以來%：有起始價時＝最新收盤 ÷ 起始價 − 1（和起始價欄、live.json 同一個起點）；沒有起始價時才用訊號日收盤
 for x in hold:
     b = x.get("起始價") or None; c = x.get("最新收盤")
     if b is None: b = x.get("訊號日收盤")
     x["本月以來%"] = round((c / b - 1) * 100, 2) if (c and b) else None
 hold_meta.append({"label": "本月以來%", "value": "最新收盤 ÷ 起始價（上線起始日開盤）− 1；沒有起始價時改用訊號日收盤當基準"})
+# 完整交易資訊：金額（100 萬帳戶口徑）、換股點位（季線、試算名次、出場條件）、現金與合計兩列
+SUM = None
+if ACC:
+    f = ACC["f"]; ns, ne, ld = md(next_sig), md(next_exec), md(last_day)
+    rev_now = int(L["rev_month"][5:7]); rev_next = (int(next_sig[5:7]) + 10) % 12 + 1      # 下次訊號日用「上一個月」的營收
+    stock_codes = [x["代號"] for x in hold if x["狀態"] != "0050"]
+    if sorted(x["代號"] for x in hold) != sorted(ACC["sh"]): raise SystemExit("持股表的代號和換股後持股檔不同：" + str(sorted(ACC["sh"])))
+    TR, tinfo = ma_trial(stock_codes)
+    # 金額：逐列四捨五入到元，而且加總＝合計（成本合計＝起始資金；市值合計＝live 最後一天）
+    cost_i = alloc([x["股數"] * x["起始價"] * f for x in hold] + [cash * f], START_CAPITAL)
+    total_i = ACC["live"][-1]["策略"]
+    mv_i = alloc([x["股數"] * x["最新收盤"] * f for x in hold] + [cash * f], total_i)
+    if cost_i[-1] != mv_i[-1]: raise SystemExit("現金在成本與市值兩邊四捨五入後不同")
+    e50_plan = None; base_sh = None
+    pj = re.sub(r"\.csv$", ".json", hold_csv)
+    if pj != hold_csv and os.path.exists(pj):
+        try:
+            PL = (json.load(open(pj, encoding="utf-8")).get("plan") or {}); e50_plan = PL.get("e50"); base_sh = (PL.get("band") or {}).get("base_shares_new")
+        except Exception: e50_plan = None
+    e50_note = next((r["說明"] for r in H if r["區塊"] == "0050"), "")
+    for i, x in enumerate(hold):
+        x["列別"] = "0050" if x["狀態"] == "0050" else "個股"
+        x["帳戶股數"] = round(x["股數"] * f)
+        x["成本金額"] = cost_i[i]; x["最新市值"] = mv_i[i]; x["損益金額"] = mv_i[i] - cost_i[i]
+        x["損益%"] = round((x["最新收盤"] / x["起始價"] - 1) * 100, 2)
+        x["占總資產%"] = round(x["股數"] * x["最新收盤"] * f / ACC["total"] * 100, 2)
+        if x["列別"] == "個股":
+            t = TR[x["代號"]]
+            if t.get("_close") is not None and abs(t["_close"] - x["最新收盤"]) > 1e-9: raise SystemExit(f"{x['代號']} 試算用的收盤 {t['_close']} 和最新收盤 {x['最新收盤']} 不同")
+            x["季線價位"] = t["季線價位"]; x["距季線%"] = t["距季線%"]; x["試算名次"] = t["試算名次"]; x["試算基準日"] = last_day; x["目前狀態"] = t["目前狀態"]
+            rk0 = f"訊號日（{md(L['sig_date'])}）第 {x['名次']:.0f} 名" if x.get("名次") else f"訊號日（{md(L['sig_date'])}）名次資料不足"
+            rk1 = (f"第 {t['試算名次']} 名" if t["試算名次"] else "已不在排名內（季線下的股票不列入排名）" if t["目前狀態"] == "會賣：跌破季線" else "不在排名內（" + t["原因"] + "）")
+            if t["季線價位"] is None:
+                x["出場條件"] = f"只在換股訊號日檢查，平常跌破不賣。下次 {ns} 收盤檢查，不合格就在 {ne} 開盤賣出。季線資料不足（{t['原因']}）。"
+            else:
+                x["出場條件"] = (f"只在換股訊號日檢查，平常跌破不賣。下次 {ns} 收盤檢查：收盤（還原）≤ 季線（以 {ld} 資料估計約 {t['季線價位']:.1f} 元；季線每天會變），"
+                                 f"或跌出前 20 名（{ns} 會用 {rev_next} 月營收重新排名），就在 {ne} 開盤賣出。"
+                                 f"目前：{ld} 收盤 {x['最新收盤']:g} 元，距季線 {t['距季線%']:+.1f}%；名次：{rk0}，用同一份 {rev_now} 月營收、{ld} 股價試算{rk1}。"
+                                 f"若今天就是訊號日，試算結果是「{t['目前狀態']}」。")
+            x["本月交易"] = (f"{md(live_start)} 開盤買進 {x['帳戶股數']:,} 股，成交價 {x['起始價']:g} 元，金額 {x['成本金額']:,} 元" if x["狀態"] == "新買"
+                             else f"續抱，本月沒有買賣；帳戶以 {md(live_start)} 開盤價 {x['起始價']:g} 元起算")
+            x["備註"] = None
+        else:
+            x["季線價位"] = None; x["距季線%"] = None; x["試算名次"] = None; x["試算基準日"] = last_day; x["目前狀態"] = "不適用（底倉＋閒置資金）"
+            x["出場條件"] = ("不適用：0050 是底倉＋還沒用到的資金，不看季線、不看名次，換股日不會因為跌而賣出。"
+                             f"只有 {ns} 名單要買的股票錢不夠（現金用完）時才賣一部分 0050；衛星占總資產超出 60%～80% 時只改記底倉股數。")
+            if e50_plan and e50_plan.get("shares_before") is not None and e50_plan.get("shares_after") is not None:
+                b0, b1 = e50_plan["shares_before"], e50_plan["shares_after"]
+                x["本月交易"] = (f"持股檔口徑：換股前 {b0:,.0f} 股，{'買進' if b1 >= b0 else '賣出'} {abs(b1 - b0):,.0f} 股，換股後 {b1:,.0f} 股（名單以訊號日收盤估算的股數）；"
+                                 f"帳戶以 {md(live_start)} 開盤價 {x['起始價']:g} 元起算，換股後帳戶股數 {x['帳戶股數']:,} 股")
+                if b1 != x["股數"]: x["本月交易"] += f"；注意：名單換股後 {b1:,.0f} 股和持股檔 {x['股數']:,.0f} 股不同"
+            else:
+                x["本月交易"] = "0050 本月買賣股數：資料不足（找不到名單的 json）"
+            x["備註"] = ("其中底倉 " + (f"{base_sh:,.0f}" if base_sh is not None else "（資料不足）") + " 股（持股檔口徑；名單說明：" + (e50_note or "無") + "），其餘是衛星沒用完的資金")
+    cash_i = cost_i[-1]; n_st = sum(1 for x in hold if x["列別"] == "個股")
+    st_mv = sum(x["最新市值"] for x in hold if x["列別"] == "個股"); e_mv = sum(x["最新市值"] for x in hold if x["列別"] == "0050")
+    st_cost = sum(x["成本金額"] for x in hold if x["列別"] == "個股"); e_cost = sum(x["成本金額"] for x in hold if x["列別"] == "0050")
+    e_nav = ACC["live"][-1]["0050"]; pnl = total_i - START_CAPITAL
+    # 檢查（不過就報錯、不寫檔）
+    if st_mv + e_mv + cash_i != total_i: raise SystemExit("檢查失敗：個股市值＋0050 市值＋現金 ≠ 總資產")
+    if st_cost + e_cost + cash_i != START_CAPITAL: raise SystemExit("檢查失敗：各列成本＋現金 ≠ 起始資金")
+    if sum(x["損益金額"] for x in hold) != pnl: raise SystemExit("檢查失敗：各列損益加總 ≠ 累計損益")
+    if abs(sum(x["股數"] * x["最新收盤"] for x in hold) + cash - ACC["nav_raw"]) > 1e-6: raise SystemExit("檢查失敗：持股表和 live 用的股數或價格不同")
+    blank = {"名次": None, "SURGE": None, "訊號日收盤": None, "最新收盤": None, "股數": None, "起始價": None, "本月以來%": None, "帳戶股數": None,
+             "季線價位": None, "距季線%": None, "試算名次": None, "試算基準日": last_day, "目前狀態": "不適用", "出場條件": "不適用"}
+    hold.append({"代號": "現金", "名稱": "現金", "狀態": "現金", "列別": "現金"} | blank | {
+        "成本金額": cash_i, "最新市值": cash_i, "損益金額": 0, "損益%": 0.0, "占總資產%": round(cash * f / ACC["total"] * 100, 2), "本月交易": "沒有買賣",
+        "備註": f"持股檔現金 {cash:,.0f} 元（{os.path.basename(cash_src) if cash_src else '無現金檔，以 0 計'}）× 換算倍數 {f:.6f}；不計利息"})
+    diff_pp = round((total_i - e_nav) / START_CAPITAL * 100, 2)
+    hold.append({"代號": "合計", "名稱": "合計", "狀態": "合計", "列別": "合計"} | blank | {
+        "成本金額": START_CAPITAL, "最新市值": total_i, "損益金額": pnl, "損益%": round(pnl / START_CAPITAL * 100, 2), "占總資產%": 100.0,
+        "本月交易": f"{md(live_start)} 開盤以 {START_CAPITAL:,} 元起算",
+        "備註": (f"起始資金 {START_CAPITAL:,} 元（{live_start} 開盤）→ {last_day} 收盤總資產 {total_i:,} 元：個股 {n_st} 檔 {st_mv:,} 元＋0050 {e_mv:,} 元＋現金 {cash_i:,} 元；"
+                 f"累計損益 {pnl:+,} 元（{pnl / START_CAPITAL * 100:+.2f}%）。同期只買 0050：{e_nav:,} 元（{(e_nav / START_CAPITAL - 1) * 100:+.2f}%）；"
+                 f"策略{'領先' if diff_pp >= 0 else '落後'} {abs(diff_pp):.2f} 個百分點。沒有扣手續費、證交稅；0050 與個股都沒有另外加股利")})
+    n_sell = sum(1 for x in hold if str(x.get("目前狀態", "")).startswith("會賣"))
+    SUM = {"帳戶起始日": live_start, "起始資金": START_CAPITAL, "目前總資產": total_i, "累計損益金額": pnl, "累計損益%": round(pnl / START_CAPITAL * 100, 2),
+           "個股檔數": n_st, "個股市值合計": st_mv, "0050市值": e_mv, "現金": cash_i, "同期只買0050總資產": e_nav, "同期只買0050損益%": round((e_nav / START_CAPITAL - 1) * 100, 2),
+           "領先0050_個百分點": diff_pp, "下次換股檢查日": next_sig, "下次換股執行日": next_exec,
+           "下次檢查條件": (f"只在 {ns} 收盤檢查一次（平常跌破不賣）：個股收盤（還原）≤ 季線（60 日均線），或還在季線上但月營收驚奇排名（改用 {rev_next} 月營收）掉出前 20 名，"
+                            f"就在 {ne} 開盤賣出；0050 不適用。"),
+           "試算基準日": last_day, "試算會賣檔數": n_sell,
+           "試算說明": (f"用 {ld} 的股價與季線、名單那一份 {rev_now} 月營收試算「若今天就是訊號日」：{n_st} 檔個股中 {n_sell} 檔會賣、{n_st - n_sell} 檔續抱。"
+                        f"只是試算，真正只看 {ns} 收盤，而且那天會改用 {rev_next} 月營收重新排名。"),
+           "帳戶換算倍數": round(f, 6), "持股檔起始日開盤總值": round(ACC["base_raw"], 2)}
+    hold_meta[0] = {"label": "說明", "value": "策略模擬帳戶（不是任何人的實際持股）：個股各一列、0050 一列（底倉＋衛星沒用完的資金）、現金一列、合計一列（看「列別」欄）"}
+    hold_meta += [
+        {"label": "帳戶口徑", "value": f"{live_start} 開盤以 {START_CAPITAL:,} 元起算。持股檔股數在那天開盤連現金共 {ACC['base_raw']:,.0f} 元，不是剛好 100 萬，所以金額一律乘上換算倍數 {f:.6f}（＝100 萬 ÷ {ACC['base_raw']:,.1f}，和 live.json 的正規化相同）；百分比不受影響"},
+        {"label": "股數／帳戶股數", "value": "股數＝持股檔原始股數；帳戶股數＝股數 × 換算倍數，四捨五入到整數股（只供閱讀）。金額用未四捨五入的股數算，所以帳戶股數 × 價格和金額欄可能差幾十元"},
+        {"label": "成本金額／最新市值／損益金額", "value": "成本金額＝股數 × 換算倍數 × 起始價；最新市值＝股數 × 換算倍數 × 最新收盤；損益金額＝最新市值 − 成本金額。逐列四捨五入到元並調整到加總剛好等於合計列；沒有扣手續費與證交稅，價格未含除息調整"},
+        {"label": "損益%／占總資產%", "value": "損益%＝最新收盤 ÷ 起始價 − 1（個股與 0050 列同「本月以來%」；合計列＝累計損益 ÷ 起始資金）；占總資產%＝最新市值 ÷ 合計列總資產"},
+        {"label": "合計列檢查", "value": f"合計列最新市值 {total_i:,} 元＝live.json 最後一天（{last_day}）策略淨值；個股＋0050＋現金＝合計、各列損益加總＝累計損益，程式逐元檢查，不一致就報錯不寫檔"},
+        {"label": "季線價位／距季線%", "value": f"季線＝60 日均線，用策略 E0 的還原收盤口徑（名單產生器 make_list.py 的 compute()，和前 20 名表的「距季線%」同一段程式）。距季線%＝{last_day} 還原收盤 ÷ 季線 − 1；季線價位＝最新收盤 ÷（1＋距季線），也就是把季線換算成今天的股價。以最新資料估計，每天會變。{tinfo['訊號日比對']}"},
+        {"label": "名次／試算名次", "value": f"名次＝訊號日 {L['sig_date']} 的名次（{rev_now} 月營收，月內不變）。試算名次＝同一份 {rev_now} 月營收分數（名單的截止版），只把股價、季線、股池換成 {last_day} 重排（季線上 {tinfo['試算季線上檔數']} 檔）；季線下的股票不列入排名所以是空的。{next_sig} 真正檢查時會改用 {rev_next} 月營收，名次會再變"},
+        {"label": "目前狀態", "value": f"以 {last_day} 資料試算「若今天就是訊號日會不會被賣」（make_list.py 的 held_status()）：續抱／會賣：跌破季線／會賣：跌出前 20 名／會賣：其他原因。只是試算，不是賣出訊號"},
+        {"label": "出場條件", "value": f"只在換股訊號日（下次 {next_sig}）收盤檢查，隔天（{next_exec}）開盤賣出；平常跌破季線不賣。0050、現金、合計列不適用"},
+        {"label": "本月交易／備註", "value": "本月交易＝這一列在本月換股做了什麼；0050 列的買賣股數取自名單 json（以訊號日收盤估算）。資料來源沒有的寫「資料不足」"}]
+    if tinfo["未確認格子"]:
+        hold_meta.append({"label": "除權息未確認", "value": "近 60 日有漲跌價差＝0 但收盤有變、又不在除權息封存的日子，季線可能少算股利，請人工確認：" + "、".join(tinfo["未確認格子"])})
+    if tinfo["除權息修正"] and tinfo["封存之後的日子"]:
+        hold_meta.append({"label": "除權息封存", "value": f"除權息參考價封存到 {tinfo['封存最後一天']}，之後有 {tinfo['封存之後的日子']} 個交易日還沒涵蓋；這段期間持股沒有偵測到可疑的除權息日" if not tinfo["未確認格子"] else f"除權息參考價封存到 {tinfo['封存最後一天']}"})
 dump("holdings", hold, hold_meta)
 # 前 20 名
 top = [{"名次": t["rank_ma"], "代號": t["code"], "名稱": t["name"], "SURGE": round(t["surge"], 3), "前20日漲幅%": round(t["ret20"] * 100, 1),
@@ -157,27 +366,28 @@ yrs = sorted(P["years"]["cur"].keys())
 dump("yearly", [{"年": int(y), "現行策略": P["years"]["cur"][y], "XQ版": P["years"]["xq"][y], "0050": P["years"]["etf"][y]} for y in yrs],
      [{"label": "說明", "value": "2015 為 7 月起；2026 到 10/22"},
       {"label": "0050", "value": "用精確含息還原價算（make_profit.py），不用 navs.csv.gz 的整數欄"}])
-# 上線後每日淨值
-if tsd and state_csv and live_start:
-    sh = {r["代號"]: float(r["股數"]) for r in rd(state_csv)}
-    days = [d for d in trade_days() if d >= live_start]
-    rows = []; base = None; e_base = None
-    for d in days:
-        px = day_prices(d)
-        if not px: continue
-        if base is None:
-            base = sum(sh[k] * px[k][0] for k in sh if k in px and px[k][0]) + cash; e_base = px["0050"][0]
-        nav = sum(sh[k] * px[k][1] for k in sh if k in px and px[k][1]) + cash
-        rows.append({"日期": d, "策略": round(nav / base * 1e6), "0050": round(px["0050"][1] / e_base * 1e6)})
+# 上線後每日淨值（每日列在前面的 live_rows_calc 算好；持股表合計列已和最後一天逐元核對）
+if ACC:
+    rows = ACC["live"]
     dump("live", rows, [{"label": "起始", "value": f"{live_start} 開盤＝100 萬（策略換股後持股，含 0050 底倉" + (f"與現金 {cash:,.0f} 元）" if cash_src else "）")},
                         {"label": "持股檔", "value": os.path.basename(state_csv)},
                         {"label": "現金", "value": (f"{cash:,.0f} 元（{os.path.basename(cash_src)}，起點與每日都計入）" if cash_src else "無現金檔，以 0 計")},
                         {"label": "價格", "value": "官方日 K 收盤（未含除息調整）"}])
 # 0050 最新收盤寫進 status（給頁面下單計算用）
 if last_px:
-    stp = os.path.join(outdir, "status.json"); S = json.load(open(stp, encoding="utf-8"))
+    S = OUT["status"]
     S["rows"][0]["0050最新收盤"] = last_px.get("0050", (None, None))[1]; S["rows"][0]["價格日期"] = last_day; S["rows"][0]["資料最後一天"] = L["data_last_day"]
     for m in S["meta"]:
         if m.get("label") == "資料最後一天": m["value"] = L["data_last_day"]
-    json.dump(S, open(stp, "w", encoding="utf-8"), ensure_ascii=False)
+    if SUM:
+        S["rows"][0].update(SUM)
+        S["meta"][-1:-1] = [
+            {"label": "帳戶", "value": f"策略模擬帳戶：{live_start} 開盤以 {START_CAPITAL:,} 元起算（不是任何人的實際帳戶）。目前總資產＝live.json 最後一天策略淨值＝持股表合計列；個股市值合計＋0050市值＋現金＝目前總資產"},
+            {"label": "累計損益", "value": "累計損益金額＝目前總資產 − 起始資金；累計損益%＝累計損益金額 ÷ 起始資金。沒有扣手續費與證交稅，價格未含除息調整"},
+            {"label": "同期只買 0050", "value": "同期只買0050總資產＝起始日開盤把 100 萬全部買 0050 到最新收盤（live.json 的 0050 欄）；領先0050_個百分點＝（目前總資產 − 同期只買0050總資產）÷ 起始資金 × 100，負數＝落後"},
+            {"label": "下次換股", "value": "下次換股檢查日＝下次訊號日（收盤後檢查）；下次換股執行日＝下次執行日（開盤先賣後買）。下次檢查條件＝一句白話的規則"},
+            {"label": "試算", "value": "試算會賣檔數、試算說明＝用試算基準日的股價與季線、本月名單同一份營收試算「若今天就是訊號日」；只供參考，真正只看下次訊號日收盤"},
+            {"label": "帳戶換算倍數", "value": "＝起始資金 ÷ 持股檔起始日開盤總值（持股檔股數 × 起始日開盤價＋現金）；持股表與換股紀錄的金額都乘這個倍數"}]
+for name, doc in OUT.items():
+    json.dump(doc, open(os.path.join(outdir, name + ".json"), "w", encoding="utf-8"), ensure_ascii=False)
 print("ok", outdir, last_day)

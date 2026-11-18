@@ -1,0 +1,263 @@
+{
+ "cache_sha256": {
+  "panel_cs.npz": "434f64222b8fd1f10e1e25c9ac4553e7e6f6d11305896a3ceabb3b212650dfab",
+  "e50_ohlc.csv": "81e8f9819c2a36d610c0540f7d745470e807fcd86d207180eebf8b01292cfdc8",
+  "innov.npz": "ead510610235115d847b043b1525cd5a51e90890c0e8a54c5a7fcce695fc9202"
+ },
+ "panel": {
+  "T": 2876,
+  "N": 2142,
+  "first": "2015-01-05",
+  "last": "2026-10-22",
+  "market_flag": "P.MK（T×N int8，逐日）：1＝上市（twse）、2＝上櫃（tpex）、0＝當日不在官方日 K；stlib.universe(P, \"twse\")＝P.liq & (MK==1)，其他值＝P.liq & (MK>0)；s20lib.load() 本身不分市場，面板上市＋上櫃都載入",
+  "source": "raw/jb7k6295r7-bot_tw-stock-data data/universe/daily/YYYY-MM-DD.csv（官方日 K，上市＋上櫃；四碼非 0 開頭）；本題用官方快取 panel_cs.npz（sha256 驗證）",
+  "by_market": {
+   "上市": {
+    "n_codes_ever": 1162,
+    "first_date": "2015-01-05",
+    "last_date": "2026-10-22",
+    "n_delisted": 73,
+    "delisted_by_year": {
+     "2015": 2,
+     "2016": 7,
+     "2017": 8,
+     "2018": 9,
+     "2019": 7,
+     "2020": 9,
+     "2021": 7,
+     "2022": 10,
+     "2023": 2,
+     "2024": 3,
+     "2025": 3,
+     "2026": 6
+    },
+    "codes_per_year": {
+     "2015": 883,
+     "2016": 906,
+     "2017": 920,
+     "2018": 943,
+     "2019": 953,
+     "2020": 958,
+     "2021": 968,
+     "2022": 985,
+     "2023": 1003,
+     "2024": 1038,
+     "2025": 1070,
+     "2026": 1095
+    },
+    "cells_listed": 2751811,
+    "cells_traded": 2741455,
+    "nan_frac_when_traded": {
+     "close": 0.0,
+     "open": 0.0,
+     "amount": 0.0,
+     "change": 0.0,
+     "volume": 0.0
+    },
+    "change_nan_cells": 0,
+    "change_zero_cells": 286078,
+    "amount_over_vol_x_close_median": 1.0003619391424232
+   },
+   "上櫃": {
+    "n_codes_ever": 1004,
+    "first_date": "2015-01-05",
+    "last_date": "2026-10-22",
+    "n_delisted": 84,
+    "delisted_by_year": {
+     "2015": 9,
+     "2016": 9,
+     "2017": 7,
+     "2018": 8,
+     "2019": 7,
+     "2020": 11,
+     "2021": 4,
+     "2022": 5,
+     "2023": 7,
+     "2024": 6,
+     "2025": 4,
+     "2026": 7
+    },
+    "codes_per_year": {
+     "2015": 719,
+     "2016": 742,
+     "2017": 753,
+     "2018": 774,
+     "2019": 786,
+     "2020": 794,
+     "2021": 795,
+     "2022": 815,
+     "2023": 824,
+     "2024": 844,
+     "2025": 879,
+     "2026": 901
+    },
+    "cells_listed": 2245763,
+    "cells_traded": 2194656,
+    "nan_frac_when_traded": {
+     "close": 0.0,
+     "open": 0.0,
+     "amount": 0.0,
+     "change": 0.003275228555181313,
+     "volume": 0.0
+    },
+    "change_nan_cells": 7188,
+    "change_zero_cells": 223851,
+    "amount_over_vol_x_close_median": 1.0001838235294118
+   }
+  },
+  "market_switch": {
+   "n_otc_to_twse": 28,
+   "n_twse_to_otc": 1
+  }
+ },
+ "exright_sources": {
+  "twt49u": {
+   "path": "/home/user/-/research/tw_stock_selection/raw/twt49u/twse-exright",
+   "market": "只有上市（README 明載；檔內無市場欄，代號全為上市／ETF）",
+   "first": "2014-02-05",
+   "last": "2026-10-29",
+   "n_4digit": 10638,
+   "n_codes_that_are_otc_on_event_day": 0
+  },
+  "exdiv_5y": {
+   "path": "/home/user/stevenhsiehsheng-ctrl/tw-stock-screener/data/extras/exdiv_5y.csv.gz",
+   "first": "2021-10-07",
+   "last": "2026-10-07",
+   "rows_by_market": {
+    "TWSE": 4601,
+    "TPEX": 3455
+   },
+   "tpex_by_year": {
+    "2021": 47,
+    "2022": 657,
+    "2023": 682,
+    "2024": 679,
+    "2025": 707,
+    "2026": 683
+   },
+   "tpex_kind": {
+    "息": 2784,
+    "權": 337,
+    "權息": 334
+   },
+   "note": "tw-stock-screener 公開 repo 的 extras；含上櫃（TPEX）除權息參考價，但只有 2021-10-07 起；2015-01～2021-09 的上櫃除權息參考價本地沒有"
+  },
+  "conclusion": "上櫃除權息參考價：2021-10-07～2026-10-07 有（exdiv_5y）；2015-01-05～2021-10-06 沒有任何本地來源。"
+ },
+ "otc_exright_in_daily_k": {
+  "a_change_nan_prev_traded": 7170,
+  "a_by_year": {
+   "2015": 502,
+   "2016": 493,
+   "2017": 523,
+   "2018": 540,
+   "2019": 568,
+   "2020": 578,
+   "2021": 617,
+   "2022": 652,
+   "2023": 673,
+   "2024": 652,
+   "2025": 699,
+   "2026": 673
+  },
+  "a_by_month": {
+   "1": 59,
+   "2": 53,
+   "3": 202,
+   "4": 223,
+   "5": 80,
+   "6": 984,
+   "7": 2805,
+   "8": 1835,
+   "9": 596,
+   "10": 135,
+   "11": 91,
+   "12": 107
+  },
+  "a_mean_close_over_prev_pct": -4.266678929051145,
+  "a_frac_close_below_prev": 0.8940027894002789,
+  "a_abs_move_gt_10p5pct": 447,
+  "change_nan_other": {
+   "prev_untraded_or_first_bar": 18
+  },
+  "b_change_zero_prev_untraded_le_10p5": 1743,
+  "change_zero_price_changed_prev_traded": 1,
+  "overlap_with_exdiv_5y_window": {
+   "window": "2021-10-07～2026-10-07",
+   "exdiv_tpex_events_in_panel": 3415,
+   "exdiv_events_traded": 3401,
+   "a_cells_in_window": 3391,
+   "a_and_exdiv": 3391,
+   "a_without_exdiv": 0,
+   "exdiv_without_a": 10,
+   "exdiv_without_a_change_numeric": 0,
+   "a_and_exdiv_close_within_10p1pct_of_ref": 3389,
+   "a_and_exdiv_outside": 2,
+   "prev_close_matches_exdiv": {
+    "n": 3415,
+    "match": 3409
+   },
+   "exday_close_over_ref_mean_pct": 0.3214245445616009,
+   "exday_close_over_ref_median_pct": 0.34965034965033226,
+   "ref_over_prev_mean_pct": -4.41627775664637
+  },
+  "reading": "上櫃官方日 K 的漲跌價差在除權息日是「缺值」（櫃買日報該欄是文字「除息／除權」），不是 0。共用引擎遇缺值改用收盤÷前收−1＝把股利當成下跌（偏悲觀）；EXRIGHT_FIX 只修上市（TWT49U）。S16 的上櫃結果就是在這個偏悲觀的口徑下算的。"
+ },
+ "revenue": {
+  "path": "/home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv",
+  "markets": {
+   "sii": 219913,
+   "otc": 178672
+  },
+  "otc_first": "2005-01-01",
+  "otc_last": "2026-09-01",
+  "otc_n_per_year_median": {
+   "2013": 617.0,
+   "2014": 637.5,
+   "2015": 679.5,
+   "2016": 698.5,
+   "2017": 714.0,
+   "2018": 731.5,
+   "2019": 752.0,
+   "2020": 764.5,
+   "2021": 783.0,
+   "2022": 804.0,
+   "2023": 821.0,
+   "2024": 845.0,
+   "2025": 861.0,
+   "2026": 862.0
+  },
+  "otc_hole_months": [
+   [
+    "2018-10",
+    126
+   ]
+  ],
+  "patch": {
+   "file": "/home/user/-/research/tw_stock_selection/agents/s16_surge_otc/rev_patch_otc_201810.csv",
+   "sha256": "011f0b0accedf45a26a0f6ceb048f5fb1d80ea671ced544b0bbd326e818d7ab5",
+   "rows_added": 616,
+   "patched_sha256": "baac088396c2c5c11b8f5e393b2b1cd3de39d121a04a30ac557c6b04850c8ab0",
+   "note": "S16 用 MOPS 官方彙總頁補 2018-10 上櫃 616 家（已獨立複製驗證）"
+  },
+  "otc_delisted_codes": 84,
+  "otc_delisted_with_revenue_to_within_3m": 2,
+  "note": "2013 起營收檔只剩現存公司 → 下市櫃公司選不到（上市同樣限制）；偏誤方向＝高估（存活者），S16 複製員量過約 −0.15 個百分點／年；KY 公司不在營收檔。"
+ },
+ "benchmark": {
+  "path": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv",
+  "note": "0050 含息還原，同現行"
+ },
+ "costs": "上櫃手續費、證交稅 0.3%、跳動點、漲跌幅 ±10%、零股上路日同上市；引擎不分市場（S16 已查）。上櫃實際買賣價差可能較大 → 成本偏樂觀。",
+ "verdict": {
+  "sufficient": true,
+  "gaps": [
+   "2015-01～2021-10-06 上櫃除權息參考價本地沒有 → 近似：除權息日含息報酬記 0（上市稽核：除權息日收盤對參考價平均 +0.36%；本檔上櫃 2021-10 起實測見 exday_close_over_ref_mean_pct）→ 偏誤方向：略偏悲觀（少算除權息日當天的填息）",
+   "下市櫃公司 2013 起沒有營收 → 選不到，偏樂觀（小）",
+   "上櫃成本模型同上市 → 偏樂觀",
+   "創新板旗標只在上市；上櫃無對應板別"
+  ]
+ },
+ "runtime_s": 7.1,
+ "maxrss_mb": 799
+}
