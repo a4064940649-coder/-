@@ -105,6 +105,17 @@
 /* 風險 */
 .mx ul.risks { margin: 0; padding-left: 1.2em; display: grid; gap: var(--cds-gap-sm); line-height: 1.7; max-width: 80ch; }
 .mx ul.risks b.n { font-variant-numeric: tabular-nums; }
+/* 跨月換股：預計標籤、已實現列、未買進、依資料隱藏的欄 */
+.mx .pill.plan { color: var(--color-warn); border-color: var(--color-warn); font-weight: var(--cds-font-weight-medium); }
+.mx h2 .pill { vertical-align: middle; margin-left: 6px; }
+.mx tr.cash td.neg { color: var(--color-bad); }
+.mx tr.cash td.pos { color: var(--color-ok); }
+.mx tr.skip td, .mx .swapgrid li.skip, .mx .swapgrid li.skip .nm { color: var(--color-fg-muted); }
+.mx .swapgrid li.skip { border-style: dashed; }
+.mx table.no-real .c-real, .mx table.one-seg .c-mtd { display: none; }
+.mx .pill[hidden], .mx .calcrow[hidden], .mx .fact[hidden] { display: none; }
+.mx .sumbox { margin: var(--cds-gap-sm) 0 0; padding: var(--cds-pad-sm) var(--cds-pad-md); border-left: 3px solid var(--color-border-line); background: var(--color-bg); border-radius: var(--cds-radius); line-height: 1.7; font-size: var(--cds-font-size-body); overflow-wrap: anywhere; }
+.mx .warnbox:not([hidden]) + .tw, .mx .tw + .warnbox { margin-top: var(--cds-gap-sm); }
 </style>
 
 <div class="mx">
@@ -127,8 +138,14 @@
       <div class="fact"><div class="k">同期只買 0050 的結果</div><div class="v"><span data-draw="acc-e50only" data-source="status" data-field="同期只買0050總資產" data-row="0">—</span><span class="unit">元</span></div><div class="sub">損益 <span data-draw="acc-e50pct" data-source="status" data-field="同期只買0050損益%" data-row="0">—</span></div></div>
       <div class="fact"><div class="k">策略比只買 0050</div><div class="v"><span data-draw="acc-lead" data-source="status" data-field="領先0050_個百分點" data-row="0">—</span><span class="unit">個百分點</span></div></div>
       <div class="fact"><div class="k">資料日期（收盤）</div><div class="v" data-draw="acc-asof" data-source="status" data-field="資料最後一天" data-row="0">—</div></div>
+      <div class="fact" data-need="換股次數" hidden><div class="k">換股次數（帳戶起始後）</div><div class="v"><span data-draw="acc-nsw" data-source="status" data-field="換股次數" data-row="0">—</span><span class="unit">次</span></div></div>
+      <div class="fact" data-need="最近換股日" hidden><div class="k">最近換股日（開盤）</div><div class="v" data-draw="acc-lastsw" data-source="status" data-field="最近換股日" data-row="0">—</div></div>
+      <div class="fact" data-need="累計已實現損益" hidden><div class="k">累計已實現損益</div><div class="v"><span data-draw="acc-real" data-source="status" data-field="累計已實現損益" data-row="0">—</span><span class="unit">元</span></div><div class="sub">已扣交易成本</div></div>
+      <div class="fact" data-need="目前持股損益" hidden><div class="k">目前持股損益</div><div class="v"><span data-draw="acc-unreal" data-source="status" data-field="目前持股損益" data-row="0">—</span><span class="unit">元</span></div><div class="sub">個股＋0050，還沒賣</div></div>
+      <div class="fact" data-need="累計交易成本" hidden><div class="k">累計交易成本</div><div class="v"><span data-draw="acc-tc" data-source="status" data-field="累計交易成本" data-row="0">—</span><span class="unit">元</span></div><div class="sub">已從總資產扣掉</div></div>
+      <div class="fact" data-need="換股前已領現金股利|已領現金股利" hidden><div class="k">已領現金股利</div><div class="v"><span data-draw="acc-div" data-source="status" data-field="換股前已領現金股利" data-row="0">—</span><span class="unit">元</span></div><div class="sub">最近一次換股前領到的，已算進已實現</div></div>
     </div>
-    <p class="note"><span data-draw="acc-cap" data-source="status" data-field="起始資金" data-row="0">—</span>模擬帳戶，<span data-draw="acc-day0" data-source="status" data-field="帳戶起始日" data-row="0">—</span> 開盤起算；未扣手續費與證交稅，價格未含除息調整。這是策略照規則運作的模擬帳戶，不是任何人的實際帳戶。目前總資產＝個股市值＋0050 市值＋現金；累計損益＝目前總資產 − 起始資金；同期只買 0050＝起始日開盤把起始資金全部買 0050 到最新收盤。每檔的股數、成本、損益看下面「策略目前持股」，什麼價位會換股看「換股點位」。</p>
+    <p class="note"><span data-draw="acc-cap" data-source="status" data-field="起始資金" data-row="0">—</span>模擬帳戶，<span data-draw="acc-day0" data-source="status" data-field="帳戶起始日" data-row="0">—</span> 開盤起算；<span class="st-one">未扣手續費與證交稅，價格未含除息調整。</span><span class="st-multi" hidden>每次換股的交易成本已扣；賣出交易稅與手續費照研究中心嚴成本估計（手續費 2.8 折、證交稅、每邊半個跳動點＋0.3% 滑價；帳戶起始那一次不計）。持有期間領到的現金股利留在現金，下次換股時一起投入。</span>這是策略照規則運作的模擬帳戶，不是任何人的實際帳戶。目前總資產＝個股市值＋0050 市值＋現金；累計損益＝目前總資產 − 起始資金<span class="st-multi" hidden>＝累計已實現損益＋目前持股損益（累計已實現損益＝歷次賣出的價差＋換股前領到的現金股利 − 累計交易成本）</span>；同期只買 0050＝起始日開盤把起始資金全部買 0050 到最新收盤。每檔的股數、成本、損益看下面「策略目前持股」，什麼價位會換股看「換股點位」<span class="st-multi" hidden>，每一次買賣看「歷次換股紀錄」</span>。</p>
   </section>
 
   <section class="card hero" id="today">
@@ -232,12 +249,14 @@
   <section class="card" id="holdings">
     <h2>策略目前持股（買多少、成本、現在賺賠）</h2>
     <div class="tw">
-      <table data-source="holdings" data-row-key="代號">
-        <thead><tr><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th class="l" data-field="狀態">狀態</th><th data-field="帳戶股數">帳戶股數</th><th data-field="起始價">買進價（起始價）</th><th data-field="最新收盤">最新收盤</th><th data-field="成本金額">成本金額</th><th data-field="最新市值">最新市值</th><th data-field="損益金額">損益金額</th><th data-field="損益%">損益 %</th><th data-field="占總資產%">占總資產 %</th></tr></thead>
+      <table class="one-seg" data-source="holdings" data-row-key="代號">
+        <thead><tr><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th class="l" data-field="狀態">狀態</th><th data-field="帳戶股數">帳戶股數</th><th data-field="起始價"><span class="st-one">買進價（起始價）</span><span class="st-multi" hidden>平均成本（每股，未含費用）</span></th><th data-field="最新收盤">最新收盤</th><th data-field="成本金額">成本金額</th><th data-field="最新市值">最新市值</th><th data-field="損益金額">損益金額</th><th class="c-mtd" data-field="本月以來%">本月以來 %（換股日開盤起）</th><th data-field="損益%">損益 %<span class="st-multi" hidden>（對平均成本）</span></th><th data-field="占總資產%">占總資產 %</th></tr></thead>
         <tbody data-draw="holdings"></tbody>
       </table>
     </div>
-    <p class="note">金額單位是元，帳戶股數與金額都是模擬帳戶口徑（<span data-draw="acc-day0" data-source="status" data-field="帳戶起始日" data-row="0">—</span> 開盤＝<span data-draw="acc-start" data-source="status" data-field="起始資金" data-row="0">—</span> 元）。買進價（起始價）＝帳戶起始日的開盤價，本月新買的股票就是成交價。成本金額＝帳戶股數 × 買進價；最新市值＝帳戶股數 × 最新收盤（<span data-draw="asof2" data-source="status" data-field="資料最後一天" data-row="0">—</span>）；損益金額＝最新市值 − 成本金額；損益％＝最新收盤 ÷ 買進價 − 1（合計列＝累計損益 ÷ 起始資金）。帳戶股數四捨五入到整數股，自己乘價格會和金額欄差幾十元。0050＝底倉 30%＋衛星沒用完的錢。未扣手續費與證交稅。</p>
+    <p class="warnbox st-plan" hidden>名單還沒執行：下表是<b>換股前</b>的持股。狀態「將賣出」的會在執行日開盤賣出；要買進的股票還不在表上，看下面「本月換股清單」。</p>
+    <p class="note st-multi" hidden><b>換股之後怎麼讀這張表：</b>「平均成本」＝每股平均成本（移動平均）：帳戶起始時就有的用起始日開盤價，之後買的用買進那次執行日的開盤價，加碼時合併平均，未含費用。成本金額＝帳戶股數 × 平均成本。「本月以來％」＝最新收盤 ÷ 最近一次換股日（<span data-draw="acc-lastsw" data-source="status" data-field="最近換股日" data-row="0">—</span>）開盤價 − 1，看這個月的漲跌；「損益％」＝最新收盤 ÷ 平均成本 − 1（含換股後領到的現金股利），看這一檔從買進到現在的賺賠。「已實現」列＝歷次換股賣掉的股票已經落袋的損益：賣出價差＋換股前領到的現金股利 − 交易成本，％是對起始資金；它沒有市值，不算在總資產裡，但算在累計損益裡。現金列的成本金額＝最近一次換股後的現金。各列損益金額加總（含已實現）＝合計列。</p>
+    <p class="note">金額單位是元，帳戶股數與金額都是模擬帳戶口徑（<span data-draw="acc-day0" data-source="status" data-field="帳戶起始日" data-row="0">—</span> 開盤＝<span data-draw="acc-start" data-source="status" data-field="起始資金" data-row="0">—</span> 元）。<span class="st-one">買進價（起始價）＝帳戶起始日的開盤價，本月新買的股票就是成交價。成本金額＝帳戶股數 × 買進價；</span>最新市值＝帳戶股數 × 最新收盤（<span data-draw="asof2" data-source="status" data-field="資料最後一天" data-row="0">—</span>）；損益金額＝最新市值 − 成本金額；<span class="st-one">損益％＝最新收盤 ÷ 買進價 − 1（合計列＝累計損益 ÷ 起始資金）。</span><span class="st-multi" hidden>合計列的損益％＝累計損益 ÷ 起始資金。</span>帳戶股數四捨五入到整數股，自己乘價格會和金額欄差幾十元。0050＝底倉 30%＋衛星沒用完的錢。<span class="st-one">未扣手續費與證交稅。</span><span class="st-multi" hidden>每次換股的交易成本已扣（記在「已實現」列）；賣出交易稅與手續費照研究中心嚴成本估計。</span></p>
   </section>
 
   <section class="card" id="exit">
@@ -258,14 +277,33 @@
   </section>
 
   <section class="card" id="actions">
-    <h2>本月換股清單（成交紀錄）</h2>
+    <h2>本月換股清單（<span class="st-settled">成交紀錄</span><span class="st-plan" hidden>預計下單</span>）<span class="pill plan st-plan" hidden>預計（尚未成交）</span></h2>
+    <p class="warnbox st-plan" hidden>名單狀態：<b data-draw="list-state" data-source="status" data-field="名單狀態" data-row="0">—</b>（尚未成交）。<span data-draw="list-note" data-source="status" data-field="名單說明" data-row="0">—</span>。下表的成交日是預計日期，成交價與金額要等執行日開盤後才有；備註裡的金額是用訊號日收盤估的。</p>
     <div class="tw">
-      <table data-source="actions" data-row-key="代號">
-        <thead><tr><th class="l" data-field="動作">動作</th><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th class="l" data-field="原因">原因</th><th data-field="帳戶股數">帳戶股數</th><th class="l" data-field="成交日">成交日</th><th data-field="成交價">成交價</th><th data-field="金額">金額</th><th class="l" data-field="備註">備註</th></tr></thead>
+      <table class="no-real" data-source="actions" data-row-key="代號">
+        <thead><tr><th class="l" data-field="動作">動作</th><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th class="l" data-field="原因">原因</th><th data-field="帳戶股數">帳戶股數</th><th class="l" data-field="成交日"><span class="st-settled">成交日</span><span class="st-plan" hidden>預計成交日</span></th><th data-field="成交價">成交價</th><th data-field="金額">金額</th><th class="l c-real" data-field="持有起日">持有起日</th><th class="c-real" data-field="買進成本">買進成本（每股）</th><th class="c-real" data-field="成本金額">成本金額</th><th class="c-real" data-field="已實現損益">已實現損益</th><th class="c-real" data-field="已實現損益%">已實現損益 %</th><th class="l" data-field="備註">備註</th></tr></thead>
         <tbody data-draw="actions"></tbody>
       </table>
     </div>
-    <p class="note">這是策略持股延續到本月的結果（研究中心回測持股）。帳戶股數與金額（元）是模擬帳戶口徑；成交價＝執行日開盤價（模擬帳戶假設開盤成交，不是券商成交回報），未扣手續費、證交稅與滑價。續抱沒有買賣，成交日、成交價、金額是「—」。賣出各檔當初的買進成本與已實現損益：資料不足，沒有列。0050 本月的買賣寫在「換股點位」0050 那張卡的「本月交易」。新開始的人只買「買進」那幾檔，其餘資金放 0050，不用買「續抱」的股票。</p>
+    <p class="sumbox st-sum" hidden><b>本次換股摘要（含 0050 的買賣與交易成本）：</b><span data-draw="swap-sum" data-source="actions">—</span></p>
+    <p class="sumbox st-e50" hidden><b>0050 本次買賣：</b><span data-draw="e50-trade" data-source="holdings" data-field="本月交易" data-where="代號=0050">—</span></p>
+    <p class="note">這是策略持股延續到本月的結果（研究中心回測持股）。帳戶股數與金額（元）是模擬帳戶口徑；成交價＝執行日開盤價（模擬帳戶假設開盤成交，不是券商成交回報），<span class="st-one">未扣手續費、證交稅與滑價。</span><span class="st-multi" hidden>表內的金額未含費用；每次換股的交易成本已從帳戶扣掉（金額見上面的摘要），賣出交易稅與手續費照研究中心嚴成本估計。</span>續抱沒有買賣，成交日、成交價、金額是「—」。<span class="st-noreal">賣出各檔當初的買進成本與已實現損益：資料不足，沒有列。</span><span class="st-real" hidden>賣出列另外列出持有起日、買進成本（每股平均成本，未含費用）、成本金額、已實現損益（＝金額 − 成本金額，未含費用與持有期間的現金股利），其他列是「—」。「未買進」＝名單上有、但沒有買（持股已滿 10 檔、買得到的金額不到目標一半、開盤漲停），排在最下面，原因寫在備註。</span>0050 的買賣不在表內，<span class="st-nosum">寫在「換股點位」0050 那張卡的「本月交易」。</span><span class="st-hassum" hidden>寫在表格下方那一行，也在「換股點位」0050 那張卡與「歷次換股紀錄」。</span>新開始的人只買「買進」那幾檔，其餘資金放 0050，不用買「續抱」的股票。</p>
+  </section>
+
+  <section class="card" id="trades">
+    <h2>歷次換股紀錄</h2>
+    <p class="note st-tr-empty" hidden>尚無紀錄</p>
+    <p class="note st-tr-err" hidden>無法載入</p>
+    <div class="st-tr-table">
+      <div class="tw">
+        <table data-source="trades" data-row-key="換股序,動作,代號">
+          <thead><tr><th class="l" data-field="成交日">日期</th><th class="l" data-field="動作">動作</th><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th data-field="帳戶股數">股數</th><th data-field="成交價">成交價</th><th data-field="金額">金額</th><th data-field="已實現損益">已實現損益</th><th class="l" data-field="備註">備註</th></tr></thead>
+          <tbody data-draw="trades"></tbody>
+        </table>
+      </div>
+      <div class="calcrow st-tr-more" style="margin-top: var(--cds-gap-sm)" hidden><button type="button" class="btn" id="tr-toggle"><span class="st-tr-less">顯示全部 <span data-draw="trades-n" data-source="trades">—</span> 列</span><span class="st-tr-all" hidden>只顯示最近 30 列</span></button></div>
+      <p class="note">最新的在最上面。策略模擬帳戶的每一筆買賣（含 0050），不是任何人的實際成交。「起始」＝帳戶起始日的持股；每次換股另有一列「交易成本」（研究中心嚴成本：手續費、證交稅、滑價，金額＝換股前後開盤總值的差），領到現金股利的那一段多一列「現金股利」。股數是模擬帳戶口徑的帳戶股數；成交價＝執行日開盤價；金額未含費用。已實現損益：賣出＝金額 − 賣出股數 × 平均成本；現金股利記正數、交易成本記負數；全部加總＝持股表的「已實現」列。</p>
+    </div>
   </section>
 
   <section class="card" id="live">
@@ -285,10 +323,10 @@
       <div>
         <h3>每檔持股貢獻（個百分點）</h3>
         <div class="chartbox" style="min-height: 150px" data-draw="contrib" data-source="contrib"></div>
-        <p class="note">貢獻＝每檔損益金額 ÷ 起始資金（和持股表同一個帳戶口徑）。全部加起來＝帳戶累計損益％；現金沒有損益，不列。</p>
+        <p class="note">貢獻＝每檔損益金額 ÷ 起始資金（和持股表同一個帳戶口徑）。全部加起來＝帳戶累計損益％；現金沒有損益，不列。<span class="st-multi" hidden>「已實現」＝歷次換股已賣出部位的損益（已扣交易成本），各檔是目前還持有的部位、從平均成本算起。</span></p>
       </div>
     </div>
-    <p class="note">策略＝11/12 開盤換股後的持股（含 0050），起始＝100 萬；用官方收盤價每天更新，未含除息。這是策略照規則運作的紀錄，不是你的帳戶。只有幾天的表現看不出好壞。</p>
+    <p class="note">策略＝11/12 開盤換股後的持股（含 0050），起始＝100 萬；用官方收盤價每天更新，未含除息。<span class="st-multi" hidden>之後每個月在換股日開盤換成新持股，淨值連續計算，每次換股的交易成本已扣。</span>這是策略照規則運作的紀錄，不是你的帳戶。只有幾天的表現看不出好壞。</p>
   </section>
 
   <section class="card" id="risk">
@@ -397,14 +435,15 @@
   function swapList(ul, act) {
     ul.replaceChildren();
     const a = dash.data('actions'); if (a.status !== 'ok') return;
-    a.data.filter((r) => r['動作'] === act).forEach((r) => {
-      const li = document.createElement('li');
+    a.data.filter((r) => r['動作'] === act || (act === '買進' && r['動作'] === '未買進')).sort((x, y) => (x['動作'] === '未買進') - (y['動作'] === '未買進')).forEach((r) => {
+      const li = document.createElement('li'); const skip = r['動作'] === '未買進'; if (skip) li.className = 'skip';
       const nm = document.createElement('span'); nm.className = 'nm';
       const code = document.createElement('span'); code.textContent = r['代號'] + ' ';
       const name = document.createElement('span'); name.textContent = r['名稱'];
       name.setAttribute('data-source', 'actions'); name.setAttribute('data-field', '名稱'); name.setAttribute('data-where', '代號=' + encodeURIComponent(r['代號']));
       nm.append(code, name);
-      const why = document.createElement('span'); why.className = 'why'; why.textContent = r['原因'] || '';
+      if (skip) nm.append(document.createTextNode('（未買進）'));
+      const why = document.createElement('span'); why.className = 'why'; why.textContent = (skip ? (r['備註'] || r['原因']) : r['原因']) || '';
       li.append(nm, why); ul.appendChild(li);
     });
   }
@@ -416,10 +455,10 @@
   function fillTable(tbody, id, cols, rowFn) {
     const s = dash.data(id);
     tbody.replaceChildren();
-    if (s.status !== 'ok') return;
-    s.data.forEach((r) => {
+    if (s.status !== 'ok' || !Array.isArray(s.data)) return;
+    (cols.order ? cols.order(s.data) : s.data).forEach((r) => {
       const tr = document.createElement('tr');
-      tr.dataset.key = encodeURIComponent(String(r[cols.key]));
+      tr.dataset.key = String(cols.key).split(',').map((k) => encodeURIComponent(String(r[k]))).join(',');
       if (rowFn) rowFn(tr, r);
       cols.list.forEach(([k, cls, f]) => {
         const td = document.createElement('td');
@@ -431,7 +470,7 @@
       tbody.appendChild(tr);
     });
   }
-  const pill = (v) => { const sp = document.createElement('span'); sp.className = 'pill ' + (v === '買進' || v === '新買' ? 'buy' : v === '賣出' ? 'sell' : 'hold'); sp.textContent = v ?? '—'; return sp; };
+  const pill = (v) => { const sp = document.createElement('span'); sp.className = 'pill ' + (v === '買進' || v === '新買' ? 'buy' : v === '賣出' || v === '將賣出' ? 'sell' : 'hold'); sp.textContent = v ?? '—'; return sp; };
   const pct = (v, r, td) => { if (+v < 0) td.classList.add('neg'); return fmt(v, 1) + '%'; };
   const pct2 = (v, r, td) => { if (v === null || v === undefined) return '—'; if (+v < 0) td.classList.add('neg'); return fmt(v, 2) + '%'; };
 
@@ -441,7 +480,8 @@
   const tone = (el, n) => { el.classList.toggle('neg', n !== null && n < 0); el.classList.toggle('pos', n !== null && n > 0); };
   const sMoney = (n) => n === null ? '—' : (n > 0 ? '+' : '') + Math.round(n).toLocaleString('zh-TW');
   const sPct = (n, d) => n === null ? '—' : (n > 0 ? '+' : '') + n.toFixed(d === undefined ? 2 : d) + '%';
-  const AGG = ['現金', '合計'];
+  const AGG = ['現金', '已實現', '合計']; // 彙總列：沒有股數、價格，不出換股點位卡
+  const rank = (arr, f) => arr.map((r, i) => [f(r), i, r]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map((x) => x[2]); // 穩定排序
   // 列別：舊資料沒有這一欄時用代號判斷
   const kindOf = (r) => { const k = r['列別']; if (k !== null && k !== undefined && k !== '') return String(k); const c = String(r['代號']); return AGG.indexOf(c) >= 0 ? c : (c === '0050' ? '0050' : '個股'); };
   const cMoney = (v) => money(nv(v));
@@ -452,13 +492,19 @@
 
   dash.draw('actions', (tb) => fillTable(tb, 'actions', { key: '代號', list: [
     ['動作', 'l', pill], ['代號', 'l'], ['名稱', 'l'], ['名次', '', (v) => fmt(v, 0)], ['SURGE', '', (v) => fmt(v, 2)], ['原因', 'l', txt],
-    ['帳戶股數', '', cInt], ['成交日', 'l', txt], ['成交價', '', (v) => fmt(v, 2)], ['金額', '', cMoney], ['備註', 'l wrap', txt]] }));
+    ['帳戶股數', '', cInt], ['成交日', 'l', txt], ['成交價', '', (v) => fmt(v, 2)], ['金額', '', cMoney],
+    ['持有起日', 'l c-real', (v, r) => r['動作'] === '賣出' ? txt(v) : '—'], ['買進成本', 'c-real', (v, r) => r['動作'] === '賣出' ? fmt(v, 2) : '—'], ['成本金額', 'c-real', (v, r) => r['動作'] === '賣出' ? cMoney(v) : '—'],
+    ['已實現損益', 'c-real', (v, r, td) => r['動作'] === '賣出' ? cSMoney(v, r, td) : '—'], ['已實現損益%', 'c-real', (v, r, td) => r['動作'] === '賣出' ? cSPct(v, r, td) : '—'],
+    ['備註', 'l wrap', txt]], order: (rows) => rank(rows, (r) => r['動作'] === '未買進' ? 1 : 0) },
+    (tr, r) => { if (r['動作'] === '未買進') tr.className = 'skip'; }));
   dash.draw('holdings', (tb) => fillTable(tb, 'holdings', { key: '代號', list: [
     ['代號', 'l'], ['名稱', 'l', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : txt(v)], ['狀態', 'l', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : pill(v)],
     ['帳戶股數', '', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : cInt(v)], ['起始價', '', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : fmt(v, 2)], ['最新收盤', '', (v, r) => AGG.indexOf(kindOf(r)) >= 0 ? '' : fmt(v, 2)],
     ['成本金額', '', cMoney], ['最新市值', '', cMoney], ['損益金額', '', cSMoney],
-    ['損益%', '', (v, r, td) => cSPct(nv(v) === null ? r['本月以來%'] : v, r, td)], ['占總資產%', '', cPct2]] },
-    (tr, r) => { const k = kindOf(r); if (k === '現金') tr.className = 'cash'; else if (k === '合計') tr.className = 'total'; }));
+    ['本月以來%', 'c-mtd', (v, r, td) => AGG.indexOf(kindOf(r)) >= 0 ? '' : cSPct(v, r, td)],
+    ['損益%', '', (v, r, td) => cSPct(nv(v) === null ? r['本月以來%'] : v, r, td)], ['占總資產%', '', cPct2]],
+    order: (rows) => rank(rows, (r) => { const i = AGG.indexOf(kindOf(r)); return i < 0 ? 0 : i + 1; }) }, // 個股、0050、現金、已實現、合計
+    (tr, r) => { const k = kindOf(r); if (k === '現金') tr.className = 'cash'; else if (k === '已實現') tr.className = 'cash real'; else if (k === '合計') tr.className = 'total'; }));
   dash.draw('top20', (tb) => fillTable(tb, 'top20', { key: '代號', list: [
     ['名次', '', (v) => fmt(v, 0)], ['代號', 'l'], ['名稱', 'l'], ['SURGE', '', (v) => fmt(v, 2)], ['前20日漲幅%', '', (v) => fmt(v, 1)], ['距季線%', '', (v) => fmt(v, 1)], ['收盤', '', (v) => fmt(v, 2)], ['入選', 'l']] },
     (tr, r) => { if (r['入選'] === '是') tr.className = 'pick'; }));
@@ -473,18 +519,18 @@
   dash.calc('live_diff', { inputs: ['live'], title: '上線後策略減 0050', description: '策略累積報酬減 0050 累積報酬（個百分點）',
     fn: (live) => { if (!live.length) return null; const a = live[live.length - 1];
       return +(((a['策略'] - a['0050']) / 1e6) * 100).toFixed(2); } });
-  dash.calc('contrib', { inputs: ['holdings'], title: '每檔持股貢獻', description: '每檔損益金額 ÷ 起始資金（合計列的成本金額），單位個百分點；現金、合計列不算。舊資料沒有損益金額時改用 股數 ×（最新收盤 − 起始價）÷ 起始總市值',
+  dash.calc('contrib', { inputs: ['holdings'], title: '每檔持股貢獻', description: '每檔損益金額 ÷ 起始資金（合計列的成本金額），單位個百分點；現金、合計列不算，「已實現」列（歷次換股已賣出部位的損益，已扣交易成本）算一項。舊資料沒有損益金額時改用 股數 ×（最新收盤 − 起始價）÷ 起始總市值',
     fn: (holdings) => {
-      const rows = holdings.filter((r) => AGG.indexOf(kindOf(r)) < 0);
+      const rows = holdings.filter((r) => ['現金', '合計'].indexOf(kindOf(r)) < 0);
       if (rows.some((r) => nv(r['損益金額']) !== null)) {
         const tot = holdings.find((r) => kindOf(r) === '合計');
         let base = tot ? nv(tot['成本金額']) : null;
         if (!base) base = holdings.filter((r) => kindOf(r) !== '合計').reduce((s, r) => s + (nv(r['成本金額']) || 0), 0);
         if (!base || base <= 0) return [];
-        return rows.filter((r) => nv(r['損益金額']) !== null).map((r) => ({ 代號: r['代號'], 名稱: txt(r['名稱']), 損益: Math.round(nv(r['損益金額'])),
+        return rows.filter((r) => nv(r['損益金額']) !== null).map((r) => ({ 代號: r['代號'], 名稱: kindOf(r) === '已實現' ? '已實現' : txt(r['名稱']), 損益: Math.round(nv(r['損益金額'])),
           貢獻: +((nv(r['損益金額']) / base) * 100).toFixed(2) }));
       }
-      const old = rows.filter((r) => +r['股數'] > 0 && +r['起始價'] > 0 && +r['最新收盤'] > 0);
+      const old = rows.filter((r) => kindOf(r) !== '已實現' && +r['股數'] > 0 && +r['起始價'] > 0 && +r['最新收盤'] > 0);
       const base = old.reduce((s, r) => s + r['股數'] * r['起始價'], 0);
       if (!base) return [];
       return old.map((r) => ({ 代號: r['代號'], 名稱: txt(r['名稱']), 損益: Math.round(r['股數'] * (r['最新收盤'] - r['起始價'])),
@@ -514,6 +560,60 @@
   dash.draw('acc-asof', (el) => { el.textContent = field('資料最後一天'); });
   dash.draw('acc-day0', (el) => { el.textContent = txt(sv('帳戶起始日')); });
   dash.draw('acc-cap', (el) => { const n = nv(sv('起始資金')); el.textContent = n === null ? '' : (n % 1e4 === 0 ? (n / 1e4).toLocaleString('zh-TW') + ' 萬' : money(n) + ' 元'); });
+
+  dash.draw('acc-nsw', (el) => { el.textContent = cInt(sv('換股次數')); });
+  dash.draw('acc-lastsw', (el) => { el.textContent = txt(sv('最近換股日')); });
+  dash.draw('acc-real', (el) => { const n = nv(sv('累計已實現損益')); el.textContent = sMoney(n); tone(el, n); });
+  dash.draw('acc-unreal', (el) => { const n = nv(sv('目前持股損益')); el.textContent = sMoney(n); tone(el, n); });
+  dash.draw('acc-tc', (el) => { el.textContent = money(nv(sv('累計交易成本'))); });
+  dash.draw('acc-div', (el) => { const a = nv(sv('換股前已領現金股利')); el.textContent = money(a === null ? nv(sv('已領現金股利')) : a); });
+
+  // ---------- 跨月換股：單段／多段、預計／已成交 ----------
+  const rowsOf = (id) => { const s = dash.data(id); return s.status === 'ok' && Array.isArray(s.data) ? s.data : null; };
+  const metaOf = (id, label) => { const m = dash.data(id).meta; if (!Array.isArray(m)) return null; const x = m.find((e) => e && e.label === label); return x && x.value !== null && x.value !== undefined && x.value !== '' ? String(x.value) : null; };
+  // 多段＝帳戶起始後換過股（status 有換股次數，或持股表有「已實現」列）
+  const isMulti = () => { const n = nv(sv('換股次數')); if (n !== null && n >= 1) return true; const h = rowsOf('holdings'); return !!h && h.some((r) => kindOf(r) === '已實現'); };
+  // 預計＝訊號日晚上到結算前（status 名單狀態；沒有這欄時看 actions：有預計成交日、但沒有任何成交價）
+  const isPlan = () => { const v = sv('名單狀態'); if (v !== null) return String(v) === '預計'; const a = rowsOf('actions'); if (!a) return false;
+    const tr = a.filter((r) => (r['動作'] === '賣出' || r['動作'] === '買進') && txt(r['成交日']) !== '—'); return tr.length > 0 && tr.every((r) => nv(r['成交價']) === null); };
+  const REAL_COLS = ['買進成本', '成本金額', '已實現損益', '已實現損益%', '持有起日'];
+  const swapSum = () => metaOf('actions', '本次換股摘要') || metaOf('holdings', '本次換股摘要');
+  const e50Trade = () => { const h = rowsOf('holdings'); const r = h ? h.find((x) => kindOf(x) === '0050') : null; return r && txt(r['本月交易']) !== '—' ? String(r['本月交易']) : null; };
+  const TR_MAX = 30; let trAll = false;
+  // 歷次換股紀錄：最新的換股在上，同一次換股照資料順序
+  const tradeRows = () => { const t = rowsOf('trades'); return t ? rank(t, (r) => -(nv(r['換股序']) || 0)) : null; };
+  dash.onData(() => {
+    const show = (sel, on) => document.querySelectorAll(sel).forEach((el) => { el.hidden = !on; });
+    const multi = isMulti(), plan = isPlan();
+    show('.mx .st-multi', multi); show('.mx .st-one', !multi);
+    show('.mx .st-plan', plan); show('.mx .st-settled', !plan);
+    document.querySelectorAll('.mx [data-need]').forEach((el) => { el.hidden = !(el.getAttribute('data-need') || '').split('|').some((f) => sv(f) !== null); });
+    const a = rowsOf('actions'); const real = !!a && a.some((r) => REAL_COLS.some((c) => Object.prototype.hasOwnProperty.call(r, c)));
+    document.querySelectorAll('.mx #actions table').forEach((el) => el.classList.toggle('no-real', !real));
+    document.querySelectorAll('.mx #holdings table').forEach((el) => el.classList.toggle('one-seg', !multi));
+    show('.mx .st-real', real); show('.mx .st-noreal', !real);
+    const sum = swapSum(), e50 = sum ? null : e50Trade();
+    show('.mx .st-sum', !!sum); show('.mx .st-e50', !!e50);
+    show('.mx .st-hassum', !!(sum || e50)); show('.mx .st-nosum', !(sum || e50));
+    const t = dash.data('trades'); const n = t.status === 'ok' && Array.isArray(t.data) ? t.data.length : 0;
+    const none = t.status === 'missing' || (t.status === 'ok' && n === 0);
+    show('.mx .st-tr-empty', none); show('.mx .st-tr-err', t.status === 'error'); show('.mx .st-tr-table', !none && t.status !== 'error');
+    show('.mx .st-tr-more', n > TR_MAX); show('.mx .st-tr-less', !trAll); show('.mx .st-tr-all', trAll);
+  });
+  dash.draw('list-state', (el) => { el.textContent = txt(sv('名單狀態')); });
+  dash.draw('list-note', (el) => { el.textContent = txt(sv('名單說明')); });
+  dash.draw('swap-sum', (el) => { el.textContent = swapSum() || '—'; });
+  dash.draw('e50-trade', (el) => { el.textContent = e50Trade() || '—'; });
+  dash.draw('trades-n', (el) => { const t = rowsOf('trades'); el.textContent = t ? String(t.length) : '—'; });
+  dash.draw('trades', (tb) => fillTable(tb, 'trades', { key: '換股序,動作,代號', list: [
+    ['成交日', 'l', txt], ['動作', 'l', pill], ['代號', 'l', (v, r) => r['類別'] === '成本' || r['類別'] === '股利' ? '—' : txt(v)], ['名稱', 'l', txt], ['帳戶股數', '', cInt], ['成交價', '', (v) => fmt(v, 2)], ['金額', '', cMoney],
+    ['已實現損益', '', cSMoney], ['備註', 'l wrap', txt]], order: () => { const all = tradeRows() || []; return trAll ? all : all.slice(0, TR_MAX); } }));
+  document.querySelectorAll('.mx #tr-toggle').forEach((btn) => btn.addEventListener('click', () => {
+    trAll = !trAll;
+    document.querySelectorAll('.mx .st-tr-less').forEach((el) => { el.hidden = trAll; });
+    document.querySelectorAll('.mx .st-tr-all').forEach((el) => { el.hidden = !trAll; });
+    dash.draw('trades');
+  }));
 
   // ---------- 換股點位 ----------
   dash.draw('nx-check', (el) => { const v = sv('下次換股檢查日'); el.textContent = v === null ? field('下次訊號日') : String(v); });
@@ -661,12 +761,13 @@
     box.replaceChildren();
     if (s.status !== 'ok' || !s.data || !s.data.length) { box.textContent = s.status === 'error' ? '無法載入' : '—'; return; }
     const rows = s.data.slice().sort((a, b) => b['貢獻'] - a['貢獻']);
+    const lab = (r) => r['代號'] === r['名稱'] ? String(r['名稱']) : r['代號'] + ' ' + r['名稱'];
     const W = Math.max(260, box.clientWidth || 400), bh = 22, gap = 8, mt = 6, mb = 6;
     const H = mt + mb + rows.length * (bh + gap);
     const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
       .attr('aria-label', '每檔持股對策略累積報酬的貢獻（個百分點）：' + rows.map((r) => r['名稱'] + ' ' + (r['貢獻'] > 0 ? '+' : '') + r['貢獻'].toFixed(2)).join('、'));
     const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r, i) => `translate(0,${mt + i * (bh + gap)})`);
-    const labels = g.append('text').attr('x', 0).attr('y', bh / 2 + 4).text((r) => r['代號'] + ' ' + r['名稱']);
+    const labels = g.append('text').attr('x', 0).attr('y', bh / 2 + 4).text((r) => lab(r));
     // 名稱寬度照畫出來的量
     let lw = 0; labels.each(function (r) { lw = Math.max(lw, this.getComputedTextLength() || (r['名稱'].length * 13 + 40)); }); lw += 10;
     const vw = 56;
@@ -681,7 +782,7 @@
     g.append('rect').attr('x', 0).attr('width', W).attr('height', bh + gap).attr('y', -gap / 2).attr('fill', 'transparent')
       .on('pointermove', (ev, r) => {
         tip.replaceChildren();
-        [r['代號'] + ' ' + r['名稱'], '貢獻：' + (r['貢獻'] > 0 ? '+' : '') + r['貢獻'].toFixed(2) + ' 個百分點', '損益：' + (r['損益'] > 0 ? '+' : '') + money(r['損益']) + ' 元']
+        [lab(r), '貢獻：' + (r['貢獻'] > 0 ? '+' : '') + r['貢獻'].toFixed(2) + ' 個百分點', '損益：' + (r['損益'] > 0 ? '+' : '') + money(r['損益']) + ' 元']
           .forEach((t) => { const d = document.createElement('div'); d.textContent = t; tip.appendChild(d); });
         tip.hidden = false; const [px, py] = d3.pointer(ev, box); const bw = box.clientWidth; const tw = tip.offsetWidth || 180;
         tip.style.left = Math.max(0, Math.min(bw - tw, px + 12)) + 'px'; tip.style.top = (py + 14) + 'px';
