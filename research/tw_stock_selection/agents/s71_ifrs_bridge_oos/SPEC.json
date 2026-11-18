@@ -1,0 +1,58 @@
+{
+ "id": "S71",
+ "title": "跨 IFRS 斷點的 SURGE 規則，把 S55／R55 的樣本外延伸到 2013-02～2015-06（29 個月）",
+ "question": "凍結現行規則在 2013-02～2015-06 沒有訊號（2013 年營收年增量被設成缺值）。事前定一條跨斷點算 SURGE 的規則後，這 29 個月對 0050 有沒有正超額？",
+ "dedup": "2026-11-18 grep BACKLOG.md 與 agents/ 的「IFRS、斷點、卡住期、2013」：所有既有研究都是遮罩或剔除 2013（s17lib／s2lib／stlib／s20lib 同一行；w3_revenue_sue、main_refine、industry_revenue_long 另報剔除 IFRS 段）；revenue_longhistory 描述過斷點（2013 年增率中位數 25%、台泥例）；S55 FINDINGS 建議「訂 IFRS 斷點期規則需另題事前登記」。沒有人做過跨斷點規則。",
+ "frozen_current": {
+  "engine": "s47lib.sim（→ s10lib.simulate_s10：W10_70、E0、嚴成本 strict、100 萬）",
+  "universe": "stlib.universe(twse) & ~創新板（A10 門檻在 make_signal_s10 內，原樣）",
+  "signal": "F1＝s10lib.make_signal_s10(shift=0)",
+  "switches": "cslib.EXRIGHT_FIX＝DEADLINE_FIX＝INS15_MASK＝True（正式開關）；s17lib.e50_fix_suspension",
+  "surge_std": "D＝月營收−12 個月前；SURGE＝(D−前 24 個月 D 平均)÷前 24 個月 D 標準差（24 個都要有值、σ>0）；s17lib.zscore 原函式",
+  "panel": "自建 2007-01-02～2015-06-30 上市面板，R55 主做法（agents/r55_replicate_s55/build_panel_r55.py 逐行沿用，只改暫存路徑）；stlib.START＝2008-01-02、訊號月份 ≥ 2008-01",
+  "not_changed": "共用引擎檔一律不改；只在 s71lib.rev_rule 換掉「2013 年 D 設缺值」這一步"
+ },
+ "candidate_rules": {
+  "B1": "不遮罩：2013 年的 D 照算（營收檔原值）。",
+  "B2": {
+   "name": "水準校正",
+   "formula": [
+    "j_n(y)＝ln( y 年前 n 個月營收合計 ÷ y−1 年最後 n 個月營收合計 )，n 個月都要有值；",
+    "a_n＝j_n(2013) − 中位數{ j_n(y)，y＝2008…2012 }（至少 3 年有值，否則 a_n 缺值）；",
+    "k_n＝max(1, exp(a_n))（合併營收不小於個體營收；不設其他不校正帶）；",
+    "校正：該公司 2012-12（含）以前所有月營收 × k_n，再照標準定義算 D 與 SURGE；k_n 缺值的公司 2013 年 D 缺值（等同現行遮罩）；",
+    "時點（只用當時已公布的營收）：營收月 2013-01 的 SURGE 用 n＝1、2013-02 用 n＝2、2013-03 起一律 n＝3；營收月 ≤ 2012-12 的列照現行（整段同乘 k 不改變 z 值）。"
+   ],
+   "design_from_data_only": "帶寬與 n 的選擇只用月營收資料（step0b.json、step0c.json），準則是「校正後 2013 年未參與估計的月份裡，整年持續偏高／偏低的公司比例最接近 2012、2014」；沒有載入價格、沒有算任何報酬。單月 n＝1 的版本校正過頭（校正後年增率中位數 −9.9%，因 2013-01 無春節、單月雜訊大），累計 3 個月為 −0.6%。"
+  }
+ },
+ "max_candidates": 2,
+ "run_once": true,
+ "windows": {
+  "ext": "2013-02～2015-06（29 個月；判定用）",
+  "merged": "2008-01～2015-06（90 個月，連續一條淨值；報超額、資訊比率、t）",
+  "old_primary": "2008-01～2013-01（61 個月；應與驗收 A2 逐月相同，因為規則只影響營收月 ≥ 2013-01）"
+ },
+ "stats": "r55lib：月底＝每個日曆月最後交易日；月超額＝策略月報酬−0050 含息月報酬；年化超額＝月平均×12（個百分點）；資訊比率＝月平均÷月標準差×√12；Newey-West t（Bartlett，滯後 6）",
+ "data": {
+  "revenue": {
+   "file": "/home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv",
+   "sha256": "02657e7c415783020f16255d42f66b0d40d69823fa294113557be6f4584a3898",
+   "first": "2005-01",
+   "last": "2026-09",
+   "n_sii_codes": 1125,
+   "fetch": "niklavsd pipeline/fetch_tw.py：mopsov nas/t21/{market}/t21sc03_{民國年}_{月}[_0].html 的「當月營收」欄（去年同月欄未保存）"
+  },
+  "prices": "raw/pre2015/asoul_twse_2007_2015H1.csv.gz＋data_panel（R55 主做法）；0050 含息淨值 jonatw etf_0050.csv",
+  "no_network": true,
+  "git": "不呼叫 git（快取先放好；樣本內快取由 S55 scratchpad 複製，驗收逐位通過）"
+ },
+ "known_limits": [
+  "營收檔 2013 起只有現在還上市的公司（存活者偏誤，對策略有利）",
+  "2014 以前除權息日報酬記 0（TWT49U 只有 2014 起）",
+  "0050 原始開盤 2015 起，之前開盤÷收盤比＝1",
+  "B2 的 k 是估計值：約 5% 的公司校正後整年偏低（被校正過頭，等於這些公司 2013 年不會被選到）；k 缺值的公司（約四分之一欄位，多為 2008 後才有營收者）到 2016-01 前沒有 SURGE",
+  "29 個月檢定力低：即使真實資訊比率＝樣本內的 0.72，預期 t 只有約 0.72×√(29÷12)＝1.12，過 1.65 的機率約三成；「不顯著」不能解讀成「沒有」"
+ ],
+ "discipline": "python3 -I -B；峰值記憶體 ≤ 3GB；不改共用引擎、既有研究、raw/；不寫 git"
+}
