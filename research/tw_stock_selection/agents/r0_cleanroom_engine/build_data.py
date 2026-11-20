@@ -46,7 +46,7 @@ def main(out):
     O = panel('open'); C = panel('close'); A = panel('amount'); CH = panel('change')
     present = np.zeros((T, N), bool); present[ii, jj] = True
     twse = np.zeros((T, N), bool); twse[ii, jj] = (df['market'] == 'twse').values
-    innov = np.zeros((T, N), bool); innov[ii, jj] = df['name'].str.endswith('創').values
+    innov = np.zeros((T, N), bool); innov[ii, jj] = df['name'].str.contains(r'-(?:KY)?創$', regex=True).values
     dr = np.zeros((T, N), bool); dr[ii, jj] = (df['name'].str.contains('DR') | df['code'].str.startswith('91')).values
     name_last = df.groupby('code')['name'].last().reindex(codes).values.astype(str)
     # TWT49U 除權息參考價
