@@ -9,7 +9,14 @@ codes = set(T['code'])
 D = A.Data(codes)
 hs = pd.read_parquet(A.TMP / 'hs.parquet'); hs = hs[hs['code'].isin(codes)]
 HS = {c: g.set_index('date').sort_index() for c, g in hs.groupby('code')}
+import glob
+fr = []
+for fn in glob.glob('/home/user/hawan0228/fintech_ai/data/external/raw/prices/*_price.csv'):
+    x = pd.read_csv(fn, dtype={'stock_id': str}, encoding='utf-8-sig', usecols=['date', 'stock_id', 'open', 'close', 'spread'], parse_dates=['date'])
+    if x['stock_id'].iloc[0] in codes: fr.append(x)
+HW = {g['stock_id'].iloc[0]: g.set_index('date').sort_index() for g in fr}
 IDX = D.IDX
+TOL = 0.005                                                  # 半個最小跳動點（data_panel 的 Yahoo 段是 float32）
 out = {}
 closed = T[T['why'] != 'open_end'].copy()
 out['n_rows'] = dict(total=int(len(T)), closed=int(len(closed)), by_version=T.groupby('version').size().to_dict(), why=T['why'].value_counts().to_dict(),
@@ -31,29 +38,32 @@ for c, d, s in fills.itertuples(index=False):
             alt['dp'] = (float(v), {1: 'asoul', 2: 'k66', 3: 'yahoo5m', 4: 'steven'}.get(int(sc) if np.isfinite(sc) else 0, '?'))
     if c in HS and d in HS[c].index:
         alt['hs'] = (float(HS[c].at[d, 'open']), 'finmind')
+    if c in HW and d in HW[c].index:
+        alt['hw'] = (float(HW[c].at[d, 'open']), 'finmind2')
     if esrc == 'off' and c in D.asoul and d in D.asoul[c].index and np.isfinite(D.asoul[c].at[d, 'open']):
         alt['asoul'] = (float(D.asoul[c].at[d, 'open']), 'asoul')
     indep = {k: v for k, v in alt.items() if not (esrc in ('asoul', 'dpfill') and v[1] == 'asoul')}
     rows.append(dict(code=c, date=d, side=s, eng_open=eng, eng_src=esrc, dp=alt.get('dp', (np.nan, ''))[0], dp_src=alt.get('dp', (np.nan, ''))[1],
-                     hs=alt.get('hs', (np.nan, ''))[0], asoul15=alt.get('asoul', (np.nan, ''))[0], n_indep=len(indep), n_same_origin=len(alt) - len(indep),
+                     hs=alt.get('hs', (np.nan, ''))[0], hw=alt.get('hw', (np.nan, ''))[0], asoul15=alt.get('asoul', (np.nan, ''))[0], n_indep=len(indep), n_same_origin=len(alt) - len(indep),
                      max_abs_diff=max([abs(v[0] - eng) for v in indep.values()], default=np.nan),
                      max_rel_diff=max([abs(v[0] / eng - 1) for v in indep.values()], default=np.nan),
                      same_origin_diff=max([abs(v[0] - eng) for k, v in alt.items() if k not in indep], default=np.nan)))
 F = pd.DataFrame(rows); F['year'] = F['date'].dt.year
 F.to_csv(A.HERE / 'price_crosscheck.csv', index=False)
 cov = F['n_indep'] > 0
-bad = F[cov & (F['max_abs_diff'] > 1e-6)]
-bad_official = bad[~((bad['dp_src'] == 'yahoo5m') & ((bad['hs'].isna()) | ((bad['hs'] - bad['eng_open']).abs() < 1e-6)) & ((bad['asoul15'].isna())))]
+bad = F[cov & (F['max_abs_diff'] > TOL)]
+nonyahoo = pd.concat([(bad[k] - bad['eng_open']).abs() > TOL for k in ('hs', 'hw', 'asoul15')] + [((bad['dp'] - bad['eng_open']).abs() > TOL) & (bad['dp_src'] != 'yahoo5m')], axis=1).any(axis=1)
+bad_official = bad[nonyahoo]
 def per(g):
     c = g['n_indep'] > 0
     return dict(n=int(len(g)), covered=int(c.sum()), two_plus=int((g['n_indep'] >= 2).sum()), same_origin_only=int(((g['n_indep'] == 0) & (g['n_same_origin'] > 0)).sum()),
-                none=int(((g['n_indep'] == 0) & (g['n_same_origin'] == 0)).sum()), mismatch=int((c & (g['max_abs_diff'] > 1e-6)).sum()))
+                none=int(((g['n_indep'] == 0) & (g['n_same_origin'] == 0)).sum()), mismatch=int((c & (g['max_abs_diff'] > TOL)).sum()))
 out['item1'] = dict(n_fills=int(len(F)), covered=int(cov.sum()), coverage=float(cov.mean()), two_plus_indep=int((F['n_indep'] >= 2).sum()),
                     same_origin_only=int(((F['n_indep'] == 0) & (F['n_same_origin'] > 0)).sum()), no_alt=int(((F['n_indep'] == 0) & (F['n_same_origin'] == 0)).sum()),
                     same_origin_max_diff=float(F['same_origin_diff'].max()),
                     n_mismatch=int(len(bad)), max_abs_diff=float(bad['max_abs_diff'].max()) if len(bad) else 0.0, max_rel_diff=float(bad['max_rel_diff'].max()) if len(bad) else 0.0,
                     n_mismatch_excl_yahoo_only=int(len(bad_official)),
-                    mismatch_by_altsrc=bad.groupby('dp_src').size().to_dict(),
+                    mismatch_by_altsrc=bad.groupby('dp_src').size().to_dict(), tol=TOL, by_source={k: dict(n=int(F[k].notna().sum()), mismatch=int(((F[k] - F['eng_open']).abs() > TOL).sum())) for k in ('dp', 'hs', 'hw', 'asoul15')}, dp_by_src={k: dict(n=int(len(g)), mismatch=int(((g['dp'] - g['eng_open']).abs() > TOL).sum())) for k, g in F[F['dp'].notna()].groupby('dp_src')},
                     by_period={k: per(F[(F['year'] >= a) & (F['year'] <= b)]) for k, (a, b) in {'2008-2009': (2008, 2009), '2010-2014': (2010, 2014), '2015-2019': (2015, 2019), '2020-2023': (2020, 2023), '2024-2026': (2024, 2026)}.items()},
                     eng_src=F['eng_src'].value_counts().to_dict(),
                     mismatches=[{k: (str(v.date()) if isinstance(v, pd.Timestamp) else (None if isinstance(v, float) and np.isnan(v) else v)) for k, v in r.items()} for r in bad.sort_values('max_rel_diff', ascending=False).head(40).to_dict('records')])
@@ -153,6 +163,62 @@ x7 = X[X['ent_open_limup_real']]
 out['item6']['limup_detail'] = [dict(version=a.version, code=a.code, ent=str(a.ent.date()), open=a.ent_open, gap=round(a.ent_gap, 4), ret=a.ret, pnl=a.pnl) for a in x7.itertuples()]
 out['item6']['limup_pnl_sum_by_version'] = x7.groupby('version')['pnl'].sum().to_dict()
 print(json.dumps(out['item6'], ensure_ascii=False, indent=1, default=str))
+# ------------------------------------------------------------ 項目 2：最賺／最賠逐筆
+def alt_px(c, d, col):
+    o = {}
+    f = D.frame(c)
+    o[f['src'].loc[d]] = float(f['O' if col == 'open' else 'C'].loc[d])
+    k = 'open' if col == 'open' else 'close_raw'
+    if c in D.dp[k].columns and np.isfinite(D.dp[k].at[d, c]):
+        o['dp:' + {1: 'asoul', 2: 'k66', 3: 'yahoo5m', 4: 'steven'}.get(int(D.dp['src'].at[d, c]), '?')] = round(float(D.dp[k].at[d, c]), 4)
+    if c in HS and d in HS[c].index: o['finmind(hschi)'] = float(HS[c].at[d, col])
+    if c in HW and d in HW[c].index: o['finmind(hawan)'] = float(HW[c].at[d, col])
+    return o
+
+def dp_chain(c, e, x):
+    """data_panel 自己的含息日報酬連乘（第二來源）：進場日收÷開 × ∏(進場後到出場日 1＋ret) × 出場日開÷收。"""
+    if c not in D.dp['ret'].columns: return None
+    r = D.dp['ret'][c].loc[e:x]; o = D.dp['open'][c]; cl = D.dp['close_raw'][c]
+    if r.iloc[1:].isna().any() or not np.isfinite(o.get(e, np.nan)) or not np.isfinite(o.get(x, np.nan)): return None
+    return float(cl[e] / o[e] * np.prod(1 + r.iloc[1:]) * o[x] / cl[x] - 1)
+
+VB = X[(X['version'] == 'V_BRIDGE') & (X['why'] != 'open_end')]
+sel = {'最賺15（損益金額）': VB.nlargest(15, 'pnl'), '最賠15（損益金額）': VB.nsmallest(15, 'pnl'), '最賺15（報酬率）': VB.nlargest(15, 'ret'), '最賠15（報酬率）': VB.nsmallest(15, 'ret'),
+       '指名大贏家': VB[VB['code'].isin(['2408', '3653', '3017', '2344', '2059', '1325'])].sort_values('pnl', ascending=False)}
+item2 = {}; seen = {}
+for name, g in sel.items():
+    lst = []
+    for a in g.itertuples():
+        e, x = pd.Timestamp(a.ent), pd.Timestamp(a.exit)
+        eo, xo = alt_px(a.code, e, 'open'), alt_px(a.code, x, 'open')
+        ok_e = max(eo.values()) - min(eo.values()) <= TOL or all(abs(v - a.ent_open) <= TOL for k, v in eo.items() if 'yahoo' not in k)
+        ok_x = max(xo.values()) - min(xo.values()) <= TOL or all(abs(v - a.exit_open) <= TOL for k, v in xo.items() if 'yahoo' not in k)
+        dpc = dp_chain(a.code, e, x)
+        lst.append(dict(code=a.code, ent=str(e.date()), exit=str(x.date()), shares=int(a.shares), ent_open_sources=eo, exit_open_sources=xo, n_price_sources_ent=len(eo), n_price_sources_exit=len(xo),
+                        price_sources_agree=bool(ok_e and ok_x), px_only_ret=a.px_only, twt49u_div_factor=a.twt49u_factor, gross_px_x_div=a.gross_px_x_div,
+                        gross_recalc=a.gross_recalc - 1, gross_dp_chain=dpc, gross_dp_minus_recalc_pp=None if dpc is None else (dpc - (a.gross_recalc - 1)) * 100,
+                        ret_recalc=a.ret_recalc, ret_trades_file=a.ret, ret_diff=a.ret_diff, pnl=a.pnl, n_events=int(a.n_events), events=a.events if isinstance(a.events, str) else '',
+                        gross_minus_pxdiv_pp=(a.gross_recalc - 1 - a.gross_px_x_div) * 100))
+    item2[name] = lst
+out['item2'] = item2
+allsel = pd.concat(sel.values()).drop_duplicates(['code', 'ent', 'exit'])
+out['item2_summary'] = dict(n_unique=int(len(allsel)), max_abs_ret_diff=float(allsel['ret_diff'].abs().max()), n_ret_diff_gt_1e6=int((allsel['ret_diff'].abs() > 1e-6).sum()),
+                            n_with_events=int((allsel['n_events'] > 0).sum()))
+# ---- 重算不符的 15 筆是不是「單日成交值 5% 上限 → 分兩天以上賣完」
+part = []
+for a in cl[cl['ret_diff'].abs() > 1e-4].itertuples():
+    f = D.frame(a.code); i1 = pos[pd.Timestamp(a.exit)]; i0 = pos[pd.Timestamp(a.ent)]
+    hit = None
+    for i in range(i1 - 1, max(i1 - 6, i0), -1):
+        val = a.shares * a.ent_open * (f['C'].iat[i0] / a.ent_open) * float(np.prod(1 + f['R'].iloc[i0 + 1:i].to_numpy())) * f['O'].iat[i] / f['REF'].iat[i]
+        if val > 0.05 * f['AMT'].iat[i]:
+            hit = (str(IDX[i].date()), round(val / f['AMT'].iat[i], 4)); break
+    part.append(dict(version=a.version, code=a.code, ent=str(pd.Timestamp(a.ent).date()), exit=str(pd.Timestamp(a.exit).date()), ret=a.ret, ret_recalc=a.ret_recalc, earlier_day_position_over_5pct_of_amt=hit))
+out['recalc_all']['partial_sale_check'] = part
+out['recalc_all']['n_partial_explained'] = int(sum(1 for p in part if p['earlier_day_position_over_5pct_of_amt']))
+# ---- 2014 以前 X 日（報酬記 0）對全部交易的影響量級
+xx = cl[cl['n_xflag'] > 0].drop_duplicates(['code', 'ent', 'exit'])
+out['xday'] = dict(unique_trades_with_xflag_day=int(len(xx)), unique_closed=int(len(u)))
 out['maxrss_mb'] = round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024)
 (A.HERE / 'results_trades.json').write_text(json.dumps(out, ensure_ascii=False, indent=1, default=str))
 print('rss', out['maxrss_mb'])
