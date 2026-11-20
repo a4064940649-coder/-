@@ -316,11 +316,6 @@ OUT['q4_losers'] = dict(n=int(len(Lz)), ret_max=float(Lz['ret'].max()), ret_min=
                         first5d_loss_median=None,
                         list=Lz.sort_values('ret')[cols_show + ['b0050', 'mae']].to_dict('records'))
 # 進場後 5 天的報酬（輸家是不是一開始就跌）
-f5 = []
-for r in TR.itertuples(index=False):
-    e, j = r.ent_t, lg0['j'].iloc[r.Index] if hasattr(r, 'Index') else None,
-    f5.append(np.nan)
-g5 = np.array([(P.CF[min(e + 4, x if w == 'open_end' else x - 1), j] if False else np.nan) for e, x, w, j in zip(lg0['ent_t'], lg0['exit_t'], lg0['why'], lg0['j'])])
 d5 = []
 for e, x, w, j in zip(lg0['ent_t'], lg0['exit_t'], lg0['why'], lg0['j']):
     last = x if w == 'open_end' else x - 1
@@ -524,5 +519,17 @@ OUT['q6_trade_tail_by_era'] = {e_: dict(n=int(len(g_)), ge50=int((g_['ret'] >= .
 print('6 環境', f'{time.time() - t0:.0f}s', flush=True)
 
 OUT['runtime_s'] = round(time.time() - t0, 1); OUT['peak_rss_mb'] = round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024)
-(HERE / 'results.json').write_text(json.dumps(OUT, ensure_ascii=False, indent=1, default=jd))
+def clean(o):
+    if isinstance(o, dict):
+        return {str(k): clean(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [clean(v) for v in o]
+    if hasattr(o, 'item') and not isinstance(o, (str, bytes)):
+        o = o.item()
+    if isinstance(o, float) and not math.isfinite(o):
+        return None
+    return o
+
+
+(HERE / 'results.json').write_text(json.dumps(clean(OUT), ensure_ascii=False, indent=1, default=str))
 print('done', OUT['runtime_s'], OUT['peak_rss_mb'])
