@@ -1,0 +1,1486 @@
+{
+ "B7_0050": {
+  "engine_file": {
+   "path": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv",
+   "sha256": "771fabfbe0a3165cd1729f8023992acff7bb61a16f078fa082f027ae422bcdab",
+   "first": "2003-07-01",
+   "last": "2026-10-22",
+   "n": 5737,
+   "columns": [
+    "date",
+    "adj"
+   ],
+   "note": "只有一欄還原價（含息），沒有原始價、沒有配息明細；檔內沒有記載來源網址"
+  },
+  "forward_copy": {
+   "path": "/home/user/-/research/tw_stock_selection/agents/o_forward_infra_live/raw/finlab/etf_0050.csv",
+   "last": "2026-11-19",
+   "n": 5756
+  },
+  "n_nan": 0,
+  "n_le0": 0,
+  "missing_trading_days": [
+   "2025-06-11",
+   "2025-06-12",
+   "2025-06-13",
+   "2025-06-16",
+   "2025-06-17"
+  ],
+  "extra_non_trading_rows": [
+   {
+    "date": "2026-07-10",
+    "weekday": "Friday",
+    "adj": 832.6179,
+    "prev": 832.6179,
+    "ret_vs_prev_pct": 0.0
+   },
+   {
+    "date": "2026-09-20",
+    "weekday": "Sunday",
+    "adj": 813.9332,
+    "prev": 876.5741,
+    "ret_vs_prev_pct": -7.15
+   },
+   {
+    "date": "2026-10-23",
+    "weekday": "Friday",
+    "adj": 851.1183,
+    "prev": 851.1183,
+    "ret_vs_prev_pct": 0.0
+   }
+  ],
+  "max_abs_daily_ret_pct": 10.0,
+  "n_abs_ret_gt_7pct_before_2015_06": 0,
+  "n_abs_ret_gt_10pct_after": 0,
+  "big_moves": [
+   {
+    "date": "2018-10-11",
+    "ret_pct": -7.03
+   },
+   {
+    "date": "2020-03-20",
+    "ret_pct": 7.95
+   },
+   {
+    "date": "2024-08-05",
+    "ret_pct": -9.13
+   },
+   {
+    "date": "2025-04-07",
+    "ret_pct": -10.0
+   },
+   {
+    "date": "2025-04-10",
+    "ret_pct": 9.99
+   },
+   {
+    "date": "2026-07-31",
+    "ret_pct": 10.0
+   }
+  ],
+  "raw_0050_from_official_k": {
+   "first": "2015-01-05",
+   "last": "2026-11-19",
+   "n": 2889,
+   "n_missing_days": 5,
+   "missing_days": [
+    "2025-06-11",
+    "2025-06-12",
+    "2025-06-13",
+    "2025-06-16",
+    "2025-06-17"
+   ],
+   "n_open_missing": 5
+  },
+  "implied_events_2015_plus": [
+   {
+    "date": "2015-10-26",
+    "kind": "配息",
+    "raw_prev": 65.9,
+    "raw": 64.55,
+    "raw_ret_pct": -2.05,
+    "adj_ret_pct": 1.02,
+    "implied_div": 2.0,
+    "factor": 1.0313
+   },
+   {
+    "date": "2016-07-28",
+    "kind": "配息",
+    "raw_prev": 69.7,
+    "raw": 69.05,
+    "raw_ret_pct": -0.93,
+    "adj_ret_pct": 0.29,
+    "implied_div": 0.85,
+    "factor": 1.0123
+   },
+   {
+    "date": "2017-02-08",
+    "kind": "配息",
+    "raw_prev": 73.3,
+    "raw": 71.75,
+    "raw_ret_pct": -2.11,
+    "adj_ret_pct": 0.21,
+    "implied_div": 1.7,
+    "factor": 1.0237
+   },
+   {
+    "date": "2017-07-31",
+    "kind": "配息",
+    "raw_prev": 82.1,
+    "raw": 81.35,
+    "raw_ret_pct": -0.91,
+    "adj_ret_pct": -0.06,
+    "implied_div": 0.7,
+    "factor": 1.0086
+   },
+   {
+    "date": "2018-01-29",
+    "kind": "配息",
+    "raw_prev": 87.5,
+    "raw": 85.55,
+    "raw_ret_pct": -2.23,
+    "adj_ret_pct": 0.29,
+    "implied_div": 2.2,
+    "factor": 1.0258
+   },
+   {
+    "date": "2018-07-23",
+    "kind": "配息",
+    "raw_prev": 84.65,
+    "raw": 84.55,
+    "raw_ret_pct": -0.12,
+    "adj_ret_pct": 0.71,
+    "implied_div": 0.7,
+    "factor": 1.0083
+   },
+   {
+    "date": "2019-01-22",
+    "kind": "配息",
+    "raw_prev": 76.5,
+    "raw": 74.05,
+    "raw_ret_pct": -3.2,
+    "adj_ret_pct": -0.2,
+    "implied_div": 2.3,
+    "factor": 1.031
+   },
+   {
+    "date": "2019-07-19",
+    "kind": "配息",
+    "raw_prev": 82.7,
+    "raw": 83.0,
+    "raw_ret_pct": 0.36,
+    "adj_ret_pct": 1.22,
+    "implied_div": 0.7,
+    "factor": 1.0085
+   },
+   {
+    "date": "2020-01-31",
+    "kind": "配息",
+    "raw_prev": 92.15,
+    "raw": 89.95,
+    "raw_ret_pct": -2.39,
+    "adj_ret_pct": 0.78,
+    "implied_div": 2.9,
+    "factor": 1.0325
+   },
+   {
+    "date": "2020-07-21",
+    "kind": "配息",
+    "raw_prev": 97.05,
+    "raw": 98.7,
+    "raw_ret_pct": 1.7,
+    "adj_ret_pct": 2.44,
+    "implied_div": 0.7,
+    "factor": 1.0073
+   },
+   {
+    "date": "2021-01-22",
+    "kind": "配息",
+    "raw_prev": 143.0,
+    "raw": 137.45,
+    "raw_ret_pct": -3.88,
+    "adj_ret_pct": -1.79,
+    "implied_div": 3.05,
+    "factor": 1.0218
+   },
+   {
+    "date": "2021-07-21",
+    "kind": "配息",
+    "raw_prev": 137.2,
+    "raw": 136.7,
+    "raw_ret_pct": -0.36,
+    "adj_ret_pct": -0.11,
+    "implied_div": 0.35,
+    "factor": 1.0026
+   },
+   {
+    "date": "2022-01-21",
+    "kind": "配息",
+    "raw_prev": 149.1,
+    "raw": 142.65,
+    "raw_ret_pct": -4.33,
+    "adj_ret_pct": -2.23,
+    "implied_div": 3.2,
+    "factor": 1.0219
+   },
+   {
+    "date": "2022-07-18",
+    "kind": "配息",
+    "raw_prev": 115.5,
+    "raw": 114.2,
+    "raw_ret_pct": -1.13,
+    "adj_ret_pct": 0.44,
+    "implied_div": 1.8,
+    "factor": 1.0158
+   },
+   {
+    "date": "2023-01-30",
+    "kind": "配息",
+    "raw_prev": 118.1,
+    "raw": 120.7,
+    "raw_ret_pct": 2.2,
+    "adj_ret_pct": 4.5,
+    "implied_div": 2.6,
+    "factor": 1.0225
+   },
+   {
+    "date": "2023-07-18",
+    "kind": "配息",
+    "raw_prev": 132.0,
+    "raw": 129.85,
+    "raw_ret_pct": -1.63,
+    "adj_ret_pct": -0.19,
+    "implied_div": 1.9,
+    "factor": 1.0146
+   },
+   {
+    "date": "2024-01-17",
+    "kind": "配息",
+    "raw_prev": 131.65,
+    "raw": 127.45,
+    "raw_ret_pct": -3.19,
+    "adj_ret_pct": -0.93,
+    "implied_div": 3.0,
+    "factor": 1.0233
+   },
+   {
+    "date": "2024-07-16",
+    "kind": "配息",
+    "raw_prev": 196.7,
+    "raw": 196.85,
+    "raw_ret_pct": 0.08,
+    "adj_ret_pct": 0.59,
+    "implied_div": 1.0,
+    "factor": 1.0051
+   },
+   {
+    "date": "2025-01-17",
+    "kind": "配息",
+    "raw_prev": 198.05,
+    "raw": 196.3,
+    "raw_ret_pct": -0.88,
+    "adj_ret_pct": 0.49,
+    "implied_div": 2.7,
+    "factor": 1.0138
+   },
+   {
+    "date": "2025-06-18",
+    "kind": "分割",
+    "raw_prev": 188.65,
+    "raw": 47.57,
+    "raw_ret_pct": -74.78,
+    "adj_ret_pct": 0.86,
+    "implied_div": null,
+    "factor": 4.0
+   },
+   {
+    "date": "2025-07-21",
+    "kind": "配息",
+    "raw_prev": 51.45,
+    "raw": 50.9,
+    "raw_ret_pct": -1.07,
+    "adj_ret_pct": -0.39,
+    "implied_div": 0.35,
+    "factor": 1.0068
+   },
+   {
+    "date": "2026-01-22",
+    "kind": "配息",
+    "raw_prev": 71.85,
+    "raw": 71.8,
+    "raw_ret_pct": -0.07,
+    "adj_ret_pct": 1.34,
+    "implied_div": 1.0,
+    "factor": 1.0141
+   },
+   {
+    "date": "2026-07-21",
+    "kind": "配息",
+    "raw_prev": 99.2,
+    "raw": 102.5,
+    "raw_ret_pct": 3.33,
+    "adj_ret_pct": 3.93,
+    "implied_div": 0.577,
+    "factor": 1.0059
+   }
+  ],
+  "implied_dividend_count_by_year": {
+   "2015": 1,
+   "2016": 1,
+   "2017": 2,
+   "2018": 2,
+   "2019": 2,
+   "2020": 2,
+   "2021": 2,
+   "2022": 2,
+   "2023": 2,
+   "2024": 2,
+   "2025": 2,
+   "2026": 2
+  },
+  "events_0050_twt49u": [
+   {
+    "date": "2014-10-24",
+    "prev_close": 65.05,
+    "ref_price": 63.5,
+    "value": 1.55,
+    "type": "息"
+   },
+   {
+    "date": "2015-10-26",
+    "prev_close": 65.9,
+    "ref_price": 63.9,
+    "value": 2.0,
+    "type": "息"
+   },
+   {
+    "date": "2016-07-28",
+    "prev_close": 69.7,
+    "ref_price": 68.85,
+    "value": 0.85,
+    "type": "息"
+   },
+   {
+    "date": "2017-02-08",
+    "prev_close": 73.3,
+    "ref_price": 71.6,
+    "value": 1.7,
+    "type": "息"
+   },
+   {
+    "date": "2017-07-31",
+    "prev_close": 82.1,
+    "ref_price": 81.4,
+    "value": 0.7,
+    "type": "息"
+   },
+   {
+    "date": "2018-01-29",
+    "prev_close": 87.5,
+    "ref_price": 85.3,
+    "value": 2.2,
+    "type": "息"
+   },
+   {
+    "date": "2018-07-23",
+    "prev_close": 84.65,
+    "ref_price": 83.95,
+    "value": 0.7,
+    "type": "息"
+   },
+   {
+    "date": "2019-01-22",
+    "prev_close": 76.5,
+    "ref_price": 74.2,
+    "value": 2.3,
+    "type": "息"
+   },
+   {
+    "date": "2019-07-19",
+    "prev_close": 82.7,
+    "ref_price": 82.0,
+    "value": 0.7,
+    "type": "息"
+   },
+   {
+    "date": "2020-01-31",
+    "prev_close": 92.15,
+    "ref_price": 89.25,
+    "value": 2.9,
+    "type": "息"
+   },
+   {
+    "date": "2020-07-21",
+    "prev_close": 97.05,
+    "ref_price": 96.35,
+    "value": 0.7,
+    "type": "息"
+   },
+   {
+    "date": "2021-01-22",
+    "prev_close": 143.0,
+    "ref_price": 139.95,
+    "value": 3.05,
+    "type": "息"
+   },
+   {
+    "date": "2021-07-21",
+    "prev_close": 137.2,
+    "ref_price": 136.85,
+    "value": 0.35,
+    "type": "息"
+   },
+   {
+    "date": "2022-01-21",
+    "prev_close": 149.1,
+    "ref_price": 145.9,
+    "value": 3.2,
+    "type": "息"
+   },
+   {
+    "date": "2022-07-18",
+    "prev_close": 115.5,
+    "ref_price": 113.7,
+    "value": 1.8,
+    "type": "息"
+   },
+   {
+    "date": "2023-01-30",
+    "prev_close": 118.1,
+    "ref_price": 115.5,
+    "value": 2.6,
+    "type": "息"
+   },
+   {
+    "date": "2023-07-18",
+    "prev_close": 132.0,
+    "ref_price": 130.1,
+    "value": 1.9,
+    "type": "息"
+   },
+   {
+    "date": "2024-01-17",
+    "prev_close": 131.65,
+    "ref_price": 128.65,
+    "value": 3.0,
+    "type": "息"
+   },
+   {
+    "date": "2024-07-16",
+    "prev_close": 196.7,
+    "ref_price": 195.7,
+    "value": 1.0,
+    "type": "息"
+   },
+   {
+    "date": "2025-01-17",
+    "prev_close": 198.05,
+    "ref_price": 195.35,
+    "value": 2.7,
+    "type": "息"
+   },
+   {
+    "date": "2025-07-21",
+    "prev_close": 51.45,
+    "ref_price": 51.09,
+    "value": 0.36,
+    "type": "息"
+   },
+   {
+    "date": "2026-01-22",
+    "prev_close": 71.85,
+    "ref_price": 70.85,
+    "value": 1.0,
+    "type": "息"
+   },
+   {
+    "date": "2026-07-21",
+    "prev_close": 99.2,
+    "ref_price": 98.6,
+    "value": 0.6,
+    "type": "息"
+   }
+  ],
+  "events_0050_repo": [
+   {
+    "date": "2015-10-26",
+    "sub": "exright",
+    "kind": "息",
+    "value": "2.000000",
+    "ref_price": "63.90"
+   },
+   {
+    "date": "2016-07-28",
+    "sub": "exright",
+    "kind": "息",
+    "value": "0.850000",
+    "ref_price": "68.85"
+   },
+   {
+    "date": "2017-02-08",
+    "sub": "exright",
+    "kind": "息",
+    "value": "1.700000",
+    "ref_price": "71.60"
+   },
+   {
+    "date": "2017-07-31",
+    "sub": "exright",
+    "kind": "息",
+    "value": "0.700000",
+    "ref_price": "81.40"
+   },
+   {
+    "date": "2018-01-29",
+    "sub": "exright",
+    "kind": "息",
+    "value": "2.200000",
+    "ref_price": "85.30"
+   },
+   {
+    "date": "2018-07-23",
+    "sub": "exright",
+    "kind": "息",
+    "value": "0.700000",
+    "ref_price": "83.95"
+   },
+   {
+    "date": "2019-01-22",
+    "sub": "exright",
+    "kind": "息",
+    "value": "2.300000",
+    "ref_price": "74.20"
+   },
+   {
+    "date": "2019-07-19",
+    "sub": "exright",
+    "kind": "息",
+    "value": "0.700000",
+    "ref_price": "82.00"
+   },
+   {
+    "date": "2020-01-31",
+    "sub": "exright",
+    "kind": "息",
+    "value": "2.900000",
+    "ref_price": "89.25"
+   },
+   {
+    "date": "2020-07-21",
+    "sub": "exright",
+    "kind": "息",
+    "value": "0.700000",
+    "ref_price": "96.35"
+   },
+   {
+    "date": "2021-01-22",
+    "sub": "exright",
+    "kind": "息",
+    "value": "3.050000",
+    "ref_price": "139.95"
+   },
+   {
+    "date": "2021-07-21",
+    "sub": "exright",
+    "kind": "息",
+    "value": "0.350000",
+    "ref_price": "136.85"
+   },
+   {
+    "date": "2022-01-21",
+    "sub": "exright",
+    "kind": "息",
+    "value": "3.200000",
+    "ref_price": "145.90"
+   },
+   {
+    "date": "2022-07-18",
+    "sub": "exright",
+    "kind": "息",
+    "value": "1.800000",
+    "ref_price": "113.70"
+   },
+   {
+    "date": "2023-01-30",
+    "sub": "exright",
+    "kind": "息",
+    "value": "2.600000",
+    "ref_price": "115.50"
+   },
+   {
+    "date": "2023-07-18",
+    "sub": "exright",
+    "kind": "息",
+    "value": "1.900000",
+    "ref_price": "130.10"
+   },
+   {
+    "date": "2024-01-17",
+    "sub": "exright",
+    "kind": "息",
+    "value": "3.000000",
+    "ref_price": "128.65"
+   },
+   {
+    "date": "2024-07-16",
+    "sub": "exright",
+    "kind": "息",
+    "value": "1.000000",
+    "ref_price": "195.70"
+   },
+   {
+    "date": "2025-01-17",
+    "sub": "exright",
+    "kind": "息",
+    "value": "2.700000",
+    "ref_price": "195.35"
+   },
+   {
+    "date": "2025-07-21",
+    "sub": "exright",
+    "kind": "息",
+    "value": "0.360000",
+    "ref_price": "51.09"
+   },
+   {
+    "date": "2026-01-22",
+    "sub": "exright",
+    "kind": "息",
+    "value": "1.000000",
+    "ref_price": "70.85"
+   },
+   {
+    "date": "2026-07-21",
+    "sub": "exright",
+    "kind": "息",
+    "value": "0.600000",
+    "ref_price": "98.60"
+   },
+   {
+    "date": "2025-06-18",
+    "sub": "etfsplit",
+    "kind": NaN,
+    "value": NaN,
+    "ref_price": "47.16"
+   }
+  ],
+  "twt49u_0050_count_by_year": {
+   "2014": 1,
+   "2015": 1,
+   "2016": 1,
+   "2017": 2,
+   "2018": 2,
+   "2019": 2,
+   "2020": 2,
+   "2021": 2,
+   "2022": 2,
+   "2023": 2,
+   "2024": 2,
+   "2025": 2,
+   "2026": 2
+  },
+  "twt49u_vs_implied": {
+   "n_twt49u_2015_plus": 22,
+   "n_matched": 21,
+   "n_implied": 22,
+   "implied_not_in_twt49u": [],
+   "rows": [
+    {
+     "date": "2015-10-26",
+     "twt49u_value": 2.0,
+     "implied_div": 2.0,
+     "match": true
+    },
+    {
+     "date": "2016-07-28",
+     "twt49u_value": 0.85,
+     "implied_div": 0.85,
+     "match": true
+    },
+    {
+     "date": "2017-02-08",
+     "twt49u_value": 1.7,
+     "implied_div": 1.7,
+     "match": true
+    },
+    {
+     "date": "2017-07-31",
+     "twt49u_value": 0.7,
+     "implied_div": 0.7,
+     "match": true
+    },
+    {
+     "date": "2018-01-29",
+     "twt49u_value": 2.2,
+     "implied_div": 2.2,
+     "match": true
+    },
+    {
+     "date": "2018-07-23",
+     "twt49u_value": 0.7,
+     "implied_div": 0.7,
+     "match": true
+    },
+    {
+     "date": "2019-01-22",
+     "twt49u_value": 2.3,
+     "implied_div": 2.3,
+     "match": true
+    },
+    {
+     "date": "2019-07-19",
+     "twt49u_value": 0.7,
+     "implied_div": 0.7,
+     "match": true
+    },
+    {
+     "date": "2020-01-31",
+     "twt49u_value": 2.9,
+     "implied_div": 2.9,
+     "match": true
+    },
+    {
+     "date": "2020-07-21",
+     "twt49u_value": 0.7,
+     "implied_div": 0.7,
+     "match": true
+    },
+    {
+     "date": "2021-01-22",
+     "twt49u_value": 3.05,
+     "implied_div": 3.05,
+     "match": true
+    },
+    {
+     "date": "2021-07-21",
+     "twt49u_value": 0.35,
+     "implied_div": 0.35,
+     "match": true
+    },
+    {
+     "date": "2022-01-21",
+     "twt49u_value": 3.2,
+     "implied_div": 3.2,
+     "match": true
+    },
+    {
+     "date": "2022-07-18",
+     "twt49u_value": 1.8,
+     "implied_div": 1.8,
+     "match": true
+    },
+    {
+     "date": "2023-01-30",
+     "twt49u_value": 2.6,
+     "implied_div": 2.6,
+     "match": true
+    },
+    {
+     "date": "2023-07-18",
+     "twt49u_value": 1.9,
+     "implied_div": 1.9,
+     "match": true
+    },
+    {
+     "date": "2024-01-17",
+     "twt49u_value": 3.0,
+     "implied_div": 3.0,
+     "match": true
+    },
+    {
+     "date": "2024-07-16",
+     "twt49u_value": 1.0,
+     "implied_div": 1.0,
+     "match": true
+    },
+    {
+     "date": "2025-01-17",
+     "twt49u_value": 2.7,
+     "implied_div": 2.7,
+     "match": true
+    },
+    {
+     "date": "2025-07-21",
+     "twt49u_value": 0.36,
+     "implied_div": 0.35,
+     "match": true
+    },
+    {
+     "date": "2026-01-22",
+     "twt49u_value": 1.0,
+     "implied_div": 1.0,
+     "match": true
+    },
+    {
+     "date": "2026-07-21",
+     "twt49u_value": 0.6,
+     "implied_div": 0.577,
+     "match": false
+    }
+   ]
+  },
+  "split": {
+   "detected": [
+    {
+     "date": "2025-06-18",
+     "kind": "分割",
+     "raw_prev": 188.65,
+     "raw": 47.57,
+     "raw_ret_pct": -74.78,
+     "adj_ret_pct": 0.86,
+     "implied_div": null,
+     "factor": 4.0
+    }
+   ],
+   "suspension_days_missing_in_adj": [
+    "2025-06-11",
+    "2025-06-12",
+    "2025-06-13",
+    "2025-06-16",
+    "2025-06-17"
+   ],
+   "engine_handling": "cslib.Panel 對 0050 還原價先 ffill（停牌日沿用前值），run_official.py 另呼叫 s19lib.e50_fix_suspension（停牌日開盤＝前一成交收盤）",
+   "adj_continuous_over_split": true
+  },
+  "pre2015": {
+   "dividend_list": "無法驗證：本地沒有 2015 以前的 0050 原始價與配息表（TWT49U 封存只有 2014 的 1 年；還原價無法單獨推回配息）",
+   "twt49u_2014": [
+    {
+     "date": "2014-10-24",
+     "prev_close": 65.05,
+     "ref_price": 63.5,
+     "value": 1.55,
+     "type": "息"
+    }
+   ]
+  },
+  "site_nav_json": {
+   "n": 584,
+   "key": "日期",
+   "first": "2015-07-03",
+   "last": "2026-10-22",
+   "dates_not_trading_days": []
+  },
+  "navs_official": {
+   "sha256": "595f1b69c6b0f9d46e546719eae62050875078f79b6af9bc75ff2dd45423cde8",
+   "first": "2015-07-01",
+   "last": "2026-10-22",
+   "n": 2760,
+   "columns": [
+    "0050",
+    "E0|W10_70",
+    "XT|W10_70",
+    "XT_B11|W10_70"
+   ],
+   "dates_not_in_calendar": [],
+   "calendar_days_missing": [],
+   "n_nan": 0
+  }
+ },
+ "B8_daily_chain": {
+  "now_taipei": "2026-11-20 16:02:07",
+  "expected_last_trading_day_weekday_rule": "2026-11-19",
+  "twii_forward_copy_last": "2026-11-19",
+  "tsd": {
+   "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/tsd",
+   "head": "5414b6c836a78bb417754e2ccdfc837e9deb9851 2026-11-19T21:32:32+00:00 revenue_hist: 2026-11-20 05:32 台北",
+   "daily_last": "2026-11-19",
+   "exright_last_file": "2026-11-20",
+   "exright_last_file_blob_local": false
+  },
+  "raw_archive": {
+   "head": "107f90739a3d8647845299f8e8f5330b51332730 2026-11-02T18:48:46+00:00 tri_index: 2026-11-03 02:48 台北",
+   "daily_last": "2026-10-30",
+   "days_behind_tsd": 14,
+   "exright_blobs_local": 0
+  },
+  "site": {
+   "status": {
+    "data_last_day": "2026-11-19",
+    "exright_cover": "2026-11-20",
+    "exright_warning": false,
+    "mtime": "2026-11-20 06:51:50"
+   },
+   "live": {
+    "data_last_day": "2026-11-19",
+    "exright_cover": "2026-11-20",
+    "exright_warning": false,
+    "mtime": "2026-11-20 06:51:50"
+   },
+   "holdings": {
+    "data_last_day": "2026-11-19",
+    "exright_cover": "2026-11-20",
+    "exright_warning": false,
+    "mtime": "2026-11-20 06:51:50"
+   },
+   "nav": {
+    "data_last_day": "2026-11-19",
+    "exright_cover": null,
+    "exright_warning": null,
+    "mtime": "2026-11-20 06:51:50"
+   },
+   "top20": {
+    "data_last_day": "2026-11-19",
+    "exright_cover": null,
+    "exright_warning": null,
+    "mtime": "2026-11-20 06:51:50"
+   },
+   "actions": {
+    "data_last_day": "2026-11-19",
+    "exright_cover": null,
+    "exright_warning": null,
+    "mtime": "2026-11-20 06:51:50"
+   }
+  },
+  "twt49u_archive_last": "2026-10-29",
+  "price_day_is_latest_trading_day": true,
+  "exright_covers_latest_price_day": true,
+  "forward_logs": [
+   {
+    "log": "daily_20261103_0434.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-02T20:14:11+00:00",
+    "finlab_commit_time": "2026-11-02T19:40:12+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": false,
+    "official_fetch_failed": false,
+    "alerts": []
+   },
+   {
+    "log": "daily_20261103_062554.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-02T20:14:11+00:00",
+    "finlab_commit_time": "2026-11-02T19:40:12+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": false,
+    "official_fetch_failed": false,
+    "alerts": []
+   },
+   {
+    "log": "daily_20261103_064942.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-02T22:32:45+00:00",
+    "finlab_commit_time": "2026-11-02T19:40:12+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": false,
+    "official_fetch_failed": false,
+    "alerts": [
+     "【警告】磁碟剩餘 1906MB < 2GB"
+    ]
+   },
+   {
+    "log": "daily_20261103_144952.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-03T05:33:45+00:00",
+    "finlab_commit_time": "2026-11-03T02:48:23+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【警告】磁碟剩餘 1875MB < 2GB",
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   },
+   {
+    "log": "daily_20261103_145020.log",
+    "rc": 4,
+    "screener_commit_time": "2026-11-03T05:33:45+00:00",
+    "finlab_commit_time": "2026-11-03T02:48:23+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": false,
+    "alerts": [
+     "【警告】磁碟剩餘 1874MB < 2GB",
+     "【月營收覆蓋率不足】2026-09 月營收（期限日 2026-10-12，J13）在股池的覆蓋率 100.0%（256/256，門檻 101%；官方補值 0 檔），缺："
+    ]
+   },
+   {
+    "log": "daily_20261104_065109.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-03T20:23:27+00:00",
+    "finlab_commit_time": "2026-11-03T17:13:16+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": false,
+    "official_fetch_failed": false,
+    "alerts": [
+     "【警告】磁碟剩餘 1906MB < 2GB"
+    ]
+   },
+   {
+    "log": "daily_20261105_065018.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-04T20:36:28+00:00",
+    "finlab_commit_time": "2026-11-04T17:24:47+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": false,
+    "official_fetch_failed": false,
+    "alerts": []
+   },
+   {
+    "log": "daily_20261106_065105.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-05T20:51:47+00:00",
+    "finlab_commit_time": "2026-11-05T17:31:58+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": false,
+    "official_fetch_failed": false,
+    "alerts": []
+   },
+   {
+    "log": "daily_20261107_065108.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-06T20:07:59+00:00",
+    "finlab_commit_time": "2026-11-06T16:52:40+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": false,
+    "official_fetch_failed": false,
+    "alerts": []
+   },
+   {
+    "log": "daily_20261108_065008.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-07T08:32:58+00:00",
+    "finlab_commit_time": "2026-11-06T16:52:40+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": false,
+    "official_fetch_failed": false,
+    "alerts": []
+   },
+   {
+    "log": "daily_20261109_065101.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-08T01:32:51+00:00",
+    "finlab_commit_time": "2026-11-06T16:52:40+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   },
+   {
+    "log": "daily_20261110_065032.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-09T20:40:20+00:00",
+    "finlab_commit_time": "2026-11-09T19:57:30+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   },
+   {
+    "log": "daily_20261112_033439.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-11T17:51:43+00:00",
+    "finlab_commit_time": "2026-11-11T14:40:24+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【警告】磁碟剩餘 1416MB < 2GB",
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。",
+     "【警告】以下名單凍結時間晚於成交日 09:00（ts_ok＝false，該月不符前瞻時戳條件）：['j0_202611']"
+    ]
+   },
+   {
+    "log": "daily_20261112_064943.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-11T17:51:43+00:00",
+    "finlab_commit_time": "2026-11-11T14:40:24+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   },
+   {
+    "log": "daily_20261114_135106.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-14T03:28:44+00:00",
+    "finlab_commit_time": "2026-11-13T17:18:54+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【警告】磁碟剩餘 1826MB < 2GB",
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。",
+     "【警告】以下名單凍結時間晚於成交日 09:00（ts_ok＝false，該月不符前瞻時戳條件）：['j2_202611']"
+    ]
+   },
+   {
+    "log": "daily_20261115_065050.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-14T03:28:44+00:00",
+    "finlab_commit_time": "2026-11-13T17:18:54+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【警告】磁碟剩餘 1620MB < 2GB",
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   },
+   {
+    "log": "daily_20261116_065111.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-15T02:01:14+00:00",
+    "finlab_commit_time": "2026-11-13T17:18:54+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【警告】磁碟剩餘 1404MB < 2GB",
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   },
+   {
+    "log": "daily_20261117_065104.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-16T20:17:51+00:00",
+    "finlab_commit_time": "2026-11-16T19:45:57+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   },
+   {
+    "log": "daily_20261118_065044.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-17T21:59:31+00:00",
+    "finlab_commit_time": "2026-11-17T18:42:04+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   },
+   {
+    "log": "daily_20261119_065030.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-18T21:41:42+00:00",
+    "finlab_commit_time": "2026-11-18T18:17:10+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   },
+   {
+    "log": "daily_20261120_064939.log",
+    "rc": 0,
+    "screener_commit_time": "2026-11-19T21:54:58+00:00",
+    "finlab_commit_time": "2026-11-19T18:28:14+00:00",
+    "data_fetch_failed": false,
+    "official_fetch_attempted": true,
+    "official_fetch_failed": true,
+    "alerts": [
+     "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+    ]
+   }
+  ],
+  "forward_log_days_missing": [
+   "20261111",
+   "20261113"
+  ],
+  "official_rev_fetch": [
+   {
+    "dir": "20261103T143314+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261103T144954+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261103T145101+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261109T065110+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261110T065045+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261112T033449+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261112T064944+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261114T135111+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261115T065055+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261116T065121+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261117T065122+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261118T065052+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261119T065038+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    ],
+    "n_files": 2
+   },
+   {
+    "dir": "20261120T064953+0800",
+    "ok_markets": {
+     "twse": false,
+     "tpex": false
+    },
+    "n_requests": 6,
+    "n_ok": 0,
+    "hosts": [
+     "mopsov.twse.com.tw",
+     "openapi.twse.com.tw",
+     "www.tpex.org.tw"
+    ],
+    "errors": [
+     "URLError: <urlopen error Tunnel connection failed: 403 Forbidden "
+    ],
+    "n_files": 2
+   }
+  ],
+  "official_rev_fetch_summary": {
+   "n_attempts": 14,
+   "n_success": 0,
+   "first_attempt": "20261103T143314+0800",
+   "last_attempt": "20261120T064953+0800",
+   "n_distinct_days_failed": 11,
+   "failed_days": [
+    "20261103",
+    "20261109",
+    "20261110",
+    "20261112",
+    "20261114",
+    "20261115",
+    "20261116",
+    "20261117",
+    "20261118",
+    "20261119",
+    "20261120"
+   ],
+   "ever_succeeded": false,
+   "consecutive_failed_attempts_to_latest": 14
+  },
+  "upstream_revenue_hist_2026_10_twse_commits": {
+   "n": 1,
+   "first": "2026-11-19T21:32:32+00:00",
+   "last": "2026-11-19T21:32:32+00:00",
+   "all": [
+    "2026-11-19T21:32:32+00:00"
+   ]
+  },
+  "upstream_daily_commit_times_recent": [
+   "2026-11-19T21:32:32+00:00"
+  ],
+  "revenue_seen_dirs": [
+   "data/meta/revenue_seen/2026-09",
+   "data/meta/revenue_seen/2026-10"
+  ]
+ },
+ "runtime_s": 4.8,
+ "maxrss_mb": 184
+}
