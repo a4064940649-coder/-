@@ -1,0 +1,52 @@
+{
+ "written_at": "2026-11-20T08:20:41.894587+00:00",
+ "frozen": "EXIT_ALLCASH_M_BR40",
+ "reference_cell": "EXIT_ALLCASH_M_BR40",
+ "n_eligible": 32,
+ "rule": {
+  "id": "EXIT_ALLCASH_M_BR40",
+  "act": "EXIT",
+  "dest": "ALLCASH",
+  "freq": "M",
+  "re": "NEXT",
+  "ind": "BR40"
+ },
+ "reference_rule": {
+  "id": "EXIT_ALLCASH_M_BR40",
+  "act": "EXIT",
+  "dest": "ALLCASH",
+  "freq": "M",
+  "re": "NEXT",
+  "ind": "BR40"
+ },
+ "train": {
+  "cagr_med": 0.09322062794096508,
+  "maxdd_med": -0.241638883013231,
+  "C": 0.39158073296967144,
+  "n_closed_med": 195.5,
+  "dCAGR": 2.871346860104096,
+  "dMDD": 26.80088042787529,
+  "nC": 20,
+  "nCAGR_pos": 20,
+  "eligible": true,
+  "neighbors": [
+   "EXIT_ALLCASH_M_BR50"
+  ],
+  "RS": 0.3831604006592091
+ },
+ "train_current": {
+  "cagr_med": 0.06410615058030544,
+  "maxdd_med": -0.5023064217532591,
+  "C": 0.1275889910164009,
+  "n_closed_med": 235.0
+ },
+ "clearly_better_in_train": true,
+ "PREREG_sha256": "fcaf2baf8d621aafa3d6cf0bc056eae2e61eb54feea6516f9bc0cd75ccac1572",
+ "results_train_sha256": "168261cf86870eae6ecf01337bfe4550f20226f061cc7f38d3776237255f918d",
+ "code_sha256": [
+  "ec3be590d86741b03e8c13731993fbf2c29488d8a0a55876308d08ff9b96f558  s80lib.py",
+  "8d96b08787cf8b456d9d061ff21c43946484242a5e17d79845126db4c6cc2b47  train.py",
+  "6a9efbecec7fe38c7dd78d62e48850e6c06dbcc11251f78a58b48b62ae017fbf  validate.py"
+ ],
+ "note": "validate.py 只跑一次；門檻與報告項目見 PREREG.json validation"
+}

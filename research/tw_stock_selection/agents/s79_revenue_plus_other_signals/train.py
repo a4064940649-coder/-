@@ -32,7 +32,7 @@ def evaluate(spec):
             w = Q.window(nav, b, *Q.TRAIN)
             lgt = lg[lg['ent_date'] <= Q.TRAIN_END]
             std = dict(cagr=w['cagr'], cagr_0050=w['cagr_0050'], ex_ann_pp=w['ex_ann_pp'], t_nw6=w['t_nw6'], IR=w['IR'], maxdd=w['maxdd'], maxdd_0050=w['maxdd_0050'],
-                       trades=int(((lgt['why'] != 'open_end') & (lgt['exit_date'] <= Q.TRAIN_END)).sum() + ((lgt['exit_date'] > Q.TRAIN_END) | (lgt['why'] == 'open_end')).sum()),
+                       trades=int(len(lgt)),
                        avg_idle=float(1 - st['sf'].loc[:Q.TRAIN_END].dropna().mean()),
                        mean_targets=float(np.mean([i['n_tgt'] for i in sg['info'] if i['sig_date'] <= '2015-12-31'])))
     ex_year = {y: float(np.median([e[y] for e in ey])) for y in Q.TRAIN_YEARS}

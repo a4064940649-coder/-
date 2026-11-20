@@ -1,0 +1,2452 @@
+{
+ "task": "S79 營收訊號＋本機可回溯到 2008 的其他資訊：2008–2015 訓練 → 凍結 → 2016–2026 驗證一次",
+ "written_before": "任何新規則的績效計算（只跑過 accept.py：現行規則訊號／淨值重現、特徵有值比例）",
+ "data_inventory": {
+  "usable_back_to_2008": {
+   "日 K（開高低收、成交金額、漲跌價差、上市別）": "S75 連續面板 2007-01-02～2026-10-22（2015 前 Asoul/tsec＋data_panel 補格；2015 起官方日 K）。價量衍生特徵（3／6／12 個月報酬、距 52 週高點、波動、成交值、股價）都由此算；面板從 2007-01 起，240 日特徵在 2008-01 第一個訊號日（2008-02-13）股池內 98% 有值",
+   "月營收": "niklavsd tw_revenue.csv 2005-01 起（事後更正值；缺 KY 與多數下市股；2013 IFRS 口徑斷點用 S71 B2 水準校正）→ 年增率、3 個月累計年增率、連續年增月數、近 12 月年增為正月數、營收創 12 個月新高、前一月 SURGE",
+   "0050 含息／加權指數": "jonatw finlab-txd（2008 起有；本題只當基準）",
+   "產業分類": "niklavsd tw_industry.csv：只有「現在」的分類一份（32 類），不是當時分類＝有前視疑慮；2008 第一個訊號日股池只有 87.6% 對得到（對不到的多為後來下市），沒有分類的公司各自一類。F8 的結果一律加註"
+  },
+  "not_available_back_to_2008": {
+   "三大法人買賣超／融資融券／借券／本益比淨值比": "官方倉庫 data/universe/inst、margin、sbl、per 檔名只從 2015-01-05 起，且本機是 blob:none 部分 clone，內容一個都讀不到；voidful twse_flows.csv 只有 2025-09 起 → 沒有",
+   "財報（EPS、毛利、ROE）": "data/mops/fin_hist 只有 2013Q1 起、fs_hist 2015Q1 起 → 2008–2012 沒有",
+   "股本／市值": "只有現在的股本（非當時值），2015 前不能用（S60 已註明）→ 不做市值因子；以「60 日均成交值」「股價」代替",
+   "集保股權分散": "tdcc_hist 2017 起 → 沒有",
+   "處置／注意股、當沖比": "2015 前沒有"
+  },
+  "prior_work_not_repeated": "S17（SURGE 定義家族含年增率尺度）、S20（持續成長）、S21／S31／S56（產業共振／中性／上限）、S32／S53（波動）、S33（52 週高點）、S46（動能門檻家族）、S12（規模分層）、S22／S28（法人／融資確認）、S70（獲利確認）都是 2015-07 以後的樣本，判定皆為不改預設；本題不重做它們，只在 2008–2015 訓練、2016–2026 驗證的新切法下測同類附加資訊，結論時互相對照"
+ },
+ "base_rule": "現行：SURGE（B2 口徑＝V_BRIDGE）；股池上市非創新板；名單＝還原收盤 > 60 日線依 SURGE 排名；前 10 名且 RET20 > 10% 進場；訊號列不在前 20 名出場；A10 換股日；W10_70；嚴成本；空位買 0050。引擎＝s75lib（s47lib.sim），連續帳戶自 2008-01-02 起，100 萬",
+ "search_space": {
+  "how_modified": "每個試驗只在現行規則上加一種附加資訊（s79lib.make_signal）：list_gates＝進名單的額外條件（進場與續抱同一張名單，沒過等於不在名單）；pool_gates＝前 10 名的「已在漲」條件（取代或加在 RET20>10% 上）；score＝排名分數改成 SURGE 與其他特徵的百分位加權／產業內相對；ind_cap＝同月同產業買進上限",
+  "stage1_trials": [
+   {
+    "id": "F0.base.current",
+    "fam": "F0",
+    "sub": "F0.base",
+    "grid": [
+     0
+    ],
+    "spec": {},
+    "neighbors": []
+   },
+   {
+    "id": "F1.repl.RET60>0.0",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     0,
+     0
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET60",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET60>0.1",
+     "F1.repl.RET120>0.0"
+    ]
+   },
+   {
+    "id": "F1.repl.RET60>0.1",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     0,
+     1
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET60",
+       ">",
+       0.1
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET60>0.0",
+     "F1.repl.RET60>0.2",
+     "F1.repl.RET120>0.1"
+    ]
+   },
+   {
+    "id": "F1.repl.RET60>0.2",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     0,
+     2
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET60",
+       ">",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET60>0.1",
+     "F1.repl.RET60>0.3",
+     "F1.repl.RET120>0.2"
+    ]
+   },
+   {
+    "id": "F1.repl.RET60>0.3",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     0,
+     3
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET60",
+       ">",
+       0.3
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET60>0.2",
+     "F1.repl.RET120>0.3"
+    ]
+   },
+   {
+    "id": "F1.and.RET20&RET60>0.0",
+    "fam": "F1",
+    "sub": "F1.and",
+    "grid": [
+     0,
+     0
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET60",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.and.RET20&RET60>0.1",
+     "F1.and.RET20&RET120>0.0"
+    ]
+   },
+   {
+    "id": "F1.and.RET20&RET60>0.1",
+    "fam": "F1",
+    "sub": "F1.and",
+    "grid": [
+     0,
+     1
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET60",
+       ">",
+       0.1
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.and.RET20&RET60>0.0",
+     "F1.and.RET20&RET60>0.2",
+     "F1.and.RET20&RET120>0.1"
+    ]
+   },
+   {
+    "id": "F1.and.RET20&RET60>0.2",
+    "fam": "F1",
+    "sub": "F1.and",
+    "grid": [
+     0,
+     2
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET60",
+       ">",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.and.RET20&RET60>0.1",
+     "F1.and.RET20&RET120>0.2"
+    ]
+   },
+   {
+    "id": "F1.repl.RET120>0.0",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     1,
+     0
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET120",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET60>0.0",
+     "F1.repl.RET120>0.1",
+     "F1.repl.RET240>0.0"
+    ]
+   },
+   {
+    "id": "F1.repl.RET120>0.1",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     1,
+     1
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET120",
+       ">",
+       0.1
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET60>0.1",
+     "F1.repl.RET120>0.0",
+     "F1.repl.RET120>0.2",
+     "F1.repl.RET240>0.1"
+    ]
+   },
+   {
+    "id": "F1.repl.RET120>0.2",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     1,
+     2
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET120",
+       ">",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET60>0.2",
+     "F1.repl.RET120>0.1",
+     "F1.repl.RET120>0.3",
+     "F1.repl.RET240>0.2"
+    ]
+   },
+   {
+    "id": "F1.repl.RET120>0.3",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     1,
+     3
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET120",
+       ">",
+       0.3
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET60>0.3",
+     "F1.repl.RET120>0.2",
+     "F1.repl.RET240>0.3"
+    ]
+   },
+   {
+    "id": "F1.and.RET20&RET120>0.0",
+    "fam": "F1",
+    "sub": "F1.and",
+    "grid": [
+     1,
+     0
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET120",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.and.RET20&RET60>0.0",
+     "F1.and.RET20&RET120>0.1",
+     "F1.and.RET20&RET240>0.0"
+    ]
+   },
+   {
+    "id": "F1.and.RET20&RET120>0.1",
+    "fam": "F1",
+    "sub": "F1.and",
+    "grid": [
+     1,
+     1
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET120",
+       ">",
+       0.1
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.and.RET20&RET60>0.1",
+     "F1.and.RET20&RET120>0.0",
+     "F1.and.RET20&RET120>0.2",
+     "F1.and.RET20&RET240>0.1"
+    ]
+   },
+   {
+    "id": "F1.and.RET20&RET120>0.2",
+    "fam": "F1",
+    "sub": "F1.and",
+    "grid": [
+     1,
+     2
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET120",
+       ">",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.and.RET20&RET60>0.2",
+     "F1.and.RET20&RET120>0.1",
+     "F1.and.RET20&RET240>0.2"
+    ]
+   },
+   {
+    "id": "F1.repl.RET240>0.0",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     2,
+     0
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET240",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET120>0.0",
+     "F1.repl.RET240>0.1"
+    ]
+   },
+   {
+    "id": "F1.repl.RET240>0.1",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     2,
+     1
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET240",
+       ">",
+       0.1
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET120>0.1",
+     "F1.repl.RET240>0.0",
+     "F1.repl.RET240>0.2"
+    ]
+   },
+   {
+    "id": "F1.repl.RET240>0.2",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     2,
+     2
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET240",
+       ">",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET120>0.2",
+     "F1.repl.RET240>0.1",
+     "F1.repl.RET240>0.3"
+    ]
+   },
+   {
+    "id": "F1.repl.RET240>0.3",
+    "fam": "F1",
+    "sub": "F1.repl",
+    "grid": [
+     2,
+     3
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET240",
+       ">",
+       0.3
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.repl.RET120>0.3",
+     "F1.repl.RET240>0.2"
+    ]
+   },
+   {
+    "id": "F1.and.RET20&RET240>0.0",
+    "fam": "F1",
+    "sub": "F1.and",
+    "grid": [
+     2,
+     0
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET240",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.and.RET20&RET120>0.0",
+     "F1.and.RET20&RET240>0.1"
+    ]
+   },
+   {
+    "id": "F1.and.RET20&RET240>0.1",
+    "fam": "F1",
+    "sub": "F1.and",
+    "grid": [
+     2,
+     1
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET240",
+       ">",
+       0.1
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.and.RET20&RET120>0.1",
+     "F1.and.RET20&RET240>0.0",
+     "F1.and.RET20&RET240>0.2"
+    ]
+   },
+   {
+    "id": "F1.and.RET20&RET240>0.2",
+    "fam": "F1",
+    "sub": "F1.and",
+    "grid": [
+     2,
+     2
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET240",
+       ">",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.and.RET20&RET120>0.2",
+     "F1.and.RET20&RET240>0.1"
+    ]
+   },
+   {
+    "id": "F1.m12_1.MOM12_1>0.0",
+    "fam": "F1",
+    "sub": "F1.m12_1",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "MOM12_1",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.m12_1.MOM12_1>0.2"
+    ]
+   },
+   {
+    "id": "F1.m12_1.MOM12_1>0.2",
+    "fam": "F1",
+    "sub": "F1.m12_1",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "MOM12_1",
+       ">",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F1.m12_1.MOM12_1>0.0"
+    ]
+   },
+   {
+    "id": "F2.list.NH52>=0.7",
+    "fam": "F2",
+    "sub": "F2.list",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "NH52",
+       ">=",
+       0.7
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.list.NH52>=0.8"
+    ]
+   },
+   {
+    "id": "F2.pool.poolNH52>=0.7",
+    "fam": "F2",
+    "sub": "F2.pool",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "NH52",
+       ">=",
+       0.7
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.pool.poolNH52>=0.8"
+    ]
+   },
+   {
+    "id": "F2.list.NH52>=0.8",
+    "fam": "F2",
+    "sub": "F2.list",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "NH52",
+       ">=",
+       0.8
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.list.NH52>=0.7",
+     "F2.list.NH52>=0.85"
+    ]
+   },
+   {
+    "id": "F2.pool.poolNH52>=0.8",
+    "fam": "F2",
+    "sub": "F2.pool",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "NH52",
+       ">=",
+       0.8
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.pool.poolNH52>=0.7",
+     "F2.pool.poolNH52>=0.85"
+    ]
+   },
+   {
+    "id": "F2.list.NH52>=0.85",
+    "fam": "F2",
+    "sub": "F2.list",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "NH52",
+       ">=",
+       0.85
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.list.NH52>=0.8",
+     "F2.list.NH52>=0.9"
+    ]
+   },
+   {
+    "id": "F2.pool.poolNH52>=0.85",
+    "fam": "F2",
+    "sub": "F2.pool",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "NH52",
+       ">=",
+       0.85
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.pool.poolNH52>=0.8",
+     "F2.pool.poolNH52>=0.9"
+    ]
+   },
+   {
+    "id": "F2.list.NH52>=0.9",
+    "fam": "F2",
+    "sub": "F2.list",
+    "grid": [
+     3
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "NH52",
+       ">=",
+       0.9
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.list.NH52>=0.85",
+     "F2.list.NH52>=0.95"
+    ]
+   },
+   {
+    "id": "F2.pool.poolNH52>=0.9",
+    "fam": "F2",
+    "sub": "F2.pool",
+    "grid": [
+     3
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "NH52",
+       ">=",
+       0.9
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.pool.poolNH52>=0.85",
+     "F2.pool.poolNH52>=0.95"
+    ]
+   },
+   {
+    "id": "F2.list.NH52>=0.95",
+    "fam": "F2",
+    "sub": "F2.list",
+    "grid": [
+     4
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "NH52",
+       ">=",
+       0.95
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.list.NH52>=0.9"
+    ]
+   },
+   {
+    "id": "F2.pool.poolNH52>=0.95",
+    "fam": "F2",
+    "sub": "F2.pool",
+    "grid": [
+     4
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "NH52",
+       ">=",
+       0.95
+      ]
+     ]
+    },
+    "neighbors": [
+     "F2.pool.poolNH52>=0.9"
+    ]
+   },
+   {
+    "id": "F3.lo60.VOL60pct<=0.5",
+    "fam": "F3",
+    "sub": "F3.lo60",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL60_PCT",
+       "<=",
+       0.5
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.lo60.VOL60pct<=0.6"
+    ]
+   },
+   {
+    "id": "F3.lo60.VOL60pct<=0.6",
+    "fam": "F3",
+    "sub": "F3.lo60",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL60_PCT",
+       "<=",
+       0.6
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.lo60.VOL60pct<=0.5",
+     "F3.lo60.VOL60pct<=0.7"
+    ]
+   },
+   {
+    "id": "F3.lo60.VOL60pct<=0.7",
+    "fam": "F3",
+    "sub": "F3.lo60",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL60_PCT",
+       "<=",
+       0.7
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.lo60.VOL60pct<=0.6",
+     "F3.lo60.VOL60pct<=0.8"
+    ]
+   },
+   {
+    "id": "F3.lo60.VOL60pct<=0.8",
+    "fam": "F3",
+    "sub": "F3.lo60",
+    "grid": [
+     3
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL60_PCT",
+       "<=",
+       0.8
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.lo60.VOL60pct<=0.7",
+     "F3.lo60.VOL60pct<=0.9"
+    ]
+   },
+   {
+    "id": "F3.lo60.VOL60pct<=0.9",
+    "fam": "F3",
+    "sub": "F3.lo60",
+    "grid": [
+     4
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL60_PCT",
+       "<=",
+       0.9
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.lo60.VOL60pct<=0.8"
+    ]
+   },
+   {
+    "id": "F3.hi60.VOL60pct>=0.3",
+    "fam": "F3",
+    "sub": "F3.hi60",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL60_PCT",
+       ">=",
+       0.3
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.hi60.VOL60pct>=0.5"
+    ]
+   },
+   {
+    "id": "F3.hi60.VOL60pct>=0.5",
+    "fam": "F3",
+    "sub": "F3.hi60",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL60_PCT",
+       ">=",
+       0.5
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.hi60.VOL60pct>=0.3"
+    ]
+   },
+   {
+    "id": "F3.lo120.VOL120pct<=0.5",
+    "fam": "F3",
+    "sub": "F3.lo120",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL120_PCT",
+       "<=",
+       0.5
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.lo120.VOL120pct<=0.7"
+    ]
+   },
+   {
+    "id": "F3.lo120.VOL120pct<=0.7",
+    "fam": "F3",
+    "sub": "F3.lo120",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL120_PCT",
+       "<=",
+       0.7
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.lo120.VOL120pct<=0.5",
+     "F3.lo120.VOL120pct<=0.9"
+    ]
+   },
+   {
+    "id": "F3.lo120.VOL120pct<=0.9",
+    "fam": "F3",
+    "sub": "F3.lo120",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VOL120_PCT",
+       "<=",
+       0.9
+      ]
+     ]
+    },
+    "neighbors": [
+     "F3.lo120.VOL120pct<=0.7"
+    ]
+   },
+   {
+    "id": "F4.min.V60>=2000萬",
+    "fam": "F4",
+    "sub": "F4.min",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "V60",
+       ">=",
+       20000000.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.min.V60>=3000萬"
+    ]
+   },
+   {
+    "id": "F4.min.V60>=3000萬",
+    "fam": "F4",
+    "sub": "F4.min",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "V60",
+       ">=",
+       30000000.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.min.V60>=2000萬",
+     "F4.min.V60>=5000萬"
+    ]
+   },
+   {
+    "id": "F4.min.V60>=5000萬",
+    "fam": "F4",
+    "sub": "F4.min",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "V60",
+       ">=",
+       50000000.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.min.V60>=3000萬",
+     "F4.min.V60>=10000萬"
+    ]
+   },
+   {
+    "id": "F4.min.V60>=10000萬",
+    "fam": "F4",
+    "sub": "F4.min",
+    "grid": [
+     3
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "V60",
+       ">=",
+       100000000.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.min.V60>=5000萬",
+     "F4.min.V60>=20000萬"
+    ]
+   },
+   {
+    "id": "F4.min.V60>=20000萬",
+    "fam": "F4",
+    "sub": "F4.min",
+    "grid": [
+     4
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "V60",
+       ">=",
+       200000000.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.min.V60>=10000萬"
+    ]
+   },
+   {
+    "id": "F4.max.V60<=10000萬",
+    "fam": "F4",
+    "sub": "F4.max",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "V60",
+       "<=",
+       100000000.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.max.V60<=30000萬"
+    ]
+   },
+   {
+    "id": "F4.max.V60<=30000萬",
+    "fam": "F4",
+    "sub": "F4.max",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "V60",
+       "<=",
+       300000000.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.max.V60<=10000萬",
+     "F4.max.V60<=100000萬"
+    ]
+   },
+   {
+    "id": "F4.max.V60<=100000萬",
+    "fam": "F4",
+    "sub": "F4.max",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "V60",
+       "<=",
+       1000000000.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.max.V60<=30000萬"
+    ]
+   },
+   {
+    "id": "F4.vratio.VRATIO>=1.0",
+    "fam": "F4",
+    "sub": "F4.vratio",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VRATIO",
+       ">=",
+       1.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.vratio.VRATIO>=1.5"
+    ]
+   },
+   {
+    "id": "F4.vratio.VRATIO>=1.5",
+    "fam": "F4",
+    "sub": "F4.vratio",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "VRATIO",
+       ">=",
+       1.5
+      ]
+     ]
+    },
+    "neighbors": [
+     "F4.vratio.VRATIO>=1.0"
+    ]
+   },
+   {
+    "id": "F5.min.PX>=15",
+    "fam": "F5",
+    "sub": "F5.min",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "PX",
+       ">=",
+       15
+      ]
+     ]
+    },
+    "neighbors": [
+     "F5.min.PX>=20"
+    ]
+   },
+   {
+    "id": "F5.min.PX>=20",
+    "fam": "F5",
+    "sub": "F5.min",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "PX",
+       ">=",
+       20
+      ]
+     ]
+    },
+    "neighbors": [
+     "F5.min.PX>=15",
+     "F5.min.PX>=30"
+    ]
+   },
+   {
+    "id": "F5.min.PX>=30",
+    "fam": "F5",
+    "sub": "F5.min",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "PX",
+       ">=",
+       30
+      ]
+     ]
+    },
+    "neighbors": [
+     "F5.min.PX>=20",
+     "F5.min.PX>=50"
+    ]
+   },
+   {
+    "id": "F5.min.PX>=50",
+    "fam": "F5",
+    "sub": "F5.min",
+    "grid": [
+     3
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "PX",
+       ">=",
+       50
+      ]
+     ]
+    },
+    "neighbors": [
+     "F5.min.PX>=30"
+    ]
+   },
+   {
+    "id": "F5.max.PX<=50",
+    "fam": "F5",
+    "sub": "F5.max",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "PX",
+       "<=",
+       50
+      ]
+     ]
+    },
+    "neighbors": [
+     "F5.max.PX<=100"
+    ]
+   },
+   {
+    "id": "F5.max.PX<=100",
+    "fam": "F5",
+    "sub": "F5.max",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "PX",
+       "<=",
+       100
+      ]
+     ]
+    },
+    "neighbors": [
+     "F5.max.PX<=50",
+     "F5.max.PX<=200"
+    ]
+   },
+   {
+    "id": "F5.max.PX<=200",
+    "fam": "F5",
+    "sub": "F5.max",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "PX",
+       "<=",
+       200
+      ]
+     ]
+    },
+    "neighbors": [
+     "F5.max.PX<=100"
+    ]
+   },
+   {
+    "id": "F6.yoy1.YOY1>0.0",
+    "fam": "F6",
+    "sub": "F6.yoy1",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "YOY1",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F6.yoy1.YOY1>0.1"
+    ]
+   },
+   {
+    "id": "F6.yoy1.YOY1>0.1",
+    "fam": "F6",
+    "sub": "F6.yoy1",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "YOY1",
+       ">",
+       0.1
+      ]
+     ]
+    },
+    "neighbors": [
+     "F6.yoy1.YOY1>0.0",
+     "F6.yoy1.YOY1>0.2"
+    ]
+   },
+   {
+    "id": "F6.yoy1.YOY1>0.2",
+    "fam": "F6",
+    "sub": "F6.yoy1",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "YOY1",
+       ">",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F6.yoy1.YOY1>0.1",
+     "F6.yoy1.YOY1>0.3"
+    ]
+   },
+   {
+    "id": "F6.yoy1.YOY1>0.3",
+    "fam": "F6",
+    "sub": "F6.yoy1",
+    "grid": [
+     3
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "YOY1",
+       ">",
+       0.3
+      ]
+     ]
+    },
+    "neighbors": [
+     "F6.yoy1.YOY1>0.2"
+    ]
+   },
+   {
+    "id": "F6.yoy3.YOY3>0.0",
+    "fam": "F6",
+    "sub": "F6.yoy3",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "YOY3",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F6.yoy3.YOY3>0.1"
+    ]
+   },
+   {
+    "id": "F6.yoy3.YOY3>0.1",
+    "fam": "F6",
+    "sub": "F6.yoy3",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "YOY3",
+       ">",
+       0.1
+      ]
+     ]
+    },
+    "neighbors": [
+     "F6.yoy3.YOY3>0.0",
+     "F6.yoy3.YOY3>0.2"
+    ]
+   },
+   {
+    "id": "F6.yoy3.YOY3>0.2",
+    "fam": "F6",
+    "sub": "F6.yoy3",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "YOY3",
+       ">",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F6.yoy3.YOY3>0.1"
+    ]
+   },
+   {
+    "id": "F6.blend.0.75S+YOY1",
+    "fam": "F6",
+    "sub": "F6.blend",
+    "grid": [
+     0,
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "YOY1",
+      "w": 0.75
+     }
+    },
+    "neighbors": [
+     "F6.blend.0.5S+YOY1",
+     "F6.blend.0.75S+YOY3"
+    ]
+   },
+   {
+    "id": "F6.blend.0.5S+YOY1",
+    "fam": "F6",
+    "sub": "F6.blend",
+    "grid": [
+     0,
+     1
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "YOY1",
+      "w": 0.5
+     }
+    },
+    "neighbors": [
+     "F6.blend.0.75S+YOY1",
+     "F6.blend.0.25S+YOY1",
+     "F6.blend.0.5S+YOY3"
+    ]
+   },
+   {
+    "id": "F6.blend.0.25S+YOY1",
+    "fam": "F6",
+    "sub": "F6.blend",
+    "grid": [
+     0,
+     2
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "YOY1",
+      "w": 0.25
+     }
+    },
+    "neighbors": [
+     "F6.blend.0.5S+YOY1",
+     "F6.blend.0.25S+YOY3"
+    ]
+   },
+   {
+    "id": "F6.blend.0.75S+YOY3",
+    "fam": "F6",
+    "sub": "F6.blend",
+    "grid": [
+     1,
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "YOY3",
+      "w": 0.75
+     }
+    },
+    "neighbors": [
+     "F6.blend.0.75S+YOY1",
+     "F6.blend.0.5S+YOY3"
+    ]
+   },
+   {
+    "id": "F6.blend.0.5S+YOY3",
+    "fam": "F6",
+    "sub": "F6.blend",
+    "grid": [
+     1,
+     1
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "YOY3",
+      "w": 0.5
+     }
+    },
+    "neighbors": [
+     "F6.blend.0.5S+YOY1",
+     "F6.blend.0.75S+YOY3",
+     "F6.blend.0.25S+YOY3"
+    ]
+   },
+   {
+    "id": "F6.blend.0.25S+YOY3",
+    "fam": "F6",
+    "sub": "F6.blend",
+    "grid": [
+     1,
+     2
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "YOY3",
+      "w": 0.25
+     }
+    },
+    "neighbors": [
+     "F6.blend.0.25S+YOY1",
+     "F6.blend.0.5S+YOY3"
+    ]
+   },
+   {
+    "id": "F7.consec.CONSEC>=2",
+    "fam": "F7",
+    "sub": "F7.consec",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "CONSEC",
+       ">=",
+       2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F7.consec.CONSEC>=3"
+    ]
+   },
+   {
+    "id": "F7.consec.CONSEC>=3",
+    "fam": "F7",
+    "sub": "F7.consec",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "CONSEC",
+       ">=",
+       3
+      ]
+     ]
+    },
+    "neighbors": [
+     "F7.consec.CONSEC>=2",
+     "F7.consec.CONSEC>=6"
+    ]
+   },
+   {
+    "id": "F7.consec.CONSEC>=6",
+    "fam": "F7",
+    "sub": "F7.consec",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "CONSEC",
+       ">=",
+       6
+      ]
+     ]
+    },
+    "neighbors": [
+     "F7.consec.CONSEC>=3",
+     "F7.consec.CONSEC>=12"
+    ]
+   },
+   {
+    "id": "F7.consec.CONSEC>=12",
+    "fam": "F7",
+    "sub": "F7.consec",
+    "grid": [
+     3
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "CONSEC",
+       ">=",
+       12
+      ]
+     ]
+    },
+    "neighbors": [
+     "F7.consec.CONSEC>=6"
+    ]
+   },
+   {
+    "id": "F7.pos12.POS12>=8",
+    "fam": "F7",
+    "sub": "F7.pos12",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "POS12",
+       ">=",
+       8
+      ]
+     ]
+    },
+    "neighbors": [
+     "F7.pos12.POS12>=10"
+    ]
+   },
+   {
+    "id": "F7.pos12.POS12>=10",
+    "fam": "F7",
+    "sub": "F7.pos12",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "POS12",
+       ">=",
+       10
+      ]
+     ]
+    },
+    "neighbors": [
+     "F7.pos12.POS12>=8"
+    ]
+   },
+   {
+    "id": "F7.revhi.REVHI12",
+    "fam": "F7",
+    "sub": "F7.revhi",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "REVHI12",
+       ">=",
+       1
+      ]
+     ]
+    },
+    "neighbors": []
+   },
+   {
+    "id": "F7.sprev.SURGE_PREV>0.0",
+    "fam": "F7",
+    "sub": "F7.sprev",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "SURGE_PREV",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F7.sprev.SURGE_PREV>1.0"
+    ]
+   },
+   {
+    "id": "F7.sprev.SURGE_PREV>1.0",
+    "fam": "F7",
+    "sub": "F7.sprev",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "SURGE_PREV",
+       ">",
+       1.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F7.sprev.SURGE_PREV>0.0"
+    ]
+   },
+   {
+    "id": "F8.demean.ind_demean",
+    "fam": "F8",
+    "sub": "F8.demean",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "ind_demean"
+     }
+    },
+    "neighbors": []
+   },
+   {
+    "id": "F8.irank.ind_rank",
+    "fam": "F8",
+    "sub": "F8.irank",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "ind_rank"
+     }
+    },
+    "neighbors": []
+   },
+   {
+    "id": "F8.imed.IND_MED>0.0",
+    "fam": "F8",
+    "sub": "F8.imed",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "IND_MED",
+       ">",
+       0.0
+      ]
+     ]
+    },
+    "neighbors": [
+     "F8.imed.IND_MED>0.5"
+    ]
+   },
+   {
+    "id": "F8.imed.IND_MED>0.5",
+    "fam": "F8",
+    "sub": "F8.imed",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "IND_MED",
+       ">",
+       0.5
+      ]
+     ]
+    },
+    "neighbors": [
+     "F8.imed.IND_MED>0.0"
+    ]
+   },
+   {
+    "id": "F8.itop.IND_TOP1",
+    "fam": "F8",
+    "sub": "F8.itop",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "IND_TOPN",
+       "<=",
+       1
+      ]
+     ]
+    },
+    "neighbors": [
+     "F8.itop.IND_TOP2"
+    ]
+   },
+   {
+    "id": "F8.itop.IND_TOP2",
+    "fam": "F8",
+    "sub": "F8.itop",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "IND_TOPN",
+       "<=",
+       2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F8.itop.IND_TOP1",
+     "F8.itop.IND_TOP3"
+    ]
+   },
+   {
+    "id": "F8.itop.IND_TOP3",
+    "fam": "F8",
+    "sub": "F8.itop",
+    "grid": [
+     2
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "IND_TOPN",
+       "<=",
+       3
+      ]
+     ]
+    },
+    "neighbors": [
+     "F8.itop.IND_TOP2"
+    ]
+   },
+   {
+    "id": "F8.icap.IND_CAP2",
+    "fam": "F8",
+    "sub": "F8.icap",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "ind_cap": 2
+    },
+    "neighbors": [
+     "F8.icap.IND_CAP3"
+    ]
+   },
+   {
+    "id": "F8.icap.IND_CAP3",
+    "fam": "F8",
+    "sub": "F8.icap",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "ind_cap": 3
+    },
+    "neighbors": [
+     "F8.icap.IND_CAP2"
+    ]
+   },
+   {
+    "id": "F9.RET60+.0.75S",
+    "fam": "F9",
+    "sub": "F9.RET60+",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "RET60",
+      "w": 0.75,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.RET60+.0.5S"
+    ]
+   },
+   {
+    "id": "F9.RET60+.0.5S",
+    "fam": "F9",
+    "sub": "F9.RET60+",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "RET60",
+      "w": 0.5,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.RET60+.0.75S"
+    ]
+   },
+   {
+    "id": "F9.RET120+.0.75S",
+    "fam": "F9",
+    "sub": "F9.RET120+",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "RET120",
+      "w": 0.75,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.RET120+.0.5S"
+    ]
+   },
+   {
+    "id": "F9.RET120+.0.5S",
+    "fam": "F9",
+    "sub": "F9.RET120+",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "RET120",
+      "w": 0.5,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.RET120+.0.75S"
+    ]
+   },
+   {
+    "id": "F9.RET240+.0.75S",
+    "fam": "F9",
+    "sub": "F9.RET240+",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "RET240",
+      "w": 0.75,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.RET240+.0.5S"
+    ]
+   },
+   {
+    "id": "F9.RET240+.0.5S",
+    "fam": "F9",
+    "sub": "F9.RET240+",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "RET240",
+      "w": 0.5,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.RET240+.0.75S"
+    ]
+   },
+   {
+    "id": "F9.NH52+.0.75S",
+    "fam": "F9",
+    "sub": "F9.NH52+",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "NH52",
+      "w": 0.75,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.NH52+.0.5S"
+    ]
+   },
+   {
+    "id": "F9.NH52+.0.5S",
+    "fam": "F9",
+    "sub": "F9.NH52+",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "NH52",
+      "w": 0.5,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.NH52+.0.75S"
+    ]
+   },
+   {
+    "id": "F9.VOL60-.0.75S",
+    "fam": "F9",
+    "sub": "F9.VOL60-",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "VOL60",
+      "w": 0.75,
+      "sign": -1
+     }
+    },
+    "neighbors": [
+     "F9.VOL60-.0.5S"
+    ]
+   },
+   {
+    "id": "F9.VOL60-.0.5S",
+    "fam": "F9",
+    "sub": "F9.VOL60-",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "VOL60",
+      "w": 0.5,
+      "sign": -1
+     }
+    },
+    "neighbors": [
+     "F9.VOL60-.0.75S"
+    ]
+   },
+   {
+    "id": "F9.V60-.0.75S",
+    "fam": "F9",
+    "sub": "F9.V60-",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "V60",
+      "w": 0.75,
+      "sign": -1
+     }
+    },
+    "neighbors": [
+     "F9.V60-.0.5S"
+    ]
+   },
+   {
+    "id": "F9.V60-.0.5S",
+    "fam": "F9",
+    "sub": "F9.V60-",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "V60",
+      "w": 0.5,
+      "sign": -1
+     }
+    },
+    "neighbors": [
+     "F9.V60-.0.75S"
+    ]
+   },
+   {
+    "id": "F9.V60+.0.75S",
+    "fam": "F9",
+    "sub": "F9.V60+",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "V60",
+      "w": 0.75,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.V60+.0.5S"
+    ]
+   },
+   {
+    "id": "F9.V60+.0.5S",
+    "fam": "F9",
+    "sub": "F9.V60+",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "score": {
+      "type": "blend",
+      "x": "V60",
+      "w": 0.5,
+      "sign": 1
+     }
+    },
+    "neighbors": [
+     "F9.V60+.0.75S"
+    ]
+   },
+   {
+    "id": "F11.ret20cap.RET20<0.3",
+    "fam": "F11",
+    "sub": "F11.ret20cap",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET20",
+       "<",
+       0.3
+      ]
+     ]
+    },
+    "neighbors": [
+     "F11.ret20cap.RET20<0.5"
+    ]
+   },
+   {
+    "id": "F11.ret20cap.RET20<0.5",
+    "fam": "F11",
+    "sub": "F11.ret20cap",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "pool_gates": [
+      [
+       "RET20",
+       ">",
+       0.1
+      ],
+      [
+       "RET20",
+       "<",
+       0.5
+      ]
+     ]
+    },
+    "neighbors": [
+     "F11.ret20cap.RET20<0.3"
+    ]
+   },
+   {
+    "id": "F11.dist60.DIST60<=0.2",
+    "fam": "F11",
+    "sub": "F11.dist60",
+    "grid": [
+     0
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "DIST60",
+       "<=",
+       0.2
+      ]
+     ]
+    },
+    "neighbors": [
+     "F11.dist60.DIST60<=0.3"
+    ]
+   },
+   {
+    "id": "F11.dist60.DIST60<=0.3",
+    "fam": "F11",
+    "sub": "F11.dist60",
+    "grid": [
+     1
+    ],
+    "spec": {
+     "list_gates": [
+      [
+       "DIST60",
+       "<=",
+       0.3
+      ]
+     ]
+    },
+    "neighbors": [
+     "F11.dist60.DIST60<=0.2"
+    ]
+   }
+  ],
+  "stage1_n": 110,
+  "stage2": "第一階段合格（見 selection）的家族中，各取 J_adj 最高的一格，依 J_adj 取前 4 個家族，做全部兩兩／三個／四個的合併（最多 11 個）：list_gates 相接；pool_gates＝有改動者的條件聯集（都沒改就用預設）；非 SURGE 的 score 最多一個（兩個成員都改 score 的合併跳過）；ind_cap 取較小者。合格家族 < 2 就沒有第二階段",
+  "families": {
+   "F0": "現行",
+   "F1": "價格動能 3／6／12 個月",
+   "F2": "距 52 週高點",
+   "F3": "低波動",
+   "F4": "成交值／流動性",
+   "F5": "股價位階",
+   "F6": "營收年增率與 SURGE 合成",
+   "F7": "營收連續成長",
+   "F8": "產業內相對（現行分類，前視疑慮）",
+   "F9": "SURGE×價量合成排名",
+   "F11": "過熱迴避"
+  },
+  "max_trials_total": 121,
+  "hard_cap": 300
+ },
+ "train": {
+  "window": [
+   "2008-01",
+   "2015-12"
+  ],
+  "note": "連續帳戶 2008-01-02 起跑；訓練程式把每條淨值截到 2015-12-31 才算統計，之後的數字不看、不存"
+ },
+ "paths": "20 條＝本金 60／80／100／150／200 萬 × 訊號位移 +0～+3 個交易日（同 S75）",
+ "selection": {
+  "per_trial_stats": {
+   "ex_year": "2008～2015 每個日曆年：20 條路徑「策略年報酬 − 0050 年報酬」的中位數（個百分點）",
+   "J": "(ex_year 的中位數 ＋ ex_year 的最差值) ÷ 2",
+   "cagr_ex": "20 條路徑「訓練窗年化 − 0050 年化」的中位數（個百分點）",
+   "trades": "標準路徑（100 萬、+0）訓練窗內進場的筆數（不論何時出場）",
+   "J_adj": "min(J, 鄰格 J 的平均)；沒有鄰格的單格＝J − 1.0；第二階段合併格＝J − 1.0"
+  },
+  "eligible": "cagr_ex ≥ 現行的 cagr_ex ＋ 2.0，且 trades ≥ 現行的 50%，且 J_adj ≥ 現行的 J ＋ 1.0",
+  "winner": "合格者中 J_adj 最高的第一階段單格；第二階段合併格要比它的 J_adj 高 ≥ 1.0 才取代（寧簡）。同分取 id 字典序較前者",
+  "if_none": "沒有合格者 → FROZEN＝現行規則（結論：加其他資訊沒有比現行好），驗證段仍跑一次全體分佈"
+ },
+ "validation": {
+  "window": [
+   "2016-01",
+   "2026-10"
+  ],
+  "run_once": true,
+  "account": "同一個連續帳戶（2008-01-02 起），取驗證窗的統計；不回頭改",
+  "pass_criteria": {
+   "P1 維持現行水準": "新規則驗證窗 20 路徑年化中位數 ≥ 現行 − 2.0 個百分點",
+   "P2 回撤": "驗證窗最大跌幅不比現行深超過 5 個百分點（標準路徑）",
+   "P3 對 0050": "驗證窗月超額年化 > 0 且 Newey-West(6) t ≥ 1.65（標準路徑）",
+   "T1 前段明顯贏 0050": "訓練窗月超額年化 ≥ 5 個百分點且 NW t ≥ 2.0（標準路徑；這是挑過的樣本內數字，另報多重比較）"
+  },
+  "verdict": "P1、P2、P3、T1 全過 →「值得獨立複製的候選規則」；否則「沒有比現行好，維持現行」",
+  "post_freeze_distribution": "凍結後把全部試驗（第一＋第二階段）在驗證窗的年化、對現行的差距列出分佈：新規則排第幾、現行排第幾、訓練 J_adj 與驗證超額的等級相關（判讀是規則好還是後段什麼都好）"
+ },
+ "multiple_testing": "試驗總數＝第一階段 110 ＋第二階段 ≤ 11。報告：訓練窗最佳者的 t 與「N 次獨立試驗下最大 t 的期望值 ≈ sqrt(2 ln N)」「Bonferroni 單尾 5% 門檻」對照；驗證段只有 1 個凍結規則，不需校正，但與現行規則高度相關。資料窺探累計 N 依實際試驗數增加",
+ "known_limits": [
+  "2014-01-16 前除權息日報酬記 0",
+  "營收為事後更正值",
+  "缺 KY 與下市股營收（存活者偏誤，偏樂觀）",
+  "2008–2009 股價單一來源",
+  "2015-06 前實際漲跌停 7%",
+  "2020-10 前只能買整張",
+  "產業分類為現行分類",
+  "B2 口徑是 2026 年才訂的",
+  "連續帳戶：新規則若前段賺較多，2016 年的本金較大，整股時代買得起較多高價股（R75 (d)）→ 驗證窗比較略偏向前段較好的規則"
+ ],
+ "accept": {
+  "panel_sha256": {
+   "panel_cs.npz": "77a6aeee7c54fcc5ea55667a51416be9a762d7b1336e3f35abdaf4dca0f37a5a",
+   "e50_ohlc.csv": "81e8f9819c2a36d610c0540f7d745470e807fcd86d207180eebf8b01292cfdc8",
+   "innov.npz": "940ce4b1268077ca46acb8ac74ebaf5c8edde77c8050ecf2f623e3aeaa9771e0"
+  },
+  "A1": [
+   {
+    "shift": 0,
+    "sig_equal": true,
+    "X_equal": true,
+    "rank_equal": true,
+    "n_months": 225
+   },
+   {
+    "shift": 1,
+    "sig_equal": true,
+    "X_equal": true,
+    "rank_equal": true,
+    "n_months": 225
+   },
+   {
+    "shift": 2,
+    "sig_equal": true,
+    "X_equal": true,
+    "rank_equal": true,
+    "n_months": 225
+   },
+   {
+    "shift": 3,
+    "sig_equal": true,
+    "X_equal": true,
+    "rank_equal": true,
+    "n_months": 225
+   }
+  ],
+  "A2": {
+   "max_abs_diff_vs_S75_nav": 0.0,
+   "final": 53078883.65229646,
+   "cagr": 0.2351900697944238
+  },
+  "A3": {
+   "first_signal_row": "2008-02-13",
+   "univ": 396,
+   "daily": {
+    "RET60": 1.0,
+    "RET120": 0.98989898989899,
+    "RET240": 0.9848484848484849,
+    "MOM12_1": 0.9848484848484849,
+    "NH52": 0.9848484848484849,
+    "VOL60": 1.0,
+    "VOL120": 0.9924242424242424,
+    "VOL60_PCT": 1.0,
+    "VOL120_PCT": 0.9924242424242424,
+    "V60": 1.0,
+    "VRATIO": 1.0,
+    "PX": 1.0,
+    "DIST60": 1.0,
+    "RET20": 1.0
+   },
+   "monthly": {
+    "YOY1": 0.9696969696969697,
+    "YOY3": 0.952020202020202,
+    "CONSEC": 1.0,
+    "POS12": 1.0,
+    "REVHI12": 0.9722222222222222,
+    "SURGE_PREV": 0.0
+   },
+   "industry_known_in_univ": 0.8762626262626263,
+   "n_industries": 32
+  },
+  "pass": true
+ }
+}

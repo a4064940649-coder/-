@@ -341,6 +341,73 @@ for r in yt:
 OUT['yearly'] = yt
 pd.DataFrame(yt).to_csv(HERE / 'yearly_diag.csv', index=False)
 
+# ============================================================ 5 補充診斷
+# 5a SURGE 絕對值分桶（股池內全部股票 × 訊號月，合併計算下一期對 0050、對股池等權的超額）
+BK = [(-np.inf, 0), (0, 1), (1, 2), (2, 3), (3, 4), (4, np.inf)]
+bk = {}
+for nm, m in masks.items():
+    acc_ = {str(b_): dict(n=0, ex=0.0, exew=0.0, n_ma=0, ex_ma=0.0, big3=0, n3=0) for b_ in BK}
+    for i in np.flatnonzero(m):
+        d = det[i]; s_, fin = d['s'], d['fin']; f1 = F1[i]
+        if not np.isfinite(b1[i]):
+            continue
+        ew = np.nanmean(f1[fin])
+        for lo, hi in BK:
+            g = fin & (s_ >= lo) & (s_ < hi) & np.isfinite(f1)
+            a = acc_[str((lo, hi))]
+            a['n'] += int(g.sum()); a['ex'] += float((f1[g] - b1[i]).sum()); a['exew'] += float((f1[g] - ew).sum())
+            g2 = g & P.F_MA60[d['k']]
+            a['n_ma'] += int(g2.sum()); a['ex_ma'] += float((f1[g2] - b1[i]).sum())
+            g3 = g & np.isfinite(F3[i]); a['n3'] += int(g3.sum()); a['big3'] += int((F3[i][g3] > 0.5).sum())
+    bk[nm] = {k_: dict(n_per_month=a['n'] / max(int(m.sum()), 1), ex_vs0050_mean_pct=a['ex'] / a['n'] * 100 if a['n'] else None, ex_vsEW_mean_pct=a['exew'] / a['n'] * 100 if a['n'] else None,
+                       n_ma_per_month=a['n_ma'] / max(int(m.sum()), 1), ex_ma_vs0050_mean_pct=a['ex_ma'] / a['n_ma'] * 100 if a['n_ma'] else None,
+                       big3_rate=a['big3'] / a['n3'] if a['n3'] else None) for k_, a in acc_.items()}
+OUT['surge_buckets'] = bk
+pd.DataFrame([dict(period=p_, bucket=k_, **v) for p_, o in bk.items() for k_, v in o.items()]).to_csv(HERE / 'surge_buckets.csv', index=False)
+OUT['n_surge_ge3_by_year'] = {int(y_): dict(n_ge3=float(g_['n_surge_ge3'].mean()), share=float((g_['n_surge_ge3'] / g_['n_surge']).mean()), top10_min=float(g_['surge_top10_min'].mean()))
+                              for y_, g_ in M.groupby(pd.to_datetime(M['sig_date']).dt.year)}
+# 5b 無摩擦（L4）下的交易報酬分布
+navL4, lgL4, stL4 = Q.engine(P, U, sgc, **FR)
+tails = {}
+for lab, lg_ in (('L4 無摩擦', lgL4), ('L7 現行 100 萬', lg0)):
+    z = lg_[lg_['why'] != 'open_end']
+    for nm, mk in (('前段', z['ent_date'] < Q.SPLIT), ('後段', z['ent_date'] >= Q.SPLIT), ('2016–2018', (z['ent_date'] >= Q.SPLIT) & (z['ent_date'] < '2019-01-01')), ('2019–2026', z['ent_date'] >= '2019-01-01')):
+        y = z[mk]['ret']
+        tails[f'{lab}|{nm}'] = dict(n=int(len(y)), mean=float(y.mean()), median=float(y.median()), win=float((y > 0).mean()), p90=float(y.quantile(.9)), p95=float(y.quantile(.95)), max=float(y.max()),
+                                    gt50=float((y > .5).mean()), gt100=float((y > 1).mean()), n_gt50=int((y > .5).sum()), n_gt100=int((y > 1).sum()),
+                                    mean_ex_top5pct=float(y.sort_values(ascending=False).iloc[max(1, int(round(len(y) * .05))):].mean()), hold_mean=float(z[mk]['hold_days'].mean()))
+OUT['trade_tails'] = tails
+# 5c 被擋與買到的差（Welch t）
+for nm, mk in (('前段', BL['early']), ('後段', ~BL['early'])):
+    y = BL[mk]; a_, b_ = y.loc[y['bought'], 'ex1'].dropna(), y.loc[~y['bought'], 'ex1'].dropna()
+    se = np.sqrt(a_.var(ddof=1) / len(a_) + b_.var(ddof=1) / len(b_))
+    OUT['env']['blocked'][nm]['blocked_minus_bought_ex1_pct'] = float((b_.mean() - a_.mean()) * 100); OUT['env']['blocked'][nm]['welch_t'] = float((b_.mean() - a_.mean()) / se)
+    OUT['env']['blocked'][nm]['share_targets_px_gt70'] = float((y['px'] > 70).mean())
+# 5d 逐年：各階段對 0050 的差（年報酬相減，個百分點）
+b_ = bench.reindex(nav0.index)
+yb = {r_['year']: r_ for r_ in K.yearly_table(b_, b_)}
+ylad = {}
+for key, nv in NAVS.items():
+    for r_ in K.yearly_table(nv, b_):
+        ylad.setdefault(r_['year'], dict(year=r_['year'], e0050=r_['e0050']))[key + '_diff_pp'] = r_['diff_pp']
+OUT['ladder_yearly'] = list(ylad.values())
+pd.DataFrame(OUT['ladder_yearly']).to_csv(HERE / 'ladder_yearly.csv', index=False)
+# 5e 成本占毛超額比例、每單位持股的超額
+L5_, L6_, L7_ = lad[4], lad[5], lad[6]
+OUT['cost_share'] = {nm: dict(gross_excess_pp=L5_[nm]['diff_pp'], cost_pp=L5_[nm]['diff_pp'] - L6_[nm]['diff_pp'], cost_share=(L5_[nm]['diff_pp'] - L6_[nm]['diff_pp']) / L5_[nm]['diff_pp'],
+                              account_step_pp=L7_[nm]['diff_pp'] - L6_[nm]['diff_pp'], kept_of_L1=L7_[nm]['diff_pp'] / lad[0][nm]['diff_pp']) for nm in CUTS}
+
+# 5f 前後段差距的橋（各階段對 0050 的年化差：後段 − 前段）
+E_N, L_N = '前段 2008–2015', '後段 2016–2026'
+br = []; prev_e = prev_l = 0.0
+for o in lad:
+    e_, l_ = o[E_N]['diff_pp'], o[L_N]['diff_pp']
+    br.append(dict(step=o['label'], early_vs0050_pp=e_, late_vs0050_pp=l_, early_step_pp=e_ - prev_e, late_step_pp=l_ - prev_l, gap_contrib_pp=(l_ - prev_l) - (e_ - prev_e),
+                   early_stockfrac=o[E_N]['stockfrac'], late_stockfrac=o[L_N]['stockfrac'], early_npos=o[E_N]['avg_npos'], late_npos=o[L_N]['avg_npos']))
+    prev_e, prev_l = e_, l_
+OUT['bridge'] = br
+pd.DataFrame(br).to_csv(HERE / 'bridge_early_vs_late.csv', index=False)
+
 OUT['runtime_s'] = round(time.time() - t0, 1)
 (HERE / 'results.json').write_text(json.dumps(OUT, ensure_ascii=False, indent=1, default=lambda v: None if (isinstance(v, float) and v != v) else (v.item() if hasattr(v, 'item') else str(v))))
 print('done', OUT['runtime_s'])
