@@ -10,6 +10,7 @@ HERE = Path(__file__).resolve().parent; AG = HERE.parent
 SITE = Path('/home/user/-/xq_scripts/site')
 SCR = Path('/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/r_fix')
 CACHE = SCR / 'cache'
+sys.path.insert(0, str(HERE)); import rfix; rfix.ensure_cache()
 modes = [a for a in sys.argv[1:] if not a.startswith('--')] or ['base', 'A', 'B', 'AB']
 nopaths = '--no-paths' in sys.argv
 src0 = (AG / 'official_nav' / 'run_official.py').read_text(encoding='utf-8')

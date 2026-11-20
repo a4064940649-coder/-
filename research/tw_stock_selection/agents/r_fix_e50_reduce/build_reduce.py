@@ -9,6 +9,7 @@ HERE = Path(__file__).resolve().parent; D = HERE / 'data'; AG = HERE.parent
 sys.path.insert(0, str(AG / 'o_ext_canslim_xs'))
 import cslib
 cslib.TMP = Path('/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/r_fix/cache')
+sys.path.insert(0, str(HERE)); import rfix; rfix.ensure_cache()
 P = cslib.Panel(exright_fix=True)
 ev = pd.concat([pd.read_csv(D / 'ev_reduce_tsd.csv', dtype=str).assign(kind='reduce'), pd.read_csv(D / 'ev_parvalue_tsd.csv', dtype=str).assign(kind='parvalue')], ignore_index=True)
 ev['date'] = pd.to_datetime(ev['date'])

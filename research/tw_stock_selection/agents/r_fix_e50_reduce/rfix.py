@@ -55,3 +55,13 @@ def post(P, mode, cache):
     P.E50 = new; P.E50O = new * ratio
     INFO['e50_missing_days'] = int(e.reindex(P.IDX).isna().sum())
     INFO['e50_end_ratio_new_over_old'] = float((new[-1] / new[P.t0]) / (old[-1] / old[P.t0]))
+
+
+def ensure_cache():
+    """暫存快取資料夾：用符號連結指到正式管線的面板快取（只讀），避免變體版把快取寫進正式快取資料夾。"""
+    scr = Path('/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad')
+    c = scr / 'r_fix' / 'cache'; c.mkdir(parents=True, exist_ok=True)
+    for f in ('e50_ohlc.csv', 'innov.npz', 'panel_cs.npz'):
+        if not (c / f).exists():
+            (c / f).symlink_to(scr / 'offfix' / 'cache' / f)
+    return c
