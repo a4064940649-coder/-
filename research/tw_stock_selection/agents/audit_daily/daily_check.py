@@ -42,15 +42,22 @@ else:
     txt, txt0 = json.dumps(res, ensure_ascii=False, sort_keys=True), json.dumps(ref, ensure_ascii=False, sort_keys=True)
     def strip(o):                                   # 去掉執行時間、記憶體等每次會變的欄位
         if isinstance(o, dict):
-            return {k: strip(v) for k, v in o.items() if not re.search(r'sec|rss|time|elapsed|clock', k, re.I)}
+            return {k: strip(v) for k, v in o.items() if not re.search(r'sec|rss|time|elapsed|clock|peak_mb', k, re.I)}
         if isinstance(o, list):
             return [strip(v) for v in o]
         return o
     res_same = strip(res) == strip(ref)
-    row['official_2019_cagr'] = '48.76' if '48.76' in txt else '?'
+    e0 = res['strats']['E0|W10_70']
+    c19, cfull, pmed = e0['std']['cagr_since2019'], e0['std']['cagr_full'], e0['paths_summary']['cagr19_median']
+    row['official_2019_cagr'] = round(c19 * 100, 2)
+    row['paths_median'] = round(pmed * 100, 2)
     row['trades'] = '381' if re.search(r'\b381\b', txt) else '?'
-    row['paths_median'] = '46.40' if re.search(r'46\.4\d*', txt) else '?'
-    ok = same_shape and dmax == 0 and res_same
+    nums_ok = round(c19 * 100, 2) == 48.76 and round(cfull * 100, 2) == 34.40 and round(pmed * 100, 2) == 46.40 and row['trades'] == '381'
+    if not nums_ok: note.append('驗收數字不符 %.4f %.4f %.4f' % (c19, cfull, pmed))
+    if not res_same:
+        a_, b_ = strip(res), strip(ref)
+        note.append('不同的頂層鍵：' + ','.join(k for k in set(a_) | set(b_) if a_.get(k) != b_.get(k)))
+    ok = same_shape and dmax == 0 and res_same and nums_ok
     if not same_shape: note.append('淨值檔形狀不同')
     if not res_same: note.append('res_official.json 與存檔不同')
 st = json.loads((SITE / 'data' / 'status.json').read_text(encoding='utf-8'))['rows'][0]
