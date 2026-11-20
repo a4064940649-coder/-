@@ -12,7 +12,7 @@ HS = {c: g.set_index('date').sort_index() for c, g in hs.groupby('code')}
 import glob
 fr = []
 for fn in glob.glob('/home/user/hawan0228/fintech_ai/data/external/raw/prices/*_price.csv'):
-    x = pd.read_csv(fn, dtype={'stock_id': str}, encoding='utf-8-sig', usecols=['date', 'stock_id', 'open', 'close', 'spread'], parse_dates=['date'])
+    x = pd.read_csv(fn, dtype={'stock_id': str}, encoding='utf-8-sig', usecols=['date', 'stock_id', 'open', 'close'], parse_dates=['date'])
     if x['stock_id'].iloc[0] in codes: fr.append(x)
 HW = {g['stock_id'].iloc[0]: g.set_index('date').sort_index() for g in fr}
 IDX = D.IDX
