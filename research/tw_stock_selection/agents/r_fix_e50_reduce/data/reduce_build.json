@@ -1,0 +1,95 @@
+{
+ "n_raw": 321,
+ "dup": 1,
+ "file_date_mismatch": 0,
+ "n_in_window": 318,
+ "n_events": 312,
+ "by_kind": {
+  "reduce": 302,
+  "parvalue": 10
+ },
+ "by_case": {
+  "記 0": 227,
+  "當一般漲跌": 85
+ },
+ "pre_close_mismatch": 0,
+ "beyond_limit": 0,
+ "dropped": [
+  {
+   "date": "2016-09-28",
+   "code": "2314",
+   "why": "不在面板（非四碼普通股或非交易日）"
+  },
+  {
+   "date": "2016-09-28",
+   "code": "3055",
+   "why": "不在面板（非四碼普通股或非交易日）"
+  },
+  {
+   "date": "2017-11-27",
+   "code": "1418",
+   "why": "當天沒成交",
+   "next_trade": "2017-11-28",
+   "next_engine_R": 0.0,
+   "next_close": 11.1,
+   "ref": 12.95,
+   "pre_close": 4.6
+  },
+  {
+   "date": "2018-12-22",
+   "code": "1529",
+   "why": "當天沒成交",
+   "next_trade": "2018-12-24",
+   "next_engine_R": 0.0,
+   "next_close": 22.5,
+   "ref": 21.45,
+   "pre_close": 2.36
+  },
+  {
+   "date": "2019-09-30",
+   "code": "2323",
+   "why": "不在面板（非四碼普通股或非交易日）"
+  },
+  {
+   "date": "2024-12-30",
+   "code": "1538",
+   "why": "當天沒成交",
+   "next_trade": "2024-12-31",
+   "next_engine_R": 0.0,
+   "next_close": 28.2,
+   "ref": 28.91,
+   "pre_close": 17.35
+  }
+ ],
+ "mean_bias_pct": {
+  "當一般漲跌": -4.727,
+  "記 0": -0.639
+ },
+ "case_by_prev_traded": {
+  "false": {
+   "當一般漲跌": 85,
+   "記 0": 227
+  }
+ },
+ "approx_vs_exact": {
+  "n": 173,
+  "mean_pp": -0.022334853318966057,
+  "max_abs_pp": 3.2157932388592103,
+  "mean_abs_pp": 0.29677566091296276
+ },
+ "vs_eng": {
+  "n_mine": 312,
+  "n_eng": 312,
+  "both": 314,
+  "only_mine": [],
+  "only_eng": [],
+  "max_abs_true_R_diff": 9.8879238130678e-17,
+  "max_abs_engine_R_diff": 9.71445146547012e-17,
+  "max_abs_ref_diff": 0.0,
+  "kind_diff": 0,
+  "eng_cases": {
+   "報酬記 0": 227,
+   "用前一成交收盤當參考價（規則 b 或官方漲跌價差）": 85
+  }
+ }
+}
