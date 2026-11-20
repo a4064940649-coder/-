@@ -1,0 +1,39 @@
+{
+ "note": "R0 清潔室：寫引擎前只讀下列規格／資料說明；未讀、未 import 任何 *lib.py、run*.py、make_list.py 或其他研究程式。對照階段（v1 凍結後）才打開正式結果。",
+ "read_before_v1": [
+  "月營收驚奇_從這裡開始.md",
+  "xq_scripts/README.md（第 3、8～12、16、25、32 節全文；章節標題）",
+  "xq_scripts/操作規則.md",
+  "xq_scripts/底倉衛星_操作說明.md",
+  "xq_scripts/每檔金額怎麼算_補充說明.md",
+  "xq_scripts/22_月營收驚奇SURGE_交易腳本_進出場合併版.xs（20、21 號的合併版；20、21 未另讀）",
+  "research/tw_stock_selection/raw/twt49u/README.md",
+  "research/tw_stock_selection/raw/rev_deadline_exceptions/README.md、deadline_exceptions.csv、ins15_list.csv",
+  "research/tw_stock_selection/agents/s18_live_list/FINDINGS.md",
+  "官方日 K 倉庫 data/universe/_coverage_README.md（git blob）"
+ ],
+ "data_read": [
+  "raw/jb7k6295r7-bot_tw-stock-data（git HEAD 107f9073）data/universe/daily/*.csv 2,880 檔（2015-01-05～2026-10-30；GIT_NO_LAZY_FETCH=1）",
+  "/home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv（月營收，2005-01～2026-09）",
+  "raw/twt49u/twse-exright/*/*.csv.gz",
+  "raw/rev_deadline_exceptions/*.csv",
+  "agents/integrate_o6/data/etf_0050.csv（finlab 0050 含息，md5 e7af9abc…，到 2026-10-22；同檔另有 9 份相同複本）"
+ ],
+ "not_found": [
+  "agents/audit_data_integrity/data_manifest.json（尚未產生；資料檔位置自行從 raw 與 s18 FINDINGS 找出）",
+  "官方日 K 倉庫 README.md、data/universe/reduce、parvalue、exright、etfsplit（blobless clone 本地沒有這些 blob，未連網抓）"
+ ],
+ "read_after_v1_for_comparison": [
+  "research/tw_stock_selection/agents/official_nav/out/res_official.json",
+  "xq_scripts/site/navs_official.csv.gz",
+  "xq_scripts/site/data/trades.json（只看了結構：是 2026-11 起模擬帳戶，不能用來對回測交易，未使用）",
+  "xq_scripts/交易紀錄_2008_2026.csv（只看表頭：2008 起另一條路徑，未使用）"
+ ],
+ "never_read": [
+  "agents/**/*lib.py",
+  "agents/**/run*.py",
+  "agents/s18_live_list/live_surge/make_list.py",
+  "agents/official_nav/run_official.py",
+  "xq_scripts/site/*.py"
+ ]
+}

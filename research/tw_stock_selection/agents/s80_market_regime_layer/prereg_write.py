@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+"""S80 事前登記：寫 PREREG.json＋PREREG.sha256（已存在就拒絕）。python3 -I -B prereg_write.py"""
+import sys, json, hashlib, datetime
+from pathlib import Path
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+assert not (HERE / 'PREREG.json').exists(), 'PREREG.json 已存在，不可改'
+import s80lib as S
+acc = json.loads((HERE / 'accept.json').read_text())
+assert acc['A0']['bitwise_vs_Lsim'] and acc['A1']['bitwise_prefix'] and acc['A2']['bitwise_train_prefix']
+D = dict(
+    id='S80', title='市場狀態層：選股規則不動，大盤不好時怎麼處理部位（2008–2026 新規則專案小組）',
+    written_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    question='在現行策略（V_BRIDGE 口徑連續帳戶）上加一層市場狀態規則，前段 2008-01～2015-12（含 2008、2011、2015 空頭）能否改善，且不犧牲後段 2016-01～2026-10？',
+    state_before='只跑過 accept.py（現行格逐位核對、截斷與 S47 現金模式的逐位相同檢查、EXIT 機械檢查的筆數、指標觸發天數）；沒有看過任何非現行格的報酬或跌幅。'
+                 '已知：S75 現行成績（全期 23.52%／−49.21%；逐年、空頭段）；S54／S23／S30／timing_daily／breadth_derisk 在 2016 以後的結論（濾網多半少賺 3～10 個百分點、不採用）。',
+    not_changed='選股（SURGE 標準定義、B2 校正、60 日線、前 10 名、近 20 日漲幅 > 10%）、出場 E0、換股日 A10、W10_70、嚴成本、5% 成交值上限、零股日期——全部不動。',
+    base=dict(version='V_BRIDGE（s71lib.rev_rule("B2")）', account='單一連續帳戶，2008-01-02 起 100 萬；訓練段只跑到 2015-12-31（引擎參數 tend，與全期跑的前段逐日相同＝驗收 A1）',
+              paths='20 條＝本金 60／80／100／150／200 萬 × 換股日晚 0～3 個交易日；標準路徑＝100 萬、位移 0',
+              benchmark='同日買 0050 含息不動（P.E50）', cash_rate='現金利率 0（偏保守）'),
+    engine=dict(copy='s80lib.simulate_s80＝s10lib.simulate_s10 原始碼字串替換（原檔不動）', src_sha=S.SRC_SHA, accept=dict(A0=acc['A0'], A1=acc['A1'], A2=acc['A2'], A3=acc['A3'])),
+    timing='檢查日收盤算指標（只用當日以前的資料）→ 次一交易日開盤執行；與現行「訊號日收盤 → 次日開盤」一致。',
+    search_space=dict(
+        n_trials=len(S.CELLS), limit=150,
+        indicators={'E50MA60／E50MA120／E50MA200': '0050 含息淨值 ≤ 自己近 60／120／200 日簡單平均＝弱', 'BR40／BR50': '市場寬度（股池內還原收盤站上 60 日線的比例）< 40%／50%＝弱'},
+        actions={'NOBUY': '弱勢的訊號日不買新股（舊持股照 E0）', 'HALF': '弱勢的訊號日每檔目標金額減半', 'EXIT': '弱勢的檢查日全部持股次日開盤賣出，弱勢期間不買新股'},
+        dest={'E50': '空出的錢照現行掃進 0050', 'CASH': '弱勢期間衛星閒錢留現金，底倉 0050 不動', 'ALLCASH': '弱勢期間連底倉 0050 都賣，全部現金（只配 EXIT）'},
+        freq={'M': '只在每月訊號日檢查', 'W': '每週最後交易日＋訊號日檢查（只配 EXIT）'},
+        reentry={'NEXT': '轉強後等下一個訊號日照名單買', 'REBUY': '（只配 EXIT×W）非訊號日由弱轉強時，買回最近訊號日原始名單中仍在股池且仍站上 60 日線者'},
+        extra={'IDLE_CASH_ALWAYS': '不看市場，衛星閒錢一律留現金（名單不足時剩餘資金放現金 vs 放 0050 的對照；現行＝放 0050）'},
+        cells=[c['id'] for c in S.CELLS],
+        not_included='加權指數（本機沒有與連續面板同口徑的 2007 起序列，改用 0050 含息代表大盤）；多指標組合、遲滯帶、參數微調一律不做。',
+        neighbors='鄰居＝同一動作／去處／頻率／重新進場方式下，相鄰的指標參數：MA60↔MA120↔MA200；BR40↔BR50。IDLE_CASH_ALWAYS 沒有鄰居。'),
+    train=dict(
+        window=['2008-01-02', S.TRAIN_END],
+        per_path='每格每條路徑：訓練段年化（期末÷期初的幾何年化）、最大跌幅（日淨值）、Calmar＝年化÷|最大跌幅|',
+        cell_score='C＝20 條 Calmar 的中位數；dCAGR＝（該格年化−現行年化）逐條配對差的中位數（個百分點）；dMDD＝最大跌幅配對差中位數（正＝較淺）；nC＝Calmar 高於現行的條數',
+        eligible='dCAGR ≥ −1.0 且 dMDD ≥ +3.0 且 nC ≥ 15',
+        robust_score='RS＝min(自己的 C, 鄰居 C 的平均)；沒有鄰居者 RS＝C',
+        pick='合格格中 RS 最高者凍結；同分取 PREREG cells 清單中較前者。若沒有任何合格格：FROZEN＝CURRENT（維持現行），另把全體 RS 最高者記為「參考格」照樣做驗證敘述，但結論固定為「沒有比現行好」。',
+        clearly_better_in_train='前段「明顯變好」的定義：凍結格 dMDD ≥ +10 且 dCAGR ≥ 0，且 nC ≥ 15'),
+    validation=dict(
+        run_once='寫完 FROZEN.json＋sha256 後 validate.py 只跑一次（results.json 存在就拒跑）',
+        windows=dict(valid=['2015-12-31', '2026-10-22'], full=['2008-01-02', '2026-10-22']),
+        account='同一個連續帳戶繼續跑（2008 起），後段以 2015-12-31 淨值為基底；另附補充：2015-12-31 重新起跑 100 萬的 20 條路徑',
+        gates=dict(V1='後段年化配對差中位數 ≥ −2.0 個百分點', V2='後段最大跌幅較淺的路徑 ≥ 15／20 且配對差中位數 ≥ +3.0 個百分點',
+                   V3='後段 Calmar 高於現行的路徑 ≥ 15／20', V4='全期 2008–2026：年化配對差中位數 ≥ −1.0 且最大跌幅配對差中位數 ≥ +5.0'),
+        verdict='V1～V4 全過＝「值得獨立複製」；否則＝「沒有比現行好，維持現行」。不事後改門檻。',
+        report=['現行 vs 凍結格：前段／後段／全期的年化、對 0050 年化超額與 Newey-West t（滯後 6）、最大跌幅、最長水下月數、已平倉筆數、空手月份比例、20 條路徑中位數',
+                '規則減現行的月報酬差年化與 NW t', '逐年表', '2008、2011、2015、2018、2020 上半年、2022 各段的段內最大跌幅與期間報酬（視窗同 s75lib.BEARS）',
+                '凍結後：搜尋空間全體 66 格在驗證段的年化差／跌幅差／Calmar 差分佈（20 條中位數），以及凍結格在其中的名次',
+                '安慰劑（描述用，不當門檻）：把凍結格的弱勢旗標在時間軸上循環平移 30 個隨機位移（種子 80，位移 250～T−250 個交易日），標準路徑，看凍結格落在第幾百分位']),
+    multiple_comparison='試驗數＝66 格（上限 150）；訓練段從 66 格挑 1 格，訓練成績必然偏樂觀（挑最大值）；驗證段只對凍結的 1 格做一次判定，不再挑。'
+                        '驗證段的全體分佈只用來說明「凍結格是不是特例」，不用來換格。研究中心資料窺探族群 N ＋66。',
+    prior_expectation='事前預期（寫於跑訓練之前）：EXIT×ALLCASH 類在訓練段因躲開 2008 而 Calmar 最高；到 2016 以後多頭段，照 S54 的經驗會少賺 3～10 個百分點，V1 很可能不過。',
+    known_limits=['2014-01-16 前除權息日報酬記 0', '月營收為事後更正值', '缺 KY 與下市股營收（存活者偏誤）', '2008–2009 股價與 2008 年 0050 單一來源',
+                  '2015-06 以前實際漲跌停 7%（引擎 10%）：大跌日「次日開盤賣得掉」的假設偏樂觀', '0050 原始開盤價 2015 前沒有（用收盤代替）→ 2008 年切換 0050／現金的成交價是當日收盤，不是開盤',
+                  '20 條路徑的最大跌幅多半是同一段（2008），不是 20 個獨立樣本', '訓練段只有 2008 一次大空頭：任何躲開 2008 的規則都會被選中'],
+    discipline='python3 -I -B；不連外網；不呼叫 git；不改既有檔案；暫存 scratchpad/s80/')
+p = HERE / 'PREREG.json'
+p.write_text(json.dumps(D, ensure_ascii=False, indent=1))
+h = hashlib.sha256(p.read_bytes()).hexdigest()
+(HERE / 'PREREG.sha256').write_text(f'{h}  PREREG.json\n')
+print(h, len(S.CELLS))

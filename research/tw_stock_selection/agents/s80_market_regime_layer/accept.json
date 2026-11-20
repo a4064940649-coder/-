@@ -1,0 +1,113 @@
+{
+ "panel": {
+  "T": 4865,
+  "N": 1222,
+  "first": "2008-01-02",
+  "last": "2026-10-22"
+ },
+ "train_end_row": "2015-12-31",
+ "src_sha": {
+  "simulate_s10": "606cf0e4c024f1c9bd7376876c71833f589190e17bad7cce92bab4aed68519aa",
+  "simulate_s80": "bb6ae8a77b0dac1de5658f80ad7b798fbdc0fc05cc5f5290f8197ed8b75063aa"
+ },
+ "sec_per_full_sim": 0.18,
+ "A0": {
+  "bitwise_vs_Lsim": true,
+  "max_abs_vs_S75_csv": 0.0,
+  "cagr_full": 0.2351900697944238,
+  "maxdd_full": -0.492118187774477
+ },
+ "A1": {
+  "len": 1986,
+  "last": "2015-12-31",
+  "bitwise_prefix": true
+ },
+ "A2": {
+  "bitwise_train_prefix": true
+ },
+ "A3": {
+  "EXIT_E50_M_E50MA120": {
+   "weak_checks": 37,
+   "days_after_with_positions": 0,
+   "sell_defer_limdn": 0,
+   "sell_defer_noopen": 6,
+   "sell_partial_cap": 1,
+   "finite_nav": true
+  },
+  "EXIT_ALLCASH_W_E50MA120": {
+   "weak_checks": 186,
+   "days_after_with_positions": 0,
+   "sell_defer_limdn": 0,
+   "sell_defer_noopen": 6,
+   "sell_partial_cap": 1,
+   "finite_nav": true
+  },
+  "EXIT_CASH_WR_BR40": {
+   "weak_checks": 167,
+   "days_after_with_positions": 1,
+   "sell_defer_limdn": 0,
+   "sell_defer_noopen": 6,
+   "sell_partial_cap": 1,
+   "finite_nav": true
+  }
+ },
+ "trigger_days_frac": {
+  "E50MA60": {
+   "train": 0.391742195367573,
+   "valid": 0.2701367781155015
+  },
+  "E50MA120": {
+   "train": 0.36606243705941593,
+   "valid": 0.21922492401215807
+  },
+  "E50MA200": {
+   "train": 0.3363544813695871,
+   "valid": 0.20174772036474165
+  },
+  "BR40": {
+   "train": 0.32628398791540786,
+   "valid": 0.22340425531914893
+  },
+  "BR50": {
+   "train": 0.4214501510574018,
+   "valid": 0.4072948328267477
+  }
+ },
+ "trigger_signal_months": {
+  "E50MA60": {
+   "train": 36,
+   "n_train": 95,
+   "valid": 33,
+   "n_valid": 130
+  },
+  "E50MA120": {
+   "train": 37,
+   "n_train": 95,
+   "valid": 28,
+   "n_valid": 130
+  },
+  "E50MA200": {
+   "train": 31,
+   "n_train": 95,
+   "valid": 25,
+   "n_valid": 130
+  },
+  "BR40": {
+   "train": 30,
+   "n_train": 95,
+   "valid": 29,
+   "n_valid": 130
+  },
+  "BR50": {
+   "train": 41,
+   "n_train": 95,
+   "valid": 55,
+   "n_valid": 130
+  }
+ },
+ "breadth": {
+  "train_median": 0.5629477410120649,
+  "valid_median": 0.5516594423238662
+ },
+ "runtime_s": 8.8
+}
