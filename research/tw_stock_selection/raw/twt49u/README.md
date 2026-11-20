@@ -7,7 +7,8 @@
   - 從本環境連不到證交所網站（回「安全性考量」頁面），所以用這份第三方鏡像；可信度檢查見
     `agents/data_exright_fix/AUDIT.md` 第 1 節（前收和官方日 K 一致 99.99%；除權息日開盤落在參考價 ±10% 內 99.92%）。
 - 抓取日：2026-11-02（o_0050_tilt_pit 下載）；2026-11-16 原樣複製到這裡封存（檔案逐位元相同，見 `SHA256SUMS`）。
-- 涵蓋：2014-01-16～**2026-10-29**（含 ETF 等非四碼代號；引擎只用四碼 `[1-9]ddd`）。154 個月檔。
+- 涵蓋：2014-01-16～**2026-11-20**（含 ETF 等非四碼代號；引擎只用四碼 `[1-9]ddd`）。155 個月檔。
+  - **2026-11 月檔來源不同（2026-11-21 補）**：由官方日 K 倉庫的事件檔 `data/universe/exright` 轉成同格式（程式 `agents/eng_audit_fixes_2026-11/convert_exright.py`；重疊期 2015-07-02～2026-10-29 共 11,781 筆逐欄相同、134 個月檔解壓後逐位元相同）。是「到產生當天為止」的部分月份，每次出名單前要重產覆蓋並重算 SHA256SUMS：先 `convert_exright.py verify <倉庫> twse-exright <輸出.json>`（rows_different 必須 0），再 `convert_exright.py build <倉庫> <暫存> 2026-10-30`，只複製 `.csv.gz`。11 月以後只有這一個來源。
 - 誰在讀：
   - `agents/o_ext_canslim_xs/cslib.py` 的 `Panel(exright_fix=True)`（預設 False＝不讀，舊結果逐位相同）。
   - `agents/s18_live_list/live_surge/make_list.py --exright-fix`（預設開啟）。

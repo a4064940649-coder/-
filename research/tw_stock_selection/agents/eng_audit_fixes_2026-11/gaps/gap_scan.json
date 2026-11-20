@@ -1,0 +1,218 @@
+{
+ "連續面板_2007_2026（S75～S83、R75 用）": {
+  "range": [
+   "2007-01-02",
+   "2026-10-30"
+  ],
+  "n_codes": 1222,
+  "n_gaps": 26,
+  "n_codes_with_gap": 23,
+  "known11_found": [
+   "2059",
+   "4108",
+   "5533",
+   "6176",
+   "6205",
+   "6226",
+   "6283",
+   "8021",
+   "8033",
+   "8103",
+   "9955"
+  ],
+  "has_2432": true,
+  "new_codes": [
+   "1213",
+   "1435",
+   "1603",
+   "2025",
+   "2361",
+   "2491",
+   "3018",
+   "3701",
+   "4414",
+   "5259",
+   "6131"
+  ],
+  "file": "panel_gaps_cont.csv"
+ },
+ "正式面板_2015_2026（正式引擎用）": {
+  "range": [
+   "2015-01-05",
+   "2026-10-30"
+  ],
+  "n_codes": 2142,
+  "n_gaps": 34,
+  "n_codes_with_gap": 27,
+  "known11_found": [],
+  "has_2432": false,
+  "new_codes": [
+   "1213",
+   "1435",
+   "1603",
+   "1785",
+   "2025",
+   "2724",
+   "3018",
+   "3073",
+   "3089",
+   "3219",
+   "3701",
+   "4402",
+   "4413",
+   "4414",
+   "4415",
+   "4712",
+   "4804",
+   "4806",
+   "4950",
+   "5259",
+   "5481",
+   "5506",
+   "6131",
+   "6222",
+   "6240",
+   "8080",
+   "8291"
+  ],
+  "file": "panel_gaps_official.csv"
+ },
+ "studies": {
+  "S75 連續帳戶（trades.csv.gz）": {
+   "file": "s75_continuous_2008_2026/trades.csv.gz",
+   "n_trades": 1175,
+   "period": [
+    "2008-03-12",
+    "2026-10-22"
+   ],
+   "group_cols": [
+    "version"
+   ],
+   "versions": [
+    "V_BRIDGE",
+    "V_MASK"
+   ],
+   "n_trades_crossing_gap": 0,
+   "n_trades_2432_any": 0,
+   "trades_2432": [],
+   "n_trades_known11_any": 10,
+   "n_trades_known11_before_2010": 0
+  },
+  "S76 前後段診斷（trades_tagged）": {
+   "file": "s76_early_vs_late_diagnosis/trades_tagged.csv.gz",
+   "n_trades": 624,
+   "period": [
+    "2008-03-12",
+    "2026-10-14"
+   ],
+   "group_cols": [],
+   "versions": null,
+   "n_trades_crossing_gap": 0,
+   "n_trades_2432_any": 0,
+   "trades_2432": [],
+   "n_trades_known11_any": 5,
+   "n_trades_known11_before_2010": 0
+  },
+  "S77 前段訂規則（trades.csv.gz）": {
+   "file": "s77_rule_from_early_period/trades.csv.gz",
+   "n_trades": 1977,
+   "period": [
+    "2008-02-14",
+    "2026-10-22"
+   ],
+   "group_cols": [
+    "rule"
+   ],
+   "versions": [
+    "current",
+    "new"
+   ],
+   "n_trades_crossing_gap": 0,
+   "n_trades_2432_any": 0,
+   "trades_2432": [],
+   "n_trades_known11_any": 18,
+   "n_trades_known11_before_2010": 0
+  },
+  "S79 凍結格（trades_frozen）": {
+   "file": "s79_revenue_plus_other_signals/trades_frozen.csv.gz",
+   "n_trades": 632,
+   "period": [
+    "2008-03-12",
+    "2026-10-22"
+   ],
+   "group_cols": [],
+   "versions": null,
+   "n_trades_crossing_gap": 0,
+   "n_trades_2432_any": 0,
+   "trades_2432": [],
+   "n_trades_known11_any": 5,
+   "n_trades_known11_before_2010": 0
+  },
+  "S81 重點格（trades_key）": {
+   "file": "s81_breadth_fill_hold/trades_key.csv.gz",
+   "n_trades": 3055,
+   "period": [
+    "2008-02-14",
+    "2026-10-22"
+   ],
+   "group_cols": [
+    "rule",
+    "version"
+   ],
+   "versions": null,
+   "n_trades_crossing_gap": 0,
+   "n_trades_2432_any": 0,
+   "trades_2432": [],
+   "n_trades_known11_any": 24,
+   "n_trades_known11_before_2010": 0
+  },
+  "S82 大贏家（trades_features，進行中）": {
+   "file": "s82_big_winner_dependence/trades_features.csv.gz",
+   "n_trades": 632,
+   "period": [
+    "2008-03-12",
+    "2026-10-22"
+   ],
+   "group_cols": [],
+   "versions": null,
+   "n_trades_crossing_gap": 0,
+   "n_trades_2432_any": 0,
+   "trades_2432": [],
+   "n_trades_known11_any": 5,
+   "n_trades_known11_before_2010": 0
+  },
+  "稽核逐筆重算（trades_recalc）": {
+   "file": "audit_data_2008_2026/trades_recalc.csv.gz",
+   "n_trades": 1175,
+   "period": [
+    "2008-03-12",
+    "2026-10-22"
+   ],
+   "group_cols": [
+    "version"
+   ],
+   "versions": null,
+   "n_trades_crossing_gap": 0,
+   "n_trades_2432_any": 0,
+   "trades_2432": [],
+   "n_trades_known11_any": 10,
+   "n_trades_known11_before_2010": 0
+  },
+  "正式引擎 E0｜W10_70 標準路徑（本次倒出）": {
+   "file": "eng_audit_fixes_2026-11/reduce/trades_E0.csv.gz",
+   "n_trades": 389,
+   "period": [
+    "2016-02-17",
+    "2026-10-22"
+   ],
+   "group_cols": [],
+   "versions": null,
+   "n_trades_crossing_gap": 0,
+   "n_trades_2432_any": 0,
+   "trades_2432": [],
+   "n_trades_known11_any": 5,
+   "n_trades_known11_before_2010": 0
+  }
+ },
+ "n_affected_trades_total": 0
+}

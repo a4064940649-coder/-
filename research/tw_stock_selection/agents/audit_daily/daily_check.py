@@ -42,7 +42,7 @@ else:
     txt, txt0 = json.dumps(res, ensure_ascii=False, sort_keys=True), json.dumps(ref, ensure_ascii=False, sort_keys=True)
     def strip(o):                                   # 去掉執行時間、記憶體等每次會變的欄位
         if isinstance(o, dict):
-            return {k: strip(v) for k, v in o.items() if not re.search(r'sec|rss|time|elapsed|clock|peak_mb', k, re.I)}
+            return {k: strip(v) for k, v in o.items() if not re.search(r'sec|rss|time|elapsed|clock|peak_mb|exright_info', k, re.I)}
         if isinstance(o, list):
             return [strip(v) for v in o]
         return o
@@ -53,6 +53,7 @@ else:
     row['paths_median'] = round(pmed * 100, 2)
     row['trades'] = '381' if re.search(r'\b381\b', txt) else '?'
     nums_ok = round(c19 * 100, 2) == 48.76 and round(cfull * 100, 2) == 34.40 and round(pmed * 100, 2) == 46.40 and row['trades'] == '381'
+    note.append('除權息封存到 %s' % res.get('exright_info', {}).get('twt49u_last'))   # 封存每月補檔會讓 exright_info 變，不列入比對；淨值逐日差才是判準
     if not nums_ok: note.append('驗收數字不符 %.4f %.4f %.4f' % (c19, cfull, pmed))
     if not res_same:
         a_, b_ = strip(res), strip(ref)

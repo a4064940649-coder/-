@@ -118,6 +118,9 @@
 
 ## 每月換股流程（2026-11-19；`monthly_rebalance.py`，只產生檔案、不下單）
 - **訊號日（2026-12-11）收盤後，建議台北 22 點後**（先把官方日 K 倉庫更新到 12/11；TWT49U 封存有新月份就補）：
+  0. 先跑兩個檢查（都只讀、不改檔）：
+     - 月營收到齊：`python3 -I -B research/tw_stock_selection/agents/eng_audit_fixes_2026-11/check_revenue_ready.py --month 2026-11 --tsd <官方日K倉庫> --cutoff 2026-12-11T14:00:00Z --holdings xq_scripts/site/state/holdings_after_2026-11.csv`（注意 `--month` 是**營收月份**，12 月名單用 2026-11）。印出【可以出名單】才往下做；【還不能】先更新倉庫，倉庫真的沒有就走人工備援（同資料夾 `manual_revenue_to_repo.py`，做法見 `plan.json` 第 3 項）。
+     - 除權息封存涵蓋：名單輸出的 meta.exright.days_after_twt49u_in_window 應該是空的；不是空的就先補 TWT49U 月檔（`convert_exright.py build`，見 `plan.json` 第 1 項）。
   1. `python3 -I -B xq_scripts/site/monthly_rebalance.py plan --month 2026-12 --tsd <暫存>/tsd --rev-cutoff 2026-12-11T14:00:00Z`
      - 跑 make_list.py 兩次：空倉 100 萬版 `lists/2026-12.{csv,json,md}`、策略帳戶版 `lists/2026-12_strategy.{csv,json,md}`（持股＝帳戶到訊號日的持股，現金含期間股利，底倉取段落表）。
      - 產生預計下單清單 `state/orders/orders_2026-12_strategy.csv`、`orders_2026-12_new1m.csv`、`orders_2026-12.md`：先賣後買；每檔股數（整張＋零股）、以訊號日收盤估的約略金額、
