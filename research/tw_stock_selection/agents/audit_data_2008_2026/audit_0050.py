@@ -84,3 +84,33 @@ out['from_2015'] = {k2: float(v.dropna()[:A.END].iloc[-1] / v.dropna()[:'2015-01
 (A.HERE / 'results_0050.json').write_text(json.dumps(out, ensure_ascii=False, indent=1, default=str))
 print(json.dumps({k2: out[k2] for k2 in ('vs_engine_source', 'daily_A_vs_B', 'daily_A_vs_C', 'daily_A_vs_B_from_2026_08_12', 'A_file', 'full', 'from_2015')}, ensure_ascii=False, indent=1)[:7000])
 print(json.dumps(out['B_events'], ensure_ascii=False)[:3000])
+
+# ---------------------------------------------------------------- 補充
+# (1) 2009～2015：A 的日報酬對 C 的「原始收盤」日報酬——應只在除息日不同（差＝殖利率）
+rc = el['close'].pct_change(); ra = a.reindex(el.index).pct_change()
+dd = (ra - rc).loc['2009-01-06':'2015-12-31'].dropna()
+big = dd[dd.abs() > 0.002]
+imp = [dict(date=str(i.date()), diff_pp=round(float(v) * 100, 3), C_prev_close=float(el['close'].shift(1)[i]), implied_cash_div=round(float(v * el['close'].shift(1)[i]), 3)) for i, v in big.items()]
+out['A_vs_C_rawclose_2009_2015'] = dict(n_days=int(len(dd)), n_diff_gt_0p2pp=int(len(big)), days=imp, note='C 的 close 欄在 2025-06 分割前的日子已除以 4（回溯調整），不影響日報酬比較')
+# (2) 2015：B 從 2015-01-05 起，同窗比 A
+out['y2015_from_0105'] = dict(A=float(a[:'2015-12-31'].iloc[-1] / a['2015-01-05'] - 1), B=float(trB[:'2015-12-31'].iloc[-1] / trB['2015-01-05'] - 1))
+# (3) A 檔的非交易日列、2026-08-12 起的漂移
+cal = set(off['date'].unique()); a15 = a['2015-01-05':'2026-10-22']
+junk = [str(d.date()) for d in a15.index if d not in cal]
+ratio = (a / e['close']).dropna()
+out['A_rows_on_non_trading_days_2015on'] = junk
+seg = ratio['2026-07-22':'2026-10-22']
+chg = (seg / seg.shift(1) - 1).dropna(); chg = chg[chg.abs() > 1e-5]
+out['A_drift_2026'] = dict(ratio_2026_08_11=float(ratio['2026-08-11']), ratio_2026_10_22=float(ratio['2026-10-22']), drift=float(ratio['2026-10-22'] / ratio['2026-08-11'] - 1),
+                           n_days_ratio_changed=int(len(chg)), first=str(chg.index[0].date()), last=str(chg.index[-1].date()), twt49u_0050_events_in_window=[str(d.date()) for d in e49.index if pd.Timestamp('2026-08-11') < d <= A.END],
+                           days={str(i.date()): round(float(v) * 100, 4) for i, v in chg.items()})
+# 2015～2026-08-11 之間，比例只該在除息日／分割日變動
+r0 = ratio['2015-01-05':'2026-08-11']; c0 = (r0 / r0.shift(1) - 1).dropna(); c0 = c0[c0.abs() > 2e-4]
+evd = set(e49.index) | {pd.Timestamp('2025-06-18')}
+out['A_ratio_changes_2015_to_2026_08_11'] = dict(n=int(len(c0)), n_on_event_days=int(sum(d in evd for d in c0.index)), non_event_days={str(d.date()): round(float(v) * 100, 3) for d, v in c0.items() if d not in evd})
+bm = nav['0050']
+out['bench_effect'] = dict(e0050_2026_A=float(Y.loc[2026, k]), e0050_2026_B=float(Y.loc[2026, 'B_官方日K＋TWT49U自建']), final_0050_nav=float(bm.iloc[-1]), final_0050_nav_if_B=float(bm.iloc[-1] / (1 + out['A_drift_2026']['drift'])),
+                           cagr_0050_A=float((bm.iloc[-1] / 1e6) ** (365.25 / (bm.index[-1] - bm.index[0]).days) - 1),
+                           cagr_0050_if_B=float((bm.iloc[-1] / (1 + out['A_drift_2026']['drift']) / 1e6) ** (365.25 / (bm.index[-1] - bm.index[0]).days) - 1))
+(A.HERE / 'results_0050.json').write_text(json.dumps(out, ensure_ascii=False, indent=1, default=str))
+print(json.dumps({k2: out[k2] for k2 in ('A_vs_C_rawclose_2009_2015', 'y2015_from_0105', 'A_rows_on_non_trading_days_2015on', 'A_drift_2026', 'A_ratio_changes_2015_to_2026_08_11', 'bench_effect')}, ensure_ascii=False, indent=1))

@@ -1,0 +1,6694 @@
+{
+ "task": "S75 連續帳戶 2008～2026 資料面稽核",
+ "date": "2026-11-20",
+ "table": [
+  {
+   "item": "1 價格交叉核對（進出場日開盤價）",
+   "verdict": "通過（2008～2009 無法獨立驗證）",
+   "evidence": "成交點 1270 個；有獨立第二來源 1129 個（88.9%），其中兩個以上獨立來源 382 個；只有同源副本 141 個（2008～2009 的 132 個＋2010～2011 的 9 個）。不符 7 個、最大差 9.95 元，全部是第二來源自己的問題（Yahoo 5 分 K 除權息前回溯還原 2 個、首根 5 分 K 非開盤價 1 個、FinMind 9921 還原序列 4 個），引擎用的官方值都有另一來源或除權息表佐證。",
+   "impact": "不影響"
+  },
+  {
+   "item": "2 最賺／最賠各 15 筆逐筆重算",
+   "verdict": "通過",
+   "evidence": "獨立重算全部 1159 筆已平倉交易：買進成本 1175 筆最大相對差 4.4e-16；報酬 1139 筆差 ≤1e-9，其餘 15 筆全是單日成交值 5% 上限造成的分批賣出（15/15 筆已驗證）。最賺／最賠（金額、報酬率各 15）＋指名 6 檔共 53 筆：52 筆差 <1e-6，1 筆（3003）為分批賣出。2408、3653、3017、2344、2059、1325 持有期間沒有分割、面額變更、減資；只有現金股利（3017 9.93 元、2059 51 元、1325 0.3 元、2344 2025-11 那筆 0.5 元）。",
+   "impact": "不影響"
+  },
+  {
+   "item": "2b 減資恢復買賣日報酬記 0",
+   "verdict": "有問題（小、偏保守）",
+   "evidence": "8249（2024-09-12→2024-10-21）恢復買賣日官方日 K 漲跌價差＝0，引擎當日報酬記 0；第二來源（TWTAUU）參考價 53.27，開盤 58.5，這筆實際約多 9.8%（V_BRIDGE 約 +15 萬元）。3545（2015-12-15，只在 V_MASK）同型，本地沒有減資參考價 → 無法驗證方向。",
+   "impact": "這筆少算約 15 萬元，約當時淨值的 0.8%（偏保守）"
+  },
+  {
+   "item": "3 0050 基準逐年含息報酬",
+   "verdict": "有問題（小）；2008 無法驗證",
+   "evidence": "2016～2025 引擎來源對「官方日 K＋證交所除息表＋分割」自建含息淨值，逐年差 ≤0.027 個百分點；2025-06 一拆四正確（比例 4.0002）。2026：引擎來源 67.19%、官方自建 66.26%，差 0.93 個百分點——引擎來源自 2026-08-12 起有 21 天與官方收盤的日報酬不同，累計多 0.58%，期間沒有除息。2009-03-10～2015 對第三方原始收盤：只在每年除息日不同，推算配息 1.0／2.2／1.95／1.85／1.35／1.55／2.0 元。2008-01～2009-03 本地沒有可用的第二來源。",
+   "impact": "0050 期末 1291 萬 → 1284 萬、年化 14.57% → 14.54%；策略淨值因持有 0050 也高估，上限 0.58%。結論不變"
+  },
+  {
+   "item": "4 月營收兩來源＋SURGE 重算",
+   "verdict": "通過（2008～2013 無法驗證）",
+   "evidence": "抽 60 個（每年 3 個＋3 個）：通過 42、無法驗證 18（2008～2013 各 3 個，本地只有一個來源）、不一致 0。普查 2015-01～2026-09：236787 格對官方倉庫當期值，236767 格相同（99.992%），不同 20 格都在 2025～2026。SURGE：全部 1175 筆交易由原始營收重算，最大差 3.6e-15（含 V_BRIDGE 2013～2015 的 80 筆 B2 校正）。交易用到的營收格（當月）461 格有第二來源、458 格相同，不同的 3 格是 2014 年只有次年重編值可比（差 ≤0.07%）。",
+   "impact": "不影響"
+  },
+  {
+   "item": "5 前視檢查",
+   "verdict": "通過",
+   "evidence": "全部 225 個訊號月：訊號日都是「期限日（次月 10 日，遇休市順延；2019-01、2023-03 用例外表）後第一個交易日」。隨機 40 個月、142 檔入選股：SURGE 只用到當月（含）以前營收、訊號日收盤站上 60 日均線、20 日報酬 >10%、60 日均成交值 ≥1,000 萬、收盤 ≥10 元、當日上市，142/142 全部成立（只用訊號日以前的價格重算）；其中有買進的 106 筆，分數相符 106、成交在次一交易日開盤 106。全部 1175 筆交易的進場日都是訊號日的下一個交易日。",
+   "impact": "不影響（營收是事後更正版而非首次公布值，屬已知限制，本稽核無法以本地資料驗證 2024-06 以前）"
+  },
+  {
+   "item": "6 不可能的交易",
+   "verdict": "通過（有 6 筆已揭露的漲停買進）",
+   "evidence": "進場日無成交量 0 筆（其中 10 筆進場日來自 data_panel 補格、沒有成交股數欄，改以成交金額 > 0 判定）；出場日無成交量 0 筆；開盤即漲停仍買進：照引擎 10% 規則 0 筆，照當時實際 7% 漲停（2015-06 前）6 筆（與 S75 自己揭露的 6 筆相同，V_BRIDGE 這 6 筆損益合計 -14339 元）；開盤即跌停仍賣出 0 筆；訊號日／進場日／出場日不在上市名單 0／0／0 筆；創新板 0 筆；下市後仍持有 0 筆；零股時代前買零股 0 筆；買進超過當日成交值 5% 0 筆。持有期間有停牌的 3 筆（2457、3545、8249：停牌 7～13 個交易日後恢復、參考價跳升；本地只有 8249 有第二來源證實是減資）。",
+   "impact": "不影響（拿掉 6 筆漲停買進，損益差約 1.4 萬元）"
+  },
+  {
+   "item": "7 網站數字對帳",
+   "verdict": "通過",
+   "evidence": "對 navs_official.csv.gz 重算 45 項全部相符：2019 起 48.76%、全期 34.40%、最大回撤 -32.1%（2024-07-17→2025-04-09）、0050 回撤 -34.0%、落後 0050 最多 15.3、落後時間 20.2%；yearly.json 12 年 × 3 欄差 ≤0.05；nav.json 584 列最大差 0.5 元。",
+   "impact": "不影響（網站 0050 的 2026 年 67.2% 沿用同一個有漂移的來源，官方日 K 算是 66.3%）"
+  }
+ ],
+ "item1": {
+  "n_fills": 1270,
+  "covered": 1129,
+  "coverage": 0.8889763779527559,
+  "two_plus_indep": 382,
+  "same_origin_only": 141,
+  "no_alt": 0,
+  "same_origin_max_diff": 0.0,
+  "n_mismatch": 7,
+  "max_abs_diff": 9.949180603027344,
+  "max_rel_diff": 0.10698043659169187,
+  "n_mismatch_excl_yahoo_only": 4,
+  "mismatch_by_altsrc": {
+   "k66": 4,
+   "yahoo5m": 3
+  },
+  "tol": 0.005,
+  "by_source": {
+   "dp": {
+    "n": 1265,
+    "mismatch": 3
+   },
+   "hs": {
+    "n": 312,
+    "mismatch": 0
+   },
+   "hw": {
+    "n": 129,
+    "mismatch": 4
+   },
+   "asoul15": {
+    "n": 20,
+    "mismatch": 0
+   }
+  },
+  "dp_by_src": {
+   "asoul": {
+    "n": 141,
+    "mismatch": 0
+   },
+   "k66": {
+    "n": 871,
+    "mismatch": 0
+   },
+   "steven": {
+    "n": 97,
+    "mismatch": 0
+   },
+   "yahoo5m": {
+    "n": 156,
+    "mismatch": 3
+   }
+  },
+  "by_period": {
+   "2008-2009": {
+    "n": 132,
+    "covered": 0,
+    "two_plus": 0,
+    "same_origin_only": 132,
+    "none": 0,
+    "mismatch": 0
+   },
+   "2010-2014": {
+    "n": 251,
+    "covered": 242,
+    "two_plus": 0,
+    "same_origin_only": 9,
+    "none": 0,
+    "mismatch": 0
+   },
+   "2015-2019": {
+    "n": 308,
+    "covered": 308,
+    "two_plus": 59,
+    "same_origin_only": 0,
+    "none": 0,
+    "mismatch": 0
+   },
+   "2020-2023": {
+    "n": 321,
+    "covered": 321,
+    "two_plus": 217,
+    "same_origin_only": 0,
+    "none": 0,
+    "mismatch": 4
+   },
+   "2024-2026": {
+    "n": 258,
+    "covered": 258,
+    "two_plus": 106,
+    "same_origin_only": 0,
+    "none": 0,
+    "mismatch": 3
+   }
+  },
+  "eng_src": {
+   "off": 887,
+   "asoul": 363,
+   "dpfill": 20
+  },
+  "mismatches": [
+   {
+    "code": "2374",
+    "date": "2025-09-12",
+    "side": "B",
+    "eng_open": 93.0,
+    "eng_src": "off",
+    "dp": 83.05081939697266,
+    "dp_src": "yahoo5m",
+    "hs": null,
+    "hw": null,
+    "asoul15": null,
+    "n_indep": 1,
+    "n_same_origin": 0,
+    "max_abs_diff": 9.949180603027344,
+    "max_rel_diff": 0.10698043659169187,
+    "same_origin_diff": null,
+    "year": 2025
+   },
+   {
+    "code": "6189",
+    "date": "2024-02-19",
+    "side": "B",
+    "eng_open": 79.0,
+    "eng_src": "off",
+    "dp": 79.80000305175781,
+    "dp_src": "yahoo5m",
+    "hs": 79.0,
+    "hw": null,
+    "asoul15": null,
+    "n_indep": 2,
+    "n_same_origin": 0,
+    "max_abs_diff": 0.8000030517578125,
+    "max_rel_diff": 0.010126620908326833,
+    "same_origin_diff": null,
+    "year": 2024
+   },
+   {
+    "code": "8104",
+    "date": "2025-09-12",
+    "side": "S",
+    "eng_open": 39.7,
+    "eng_src": "off",
+    "dp": 39.30693054199219,
+    "dp_src": "yahoo5m",
+    "hs": null,
+    "hw": null,
+    "asoul15": null,
+    "n_indep": 1,
+    "n_same_origin": 0,
+    "max_abs_diff": 0.39306945800781534,
+    "max_rel_diff": 0.00990099390447896,
+    "same_origin_diff": null,
+    "year": 2025
+   },
+   {
+    "code": "9921",
+    "date": "2020-06-12",
+    "side": "B",
+    "eng_open": 260.0,
+    "eng_src": "off",
+    "dp": 260.0,
+    "dp_src": "k66",
+    "hs": 260.0,
+    "hw": 257.98797607421875,
+    "asoul15": null,
+    "n_indep": 3,
+    "n_same_origin": 0,
+    "max_abs_diff": 2.01202392578125,
+    "max_rel_diff": 0.007738553560697081,
+    "same_origin_diff": null,
+    "year": 2020
+   },
+   {
+    "code": "9921",
+    "date": "2020-08-12",
+    "side": "S",
+    "eng_open": 300.0,
+    "eng_src": "off",
+    "dp": 300.0,
+    "dp_src": "k66",
+    "hs": 300.0,
+    "hw": 297.6784362792969,
+    "asoul15": null,
+    "n_indep": 3,
+    "n_same_origin": 0,
+    "max_abs_diff": 2.321563720703125,
+    "max_rel_diff": 0.007738545735677116,
+    "same_origin_diff": null,
+    "year": 2020
+   },
+   {
+    "code": "9921",
+    "date": "2021-05-12",
+    "side": "S",
+    "eng_open": 311.0,
+    "eng_src": "off",
+    "dp": 311.0,
+    "dp_src": "k66",
+    "hs": 311.0,
+    "hw": 308.59332275390625,
+    "asoul15": null,
+    "n_indep": 3,
+    "n_same_origin": 0,
+    "max_abs_diff": 2.40667724609375,
+    "max_rel_diff": 0.007738512045317503,
+    "same_origin_diff": null,
+    "year": 2021
+   },
+   {
+    "code": "9921",
+    "date": "2021-04-14",
+    "side": "B",
+    "eng_open": 341.0,
+    "eng_src": "off",
+    "dp": 341.0,
+    "dp_src": "k66",
+    "hs": 341.0,
+    "hw": 338.3611755371094,
+    "asoul15": null,
+    "n_indep": 3,
+    "n_same_origin": 0,
+    "max_abs_diff": 2.638824462890625,
+    "max_rel_diff": 0.007738488160969559,
+    "same_origin_diff": null,
+    "year": 2021
+   }
+  ]
+ },
+ "item2": {
+  "summary": {
+   "n_unique": 53,
+   "max_abs_ret_diff": 0.016840645313774216,
+   "n_ret_diff_gt_1e6": 1,
+   "n_with_events": 19
+  },
+  "recalc_all": {
+   "n": 1175,
+   "cost_max_rel_diff": 4.440892098500626e-16,
+   "n_cost_bad": 0,
+   "closed_n": 1159,
+   "ret_absdiff_le_1e9": 1139,
+   "ret_absdiff_le_1e4": 1144,
+   "ret_absdiff_gt_1e4": 15,
+   "ret_max_abs_diff": 0.023739972804047882,
+   "sig_is_prev_day_all": true,
+   "worst": [
+    {
+     "version": "V_MASK",
+     "code": "4755",
+     "ent": "2024-12-12",
+     "exit": "2025-01-15",
+     "ret": -0.157056370440754,
+     "ret_recalc": -0.1333163976367061
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "4755",
+     "ent": "2024-12-12",
+     "exit": "2025-01-15",
+     "ret": -0.150964934359853,
+     "ret_recalc": -0.13331639763670633
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "3003",
+     "ent": "2026-08-12",
+     "exit": "2026-09-17",
+     "ret": -0.1980890592027003,
+     "ret_recalc": -0.1812484138889261
+    },
+    {
+     "version": "V_MASK",
+     "code": "3003",
+     "ent": "2026-08-12",
+     "exit": "2026-09-16",
+     "ret": -0.2017190367950142,
+     "ret_recalc": -0.18967599311928052
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "1473",
+     "ent": "2019-06-12",
+     "exit": "2019-07-15",
+     "ret": -0.0618372201550331,
+     "ret_recalc": -0.05090895480581081
+    },
+    {
+     "version": "V_MASK",
+     "code": "2465",
+     "ent": "2025-10-15",
+     "exit": "2025-11-13",
+     "ret": -0.0723608811991555,
+     "ret_recalc": -0.06369210486541255
+    },
+    {
+     "version": "V_MASK",
+     "code": "3591",
+     "ent": "2024-06-13",
+     "exit": "2024-08-15",
+     "ret": -0.1204500408774877,
+     "ret_recalc": -0.1281407977472625
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "2465",
+     "ent": "2025-10-15",
+     "exit": "2025-11-13",
+     "ret": -0.070136955727295,
+     "ret_recalc": -0.06369600497636907
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "3591",
+     "ent": "2024-06-13",
+     "exit": "2024-08-15",
+     "ret": -0.1219954724667928,
+     "ret_recalc": -0.12813064684040687
+    },
+    {
+     "version": "V_MASK",
+     "code": "3027",
+     "ent": "2025-05-14",
+     "exit": "2025-06-13",
+     "ret": -0.1458518595593496,
+     "ret_recalc": -0.15186545715139343
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "9902",
+     "ent": "2024-03-13",
+     "exit": "2024-04-16",
+     "ret": -0.1305861628824074,
+     "ret_recalc": -0.12469199485580229
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "3027",
+     "ent": "2025-05-14",
+     "exit": "2025-06-13",
+     "ret": -0.1473867312340796,
+     "ret_recalc": -0.15186979585279559
+    },
+    {
+     "version": "V_MASK",
+     "code": "9902",
+     "ent": "2024-03-13",
+     "exit": "2024-04-15",
+     "ret": -0.1305196106170369,
+     "ret_recalc": -0.13377144386605155
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "2442",
+     "ent": "2023-06-14",
+     "exit": "2023-07-13",
+     "ret": -0.0503106210882998,
+     "ret_recalc": -0.05290025193546222
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "6133",
+     "ent": "2014-04-14",
+     "exit": "2014-05-15",
+     "ret": -0.1331634902186154,
+     "ret_recalc": -0.13468531837371234
+    }
+   ],
+   "partial_sale_check": [
+    {
+     "version": "V_MASK",
+     "code": "9902",
+     "ent": "2024-03-13",
+     "exit": "2024-04-15",
+     "ret": -0.1305196106170369,
+     "ret_recalc": -0.13377144386605155,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2024-04-12",
+      0.0925
+     ]
+    },
+    {
+     "version": "V_MASK",
+     "code": "3591",
+     "ent": "2024-06-13",
+     "exit": "2024-08-15",
+     "ret": -0.1204500408774877,
+     "ret_recalc": -0.1281407977472625,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2024-08-14",
+      0.1155
+     ]
+    },
+    {
+     "version": "V_MASK",
+     "code": "4755",
+     "ent": "2024-12-12",
+     "exit": "2025-01-15",
+     "ret": -0.157056370440754,
+     "ret_recalc": -0.1333163976367061,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2025-01-14",
+      0.0521
+     ]
+    },
+    {
+     "version": "V_MASK",
+     "code": "3027",
+     "ent": "2025-05-14",
+     "exit": "2025-06-13",
+     "ret": -0.1458518595593496,
+     "ret_recalc": -0.15186545715139343,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2025-06-12",
+      0.0525
+     ]
+    },
+    {
+     "version": "V_MASK",
+     "code": "2465",
+     "ent": "2025-10-15",
+     "exit": "2025-11-13",
+     "ret": -0.0723608811991555,
+     "ret_recalc": -0.06369210486541255,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2025-11-12",
+      0.0709
+     ]
+    },
+    {
+     "version": "V_MASK",
+     "code": "3003",
+     "ent": "2026-08-12",
+     "exit": "2026-09-16",
+     "ret": -0.2017190367950142,
+     "ret_recalc": -0.18967599311928052,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2026-09-15",
+      0.1133
+     ]
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "6133",
+     "ent": "2014-04-14",
+     "exit": "2014-05-15",
+     "ret": -0.1331634902186154,
+     "ret_recalc": -0.13468531837371234,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2014-05-14",
+      0.091
+     ]
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "1473",
+     "ent": "2019-06-12",
+     "exit": "2019-07-15",
+     "ret": -0.0618372201550331,
+     "ret_recalc": -0.05090895480581081,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2019-07-12",
+      0.064
+     ]
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "2442",
+     "ent": "2023-06-14",
+     "exit": "2023-07-13",
+     "ret": -0.0503106210882998,
+     "ret_recalc": -0.05290025193546222,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2023-07-12",
+      0.0512
+     ]
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "9902",
+     "ent": "2024-03-13",
+     "exit": "2024-04-16",
+     "ret": -0.1305861628824074,
+     "ret_recalc": -0.12469199485580229,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2024-04-15",
+      0.0995
+     ]
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "3591",
+     "ent": "2024-06-13",
+     "exit": "2024-08-15",
+     "ret": -0.1219954724667928,
+     "ret_recalc": -0.12813064684040687,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2024-08-14",
+      0.1448
+     ]
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "4755",
+     "ent": "2024-12-12",
+     "exit": "2025-01-15",
+     "ret": -0.150964934359853,
+     "ret_recalc": -0.13331639763670633,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2025-01-14",
+      0.0701
+     ]
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "3027",
+     "ent": "2025-05-14",
+     "exit": "2025-06-13",
+     "ret": -0.1473867312340796,
+     "ret_recalc": -0.15186979585279559,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2025-06-12",
+      0.0707
+     ]
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "2465",
+     "ent": "2025-10-15",
+     "exit": "2025-11-13",
+     "ret": -0.070136955727295,
+     "ret_recalc": -0.06369600497636907,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2025-11-12",
+      0.0954
+     ]
+    },
+    {
+     "version": "V_BRIDGE",
+     "code": "3003",
+     "ent": "2026-08-12",
+     "exit": "2026-09-17",
+     "ret": -0.1980890592027003,
+     "ret_recalc": -0.1812484138889261,
+     "earlier_day_position_over_5pct_of_amt": [
+      "2026-09-16",
+      0.2082
+     ]
+    }
+   ],
+   "n_partial_explained": 15
+  },
+  "lists": {
+   "最賺15（損益金額）": [
+    {
+     "code": "2408",
+     "ent": "2025-09-12",
+     "exit": "2026-04-14",
+     "shares": 28745,
+     "ent_open_sources": {
+      "off": 59.3,
+      "dp:yahoo5m": 59.3,
+      "finmind(hawan)": 59.3
+     },
+     "exit_open_sources": {
+      "off": 238.5,
+      "dp:steven": 238.5
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 3.021922428330523,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 3.021922428330523,
+     "gross_recalc": 3.0219224283305204,
+     "gross_dp_chain": 3.021922480075604,
+     "gross_dp_minus_recalc_pp": 5.174508377336906e-06,
+     "ret_recalc": 2.9751508981380645,
+     "ret_trades_file": 2.975150898138065,
+     "ret_diff": -4.440892098500626e-16,
+     "pnl": 5092906.5399419,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -2.6645352591003757e-13
+    },
+    {
+     "code": "3653",
+     "ent": "2026-08-12",
+     "exit": "2026-10-14",
+     "shares": 939,
+     "ent_open_sources": {
+      "off": 4125.0,
+      "dp:steven": 4125.0
+     },
+     "exit_open_sources": {
+      "off": 7120.0,
+      "dp:steven": 7120.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.7260606060606061,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.7260606060606061,
+     "gross_recalc": 0.7260606060606054,
+     "gross_dp_chain": 0.7260606060606054,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": 0.7075876951588653,
+     "ret_trades_file": 0.7075876951588669,
+     "ret_diff": -1.5543122344752192e-15,
+     "pnl": 2751733.312004088,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -6.661338147750939e-14
+    },
+    {
+     "code": "3017",
+     "ent": "2025-05-14",
+     "exit": "2026-01-14",
+     "shares": 2127,
+     "ent_open_sources": {
+      "off": 616.0,
+      "dp:yahoo5m": 616.0,
+      "finmind(hschi)": 616.0,
+      "finmind(hawan)": 616.0
+     },
+     "exit_open_sources": {
+      "off": 1365.0,
+      "dp:steven": 1365.0
+     },
+     "n_price_sources_ent": 4,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 1.2159090909090908,
+     "twt49u_div_factor": 1.0087572463129704,
+     "gross_px_x_div": 1.2353143526253318,
+     "gross_recalc": 1.2353143526253332,
+     "gross_dp_chain": 1.2353143526253327,
+     "gross_dp_minus_recalc_pp": -4.440892098500626e-14,
+     "ret_recalc": 1.2076542014153189,
+     "ret_trades_file": 1.2076542014153189,
+     "ret_diff": 0.0,
+     "pnl": 1588972.1884490105,
+     "n_events": 1,
+     "events": "2025-08-19 TWT49U 息 前收1145.0→參考價1135.06（權息值9.930369）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 1.3322676295501878e-13
+    },
+    {
+     "code": "2344",
+     "ent": "2026-05-13",
+     "exit": "2026-07-15",
+     "shares": 27848,
+     "ent_open_sources": {
+      "off": 117.0,
+      "dp:steven": 117.0
+     },
+     "exit_open_sources": {
+      "off": 175.5,
+      "dp:steven": 175.5
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.5,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.5,
+     "gross_recalc": 0.5000000000000011,
+     "gross_dp_chain": 0.5000000000000009,
+     "gross_dp_minus_recalc_pp": -2.220446049250313e-14,
+     "ret_recalc": 0.4800908565210993,
+     "ret_trades_file": 0.4800908565210997,
+     "ret_diff": -3.885780586188048e-16,
+     "pnl": 1572902.1594982794,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-13
+    },
+    {
+     "code": "2059",
+     "ent": "2026-06-12",
+     "exit": "2026-10-14",
+     "shares": 487,
+     "ent_open_sources": {
+      "off": 6995.0,
+      "dp:steven": 6995.0
+     },
+     "exit_open_sources": {
+      "off": 10155.0,
+      "dp:steven": 10155.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.4517512508934953,
+     "twt49u_div_factor": 1.0035272148834635,
+     "gross_px_x_div": 0.4568718895127337,
+     "gross_recalc": 0.45687188951273416,
+     "gross_dp_chain": 0.45687188951273394,
+     "gross_dp_minus_recalc_pp": -2.220446049250313e-14,
+     "ret_recalc": 0.4417889176999166,
+     "ret_trades_file": 0.4417889176999174,
+     "ret_diff": -8.326672684688674e-16,
+     "pnl": 1510637.994585672,
+     "n_events": 1,
+     "events": "2026-08-27 TWT49U 息 前收14510.0→參考價14459.0（權息值51.0）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 4.440892098500626e-14
+    },
+    {
+     "code": "6446",
+     "ent": "2026-06-12",
+     "exit": "2026-07-15",
+     "shares": 3553,
+     "ent_open_sources": {
+      "off": 960.0,
+      "dp:steven": 960.0
+     },
+     "exit_open_sources": {
+      "off": 1235.0,
+      "dp:steven": 1235.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.28645833333333326,
+     "twt49u_div_factor": 1.1103611939648603,
+     "gross_px_x_div": 0.42843341098604415,
+     "gross_recalc": 0.42843341098604437,
+     "gross_dp_chain": 0.42843341098604437,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": 0.41089324573199604,
+     "ret_trades_file": 0.4108932457319956,
+     "ret_diff": 4.440892098500626e-16,
+     "pnl": 1407003.1988847768,
+     "n_events": 1,
+     "events": "2026-07-09 TWT49U 權息 前收1530.0→參考價1377.93（權息值152.067614）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 2.220446049250313e-14
+    },
+    {
+     "code": "8996",
+     "ent": "2026-01-14",
+     "exit": "2026-04-14",
+     "shares": 3127,
+     "ent_open_sources": {
+      "off": 754.0,
+      "dp:steven": 754.0
+     },
+     "exit_open_sources": {
+      "off": 1200.0,
+      "dp:steven": 1200.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.5915119363395225,
+     "twt49u_div_factor": 1.0054257293798485,
+     "gross_px_x_div": 0.6001470494108994,
+     "gross_recalc": 0.6001470494108982,
+     "gross_dp_chain": 0.6001470494108982,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": 0.5801805083156453,
+     "ret_trades_file": 0.5801805083156473,
+     "ret_diff": -1.9984014443252818e-15,
+     "pnl": 1373483.9243678306,
+     "n_events": 1,
+     "events": "2026-03-27 TWT49U 息 前收845.0→參考價840.44（權息值4.555207）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": -1.1102230246251565e-13
+    },
+    {
+     "code": "3047",
+     "ent": "2024-05-14",
+     "exit": "2024-09-12",
+     "shares": 59279,
+     "ent_open_sources": {
+      "off": 16.65,
+      "dp:yahoo5m": 16.65,
+      "finmind(hschi)": 16.65
+     },
+     "exit_open_sources": {
+      "off": 39.0,
+      "dp:yahoo5m": 39.0,
+      "finmind(hschi)": 39.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": 1.3423423423423424,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 1.3423423423423424,
+     "gross_recalc": 1.3423423423423415,
+     "gross_dp_chain": 1.3423423960079703,
+     "gross_dp_minus_recalc_pp": 5.366562882969106e-06,
+     "ret_recalc": 1.3144765137052419,
+     "ret_trades_file": 1.3144765137052397,
+     "ret_diff": 2.220446049250313e-15,
+     "pnl": 1303766.2025780475,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -8.881784197001252e-14
+    },
+    {
+     "code": "2451",
+     "ent": "2025-11-12",
+     "exit": "2026-06-12",
+     "shares": 11001,
+     "ent_open_sources": {
+      "off": 187.5,
+      "dp:steven": 187.5
+     },
+     "exit_open_sources": {
+      "off": 308.0,
+      "dp:steven": 308.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.6426666666666667,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.6426666666666667,
+     "gross_recalc": 0.6426666666666669,
+     "gross_dp_chain": 0.6426666666666669,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": 0.6231338590804869,
+     "ret_trades_file": 0.6231338590804856,
+     "ret_diff": 1.3322676295501878e-15,
+     "pnl": 1291427.6721454973,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 2.220446049250313e-14
+    },
+    {
+     "code": "8271",
+     "ent": "2026-03-12",
+     "exit": "2026-06-12",
+     "shares": 18766,
+     "ent_open_sources": {
+      "off": 145.0,
+      "dp:steven": 145.0
+     },
+     "exit_open_sources": {
+      "off": 206.5,
+      "dp:steven": 206.5
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.42413793103448283,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.42413793103448283,
+     "gross_recalc": 0.42413793103448216,
+     "gross_dp_chain": 0.42413793103448216,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": 0.40611474653936197,
+     "ret_trades_file": 0.4061147465393611,
+     "ret_diff": 8.881784197001252e-16,
+     "pnl": 1110730.1452284693,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -6.661338147750939e-14
+    },
+    {
+     "code": "6191",
+     "ent": "2025-05-14",
+     "exit": "2025-09-12",
+     "shares": 17831,
+     "ent_open_sources": {
+      "off": 73.5,
+      "dp:yahoo5m": 73.5,
+      "finmind(hschi)": 73.5
+     },
+     "exit_open_sources": {
+      "off": 131.0,
+      "dp:yahoo5m": 131.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.782312925170068,
+     "twt49u_div_factor": 1.0420682617076766,
+     "gross_px_x_div": 0.8572917317510971,
+     "gross_recalc": 0.8572917317510982,
+     "gross_dp_chain": 0.8572917317510966,
+     "gross_dp_minus_recalc_pp": -1.5543122344752192e-13,
+     "ret_recalc": 0.8344077165477024,
+     "ret_trades_file": 0.8344077165477044,
+     "ret_diff": -1.9984014443252818e-15,
+     "pnl": 1098019.3351605008,
+     "n_events": 1,
+     "events": "2025-07-18 TWT49U 權息 前收91.9→參考價88.19（權息值3.707792）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-13
+    },
+    {
+     "code": "2344",
+     "ent": "2025-11-12",
+     "exit": "2026-04-14",
+     "shares": 32708,
+     "ent_open_sources": {
+      "off": 63.1,
+      "dp:steven": 63.1,
+      "finmind(hawan)": 63.1
+     },
+     "exit_open_sources": {
+      "off": 96.8,
+      "dp:steven": 96.8
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.5340729001584785,
+     "twt49u_div_factor": 1.0052356020942408,
+     "gross_px_x_div": 0.5421046954472664,
+     "gross_recalc": 0.5421046954472666,
+     "gross_dp_chain": 0.5421046954472655,
+     "gross_dp_minus_recalc_pp": -1.1102230246251565e-13,
+     "ret_recalc": 0.5250626564080723,
+     "ret_trades_file": 0.5250626564080714,
+     "ret_diff": 8.881784197001252e-16,
+     "pnl": 1088208.3911250513,
+     "n_events": 1,
+     "events": "2026-03-27 TWT49U 息 前收96.0→參考價95.5（權息值0.5）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 2.220446049250313e-14
+    },
+    {
+     "code": "2485",
+     "ent": "2025-11-12",
+     "exit": "2025-12-12",
+     "shares": 117527,
+     "ent_open_sources": {
+      "off": 17.55,
+      "dp:steven": 17.55
+     },
+     "exit_open_sources": {
+      "off": 26.6,
+      "dp:steven": 26.6
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.5156695156695157,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.5156695156695157,
+     "gross_recalc": 0.5156695156695164,
+     "gross_dp_chain": 0.5156695156695157,
+     "gross_dp_minus_recalc_pp": -6.661338147750939e-14,
+     "ret_recalc": 0.4973227370345912,
+     "ret_trades_file": 0.4973227370345916,
+     "ret_diff": -4.440892098500626e-16,
+     "pnl": 1030735.0577322526,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 6.661338147750939e-14
+    },
+    {
+     "code": "6442",
+     "ent": "2024-05-14",
+     "exit": "2024-09-12",
+     "shares": 5689,
+     "ent_open_sources": {
+      "off": 173.5,
+      "dp:yahoo5m": 173.5,
+      "finmind(hschi)": 173.5
+     },
+     "exit_open_sources": {
+      "off": 345.0,
+      "dp:yahoo5m": 345.0,
+      "finmind(hschi)": 345.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": 0.9884726224783862,
+     "twt49u_div_factor": 1.0048678720445063,
+     "gross_px_x_div": 0.9981522527686149,
+     "gross_recalc": 0.9976891815628746,
+     "gross_dp_chain": 0.9981522527686129,
+     "gross_dp_minus_recalc_pp": 0.046307120573829685,
+     "ret_recalc": 0.9739265100921588,
+     "ret_trades_file": 0.9739265100921572,
+     "ret_diff": 1.5543122344752192e-15,
+     "pnl": 965960.232452588,
+     "n_events": 1,
+     "events": "2024-07-26 參考價重設（非 TWT49U）：前收433.5→參考價431.5（比例0.9954）；原漲跌價差",
+     "gross_minus_pxdiv_pp": -0.046307120574029526
+    },
+    {
+     "code": "2395",
+     "ent": "2026-07-15",
+     "exit": "2026-09-14",
+     "shares": 6712,
+     "ent_open_sources": {
+      "off": 530.0,
+      "dp:steven": 530.0
+     },
+     "exit_open_sources": {
+      "off": 663.0,
+      "dp:steven": 663.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.25094339622641515,
+     "twt49u_div_factor": 1.0215095212396885,
+     "gross_px_x_div": 0.27785058977719523,
+     "gross_recalc": 0.2778505897771948,
+     "gross_dp_chain": 0.2778505897771948,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": 0.2632387705750199,
+     "ret_trades_file": 0.2632387705750201,
+     "ret_diff": -2.220446049250313e-16,
+     "pnl": 940502.918420644,
+     "n_events": 1,
+     "events": "2026-07-17 TWT49U 息 前收530.0→參考價518.84（權息值11.158556）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": -4.440892098500626e-14
+    }
+   ],
+   "最賠15（損益金額）": [
+    {
+     "code": "8021",
+     "ent": "2026-06-12",
+     "exit": "2026-08-12",
+     "shares": 5609,
+     "ent_open_sources": {
+      "off": 608.0,
+      "dp:steven": 608.0
+     },
+     "exit_open_sources": {
+      "off": 439.5,
+      "dp:steven": 439.5
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.27713815789473684,
+     "twt49u_div_factor": 1.0040781018289668,
+     "gross_px_x_div": -0.274190253694357,
+     "gross_recalc": -0.2741902536943569,
+     "gross_dp_chain": -0.2741902536943569,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.28226966572226997,
+     "ret_trades_file": -0.2822696657222699,
+     "ret_diff": -5.551115123125783e-17,
+     "pnl": -966681.36378081,
+     "n_events": 1,
+     "events": "2026-07-15 TWT49U 息 前收487.5→參考價485.52（權息值1.972185）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-14
+    },
+    {
+     "code": "7750",
+     "ent": "2026-05-13",
+     "exit": "2026-06-12",
+     "shares": 1105,
+     "ent_open_sources": {
+      "off": 2950.0,
+      "dp:steven": 2950.0
+     },
+     "exit_open_sources": {
+      "off": 2150.0,
+      "dp:steven": 2150.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.27118644067796616,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.27118644067796616,
+     "gross_recalc": -0.27118644067796627,
+     "gross_dp_chain": -0.27118644067796627,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.2797468940323191,
+     "ret_trades_file": -0.279746894032319,
+     "ret_diff": -1.1102230246251565e-16,
+     "pnl": -915778.7033980004,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.1102230246251565e-14
+    },
+    {
+     "code": "3003",
+     "ent": "2026-08-12",
+     "exit": "2026-09-17",
+     "shares": 55014,
+     "ent_open_sources": {
+      "off": 70.4,
+      "dp:steven": 70.4
+     },
+     "exit_open_sources": {
+      "off": 58.3,
+      "dp:steven": 58.3
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.1718750000000001,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.1718750000000001,
+     "gross_recalc": -0.1718750000000001,
+     "gross_dp_chain": -0.17187500000000033,
+     "gross_dp_minus_recalc_pp": -2.220446049250313e-14,
+     "ret_recalc": -0.1812484138889261,
+     "ret_trades_file": -0.1980890592027003,
+     "ret_diff": 0.016840645313774216,
+     "pnl": -770353.6761746458,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 0.0
+    },
+    {
+     "code": "3006",
+     "ent": "2026-08-12",
+     "exit": "2026-10-14",
+     "shares": 14055,
+     "ent_open_sources": {
+      "off": 275.5,
+      "dp:steven": 275.5
+     },
+     "exit_open_sources": {
+      "off": 245.0,
+      "dp:steven": 245.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.1107078039927405,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.1107078039927405,
+     "gross_recalc": -0.11070780399274038,
+     "gross_dp_chain": -0.11070780399274038,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.12108697480588837,
+     "ret_trades_file": -0.1210869748058884,
+     "ret_diff": 2.7755575615628914e-17,
+     "pnl": -470888.7990940004,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-14
+    },
+    {
+     "code": "3563",
+     "ent": "2024-12-12",
+     "exit": "2025-01-14",
+     "shares": 3335,
+     "ent_open_sources": {
+      "off": 443.5,
+      "dp:yahoo5m": 443.5,
+      "finmind(hschi)": 443.5
+     },
+     "exit_open_sources": {
+      "off": 331.0,
+      "dp:yahoo5m": 331.0,
+      "finmind(hschi)": 331.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2536640360766629,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.2536640360766629,
+     "gross_recalc": -0.253664036076663,
+     "gross_dp_chain": -0.253664036076663,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.26191984948989966,
+     "ret_trades_file": -0.2619198494898996,
+     "ret_diff": -5.551115123125783e-17,
+     "pnl": -388934.1404269377,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.1102230246251565e-14
+    },
+    {
+     "code": "6224",
+     "ent": "2024-10-15",
+     "exit": "2024-11-13",
+     "shares": 17942,
+     "ent_open_sources": {
+      "off": 81.1,
+      "dp:yahoo5m": 81.1
+     },
+     "exit_open_sources": {
+      "off": 60.3,
+      "dp:yahoo5m": 60.3
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2564734895191122,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.2564734895191122,
+     "gross_recalc": -0.25647348951911286,
+     "gross_dp_chain": -0.2564734849372139,
+     "gross_dp_minus_recalc_pp": 4.5818989713453107e-07,
+     "ret_recalc": -0.2647914686991656,
+     "ret_trades_file": -0.2647914686991651,
+     "ret_diff": -4.996003610813204e-16,
+     "pnl": -386844.78501053946,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -6.661338147750939e-14
+    },
+    {
+     "code": "3029",
+     "ent": "2025-02-12",
+     "exit": "2025-04-14",
+     "shares": 9861,
+     "ent_open_sources": {
+      "off": 149.0,
+      "dp:yahoo5m": 149.0,
+      "finmind(hschi)": 149.0
+     },
+     "exit_open_sources": {
+      "off": 111.5,
+      "dp:yahoo5m": 111.5,
+      "finmind(hschi)": 111.5
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2516778523489933,
+     "twt49u_div_factor": 1.0352112676056338,
+     "gross_px_x_div": -0.2253284809528311,
+     "gross_recalc": -0.22532848095283098,
+     "gross_dp_chain": -0.22532848095283098,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.23588943520402694,
+     "ret_trades_file": -0.2358894352040275,
+     "ret_diff": 5.551115123125783e-16,
+     "pnl": -348349.9842568829,
+     "n_events": 1,
+     "events": "2025-03-20 TWT49U 息 前收147.0→參考價142.0（權息值5.0）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-14
+    },
+    {
+     "code": "3032",
+     "ent": "2025-08-13",
+     "exit": "2025-10-15",
+     "shares": 14993,
+     "ent_open_sources": {
+      "off": 112.0,
+      "dp:yahoo5m": 112.0
+     },
+     "exit_open_sources": {
+      "off": 91.6,
+      "dp:steven": 91.6
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.18214285714285716,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.18214285714285716,
+     "gross_recalc": -0.18214285714285694,
+     "gross_dp_chain": -0.18214285714285727,
+     "gross_dp_minus_recalc_pp": -3.3306690738754696e-14,
+     "ret_recalc": -0.1923625046288746,
+     "ret_trades_file": -0.1923625046288747,
+     "ret_diff": 8.326672684688674e-17,
+     "pnl": -324837.83151846845,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 2.220446049250313e-14
+    },
+    {
+     "code": "2031",
+     "ent": "2025-03-12",
+     "exit": "2025-04-14",
+     "shares": 24696,
+     "ent_open_sources": {
+      "off": 54.4,
+      "dp:yahoo5m": 54.4,
+      "finmind(hschi)": 54.4
+     },
+     "exit_open_sources": {
+      "off": 42.2,
+      "dp:yahoo5m": 42.2,
+      "finmind(hschi)": 42.2
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.22426470588235292,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.22426470588235292,
+     "gross_recalc": -0.22426470588235292,
+     "gross_dp_chain": -0.22426471361651945,
+     "gross_dp_minus_recalc_pp": -7.734166529438369e-07,
+     "ret_recalc": -0.23300086929522223,
+     "ret_trades_file": -0.2330008692952221,
+     "ret_diff": -1.3877787807814457e-16,
+     "pnl": -314381.2141407995,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 0.0
+    },
+    {
+     "code": "2328",
+     "ent": "2025-03-12",
+     "exit": "2025-04-14",
+     "shares": 28414,
+     "ent_open_sources": {
+      "off": 47.3,
+      "dp:yahoo5m": 47.3,
+      "finmind(hschi)": 47.3
+     },
+     "exit_open_sources": {
+      "off": 37.0,
+      "dp:yahoo5m": 37.0,
+      "finmind(hschi)": 37.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.21775898520084558,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.21775898520084558,
+     "gross_recalc": -0.2177589852008457,
+     "gross_dp_chain": -0.21775897258345578,
+     "gross_dp_minus_recalc_pp": 1.2617389910651866e-06,
+     "ret_recalc": -0.22634033276657206,
+     "ret_trades_file": -0.226340332766572,
+     "ret_diff": -5.551115123125783e-17,
+     "pnl": -305395.3065028,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.1102230246251565e-14
+    },
+    {
+     "code": "3049",
+     "ent": "2024-10-15",
+     "exit": "2024-12-12",
+     "shares": 118135,
+     "ent_open_sources": {
+      "off": 12.3,
+      "dp:yahoo5m": 12.3,
+      "finmind(hschi)": 12.3
+     },
+     "exit_open_sources": {
+      "off": 10.05,
+      "dp:yahoo5m": 10.05,
+      "finmind(hschi)": 10.05
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.18292682926829262,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.18292682926829262,
+     "gross_recalc": -0.18292682926829296,
+     "gross_dp_chain": -0.1829268264316647,
+     "gross_dp_minus_recalc_pp": 2.836628265612262e-07,
+     "ret_recalc": -0.1945729814705297,
+     "ret_trades_file": -0.1945729814705296,
+     "ret_diff": -1.1102230246251565e-16,
+     "pnl": -284266.27706775046,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -3.3306690738754696e-14
+    },
+    {
+     "code": "9906",
+     "ent": "2024-08-14",
+     "exit": "2024-09-12",
+     "shares": 6877,
+     "ent_open_sources": {
+      "off": 215.5,
+      "dp:yahoo5m": 215.5,
+      "finmind(hschi)": 215.5
+     },
+     "exit_open_sources": {
+      "off": 170.0,
+      "dp:yahoo5m": 170.0,
+      "finmind(hschi)": 170.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.21113689095127608,
+     "twt49u_div_factor": 1.048622924412848,
+     "gross_px_x_div": -0.17278005962791576,
+     "gross_recalc": -0.17278005962791598,
+     "gross_dp_chain": -0.1727800596279162,
+     "gross_dp_minus_recalc_pp": -2.220446049250313e-14,
+     "ret_recalc": -0.18300348892481133,
+     "ret_trades_file": -0.1830034889248114,
+     "ret_diff": 8.326672684688674e-17,
+     "pnl": -272446.90271308064,
+     "n_events": 2,
+     "events": "2024-09-02 TWT49U 息 前收202.0→參考價196.64（權息值5.356782）；引擎做法：twt49u ｜ 2024-09-10 TWT49U 權 前收187.0→參考價183.19（權息值3.806738）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": -2.220446049250313e-14
+    },
+    {
+     "code": "2425",
+     "ent": "2026-07-15",
+     "exit": "2026-08-12",
+     "shares": 80342,
+     "ent_open_sources": {
+      "off": 44.3,
+      "dp:steven": 44.3
+     },
+     "exit_open_sources": {
+      "off": 41.6,
+      "dp:steven": 41.6
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.06094808126410822,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.06094808126410822,
+     "gross_recalc": -0.06094808126410822,
+     "gross_dp_chain": -0.06094808126410789,
+     "gross_dp_minus_recalc_pp": 3.3306690738754696e-14,
+     "ret_recalc": -0.07120004650127543,
+     "ret_trades_file": -0.0712000465012757,
+     "ret_diff": 2.7755575615628914e-16,
+     "pnl": -254417.39585720003,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 0.0
+    },
+    {
+     "code": "2368",
+     "ent": "2025-08-13",
+     "exit": "2025-10-15",
+     "shares": 3541,
+     "ent_open_sources": {
+      "off": 475.0,
+      "dp:yahoo5m": 475.0,
+      "finmind(hawan)": 475.0
+     },
+     "exit_open_sources": {
+      "off": 413.5,
+      "dp:steven": 413.5,
+      "finmind(hawan)": 413.5
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.1294736842105263,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.1294736842105263,
+     "gross_recalc": -0.12947368421052652,
+     "gross_dp_chain": -0.12947368421052596,
+     "gross_dp_minus_recalc_pp": 5.551115123125783e-14,
+     "ret_recalc": -0.13894097229768698,
+     "ret_trades_file": -0.1389409722976873,
+     "ret_diff": 3.0531133177191805e-16,
+     "pnl": -234612.898312486,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -2.220446049250313e-14
+    },
+    {
+     "code": "2345",
+     "ent": "2024-12-12",
+     "exit": "2025-03-12",
+     "shares": 1998,
+     "ent_open_sources": {
+      "off": 740.0,
+      "dp:yahoo5m": 740.0,
+      "finmind(hschi)": 740.0,
+      "finmind(hawan)": 740.0
+     },
+     "exit_open_sources": {
+      "off": 635.0,
+      "dp:yahoo5m": 635.0,
+      "finmind(hschi)": 635.0,
+      "finmind(hawan)": 635.0
+     },
+     "n_price_sources_ent": 4,
+     "n_price_sources_exit": 4,
+     "price_sources_agree": true,
+     "px_only_ret": -0.14189189189189189,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.14189189189189189,
+     "gross_recalc": -0.14189189189189233,
+     "gross_dp_chain": -0.14189189189189222,
+     "gross_dp_minus_recalc_pp": 1.1102230246251565e-14,
+     "ret_recalc": -0.15150613630522303,
+     "ret_trades_file": -0.1515061363052235,
+     "ret_diff": 4.718447854656915e-16,
+     "pnl": -224917.92829863145,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -4.440892098500626e-14
+    }
+   ],
+   "最賺15（報酬率）": [
+    {
+     "code": "1325",
+     "ent": "2020-03-12",
+     "exit": "2020-08-12",
+     "shares": 5000,
+     "ent_open_sources": {
+      "off": 39.2,
+      "dp:k66": 39.2
+     },
+     "exit_open_sources": {
+      "off": 176.0,
+      "dp:k66": 176.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 3.4897959183673466,
+     "twt49u_div_factor": 1.001958224543081,
+     "gross_px_x_div": 3.498587946928118,
+     "gross_recalc": 3.498587946928115,
+     "gross_dp_chain": 3.534103114930179,
+     "gross_dp_minus_recalc_pp": 3.5515168002064,
+     "ret_recalc": 3.445527078166771,
+     "ret_trades_file": 3.4455270781667657,
+     "ret_diff": 5.329070518200751e-15,
+     "pnl": 678050.402334702,
+     "n_events": 1,
+     "events": "2020-07-16 TWT49U 息 前收153.5→參考價153.2（權息值0.3）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": -2.6645352591003757e-13
+    },
+    {
+     "code": "2408",
+     "ent": "2025-09-12",
+     "exit": "2026-04-14",
+     "shares": 28745,
+     "ent_open_sources": {
+      "off": 59.3,
+      "dp:yahoo5m": 59.3,
+      "finmind(hawan)": 59.3
+     },
+     "exit_open_sources": {
+      "off": 238.5,
+      "dp:steven": 238.5
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 3.021922428330523,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 3.021922428330523,
+     "gross_recalc": 3.0219224283305204,
+     "gross_dp_chain": 3.021922480075604,
+     "gross_dp_minus_recalc_pp": 5.174508377336906e-06,
+     "ret_recalc": 2.9751508981380645,
+     "ret_trades_file": 2.975150898138065,
+     "ret_diff": -4.440892098500626e-16,
+     "pnl": 5092906.5399419,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -2.6645352591003757e-13
+    },
+    {
+     "code": "1598",
+     "ent": "2020-06-12",
+     "exit": "2020-09-14",
+     "shares": 5000,
+     "ent_open_sources": {
+      "off": 47.0,
+      "dp:k66": 47.0
+     },
+     "exit_open_sources": {
+      "off": 125.0,
+      "dp:k66": 125.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 1.6595744680851063,
+     "twt49u_div_factor": 1.016594408730752,
+     "gross_px_x_div": 1.7037085338583826,
+     "gross_recalc": 1.7037085338583813,
+     "gross_dp_chain": 1.6872372040087256,
+     "gross_dp_minus_recalc_pp": -1.6471329849655714,
+     "ret_recalc": 1.6705445884897285,
+     "ret_trades_file": 1.6705445884897308,
+     "ret_diff": -2.220446049250313e-15,
+     "pnl": 394121.7221511244,
+     "n_events": 1,
+     "events": "2020-07-13 TWT49U 息 前收68.0→參考價66.89（權息值1.105891）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": -1.3322676295501878e-13
+    },
+    {
+     "code": "2482",
+     "ent": "2022-11-14",
+     "exit": "2023-05-12",
+     "shares": 24265,
+     "ent_open_sources": {
+      "off": 23.9,
+      "dp:k66": 23.9
+     },
+     "exit_open_sources": {
+      "off": 63.2,
+      "dp:k66": 63.2
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 1.6443514644351467,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 1.6443514644351467,
+     "gross_recalc": 1.644351464435148,
+     "gross_dp_chain": 1.6443514644351453,
+     "gross_dp_minus_recalc_pp": -2.6645352591003757e-13,
+     "ret_recalc": 1.6136486227386886,
+     "ret_trades_file": 1.6136486227386917,
+     "ret_diff": -3.1086244689504383e-15,
+     "pnl": 939998.2769924029,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 1.3322676295501878e-13
+    },
+    {
+     "code": "2603",
+     "ent": "2021-01-13",
+     "exit": "2021-05-12",
+     "shares": 11732,
+     "ent_open_sources": {
+      "off": 37.9,
+      "dp:k66": 37.9,
+      "finmind(hschi)": 37.9,
+      "finmind(hawan)": 37.9
+     },
+     "exit_open_sources": {
+      "off": 93.5,
+      "dp:k66": 93.5,
+      "finmind(hschi)": 93.5,
+      "finmind(hawan)": 93.5
+     },
+     "n_price_sources_ent": 4,
+     "n_price_sources_exit": 4,
+     "price_sources_agree": true,
+     "px_only_ret": 1.4670184696569923,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 1.4670184696569923,
+     "gross_recalc": 1.467018469656995,
+     "gross_dp_chain": 1.4670184696569946,
+     "gross_dp_minus_recalc_pp": -4.440892098500626e-14,
+     "ret_recalc": 1.4399870439756284,
+     "ret_trades_file": 1.4399870439756275,
+     "ret_diff": 8.881784197001252e-16,
+     "pnl": 642892.2672586746,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 2.6645352591003757e-13
+    },
+    {
+     "code": "3047",
+     "ent": "2024-05-14",
+     "exit": "2024-09-12",
+     "shares": 59279,
+     "ent_open_sources": {
+      "off": 16.65,
+      "dp:yahoo5m": 16.65,
+      "finmind(hschi)": 16.65
+     },
+     "exit_open_sources": {
+      "off": 39.0,
+      "dp:yahoo5m": 39.0,
+      "finmind(hschi)": 39.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": 1.3423423423423424,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 1.3423423423423424,
+     "gross_recalc": 1.3423423423423415,
+     "gross_dp_chain": 1.3423423960079703,
+     "gross_dp_minus_recalc_pp": 5.366562882969106e-06,
+     "ret_recalc": 1.3144765137052419,
+     "ret_trades_file": 1.3144765137052397,
+     "ret_diff": 2.220446049250313e-15,
+     "pnl": 1303766.2025780475,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -8.881784197001252e-14
+    },
+    {
+     "code": "3035",
+     "ent": "2021-09-14",
+     "exit": "2022-05-12",
+     "shares": 5323,
+     "ent_open_sources": {
+      "off": 110.0,
+      "dp:k66": 110.0,
+      "finmind(hschi)": 110.0
+     },
+     "exit_open_sources": {
+      "off": 251.0,
+      "dp:k66": 251.0,
+      "finmind(hschi)": 251.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": 1.2818181818181817,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 1.2818181818181817,
+     "gross_recalc": 1.2818181818181804,
+     "gross_dp_chain": 1.2818181818181809,
+     "gross_dp_minus_recalc_pp": 4.440892098500626e-14,
+     "ret_recalc": 1.2521745228368504,
+     "ret_trades_file": 1.25217452283685,
+     "ret_diff": 4.440892098500626e-16,
+     "pnl": 737352.9189286295,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.3322676295501878e-13
+    },
+    {
+     "code": "3017",
+     "ent": "2025-05-14",
+     "exit": "2026-01-14",
+     "shares": 2127,
+     "ent_open_sources": {
+      "off": 616.0,
+      "dp:yahoo5m": 616.0,
+      "finmind(hschi)": 616.0,
+      "finmind(hawan)": 616.0
+     },
+     "exit_open_sources": {
+      "off": 1365.0,
+      "dp:steven": 1365.0
+     },
+     "n_price_sources_ent": 4,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 1.2159090909090908,
+     "twt49u_div_factor": 1.0087572463129704,
+     "gross_px_x_div": 1.2353143526253318,
+     "gross_recalc": 1.2353143526253332,
+     "gross_dp_chain": 1.2353143526253327,
+     "gross_dp_minus_recalc_pp": -4.440892098500626e-14,
+     "ret_recalc": 1.2076542014153189,
+     "ret_trades_file": 1.2076542014153189,
+     "ret_diff": 0.0,
+     "pnl": 1588972.1884490105,
+     "n_events": 1,
+     "events": "2025-08-19 TWT49U 息 前收1145.0→參考價1135.06（權息值9.930369）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 1.3322676295501878e-13
+    },
+    {
+     "code": "6442",
+     "ent": "2024-05-14",
+     "exit": "2024-09-12",
+     "shares": 5689,
+     "ent_open_sources": {
+      "off": 173.5,
+      "dp:yahoo5m": 173.5,
+      "finmind(hschi)": 173.5
+     },
+     "exit_open_sources": {
+      "off": 345.0,
+      "dp:yahoo5m": 345.0,
+      "finmind(hschi)": 345.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": 0.9884726224783862,
+     "twt49u_div_factor": 1.0048678720445063,
+     "gross_px_x_div": 0.9981522527686149,
+     "gross_recalc": 0.9976891815628746,
+     "gross_dp_chain": 0.9981522527686129,
+     "gross_dp_minus_recalc_pp": 0.046307120573829685,
+     "ret_recalc": 0.9739265100921588,
+     "ret_trades_file": 0.9739265100921572,
+     "ret_diff": 1.5543122344752192e-15,
+     "pnl": 965960.232452588,
+     "n_events": 1,
+     "events": "2024-07-26 參考價重設（非 TWT49U）：前收433.5→參考價431.5（比例0.9954）；原漲跌價差",
+     "gross_minus_pxdiv_pp": -0.046307120574029526
+    },
+    {
+     "code": "2492",
+     "ent": "2018-04-12",
+     "exit": "2018-08-14",
+     "shares": 1000,
+     "ent_open_sources": {
+      "off": 128.5,
+      "dp:k66": 128.5
+     },
+     "exit_open_sources": {
+      "off": 249.0,
+      "dp:k66": 249.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.9377431906614786,
+     "twt49u_div_factor": 1.0127022244691608,
+     "gross_px_x_div": 0.9623568396328486,
+     "gross_recalc": 0.9623568396328479,
+     "gross_dp_chain": 1.1052430257864536,
+     "gross_dp_minus_recalc_pp": 14.288618615360571,
+     "ret_recalc": 0.9374973605748043,
+     "ret_trades_file": 0.9374973605748044,
+     "ret_diff": -1.1102230246251565e-16,
+     "pnl": 121112.49501847988,
+     "n_events": 1,
+     "events": "2018-08-08 TWT49U 息 前收320.5→參考價316.48（權息值4.018694）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": -6.661338147750939e-14
+    },
+    {
+     "code": "2439",
+     "ent": "2016-05-12",
+     "exit": "2016-10-13",
+     "shares": 1000,
+     "ent_open_sources": {
+      "off": 65.8,
+      "dp:k66": 65.8
+     },
+     "exit_open_sources": {
+      "off": 122.5,
+      "dp:k66": 122.5
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.8617021276595747,
+     "twt49u_div_factor": 1.034012177199244,
+     "gross_px_x_div": 0.9250226703177418,
+     "gross_recalc": 0.9250226703177424,
+     "gross_dp_chain": 0.8769463620723441,
+     "gross_dp_minus_recalc_pp": -4.8076308245398325,
+     "ret_recalc": 0.9009003502249575,
+     "ret_trades_file": 0.9009003502249576,
+     "ret_diff": -1.1102230246251565e-16,
+     "pnl": 59525.86713963866,
+     "n_events": 1,
+     "events": "2016-08-05 TWT49U 息 前收98.5→參考價95.26（權息值3.239728）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 6.661338147750939e-14
+    },
+    {
+     "code": "6191",
+     "ent": "2025-05-14",
+     "exit": "2025-09-12",
+     "shares": 17831,
+     "ent_open_sources": {
+      "off": 73.5,
+      "dp:yahoo5m": 73.5,
+      "finmind(hschi)": 73.5
+     },
+     "exit_open_sources": {
+      "off": 131.0,
+      "dp:yahoo5m": 131.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.782312925170068,
+     "twt49u_div_factor": 1.0420682617076766,
+     "gross_px_x_div": 0.8572917317510971,
+     "gross_recalc": 0.8572917317510982,
+     "gross_dp_chain": 0.8572917317510966,
+     "gross_dp_minus_recalc_pp": -1.5543122344752192e-13,
+     "ret_recalc": 0.8344077165477024,
+     "ret_trades_file": 0.8344077165477044,
+     "ret_diff": -1.9984014443252818e-15,
+     "pnl": 1098019.3351605008,
+     "n_events": 1,
+     "events": "2025-07-18 TWT49U 權息 前收91.9→參考價88.19（權息值3.707792）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-13
+    },
+    {
+     "code": "2344",
+     "ent": "2020-10-14",
+     "exit": "2021-01-13",
+     "shares": 24000,
+     "ent_open_sources": {
+      "off": 15.25,
+      "dp:k66": 15.25,
+      "finmind(hschi)": 15.25,
+      "finmind(hawan)": 15.25
+     },
+     "exit_open_sources": {
+      "off": 27.7,
+      "dp:k66": 27.7,
+      "finmind(hschi)": 27.7,
+      "finmind(hawan)": 27.7
+     },
+     "n_price_sources_ent": 4,
+     "n_price_sources_exit": 4,
+     "price_sources_agree": true,
+     "px_only_ret": 0.8163934426229509,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.8163934426229509,
+     "gross_recalc": 0.8163934426229496,
+     "gross_dp_chain": 0.8163934426229504,
+     "gross_dp_minus_recalc_pp": 8.881784197001252e-14,
+     "ret_recalc": 0.7941124135531068,
+     "ret_trades_file": 0.7941124135531068,
+     "ret_diff": 0.0,
+     "pnl": 292110.0516635995,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.3322676295501878e-13
+    },
+    {
+     "code": "2302",
+     "ent": "2020-09-14",
+     "exit": "2021-01-13",
+     "shares": 28000,
+     "ent_open_sources": {
+      "off": 12.2,
+      "dp:k66": 12.2
+     },
+     "exit_open_sources": {
+      "off": 22.15,
+      "dp:k66": 22.15
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.8155737704918034,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.8155737704918034,
+     "gross_recalc": 0.8155737704918034,
+     "gross_dp_chain": 0.8155737704918027,
+     "gross_dp_minus_recalc_pp": -6.661338147750939e-14,
+     "ret_recalc": 0.7921645659080794,
+     "ret_trades_file": 0.79216456590808,
+     "ret_diff": -6.661338147750939e-16,
+     "pnl": 272078.2570842002,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 0.0
+    },
+    {
+     "code": "4755",
+     "ent": "2021-11-12",
+     "exit": "2022-01-12",
+     "shares": 7035,
+     "ent_open_sources": {
+      "off": 85.9,
+      "dp:k66": 85.9,
+      "finmind(hschi)": 85.9
+     },
+     "exit_open_sources": {
+      "off": 155.5,
+      "dp:k66": 155.5,
+      "finmind(hschi)": 155.5
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": 0.8102444703143188,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.8102444703143188,
+     "gross_recalc": 0.8102444703143175,
+     "gross_dp_chain": 0.8102444703143179,
+     "gross_dp_minus_recalc_pp": 4.440892098500626e-14,
+     "ret_recalc": 0.7885705717304952,
+     "ret_trades_file": 0.788570571730496,
+     "ret_diff": -8.881784197001252e-16,
+     "pnl": 478450.95881089976,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.3322676295501878e-13
+    }
+   ],
+   "最賠15（報酬率）": [
+    {
+     "code": "8201",
+     "ent": "2017-04-12",
+     "exit": "2017-05-12",
+     "shares": 6000,
+     "ent_open_sources": {
+      "off": 20.7,
+      "dp:k66": 20.7
+     },
+     "exit_open_sources": {
+      "off": 12.4,
+      "dp:k66": 12.4
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.40096618357487923,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.40096618357487923,
+     "gross_recalc": -0.40096618357487923,
+     "gross_dp_chain": -0.400966183574879,
+     "gross_dp_minus_recalc_pp": 2.220446049250313e-14,
+     "ret_recalc": -0.40872176855502806,
+     "ret_trades_file": -0.4087217685550279,
+     "ret_diff": -1.6653345369377348e-16,
+     "pnl": -50997.18141059998,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 0.0
+    },
+    {
+     "code": "1760",
+     "ent": "2021-06-15",
+     "exit": "2021-07-14",
+     "shares": 5053,
+     "ent_open_sources": {
+      "off": 121.5,
+      "dp:k66": 121.5
+     },
+     "exit_open_sources": {
+      "off": 85.0,
+      "dp:k66": 85.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.3004115226337448,
+     "twt49u_div_factor": 1.0064935064935066,
+     "gross_px_x_div": -0.29586874031318466,
+     "gross_recalc": -0.295868740313185,
+     "gross_dp_chain": -0.2701408673630894,
+     "gross_dp_minus_recalc_pp": 2.57278729500956,
+     "ret_recalc": -0.3046252457706008,
+     "ret_trades_file": -0.3046252457706006,
+     "ret_diff": -2.220446049250313e-16,
+     "pnl": -188047.65815899352,
+     "n_events": 1,
+     "events": "2021-06-24 TWT49U 息 前收108.5→參考價107.8（權息值0.7）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": -3.3306690738754696e-14
+    },
+    {
+     "code": "2636",
+     "ent": "2021-07-14",
+     "exit": "2021-08-12",
+     "shares": 2585,
+     "ent_open_sources": {
+      "off": 251.0,
+      "dp:k66": 251.0,
+      "finmind(hschi)": 251.0
+     },
+     "exit_open_sources": {
+      "off": 178.0,
+      "dp:k66": 178.0,
+      "finmind(hschi)": 178.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.29083665338645415,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.29083665338645415,
+     "gross_recalc": -0.2908366533864545,
+     "gross_dp_chain": -0.2908366533864545,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.29944007778331727,
+     "ret_trades_file": -0.2994400777833172,
+     "ret_diff": -5.551115123125783e-17,
+     "pnl": -195141.40799488503,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -3.3306690738754696e-14
+    },
+    {
+     "code": "2031",
+     "ent": "2022-04-13",
+     "exit": "2022-05-12",
+     "shares": 9352,
+     "ent_open_sources": {
+      "off": 71.9,
+      "dp:k66": 71.9,
+      "finmind(hschi)": 71.9
+     },
+     "exit_open_sources": {
+      "off": 51.0,
+      "dp:k66": 51.0,
+      "finmind(hschi)": 51.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2906815020862309,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.2906815020862309,
+     "gross_recalc": -0.29068150208623067,
+     "gross_dp_chain": -0.2906815020862308,
+     "gross_dp_minus_recalc_pp": -1.1102230246251565e-14,
+     "ret_recalc": -0.298807668240498,
+     "ret_trades_file": -0.2988076682404982,
+     "ret_diff": 2.220446049250313e-16,
+     "pnl": -201746.80208770005,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 2.220446049250313e-14
+    },
+    {
+     "code": "3019",
+     "ent": "2011-03-14",
+     "exit": "2011-04-13",
+     "shares": 1000,
+     "ent_open_sources": {
+      "asoul": 76.5,
+      "dp:k66": 76.5
+     },
+     "exit_open_sources": {
+      "asoul": 55.4,
+      "dp:k66": 55.4
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2758169934640523,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.2758169934640523,
+     "gross_recalc": -0.2758169934640521,
+     "gross_dp_chain": -0.2758169934640521,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.283997740023215,
+     "ret_trades_file": -0.283997740023215,
+     "ret_diff": 0.0,
+     "pnl": -21813.9047567,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 2.220446049250313e-14
+    },
+    {
+     "code": "8021",
+     "ent": "2026-06-12",
+     "exit": "2026-08-12",
+     "shares": 5609,
+     "ent_open_sources": {
+      "off": 608.0,
+      "dp:steven": 608.0
+     },
+     "exit_open_sources": {
+      "off": 439.5,
+      "dp:steven": 439.5
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.27713815789473684,
+     "twt49u_div_factor": 1.0040781018289668,
+     "gross_px_x_div": -0.274190253694357,
+     "gross_recalc": -0.2741902536943569,
+     "gross_dp_chain": -0.2741902536943569,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.28226966572226997,
+     "ret_trades_file": -0.2822696657222699,
+     "ret_diff": -5.551115123125783e-17,
+     "pnl": -966681.36378081,
+     "n_events": 1,
+     "events": "2026-07-15 TWT49U 息 前收487.5→參考價485.52（權息值1.972185）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-14
+    },
+    {
+     "code": "7750",
+     "ent": "2026-05-13",
+     "exit": "2026-06-12",
+     "shares": 1105,
+     "ent_open_sources": {
+      "off": 2950.0,
+      "dp:steven": 2950.0
+     },
+     "exit_open_sources": {
+      "off": 2150.0,
+      "dp:steven": 2150.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.27118644067796616,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.27118644067796616,
+     "gross_recalc": -0.27118644067796627,
+     "gross_dp_chain": -0.27118644067796627,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.2797468940323191,
+     "ret_trades_file": -0.279746894032319,
+     "ret_diff": -1.1102230246251565e-16,
+     "pnl": -915778.7033980004,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.1102230246251565e-14
+    },
+    {
+     "code": "2376",
+     "ent": "2008-08-13",
+     "exit": "2008-09-12",
+     "shares": 2000,
+     "ent_open_sources": {
+      "asoul": 25.35,
+      "dp:asoul": 25.35
+     },
+     "exit_open_sources": {
+      "asoul": 18.0,
+      "dp:asoul": 18.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2899408284023669,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.2899408284023669,
+     "gross_recalc": -0.26147520459667095,
+     "gross_dp_chain": -0.26147520459667095,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.27051692020522633,
+     "ret_trades_file": -0.2705169202052263,
+     "ret_diff": -5.551115123125783e-17,
+     "pnl": -13775.37350582872,
+     "n_events": 1,
+     "events": "2008-08-21 行情檔 X（除權息）日：前收23.35→收盤22.45，當日報酬記 0（未計配息、也未計當日漲跌）",
+     "gross_minus_pxdiv_pp": 2.846562380569595
+    },
+    {
+     "code": "6224",
+     "ent": "2024-10-15",
+     "exit": "2024-11-13",
+     "shares": 17942,
+     "ent_open_sources": {
+      "off": 81.1,
+      "dp:yahoo5m": 81.1
+     },
+     "exit_open_sources": {
+      "off": 60.3,
+      "dp:yahoo5m": 60.3
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2564734895191122,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.2564734895191122,
+     "gross_recalc": -0.25647348951911286,
+     "gross_dp_chain": -0.2564734849372139,
+     "gross_dp_minus_recalc_pp": 4.5818989713453107e-07,
+     "ret_recalc": -0.2647914686991656,
+     "ret_trades_file": -0.2647914686991651,
+     "ret_diff": -4.996003610813204e-16,
+     "pnl": -386844.78501053946,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -6.661338147750939e-14
+    },
+    {
+     "code": "3563",
+     "ent": "2024-12-12",
+     "exit": "2025-01-14",
+     "shares": 3335,
+     "ent_open_sources": {
+      "off": 443.5,
+      "dp:yahoo5m": 443.5,
+      "finmind(hschi)": 443.5
+     },
+     "exit_open_sources": {
+      "off": 331.0,
+      "dp:yahoo5m": 331.0,
+      "finmind(hschi)": 331.0
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2536640360766629,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.2536640360766629,
+     "gross_recalc": -0.253664036076663,
+     "gross_dp_chain": -0.253664036076663,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.26191984948989966,
+     "ret_trades_file": -0.2619198494898996,
+     "ret_diff": -5.551115123125783e-17,
+     "pnl": -388934.1404269377,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.1102230246251565e-14
+    },
+    {
+     "code": "2362",
+     "ent": "2015-10-14",
+     "exit": "2015-12-14",
+     "shares": 3000,
+     "ent_open_sources": {
+      "off": 36.7,
+      "dp:k66": 36.7
+     },
+     "exit_open_sources": {
+      "off": 27.5,
+      "dp:k66": 27.5
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2506811989100818,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.2506811989100818,
+     "gross_recalc": -0.25068119891008156,
+     "gross_dp_chain": -0.25068119891008167,
+     "gross_dp_minus_recalc_pp": -1.1102230246251565e-14,
+     "ret_recalc": -0.25917114982467415,
+     "ret_trades_file": -0.2591711498246745,
+     "ret_diff": 3.3306690738754696e-16,
+     "pnl": -28651.212937200035,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 2.220446049250313e-14
+    },
+    {
+     "code": "3209",
+     "ent": "2012-09-12",
+     "exit": "2012-11-14",
+     "shares": 3000,
+     "ent_open_sources": {
+      "dpfill": 27.0,
+      "dp:k66": 27.0
+     },
+     "exit_open_sources": {
+      "dpfill": 20.55,
+      "dp:k66": 20.55
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.23888888888888882,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.23888888888888882,
+     "gross_recalc": -0.23888888888888893,
+     "gross_dp_chain": -0.23888888888888926,
+     "gross_dp_minus_recalc_pp": -3.3306690738754696e-14,
+     "ret_recalc": -0.24792808992350834,
+     "ret_trades_file": -0.2479280899235082,
+     "ret_diff": -1.3877787807814457e-16,
+     "pnl": -20169.06066194999,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.1102230246251565e-14
+    },
+    {
+     "code": "3380",
+     "ent": "2008-08-13",
+     "exit": "2008-10-15",
+     "shares": 2000,
+     "ent_open_sources": {
+      "asoul": 28.6,
+      "dp:asoul": 28.6
+     },
+     "exit_open_sources": {
+      "asoul": 22.0,
+      "dp:asoul": 22.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.23076923076923084,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.23076923076923084,
+     "gross_recalc": -0.23076923076923073,
+     "gross_dp_chain": -0.23076923076923117,
+     "gross_dp_minus_recalc_pp": -4.440892098500626e-14,
+     "ret_recalc": -0.23984824530958482,
+     "ret_trades_file": -0.2398482453095849,
+     "ret_diff": 8.326672684688674e-17,
+     "pnl": -13777.965218400008,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-14
+    },
+    {
+     "code": "3029",
+     "ent": "2025-02-12",
+     "exit": "2025-04-14",
+     "shares": 9861,
+     "ent_open_sources": {
+      "off": 149.0,
+      "dp:yahoo5m": 149.0,
+      "finmind(hschi)": 149.0
+     },
+     "exit_open_sources": {
+      "off": 111.5,
+      "dp:yahoo5m": 111.5,
+      "finmind(hschi)": 111.5
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.2516778523489933,
+     "twt49u_div_factor": 1.0352112676056338,
+     "gross_px_x_div": -0.2253284809528311,
+     "gross_recalc": -0.22532848095283098,
+     "gross_dp_chain": -0.22532848095283098,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.23588943520402694,
+     "ret_trades_file": -0.2358894352040275,
+     "ret_diff": 5.551115123125783e-16,
+     "pnl": -348349.9842568829,
+     "n_events": 1,
+     "events": "2025-03-20 TWT49U 息 前收147.0→參考價142.0（權息值5.0）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-14
+    },
+    {
+     "code": "2014",
+     "ent": "2008-07-14",
+     "exit": "2008-08-13",
+     "shares": 2000,
+     "ent_open_sources": {
+      "asoul": 26.1,
+      "dp:asoul": 26.1
+     },
+     "exit_open_sources": {
+      "asoul": 18.7,
+      "dp:asoul": 18.7
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": -0.28352490421455945,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.28352490421455945,
+     "gross_recalc": -0.2250998964037293,
+     "gross_dp_chain": -0.2250998964037294,
+     "gross_dp_minus_recalc_pp": -1.1102230246251565e-14,
+     "ret_recalc": -0.23449472341487343,
+     "ret_trades_file": -0.2344947234148735,
+     "ret_diff": 8.326672684688674e-17,
+     "pnl": -12293.974511511587,
+     "n_events": 1,
+     "events": "2008-07-21 行情檔 X（除權息）日：前收25.2→收盤23.3，當日報酬記 0（未計配息、也未計當日漲跌）",
+     "gross_minus_pxdiv_pp": 5.842500781083015
+    }
+   ],
+   "指名大贏家": [
+    {
+     "code": "2408",
+     "ent": "2025-09-12",
+     "exit": "2026-04-14",
+     "shares": 28745,
+     "ent_open_sources": {
+      "off": 59.3,
+      "dp:yahoo5m": 59.3,
+      "finmind(hawan)": 59.3
+     },
+     "exit_open_sources": {
+      "off": 238.5,
+      "dp:steven": 238.5
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 3.021922428330523,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 3.021922428330523,
+     "gross_recalc": 3.0219224283305204,
+     "gross_dp_chain": 3.021922480075604,
+     "gross_dp_minus_recalc_pp": 5.174508377336906e-06,
+     "ret_recalc": 2.9751508981380645,
+     "ret_trades_file": 2.975150898138065,
+     "ret_diff": -4.440892098500626e-16,
+     "pnl": 5092906.5399419,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -2.6645352591003757e-13
+    },
+    {
+     "code": "3653",
+     "ent": "2026-08-12",
+     "exit": "2026-10-14",
+     "shares": 939,
+     "ent_open_sources": {
+      "off": 4125.0,
+      "dp:steven": 4125.0
+     },
+     "exit_open_sources": {
+      "off": 7120.0,
+      "dp:steven": 7120.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.7260606060606061,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.7260606060606061,
+     "gross_recalc": 0.7260606060606054,
+     "gross_dp_chain": 0.7260606060606054,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": 0.7075876951588653,
+     "ret_trades_file": 0.7075876951588669,
+     "ret_diff": -1.5543122344752192e-15,
+     "pnl": 2751733.312004088,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -6.661338147750939e-14
+    },
+    {
+     "code": "3017",
+     "ent": "2025-05-14",
+     "exit": "2026-01-14",
+     "shares": 2127,
+     "ent_open_sources": {
+      "off": 616.0,
+      "dp:yahoo5m": 616.0,
+      "finmind(hschi)": 616.0,
+      "finmind(hawan)": 616.0
+     },
+     "exit_open_sources": {
+      "off": 1365.0,
+      "dp:steven": 1365.0
+     },
+     "n_price_sources_ent": 4,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 1.2159090909090908,
+     "twt49u_div_factor": 1.0087572463129704,
+     "gross_px_x_div": 1.2353143526253318,
+     "gross_recalc": 1.2353143526253332,
+     "gross_dp_chain": 1.2353143526253327,
+     "gross_dp_minus_recalc_pp": -4.440892098500626e-14,
+     "ret_recalc": 1.2076542014153189,
+     "ret_trades_file": 1.2076542014153189,
+     "ret_diff": 0.0,
+     "pnl": 1588972.1884490105,
+     "n_events": 1,
+     "events": "2025-08-19 TWT49U 息 前收1145.0→參考價1135.06（權息值9.930369）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 1.3322676295501878e-13
+    },
+    {
+     "code": "2344",
+     "ent": "2026-05-13",
+     "exit": "2026-07-15",
+     "shares": 27848,
+     "ent_open_sources": {
+      "off": 117.0,
+      "dp:steven": 117.0
+     },
+     "exit_open_sources": {
+      "off": 175.5,
+      "dp:steven": 175.5
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.5,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.5,
+     "gross_recalc": 0.5000000000000011,
+     "gross_dp_chain": 0.5000000000000009,
+     "gross_dp_minus_recalc_pp": -2.220446049250313e-14,
+     "ret_recalc": 0.4800908565210993,
+     "ret_trades_file": 0.4800908565210997,
+     "ret_diff": -3.885780586188048e-16,
+     "pnl": 1572902.1594982794,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 1.1102230246251565e-13
+    },
+    {
+     "code": "2059",
+     "ent": "2026-06-12",
+     "exit": "2026-10-14",
+     "shares": 487,
+     "ent_open_sources": {
+      "off": 6995.0,
+      "dp:steven": 6995.0
+     },
+     "exit_open_sources": {
+      "off": 10155.0,
+      "dp:steven": 10155.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.4517512508934953,
+     "twt49u_div_factor": 1.0035272148834635,
+     "gross_px_x_div": 0.4568718895127337,
+     "gross_recalc": 0.45687188951273416,
+     "gross_dp_chain": 0.45687188951273394,
+     "gross_dp_minus_recalc_pp": -2.220446049250313e-14,
+     "ret_recalc": 0.4417889176999166,
+     "ret_trades_file": 0.4417889176999174,
+     "ret_diff": -8.326672684688674e-16,
+     "pnl": 1510637.994585672,
+     "n_events": 1,
+     "events": "2026-08-27 TWT49U 息 前收14510.0→參考價14459.0（權息值51.0）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 4.440892098500626e-14
+    },
+    {
+     "code": "2344",
+     "ent": "2025-11-12",
+     "exit": "2026-04-14",
+     "shares": 32708,
+     "ent_open_sources": {
+      "off": 63.1,
+      "dp:steven": 63.1,
+      "finmind(hawan)": 63.1
+     },
+     "exit_open_sources": {
+      "off": 96.8,
+      "dp:steven": 96.8
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 0.5340729001584785,
+     "twt49u_div_factor": 1.0052356020942408,
+     "gross_px_x_div": 0.5421046954472664,
+     "gross_recalc": 0.5421046954472666,
+     "gross_dp_chain": 0.5421046954472655,
+     "gross_dp_minus_recalc_pp": -1.1102230246251565e-13,
+     "ret_recalc": 0.5250626564080723,
+     "ret_trades_file": 0.5250626564080714,
+     "ret_diff": 8.881784197001252e-16,
+     "pnl": 1088208.3911250513,
+     "n_events": 1,
+     "events": "2026-03-27 TWT49U 息 前收96.0→參考價95.5（權息值0.5）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": 2.220446049250313e-14
+    },
+    {
+     "code": "1325",
+     "ent": "2020-03-12",
+     "exit": "2020-08-12",
+     "shares": 5000,
+     "ent_open_sources": {
+      "off": 39.2,
+      "dp:k66": 39.2
+     },
+     "exit_open_sources": {
+      "off": 176.0,
+      "dp:k66": 176.0
+     },
+     "n_price_sources_ent": 2,
+     "n_price_sources_exit": 2,
+     "price_sources_agree": true,
+     "px_only_ret": 3.4897959183673466,
+     "twt49u_div_factor": 1.001958224543081,
+     "gross_px_x_div": 3.498587946928118,
+     "gross_recalc": 3.498587946928115,
+     "gross_dp_chain": 3.534103114930179,
+     "gross_dp_minus_recalc_pp": 3.5515168002064,
+     "ret_recalc": 3.445527078166771,
+     "ret_trades_file": 3.4455270781667657,
+     "ret_diff": 5.329070518200751e-15,
+     "pnl": 678050.402334702,
+     "n_events": 1,
+     "events": "2020-07-16 TWT49U 息 前收153.5→參考價153.2（權息值0.3）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": -2.6645352591003757e-13
+    },
+    {
+     "code": "2344",
+     "ent": "2020-10-14",
+     "exit": "2021-01-13",
+     "shares": 24000,
+     "ent_open_sources": {
+      "off": 15.25,
+      "dp:k66": 15.25,
+      "finmind(hschi)": 15.25,
+      "finmind(hawan)": 15.25
+     },
+     "exit_open_sources": {
+      "off": 27.7,
+      "dp:k66": 27.7,
+      "finmind(hschi)": 27.7,
+      "finmind(hawan)": 27.7
+     },
+     "n_price_sources_ent": 4,
+     "n_price_sources_exit": 4,
+     "price_sources_agree": true,
+     "px_only_ret": 0.8163934426229509,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.8163934426229509,
+     "gross_recalc": 0.8163934426229496,
+     "gross_dp_chain": 0.8163934426229504,
+     "gross_dp_minus_recalc_pp": 8.881784197001252e-14,
+     "ret_recalc": 0.7941124135531068,
+     "ret_trades_file": 0.7941124135531068,
+     "ret_diff": 0.0,
+     "pnl": 292110.0516635995,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -1.3322676295501878e-13
+    },
+    {
+     "code": "3017",
+     "ent": "2024-02-19",
+     "exit": "2024-03-13",
+     "shares": 1732,
+     "ent_open_sources": {
+      "off": 509.0,
+      "dp:yahoo5m": 509.0,
+      "finmind(hschi)": 509.0,
+      "finmind(hawan)": 509.0
+     },
+     "exit_open_sources": {
+      "off": 651.0,
+      "dp:yahoo5m": 651.0,
+      "finmind(hschi)": 651.0,
+      "finmind(hawan)": 651.0
+     },
+     "n_price_sources_ent": 4,
+     "n_price_sources_exit": 4,
+     "price_sources_agree": true,
+     "px_only_ret": 0.2789783889980353,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": 0.2789783889980353,
+     "gross_recalc": 0.2789783889980353,
+     "gross_dp_chain": 0.2789783889980353,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": 0.2642870159726123,
+     "ret_trades_file": 0.264287015972612,
+     "ret_diff": 2.7755575615628914e-16,
+     "pnl": 234013.44530296745,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": 0.0
+    },
+    {
+     "code": "3653",
+     "ent": "2018-06-13",
+     "exit": "2018-08-14",
+     "shares": 3000,
+     "ent_open_sources": {
+      "off": 71.3,
+      "dp:k66": 71.3,
+      "finmind(hawan)": 71.3
+     },
+     "exit_open_sources": {
+      "off": 64.1,
+      "dp:k66": 64.1,
+      "finmind(hawan)": 64.1
+     },
+     "n_price_sources_ent": 3,
+     "n_price_sources_exit": 3,
+     "price_sources_agree": true,
+     "px_only_ret": -0.10098176718092566,
+     "twt49u_div_factor": 1.0294985250737463,
+     "gross_px_x_div": -0.07446205529835714,
+     "gross_recalc": -0.07446205529835748,
+     "gross_dp_chain": -0.06758584471364992,
+     "gross_dp_minus_recalc_pp": 0.6876210584707554,
+     "ret_recalc": -0.084848342780663,
+     "ret_trades_file": -0.0848483427806628,
+     "ret_diff": -1.942890293094024e-16,
+     "pnl": -18223.503231509792,
+     "n_events": 1,
+     "events": "2018-08-07 TWT49U 息 前收69.8→參考價67.8（權息值2.0）；引擎做法：twt49u",
+     "gross_minus_pxdiv_pp": -3.3306690738754696e-14
+    },
+    {
+     "code": "3017",
+     "ent": "2022-03-14",
+     "exit": "2022-04-13",
+     "shares": 5390,
+     "ent_open_sources": {
+      "off": 123.5,
+      "dp:k66": 123.5,
+      "finmind(hschi)": 123.5,
+      "finmind(hawan)": 123.5
+     },
+     "exit_open_sources": {
+      "off": 108.0,
+      "dp:k66": 108.0,
+      "finmind(hschi)": 108.0,
+      "finmind(hawan)": 108.0
+     },
+     "n_price_sources_ent": 4,
+     "n_price_sources_exit": 4,
+     "price_sources_agree": true,
+     "px_only_ret": -0.1255060728744939,
+     "twt49u_div_factor": 1.0,
+     "gross_px_x_div": -0.1255060728744939,
+     "gross_recalc": -0.12550607287449433,
+     "gross_dp_chain": -0.12550607287449433,
+     "gross_dp_minus_recalc_pp": 0.0,
+     "ret_recalc": -0.13779399678521376,
+     "ret_trades_file": -0.1377939967852134,
+     "ret_diff": -3.608224830031759e-16,
+     "pnl": -92222.3686875,
+     "n_events": 0,
+     "events": "",
+     "gross_minus_pxdiv_pp": -4.440892098500626e-14
+    }
+   ]
+  },
+  "events_check": {
+   "twt49u_in_holdings": {
+    "n": 78,
+    "prev_close_matches_engine_prev_close": 78,
+    "prev_mismatch": [],
+    "fix": {
+     "twt49u": 78
+    },
+    "n_with_second_source": 31,
+    "second_source_ref_match": 31,
+    "second_source_mismatch": [],
+    "by_year": {
+     "2014": 7,
+     "2015": 9,
+     "2016": 5,
+     "2017": 3,
+     "2018": 4,
+     "2019": 3,
+     "2020": 9,
+     "2021": 7,
+     "2022": 1,
+     "2023": 3,
+     "2024": 6,
+     "2025": 12,
+     "2026": 9
+    },
+    "n_raw_chg_nonzero_on_exday": 0
+   },
+   "twt49u_events_on_non_trading_day_in_holdings": [
+    {
+     "code": "6442",
+     "date": "2024-07-25",
+     "type": "息",
+     "prev_close": 433.5,
+     "ref": 431.4
+    }
+   ],
+   "twt49u_all_events_on_non_trading_day": {
+    "n": 119,
+    "dates": {
+     "2014-07-23": 11,
+     "2015-07-10": 9,
+     "2016-07-08": 14,
+     "2019-08-09": 5,
+     "2019-09-30": 1,
+     "2023-08-03": 20,
+     "2024-07-24": 14,
+     "2024-07-25": 34,
+     "2024-10-02": 2,
+     "2024-10-31": 1,
+     "2026-07-10": 8
+    },
+    "n_all": 10638
+   },
+   "moves_beyond_limit_in_holdings": [],
+   "ref_resets_non_twt49u": [
+    {
+     "code": "3209",
+     "date": "2010-07-22",
+     "prevC": 35.0,
+     "REF": 31.7,
+     "ratio": 0.9057,
+     "halted_before": false,
+     "second_source": null
+    },
+    {
+     "code": "3545",
+     "date": "2015-12-15",
+     "prevC": 27.35,
+     "REF": 34.0,
+     "ratio": 1.2431,
+     "halted_before": true,
+     "second_source": null
+    },
+    {
+     "code": "3419",
+     "date": "2013-09-10",
+     "prevC": 19.15,
+     "REF": 18.2,
+     "ratio": 0.9504,
+     "halted_before": false,
+     "second_source": null
+    },
+    {
+     "code": "6442",
+     "date": "2024-07-26",
+     "prevC": 433.5,
+     "REF": 431.5,
+     "ratio": 0.9954,
+     "halted_before": false,
+     "second_source": null
+    },
+    {
+     "code": "8249",
+     "date": "2024-10-21",
+     "prevC": 48.95,
+     "REF": 58.5,
+     "ratio": 1.1951,
+     "halted_before": true,
+     "second_source": {
+      "kind": "減資（退還股款）",
+      "prev_close": 48.95,
+      "ref_price": 53.27
+     }
+    }
+   ],
+   "winners_detail": {
+    "2408": {
+     "ent": "2025-09-12",
+     "exit": "2026-04-14",
+     "ent_open": 59.3,
+     "ent_close": 57.4,
+     "exit_open": 238.5,
+     "max_close": 326.5,
+     "min_close": 57.4,
+     "n_days": 137,
+     "n_limit_up_close": 15,
+     "n_limit_dn_close": 8,
+     "max_daily_move": 0.10000000000000009,
+     "min_daily_move": -0.09999999999999998,
+     "n_notrade": 0,
+     "name": "南亞科",
+     "month_end_closes": {
+      "2025-09": 73.0,
+      "2025-10": 132.5,
+      "2025-11": 146.0,
+      "2025-12": 193.0,
+      "2026-01": 326.5,
+      "2026-02": 285.5,
+      "2026-03": 198.5,
+      "2026-04": 220.0
+     },
+     "mean_daily_amount_e8": 211.38846263036496
+    },
+    "3653": {
+     "ent": "2026-08-12",
+     "exit": "2026-10-14",
+     "ent_open": 4125.0,
+     "ent_close": 4470.0,
+     "exit_open": 7120.0,
+     "max_close": 7205.0,
+     "min_close": 4470.0,
+     "n_days": 43,
+     "n_limit_up_close": 4,
+     "n_limit_dn_close": 0,
+     "max_daily_move": 0.09990393852065327,
+     "min_daily_move": -0.08762886597938147,
+     "n_notrade": 0,
+     "name": "健策",
+     "month_end_closes": {
+      "2026-08": 5990.0,
+      "2026-09": 6800.0,
+      "2026-10": 7070.0
+     },
+     "mean_daily_amount_e8": 77.66488924906977
+    },
+    "3017": {
+     "ent": "2025-05-14",
+     "exit": "2026-01-14",
+     "ent_open": 616.0,
+     "ent_close": 609.0,
+     "exit_open": 1365.0,
+     "max_close": 1550.0,
+     "min_close": 595.0,
+     "n_days": 169,
+     "n_limit_up_close": 0,
+     "n_limit_dn_close": 0,
+     "max_daily_move": 0.09243697478991586,
+     "min_daily_move": -0.07116104868913853,
+     "n_notrade": 0,
+     "name": "奇鋐",
+     "month_end_closes": {
+      "2025-05": 620.0,
+      "2025-06": 743.0,
+      "2025-07": 923.0,
+      "2025-08": 1010.0,
+      "2025-09": 981.0,
+      "2025-10": 1425.0,
+      "2025-11": 1375.0,
+      "2025-12": 1510.0,
+      "2026-01": 1420.0
+     },
+     "mean_daily_amount_e8": 77.27755591846154
+    },
+    "2344": {
+     "ent": "2026-05-13",
+     "exit": "2026-07-15",
+     "ent_open": 117.0,
+     "ent_close": 122.0,
+     "exit_open": 175.5,
+     "max_close": 222.0,
+     "min_close": 114.0,
+     "n_days": 44,
+     "n_limit_up_close": 10,
+     "n_limit_dn_close": 2,
+     "max_daily_move": 0.09929078014184389,
+     "min_daily_move": -0.09961685823754785,
+     "n_notrade": 0,
+     "name": "華邦電",
+     "month_end_closes": {
+      "2026-05": 158.0,
+      "2026-06": 207.5,
+      "2026-07": 180.5
+     },
+     "mean_daily_amount_e8": 401.11268448431815
+    },
+    "2059": {
+     "ent": "2026-06-12",
+     "exit": "2026-10-14",
+     "ent_open": 6995.0,
+     "ent_close": 6910.0,
+     "exit_open": 10155.0,
+     "max_close": 14510.0,
+     "min_close": 6620.0,
+     "n_days": 84,
+     "n_limit_up_close": 7,
+     "n_limit_dn_close": 4,
+     "max_daily_move": 0.10000000000000009,
+     "min_daily_move": -0.09999999999999998,
+     "n_notrade": 0,
+     "name": "川湖",
+     "month_end_closes": {
+      "2026-06": 7360.0,
+      "2026-07": 7850.0,
+      "2026-08": 14180.0,
+      "2026-09": 12055.0,
+      "2026-10": 10005.0
+     },
+     "mean_daily_amount_e8": 61.912140144642855
+    },
+    "1325": {
+     "ent": "2020-03-12",
+     "exit": "2020-08-12",
+     "ent_open": 39.2,
+     "ent_close": 37.75,
+     "exit_open": 176.0,
+     "max_close": 206.0,
+     "min_close": 34.65,
+     "n_days": 105,
+     "n_limit_up_close": 20,
+     "n_limit_dn_close": 4,
+     "max_daily_move": 0.09972299168975063,
+     "min_daily_move": -0.09999999999999998,
+     "n_notrade": 0,
+     "name": "恆大",
+     "month_end_closes": {
+      "2020-03": 37.6,
+      "2020-04": 87.5,
+      "2020-05": 180.0,
+      "2020-06": 165.0,
+      "2020-07": 168.0,
+      "2020-08": 165.0
+     },
+     "mean_daily_amount_e8": 11.531930075999998
+    }
+   }
+  },
+  "xday": {
+   "unique_trades_with_xflag_day": 28,
+   "unique_closed": 637
+  }
+ },
+ "item3": {
+  "B_events": {
+   "dividends": [
+    {
+     "date": "2014-10-24",
+     "note": "事件日不在日 K",
+     "type": "息"
+    },
+    {
+     "date": "2015-10-26",
+     "type": "息",
+     "prev_close": 65.9,
+     "ref": 63.9,
+     "value": 2.0,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2016-07-28",
+     "type": "息",
+     "prev_close": 69.7,
+     "ref": 68.85,
+     "value": 0.85,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2017-02-08",
+     "type": "息",
+     "prev_close": 73.3,
+     "ref": 71.6,
+     "value": 1.7,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2017-07-31",
+     "type": "息",
+     "prev_close": 82.1,
+     "ref": 81.4,
+     "value": 0.7,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2018-01-29",
+     "type": "息",
+     "prev_close": 87.5,
+     "ref": 85.3,
+     "value": 2.2,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2018-07-23",
+     "type": "息",
+     "prev_close": 84.65,
+     "ref": 83.95,
+     "value": 0.7,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2019-01-22",
+     "type": "息",
+     "prev_close": 76.5,
+     "ref": 74.2,
+     "value": 2.3,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2019-07-19",
+     "type": "息",
+     "prev_close": 82.7,
+     "ref": 82.0,
+     "value": 0.7,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2020-01-31",
+     "type": "息",
+     "prev_close": 92.15,
+     "ref": 89.25,
+     "value": 2.9,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2020-07-21",
+     "type": "息",
+     "prev_close": 97.05,
+     "ref": 96.35,
+     "value": 0.7,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2021-01-22",
+     "type": "息",
+     "prev_close": 143.0,
+     "ref": 139.95,
+     "value": 3.05,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2021-07-21",
+     "type": "息",
+     "prev_close": 137.2,
+     "ref": 136.85,
+     "value": 0.35,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2022-01-21",
+     "type": "息",
+     "prev_close": 149.1,
+     "ref": 145.9,
+     "value": 3.2,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2022-07-18",
+     "type": "息",
+     "prev_close": 115.5,
+     "ref": 113.7,
+     "value": 1.8,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2023-01-30",
+     "type": "息",
+     "prev_close": 118.1,
+     "ref": 115.5,
+     "value": 2.6,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2023-07-18",
+     "type": "息",
+     "prev_close": 132.0,
+     "ref": 130.1,
+     "value": 1.9,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2024-01-17",
+     "type": "息",
+     "prev_close": 131.65,
+     "ref": 128.65,
+     "value": 3.0,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2024-07-16",
+     "type": "息",
+     "prev_close": 196.7,
+     "ref": 195.7,
+     "value": 1.0,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2025-01-17",
+     "type": "息",
+     "prev_close": 198.05,
+     "ref": 195.35,
+     "value": 2.7,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2025-07-21",
+     "type": "息",
+     "prev_close": 51.45,
+     "ref": 51.09,
+     "value": 0.36,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2026-01-22",
+     "type": "息",
+     "prev_close": 71.85,
+     "ref": 70.85,
+     "value": 1.0,
+     "prev_matches_daily": true
+    },
+    {
+     "date": "2026-07-21",
+     "type": "息",
+     "prev_close": 99.2,
+     "ref": 98.6,
+     "value": 0.6,
+     "prev_matches_daily": true
+    }
+   ],
+   "splits": [
+    {
+     "date": "2025-06-18",
+     "prev_close": 188.65,
+     "prev_date": "2025-06-10",
+     "close": 47.57,
+     "change": 0.41,
+     "implied_ref": 47.160000000000004,
+     "ratio": 4.000212044105174,
+     "calendar_gap_days": 8
+    }
+   ],
+   "n_div": 23
+  },
+  "yearly": {
+   "2008": {
+    "A_jonatw_adj（引擎用）": -0.420436,
+    "S75_nav檔0050欄": -0.420436,
+    "B_官方日K＋TWT49U自建": null,
+    "C_stevenhsieh_etf_long_adj": null,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": -0.448373,
+    "yearly.csv_e0050": -0.420436
+   },
+   "2009": {
+    "A_jonatw_adj（引擎用）": 0.749957,
+    "S75_nav檔0050欄": 0.749957,
+    "B_官方日K＋TWT49U自建": null,
+    "C_stevenhsieh_etf_long_adj": null,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": 0.783428,
+    "yearly.csv_e0050": 0.749957
+   },
+   "2010": {
+    "A_jonatw_adj（引擎用）": 0.131276,
+    "S75_nav檔0050欄": 0.131276,
+    "B_官方日K＋TWT49U自建": null,
+    "C_stevenhsieh_etf_long_adj": 0.087689,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": 0.095796,
+    "yearly.csv_e0050": 0.131276
+   },
+   "2011": {
+    "A_jonatw_adj（引擎用）": -0.158135,
+    "S75_nav檔0050欄": -0.158135,
+    "B_官方日K＋TWT49U自建": null,
+    "C_stevenhsieh_etf_long_adj": -0.188761,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": -0.211805,
+    "yearly.csv_e0050": -0.158135
+   },
+   "2012": {
+    "A_jonatw_adj（引擎用）": 0.119246,
+    "S75_nav檔0050欄": 0.119246,
+    "B_官方日K＋TWT49U自建": null,
+    "C_stevenhsieh_etf_long_adj": 0.080104,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": 0.088718,
+    "yearly.csv_e0050": 0.119246
+   },
+   "2013": {
+    "A_jonatw_adj（引擎用）": 0.116762,
+    "S75_nav檔0050欄": 0.116762,
+    "B_官方日K＋TWT49U自建": null,
+    "C_stevenhsieh_etf_long_adj": 0.11676,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": 0.118451,
+    "yearly.csv_e0050": 0.116762
+   },
+   "2014": {
+    "A_jonatw_adj（引擎用）": 0.16664,
+    "S75_nav檔0050欄": 0.16664,
+    "B_官方日K＋TWT49U自建": null,
+    "C_stevenhsieh_etf_long_adj": -0.685294,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": 0.080793,
+    "yearly.csv_e0050": 0.16664
+   },
+   "2015": {
+    "A_jonatw_adj（引擎用）": -0.062806,
+    "S75_nav檔0050欄": -0.062806,
+    "B_官方日K＋TWT49U自建": null,
+    "C_stevenhsieh_etf_long_adj": -0.062806,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": -0.104134,
+    "yearly.csv_e0050": -0.062806
+   },
+   "2016": {
+    "A_jonatw_adj（引擎用）": 0.196485,
+    "S75_nav檔0050欄": 0.196485,
+    "B_官方日K＋TWT49U自建": 0.196484,
+    "C_stevenhsieh_etf_long_adj": 0.196486,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": 0.109791,
+    "yearly.csv_e0050": 0.196485
+   },
+   "2017": {
+    "A_jonatw_adj（引擎用）": 0.181388,
+    "S75_nav檔0050欄": 0.181388,
+    "B_官方日K＋TWT49U自建": 0.181389,
+    "C_stevenhsieh_etf_long_adj": 0.18138,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": 0.150144,
+    "yearly.csv_e0050": 0.181388
+   },
+   "2018": {
+    "A_jonatw_adj（引擎用）": -0.049385,
+    "S75_nav檔0050欄": -0.049385,
+    "B_官方日K＋TWT49U自建": -0.049385,
+    "C_stevenhsieh_etf_long_adj": -0.049384,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": -0.086015,
+    "yearly.csv_e0050": -0.049385
+   },
+   "2019": {
+    "A_jonatw_adj（引擎用）": 0.335211,
+    "S75_nav檔0050欄": 0.335211,
+    "B_官方日K＋TWT49U自建": 0.335211,
+    "C_stevenhsieh_etf_long_adj": 0.335217,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": 0.233333,
+    "yearly.csv_e0050": 0.335211
+   },
+   "2020": {
+    "A_jonatw_adj（引擎用）": 0.311391,
+    "S75_nav檔0050欄": 0.311391,
+    "B_官方日K＋TWT49U自建": 0.31139,
+    "C_stevenhsieh_etf_long_adj": 0.311386,
+    "C2_stevenhsieh_bench_long": null,
+    "加權指數（不含息，僅供參考）": 0.228004,
+    "yearly.csv_e0050": 0.311391
+   },
+   "2021": {
+    "A_jonatw_adj（引擎用）": 0.219232,
+    "S75_nav檔0050欄": 0.219232,
+    "B_官方日K＋TWT49U自建": 0.219233,
+    "C_stevenhsieh_etf_long_adj": 0.219234,
+    "C2_stevenhsieh_bench_long": 0.219234,
+    "加權指數（不含息，僅供參考）": 0.23664,
+    "yearly.csv_e0050": 0.219232
+   },
+   "2022": {
+    "A_jonatw_adj（引擎用）": -0.213747,
+    "S75_nav檔0050欄": -0.213747,
+    "B_官方日K＋TWT49U自建": -0.213747,
+    "C_stevenhsieh_etf_long_adj": -0.212208,
+    "C2_stevenhsieh_bench_long": -0.212208,
+    "加權指數（不含息，僅供參考）": -0.224007,
+    "yearly.csv_e0050": -0.213747
+   },
+   "2023": {
+    "A_jonatw_adj（引擎用）": 0.275152,
+    "S75_nav檔0050欄": 0.275152,
+    "B_官方日K＋TWT49U自建": 0.275152,
+    "C_stevenhsieh_etf_long_adj": 0.275152,
+    "C2_stevenhsieh_bench_long": 0.275152,
+    "加權指數（不含息，僅供參考）": 0.268298,
+    "yearly.csv_e0050": 0.275152
+   },
+   "2024": {
+    "A_jonatw_adj（引擎用）": 0.48644,
+    "S75_nav檔0050欄": 0.48644,
+    "B_官方日K＋TWT49U自建": 0.48644,
+    "C_stevenhsieh_etf_long_adj": 0.486442,
+    "C2_stevenhsieh_bench_long": 0.486442,
+    "加權指數（不含息，僅供參考）": 0.284666,
+    "yearly.csv_e0050": 0.48644
+   },
+   "2025": {
+    "A_jonatw_adj（引擎用）": 0.368321,
+    "S75_nav檔0050欄": 0.368321,
+    "B_官方日K＋TWT49U自建": 0.368589,
+    "C_stevenhsieh_etf_long_adj": 0.368588,
+    "C2_stevenhsieh_bench_long": 0.368588,
+    "加權指數（不含息，僅供參考）": 0.257368,
+    "yearly.csv_e0050": 0.368321
+   },
+   "2026": {
+    "A_jonatw_adj（引擎用）": 0.67191,
+    "S75_nav檔0050欄": 0.67191,
+    "B_官方日K＋TWT49U自建": 0.66263,
+    "C_stevenhsieh_etf_long_adj": 0.787833,
+    "C2_stevenhsieh_bench_long": 0.662631,
+    "加權指數（不含息，僅供參考）": 0.589631,
+    "yearly.csv_e0050": 0.67191
+   }
+  },
+  "vs_engine_source": {
+   "S75_nav檔0050欄": {
+    "years": [
+     2008,
+     2026
+    ],
+    "n": 19,
+    "max_abs_diff_pp": 1.009720973499384e-06,
+    "year_of_max": 2009,
+    "n_gt_0p3pp": 0,
+    "diffs_pp": {
+     "2008": 0.0,
+     "2009": -0.0,
+     "2010": -0.0,
+     "2011": -0.0,
+     "2012": 0.0,
+     "2013": -0.0,
+     "2014": 0.0,
+     "2015": -0.0,
+     "2016": 0.0,
+     "2017": -0.0,
+     "2018": -0.0,
+     "2019": 0.0,
+     "2020": -0.0,
+     "2021": -0.0,
+     "2022": -0.0,
+     "2023": 0.0,
+     "2024": -0.0,
+     "2025": -0.0,
+     "2026": -0.0
+    }
+   },
+   "B_官方日K＋TWT49U自建": {
+    "years": [
+     2016,
+     2026
+    ],
+    "n": 11,
+    "max_abs_diff_pp": 0.9280430109104953,
+    "year_of_max": 2026,
+    "n_gt_0p3pp": 1,
+    "diffs_pp": {
+     "2016": -0.0,
+     "2017": 0.0,
+     "2018": 0.0,
+     "2019": 0.0,
+     "2020": -0.0,
+     "2021": 0.0,
+     "2022": 0.0,
+     "2023": -0.0,
+     "2024": -0.0,
+     "2025": 0.027,
+     "2026": -0.928
+    }
+   },
+   "C_stevenhsieh_etf_long_adj": {
+    "years": [
+     2010,
+     2026
+    ],
+    "n": 17,
+    "max_abs_diff_pp": 85.19341904518159,
+    "year_of_max": 2014,
+    "n_gt_0p3pp": 5,
+    "diffs_pp": {
+     "2010": -4.359,
+     "2011": -3.063,
+     "2012": -3.914,
+     "2013": -0.0,
+     "2014": -85.193,
+     "2015": 0.0,
+     "2016": 0.0,
+     "2017": -0.001,
+     "2018": 0.0,
+     "2019": 0.001,
+     "2020": -0.0,
+     "2021": 0.0,
+     "2022": 0.154,
+     "2023": -0.0,
+     "2024": 0.0,
+     "2025": 0.027,
+     "2026": 11.592
+    }
+   },
+   "C2_stevenhsieh_bench_long": {
+    "years": [
+     2021,
+     2026
+    ],
+    "n": 6,
+    "max_abs_diff_pp": 0.9279529129730735,
+    "year_of_max": 2026,
+    "n_gt_0p3pp": 1,
+    "diffs_pp": {
+     "2021": 0.0,
+     "2022": 0.154,
+     "2023": -0.0,
+     "2024": 0.0,
+     "2025": 0.027,
+     "2026": -0.928
+    }
+   },
+   "yearly.csv_e0050": {
+    "years": [
+     2008,
+     2026
+    ],
+    "n": 19,
+    "max_abs_diff_pp": 3.0531133177191805e-14,
+    "year_of_max": 2013,
+    "n_gt_0p3pp": 0,
+    "diffs_pp": {
+     "2008": 0.0,
+     "2009": 0.0,
+     "2010": -0.0,
+     "2011": 0.0,
+     "2012": -0.0,
+     "2013": -0.0,
+     "2014": -0.0,
+     "2015": -0.0,
+     "2016": 0.0,
+     "2017": 0.0,
+     "2018": -0.0,
+     "2019": -0.0,
+     "2020": -0.0,
+     "2021": -0.0,
+     "2022": 0.0,
+     "2023": 0.0,
+     "2024": 0.0,
+     "2025": 0.0,
+     "2026": 0.0
+    }
+   }
+  },
+  "daily_A_vs_B": {
+   "n": 2870,
+   "n_absdiff_gt_0p2pp": 1,
+   "max_abs": 0.07801162935805905,
+   "big": {
+    "2026-09-21": 7.801
+   },
+   "first": "2015-01-05",
+   "last": "2026-10-22"
+  },
+  "daily_A_vs_C": {
+   "n": 4334,
+   "n_absdiff_gt_0p2pp": 55,
+   "max_abs": 0.7480825221539191,
+   "big": {
+    "2009-01-05": -7.271,
+    "2009-01-07": 13.239,
+    "2009-01-09": -7.478,
+    "2009-01-12": -6.27,
+    "2009-01-13": 6.665,
+    "2009-01-14": -6.95,
+    "2009-01-15": 6.227,
+    "2009-01-16": 4.451,
+    "2009-01-19": -12.019,
+    "2009-01-21": 6.474,
+    "2009-02-02": -7.082,
+    "2009-02-03": 6.662,
+    "2009-02-09": -7.05,
+    "2009-02-11": 13.26,
+    "2009-02-12": -14.604,
+    "2009-02-13": 6.718,
+    "2009-02-16": -6.971,
+    "2009-02-17": 6.378,
+    "2009-02-18": 6.998,
+    "2009-02-19": -15.222,
+    "2009-02-23": 6.592,
+    "2009-02-24": -6.936,
+    "2009-02-25": 6.657,
+    "2009-03-06": -7.026,
+    "2009-03-09": 6.456,
+    "2009-04-02": -1.836,
+    "2009-06-08": -0.586,
+    "2009-10-23": 1.882,
+    "2010-02-08": -0.881,
+    "2010-07-01": -0.343,
+    "2010-07-02": 0.346,
+    "2010-10-25": 3.937,
+    "2011-10-26": 3.673,
+    "2012-02-06": -1.121,
+    "2012-03-05": 0.356,
+    "2012-10-24": 3.493,
+    "2012-12-24": -0.283,
+    "2013-02-25": -0.539,
+    "2014-01-02": 74.808,
+    "2014-10-24": -7.845,
+    "2014-12-29": -0.228,
+    "2016-02-01": -0.932,
+    "2016-09-12": 1.409,
+    "2017-02-20": -0.204,
+    "2017-06-05": -0.261,
+    "2017-10-02": -0.684,
+    "2018-12-24": 0.464,
+    "2019-09-10": -0.358,
+    "2021-04-07": -1.401,
+    "2022-08-22": -0.206,
+    "2022-08-23": 0.206,
+    "2024-01-15": 0.264,
+    "2024-01-16": -0.261,
+    "2026-09-21": 7.801,
+    "2026-10-08": 0.383
+   },
+   "first": "2009-01-05",
+   "last": "2026-10-08"
+  },
+  "daily_A_vs_B_from_2026_08_12": {
+   "n": 49,
+   "n_absdiff_gt_0p2pp": 1,
+   "max_abs": 0.07801162935805905,
+   "big": {
+    "2026-09-21": 7.801
+   },
+   "first": "2026-08-12",
+   "last": "2026-10-22"
+  },
+  "split_window": {
+   "2025-06-05": {
+    "open": 182.0,
+    "close": 181.65,
+    "change": 0.35,
+    "A_adj": 350.0129,
+    "C_close": 45.412,
+    "C_adj": 44.1982
+   },
+   "2025-06-06": {
+    "open": 181.9,
+    "close": 181.95,
+    "change": 0.3,
+    "A_adj": 350.591,
+    "C_close": 45.487,
+    "C_adj": 44.2712
+   },
+   "2025-06-09": {
+    "open": 183.4,
+    "close": 183.7,
+    "change": 1.75,
+    "A_adj": 353.963,
+    "C_close": 45.925,
+    "C_adj": 44.697
+   },
+   "2025-06-10": {
+    "open": 184.9,
+    "close": 188.65,
+    "change": 4.95,
+    "A_adj": 363.5009,
+    "C_close": 47.162,
+    "C_adj": 45.9014
+   },
+   "2025-06-18": {
+    "open": 47.5,
+    "close": 47.57,
+    "change": 0.41,
+    "A_adj": 366.6417,
+    "C_close": 47.57,
+    "C_adj": 46.298
+   },
+   "2025-06-19": {
+    "open": 47.5,
+    "close": 47.1,
+    "change": -0.47,
+    "A_adj": 363.0192,
+    "C_close": 47.1,
+    "C_adj": 45.8405
+   },
+   "2025-06-20": {
+    "open": 47.1,
+    "close": 47.03,
+    "change": -0.07,
+    "A_adj": 362.4797,
+    "C_close": 47.03,
+    "C_adj": 45.7724
+   }
+  },
+  "A_file": {
+   "first": "2003-07-01",
+   "last": "2026-10-22",
+   "n": 5737,
+   "dup_dates": 0,
+   "missing_on_s75_days": 5,
+   "nav_0050_matches_A": 8.723537003874071e-09
+  },
+  "full": {
+   "A_jonatw_adj（引擎用）": {
+    "mult": 12.910363563553846
+   },
+   "S75_nav檔0050欄": {
+    "mult": 12.91036356
+   },
+   "加權指數（不含息，僅供參考）": {
+    "mult": 5.53179783853275
+   }
+  },
+  "from_2015": {
+   "A_jonatw_adj（引擎用）": 9.207221309320719,
+   "S75_nav檔0050欄": 9.207221279176219,
+   "B_官方日K＋TWT49U自建": 9.15790619844657,
+   "C_stevenhsieh_etf_long_adj": 9.866783402860037,
+   "加權指數（不含息，僅供參考）": 4.964511958559904
+  },
+  "A_vs_C_rawclose_2009_2015": {
+   "n_days": 1720,
+   "n_diff_gt_0p2pp": 34,
+   "days": [
+    {
+     "date": "2009-01-07",
+     "diff_pp": 13.239,
+     "C_prev_close": 36.57,
+     "implied_cash_div": 4.841
+    },
+    {
+     "date": "2009-01-09",
+     "diff_pp": -7.478,
+     "C_prev_close": 30.16,
+     "implied_cash_div": -2.255
+    },
+    {
+     "date": "2009-01-12",
+     "diff_pp": -6.921,
+     "C_prev_close": 32.22,
+     "implied_cash_div": -2.23
+    },
+    {
+     "date": "2009-01-13",
+     "diff_pp": 6.665,
+     "C_prev_close": 34.19,
+     "implied_cash_div": 2.279
+    },
+    {
+     "date": "2009-01-14",
+     "diff_pp": -6.95,
+     "C_prev_close": 32.66,
+     "implied_cash_div": -2.27
+    },
+    {
+     "date": "2009-01-15",
+     "diff_pp": 6.227,
+     "C_prev_close": 34.77,
+     "implied_cash_div": 2.165
+    },
+    {
+     "date": "2009-01-16",
+     "diff_pp": 4.452,
+     "C_prev_close": 31.0,
+     "implied_cash_div": 1.38
+    },
+    {
+     "date": "2009-01-19",
+     "diff_pp": -11.955,
+     "C_prev_close": 30.0,
+     "implied_cash_div": -3.587
+    },
+    {
+     "date": "2009-01-21",
+     "diff_pp": 6.474,
+     "C_prev_close": 32.84,
+     "implied_cash_div": 2.126
+    },
+    {
+     "date": "2009-02-02",
+     "diff_pp": -7.082,
+     "C_prev_close": 30.5,
+     "implied_cash_div": -2.16
+    },
+    {
+     "date": "2009-02-03",
+     "diff_pp": 6.662,
+     "C_prev_close": 33.04,
+     "implied_cash_div": 2.201
+    },
+    {
+     "date": "2009-02-09",
+     "diff_pp": -7.05,
+     "C_prev_close": 32.2,
+     "implied_cash_div": -2.27
+    },
+    {
+     "date": "2009-02-11",
+     "diff_pp": 13.26,
+     "C_prev_close": 34.98,
+     "implied_cash_div": 4.638
+    },
+    {
+     "date": "2009-02-12",
+     "diff_pp": -14.605,
+     "C_prev_close": 30.93,
+     "implied_cash_div": -4.517
+    },
+    {
+     "date": "2009-02-13",
+     "diff_pp": 6.718,
+     "C_prev_close": 34.61,
+     "implied_cash_div": 2.325
+    },
+    {
+     "date": "2009-02-16",
+     "diff_pp": -6.971,
+     "C_prev_close": 33.28,
+     "implied_cash_div": -2.32
+    },
+    {
+     "date": "2009-02-17",
+     "diff_pp": 6.378,
+     "C_prev_close": 35.53,
+     "implied_cash_div": 2.266
+    },
+    {
+     "date": "2009-02-18",
+     "diff_pp": 6.998,
+     "C_prev_close": 32.44,
+     "implied_cash_div": 2.27
+    },
+    {
+     "date": "2009-02-19",
+     "diff_pp": -15.222,
+     "C_prev_close": 30.22,
+     "implied_cash_div": -4.6
+    },
+    {
+     "date": "2009-02-23",
+     "diff_pp": 6.592,
+     "C_prev_close": 34.34,
+     "implied_cash_div": 2.264
+    },
+    {
+     "date": "2009-02-24",
+     "diff_pp": -6.936,
+     "C_prev_close": 32.44,
+     "implied_cash_div": -2.25
+    },
+    {
+     "date": "2009-02-25",
+     "diff_pp": 6.657,
+     "C_prev_close": 34.41,
+     "implied_cash_div": 2.291
+    },
+    {
+     "date": "2009-03-06",
+     "diff_pp": -7.025,
+     "C_prev_close": 33.45,
+     "implied_cash_div": -2.35
+    },
+    {
+     "date": "2009-03-09",
+     "diff_pp": 6.456,
+     "C_prev_close": 36.02,
+     "implied_cash_div": 2.326
+    },
+    {
+     "date": "2009-10-23",
+     "diff_pp": 1.882,
+     "C_prev_close": 53.7,
+     "implied_cash_div": 1.01
+    },
+    {
+     "date": "2010-07-01",
+     "diff_pp": -0.343,
+     "C_prev_close": 49.55,
+     "implied_cash_div": -0.17
+    },
+    {
+     "date": "2010-07-02",
+     "diff_pp": 0.346,
+     "C_prev_close": 49.36,
+     "implied_cash_div": 0.171
+    },
+    {
+     "date": "2010-10-25",
+     "diff_pp": 3.937,
+     "C_prev_close": 57.1,
+     "implied_cash_div": 2.248
+    },
+    {
+     "date": "2011-10-26",
+     "diff_pp": 3.673,
+     "C_prev_close": 53.6,
+     "implied_cash_div": 1.969
+    },
+    {
+     "date": "2012-10-24",
+     "diff_pp": 3.494,
+     "C_prev_close": 52.9,
+     "implied_cash_div": 1.848
+    },
+    {
+     "date": "2013-10-24",
+     "diff_pp": 2.308,
+     "C_prev_close": 58.7,
+     "implied_cash_div": 1.355
+    },
+    {
+     "date": "2014-01-02",
+     "diff_pp": 74.809,
+     "C_prev_close": 58.7,
+     "implied_cash_div": 43.913
+    },
+    {
+     "date": "2014-10-24",
+     "diff_pp": 2.372,
+     "C_prev_close": 16.263,
+     "implied_cash_div": 0.386
+    },
+    {
+     "date": "2015-10-26",
+     "diff_pp": 3.063,
+     "C_prev_close": 16.475,
+     "implied_cash_div": 0.505
+    }
+   ],
+   "note": "C 的 close 欄在 2025-06 分割前的日子已除以 4（回溯調整），不影響日報酬比較"
+  },
+  "y2015_from_0105": {
+   "A": -0.058581592660343906,
+   "B": -0.05858139067311452
+  },
+  "A_rows_on_non_trading_days_2015on": [
+   "2026-07-10",
+   "2026-09-20"
+  ],
+  "A_drift_2026": {
+   "ratio_2026_08_11": 7.915801147227533,
+   "ratio_2026_10_22": 7.961817586529466,
+   "drift": 0.005813238413404198,
+   "n_days_ratio_changed": 21,
+   "first": "2026-08-12",
+   "last": "2026-10-14",
+   "twt49u_0050_events_in_window": [],
+   "days": {
+    "2026-08-12": 0.0478,
+    "2026-08-13": 0.0951,
+    "2026-08-14": 0.0469,
+    "2026-08-19": -0.0476,
+    "2026-08-20": 0.0485,
+    "2026-08-21": 0.0482,
+    "2026-08-26": 0.1919,
+    "2026-08-27": 0.0471,
+    "2026-08-28": 0.0463,
+    "2026-09-03": 0.0468,
+    "2026-09-04": -0.0471,
+    "2026-09-11": 0.0458,
+    "2026-09-15": 0.0936,
+    "2026-09-16": 0.0471,
+    "2026-09-17": 0.1405,
+    "2026-09-18": -0.0463,
+    "2026-09-23": -0.0447,
+    "2026-10-01": -0.1782,
+    "2026-10-02": 0.0887,
+    "2026-10-07": 0.0429,
+    "2026-10-14": -0.1333
+   }
+  },
+  "A_ratio_changes_2015_to_2026_08_11": {
+   "n": 23,
+   "n_on_event_days": 23,
+   "non_event_days": {}
+  },
+  "bench_effect": {
+   "e0050_2026_A": 0.6719101560612364,
+   "e0050_2026_B": 0.6626297259521314,
+   "final_0050_nav": 12910363.56,
+   "final_0050_nav_if_B": 12835746.306506308,
+   "cagr_0050_A": 0.1457273666295018,
+   "cagr_0050_if_B": 0.14537423782720627
+  }
+ },
+ "item4": {
+  "sample60": {
+   "n": 60,
+   "verdict": {
+    "通過": 42,
+    "無法驗證（本地沒有第二來源）": 18
+   },
+   "by_year": {
+    "2008": {
+     "無法驗證（本地沒有第二來源）": 3
+    },
+    "2009": {
+     "無法驗證（本地沒有第二來源）": 3
+    },
+    "2010": {
+     "無法驗證（本地沒有第二來源）": 3
+    },
+    "2011": {
+     "無法驗證（本地沒有第二來源）": 3
+    },
+    "2012": {
+     "無法驗證（本地沒有第二來源）": 3
+    },
+    "2013": {
+     "無法驗證（本地沒有第二來源）": 3
+    },
+    "2014": {
+     "通過": 3
+    },
+    "2015": {
+     "通過": 3
+    },
+    "2016": {
+     "通過": 3
+    },
+    "2017": {
+     "通過": 3
+    },
+    "2018": {
+     "通過": 3
+    },
+    "2019": {
+     "通過": 4
+    },
+    "2020": {
+     "通過": 3
+    },
+    "2021": {
+     "通過": 3
+    },
+    "2022": {
+     "通過": 3
+    },
+    "2023": {
+     "通過": 4
+    },
+    "2024": {
+     "通過": 4
+    },
+    "2025": {
+     "通過": 3
+    },
+    "2026": {
+     "通過": 3
+    }
+   },
+   "rows": [
+    {
+     "code": "6136",
+     "name": "富爾特",
+     "month": "2008-09",
+     "src1": 119735.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "2537",
+     "name": "聯上開發",
+     "month": "2008-06",
+     "src1": 75.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "9918",
+     "name": "欣天然",
+     "month": "2008-09",
+     "src1": 112843.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "1231",
+     "name": "聯華食品",
+     "month": "2009-11",
+     "src1": 246091.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "8110",
+     "name": "華東",
+     "month": "2009-01",
+     "src1": 301684.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "1456",
+     "name": "怡華",
+     "month": "2009-08",
+     "src1": 148247.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "2890",
+     "name": "永豐金控",
+     "month": "2010-06",
+     "src1": 203173.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "9911",
+     "name": "台灣櫻花",
+     "month": "2010-05",
+     "src1": 224394.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "4133",
+     "name": "亞諾法",
+     "month": "2010-02",
+     "src1": 38428.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "9912",
+     "name": "偉聯",
+     "month": "2011-04",
+     "src1": 38322.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "4108",
+     "name": "懷特",
+     "month": "2011-05",
+     "src1": 11611.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "3025",
+     "name": "星通",
+     "month": "2011-01",
+     "src1": 50154.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "2363",
+     "name": "矽統科技",
+     "month": "2012-12",
+     "src1": 38737.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "2207",
+     "name": "和泰汽車",
+     "month": "2012-03",
+     "src1": 8800162.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "2480",
+     "name": "敦陽科技",
+     "month": "2012-05",
+     "src1": 381079.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "2328",
+     "name": "廣宇",
+     "month": "2013-11",
+     "src1": 1386684.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "1453",
+     "name": "大將",
+     "month": "2013-10",
+     "src1": 45764.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "2731",
+     "name": "雄獅",
+     "month": "2013-03",
+     "src1": 922450.0,
+     "alt": {},
+     "n_alt": 0,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": null,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "無法驗證（本地沒有第二來源）"
+    },
+    {
+     "code": "6196",
+     "name": "帆宣",
+     "month": "2014-02",
+     "src1": 911602.0,
+     "alt": {
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 911602.0
+     },
+     "n_alt": 1,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": true,
+     "verdict": "通過"
+    },
+    {
+     "code": "1524",
+     "name": "耿鼎",
+     "month": "2014-03",
+     "src1": 215562.0,
+     "alt": {
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 215562.0
+     },
+     "n_alt": 1,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": true,
+     "verdict": "通過"
+    },
+    {
+     "code": "5285",
+     "name": "界霖",
+     "month": "2014-04",
+     "src1": 227793.0,
+     "alt": {
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 227793.0
+     },
+     "n_alt": 1,
+     "n_primary_alt": 0,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": true,
+     "verdict": "通過"
+    },
+    {
+     "code": "2516",
+     "name": "新建",
+     "month": "2015-09",
+     "src1": 470753.0,
+     "alt": {
+      "官方倉庫revenue_hist": 470753.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 432630.0,
+      "taiwanan": 470753.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": -0.08098302081983544,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "3588",
+     "name": "通嘉",
+     "month": "2015-10",
+     "src1": 91054.0,
+     "alt": {
+      "官方倉庫revenue_hist": 91054.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 91054.0,
+      "taiwanan": 91054.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "1472",
+     "name": "三洋實業",
+     "month": "2015-12",
+     "src1": 46277.0,
+     "alt": {
+      "官方倉庫revenue_hist": 46277.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 46277.0,
+      "taiwanan": 46277.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2634",
+     "name": "漢翔",
+     "month": "2016-10",
+     "src1": 2121693.0,
+     "alt": {
+      "官方倉庫revenue_hist": 2121693.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 2121693.0,
+      "taiwanan": 2121693.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "6239",
+     "name": "力成",
+     "month": "2016-10",
+     "src1": 4452682.0,
+     "alt": {
+      "官方倉庫revenue_hist": 4452682.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 4452682.0,
+      "FinMind(hawan)": 4452682.0,
+      "taiwanan": 4452682.0
+     },
+     "n_alt": 4,
+     "n_primary_alt": 3,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "1466",
+     "name": "聚隆",
+     "month": "2016-04",
+     "src1": 305503.0,
+     "alt": {
+      "官方倉庫revenue_hist": 305503.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 305503.0,
+      "taiwanan": 305503.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "9927",
+     "name": "泰銘",
+     "month": "2017-08",
+     "src1": 1018403.0,
+     "alt": {
+      "官方倉庫revenue_hist": 1018403.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 1018403.0,
+      "taiwanan": 1018403.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "3057",
+     "name": "喬鼎",
+     "month": "2017-11",
+     "src1": 121178.0,
+     "alt": {
+      "官方倉庫revenue_hist": 121178.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 121178.0,
+      "taiwanan": 121178.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "1517",
+     "name": "利奇",
+     "month": "2017-02",
+     "src1": 201709.0,
+     "alt": {
+      "官方倉庫revenue_hist": 201709.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 192255.0,
+      "taiwanan": 201709.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": -0.04686950012146207,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "6698",
+     "name": "旭暉應材",
+     "month": "2018-09",
+     "src1": 48162.0,
+     "alt": {
+      "官方倉庫revenue_hist": 48162.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 48162.0
+     },
+     "n_alt": 2,
+     "n_primary_alt": 1,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "6257",
+     "name": "矽格",
+     "month": "2018-01",
+     "src1": 715771.0,
+     "alt": {
+      "官方倉庫revenue_hist": 715771.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 715771.0,
+      "taiwanan": 715771.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "8039",
+     "name": "台虹",
+     "month": "2018-07",
+     "src1": 963165.0,
+     "alt": {
+      "官方倉庫revenue_hist": 963165.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 963165.0,
+      "taiwanan": 963165.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2421",
+     "name": "建準",
+     "month": "2019-03",
+     "src1": 847754.0,
+     "alt": {
+      "官方倉庫revenue_hist": 847754.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 847754.0,
+      "taiwanan": 847754.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "3038",
+     "name": "全台",
+     "month": "2019-03",
+     "src1": 317345.0,
+     "alt": {
+      "官方倉庫revenue_hist": 317345.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 317345.0,
+      "taiwanan": 317345.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "1504",
+     "name": "東元",
+     "month": "2019-10",
+     "src1": 3879865.0,
+     "alt": {
+      "官方倉庫revenue_hist": 3879865.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 3879865.0,
+      "FinMind(hawan)": 3879865.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "1786",
+     "name": "科妍",
+     "month": "2020-10",
+     "src1": 50982.0,
+     "alt": {
+      "官方倉庫revenue_hist": 50982.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 50982.0
+     },
+     "n_alt": 2,
+     "n_primary_alt": 1,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2495",
+     "name": "普安",
+     "month": "2020-02",
+     "src1": 88489.0,
+     "alt": {
+      "官方倉庫revenue_hist": 88489.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 88489.0
+     },
+     "n_alt": 2,
+     "n_primary_alt": 1,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2399",
+     "name": "映泰",
+     "month": "2020-01",
+     "src1": 160105.0,
+     "alt": {
+      "官方倉庫revenue_hist": 160105.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 160105.0
+     },
+     "n_alt": 2,
+     "n_primary_alt": 1,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "3703",
+     "name": "欣陸",
+     "month": "2021-08",
+     "src1": 1607276.0,
+     "alt": {
+      "官方倉庫revenue_hist": 1607276.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 1607276.0,
+      "stevenhsieh_rev_5y": 1607276.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "3004",
+     "name": "豐達科",
+     "month": "2021-10",
+     "src1": 135361.0,
+     "alt": {
+      "官方倉庫revenue_hist": 135361.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 135361.0,
+      "stevenhsieh_rev_5y": 135361.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2352",
+     "name": "佳世達",
+     "month": "2021-07",
+     "src1": 18697083.0,
+     "alt": {
+      "官方倉庫revenue_hist": 18697083.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 18697137.0,
+      "stevenhsieh_rev_5y": 18697083.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 2.888151055424615e-06,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "3703",
+     "name": "欣陸",
+     "month": "2022-06",
+     "src1": 2746937.0,
+     "alt": {
+      "官方倉庫revenue_hist": 2746937.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 2746937.0,
+      "stevenhsieh_rev_5y": 2746937.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2535",
+     "name": "達欣工",
+     "month": "2022-04",
+     "src1": 1537012.0,
+     "alt": {
+      "官方倉庫revenue_hist": 1537012.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 1537012.0,
+      "stevenhsieh_rev_5y": 1537012.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "6024",
+     "name": "群益期",
+     "month": "2022-06",
+     "src1": 244292.0,
+     "alt": {
+      "官方倉庫revenue_hist": 244292.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 244292.0,
+      "stevenhsieh_rev_5y": 244292.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2436",
+     "name": "偉詮電",
+     "month": "2023-05",
+     "src1": 236017.0,
+     "alt": {
+      "官方倉庫revenue_hist": 236017.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 236017.0,
+      "stevenhsieh_rev_5y": 236017.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2364",
+     "name": "倫飛",
+     "month": "2023-11",
+     "src1": 137176.0,
+     "alt": {
+      "官方倉庫revenue_hist": 137176.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 137176.0,
+      "stevenhsieh_rev_5y": 137176.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "1786",
+     "name": "科妍",
+     "month": "2023-11",
+     "src1": 62053.0,
+     "alt": {
+      "官方倉庫revenue_hist": 62053.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 62053.0,
+      "stevenhsieh_rev_5y": 62053.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "9904",
+     "name": "寶成",
+     "month": "2024-07",
+     "src1": 22243179.0,
+     "alt": {
+      "官方倉庫revenue_hist": 22243179.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 22243179.0,
+      "stevenhsieh_rev_5y": 22243179.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2612",
+     "name": "中航",
+     "month": "2024-05",
+     "src1": 371626.0,
+     "alt": {
+      "官方倉庫revenue_hist": 371626.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 371626.0,
+      "stevenhsieh_rev_5y": 371626.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2701",
+     "name": "萬企",
+     "month": "2024-02",
+     "src1": 25501.0,
+     "alt": {
+      "官方倉庫revenue_hist": 25501.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 25501.0,
+      "stevenhsieh_rev_5y": 25501.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "3032",
+     "name": "偉訓",
+     "month": "2025-02",
+     "src1": 630880.0,
+     "alt": {
+      "官方倉庫revenue_hist": 630880.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 630880.0,
+      "stevenhsieh_rev_5y": 630880.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "6141",
+     "name": "柏承",
+     "month": "2025-05",
+     "src1": 137514.0,
+     "alt": {
+      "官方倉庫revenue_hist": 137514.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 137514.0,
+      "stevenhsieh_rev_5y": 137514.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2414",
+     "name": "精技",
+     "month": "2025-12",
+     "src1": 2226189.0,
+     "alt": {
+      "官方倉庫revenue_hist": 2226189.0,
+      "stevenhsieh_rev_5y": 2226189.0
+     },
+     "n_alt": 2,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "3413",
+     "name": "京鼎",
+     "month": "2026-01",
+     "src1": 1890612.0,
+     "alt": {
+      "官方倉庫revenue_hist": 1890612.0,
+      "stevenhsieh_rev_5y": 1890612.0
+     },
+     "n_alt": 2,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "3704",
+     "name": "合勤控",
+     "month": "2026-04",
+     "src1": 2881177.0,
+     "alt": {
+      "官方倉庫revenue_hist": 2881177.0,
+      "stevenhsieh_rev_5y": 2881177.0
+     },
+     "n_alt": 2,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "9911",
+     "name": "櫻花",
+     "month": "2026-01",
+     "src1": 1097374.0,
+     "alt": {
+      "官方倉庫revenue_hist": 1097374.0,
+      "stevenhsieh_rev_5y": 1097374.0
+     },
+     "n_alt": 2,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": null,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "1521",
+     "name": "大億",
+     "month": "2019-06",
+     "src1": 473405.0,
+     "alt": {
+      "官方倉庫revenue_hist": 473405.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 473405.0,
+      "taiwanan": 473405.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "2006",
+     "name": "東和鋼鐵",
+     "month": "2024-08",
+     "src1": 5290398.0,
+     "alt": {
+      "官方倉庫revenue_hist": 5290398.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 5290398.0,
+      "stevenhsieh_rev_5y": 5290398.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    },
+    {
+     "code": "1786",
+     "name": "科妍",
+     "month": "2023-10",
+     "src1": 60029.0,
+     "alt": {
+      "官方倉庫revenue_hist": 60029.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 60029.0,
+      "stevenhsieh_rev_5y": 60029.0
+     },
+     "n_alt": 3,
+     "n_primary_alt": 2,
+     "max_abs_rel_diff": 0.0,
+     "restated_rel_diff": 0.0,
+     "only_restated": false,
+     "verdict": "通過"
+    }
+   ]
+  },
+  "census": {
+   "官方倉庫revenue_hist": {
+    "first": "2015-01",
+    "last": "2026-09",
+    "n_both": 236787,
+    "exact": 236767,
+    "n_diff_gt_1e6": 20,
+    "n_diff_gt_1pct": 19,
+    "n_diff_gt_10pct": 14,
+    "match_rate": 0.9999155359035757,
+    "src1_only": 105,
+    "alt_only": 894,
+    "by_year_diff_gt_1e6": {
+     "2015": 0,
+     "2016": 0,
+     "2017": 0,
+     "2018": 0,
+     "2019": 0,
+     "2020": 0,
+     "2021": 0,
+     "2022": 0,
+     "2023": 0,
+     "2024": 0,
+     "2025": 8,
+     "2026": 12
+    }
+   },
+   "官方倉庫revenue_hist（次年檔的去年當月營收）": {
+    "first": "2014-01",
+    "last": "2025-10",
+    "n_both": 232020,
+    "exact": 226345,
+    "n_diff_gt_1e6": 5675,
+    "n_diff_gt_1pct": 2082,
+    "n_diff_gt_10pct": 713,
+    "match_rate": 0.9755409016464098,
+    "src1_only": 1986,
+    "alt_only": 5307,
+    "by_year_diff_gt_1e6": {
+     "2014": 716,
+     "2015": 551,
+     "2016": 518,
+     "2017": 521,
+     "2018": 486,
+     "2019": 504,
+     "2020": 494,
+     "2021": 399,
+     "2022": 437,
+     "2023": 355,
+     "2024": 346,
+     "2025": 348
+    }
+   },
+   "FinMind(hawan)": {
+    "first": "2014-12",
+    "last": "2026-05",
+    "n_both": 13651,
+    "exact": 13643,
+    "n_diff_gt_1e6": 8,
+    "n_diff_gt_1pct": 8,
+    "n_diff_gt_10pct": 6,
+    "match_rate": 0.9994139623470808,
+    "src1_only": 691,
+    "alt_only": 4,
+    "by_year_diff_gt_1e6": {
+     "2014": 0,
+     "2015": 0,
+     "2016": 0,
+     "2017": 0,
+     "2018": 0,
+     "2019": 0,
+     "2020": 0,
+     "2021": 0,
+     "2022": 0,
+     "2023": 8,
+     "2024": 0,
+     "2025": 0,
+     "2026": 0
+    }
+   },
+   "stevenhsieh_rev_5y": {
+    "first": "2020-12",
+    "last": "2026-09",
+    "n_both": 122952,
+    "exact": 122950,
+    "n_diff_gt_1e6": 2,
+    "n_diff_gt_1pct": 1,
+    "n_diff_gt_10pct": 1,
+    "match_rate": 0.9999837334894919,
+    "src1_only": 1533,
+    "alt_only": 25,
+    "by_year_diff_gt_1e6": {
+     "2020": 0,
+     "2021": 0,
+     "2022": 0,
+     "2023": 0,
+     "2024": 0,
+     "2025": 0,
+     "2026": 2
+    }
+   },
+   "taiwanan": {
+    "first": "2015-01",
+    "last": "2019-08",
+    "n_both": 81534,
+    "exact": 81243,
+    "n_diff_gt_1e6": 291,
+    "n_diff_gt_1pct": 250,
+    "n_diff_gt_10pct": 167,
+    "match_rate": 0.9964309367871073,
+    "src1_only": 2340,
+    "alt_only": 4646,
+    "by_year_diff_gt_1e6": {
+     "2015": 28,
+     "2016": 35,
+     "2017": 30,
+     "2018": 105,
+     "2019": 93
+    }
+   }
+  },
+  "surge": {
+   "n": 1175,
+   "n_computed": 1175,
+   "max_abs_diff": 3.552713678800501e-15,
+   "n_diff_gt_1e6": 0,
+   "n_nan": 0,
+   "by_version": {
+    "V_BRIDGE": {
+     "n": 632,
+     "max_abs_diff": 3.552713678800501e-15,
+     "n_bad": 0
+    },
+    "V_MASK": {
+     "n": 543,
+     "max_abs_diff": 3.552713678800501e-15,
+     "n_bad": 0
+    }
+   },
+   "b2_rows": 80
+  },
+  "trade_cells": {
+   "unique_code_months": 635,
+   "month_m": {
+    "checked": 461,
+    "ok": 458,
+    "no_second_source": 174
+   },
+   "month_m12": {
+    "checked": 439,
+    "ok": 438,
+    "no_second_source": 196
+   },
+   "mismatches": [
+    {
+     "code": "5007",
+     "month": "2014-01",
+     "rev_m": 620695.0,
+     "alt_m": {
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 621090.0
+     },
+     "rev_m12": 475867.0,
+     "alt_m12": {}
+    },
+    {
+     "code": "3229",
+     "month": "2014-03",
+     "rev_m": 127577.0,
+     "alt_m": {
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 127578.0
+     },
+     "rev_m12": 59541.0,
+     "alt_m12": {}
+    },
+    {
+     "code": "2615",
+     "month": "2014-09",
+     "rev_m": 5765195.0,
+     "alt_m": {
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 5765142.0
+     },
+     "rev_m12": 5180909.0,
+     "alt_m12": {}
+    },
+    {
+     "code": "1319",
+     "month": "2015-12",
+     "rev_m": 2172353.0,
+     "alt_m": {
+      "官方倉庫revenue_hist": 2172353.0,
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 2168792.0,
+      "taiwanan": 2172353.0
+     },
+     "rev_m12": 1900927.0,
+     "alt_m12": {
+      "官方倉庫revenue_hist（次年檔的去年當月營收）": 1897727.0
+     }
+    }
+   ]
+  },
+  "winners": [
+   {
+    "code": "2408",
+    "ent": "2025-09-12",
+    "sig_date": "2025-09-11",
+    "rev_month": "2025-08",
+    "rev_m_k": 6762501.0,
+    "rev_m12_k": 2802250.0,
+    "yoy_pct": 141.32397180836827,
+    "D": 3960251.0,
+    "mu24": 190020.95833333334,
+    "sd24": 876108.2916834406,
+    "surge_recalc": 4.303383585632064,
+    "score_in_trades": 4.303383585632064,
+    "abs_diff": 0.0,
+    "latest_month_used": "2025-08",
+    "rev_m_other_sources": {
+     "官方倉庫revenue_hist": 6762501.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 6762501.0,
+     "FinMind(hawan)": 6762501.0,
+     "stevenhsieh_rev_5y": 6762501.0
+    },
+    "rev_m12_other_sources": {
+     "官方倉庫revenue_hist": 2802250.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 2802250.0,
+     "FinMind(hawan)": 2802250.0,
+     "stevenhsieh_rev_5y": 2802250.0
+    },
+    "window_cells_checked": 37,
+    "window_cells_match": 36
+   },
+   {
+    "code": "3653",
+    "ent": "2026-08-12",
+    "sig_date": "2026-08-11",
+    "rev_month": "2026-07",
+    "rev_m_k": 3213171.0,
+    "rev_m12_k": 1682644.0,
+    "yoy_pct": 90.95964446430736,
+    "D": 1530527.0,
+    "mu24": 427373.3333333333,
+    "sd24": 254562.74521886016,
+    "surge_recalc": 4.333523610134826,
+    "score_in_trades": 4.333523610134826,
+    "abs_diff": 0.0,
+    "latest_month_used": "2026-07",
+    "rev_m_other_sources": {
+     "官方倉庫revenue_hist": 3213171.0,
+     "stevenhsieh_rev_5y": 3213171.0
+    },
+    "rev_m12_other_sources": {
+     "官方倉庫revenue_hist": 1682644.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 1682644.0,
+     "FinMind(hawan)": 1682644.0,
+     "stevenhsieh_rev_5y": 1682644.0
+    },
+    "window_cells_checked": 37,
+    "window_cells_match": 37
+   },
+   {
+    "code": "3017",
+    "ent": "2025-05-14",
+    "sig_date": "2025-05-13",
+    "rev_month": "2025-04",
+    "rev_m_k": 9108166.0,
+    "rev_m12_k": 5188203.0,
+    "yoy_pct": 75.55531269690104,
+    "D": 3919963.0,
+    "mu24": 1021971.1666666666,
+    "sd24": 965799.2358544371,
+    "surge_recalc": 3.000615164878958,
+    "score_in_trades": 3.000615164878958,
+    "abs_diff": 0.0,
+    "latest_month_used": "2025-04",
+    "rev_m_other_sources": {
+     "官方倉庫revenue_hist": 9108166.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 9108166.0,
+     "FinMind(hawan)": 9108166.0,
+     "stevenhsieh_rev_5y": 9108166.0
+    },
+    "rev_m12_other_sources": {
+     "官方倉庫revenue_hist": 5188203.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 5188203.0,
+     "FinMind(hawan)": 5188203.0,
+     "stevenhsieh_rev_5y": 5188203.0
+    },
+    "window_cells_checked": 37,
+    "window_cells_match": 37
+   },
+   {
+    "code": "2344",
+    "ent": "2026-05-13",
+    "sig_date": "2026-05-12",
+    "rev_month": "2026-04",
+    "rev_m_k": 19245022.0,
+    "rev_m12_k": 6819077.0,
+    "yoy_pct": 182.2232686329836,
+    "D": 12425945.0,
+    "mu24": 1252288.1666666667,
+    "sd24": 2098083.930769519,
+    "surge_recalc": 5.32564816376776,
+    "score_in_trades": 5.32564816376776,
+    "abs_diff": 0.0,
+    "latest_month_used": "2026-04",
+    "rev_m_other_sources": {
+     "官方倉庫revenue_hist": 19245022.0,
+     "stevenhsieh_rev_5y": 19245022.0
+    },
+    "rev_m12_other_sources": {
+     "官方倉庫revenue_hist": 6819077.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 6819077.0,
+     "FinMind(hawan)": 6819077.0,
+     "stevenhsieh_rev_5y": 6819077.0
+    },
+    "window_cells_checked": 37,
+    "window_cells_match": 37
+   },
+   {
+    "code": "2059",
+    "ent": "2026-06-12",
+    "sig_date": "2026-06-11",
+    "rev_month": "2026-05",
+    "rev_m_k": 3791303.0,
+    "rev_m12_k": 1393592.0,
+    "yoy_pct": 172.0525806692346,
+    "D": 2397711.0,
+    "mu24": 552109.0833333334,
+    "sd24": 173609.14222619295,
+    "surge_recalc": 10.630787601392887,
+    "score_in_trades": 10.630787601392887,
+    "abs_diff": 0.0,
+    "latest_month_used": "2026-05",
+    "rev_m_other_sources": {
+     "官方倉庫revenue_hist": 3791303.0,
+     "stevenhsieh_rev_5y": 3791303.0
+    },
+    "rev_m12_other_sources": {
+     "官方倉庫revenue_hist": 1393592.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 1393592.0,
+     "FinMind(hawan)": 1393592.0,
+     "stevenhsieh_rev_5y": 1393592.0
+    },
+    "window_cells_checked": 37,
+    "window_cells_match": 35
+   },
+   {
+    "code": "1325",
+    "ent": "2020-03-12",
+    "sig_date": "2020-03-11",
+    "rev_month": "2020-02",
+    "rev_m_k": 106907.0,
+    "rev_m12_k": 45720.0,
+    "yoy_pct": 133.82983377077866,
+    "D": 61187.0,
+    "mu24": -4036.5,
+    "sd24": 14980.710768532806,
+    "surge_recalc": 4.353832138392451,
+    "score_in_trades": 4.353832138392451,
+    "abs_diff": 0.0,
+    "latest_month_used": "2020-02",
+    "rev_m_other_sources": {
+     "官方倉庫revenue_hist": 106907.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 106907.0
+    },
+    "rev_m12_other_sources": {
+     "官方倉庫revenue_hist": 45720.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 45720.0,
+     "taiwanan": 45720.0
+    },
+    "window_cells_checked": 37,
+    "window_cells_match": 37
+   },
+   {
+    "code": "2344",
+    "ent": "2025-11-12",
+    "sig_date": "2025-11-11",
+    "rev_month": "2025-10",
+    "rev_m_k": 8225204.0,
+    "rev_m12_k": 6097945.0,
+    "yoy_pct": 34.88485055211223,
+    "D": 2127259.0,
+    "mu24": 267369.9166666667,
+    "sd24": 511558.9269650612,
+    "surge_recalc": 3.635727939237704,
+    "score_in_trades": 3.635727939237704,
+    "abs_diff": 0.0,
+    "latest_month_used": "2025-10",
+    "rev_m_other_sources": {
+     "官方倉庫revenue_hist": 8225204.0,
+     "FinMind(hawan)": 8225204.0,
+     "stevenhsieh_rev_5y": 8225204.0
+    },
+    "rev_m12_other_sources": {
+     "官方倉庫revenue_hist": 6097945.0,
+     "官方倉庫revenue_hist（次年檔的去年當月營收）": 6097945.0,
+     "FinMind(hawan)": 6097945.0,
+     "stevenhsieh_rev_5y": 6097945.0
+    },
+    "window_cells_checked": 37,
+    "window_cells_match": 37
+   }
+  ]
+ },
+ "item5": {
+  "dates": {
+   "n": 225,
+   "sig_after_deadline": 225,
+   "sig_is_next_trading_day": 225,
+   "exceptions_hit": [
+    {
+     "month": "2019-01",
+     "sig_date": "2019-02-18",
+     "deadline": "2019-02-15"
+    },
+    {
+     "month": "2023-03",
+     "sig_date": "2023-04-13",
+     "deadline": "2023-04-12"
+    }
+   ],
+   "bad": [],
+   "not_next": []
+  },
+  "sample40": {
+   "n_months": 40,
+   "months_all_ok": 40,
+   "n_stock_rows": 142,
+   "stock_rows_ok": 142,
+   "fails": {
+    "rev_month_le_m": 0,
+    "surge_finite": 0,
+    "above_ma60_at_sig": 0,
+    "ret20_gt_10pct": 0,
+    "liq_ok": 0,
+    "close_ok": 0,
+    "twse": 0
+   },
+   "ins15_violation": 0,
+   "bought": 106,
+   "score_match": 106,
+   "ent_is_next_day": 106,
+   "months": [
+    {
+     "month": "2008-01",
+     "sig_date": "2008-02-13",
+     "deadline": "2008-02-12",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2008-04",
+     "sig_date": "2008-05-13",
+     "deadline": "2008-05-12",
+     "sig_after_deadline": true,
+     "n_targets": 3,
+     "all_ok": true
+    },
+    {
+     "month": "2010-04",
+     "sig_date": "2010-05-11",
+     "deadline": "2010-05-10",
+     "sig_after_deadline": true,
+     "n_targets": 3,
+     "all_ok": true
+    },
+    {
+     "month": "2010-09",
+     "sig_date": "2010-10-12",
+     "deadline": "2010-10-11",
+     "sig_after_deadline": true,
+     "n_targets": 2,
+     "all_ok": true
+    },
+    {
+     "month": "2010-12",
+     "sig_date": "2011-01-11",
+     "deadline": "2011-01-10",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2011-10",
+     "sig_date": "2011-11-11",
+     "deadline": "2011-11-10",
+     "sig_after_deadline": true,
+     "n_targets": 3,
+     "all_ok": true
+    },
+    {
+     "month": "2012-09",
+     "sig_date": "2012-10-12",
+     "deadline": "2012-10-11",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2012-11",
+     "sig_date": "2012-12-11",
+     "deadline": "2012-12-10",
+     "sig_after_deadline": true,
+     "n_targets": 6,
+     "all_ok": true
+    },
+    {
+     "month": "2013-01",
+     "sig_date": "2013-02-19",
+     "deadline": "2013-02-18",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2013-05",
+     "sig_date": "2013-06-11",
+     "deadline": "2013-06-10",
+     "sig_after_deadline": true,
+     "n_targets": 6,
+     "all_ok": true
+    },
+    {
+     "month": "2014-08",
+     "sig_date": "2014-09-11",
+     "deadline": "2014-09-10",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2014-10",
+     "sig_date": "2014-11-11",
+     "deadline": "2014-11-10",
+     "sig_after_deadline": true,
+     "n_targets": 2,
+     "all_ok": true
+    },
+    {
+     "month": "2015-02",
+     "sig_date": "2015-03-11",
+     "deadline": "2015-03-10",
+     "sig_after_deadline": true,
+     "n_targets": 3,
+     "all_ok": true
+    },
+    {
+     "month": "2015-05",
+     "sig_date": "2015-06-11",
+     "deadline": "2015-06-10",
+     "sig_after_deadline": true,
+     "n_targets": 5,
+     "all_ok": true
+    },
+    {
+     "month": "2015-08",
+     "sig_date": "2015-09-11",
+     "deadline": "2015-09-10",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2016-02",
+     "sig_date": "2016-03-11",
+     "deadline": "2016-03-10",
+     "sig_after_deadline": true,
+     "n_targets": 5,
+     "all_ok": true
+    },
+    {
+     "month": "2016-09",
+     "sig_date": "2016-10-12",
+     "deadline": "2016-10-11",
+     "sig_after_deadline": true,
+     "n_targets": 3,
+     "all_ok": true
+    },
+    {
+     "month": "2016-10",
+     "sig_date": "2016-11-11",
+     "deadline": "2016-11-10",
+     "sig_after_deadline": true,
+     "n_targets": 5,
+     "all_ok": true
+    },
+    {
+     "month": "2017-01",
+     "sig_date": "2017-02-13",
+     "deadline": "2017-02-10",
+     "sig_after_deadline": true,
+     "n_targets": 6,
+     "all_ok": true
+    },
+    {
+     "month": "2017-03",
+     "sig_date": "2017-04-11",
+     "deadline": "2017-04-10",
+     "sig_after_deadline": true,
+     "n_targets": 4,
+     "all_ok": true
+    },
+    {
+     "month": "2017-09",
+     "sig_date": "2017-10-12",
+     "deadline": "2017-10-11",
+     "sig_after_deadline": true,
+     "n_targets": 2,
+     "all_ok": true
+    },
+    {
+     "month": "2017-12",
+     "sig_date": "2018-01-11",
+     "deadline": "2018-01-10",
+     "sig_after_deadline": true,
+     "n_targets": 4,
+     "all_ok": true
+    },
+    {
+     "month": "2018-01",
+     "sig_date": "2018-02-21",
+     "deadline": "2018-02-12",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2018-03",
+     "sig_date": "2018-04-11",
+     "deadline": "2018-04-10",
+     "sig_after_deadline": true,
+     "n_targets": 4,
+     "all_ok": true
+    },
+    {
+     "month": "2018-04",
+     "sig_date": "2018-05-11",
+     "deadline": "2018-05-10",
+     "sig_after_deadline": true,
+     "n_targets": 7,
+     "all_ok": true
+    },
+    {
+     "month": "2018-07",
+     "sig_date": "2018-08-13",
+     "deadline": "2018-08-10",
+     "sig_after_deadline": true,
+     "n_targets": 4,
+     "all_ok": true
+    },
+    {
+     "month": "2019-07",
+     "sig_date": "2019-08-13",
+     "deadline": "2019-08-12",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2020-04",
+     "sig_date": "2020-05-12",
+     "deadline": "2020-05-11",
+     "sig_after_deadline": true,
+     "n_targets": 6,
+     "all_ok": true
+    },
+    {
+     "month": "2020-06",
+     "sig_date": "2020-07-13",
+     "deadline": "2020-07-10",
+     "sig_after_deadline": true,
+     "n_targets": 5,
+     "all_ok": true
+    },
+    {
+     "month": "2022-02",
+     "sig_date": "2022-03-11",
+     "deadline": "2022-03-10",
+     "sig_after_deadline": true,
+     "n_targets": 6,
+     "all_ok": true
+    },
+    {
+     "month": "2022-06",
+     "sig_date": "2022-07-12",
+     "deadline": "2022-07-11",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2022-07",
+     "sig_date": "2022-08-11",
+     "deadline": "2022-08-10",
+     "sig_after_deadline": true,
+     "n_targets": 5,
+     "all_ok": true
+    },
+    {
+     "month": "2022-12",
+     "sig_date": "2023-01-11",
+     "deadline": "2023-01-10",
+     "sig_after_deadline": true,
+     "n_targets": 1,
+     "all_ok": true
+    },
+    {
+     "month": "2023-02",
+     "sig_date": "2023-03-13",
+     "deadline": "2023-03-10",
+     "sig_after_deadline": true,
+     "n_targets": 4,
+     "all_ok": true
+    },
+    {
+     "month": "2023-04",
+     "sig_date": "2023-05-11",
+     "deadline": "2023-05-10",
+     "sig_after_deadline": true,
+     "n_targets": 4,
+     "all_ok": true
+    },
+    {
+     "month": "2023-06",
+     "sig_date": "2023-07-11",
+     "deadline": "2023-07-10",
+     "sig_after_deadline": true,
+     "n_targets": 2,
+     "all_ok": true
+    },
+    {
+     "month": "2024-11",
+     "sig_date": "2024-12-11",
+     "deadline": "2024-12-10",
+     "sig_after_deadline": true,
+     "n_targets": 6,
+     "all_ok": true
+    },
+    {
+     "month": "2025-02",
+     "sig_date": "2025-03-11",
+     "deadline": "2025-03-10",
+     "sig_after_deadline": true,
+     "n_targets": 2,
+     "all_ok": true
+    },
+    {
+     "month": "2025-04",
+     "sig_date": "2025-05-13",
+     "deadline": "2025-05-12",
+     "sig_after_deadline": true,
+     "n_targets": 10,
+     "all_ok": true
+    },
+    {
+     "month": "2026-05",
+     "sig_date": "2026-06-11",
+     "deadline": "2026-06-10",
+     "sig_after_deadline": true,
+     "n_targets": 5,
+     "all_ok": true
+    }
+   ],
+   "bad_rows": []
+  },
+  "seed": 20261120
+ },
+ "item6": {
+  "ent_no_volume": {
+   "rows": 0,
+   "unique": 0,
+   "list": []
+  },
+  "exit_no_volume": {
+   "rows": 0,
+   "unique": 0,
+   "list": []
+  },
+  "buy_at_open_limup_real": {
+   "rows": 11,
+   "unique": 6,
+   "list": [
+    "V_MASK 2478 2008-03-12→2008-04-14",
+    "V_MASK 2013 2008-05-14→2008-07-14",
+    "V_MASK 1516 2008-10-15→2009-01-13",
+    "V_MASK 6120 2009-05-13→2009-06-12",
+    "V_MASK 8201 2012-03-14→2012-04-12",
+    "V_BRIDGE 2478 2008-03-12→2008-04-14",
+    "V_BRIDGE 2013 2008-05-14→2008-07-14",
+    "V_BRIDGE 1516 2008-10-15→2009-01-13",
+    "V_BRIDGE 6120 2009-05-13→2009-06-12",
+    "V_BRIDGE 8201 2012-03-14→2012-04-12",
+    "V_BRIDGE 4426 2015-04-14→2015-08-12"
+   ]
+  },
+  "buy_at_open_limup_10pct_rule": {
+   "rows": 0,
+   "unique": 0,
+   "list": []
+  },
+  "sell_at_open_limdn_real": {
+   "rows": 0,
+   "unique": 0,
+   "list": []
+  },
+  "sell_at_open_limdn_10pct_rule": {
+   "rows": 0,
+   "unique": 0,
+   "list": []
+  },
+  "not_twse_on_entry": 0,
+  "not_twse_on_signal": 0,
+  "innov_on_entry": 0,
+  "not_twse_on_exit": 0,
+  "held_after_last_data": 0,
+  "trades_with_days_not_in_file": 5,
+  "trades_with_tpex_days": 0,
+  "trades_with_notrade_days": 9,
+  "lot_violation": 0,
+  "why": {
+   "rule": 1159,
+   "open_end": 16
+  },
+  "max_buy_share_of_day_amt": 0.05,
+  "n_buy_share_gt_5pct": 0,
+  "dpfill_entries": 16,
+  "limup_detail": [
+   {
+    "version": "V_MASK",
+    "code": "2478",
+    "ent": "2008-03-12",
+    "open": 33.75,
+    "gap": 0.0697,
+    "ret": -0.068393672045108,
+    "pnl": -4635.691168300014
+   },
+   {
+    "version": "V_MASK",
+    "code": "2013",
+    "ent": "2008-05-14",
+    "open": 26.55,
+    "gap": 0.0684,
+    "ret": -0.1625712109195907,
+    "pnl": -8670.01541069999
+   },
+   {
+    "version": "V_MASK",
+    "code": "1516",
+    "ent": "2008-10-15",
+    "open": 16.25,
+    "gap": 0.0691,
+    "ret": 0.0510790406307248,
+    "pnl": 2502.4260492999965
+   },
+   {
+    "version": "V_MASK",
+    "code": "6120",
+    "ent": "2009-05-13",
+    "open": 18.4,
+    "gap": 0.0698,
+    "ret": 0.0842975713490525,
+    "pnl": 4675.372663800008
+   },
+   {
+    "version": "V_MASK",
+    "code": "8201",
+    "ent": "2012-03-14",
+    "open": 26.1,
+    "gap": 0.0697,
+    "ret": -0.2049624321575018,
+    "pnl": -16118.505014099974
+   },
+   {
+    "version": "V_BRIDGE",
+    "code": "2478",
+    "ent": "2008-03-12",
+    "open": 33.75,
+    "gap": 0.0697,
+    "ret": -0.068393672045108,
+    "pnl": -4635.691168300014
+   },
+   {
+    "version": "V_BRIDGE",
+    "code": "2013",
+    "ent": "2008-05-14",
+    "open": 26.55,
+    "gap": 0.0684,
+    "ret": -0.1625712109195907,
+    "pnl": -8670.01541069999
+   },
+   {
+    "version": "V_BRIDGE",
+    "code": "1516",
+    "ent": "2008-10-15",
+    "open": 16.25,
+    "gap": 0.0691,
+    "ret": 0.0510790406307248,
+    "pnl": 2502.4260492999965
+   },
+   {
+    "version": "V_BRIDGE",
+    "code": "6120",
+    "ent": "2009-05-13",
+    "open": 18.4,
+    "gap": 0.0698,
+    "ret": 0.0842975713490525,
+    "pnl": 4675.372663800008
+   },
+   {
+    "version": "V_BRIDGE",
+    "code": "8201",
+    "ent": "2012-03-14",
+    "open": 26.1,
+    "gap": 0.0697,
+    "ret": -0.2049624321575018,
+    "pnl": -16118.505014099974
+   },
+   {
+    "version": "V_BRIDGE",
+    "code": "4426",
+    "ent": "2015-04-14",
+    "open": 105.5,
+    "gap": 0.0689,
+    "ret": 0.0745208252409475,
+    "pnl": 7907.3168715000065
+   }
+  ],
+  "limup_pnl_sum_by_version": {
+   "V_BRIDGE": -14339.096008499968,
+   "V_MASK": -22246.412879999974
+  }
+ },
+ "item7": {
+  "recalc": {
+   "first": "2015-07-01",
+   "last": "2026-10-22",
+   "rows": 2760,
+   "cagr_since2019": 0.4875617252724074,
+   "cagr_full": 0.34396575624338976,
+   "maxdd": [
+    -0.32119049086369666,
+    "2024-07-17",
+    "2025-04-09"
+   ],
+   "maxdd_0050": [
+    -0.33956979745013327,
+    "2022-01-17",
+    "2022-10-25"
+   ],
+   "cagr_0050_since2019": 0.2890920217129742,
+   "cagr_0050_full": 0.21137066866354504,
+   "final": 28319037.4,
+   "roll252": {
+    "worst": -15.259946421497371,
+    "worst_date": "2025-10-07",
+    "frac_behind": 20.175438596491226,
+    "last": 39.98857196010886
+   }
+  },
+  "official_trades_file": [],
+  "yearly_recalc": {
+   "2015": {
+    "0050": -10.562,
+    "E0|W10_70": -10.82,
+    "XT|W10_70": -10.82,
+    "XT_B11|W10_70": -10.82
+   },
+   "2016": {
+    "0050": 19.648,
+    "E0|W10_70": 15.435,
+    "XT|W10_70": 17.854,
+    "XT_B11|W10_70": 17.187
+   },
+   "2017": {
+    "0050": 18.139,
+    "E0|W10_70": 22.238,
+    "XT|W10_70": 22.731,
+    "XT_B11|W10_70": 20.996
+   },
+   "2018": {
+    "0050": -4.939,
+    "E0|W10_70": 0.95,
+    "XT|W10_70": -6.761,
+    "XT_B11|W10_70": -5.153
+   },
+   "2019": {
+    "0050": 33.521,
+    "E0|W10_70": 31.174,
+    "XT|W10_70": 35.478,
+    "XT_B11|W10_70": 37.678
+   },
+   "2020": {
+    "0050": 31.139,
+    "E0|W10_70": 100.751,
+    "XT|W10_70": 75.669,
+    "XT_B11|W10_70": 75.618
+   },
+   "2021": {
+    "0050": 21.923,
+    "E0|W10_70": 44.942,
+    "XT|W10_70": 90.466,
+    "XT_B11|W10_70": 92.163
+   },
+   "2022": {
+    "0050": -21.375,
+    "E0|W10_70": -17.454,
+    "XT|W10_70": -18.611,
+    "XT_B11|W10_70": -18.499
+   },
+   "2023": {
+    "0050": 27.515,
+    "E0|W10_70": 57.72,
+    "XT|W10_70": 35.933,
+    "XT_B11|W10_70": 35.419
+   },
+   "2024": {
+    "0050": 48.644,
+    "E0|W10_70": 63.383,
+    "XT|W10_70": 64.25,
+    "XT_B11|W10_70": 64.126
+   },
+   "2025": {
+    "0050": 36.832,
+    "E0|W10_70": 56.685,
+    "XT|W10_70": 44.023,
+    "XT_B11|W10_70": 45.026
+   },
+   "2026": {
+    "0050": 67.191,
+    "E0|W10_70": 75.243,
+    "XT|W10_70": 54.597,
+    "XT_B11|W10_70": 60.844
+   }
+  },
+  "nav_json": {
+   "rows": 584,
+   "dates_in_navs_official": 584,
+   "dates_not_in": [],
+   "monotonic": true,
+   "dup": 0,
+   "max_abs_diff_yuan": {
+    "E": 0.5,
+    "X": 0.5,
+    "B": 0.5
+   },
+   "n_rows_diff_gt_1": 0,
+   "worst": [],
+   "is_week_last_trading_day": false
+  },
+  "navs_0050_vs_jonatw_max_rel": 5.9236920924021774e-09,
+  "s75_accept_is": {
+   "since2019": 0.4875617247721724,
+   "full": 0.3439657562340761,
+   "maxdd": -0.32119049020243395,
+   "n_closed": 381,
+   "final_nav": 28319037.397780344,
+   "max_abs_diff_vs_navs_official_csv": 0.0
+  },
+  "checks": [
+   {
+    "item": "risk 年化_全部（2019 起）%",
+    "site": 48.76,
+    "recalc": 48.7562,
+    "diff": 0.0038,
+    "tol": 0.005,
+    "verdict": "通過"
+   },
+   {
+    "item": "全期（2015-07 起）年化 %（任務給的 34.40）",
+    "site": 34.4,
+    "recalc": 34.3966,
+    "diff": 0.0034,
+    "tol": 0.005,
+    "verdict": "通過"
+   },
+   {
+    "item": "risk 回撤_單一路徑 %",
+    "site": -32.1,
+    "recalc": -32.119,
+    "diff": 0.019,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "risk 0050_回撤 %",
+    "site": -34.0,
+    "recalc": -33.957,
+    "diff": -0.043,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "risk 落後0050最多（252 日滾動）個百分點",
+    "site": 15.3,
+    "recalc": 15.2599,
+    "diff": 0.0401,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "risk 落後時間比例 %",
+    "site": 20.2,
+    "recalc": 20.1754,
+    "diff": 0.0246,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2015 現行策略 %",
+    "site": -10.8,
+    "recalc": -10.8204,
+    "diff": 0.0204,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2015 XQ版 %",
+    "site": -10.8,
+    "recalc": -10.8204,
+    "diff": 0.0204,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2015 0050 %",
+    "site": -10.6,
+    "recalc": -10.5619,
+    "diff": -0.0381,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2016 現行策略 %",
+    "site": 15.4,
+    "recalc": 15.4352,
+    "diff": -0.0352,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2016 XQ版 %",
+    "site": 17.9,
+    "recalc": 17.8536,
+    "diff": 0.0464,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2016 0050 %",
+    "site": 19.6,
+    "recalc": 19.6485,
+    "diff": -0.0485,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2017 現行策略 %",
+    "site": 22.2,
+    "recalc": 22.2379,
+    "diff": -0.0379,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2017 XQ版 %",
+    "site": 22.7,
+    "recalc": 22.7309,
+    "diff": -0.0309,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2017 0050 %",
+    "site": 18.1,
+    "recalc": 18.1388,
+    "diff": -0.0388,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2018 現行策略 %",
+    "site": 1.0,
+    "recalc": 0.9501,
+    "diff": 0.0499,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2018 XQ版 %",
+    "site": -6.8,
+    "recalc": -6.7611,
+    "diff": -0.0389,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2018 0050 %",
+    "site": -4.9,
+    "recalc": -4.9385,
+    "diff": 0.0385,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2019 現行策略 %",
+    "site": 31.2,
+    "recalc": 31.1743,
+    "diff": 0.0257,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2019 XQ版 %",
+    "site": 35.5,
+    "recalc": 35.4776,
+    "diff": 0.0224,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2019 0050 %",
+    "site": 33.5,
+    "recalc": 33.5211,
+    "diff": -0.0211,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2020 現行策略 %",
+    "site": 100.8,
+    "recalc": 100.7512,
+    "diff": 0.0488,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2020 XQ版 %",
+    "site": 75.7,
+    "recalc": 75.6687,
+    "diff": 0.0313,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2020 0050 %",
+    "site": 31.1,
+    "recalc": 31.1391,
+    "diff": -0.0391,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2021 現行策略 %",
+    "site": 44.9,
+    "recalc": 44.9418,
+    "diff": -0.0418,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2021 XQ版 %",
+    "site": 90.5,
+    "recalc": 90.4656,
+    "diff": 0.0344,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2021 0050 %",
+    "site": 21.9,
+    "recalc": 21.9232,
+    "diff": -0.0232,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2022 現行策略 %",
+    "site": -17.5,
+    "recalc": -17.4537,
+    "diff": -0.0463,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2022 XQ版 %",
+    "site": -18.6,
+    "recalc": -18.6109,
+    "diff": 0.0109,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2022 0050 %",
+    "site": -21.4,
+    "recalc": -21.3747,
+    "diff": -0.0253,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2023 現行策略 %",
+    "site": 57.7,
+    "recalc": 57.7201,
+    "diff": -0.0201,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2023 XQ版 %",
+    "site": 35.9,
+    "recalc": 35.9326,
+    "diff": -0.0326,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2023 0050 %",
+    "site": 27.5,
+    "recalc": 27.5152,
+    "diff": -0.0152,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2024 現行策略 %",
+    "site": 63.4,
+    "recalc": 63.3834,
+    "diff": 0.0166,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2024 XQ版 %",
+    "site": 64.3,
+    "recalc": 64.2502,
+    "diff": 0.0498,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2024 0050 %",
+    "site": 48.6,
+    "recalc": 48.644,
+    "diff": -0.044,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2025 現行策略 %",
+    "site": 56.7,
+    "recalc": 56.6854,
+    "diff": 0.0146,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2025 XQ版 %",
+    "site": 44.0,
+    "recalc": 44.0225,
+    "diff": -0.0225,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2025 0050 %",
+    "site": 36.8,
+    "recalc": 36.8321,
+    "diff": -0.0321,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2026 現行策略 %",
+    "site": 75.2,
+    "recalc": 75.2426,
+    "diff": -0.0426,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2026 XQ版 %",
+    "site": 54.6,
+    "recalc": 54.5972,
+    "diff": 0.0028,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "yearly 2026 0050 %",
+    "site": 67.2,
+    "recalc": 67.191,
+    "diff": 0.009,
+    "tol": 0.05,
+    "verdict": "通過"
+   },
+   {
+    "item": "nav.json 每列對 navs_official 同日（元）",
+    "site": "584 列",
+    "recalc": "最大差 現行 0.50／XQ 0.50／0050 0.50",
+    "diff": null,
+    "tol": 1.0,
+    "verdict": "通過"
+   },
+   {
+    "item": "S75 accept_is 2019 起年化 對 navs_official 重算 %",
+    "site": 48.75617247721724,
+    "recalc": 48.7562,
+    "diff": -0.0,
+    "tol": 1e-06,
+    "verdict": "通過"
+   },
+   {
+    "item": "S75 accept_is 期末淨值 對 navs_official（元）",
+    "site": 28319037.397780344,
+    "recalc": 28319037.4,
+    "diff": -0.0022,
+    "tol": 0.01,
+    "verdict": "通過"
+   }
+  ],
+  "n_bad": 0
+ },
+ "misc": {
+  "asoul_vs_k66_2010_2014": {
+   "n_cells": 841948,
+   "open_mismatch": 0,
+   "close_mismatch": 0,
+   "open_match_rate": 1.0,
+   "close_match_rate": 1.0,
+   "by_year": {
+    "2010": {
+     "n": 159244,
+     "open_mis": 0,
+     "close_mis": 0
+    },
+    "2011": {
+     "n": 162216,
+     "open_mis": 0,
+     "close_mis": 0
+    },
+    "2012": {
+     "n": 169708,
+     "open_mis": 0,
+     "close_mis": 0
+    },
+    "2013": {
+     "n": 171312,
+     "open_mis": 0,
+     "close_mis": 0
+    },
+    "2014": {
+     "n": 179468,
+     "open_mis": 0,
+     "close_mis": 0
+    }
+   },
+   "worst_days": {
+    "2010-01-04": 0.0,
+    "2010-01-05": 0.0,
+    "2010-01-06": 0.0,
+    "2010-01-07": 0.0,
+    "2010-01-08": 0.0
+   },
+   "n_days": 1242,
+   "n_days_close_mis_gt_1pct": 0
+  },
+  "asoul_chain": {
+   "by_year": {
+    "2007": {
+     "n": 150464,
+     "bad": 0
+    },
+    "2008": {
+     "n": 155342,
+     "bad": 11
+    },
+    "2009": {
+     "n": 159398,
+     "bad": 5
+    },
+    "2010": {
+     "n": 161279,
+     "bad": 0
+    },
+    "2011": {
+     "n": 161913,
+     "bad": 0
+    },
+    "2012": {
+     "n": 166478,
+     "bad": 13
+    },
+    "2013": {
+     "n": 164544,
+     "bad": 4
+    },
+    "2014": {
+     "n": 172974,
+     "bad": 10
+    },
+    "2015": {
+     "n": 81610,
+     "bad": 0
+    }
+   },
+   "n_days_bad_gt_5pct": 0,
+   "worst_days": {
+    "2012-08-03": 0.0194,
+    "2014-07-24": 0.0152,
+    "2008-07-29": 0.0144,
+    "2009-08-10": 0.0079,
+    "2013-08-22": 0.0059
+   },
+   "n_xflag": 9214,
+   "xflag_by_year": {
+    "2007": 1054,
+    "2008": 1410,
+    "2009": 1054,
+    "2010": 906,
+    "2011": 1109,
+    "2012": 1188,
+    "2013": 1116,
+    "2014": 1091,
+    "2015": 286
+   }
+  },
+  "asoul_moves_gt_7p2pct": {
+   "2007": 6,
+   "2008": 11,
+   "2009": 12,
+   "2010": 9,
+   "2011": 10,
+   "2012": 7,
+   "2013": 11,
+   "2014": 5,
+   "2015": 1
+  },
+  "calendar": {
+   "nav_rows": 4618,
+   "my_calendar": 4618,
+   "nav_equals_my_calendar": true,
+   "twii_days": 4619,
+   "in_nav_not_twii": [],
+   "in_twii_not_nav": [
+    "2026-09-20"
+   ],
+   "weekend_days_in_nav": [
+    "2009-01-10",
+    "2009-01-17",
+    "2009-06-06",
+    "2010-02-06",
+    "2012-02-04",
+    "2012-03-03",
+    "2012-12-22",
+    "2013-02-23",
+    "2013-09-14",
+    "2014-12-27",
+    "2016-01-30",
+    "2016-06-04",
+    "2016-09-10",
+    "2017-02-18",
+    "2017-06-03",
+    "2017-09-30",
+    "2018-03-31",
+    "2018-12-22"
+   ],
+   "n_weekend": 18
+  },
+  "s75_headline": {
+   "V_MASK": {
+    "final": 38827272.71,
+    "cagr": 0.21482174729618397,
+    "maxdd": [
+     -0.4921181849520484,
+     "2008-05-19",
+     "2008-10-27"
+    ]
+   },
+   "V_BRIDGE": {
+    "final": 53078883.65,
+    "cagr": 0.23519006979158164,
+    "maxdd": [
+     -0.4921181849520484,
+     "2008-05-19",
+     "2008-10-27"
+    ]
+   },
+   "0050": {
+    "final": 12910363.56,
+    "cagr": 0.1457273666295018,
+    "maxdd": [
+     -0.5238283064580013,
+     "2008-05-19",
+     "2008-11-20"
+    ]
+   },
+   "yearly_csv_vs_nav_max_abs_diff": 1.0891638702048567e-08,
+   "beat_years_V_BRIDGE": 14,
+   "nav_daily_moves_gt_10pct": {
+    "V_MASK": 0,
+    "V_BRIDGE": 0,
+    "0050": 0
+   },
+   "max_daily_move": {
+    "V_MASK": [
+     0.09960084669362423,
+     -0.09990980922607218
+    ],
+    "V_BRIDGE": [
+     0.09960542200457123,
+     -0.09991135992817168
+    ],
+    "0050": [
+     0.0999999466454089,
+     -0.0999999409032366
+    ]
+   }
+  },
+  "official_vs_data_panel_2015on": {
+   "asoul": {
+    "n": 53784,
+    "open_mis": 0,
+    "close_mis": 0,
+    "open_match": 1.0,
+    "close_match": 1.0
+   },
+   "k66": {
+    "n": 1956758,
+    "open_mis": 0,
+    "close_mis": 0,
+    "open_match": 1.0,
+    "close_match": 1.0
+   },
+   "yahoo5m": {
+    "n": 386805,
+    "open_mis": 4260,
+    "close_mis": 252590,
+    "open_match": 0.9889866987241633,
+    "close_match": 0.3469836222385957
+   },
+   "steven": {
+    "n": 278357,
+    "open_mis": 0,
+    "close_mis": 0,
+    "open_match": 1.0,
+    "close_match": 1.0
+   }
+  }
+ },
+ "misc2": {
+  "twt49u_on_closed_days": {
+   "n": 108,
+   "outcome": {
+    "原漲跌價差已是對除權息參考價（正確）": 92,
+    "其他": 15,
+    "漲跌價差對前收（把除權息缺口當下跌，低估）": 1
+   }
+  },
+  "census_same_month_diffs": 20
+ },
+ "memory_mb": {
+  "audit_trades": 1618,
+  "audit_rev": 1594,
+  "audit_extra": 1457,
+  "audit_misc": 1765,
+  "audit_0050": 1179,
+  "audit_site": 108
+ }
+}
