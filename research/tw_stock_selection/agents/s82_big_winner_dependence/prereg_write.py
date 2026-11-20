@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+"""S82 事前登記：在跑任何情境之前寫下全部情境格（共 17 格 ≤ 40）。python3 -I -B prereg_write.py → PREREG.json、PREREG.sha256。
+本題以診斷與描述統計為主；下列格子是「散戶行為情境」（漏單、不敢買），不是候選規則：不挑選、不凍結、不採用，全部照登記報告。
+因為沒有要挑規則，不分訓練／驗證；每格都報全期、前段（2008–2015）、後段（2016–2026）。"""
+import json, hashlib
+from pathlib import Path
+HERE = Path(__file__).resolve().parent
+assert not (HERE / 'PREREG.json').exists(), 'PREREG.json 已存在'
+D = dict(
+    task='S82 大贏家依賴診斷（s82_big_winner_dependence）',
+    written_before='任何 S82 情境結果。已知的既有結果：S75 現行格 23.52%；S76「去掉前段／後段報酬率前 5 大、前 5%」；S64 2016 後漏做月份（不買也不賣）。',
+    base='S75 V_BRIDGE、100 萬、位移 0、W10_70、E0、嚴成本、2008-01-02～2026-10-22；驗收：年化 23.52%、期末 53,078,883.65 元、632 筆（含 8 筆期末未平倉）。',
+    outcome='全期年化（主要）；前段 2008-01-02～2015-12-31、後段 2015-12-31～2026-10-22 年化；期末淨值。0050 同期 14.57%。',
+    winner_definition='以基準帳戶 632 筆交易（含期末未平倉，以末日市值計）排序。「依損益金額」＝pnl 由大到小；「依報酬率」＝ret 由大到小。',
+    cells=dict(
+        A_block=['禁買（引擎 block：該檔在原持有期間不准買，名額空著照規則放 0050）：依損益金額前 1／3／5／10 筆（4 格）',
+                 '依報酬率前 1／3／5／10 筆（4 格）', '依報酬率前 5%（32 筆）、前 10%（63 筆）（2 格）'],
+        B_skip_month=['最大贏家（依損益金額第 1 筆）進場那個訊號月整月不買新股（1 格）', '依損益金額前 3 筆各自進場的訊號月整月不買新股（1 格）'],
+        C_afraid=['訊號日近 20 日漲幅 > 30%／> 50%／> 80% 的新目標不買（名額空著）（3 格）'],
+        D_random=['每個訊號月獨立以 p＝10%、25% 機率漏掉當月全部新買進（只清掉買進訊號；出場、底倉拉回照常；下月若仍在名單且有名額會照規則買）。各 1,000 次，numpy default_rng(82)、先抽 p＝10% 再抽 25%（2 格）。',
+                  '報告：年化分佈（最小、5、25、50、75、95 百分位、最大）、相對基準的差、依「漏掉前 3 大贏家進場月的個數」分組。'],
+    ),
+    diagnostics_not_cells='逐筆留一法（632 筆各禁買一次，看全期年化變化）屬描述統計，不是規則。其餘各題（分佈、特徵、出場抓到幾成、錯過的大贏家、最大虧損、環境或訊號）不改任何交易。',
+    n_cells=17,
+    no_adoption='不論結果如何，不改正式策略、不提候選規則。',
+)
+s = json.dumps(D, ensure_ascii=False, indent=1)
+(HERE / 'PREREG.json').write_text(s)
+(HERE / 'PREREG.sha256').write_text(hashlib.sha256(s.encode()).hexdigest() + '  PREREG.json\n')
+print(hashlib.sha256(s.encode()).hexdigest())
