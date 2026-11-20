@@ -17,7 +17,11 @@ CFG = dict(
     fee=0.001425 * 0.28, tax=0.003, tax_etf=0.001, slip=0.003, half_tick=True,
     odd_lot_from='2020-10-26', cap_frac=0.05, min_frac=0.5, sweep_min=20_000.0,
     deadline_fix=True, ins15=True, rev_pos=True,
-    nomove_fix=False,   # 前一天沒成交的日子是否改用「收盤／上次收盤」算報酬（預設否：照漲跌價差欄）
+    # 前一天沒成交的日子（官方日 K 漲跌價差一律 0）怎麼算當日報酬：
+    #   'off'＝照漲跌價差欄（0）；'all'＝一律用 收盤／上次收盤；
+    #   'band'＝收盤落在上次收盤的漲跌停範圍內才用 收盤／上次收盤（一般停牌後復牌），
+    #           超出範圍（沒有新參考價不可能發生＝減資／面額變更／分割換發）當日報酬記 0。
+    nomove_fix='band',
     etf_slip=True,      # 0050 買賣是否也算半跳動點＋滑價
 )
 
@@ -63,9 +67,16 @@ class Data:
         prev_traded = np.vstack([np.zeros((1, N), bool), traded[:-1]])
         # 當日參考價：一般＝收盤−漲跌價差；除權息日＝TWT49U 參考價
         ref = np.where(traded, C - np.nan_to_num(CH), np.nan)
-        if cfg['nomove_fix']:
+        mode = cfg['nomove_fix']
+        if mode in ('all', 'band', True):
             m = traded & ~prev_traded & np.isfinite(prev_last)
+            if mode == 'band':
+                tt, jj = np.where(m)
+                for a, b in zip(tt, jj):
+                    pl = prev_last[a, b]
+                    if not (limit_dn(pl) - 1e-9 <= C[a, b] <= limit_up(pl) + 1e-9): m[a, b] = False
             ref[m] = prev_last[m]
+        self.prev_last = prev_last
         exm = np.isfinite(self.ex_ref) & traded
         ref[exm] = self.ex_ref[exm]
         self.ref = ref; self.exm = np.isfinite(self.ex_ref)
@@ -210,10 +221,12 @@ def run(tmp, cfg):
     for t in range(t0, t1 + 1):
         day = d.dates[t]
         # 除權息：持股用「除權息前收盤／參考價」換算股數（等同當日報酬以參考價計、股利以參考價再投入）
+        # 一般化：當日參考價 ≠ 上次收盤（除權息、減資、面額變更）時，股數乘「上次收盤／參考價」，持股市值在參考價上連續
         for c, p in pos.items():
             j = d.ci[c]
-            if d.exm[t, j] and np.isfinite(d.ex_prev[t, j]):
-                p['sh'] *= d.ex_prev[t, j] / d.ex_ref[t, j]
+            if d.traded[t, j] and np.isfinite(d.ref[t, j]) and d.ref[t, j] > 0 and np.isfinite(d.prev_last[t, j]):
+                f = d.prev_last[t, j] / d.ref[t, j]
+                if abs(f - 1.0) > 1e-9: p['sh'] *= f
         traded_today = False
         if t == t0:
             buy_etf(t, cash); base = eu * (1 - cfg['sat']); traded_today = True
@@ -344,7 +357,7 @@ def main():
     for a in sys.argv[3:]:
         if '=' in a:
             k, val = a.lstrip('-').split('=', 1)
-            cfg[k] = type(CFG[k])(json.loads(val)) if not isinstance(CFG[k], str) else val
+            cfg[k] = val if isinstance(CFG[k], str) else type(CFG[k])(json.loads(val))
     res = run(tmp, cfg)
     summ = summarize(res, cfg)
     json.dump(dict(cfg=cfg, summary=summ, rebalance=res['rebal']), open(prefix + '_summary.json', 'w'), ensure_ascii=False, indent=1)
@@ -355,6 +368,9 @@ def main():
     with open(prefix + '_trades.csv', 'w') as f:
         w = csv.writer(f); w.writerow(['code', 'name', 'entry_date', 'exit_date', 'entry_px', 'exit_px', 'cost', 'proceeds', 'ret', 'reason'])
         for x in res['trades']: w.writerow([x['code'], x['name'], x['entry_date'], x['exit_date'], round(x['entry_px'], 4), round(x['exit_px'], 4), round(x['cost'], 2), round(x['proceeds'], 2), round(x['ret'], 6), x['reason']])
+    with open(prefix + '_orders.csv', 'w') as f:
+        w = csv.writer(f); w.writerow(['date', 'code', 'side', 'shares', 'px'])
+        for x in res['log']: w.writerow([x[0], x[1], x[2], round(x[3], 4), round(x[4], 4)])
     print(json.dumps(summ, ensure_ascii=False))
 
 if __name__ == '__main__':

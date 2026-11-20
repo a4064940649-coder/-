@@ -24,8 +24,20 @@
 | 網站顯示的資料（持股、名單、淨值、風險表） | `xq_scripts/site/data/*.json` |
 | 回測引擎 | `research/tw_stock_selection/agents/` 下的 `s20lib`→`s17lib`→`s10lib`→`o_ext_canslim_xs/cslib.py` |
 | 正式回測淨值 | `xq_scripts/site/navs_official.csv.gz` |
-| 全部研究（S1～S72，每題有事前登記、程式、結果、結論） | `research/tw_stock_selection/agents/s*/FINDINGS.md` |
+| 全部研究（S1～S80，每題有事前登記、程式、結果、結論） | `research/tw_stock_selection/agents/s*/FINDINGS.md` |
 | 研究紀錄總表 | `research/tw_stock_selection/BACKLOG.md` |
+
+## 資料夾怎麼看（2026-11-20 整理）
+| 位置 | 內容 |
+|---|---|
+| `README.md` | 這份說明，先看這裡 |
+| `xq_scripts/` | **現行策略的全部東西**：XQ 腳本 20／21／22、操作規則、網站程式與資料、交易紀錄、利潤圖 |
+| `xq_scripts/交易紀錄_2008_2026.xlsx`（另有 `.csv`） | 2008～2026 回測逐筆交易（632 筆：進出場日、價格、股數、損益） |
+| `xq_scripts/site/` | 每日更新的模擬帳戶網站：頁面、資料、持股與現金、換股流程 |
+| `xq_scripts/舊版腳本_已停用/` | 01～19 號舊腳本與槓桿策略說明，已不使用，只留存查 |
+| `research/tw_stock_selection/` | 全部研究：`BACKLOG.md` 研究紀錄總表、`agents/` 每題一個資料夾（索引見 `agents/README.md`） |
+| `主策略說明.md`、`交易策略規則書.md`、`選股SOP.md`、`台股個股選股規則實證研究報告.md` | 較早的「主策略」文件（另一套仍在做前瞻追蹤的策略，不是月營收驚奇；舊研究程式會讀這幾個路徑，所以留在根目錄） |
+| `舊研究_封存/` | 與現行策略無關的早期報告（SMC／ICT、CSP 資本支出、規則化策略初版） |
 
 ## 回測數字與必讀的限制
 - 回測 2019 年起年化約 48.8%、最大回撤約 −32%（同期 0050 約 28.9%、−34%）。
