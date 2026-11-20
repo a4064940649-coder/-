@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """S77 共用：只看 2008-01～2015-12 訂規則、2016-01～2026-10 驗證一次。
 重用（全部不改）：s75lib（連續面板載入、成績單統計）→ s71lib（B2 口徑比例 scope_ratio、月營收表 rev_table）→ r55lib（月度統計）→ s47lib.simulate_s47／s10lib（引擎、嚴成本、空位買 0050）。
-本檔只新增：(1) 截斷面板 truncate()；(2) 8 種營收訊號（跨 IFRS 斷點一律用 S71 B2 的水準校正）；(3) 一般化的訊號產生器 make_signal()（現行格＝s10lib.make_signal_s10 逐格相同）；
+本檔只新增：(1) 載入 load()（可截斷；代號重複使用的後一家不納入，目前只有 2432）；(2) 8 種營收訊號（跨 IFRS 斷點一律用 S71 B2 的水準校正）；(3) 一般化的訊號產生器 make_signal()（現行格＝s10lib.make_signal_s10 逐格相同）；
 (4) 執行包裝 run_cfg()；(5) 訓練段評分。一律 python3 -I -B；不呼叫 git、不連網。規格見 PREREG.json。"""
 import sys, math
 from pathlib import Path
@@ -60,6 +60,13 @@ def neighbors2(c):
 # ---------------------------------------------------------------- 面板
 def load(truncate_at=None):
     P, U = K.load_cont()
+    reused = []                                              # 代號重複使用：同一代號中斷超過 2,000 個交易日後又出現（＝另一家公司）→ 後面那家不納入（MK＝0、不在股池）。
+    for j in range(P.N):                                     # 理由：引擎的下市判斷是「之後再也沒有掛牌」，代號被重用時前一家下市當天不會結清，部位會被凍結到新公司掛牌。
+        idx = np.flatnonzero(P.MK[:, j] > 0)
+        if len(idx) > 1 and np.diff(idx).max() > 2000:
+            cut = idx[np.diff(idx).argmax() + 1]
+            P.MK[cut:, j] = 0; U[cut:, j] = False; reused.append((str(P.COLS[j]), str(P.IDX[cut].date())))
+    P.reused_codes = reused
     P.F_MA120 = P.G > stlib.rmean(P.G, 120)                  # 還原收盤 > 120 日均線（同 F_MA60 的算法，只換天數）
     e = pd.Series(P.E50)
     P.MKT_OK = (e > e.rolling(60, min_periods=60).mean()).to_numpy()   # 0050 含息淨值 > 自己的 60 日均線

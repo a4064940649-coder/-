@@ -29,6 +29,6 @@ _, navt, lgt, _ = M.run_cfg(Pt, Ut, ZSt, avt, M.CURRENT)
 A3 = dict(trunc_last=str(navt.index[-1].date()), max_rel_diff_trunc_vs_full=float((navt / nav.reindex(navt.index) - 1).abs().max()),
           all_signals_same_to_2015_11={s: bool(np.array_equal(ZSt[s].loc[:'2015-11'].to_numpy(), ZS[s].loc[:'2015-11'].to_numpy(), equal_nan=True)) for s in M.SIGNALS})
 ok = A1['z24_nan_pattern_same'] and A1['z24_max_abs_diff'] < 1e-9 and A1['targets_same'] and A1['X_same'] and A2['max_abs_diff_vs_S75_nav'] < 0.011 and A3['max_rel_diff_trunc_vs_full'] < 1e-12 and all(A3['all_signals_same_to_2015_11'].values())
-out = dict(A1=A1, A2=A2, A3=A3, signal_coverage_2010_06={s: int(ZS[s].loc['2010-06'].notna().sum()) for s in M.SIGNALS}, **{'pass': bool(ok)})
+out = dict(A1=A1, A2=A2, A3=A3, reused_codes_dropped=P.reused_codes, signal_coverage_2010_06={s: int(ZS[s].loc['2010-06'].notna().sum()) for s in M.SIGNALS}, **{'pass': bool(ok)})
 (M.HERE / 'accept.json').write_text(json.dumps(out, ensure_ascii=False, indent=1))
 print(json.dumps(out, ensure_ascii=False, indent=1))
