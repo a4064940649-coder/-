@@ -52,7 +52,7 @@ td.neg{color:var(--neg)}td.pos{color:var(--pos)}
 </main>
 <script>
 const D=/*DATA*/null;
-const S=[{k:"br",n:"策略（2013–2015 用校正規則接起來）",sh:"策略",c:"--s1"},{k:"mk",n:"策略（完全照現行規則，2013–2015 無訊號）",sh:"策略·現行規則",c:"--s2"},{k:"etf",n:"0050（含息，買了不動）",sh:"0050",c:"--s3"}];
+const S=[{k:"br",n:"月營收驚奇策略",sh:"策略",c:"--s1"},{k:"etf",n:"0050（含息，買了不動）",sh:"0050",c:"--s3"}];
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const fmtW=v=>v>=1e8?(v/1e8).toFixed(2)+" 億":Math.round(v/1e4).toLocaleString()+" 萬";
 const pct=(v,d=1)=>(v>0?"+":"")+v.toFixed(d)+"%";
@@ -90,7 +90,7 @@ function logTicks(lo,hi){const out=[];for(const m of [5e5,1e6,2e6,5e6,1e7,2e7,5e
 function linTicks(lo,hi){const out=[];for(let v=0;v<=hi;v+=1e7)out.push(v);return out}
 function drawAll(){
   const ser=S.map(s=>({c:s.c,short:s.sh,v:D[s.k],w:s.k=="mk"?1.4:2.2}));
-  chart(document.getElementById("c1"),ser,{h:400,mr:150,log:logY,lo:logY?4e5:0,ticks:logY?logTicks:linTicks,fmt:fmtW,label:true,aria:"策略兩個版本與 0050 的資產成長曲線，2008 到 2026"});
+  chart(document.getElementById("c1"),ser,{h:400,mr:150,log:logY,lo:logY?4e5:0,ticks:logY?logTicks:linTicks,fmt:fmtW,label:true,aria:"策略與 0050 的資產成長曲線，2008 到 2026"});
   const dd=S.map(s=>{let pk=0;return{c:s.c,short:s.sh,w:s.k=="mk"?1.4:2,v:D[s.k].map(v=>{pk=Math.max(pk,v);return (v/pk-1)*100})}});
   chart(document.getElementById("c2"),dd,{h:220,mr:20,log:false,lo:-60,hi:0,ticks:()=>[0,-10,-20,-30,-40,-50],fmt:v=>v.toFixed(0)+"%",label:false,aria:"回撤曲線"});
 }
@@ -98,15 +98,15 @@ drawAll();addEventListener("resize",drawAll);
 const bL=document.getElementById("bLog"),bN=document.getElementById("bLin");
 bL.onclick=()=>{logY=true;bL.setAttribute("aria-pressed","true");bN.setAttribute("aria-pressed","false");drawAll()};
 bN.onclick=()=>{logY=false;bN.setAttribute("aria-pressed","true");bL.setAttribute("aria-pressed","false");drawAll()};
-document.getElementById("tbb").innerHTML="<tr><th>大跌段</th><th>策略</th><th>策略·現行規則</th><th>0050</th><th>策略 − 0050</th></tr>"+D.bears.map(b=>{const df=b.s-b.e;return `<tr><td>${b.n}</td><td class="neg">${b.s.toFixed(1)}%</td><td class="neg">${b.m.toFixed(1)}%</td><td class="neg">${b.e.toFixed(1)}%</td><td class="${df<0?"neg":"pos"}">${df>0?"少跌 ":"多跌 "}${Math.abs(df).toFixed(1)} 個百分點</td></tr>`}).join("");
+document.getElementById("tbb").innerHTML="<tr><th>大跌段</th><th>策略</th><th>0050</th><th>策略 − 0050</th></tr>"+D.bears.map(b=>{const df=b.s-b.e;return `<tr><td>${b.n}</td><td class="neg">${b.s.toFixed(1)}%</td><td class="neg">${b.e.toFixed(1)}%</td><td class="${df<0?"neg":"pos"}">${df>0?"少跌 ":"多跌 "}${Math.abs(df).toFixed(1)} 個百分點</td></tr>`}).join("");
 const yrs=Object.keys(D.years.br);let win=0;
 document.getElementById("tb").innerHTML="<tr><th>年</th>"+S.map(s=>`<th>${s.sh}</th>`).join("")+"<th>策略 − 0050</th></tr>"+yrs.map(y=>{const lab=y=="2026"?"2026（到 10/22）":y;const c=D.years.br[y],e=D.years.etf[y];const df=c-e;if(df>0)win++;
   return `<tr><td>${lab}</td>`+S.map(s=>{const v=D.years[s.k][y];return `<td class="${v<0?"neg":""}">${v.toFixed(1)}%</td>`}).join("")+`<td class="${df<0?"neg":"pos"}">${df>0?"+":""}${df.toFixed(1)} 個百分點</td></tr>`}).join("");
 document.getElementById("nt").innerHTML=`<b>看這張圖要知道的事</b><ul>
 <li>超額幾乎全部來自 2019 年以後。2008–2018 這 11 年，策略每年只比 0050 多 1～5 個百分點，統計上不顯著；2011、2012、2014、2016 落後，2012 年輸 11.6 個百分點。${yrs.length} 年裡贏 0050 ${win} 年。</li>
 <li>策略沒有避險能力：大跌時跌幅和 0050 差不多，7 段裡有 4 段跌得比 0050 深。2008 年帳戶腰斬（−49%），到 2009 年 12 月才回到原本的水位。</li>
-<li>兩條策略線的差別只在 2013–2015 年：那段因會計制度改制，現行規則沒有選股訊號（紫線）；藍線用 2026 年才訂的校正方式把訊號接起來，這個校正是事先登記、沒看報酬訂的，但不是當年就有的規則。</li>
-<li>這是單一條回測路徑（100 萬、換股日準時）。換 20 種本金與晚 0～3 天下單，藍線全期每年的中位數是 22.8%（21.8%～24.3%）。</li>
+<li>2013 年上市公司改用新會計制度，營收改報含子公司的合併數字。這張圖先把每家公司 2012 年以前的營收換算成同一種算法，再照常選股。這個換算方式是 2026 年才訂的（事先登記、沒看報酬），不是當年就有的規則。完全照現行規則、那三年不選股的保守版本，期末是 ${fmtW(D.stats.mk.final)}（每年 ${(D.stats.mk.cagr*100).toFixed(1)}%）。</li>
+<li>這是單一條回測路徑（100 萬、換股日準時）。換 20 種本金與晚 0～3 天下單，策略全期每年的中位數是 22.8%（21.8%～24.3%）。</li>
 <li>2015 年以前的資料較粗：除權息日的報酬以 0 計（偏保守）；已下市公司的營收資料不完整、2013 年起只有現存公司（偏樂觀）；2015 年 6 月前漲跌停是 7%；當年的手續費與流動性比現在差（偏樂觀）；2020 年 10 月前只能買整張，早年常買不起入選股。</li>
 <li>規則是用 2015 年 7 月以後的資料定出來的，那段的數字（每年約 34%）偏樂觀；2008–2015 年沒用來定規則，每年只多約 2 個百分點。對未來比較合理的期待是長期每年 20% 出頭、可能連續好幾年不贏 0050。回測不保證未來，這不是投資建議。</li>
 <li>這份結果只算過一次，尚未由第二位研究員獨立重算。</li></ul>`;
