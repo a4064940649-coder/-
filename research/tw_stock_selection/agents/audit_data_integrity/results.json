@@ -1,0 +1,7070 @@
+{
+ "written_at": "2026-11-20T08:06:18.943051+00:00",
+ "scope": "資料完整性與資料設定清冊（不含引擎重跑、逐筆交易核對、已發布數字對帳）",
+ "discipline": {
+  "network": "未連外網（git 設 GIT_NO_LAZY_FETCH=1＋protocol.allow=never；本機沒有的 blob 記為無法驗證）",
+  "python": "python3 -I -B",
+  "peak_rss_mb": {
+   "prices": 1808,
+   "exright": 852,
+   "revenue_delist": 582,
+   "e50_chain": 184
+  },
+  "build_cache": {
+   "runtime_s": 76.8,
+   "maxrss_mb": 1043
+  }
+ },
+ "manifest_summary": {
+  "n_items": 16,
+  "single_points": [
+   "D01 官方日 K（上市＋上櫃，逐日一檔）— 封存版",
+   "D02 官方日 K — 每日更新版（tsd）",
+   "D04 月營收長表 tw_revenue.csv",
+   "D05 官方倉庫月營收彙總表 data/mops/revenue_hist",
+   "D08 0050 含息還原價 etf_0050.csv",
+   "D11 2015 以前上市日 K（Asoul/tsec 衍生長表）",
+   "D13 營收申報期限例外表／保險業 15 日名單",
+   "D15 下市清單 delist_official.csv"
+  ],
+  "in_scratch": [
+   "D02 官方日 K — 每日更新版（tsd）",
+   "D03 正式引擎面板快取 panel_cs.npz／e50_ohlc.csv／innov.npz",
+   "D05 官方倉庫月營收彙總表 data/mops/revenue_hist",
+   "D07 官方倉庫日期軸事件檔（exright／otcexright／etfsplit／parvalue／reduce…）",
+   "D11 的原始來源 scratchpad/tsec_all",
+   "run_official.py 的面板快取 scratchpad/offfix/cache（目前不存在）"
+  ],
+  "not_version_controlled": [
+   "D01 官方日 K（上市＋上櫃，逐日一檔）— 封存版",
+   "D04 月營收長表 tw_revenue.csv",
+   "D08 0050 含息還原價 etf_0050.csv",
+   "D09 加權指數 taiex_twii.csv",
+   "D10 前瞻追蹤每日資料（o_forward_infra_live/raw：screener、finlab、official_rev）",
+   "D16 產業分類 stock_list.csv"
+  ]
+ },
+ "verdicts": {
+  "B1_交易日曆": {
+   "result": "通過",
+   "numbers": {
+    "n_days": 4883,
+    "first": "2007-01-02",
+    "last": "2026-11-19",
+    "panel_days_missing_vs_twii": 0,
+    "twii_rows_not_trading_days": [
+     "2026-09-20"
+    ],
+    "panel_days_missing_in_0050": [
+     "2025-06-11",
+     "2025-06-12",
+     "2025-06-13",
+     "2025-06-16",
+     "2025-06-17"
+    ],
+    "e50_rows_not_trading_days": [
+     "2026-07-10",
+     "2026-09-20",
+     "2026-10-23"
+    ],
+    "data_panel_missing_days": 25,
+    "official_panel_has_2024_gap_days": 25,
+    "engine_cache_cells_diff": {
+     "C": 0,
+     "O": 0,
+     "AMT": 0,
+     "CHG": 0,
+     "VOL": 0,
+     "H": 0,
+     "L": 0,
+     "MK": 0
+    }
+   },
+   "note": "官方面板與加權指數檔逐日比對：面板的 4,883 個交易日加權指數全有；加權指數檔多 1 列非交易日（2026-09-20 週日）。官方面板不缺 2024-01-02～02-14（25 天全有），缺的是舊研究面板 data_panel。0050 檔缺 2025-06-11～17（分割停牌，引擎已處理）、多 3 列非交易日。"
+  },
+  "B2_個股日K涵蓋": {
+   "result": "通過",
+   "numbers": {
+    "drop_days_twse_listed": 0,
+    "drop_days_twse_priced": 0,
+    "drop_days_tpex_priced": [
+     {
+      "date": "2018-11-05",
+      "n": 695,
+      "prev20_median": 730.0,
+      "pct": -4.79,
+      "series": "上櫃有收盤價"
+     },
+     {
+      "date": "2018-12-22",
+      "n": 699,
+      "prev20_median": 731.5,
+      "pct": -4.44,
+      "series": "上櫃有收盤價"
+     }
+    ],
+    "by_year": {
+     "2007": {
+      "n_codes": 701,
+      "median_daily_priced": 671.0,
+      "miss_close_pct": 0.566,
+      "miss_open_pct": 0.566,
+      "zero_amount_pct": 0.363,
+      "miss_change_pct": 8.769
+     },
+     "2008": {
+      "n_codes": 705,
+      "median_daily_priced": 675.0,
+      "miss_close_pct": 1.45,
+      "miss_open_pct": 1.45,
+      "zero_amount_pct": 1.216,
+      "miss_change_pct": 8.066
+     },
+     "2009": {
+      "n_codes": 712,
+      "median_daily_priced": 692.0,
+      "miss_close_pct": 0.782,
+      "miss_open_pct": 0.782,
+      "zero_amount_pct": 0.646,
+      "miss_change_pct": 8.033
+     },
+     "2010": {
+      "n_codes": 733,
+      "median_daily_priced": 705.0,
+      "miss_close_pct": 0.367,
+      "miss_open_pct": 0.367,
+      "zero_amount_pct": 0.195,
+      "miss_change_pct": 8.649
+     },
+     "2011": {
+      "n_codes": 755,
+      "median_daily_priced": 719.0,
+      "miss_close_pct": 0.53,
+      "miss_open_pct": 0.53,
+      "zero_amount_pct": 0.317,
+      "miss_change_pct": 9.002
+     },
+     "2012": {
+      "n_codes": 763,
+      "median_daily_priced": 744.0,
+      "miss_close_pct": 0.677,
+      "miss_open_pct": 0.677,
+      "zero_amount_pct": 0.438,
+      "miss_change_pct": 10.505
+     },
+     "2013": {
+      "n_codes": 789,
+      "median_daily_priced": 759.0,
+      "miss_close_pct": 0.464,
+      "miss_open_pct": 0.464,
+      "zero_amount_pct": 0.2,
+      "miss_change_pct": 11.816
+     },
+     "2014": {
+      "n_codes": 803,
+      "median_daily_priced": 786.0,
+      "miss_close_pct": 0.401,
+      "miss_open_pct": 0.401,
+      "zero_amount_pct": 0.16,
+      "miss_change_pct": 11.079
+     },
+     "2015": {
+      "n_codes": 883,
+      "median_daily_priced": 864.0,
+      "miss_close_pct": 0.521,
+      "miss_open_pct": 0.521,
+      "zero_amount_pct": 0.318,
+      "miss_change_pct": 0.0
+     },
+     "2016": {
+      "n_codes": 906,
+      "median_daily_priced": 879.0,
+      "miss_close_pct": 0.646,
+      "miss_open_pct": 0.646,
+      "zero_amount_pct": 0.359,
+      "miss_change_pct": 0.0
+     },
+     "2017": {
+      "n_codes": 920,
+      "median_daily_priced": 898.0,
+      "miss_close_pct": 0.561,
+      "miss_open_pct": 0.561,
+      "zero_amount_pct": 0.32,
+      "miss_change_pct": 0.0
+     },
+     "2018": {
+      "n_codes": 943,
+      "median_daily_priced": 915.0,
+      "miss_close_pct": 0.6,
+      "miss_open_pct": 0.6,
+      "zero_amount_pct": 0.348,
+      "miss_change_pct": 0.0
+     },
+     "2019": {
+      "n_codes": 953,
+      "median_daily_priced": 931.5,
+      "miss_close_pct": 0.557,
+      "miss_open_pct": 0.557,
+      "zero_amount_pct": 0.268,
+      "miss_change_pct": 0.0
+     },
+     "2020": {
+      "n_codes": 958,
+      "median_daily_priced": 944.0,
+      "miss_close_pct": 0.33,
+      "miss_open_pct": 0.33,
+      "zero_amount_pct": 0.179,
+      "miss_change_pct": 0.0
+     },
+     "2021": {
+      "n_codes": 968,
+      "median_daily_priced": 953.0,
+      "miss_close_pct": 0.246,
+      "miss_open_pct": 0.246,
+      "zero_amount_pct": 0.097,
+      "miss_change_pct": 0.0
+     },
+     "2022": {
+      "n_codes": 985,
+      "median_daily_priced": 965.0,
+      "miss_close_pct": 0.266,
+      "miss_open_pct": 0.266,
+      "zero_amount_pct": 0.098,
+      "miss_change_pct": 0.0
+     },
+     "2023": {
+      "n_codes": 1003,
+      "median_daily_priced": 979.0,
+      "miss_close_pct": 0.177,
+      "miss_open_pct": 0.177,
+      "zero_amount_pct": 0.047,
+      "miss_change_pct": 0.0
+     },
+     "2024": {
+      "n_codes": 1038,
+      "median_daily_priced": 1017.0,
+      "miss_close_pct": 0.176,
+      "miss_open_pct": 0.176,
+      "zero_amount_pct": 0.054,
+      "miss_change_pct": 0.0
+     },
+     "2025": {
+      "n_codes": 1070,
+      "median_daily_priced": 1044.0,
+      "miss_close_pct": 0.307,
+      "miss_open_pct": 0.307,
+      "zero_amount_pct": 0.109,
+      "miss_change_pct": 0.0
+     },
+     "2026": {
+      "n_codes": 1097,
+      "median_daily_priced": 1080.0,
+      "miss_close_pct": 0.186,
+      "miss_open_pct": 0.186,
+      "zero_amount_pct": 0.062,
+      "miss_change_pct": 0.0
+     }
+    }
+   },
+   "note": "上市檔數沒有任何一天突然掉（門檻：低於前 20 日中位數 3%）。上櫃有 2 天（2018-11-05、2018-12-22）有價檔數少約 4.5%～4.8%，不在正式股池。收盤／開盤缺值 0.18%～1.45%（幾乎都是當日無成交）；成交金額缺值 0%。2015 前漲跌價差空白 8%～12%，138,307 格中 138,304 格收盤＝前收（空白＝平盤），不是缺資料。"
+  },
+  "B3_價格合理性": {
+   "result": "通過（上市）；上櫃有問題（不在正式股池）",
+   "numbers": {
+    "twse_over_limit_vs_prev_close": {
+     "pre2015": {
+      "exright": 1724,
+      "first5": 73,
+      "unexplained": 14,
+      "resume": 1
+     },
+     "official": {
+      "exright": 804,
+      "resume": 77,
+      "first5": 70,
+      "unexplained": 10
+     }
+    },
+    "twse_over_limit_vs_ref_price_excl_first5": {
+     "pre2015": 0,
+     "official": 0
+    },
+    "tpex": {
+     "by_cat": {
+      "exright": 740,
+      "resume": 476,
+      "first5": 93,
+      "unverifiable_event_file_missing": 5,
+      "unexplained": 5
+     },
+     "over_limit_vs_ref_excl_first5": 3,
+     "abs_ref_ret_gt_50pct": 74
+    },
+    "impossible": {
+     "official_twse": {
+      "close_le0_with_volume": 5304,
+      "close_le0_any": 0,
+      "amount_neg": 0,
+      "volume_neg": 0,
+      "high_lt_low": 0,
+      "close_gt_high": 0,
+      "close_lt_low": 0,
+      "open_gt_high": 0,
+      "open_lt_low": 0,
+      "priced_but_zero_volume": 0,
+      "volume_pos_amount_zero_or_nan": 0,
+      "vwap_outside_low_high": 10775
+     },
+     "official_tpex": {
+      "close_le0_with_volume": 0,
+      "close_le0_any": 0,
+      "amount_neg": 0,
+      "volume_neg": 0,
+      "high_lt_low": 0,
+      "close_gt_high": 0,
+      "close_lt_low": 0,
+      "open_gt_high": 0,
+      "open_lt_low": 0,
+      "priced_but_zero_volume": 0,
+      "volume_pos_amount_zero_or_nan": 0,
+      "vwap_outside_low_high": 0
+     },
+     "pre2015_twse": {
+      "close_le0_with_volume": 3079,
+      "close_le0_any": 0,
+      "amount_neg": 0,
+      "volume_neg": 0,
+      "high_lt_low": 0,
+      "close_gt_high": 0,
+      "close_lt_low": 0,
+      "open_gt_high": 0,
+      "open_lt_low": 0,
+      "priced_but_zero_volume": 0,
+      "volume_pos_amount_zero_or_nan": 2,
+      "vwap_outside_low_high": 5382
+     }
+    }
+   },
+   "note": "以引擎實際用的口徑（收盤 ÷ 參考價，參考價＝收盤 − 漲跌價差）：上市 2007～2026 超過漲跌停且非掛牌前 5 日的筆數＝0。以「收盤 ÷ 前一成交收盤」看，上市未解釋 24 筆，全部落在颱風停市後第一個交易日（除權息日順延，事件檔記在停市日），漲跌價差本身正確。收盤 ≤ 0、成交金額為負、最高 < 最低、收盤在高低之外：全部 0 筆。有量但無收盤價（只有盤後／鉅額成交）上市 2015 起 5,304 格、2015 前 3,079 格，引擎當無成交。"
+  },
+  "B4_除權息涵蓋": {
+   "result": "有問題",
+   "numbers": {
+    "twt49u": {
+     "first": "2014-01-16",
+     "last": "2026-10-29",
+     "by_year_4digit": {
+      "2014": 692,
+      "2015": 718,
+      "2016": 711,
+      "2017": 744,
+      "2018": 764,
+      "2019": 793,
+      "2020": 791,
+      "2021": 859,
+      "2022": 891,
+      "2023": 899,
+      "2024": 907,
+      "2025": 942,
+      "2026": 927
+     },
+     "sha_mismatch": 0
+    },
+    "repo_exright": {
+     "first": "2015-01-05",
+     "last": "2026-11-20",
+     "by_year_4digit": {
+      "2015": 643,
+      "2016": 711,
+      "2017": 744,
+      "2018": 764,
+      "2019": 792,
+      "2020": 791,
+      "2021": 859,
+      "2022": 891,
+      "2023": 899,
+      "2024": 907,
+      "2025": 942,
+      "2026": 933
+     },
+     "unreadable_days": 42
+    },
+    "cross": {
+     "window": [
+      "2015-07-02",
+      "2026-10-29"
+     ],
+     "n_both": 9870,
+     "n_only_twt49u": 1,
+     "n_only_repo": 0,
+     "ref_price_equal_pct": 100.0
+    },
+    "vs_daily_k": {
+     "n_zero_change_but_moved": 16506,
+     "by_category": {
+      "in_twt49u": 9693,
+      "in_repo_only": 6,
+      "in_other_event": 314,
+      "prev_untraded": 6461,
+      "unexplained": 32
+     },
+     "explained_pct": 99.806,
+     "events_traded": 9837,
+     "events_zero_change_in_k": 9837,
+     "events_k_already_ref": 0,
+     "events_other": 0
+    },
+    "after_archive": {
+     "n_trading_days": 15,
+     "n_events_twse_4digit": 6,
+     "events": [
+      {
+       "date": "2026-11-02",
+       "code": "6165",
+       "kind": "息",
+       "pre_close": 47.9,
+       "ref_price": 42.9,
+       "value": 5.0
+      },
+      {
+       "date": "2026-11-04",
+       "code": "8467",
+       "kind": "息",
+       "pre_close": 92.9,
+       "ref_price": 90.9,
+       "value": 2.0
+      },
+      {
+       "date": "2026-11-06",
+       "code": "2414",
+       "kind": "權",
+       "pre_close": 48.3,
+       "ref_price": 48.04,
+       "value": 0.253115
+      },
+      {
+       "date": "2026-11-18",
+       "code": "2344",
+       "kind": "息",
+       "pre_close": 110.5,
+       "ref_price": 108.5,
+       "value": 2.0
+      },
+      {
+       "date": "2026-11-18",
+       "code": "5434",
+       "kind": "權",
+       "pre_close": 478.0,
+       "ref_price": 477.0,
+       "value": 0.992326
+      },
+      {
+       "date": "2026-11-19",
+       "code": "6924",
+       "kind": "權",
+       "pre_close": 134.5,
+       "ref_price": 132.19,
+       "value": 2.307226
+      }
+     ],
+     "hit_holdings": []
+    },
+    "pre2014": {
+     "x_cells_2007_2014": 8759,
+     "by_class": {
+      "每年 ≤3 次（像除權息／減資）": {
+       "n": 4772,
+       "n_pool_like": 3491,
+       "mean_gap_pct": -2.872
+      },
+      "每年 ≥4 次（不像除權息）": {
+       "n": 3987,
+       "n_pool_like": 3,
+       "mean_gap_pct": 1.017
+      }
+     },
+     "check_2014": {
+      "window": [
+       "2014-02-05",
+       "2014-12-31"
+      ],
+      "n_xflag": 1066,
+      "n_twt49u_in_pre_codes": 656,
+      "n_both": 626,
+      "xflag_found_in_twt49u_pct": 58.72,
+      "twt49u_found_in_xflag_pct": 95.43,
+      "only_xflag": [
+       [
+        "2014-02-05",
+        "1436"
+       ],
+       [
+        "2014-02-05",
+        "2348"
+       ],
+       [
+        "2014-02-06",
+        "2438"
+       ],
+       [
+        "2014-02-06",
+        "2496"
+       ],
+       [
+        "2014-02-07",
+        "3701"
+       ],
+       [
+        "2014-02-13",
+        "1516"
+       ],
+       [
+        "2014-02-13",
+        "2496"
+       ],
+       [
+        "2014-02-14",
+        "2722"
+       ],
+       [
+        "2014-02-14",
+        "3701"
+       ],
+       [
+        "2014-02-17",
+        "2539"
+       ],
+       [
+        "2014-02-20",
+        "1516"
+       ],
+       [
+        "2014-02-20",
+        "2348"
+       ],
+       [
+        "2014-02-21",
+        "1470"
+       ],
+       [
+        "2014-02-21",
+        "2496"
+       ],
+       [
+        "2014-02-24",
+        "2540"
+       ],
+       [
+        "2014-02-24",
+        "3701"
+       ],
+       [
+        "2014-02-25",
+        "1456"
+       ],
+       [
+        "2014-02-25",
+        "2424"
+       ],
+       [
+        "2014-02-25",
+        "5285"
+       ],
+       [
+        "2014-02-26",
+        "3701"
+       ]
+      ],
+      "only_twt49u": [
+       [
+        "2014-02-21",
+        "6283"
+       ],
+       [
+        "2014-04-10",
+        "6226"
+       ],
+       [
+        "2014-04-29",
+        "8033"
+       ],
+       [
+        "2014-07-10",
+        "6214"
+       ],
+       [
+        "2014-07-10",
+        "8210"
+       ],
+       [
+        "2014-07-15",
+        "5533"
+       ],
+       [
+        "2014-07-23",
+        "1304"
+       ],
+       [
+        "2014-07-23",
+        "1305"
+       ],
+       [
+        "2014-07-23",
+        "1308"
+       ],
+       [
+        "2014-07-23",
+        "1463"
+       ],
+       [
+        "2014-07-23",
+        "1809"
+       ],
+       [
+        "2014-07-23",
+        "2849"
+       ],
+       [
+        "2014-07-23",
+        "2901"
+       ],
+       [
+        "2014-07-23",
+        "3032"
+       ],
+       [
+        "2014-07-23",
+        "3501"
+       ],
+       [
+        "2014-07-23",
+        "6412"
+       ],
+       [
+        "2014-07-28",
+        "8103"
+       ],
+       [
+        "2014-07-29",
+        "5706"
+       ],
+       [
+        "2014-07-29",
+        "6205"
+       ],
+       [
+        "2014-07-29",
+        "8021"
+       ]
+      ]
+     },
+     "s75_trades_overlap": {
+      "V_BRIDGE": {
+       "n_trades_pre2015": 192,
+       "n_x_cells_held": 24,
+       "by_class": {
+        "每年 ≤3 次（像除權息／減資）": {
+         "n": 24,
+         "sum_gap_pct": -93.93,
+         "mean_gap_pct": -3.914
+        }
+       }
+      },
+      "V_MASK": {
+       "n_trades_pre2015": 146,
+       "n_x_cells_held": 26,
+       "by_class": {
+        "每年 ≤3 次（像除權息／減資）": {
+         "n": 26,
+         "sum_gap_pct": -96.03,
+         "mean_gap_pct": -3.693
+        }
+       }
+      }
+     }
+    },
+    "events_on_non_trading_days": {
+     "n": 110,
+     "days": [
+      "2015-07-10",
+      "2016-07-08",
+      "2019-08-09",
+      "2019-09-30",
+      "2023-08-03",
+      "2024-07-24",
+      "2024-07-25",
+      "2024-10-02",
+      "2024-10-31",
+      "2026-07-10",
+      "2026-10-23"
+     ]
+    }
+   },
+   "note": "兩個除權息來源在 2015-07-02～2026-10-29 重疊期 9,870 筆逐筆相同（參考價 100%）。問題三項：① TWT49U 封存停在 2026-10-29，之後 15 個交易日有 6 個上市事件，回測引擎與名單產生器都只讀這份封存；② 2014-01-16 以前沒有任何參考價，2007～2014 共 8,759 格 X 記號日報酬記 0；③ 官方倉庫 exright 有 42 天本機讀不到（2015 上半年 40 天）＝無法驗證。"
+  },
+  "B5_月營收涵蓋": {
+   "result": "有問題（已知缺口，數字如下）",
+   "numbers": {
+    "first": "2005-01",
+    "last": "2026-09",
+    "coverage_twse_median_by_year": {
+     "2007": 97.265,
+     "2008": 97.6,
+     "2009": 97.555,
+     "2010": 96.035,
+     "2011": 96.07,
+     "2012": 94.67500000000001,
+     "2013": 87.935,
+     "2014": 87.34,
+     "2015": 87.9,
+     "2016": 87.715,
+     "2017": 87.74000000000001,
+     "2018": 87.77,
+     "2019": 88.335,
+     "2020": 88.685,
+     "2021": 89.44999999999999,
+     "2022": 90.065,
+     "2023": 90.505,
+     "2024": 90.58,
+     "2025": 90.55,
+     "2026": 90.85
+    },
+    "coverage_tpex_by_year": {
+     "2015": {
+      "min": 86.33,
+      "median": 86.86500000000001,
+      "max": 87.68
+     },
+     "2016": {
+      "min": 86.8,
+      "median": 87.75,
+      "max": 88.69
+     },
+     "2017": {
+      "min": 88.24,
+      "median": 88.81,
+      "max": 89.47
+     },
+     "2018": {
+      "min": 16.93,
+      "median": 89.39500000000001,
+      "max": 90.56
+     },
+     "2019": {
+      "min": 90.01,
+      "median": 90.78,
+      "max": 91.21
+     },
+     "2020": {
+      "min": 91.2,
+      "median": 92.32,
+      "max": 93.08
+     },
+     "2021": {
+      "min": 92.5,
+      "median": 92.815,
+      "max": 93.38
+     },
+     "2022": {
+      "min": 92.37,
+      "median": 93.07499999999999,
+      "max": 94.05
+     },
+     "2023": {
+      "min": 93.69,
+      "median": 94.07,
+      "max": 94.82
+     },
+     "2024": {
+      "min": 94.74,
+      "median": 94.97,
+      "max": 95.57
+     },
+     "2025": {
+      "min": 94.45,
+      "median": 95.66,
+      "max": 95.99
+     },
+     "2026": {
+      "min": 95.33,
+      "median": 96.04,
+      "max": 96.29
+     }
+    },
+    "hole_months_twse": [
+     {
+      "month": "2011-01",
+      "cov_pct": 89.97,
+      "neighbors_median": 96.09
+     },
+     {
+      "month": "2011-02",
+      "cov_pct": 91.21,
+      "neighbors_median": 96.09
+     },
+     {
+      "month": "2012-01",
+      "cov_pct": 91.26,
+      "neighbors_median": 94.9
+     }
+    ],
+    "hole_months_tpex": [
+     {
+      "month": "2018-10",
+      "cov_pct": 16.93,
+      "neighbors_median": 89.8
+     }
+    ],
+    "zero_or_negative": {
+     "n": 2101,
+     "n_zero": 1436,
+     "n_negative": 665,
+     "n_codes": 166
+    },
+    "duplicates": {
+     "same": 0,
+     "cross_market": 0
+    },
+    "inner_missing_twse_listed_by_year": {
+     "2005": 0,
+     "2006": 0,
+     "2007": 60,
+     "2008": 113,
+     "2009": 50,
+     "2010": 41,
+     "2011": 137,
+     "2012": 56,
+     "2013": 15,
+     "2014": 22,
+     "2015": 6,
+     "2016": 10,
+     "2017": 5,
+     "2018": 13,
+     "2019": 9,
+     "2020": 9,
+     "2021": 6,
+     "2022": 30,
+     "2023": 26,
+     "2024": 30,
+     "2025": 37,
+     "2026": 17
+    },
+    "cross_two_sources": {
+     "n_pairs": 129279,
+     "exact_pct": 99.987,
+     "diff_gt_10pct": 13,
+     "diff_ge_1pct_by_year": {
+      "2025": 5,
+      "2026": 12
+     }
+    },
+    "latest_month": {
+     "2026-10": {
+      "n_listed_twse": 1092,
+      "n_with_rev": 1085,
+      "cov_pct": 99.36,
+      "missing": [
+       "6838",
+       "6901",
+       "6919",
+       "7827",
+       "9103",
+       "9110",
+       "9136"
+      ],
+      "source": [
+       "tsd"
+      ]
+     }
+    },
+    "first_print": {
+     "source": "agents/s39_first_print_revenue/FINDINGS.md（獨立複製成功）",
+     "quote": "回測用更正後月營收、實盤只看得到首次公布值；2024-07～2026-10 用首次公布值重算：標準路徑年化 61.95% → 61.17%（−0.78 個百分點），20 條路徑差中位數 −0.93、最多 −5.21；上市股月 26,074 中 187 筆（0.72%）被更正；2024-06 以前沒有首次公布資料，無法量化",
+     "mixing": "make_list.py：歷史月份讀 tw_revenue.csv（已含更正），當月用官方倉庫 MOPS 彙總表（首次值）→ 同一份名單內歷史用更正值、當月用首次值（S39 已說明）"
+    }
+   },
+   "note": "上市涵蓋率 2007～2012 約 95%～98%，2013 起掉到 87%～91%：缺的是 KY／外國企業（營收檔沒有）與 2013 後下市公司。缺洞月：上市 2011-01（89.97%）、2011-02（91.21%）、2012-01（91.26%）；上櫃 2018-10 只有 16.93%。營收 ≤ 0 共 2,101 筆（引擎當缺值）；同公司同月多筆 0 筆。與官方倉庫彙總表交叉 129,279 筆，99.987% 相同；2015～2024 完全相同，差異 17 筆都在 2025～2026。"
+  },
+  "B6_下市股": {
+   "result": "有問題",
+   "numbers": {
+    "list": {
+     "file": "agents/o_infra_v3_rebuild/delist_official.csv",
+     "sha256": "41f51cb7e1aadbf1d28244f26cb6452f3ede20f2fbb594350848ed8f55a1f2bd",
+     "source": "o_infra_v3_rebuild/raw/songdoyouho/delisted_stocks.csv（證交所終止上市公司名單的第三方封存；檔內沒有記載抓取網址）",
+     "n_rows": 256,
+     "first": "2001-01-20",
+     "last": "2024-09-02",
+     "n_4digit_since_2007": 133
+    },
+    "panel": {
+     "n_twse_codes_ever": 1222,
+     "n_gone_from_twse": 130,
+     "n_moved_to_tpex": 1,
+     "n_gone_not_to_tpex": 129,
+     "gone_by_year": {
+      "2007": 14,
+      "2008": 9,
+      "2009": 1,
+      "2010": 13,
+      "2011": 6,
+      "2012": 4,
+      "2013": 4,
+      "2014": 7,
+      "2015": 2,
+      "2016": 7,
+      "2017": 8,
+      "2018": 9,
+      "2019": 7,
+      "2020": 9,
+      "2021": 7,
+      "2022": 10,
+      "2023": 2,
+      "2024": 3,
+      "2025": 3,
+      "2026": 4
+     },
+     "cutoff": "2026-10-05"
+    },
+    "list_vs_panel": {
+     "n_in_both": 120,
+     "n_list_not_in_panel_as_gone": 13,
+     "list_not_in_panel_at_all": [
+      "1107",
+      "2333",
+      "2341",
+      "2343",
+      "2381",
+      "2396",
+      "2410",
+      "2479",
+      "2523",
+      "3053",
+      "3080",
+      "3142"
+     ],
+     "list_in_panel_but_not_gone": [
+      "2432"
+     ],
+     "n_panel_gone_within_list_window_not_in_list": 2,
+     "panel_gone_within_list_window_not_in_list": [
+      "2358",
+      "2443"
+     ],
+     "n_panel_gone_after_list_end": 7,
+     "panel_gone_after_list_end": [
+      [
+       "2888",
+       "2025-07-11"
+      ],
+      [
+       "6288",
+       "2025-08-04"
+      ],
+      [
+       "2809",
+       "2025-09-17"
+      ],
+      [
+       "3454",
+       "2026-03-18"
+      ],
+      [
+       "1589",
+       "2026-04-02"
+      ],
+      [
+       "6806",
+       "2026-06-22"
+      ],
+      [
+       "2867",
+       "2026-08-19"
+      ]
+     ]
+    },
+    "price_gap_trading_days": {
+     "n": 120,
+     "min": 0.0,
+     "p25": 4.0,
+     "median": 6.0,
+     "p75": 8.0,
+     "p90": 67.50000000000013,
+     "max": 175.0
+    },
+    "n_price_gap_gt_5": 73,
+    "revenue_gap": {
+     "def_": "最後交易月 − 營收檔最後一個有值月份（月數；正常下市前 1～2 個月屬合理，因為最後一兩個月的營收可能不再申報）",
+     "n_gone": 129,
+     "n_no_revenue_at_all": 25,
+     "by_period": {
+      "2007–2012": {
+       "n": 47,
+       "n_no_rev": 4,
+       "gap_months": {
+        "n": 43,
+        "min": 5.0,
+        "p25": 12.5,
+        "median": 13.0,
+        "p75": 13.0,
+        "p90": 22.0,
+        "max": 36.0
+       },
+       "n_gap_le_3": 0,
+       "n_gap_ge_12": 37
+      },
+      "2013–2015H1": {
+       "n": 11,
+       "n_no_rev": 4,
+       "gap_months": {
+        "n": 7,
+        "min": 17.0,
+        "p25": 19.5,
+        "median": 23.0,
+        "p75": 29.5,
+        "p90": 34.2,
+        "max": 36.0
+       },
+       "n_gap_le_3": 0,
+       "n_gap_ge_12": 7
+      },
+      "2015H2–2018": {
+       "n": 26,
+       "n_no_rev": 3,
+       "gap_months": {
+        "n": 23,
+        "min": 34.0,
+        "p25": 41.5,
+        "median": 53.0,
+        "p75": 64.0,
+        "p90": 69.0,
+        "max": 69.0
+       },
+       "n_gap_le_3": 0,
+       "n_gap_ge_12": 23
+      },
+      "2019–": {
+       "n": 45,
+       "n_no_rev": 14,
+       "gap_months": {
+        "n": 31,
+        "min": 73.0,
+        "p25": 95.0,
+        "median": 108.0,
+        "p75": 134.0,
+        "p90": 153.0,
+        "max": 164.0
+       },
+       "n_gap_le_3": 0,
+       "n_gap_ge_12": 31
+      }
+     }
+    },
+    "survivorship": [
+     {
+      "source": "agents/o_rev_survivorship/FINDINGS.md",
+      "quote": "補回國內下市公司營收後，排除金融 n10 跨循環年化 28.15% → 27.66%（−0.49 個百分點）；國內缺口覆蓋率只有 39%；極端最壞界限 −4.4 個百分點（舊主策略 v2 口徑，不是現行 E0）"
+     },
+     {
+      "source": "agents/o_delist_rev_backfill_allpit/FINDINGS.md（o18）",
+      "quote": "實際月營收只補回 2013～2018 放回槽的 19.8%；題目最終「待觀察」，存活者偏誤未排除（舊 V7X 口徑）"
+     },
+     {
+      "source": "agents/s55_pre2015_oos/data_inventory.json",
+      "quote": "2008～2012 下市的上市股 34 檔中只有 1 檔營收涵蓋到最後交易前 3 個月內；2013～2015H1 的 11 檔為 0；最後交易月−最後營收月 中位數 13 個月"
+     },
+     {
+      "source": "agents/s75_continuous_2008_2026/FINDINGS.md",
+      "quote": "下市股營收提早斷、2013 起營收檔只有現存公司（存活者偏誤，偏樂觀）"
+     },
+     {
+      "source": "agents/s1_shortterm_leaderboard/FINDINGS.md 註記 7（現行 SURGE 策略）",
+      "quote": "已下市 58 檔（多數是被收購或合併，下市前一年平均 −2.7%）選不到，估計偏誤約 1.3 個百分點（鬆上界 8.8）；另外 82 檔 KY 股也沒有營收資料"
+     }
+    ]
+   },
+   "note": "下市清單只到 2024-09-02（之後面板推得 7 檔離開上市）；清單內 9 檔 2007～2013 下市股在價格面板整檔沒有；另有 2 檔面板推得離開但清單沒有（2358、2443）。價格：清單與面板都有的 120 檔，面板最後一列距官方下市日中位數 6 個交易日（73 檔超過 5 天，多為先停止買賣）。營收：129 檔離開上市的股票沒有任何一檔營收涵蓋到最後交易前 3 個月內。"
+  },
+  "B7_0050": {
+   "result": "通過（2015 以前配息明細無法驗證）",
+   "numbers": {
+    "n_nan": 0,
+    "missing_trading_days": [
+     "2025-06-11",
+     "2025-06-12",
+     "2025-06-13",
+     "2025-06-16",
+     "2025-06-17"
+    ],
+    "extra_non_trading_rows": [
+     {
+      "date": "2026-07-10",
+      "weekday": "Friday",
+      "adj": 832.6179,
+      "prev": 832.6179,
+      "ret_vs_prev_pct": 0.0
+     },
+     {
+      "date": "2026-09-20",
+      "weekday": "Sunday",
+      "adj": 813.9332,
+      "prev": 876.5741,
+      "ret_vs_prev_pct": -7.15
+     },
+     {
+      "date": "2026-10-23",
+      "weekday": "Friday",
+      "adj": 851.1183,
+      "prev": 851.1183,
+      "ret_vs_prev_pct": 0.0
+     }
+    ],
+    "max_abs_daily_ret_pct": 10.0,
+    "split": [
+     {
+      "date": "2025-06-18",
+      "kind": "分割",
+      "raw_prev": 188.65,
+      "raw": 47.57,
+      "raw_ret_pct": -74.78,
+      "adj_ret_pct": 0.86,
+      "implied_div": null,
+      "factor": 4.0
+     }
+    ],
+    "dividend_count_by_year_twt49u": {
+     "2014": 1,
+     "2015": 1,
+     "2016": 1,
+     "2017": 2,
+     "2018": 2,
+     "2019": 2,
+     "2020": 2,
+     "2021": 2,
+     "2022": 2,
+     "2023": 2,
+     "2024": 2,
+     "2025": 2,
+     "2026": 2
+    },
+    "dividend_count_by_year_implied_from_adj": {
+     "2015": 1,
+     "2016": 1,
+     "2017": 2,
+     "2018": 2,
+     "2019": 2,
+     "2020": 2,
+     "2021": 2,
+     "2022": 2,
+     "2023": 2,
+     "2024": 2,
+     "2025": 2,
+     "2026": 2
+    },
+    "twt49u_vs_implied": {
+     "n": 22,
+     "n_matched": 21,
+     "mismatches": [
+      {
+       "date": "2026-07-21",
+       "twt49u_value": 0.6,
+       "implied_div": 0.577,
+       "match": false
+      }
+     ]
+    },
+    "site_nav_non_trading_dates": [],
+    "navs_official": {
+     "sha256": "595f1b69c6b0f9d46e546719eae62050875078f79b6af9bc75ff2dd45423cde8",
+     "first": "2015-07-01",
+     "last": "2026-10-22",
+     "n": 2760,
+     "columns": [
+      "0050",
+      "E0|W10_70",
+      "XT|W10_70",
+      "XT_B11|W10_70"
+     ],
+     "dates_not_in_calendar": [],
+     "calendar_days_missing": [],
+     "n_nan": 0
+    }
+   },
+   "note": "含息還原價沒有缺值；缺的 5 天是 2025-06-11～17 分割停牌。2025-06-18 一拆四，還原價連續（當日 +0.86%）。2015 起 22 次配息，用原始價對還原價推回的息值和 TWT49U 逐次比對，21 次相同、1 次差 0.023 元（2026-07-21：0.577 對 0.6）。多出的 3 列非交易日中 2026-09-20（週日）數值異常，但引擎與網站都只取交易日，不受影響。"
+  },
+  "B8_每日更新鏈": {
+   "result": "有問題",
+   "numbers": {
+    "now_taipei": "2026-11-20 16:02:07",
+    "latest_price_day": "2026-11-19",
+    "expected": "2026-11-19",
+    "price_day_ok": true,
+    "site_data_last_day": "2026-11-19",
+    "exright_repo_last": "2026-11-20",
+    "exright_covers": true,
+    "twt49u_archive_last": "2026-10-29",
+    "official_rev_fetch": {
+     "n_attempts": 14,
+     "n_success": 0,
+     "first_attempt": "20261103T143314+0800",
+     "last_attempt": "20261120T064953+0800",
+     "n_distinct_days_failed": 11,
+     "failed_days": [
+      "20261103",
+      "20261109",
+      "20261110",
+      "20261112",
+      "20261114",
+      "20261115",
+      "20261116",
+      "20261117",
+      "20261118",
+      "20261119",
+      "20261120"
+     ],
+     "ever_succeeded": false,
+     "consecutive_failed_attempts_to_latest": 14
+    },
+    "forward_log_days_missing": [
+     "20261111",
+     "20261113"
+    ],
+    "forward_rc_nonzero": [
+     {
+      "log": "daily_20261103_145020.log",
+      "rc": 4
+     }
+    ]
+   },
+   "note": "最新股價日 2026-11-19＝最近交易日；網站資料最後一天 2026-11-19；官方倉庫除權息檔到 2026-11-20。問題：官方月營收抓取自 2026-11-03 起 14 次、11 個不同日全部失敗（代理 403，三個官方主機都不在允許清單），從未成功過；前瞻紀錄檔缺 2026-11-11（官方訊號日）與 11-13 兩天；TWT49U 封存落後。"
+  }
+ },
+ "summary_table": [
+  {
+   "rank": 1,
+   "item": "最新月份營收只有一個來源，而且放在暫存區",
+   "result": "有問題",
+   "impact": "2026-12-11 的名單需要 2026-10、2026-11 兩個月營收，只能從 /tmp 底下的 tsd（官方倉庫 clone）讀；官方直接抓取 14 次全失敗。tsd 被清掉且當晚 GitHub 連不上＝出不了名單。",
+   "action": "把 tsd 搬到固定路徑；請產品擁有者決定是否開放三個官方主機；12/11 前演練一次備援（公開資訊觀測站人工下載彙總表）"
+  },
+  {
+   "rank": 2,
+   "item": "TWT49U 封存停在 2026-10-29",
+   "result": "有問題",
+   "impact": "之後 15 個交易日有 6 個上市除權息事件沒被修正（例：6165 在 11-02 配息 5 元、前收 47.9，還原價會被少算約 10.4%）；目前持股與 2026-11 名單前 20 名沒有碰到。12/11 名單的季線判斷會用到這段。",
+   "action": "12/11 前補 2026-10-30 之後的月檔並重算 SHA256SUMS（README 既有規定）；或讓名單產生器比照 live_tr.py 先讀官方倉庫 exright"
+  },
+  {
+   "rank": 3,
+   "item": "2013 起上市股營收涵蓋率只有 87%～91%（KY 與下市公司沒有營收）",
+   "result": "有問題（已知）",
+   "impact": "回測與實盤一致地選不到這些股票。既有估計：下市 58 檔的偏誤約 1.3 個百分點／年（鬆上界 8.8，S1 註記 7）；2026-09 月底有 98 檔上市股沒有營收（多數是 KY／外國企業與新掛牌），其中 46 檔過收盤 ≥ 10 元、60 日均額 ≥ 1,000 萬的門檻；這部分對報酬的影響未量化。",
+   "action": "補 KY 與下市公司營收後重跑（BACKLOG 已列）；對外文件維持加註"
+  },
+  {
+   "rank": 4,
+   "item": "回測用更正後營收、實盤用首次公布值",
+   "result": "有問題（已量化）",
+   "impact": "S39：2024-07～2026-10 年化 61.95% → 61.17%（−0.78 個百分點）；2024-06 以前無法量化。本稽核交叉核對：2015～2024 兩來源 100% 相同，差異 17 筆都在 2025～2026。",
+   "action": "每月名單定稿時存當月彙總表快照，累積首次公布值"
+  },
+  {
+   "rank": 5,
+   "item": "2014-01-16 以前沒有除權息參考價",
+   "result": "有問題（只影響 2008～2014 那一段）",
+   "impact": "2007～2014 有 8,759 格 X 記號日報酬記 0；S75 已發布交易持有期間碰到 24 格（V_BRIDGE）／26 格（V_MASK），都是像除權息的那一類，當日價差合計 −93.93／−96.03 個百分點。對 2015 起的正式數字沒有影響。",
+   "action": "由重跑引擎的稽核員（R75）判定是否需要補 2014 前除權息表"
+  },
+  {
+   "rank": 6,
+   "item": "正式資料大多不在版本控制內",
+   "result": "有問題",
+   "impact": "官方日 K 封存（.gitignore）、月營收檔、0050 檔都在主倉庫之外或被排除；容器回收後要靠上游 GitHub 倉庫仍在且沒改寫歷史才能重現 48.76%。",
+   "action": "見清冊「建議搬到哪裡」欄；至少把 sha256 寫進正式結果檔"
+  },
+  {
+   "rank": 7,
+   "item": "下市清單不完整",
+   "result": "有問題",
+   "impact": "清單停在 2024-09-02；9 檔 2007～2013 下市股沒有價格。只影響 2008～2014 那一段的存活者偏誤與之後的存活者研究。",
+   "action": "補清單到最新；缺的 9 檔註記在 S75"
+  },
+  {
+   "rank": 8,
+   "item": "官方倉庫 exright 有 42 天讀不到",
+   "result": "無法驗證",
+   "impact": "2015 上半年 40 天無法和 TWT49U 交叉；正式引擎讀的是 TWT49U，不受影響。",
+   "action": "下次連網時補抓並存快照"
+  },
+  {
+   "rank": 9,
+   "item": "交易日曆、個股日 K 涵蓋、價格合理性（上市）、0050",
+   "result": "通過",
+   "impact": "官方面板不缺 2024-01-02～02-14；引擎快取與封存重建逐格相同；上市沒有不可能值。",
+   "action": "無"
+  }
+ ],
+ "detail": {
+  "B1": {
+   "calendar": {
+    "first": "2007-01-02",
+    "last": "2026-11-19",
+    "n": 4883,
+    "n_pre": 1989,
+    "n_official": 2894,
+    "weekend_days": [
+     "2007-03-03",
+     "2007-04-14",
+     "2007-06-23",
+     "2007-09-29",
+     "2009-01-10",
+     "2009-01-17",
+     "2009-06-06",
+     "2010-02-06",
+     "2012-02-04",
+     "2012-03-03",
+     "2012-12-22",
+     "2013-02-23",
+     "2013-09-14",
+     "2014-12-27",
+     "2016-01-30",
+     "2016-06-04",
+     "2016-09-10",
+     "2017-02-18",
+     "2017-06-03",
+     "2017-09-30",
+     "2018-03-31",
+     "2018-12-22"
+    ]
+   },
+   "vs_twii_engine_file": {
+    "ref": "jonatw taiex_twii.csv（引擎讀的那一份，到 2026-10-22）",
+    "window": [
+     "2007-01-01",
+     "2026-10-22"
+    ],
+    "n_panel": 4865,
+    "n_ref": 4866,
+    "n_in_panel_not_ref": 0,
+    "n_in_ref_not_panel": 1,
+    "in_panel_not_ref": [],
+    "in_ref_not_panel": [
+     "2026-09-20"
+    ]
+   },
+   "vs_twii_forward_copy": {
+    "ref": "o_forward_infra_live/raw/finlab/taiex_twii.csv（每日更新）",
+    "window": [
+     "2007-01-01",
+     "2026-11-19"
+    ],
+    "n_panel": 4883,
+    "n_ref": 4884,
+    "n_in_panel_not_ref": 0,
+    "n_in_ref_not_panel": 1,
+    "in_panel_not_ref": [],
+    "in_ref_not_panel": [
+     "2026-09-20"
+    ]
+   },
+   "vs_0050_engine_file": {
+    "ref": "jonatw etf_0050.csv（引擎讀的那一份）",
+    "window": [
+     "2007-01-01",
+     "2026-10-22"
+    ],
+    "n_panel": 4865,
+    "n_ref": 4862,
+    "n_in_panel_not_ref": 5,
+    "n_in_ref_not_panel": 2,
+    "in_panel_not_ref": [
+     "2025-06-11",
+     "2025-06-12",
+     "2025-06-13",
+     "2025-06-16",
+     "2025-06-17"
+    ],
+    "in_ref_not_panel": [
+     "2026-07-10",
+     "2026-09-20"
+    ]
+   },
+   "vs_0050_forward_copy": {
+    "ref": "o_forward_infra_live/raw/finlab/etf_0050.csv（每日更新）",
+    "window": [
+     "2007-01-01",
+     "2026-11-19"
+    ],
+    "n_panel": 4883,
+    "n_ref": 4881,
+    "n_in_panel_not_ref": 5,
+    "n_in_ref_not_panel": 3,
+    "in_panel_not_ref": [
+     "2025-06-11",
+     "2025-06-12",
+     "2025-06-13",
+     "2025-06-16",
+     "2025-06-17"
+    ],
+    "in_ref_not_panel": [
+     "2026-07-10",
+     "2026-09-20",
+     "2026-10-23"
+    ]
+   },
+   "twii_nan_close": 0,
+   "e50_nan_adj": 0,
+   "twii_two_copies": {
+    "n": 6866,
+    "n_close_diff": 0
+   },
+   "e50_two_copies": {
+    "n": 5737,
+    "n_adj_diff": 0,
+    "ratio_min": 1.0,
+    "ratio_max": 1.0,
+    "n_ret_diff_gt_1bp": 0
+   },
+   "vs_data_panel": {
+    "ref": "data_panel/panel/close_raw.parquet（舊研究面板；S75 只拿來補 2015 前的格）",
+    "window": [
+     "2007-01-01",
+     "2026-10-22"
+    ],
+    "n_panel": 4865,
+    "n_ref": 4841,
+    "n_in_panel_not_ref": 25,
+    "n_in_ref_not_panel": 1,
+    "in_panel_not_ref": [
+     "2024-01-02",
+     "2024-01-03",
+     "2024-01-04",
+     "2024-01-05",
+     "2024-01-08",
+     "2024-01-09",
+     "2024-01-10",
+     "2024-01-11",
+     "2024-01-12",
+     "2024-01-15",
+     "2024-01-16",
+     "2024-01-17",
+     "2024-01-18",
+     "2024-01-19",
+     "2024-01-22",
+     "2024-01-23",
+     "2024-01-24",
+     "2024-01-25",
+     "2024-01-26",
+     "2024-01-29",
+     "2024-01-30",
+     "2024-01-31",
+     "2024-02-01",
+     "2024-02-02",
+     "2024-02-05"
+    ],
+    "in_ref_not_panel": [
+     "2018-01-13"
+    ]
+   },
+   "data_panel_gap_2024": {
+    "n": 25,
+    "official_has_all": true,
+    "official_days_2024_01_02_to_02_14": 25
+   },
+   "engine_cache_vs_rebuild": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/eng/cache/panel_cs.npz",
+    "sha256": "434f64222b8fd1f10e1e25c9ac4553e7e6f6d11305896a3ceabb3b212650dfab",
+    "T": 2880,
+    "N": 2142,
+    "first": "2015-01-05",
+    "last": "2026-10-30",
+    "all_dates_in_rebuild": true,
+    "n_cells_diff": {
+     "C": 0,
+     "O": 0,
+     "AMT": 0,
+     "CHG": 0,
+     "VOL": 0,
+     "H": 0,
+     "L": 0,
+     "MK": 0
+    },
+    "codes_in_rebuild_not_cache": [
+     "7848"
+    ]
+   },
+   "pre_file_2015H1_vs_official": {
+    "n_pre": 116,
+    "n_off": 116,
+    "sym_diff": []
+   }
+  },
+  "B2": {
+   "drop_rule": "當日檔數 < 前 20 個交易日中位數 × 0.97",
+   "drops_listed_twse": [],
+   "drops_priced_twse": [],
+   "drops_listed_tpex": [],
+   "drops_priced_tpex": [
+    {
+     "date": "2018-11-05",
+     "n": 695,
+     "prev20_median": 730.0,
+     "pct": -4.79,
+     "series": "上櫃有收盤價"
+    },
+    {
+     "date": "2018-12-22",
+     "n": 699,
+     "prev20_median": 731.5,
+     "pct": -4.44,
+     "series": "上櫃有收盤價"
+    }
+   ],
+   "by_year": {
+    "2007": {
+     "src": "raw/pre2015（Asoul/tsec）",
+     "n_codes_twse": 701,
+     "median_daily_rows": 674.0,
+     "median_daily_priced": 671.0,
+     "n_rows": 166785,
+     "miss_close_pct": 0.565998141319663,
+     "miss_open_pct": 0.565998141319663,
+     "miss_amount_pct": 0.0,
+     "zero_amount_pct": 0.3633420271607159,
+     "miss_change_pct": 8.769373744641305,
+     "traded_rows": 166179,
+     "traded_miss_close_pct": 0.20339513416255964,
+     "traded_miss_open_pct": 0.20339513416255964,
+     "traded_miss_change_pct": 8.436685742482505,
+     "xflag_rows": 1054
+    },
+    "2008": {
+     "src": "raw/pre2015（Asoul/tsec）",
+     "n_codes_twse": 705,
+     "median_daily_rows": 685.0,
+     "median_daily_priced": 675.0,
+     "n_rows": 170514,
+     "miss_close_pct": 1.4503207947734498,
+     "miss_open_pct": 1.4503207947734498,
+     "miss_amount_pct": 0.0,
+     "zero_amount_pct": 1.2157359513001864,
+     "miss_change_pct": 8.066199842828155,
+     "traded_rows": 168441,
+     "traded_miss_close_pct": 0.23747187442487283,
+     "traded_miss_open_pct": 0.23747187442487283,
+     "traded_miss_change_pct": 6.9347724128923485,
+     "xflag_rows": 1410
+    },
+    "2009": {
+     "src": "raw/pre2015（Asoul/tsec）",
+     "n_codes_twse": 712,
+     "median_daily_rows": 695.0,
+     "median_daily_priced": 692.0,
+     "n_rows": 174475,
+     "miss_close_pct": 0.7817738931078951,
+     "miss_open_pct": 0.7817738931078951,
+     "miss_amount_pct": 0.0,
+     "zero_amount_pct": 0.645937813440321,
+     "miss_change_pct": 8.032669436882074,
+     "traded_rows": 173350,
+     "traded_miss_close_pct": 0.1378713585232189,
+     "traded_miss_open_pct": 0.1378713585232189,
+     "traded_miss_change_pct": 7.435823478511681,
+     "xflag_rows": 1054
+    },
+    "2010": {
+     "src": "raw/pre2015（Asoul/tsec）",
+     "n_codes_twse": 733,
+     "median_daily_rows": 707.0,
+     "median_daily_priced": 705.0,
+     "n_rows": 177543,
+     "miss_close_pct": 0.36667173586117163,
+     "miss_open_pct": 0.36667173586117163,
+     "miss_amount_pct": 0.0,
+     "zero_amount_pct": 0.1954456103591806,
+     "miss_change_pct": 8.648609069352213,
+     "traded_rows": 177196,
+     "traded_miss_close_pct": 0.17156143479536784,
+     "traded_miss_open_pct": 0.17156143479536784,
+     "traded_miss_change_pct": 8.469717149371318,
+     "xflag_rows": 906
+    },
+    "2011": {
+     "src": "raw/pre2015（Asoul/tsec）",
+     "n_codes_twse": 755,
+     "median_daily_rows": 723.0,
+     "median_daily_priced": 719.0,
+     "n_rows": 179155,
+     "miss_close_pct": 0.5302670871591639,
+     "miss_open_pct": 0.5302670871591639,
+     "miss_amount_pct": 0.0,
+     "zero_amount_pct": 0.3170439005330579,
+     "miss_change_pct": 9.002260612318942,
+     "traded_rows": 178587,
+     "traded_miss_close_pct": 0.2139013478024716,
+     "traded_miss_open_pct": 0.2139013478024716,
+     "traded_miss_change_pct": 8.712840240331044,
+     "xflag_rows": 1109
+    },
+    "2012": {
+     "src": "raw/pre2015（Asoul/tsec）",
+     "n_codes_twse": 763,
+     "median_daily_rows": 750.0,
+     "median_daily_priced": 744.0,
+     "n_rows": 187347,
+     "miss_close_pct": 0.676818950930626,
+     "miss_open_pct": 0.676818950930626,
+     "miss_amount_pct": 0.0,
+     "zero_amount_pct": 0.43769048877217137,
+     "miss_change_pct": 10.50510549942086,
+     "traded_rows": 186527,
+     "traded_miss_close_pct": 0.24017970588708337,
+     "traded_miss_open_pct": 0.24017970588708337,
+     "traded_miss_change_pct": 10.111672840929195,
+     "xflag_rows": 1188
+    },
+    "2013": {
+     "src": "raw/pre2015（Asoul/tsec）",
+     "n_codes_twse": 789,
+     "median_daily_rows": 762.0,
+     "median_daily_priced": 759.0,
+     "n_rows": 187857,
+     "miss_close_pct": 0.4636505427000325,
+     "miss_open_pct": 0.4636505427000325,
+     "miss_amount_pct": 0.0,
+     "zero_amount_pct": 0.19961992366534118,
+     "miss_change_pct": 11.815902521598876,
+     "traded_rows": 187482,
+     "traded_miss_close_pct": 0.2645587309715066,
+     "traded_miss_open_pct": 0.2645587309715066,
+     "traded_miss_change_pct": 11.639517393669792,
+     "xflag_rows": 1116
+    },
+    "2014": {
+     "src": "raw/pre2015（Asoul/tsec）",
+     "n_codes_twse": 803,
+     "median_daily_rows": 790.0,
+     "median_daily_priced": 786.0,
+     "n_rows": 195753,
+     "miss_close_pct": 0.401015565534117,
+     "miss_open_pct": 0.401015565534117,
+     "miss_amount_pct": 0.0,
+     "zero_amount_pct": 0.1598953783594632,
+     "miss_change_pct": 11.078757413679483,
+     "traded_rows": 195440,
+     "traded_miss_close_pct": 0.2415063446582071,
+     "traded_miss_open_pct": 0.2415063446582071,
+     "traded_miss_change_pct": 10.936348751534998,
+     "xflag_rows": 1091
+    },
+    "2015": {
+     "official_n_codes_twse": 883,
+     "official_n_codes_tpex": 719,
+     "official_median_daily_rows": 868.0,
+     "official_median_daily_priced": 864.0,
+     "official_n_rows": 211809,
+     "official_miss_close_pct": 0.5212243105817033,
+     "official_miss_open_pct": 0.5212243105817033,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.3177390951281579,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 211136,
+     "official_traded_miss_close_pct": 0.20413382843285843,
+     "official_traded_miss_open_pct": 0.20413382843285843,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2016": {
+     "official_n_codes_twse": 906,
+     "official_n_codes_tpex": 742,
+     "official_median_daily_rows": 884.0,
+     "official_median_daily_priced": 879.0,
+     "official_n_rows": 215949,
+     "official_miss_close_pct": 0.6459858577719739,
+     "official_miss_open_pct": 0.6459858577719739,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.3593441043950192,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 215173,
+     "official_traded_miss_close_pct": 0.28767549831995654,
+     "official_traded_miss_open_pct": 0.28767549831995654,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2017": {
+     "official_n_codes_twse": 920,
+     "official_n_codes_tpex": 753,
+     "official_median_daily_rows": 903.0,
+     "official_median_daily_priced": 898.0,
+     "official_n_rows": 222194,
+     "official_miss_close_pct": 0.560771217944679,
+     "official_miss_open_pct": 0.560771217944679,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.31999063881112905,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 221483,
+     "official_traded_miss_close_pct": 0.24155352781026082,
+     "official_traded_miss_open_pct": 0.24155352781026082,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2018": {
+     "official_n_codes_twse": 943,
+     "official_n_codes_tpex": 774,
+     "official_median_daily_rows": 921.0,
+     "official_median_daily_priced": 915.0,
+     "official_n_rows": 227381,
+     "official_miss_close_pct": 0.5998742199216294,
+     "official_miss_open_pct": 0.5998742199216294,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.34831406318030095,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 226589,
+     "official_traded_miss_close_pct": 0.2524394388077091,
+     "official_traded_miss_open_pct": 0.2524394388077091,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2019": {
+     "official_n_codes_twse": 953,
+     "official_n_codes_tpex": 786,
+     "official_median_daily_rows": 936.0,
+     "official_median_daily_priced": 931.5,
+     "official_n_rows": 226715,
+     "official_miss_close_pct": 0.5570870917230885,
+     "official_miss_open_pct": 0.5570870917230885,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.26817810907968154,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 226107,
+     "official_traded_miss_close_pct": 0.289685856696166,
+     "official_traded_miss_open_pct": 0.289685856696166,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2020": {
+     "official_n_codes_twse": 958,
+     "official_n_codes_tpex": 794,
+     "official_median_daily_rows": 947.0,
+     "official_median_daily_priced": 944.0,
+     "official_n_rows": 231961,
+     "official_miss_close_pct": 0.33022792624622244,
+     "official_miss_open_pct": 0.33022792624622244,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.17934049258280488,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 231545,
+     "official_traded_miss_close_pct": 0.15115852210153533,
+     "official_traded_miss_open_pct": 0.15115852210153533,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2021": {
+     "official_n_codes_twse": 968,
+     "official_n_codes_tpex": 795,
+     "official_median_daily_rows": 956.0,
+     "official_median_daily_priced": 953.0,
+     "official_n_rows": 232956,
+     "official_miss_close_pct": 0.24639846151204517,
+     "official_miss_open_pct": 0.24639846151204517,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.09701402840021292,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 232730,
+     "official_traded_miss_close_pct": 0.1495294977011988,
+     "official_traded_miss_open_pct": 0.1495294977011988,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2022": {
+     "official_n_codes_twse": 985,
+     "official_n_codes_tpex": 815,
+     "official_median_daily_rows": 968.0,
+     "official_median_daily_priced": 965.0,
+     "official_n_rows": 237941,
+     "official_miss_close_pct": 0.2656120634947319,
+     "official_miss_open_pct": 0.2656120634947319,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.09750316254869905,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 237709,
+     "official_traded_miss_close_pct": 0.168272972415853,
+     "official_traded_miss_open_pct": 0.168272972415853,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2023": {
+     "official_n_codes_twse": 1003,
+     "official_n_codes_tpex": 824,
+     "official_median_daily_rows": 981.0,
+     "official_median_daily_priced": 979.0,
+     "official_n_rows": 234727,
+     "official_miss_close_pct": 0.17722716176664807,
+     "official_miss_open_pct": 0.17722716176664807,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.04686295142868098,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 234617,
+     "official_traded_miss_close_pct": 0.13042533149771757,
+     "official_traded_miss_open_pct": 0.13042533149771757,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2024": {
+     "official_n_codes_twse": 1038,
+     "official_n_codes_tpex": 844,
+     "official_median_daily_rows": 1019.0,
+     "official_median_daily_priced": 1017.0,
+     "official_n_rows": 246037,
+     "official_miss_close_pct": 0.17598979015351351,
+     "official_miss_open_pct": 0.17598979015351351,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.05405691013953185,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 245904,
+     "official_traded_miss_close_pct": 0.12199882881124341,
+     "official_traded_miss_open_pct": 0.12199882881124341,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2025": {
+     "official_n_codes_twse": 1070,
+     "official_n_codes_tpex": 879,
+     "official_median_daily_rows": 1048.0,
+     "official_median_daily_priced": 1044.0,
+     "official_n_rows": 254854,
+     "official_miss_close_pct": 0.30723473047313365,
+     "official_miss_open_pct": 0.30723473047313365,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.10908206267117644,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 254576,
+     "official_traded_miss_close_pct": 0.19836905285651438,
+     "official_traded_miss_open_pct": 0.19836905285651438,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    },
+    "2026": {
+     "official_n_codes_twse": 1097,
+     "official_n_codes_tpex": 905,
+     "official_median_daily_rows": 1082.0,
+     "official_median_daily_priced": 1080.0,
+     "official_n_rows": 228927,
+     "official_miss_close_pct": 0.18564870024068808,
+     "official_miss_open_pct": 0.18564870024068808,
+     "official_miss_amount_pct": 0.0,
+     "official_zero_amount_pct": 0.062028506903947546,
+     "official_miss_change_pct": 0.0,
+     "official_traded_rows": 228785,
+     "official_traded_miss_close_pct": 0.12369692068973054,
+     "official_traded_miss_open_pct": 0.12369692068973054,
+     "official_traded_miss_change_pct": 0.0,
+     "official_miss_volume_pct": 0.0
+    }
+   }
+  },
+  "B3": {
+   "rule": "|收盤÷前一個有成交日收盤−1| > 漲跌停上限＋0.01 個百分點（2015-06-01 前 7%、之後 10%）；排除順序：除權息／減資／面額變更／分割事件日 → 掛牌後前 5 根 → 前一交易日無成交（恢復交易）",
+   "pre2015_twse": {
+    "n_priced_cells": 1430123,
+    "n_over_limit_vs_prev_close": 1812,
+    "by_cat": {
+     "exright": 1724,
+     "first5": 73,
+     "unexplained": 14,
+     "resume": 1
+    },
+    "n_over_limit_vs_ref_price": 73,
+    "n_over_limit_vs_ref_excl_first5": 0,
+    "n_abs_ref_ret_gt_50pct": 0
+   },
+   "official_twse": {
+    "n_priced_cells": 2761050,
+    "n_over_limit_vs_prev_close": 961,
+    "by_cat": {
+     "exright": 804,
+     "resume": 77,
+     "first5": 70,
+     "unexplained": 10
+    },
+    "n_over_limit_vs_ref_price": 69,
+    "n_over_limit_vs_ref_excl_first5": 0,
+    "n_abs_ref_ret_gt_50pct": 0
+   },
+   "official_tpex": {
+    "n_priced_cells": 2210374,
+    "n_over_limit_vs_prev_close": 1319,
+    "by_cat": {
+     "exright": 740,
+     "resume": 476,
+     "first5": 93,
+     "unverifiable_event_file_missing": 5,
+     "unexplained": 5
+    },
+    "n_over_limit_vs_ref_price": 357,
+    "n_over_limit_vs_ref_excl_first5": 3,
+    "n_abs_ref_ret_gt_50pct": 74
+   },
+   "unexplained_by_year_twse": {
+    "2008": 9,
+    "2009": 1,
+    "2012": 3,
+    "2014": 1,
+    "2015": 1,
+    "2016": 2,
+    "2023": 3,
+    "2024": 2,
+    "2026": 2
+   },
+   "unexplained_by_year_tpex": {
+    "2016": 1,
+    "2019": 1,
+    "2024": 1,
+    "2026": 2
+   },
+   "top30_unexplained_twse": [
+    {
+     "date": "2015-07-13",
+     "code": "2331",
+     "prev_close": 30.5,
+     "close": 23.55,
+     "ret_pct": -22.79,
+     "change": -1.95,
+     "ret_vs_ref_pct": -7.65,
+     "volume": 11367085,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2008-09-30",
+     "code": "3308",
+     "prev_close": 25.9,
+     "close": 20.1,
+     "ret_pct": -22.39,
+     "change": -1.5,
+     "ret_vs_ref_pct": -6.94,
+     "volume": 55100,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2024-07-26",
+     "code": "1519",
+     "prev_close": 940.0,
+     "close": 775.0,
+     "ret_pct": -17.55,
+     "change": -74.0,
+     "ret_vs_ref_pct": -8.72,
+     "volume": 6150129,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2026-07-13",
+     "code": "5519",
+     "prev_close": 34.45,
+     "close": 28.9,
+     "ret_pct": -16.11,
+     "change": -0.75,
+     "ret_vs_ref_pct": -2.53,
+     "volume": 1328143,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2008-07-29",
+     "code": "1710",
+     "prev_close": 32.5,
+     "close": 27.6,
+     "ret_pct": -15.08,
+     "change": -2.05,
+     "ret_vs_ref_pct": -6.91,
+     "volume": 7637760,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2008-07-29",
+     "code": "2027",
+     "prev_close": 31.0,
+     "close": 26.4,
+     "ret_pct": -14.84,
+     "change": -1.55,
+     "ret_vs_ref_pct": -5.55,
+     "volume": 2277920,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2008-07-29",
+     "code": "3028",
+     "prev_close": 17.3,
+     "close": 14.8,
+     "ret_pct": -14.45,
+     "change": -0.9,
+     "ret_vs_ref_pct": -5.73,
+     "volume": 2338800,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2008-07-29",
+     "code": "9904",
+     "prev_close": 28.05,
+     "close": 24.15,
+     "ret_pct": -13.9,
+     "change": -0.3,
+     "ret_vs_ref_pct": -1.23,
+     "volume": 19455386,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2026-07-13",
+     "code": "3034",
+     "prev_close": 542.0,
+     "close": 467.5,
+     "ret_pct": -13.75,
+     "change": -51.5,
+     "ret_vs_ref_pct": -9.92,
+     "volume": 13046938,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2008-07-29",
+     "code": "2383",
+     "prev_close": 12.75,
+     "close": 11.15,
+     "ret_pct": -12.55,
+     "change": -0.45,
+     "ret_vs_ref_pct": -3.88,
+     "volume": 1963603,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2016-07-11",
+     "code": "5215",
+     "prev_close": 33.25,
+     "close": 29.2,
+     "ret_pct": -12.18,
+     "change": -1.05,
+     "ret_vs_ref_pct": -3.47,
+     "volume": 150123,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2023-08-04",
+     "code": "1727",
+     "prev_close": 37.6,
+     "close": 33.2,
+     "ret_pct": -11.7,
+     "change": -3.65,
+     "ret_vs_ref_pct": -9.91,
+     "volume": 8695816,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2024-07-26",
+     "code": "6869",
+     "prev_close": 297.0,
+     "close": 263.0,
+     "ret_pct": -11.45,
+     "change": -28.5,
+     "ret_vs_ref_pct": -9.78,
+     "volume": 1744640,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2009-08-10",
+     "code": "2545",
+     "prev_close": 66.5,
+     "close": 59.0,
+     "ret_pct": -11.28,
+     "change": 1.2,
+     "ret_vs_ref_pct": 2.08,
+     "volume": 8068740,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2016-07-11",
+     "code": "6215",
+     "prev_close": 17.15,
+     "close": 15.25,
+     "ret_pct": -11.08,
+     "change": -1.65,
+     "ret_vs_ref_pct": -9.76,
+     "volume": 2629065,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2023-08-04",
+     "code": "9910",
+     "prev_close": 212.0,
+     "close": 189.0,
+     "ret_pct": -10.85,
+     "change": 6.5,
+     "ret_vs_ref_pct": 3.56,
+     "volume": 2907631,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2023-08-04",
+     "code": "3209",
+     "prev_close": 39.35,
+     "close": 35.15,
+     "ret_pct": -10.67,
+     "change": -0.6,
+     "ret_vs_ref_pct": -1.68,
+     "volume": 3928088,
+     "seg": "官方 上市 2015+"
+    },
+    {
+     "date": "2008-09-30",
+     "code": "1519",
+     "prev_close": 34.0,
+     "close": 30.45,
+     "ret_pct": -10.44,
+     "change": null,
+     "ret_vs_ref_pct": null,
+     "volume": 419968,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2008-07-29",
+     "code": "1704",
+     "prev_close": 32.3,
+     "close": 29.0,
+     "ret_pct": -10.22,
+     "change": -0.6,
+     "ret_vs_ref_pct": -2.03,
+     "volume": 4395171,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2012-08-03",
+     "code": "2105",
+     "prev_close": 81.5,
+     "close": 73.5,
+     "ret_pct": -9.82,
+     "change": 3.2,
+     "ret_vs_ref_pct": 4.55,
+     "volume": 49975531,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2008-07-29",
+     "code": "2362",
+     "prev_close": 47.75,
+     "close": 43.1,
+     "ret_pct": -9.74,
+     "change": -1.15,
+     "ret_vs_ref_pct": -2.6,
+     "volume": 5255332,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2012-08-03",
+     "code": "3036",
+     "prev_close": 38.8,
+     "close": 35.25,
+     "ret_pct": -9.15,
+     "change": 0.2,
+     "ret_vs_ref_pct": 0.57,
+     "volume": 2058108,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2012-08-03",
+     "code": "5880",
+     "prev_close": 18.3,
+     "close": 16.7,
+     "ret_pct": -8.74,
+     "change": -0.25,
+     "ret_vs_ref_pct": -1.47,
+     "volume": 33759221,
+     "seg": "pre2015 上市 2007–2014"
+    },
+    {
+     "date": "2014-07-24",
+     "code": "1305",
+     "prev_close": 15.8,
+     "close": 14.55,
+     "ret_pct": -7.91,
+     "change": 0.15,
+     "ret_vs_ref_pct": 1.04,
+     "volume": 5198137,
+     "seg": "pre2015 上市 2007–2014"
+    }
+   ],
+   "top30_unexplained_tpex": [
+    {
+     "date": "2024-07-26",
+     "code": "3293",
+     "prev_close": 1465.0,
+     "close": 786.0,
+     "ret_pct": -46.35,
+     "change": 71.0,
+     "ret_vs_ref_pct": 9.93,
+     "volume": 4842000,
+     "seg": "官方 上櫃 2015+"
+    },
+    {
+     "date": "2026-07-13",
+     "code": "3489",
+     "prev_close": 24.2,
+     "close": 20.45,
+     "ret_pct": -15.5,
+     "change": -0.75,
+     "ret_vs_ref_pct": -3.54,
+     "volume": 574000,
+     "seg": "官方 上櫃 2015+"
+    },
+    {
+     "date": "2019-08-12",
+     "code": "6143",
+     "prev_close": 47.7,
+     "close": 42.3,
+     "ret_pct": -11.32,
+     "change": -1.4,
+     "ret_vs_ref_pct": -3.2,
+     "volume": 1357000,
+     "seg": "官方 上櫃 2015+"
+    },
+    {
+     "date": "2026-07-13",
+     "code": "7747",
+     "prev_close": 129.0,
+     "close": 115.0,
+     "ret_pct": -10.85,
+     "change": 0.5,
+     "ret_vs_ref_pct": 0.44,
+     "volume": 18000,
+     "seg": "官方 上櫃 2015+"
+    },
+    {
+     "date": "2016-07-11",
+     "code": "5276",
+     "prev_close": 25.95,
+     "close": 23.35,
+     "ret_pct": -10.02,
+     "change": -0.6,
+     "ret_vs_ref_pct": -2.51,
+     "volume": 34000,
+     "seg": "官方 上櫃 2015+"
+    }
+   ],
+   "impossible_official_twse": {
+    "close_le0_with_volume": 5304,
+    "close_le0_any": 0,
+    "amount_neg": 0,
+    "volume_neg": 0,
+    "high_lt_low": 0,
+    "close_gt_high": 0,
+    "close_lt_low": 0,
+    "open_gt_high": 0,
+    "open_lt_low": 0,
+    "priced_but_zero_volume": 0,
+    "volume_pos_amount_zero_or_nan": 0,
+    "vwap_outside_low_high": 10775
+   },
+   "impossible_official_tpex": {
+    "close_le0_with_volume": 0,
+    "close_le0_any": 0,
+    "amount_neg": 0,
+    "volume_neg": 0,
+    "high_lt_low": 0,
+    "close_gt_high": 0,
+    "close_lt_low": 0,
+    "open_gt_high": 0,
+    "open_lt_low": 0,
+    "priced_but_zero_volume": 0,
+    "volume_pos_amount_zero_or_nan": 0,
+    "vwap_outside_low_high": 0
+   },
+   "impossible_pre2015_twse": {
+    "close_le0_with_volume": 3079,
+    "close_le0_any": 0,
+    "amount_neg": 0,
+    "volume_neg": 0,
+    "high_lt_low": 0,
+    "close_gt_high": 0,
+    "close_lt_low": 0,
+    "open_gt_high": 0,
+    "open_lt_low": 0,
+    "priced_but_zero_volume": 0,
+    "volume_pos_amount_zero_or_nan": 2,
+    "vwap_outside_low_high": 5382
+   }
+  },
+  "B4": {
+   "twt49u": {
+    "n_files": 154,
+    "n_in_sha256sums": 154,
+    "sha_mismatch": [],
+    "files_not_in_sums": [],
+    "first": "2014-01-16",
+    "last": "2026-10-29",
+    "n_rows": 12606,
+    "n_rows_4digit": 10638,
+    "n_dup_date_code": 0,
+    "by_year_all": {
+     "2014": 732,
+     "2015": 747,
+     "2016": 734,
+     "2017": 781,
+     "2018": 825,
+     "2019": 880,
+     "2020": 888,
+     "2021": 973,
+     "2022": 1027,
+     "2023": 1086,
+     "2024": 1184,
+     "2025": 1358,
+     "2026": 1391
+    },
+    "by_year_4digit": {
+     "2014": 692,
+     "2015": 718,
+     "2016": 711,
+     "2017": 744,
+     "2018": 764,
+     "2019": 793,
+     "2020": 791,
+     "2021": 859,
+     "2022": 891,
+     "2023": 899,
+     "2024": 907,
+     "2025": 942,
+     "2026": 927
+    },
+    "by_type": {
+     "息": 8894,
+     "權息": 1048,
+     "權": 696
+    },
+    "months_missing": [],
+    "n_bad_values": 0
+   },
+   "repo_exright": {
+    "raw_archive": {
+     "n_files": 1787,
+     "first": "2015-01-05",
+     "last": "2026-10-29",
+     "missing_local": 1787
+    },
+    "tsd": {
+     "n_files": 1798,
+     "first": "2015-01-05",
+     "last": "2026-11-20",
+     "missing_local": 42
+    },
+    "unreadable_days": [
+     "2015-01-05",
+     "2015-01-08",
+     "2015-01-13",
+     "2015-01-22",
+     "2015-01-29",
+     "2015-02-02",
+     "2015-02-04",
+     "2015-02-05",
+     "2015-02-26",
+     "2015-03-05",
+     "2015-03-09",
+     "2015-04-08",
+     "2015-04-09",
+     "2015-04-16",
+     "2015-05-04",
+     "2015-05-07",
+     "2015-05-14",
+     "2015-05-18",
+     "2015-05-21",
+     "2015-05-26",
+     "2015-05-27",
+     "2015-06-01",
+     "2015-06-02",
+     "2015-06-03",
+     "2015-06-04",
+     "2015-06-08",
+     "2015-06-09",
+     "2015-06-11",
+     "2015-06-15",
+     "2015-06-16",
+     "2015-06-17",
+     "2015-06-18",
+     "2015-06-22",
+     "2015-06-23",
+     "2015-06-24",
+     "2015-06-25",
+     "2015-06-26",
+     "2015-06-29",
+     "2015-06-30",
+     "2015-07-01",
+     "2019-09-25",
+     "2026-11-20"
+    ],
+    "n_rows": 11831,
+    "n_rows_4digit": 9876,
+    "first_read": "2015-07-02",
+    "last_read": "2026-11-19",
+    "n_file_date_ne_row_date": 0,
+    "by_year_all": {
+     "2015": 660,
+     "2016": 734,
+     "2017": 781,
+     "2018": 825,
+     "2019": 874,
+     "2020": 888,
+     "2021": 973,
+     "2022": 1027,
+     "2023": 1086,
+     "2024": 1184,
+     "2025": 1358,
+     "2026": 1441
+    },
+    "by_year_4digit": {
+     "2015": 643,
+     "2016": 711,
+     "2017": 744,
+     "2018": 764,
+     "2019": 792,
+     "2020": 791,
+     "2021": 859,
+     "2022": 891,
+     "2023": 899,
+     "2024": 907,
+     "2025": 942,
+     "2026": 933
+    },
+    "by_kind": {
+     "息": 8340,
+     "權息": 905,
+     "權": 631
+    },
+    "n_dup_date_code": 0,
+    "other_event_files": {
+     "otcexright": {
+      "tsd": {
+       "n_files": 2420,
+       "first": "2008-01-10",
+       "last": "2026-11-20",
+       "missing_local": 717
+      },
+      "raw_archive_missing_local": 2411,
+      "n_unreadable": 717
+     },
+     "etfsplit": {
+      "tsd": {
+       "n_files": 11,
+       "first": "2024-12-11",
+       "last": "2026-11-17",
+       "missing_local": 0
+      },
+      "raw_archive_missing_local": 10,
+      "n_unreadable": 0
+     },
+     "parvalue": {
+      "tsd": {
+       "n_files": 10,
+       "first": "2020-08-17",
+       "last": "2026-09-07",
+       "missing_local": 0
+      },
+      "raw_archive_missing_local": 10,
+      "n_unreadable": 0
+     },
+     "reduce": {
+      "tsd": {
+       "n_files": 220,
+       "first": "2015-01-23",
+       "last": "2026-11-16",
+       "missing_local": 4
+      },
+      "raw_archive_missing_local": 219,
+      "n_unreadable": 4
+     },
+     "otcparvalue": {
+      "tsd": {
+       "n_files": 13,
+       "first": "2019-09-09",
+       "last": "2026-08-31",
+       "missing_local": 0
+      },
+      "raw_archive_missing_local": 13,
+      "n_unreadable": 0
+     },
+     "otcreduce": {
+      "tsd": {
+       "n_files": 237,
+       "first": "2013-01-16",
+       "last": "2026-11-16",
+       "missing_local": 49
+      },
+      "raw_archive_missing_local": 235,
+      "n_unreadable": 49
+     },
+     "stophalt": {
+      "tsd": {
+       "n_files": 43,
+       "first": "2026-09-11",
+       "last": "2026-11-17",
+       "missing_local": 43
+      },
+      "raw_archive_missing_local": 31,
+      "n_unreadable": 43
+     }
+    }
+   },
+   "cross_twt49u_vs_repo": {
+    "window": [
+     "2015-07-02",
+     "2026-10-29"
+    ],
+    "n_twt49u": 9871,
+    "n_repo": 9870,
+    "n_both": 9870,
+    "n_only_twt49u": 1,
+    "n_only_twt49u_on_unreadable_repo_days": 1,
+    "n_only_repo": 0,
+    "match_rate_of_twt49u_pct": 99.99,
+    "match_rate_of_repo_pct": 100.0,
+    "ref_price_equal_pct": 100.0,
+    "prev_close_equal_pct": 100.0,
+    "value_equal_pct": 100.0,
+    "only_twt49u_sample": [
+     [
+      "2019-09-25",
+      "4552"
+     ]
+    ],
+    "only_repo_sample": []
+   },
+   "events_on_non_trading_days_twt49u": {
+    "n": 110,
+    "days": [
+     "2015-07-10",
+     "2016-07-08",
+     "2019-08-09",
+     "2019-09-30",
+     "2023-08-03",
+     "2024-07-24",
+     "2024-07-25",
+     "2024-10-02",
+     "2024-10-31",
+     "2026-07-10",
+     "2026-10-23"
+    ],
+    "n_next_day_k_has_ref": 80,
+    "rows": [
+     {
+      "event_date": "2015-07-10",
+      "code": "1220",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 10.0,
+      "close": 10.3,
+      "change": 0.3,
+      "k_ref": 10.0,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2020",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 12.7,
+      "close": 13.45,
+      "change": 0.75,
+      "k_ref": 12.7,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2331",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 25.5,
+      "close": 23.55,
+      "change": -1.95,
+      "k_ref": 25.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2439",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 61.99,
+      "close": 63.0,
+      "change": 1.0,
+      "k_ref": 62.0,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2453",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 11.2,
+      "close": 11.5,
+      "change": 0.3,
+      "k_ref": 11.2,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2906",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 13.45,
+      "close": 13.4,
+      "change": -0.05,
+      "k_ref": 13.45,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "3617",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 60.96,
+      "close": 63.8,
+      "change": 2.8,
+      "k_ref": 61.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "6112",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 27.3,
+      "close": 27.7,
+      "change": 0.4,
+      "k_ref": 27.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "6451",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 160.5,
+      "close": 162.0,
+      "change": 1.5,
+      "k_ref": 160.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "1612",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 7.94,
+      "close": 8.04,
+      "change": 0.1,
+      "k_ref": 7.94,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "2478",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 16.29,
+      "close": 16.15,
+      "change": -0.15,
+      "k_ref": 16.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "2838",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 8.42,
+      "close": 8.53,
+      "change": 0.11,
+      "k_ref": 8.42,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "3047",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 9.8,
+      "close": 9.92,
+      "change": 0.12,
+      "k_ref": 9.8,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "4164",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 49.49,
+      "close": 49.7,
+      "change": 0.2,
+      "k_ref": 49.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "4555",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 65.7,
+      "close": 66.0,
+      "change": 0.3,
+      "k_ref": 65.7,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "4733",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 118.0,
+      "close": 113.5,
+      "change": -4.5,
+      "k_ref": 118.0,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "5215",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 30.25,
+      "close": 29.2,
+      "change": -1.05,
+      "k_ref": 30.25,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "6205",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 25.2,
+      "close": 24.8,
+      "change": -0.4,
+      "k_ref": 25.2,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "6215",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 16.9,
+      "close": 15.25,
+      "change": -1.65,
+      "k_ref": 16.9,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "6224",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 55.7,
+      "close": 56.3,
+      "change": 0.6,
+      "k_ref": 55.7,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "6449",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 25.3,
+      "close": 25.85,
+      "change": 0.55,
+      "k_ref": 25.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "8072",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 22.85,
+      "close": 23.1,
+      "change": 0.25,
+      "k_ref": 22.85,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "8210",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 56.6,
+      "close": 58.4,
+      "change": 1.8,
+      "k_ref": 56.6,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "1442",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 15.55,
+      "close": 15.65,
+      "change": 0.1,
+      "k_ref": 15.55,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "2337",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 27.09,
+      "close": 26.55,
+      "change": -0.55,
+      "k_ref": 27.1,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "2458",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 74.5,
+      "close": 75.0,
+      "change": 0.5,
+      "k_ref": 74.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "2886",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 29.4,
+      "close": 29.0,
+      "change": -0.4,
+      "k_ref": 29.4,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "2892",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 21.58,
+      "close": 21.55,
+      "change": -0.05,
+      "k_ref": 21.6,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2019-09-30",
+      "code": "4967",
+      "next_trading_day": "2019-10-01",
+      "ref_price": 23.45,
+      "close": 23.1,
+      "change": -0.35,
+      "k_ref": 23.45,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1216",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 73.05,
+      "close": 71.1,
+      "change": -2.0,
+      "k_ref": 73.1,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1720",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 60.9,
+      "close": 61.0,
+      "change": 0.1,
+      "k_ref": 60.9,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1727",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 36.86,
+      "close": 33.2,
+      "change": -3.65,
+      "k_ref": 36.85,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1730",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 57.9,
+      "close": 58.1,
+      "change": 0.2,
+      "k_ref": 57.9,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1809",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 15.3,
+      "close": 15.25,
+      "change": -0.05,
+      "k_ref": 15.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2207",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 721.56,
+      "close": 719.0,
+      "change": -3.0,
+      "k_ref": 722.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2233",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 105.0,
+      "close": 104.5,
+      "change": -0.5,
+      "k_ref": 105.0,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2342",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 38.8,
+      "close": 38.95,
+      "change": 0.15,
+      "k_ref": 38.8,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2351",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 100.3,
+      "close": 102.5,
+      "change": 2.0,
+      "k_ref": 100.5,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2376",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 290.8,
+      "close": 306.0,
+      "change": 15.0,
+      "k_ref": 291.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2912",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 271.5,
+      "close": 269.5,
+      "change": -2.0,
+      "k_ref": 271.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "3209",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 35.77,
+      "close": 35.15,
+      "change": -0.6,
+      "k_ref": 35.75,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "3533",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 710.81,
+      "close": 723.0,
+      "change": 12.0,
+      "k_ref": 711.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "4720",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 14.5,
+      "close": 14.55,
+      "change": 0.05,
+      "k_ref": 14.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "6201",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 46.05,
+      "close": 46.05,
+      "change": 0.0,
+      "k_ref": 46.05,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "6414",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 281.25,
+      "close": 287.0,
+      "change": 5.5,
+      "k_ref": 281.5,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "6743",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 55.4,
+      "close": 56.3,
+      "change": 0.9,
+      "k_ref": 55.4,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "6807",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 26.71,
+      "close": 26.9,
+      "change": 0.2,
+      "k_ref": 26.7,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "9910",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 182.41,
+      "close": 189.0,
+      "change": 6.5,
+      "k_ref": 182.5,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "9938",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 53.8,
+      "close": 54.9,
+      "change": 1.1,
+      "k_ref": 53.8,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "1201",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 18.23,
+      "close": 18.3,
+      "change": 0.05,
+      "k_ref": 18.25,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "1503",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 288.5,
+      "close": 273.0,
+      "change": -15.5,
+      "k_ref": 288.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "1762",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 51.4,
+      "close": 51.6,
+      "change": 0.2,
+      "k_ref": 51.4,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "1786",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 112.09,
+      "close": 111.5,
+      "change": -0.5,
+      "k_ref": 112.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "2023",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 15.15,
+      "close": 15.2,
+      "change": 0.05,
+      "k_ref": 15.15,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "2206",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 75.2,
+      "close": 76.8,
+      "change": 1.6,
+      "k_ref": 75.2,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "2838",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 15.23,
+      "close": 14.9,
+      "change": -0.35,
+      "k_ref": 15.25,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "2897",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 10.3,
+      "close": 10.15,
+      "change": -0.15,
+      "k_ref": 10.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "3010",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 141.54,
+      "close": 141.5,
+      "change": 0.0,
+      "k_ref": 141.5,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "3266",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 23.85,
+      "close": 23.3,
+      "change": -0.55,
+      "k_ref": 23.85,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "3532",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 160.5,
+      "close": 157.0,
+      "change": -3.5,
+      "k_ref": 160.5,
+      "k_ref_matches": true
+     }
+    ]
+   },
+   "events_on_non_trading_days_repo_exright": {
+    "n": 110,
+    "days": [
+     "2015-07-10",
+     "2016-07-08",
+     "2019-08-09",
+     "2019-09-30",
+     "2023-08-03",
+     "2024-07-24",
+     "2024-07-25",
+     "2024-10-02",
+     "2024-10-31",
+     "2026-07-10",
+     "2026-10-23"
+    ],
+    "n_next_day_k_has_ref": 80,
+    "rows": [
+     {
+      "event_date": "2015-07-10",
+      "code": "1220",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 10.0,
+      "close": 10.3,
+      "change": 0.3,
+      "k_ref": 10.0,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2020",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 12.7,
+      "close": 13.45,
+      "change": 0.75,
+      "k_ref": 12.7,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2331",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 25.5,
+      "close": 23.55,
+      "change": -1.95,
+      "k_ref": 25.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2439",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 61.99,
+      "close": 63.0,
+      "change": 1.0,
+      "k_ref": 62.0,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2453",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 11.2,
+      "close": 11.5,
+      "change": 0.3,
+      "k_ref": 11.2,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "2906",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 13.45,
+      "close": 13.4,
+      "change": -0.05,
+      "k_ref": 13.45,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "3617",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 60.96,
+      "close": 63.8,
+      "change": 2.8,
+      "k_ref": 61.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "6112",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 27.3,
+      "close": 27.7,
+      "change": 0.4,
+      "k_ref": 27.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2015-07-10",
+      "code": "6451",
+      "next_trading_day": "2015-07-13",
+      "ref_price": 160.5,
+      "close": 162.0,
+      "change": 1.5,
+      "k_ref": 160.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "1612",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 7.94,
+      "close": 8.04,
+      "change": 0.1,
+      "k_ref": 7.94,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "2478",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 16.29,
+      "close": 16.15,
+      "change": -0.15,
+      "k_ref": 16.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "2838",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 8.42,
+      "close": 8.53,
+      "change": 0.11,
+      "k_ref": 8.42,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "3047",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 9.8,
+      "close": 9.92,
+      "change": 0.12,
+      "k_ref": 9.8,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "4164",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 49.49,
+      "close": 49.7,
+      "change": 0.2,
+      "k_ref": 49.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "4555",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 65.7,
+      "close": 66.0,
+      "change": 0.3,
+      "k_ref": 65.7,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "4733",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 118.0,
+      "close": 113.5,
+      "change": -4.5,
+      "k_ref": 118.0,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "5215",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 30.25,
+      "close": 29.2,
+      "change": -1.05,
+      "k_ref": 30.25,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "6205",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 25.2,
+      "close": 24.8,
+      "change": -0.4,
+      "k_ref": 25.2,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "6215",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 16.9,
+      "close": 15.25,
+      "change": -1.65,
+      "k_ref": 16.9,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "6224",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 55.7,
+      "close": 56.3,
+      "change": 0.6,
+      "k_ref": 55.7,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "6449",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 25.3,
+      "close": 25.85,
+      "change": 0.55,
+      "k_ref": 25.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "8072",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 22.85,
+      "close": 23.1,
+      "change": 0.25,
+      "k_ref": 22.85,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2016-07-08",
+      "code": "8210",
+      "next_trading_day": "2016-07-11",
+      "ref_price": 56.6,
+      "close": 58.4,
+      "change": 1.8,
+      "k_ref": 56.6,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "1442",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 15.55,
+      "close": 15.65,
+      "change": 0.1,
+      "k_ref": 15.55,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "2337",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 27.09,
+      "close": 26.55,
+      "change": -0.55,
+      "k_ref": 27.1,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "2458",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 74.5,
+      "close": 75.0,
+      "change": 0.5,
+      "k_ref": 74.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "2886",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 29.4,
+      "close": 29.0,
+      "change": -0.4,
+      "k_ref": 29.4,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2019-08-09",
+      "code": "2892",
+      "next_trading_day": "2019-08-12",
+      "ref_price": 21.58,
+      "close": 21.55,
+      "change": -0.05,
+      "k_ref": 21.6,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2019-09-30",
+      "code": "4967",
+      "next_trading_day": "2019-10-01",
+      "ref_price": 23.45,
+      "close": 23.1,
+      "change": -0.35,
+      "k_ref": 23.45,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1216",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 73.05,
+      "close": 71.1,
+      "change": -2.0,
+      "k_ref": 73.1,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1720",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 60.9,
+      "close": 61.0,
+      "change": 0.1,
+      "k_ref": 60.9,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1727",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 36.86,
+      "close": 33.2,
+      "change": -3.65,
+      "k_ref": 36.85,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1730",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 57.9,
+      "close": 58.1,
+      "change": 0.2,
+      "k_ref": 57.9,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "1809",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 15.3,
+      "close": 15.25,
+      "change": -0.05,
+      "k_ref": 15.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2207",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 721.56,
+      "close": 719.0,
+      "change": -3.0,
+      "k_ref": 722.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2233",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 105.0,
+      "close": 104.5,
+      "change": -0.5,
+      "k_ref": 105.0,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2342",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 38.8,
+      "close": 38.95,
+      "change": 0.15,
+      "k_ref": 38.8,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2351",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 100.3,
+      "close": 102.5,
+      "change": 2.0,
+      "k_ref": 100.5,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2376",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 290.8,
+      "close": 306.0,
+      "change": 15.0,
+      "k_ref": 291.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "2912",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 271.5,
+      "close": 269.5,
+      "change": -2.0,
+      "k_ref": 271.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "3209",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 35.77,
+      "close": 35.15,
+      "change": -0.6,
+      "k_ref": 35.75,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "3533",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 710.81,
+      "close": 723.0,
+      "change": 12.0,
+      "k_ref": 711.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "4720",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 14.5,
+      "close": 14.55,
+      "change": 0.05,
+      "k_ref": 14.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "6201",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 46.05,
+      "close": 46.05,
+      "change": 0.0,
+      "k_ref": 46.05,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "6414",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 281.25,
+      "close": 287.0,
+      "change": 5.5,
+      "k_ref": 281.5,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "6743",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 55.4,
+      "close": 56.3,
+      "change": 0.9,
+      "k_ref": 55.4,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "6807",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 26.71,
+      "close": 26.9,
+      "change": 0.2,
+      "k_ref": 26.7,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "9910",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 182.41,
+      "close": 189.0,
+      "change": 6.5,
+      "k_ref": 182.5,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2023-08-03",
+      "code": "9938",
+      "next_trading_day": "2023-08-04",
+      "ref_price": 53.8,
+      "close": 54.9,
+      "change": 1.1,
+      "k_ref": 53.8,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "1201",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 18.23,
+      "close": 18.3,
+      "change": 0.05,
+      "k_ref": 18.25,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "1503",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 288.5,
+      "close": 273.0,
+      "change": -15.5,
+      "k_ref": 288.5,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "1762",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 51.4,
+      "close": 51.6,
+      "change": 0.2,
+      "k_ref": 51.4,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "1786",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 112.09,
+      "close": 111.5,
+      "change": -0.5,
+      "k_ref": 112.0,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "2023",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 15.15,
+      "close": 15.2,
+      "change": 0.05,
+      "k_ref": 15.15,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "2206",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 75.2,
+      "close": 76.8,
+      "change": 1.6,
+      "k_ref": 75.2,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "2838",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 15.23,
+      "close": 14.9,
+      "change": -0.35,
+      "k_ref": 15.25,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "2897",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 10.3,
+      "close": 10.15,
+      "change": -0.15,
+      "k_ref": 10.3,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "3010",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 141.54,
+      "close": 141.5,
+      "change": 0.0,
+      "k_ref": 141.5,
+      "k_ref_matches": false
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "3266",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 23.85,
+      "close": 23.3,
+      "change": -0.55,
+      "k_ref": 23.85,
+      "k_ref_matches": true
+     },
+     {
+      "event_date": "2024-07-24",
+      "code": "3532",
+      "next_trading_day": "2024-07-26",
+      "ref_price": 160.5,
+      "close": 157.0,
+      "change": -3.5,
+      "k_ref": 160.5,
+      "k_ref_matches": true
+     }
+    ]
+   },
+   "vs_daily_k_official_twse": {
+    "n_zero_change_but_close_moved": 16506,
+    "by_category": {
+     "in_twt49u": 9693,
+     "in_repo_only": 6,
+     "in_other_event": 314,
+     "prev_untraded": 6461,
+     "unexplained": 32
+    },
+    "explained_by_exright_or_event_pct": 60.663,
+    "explained_incl_prev_untraded_pct": 99.806,
+    "unexplained_by_year": {
+     "2015": 4,
+     "2016": 3,
+     "2017": 3,
+     "2018": 0,
+     "2019": 3,
+     "2020": 1,
+     "2021": 3,
+     "2022": 3,
+     "2023": 4,
+     "2024": 4,
+     "2025": 1,
+     "2026": 3
+    },
+    "in_repo_only_by_year": {
+     "2015": 0,
+     "2016": 0,
+     "2017": 0,
+     "2018": 0,
+     "2019": 0,
+     "2020": 0,
+     "2021": 0,
+     "2022": 0,
+     "2023": 0,
+     "2024": 0,
+     "2025": 0,
+     "2026": 6
+    },
+    "unexplained_top": [
+     {
+      "date": "2021-05-13",
+      "code": "3092",
+      "prev_close": 65.3,
+      "close": 60.3,
+      "ret_pct": -7.66,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2023-08-04",
+      "code": "6201",
+      "prev_close": 49.05,
+      "close": 46.05,
+      "ret_pct": -6.12,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2017-09-08",
+      "code": "4739",
+      "prev_close": 115.0,
+      "close": 122.0,
+      "ret_pct": 6.09,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2024-07-26",
+      "code": "4581",
+      "prev_close": 63.0,
+      "close": 59.4,
+      "ret_pct": -5.71,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2022-09-21",
+      "code": "3652",
+      "prev_close": 24.0,
+      "close": 24.9,
+      "ret_pct": 3.75,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2024-07-26",
+      "code": "3010",
+      "prev_close": 146.5,
+      "close": 141.5,
+      "ret_pct": -3.41,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2019-12-16",
+      "code": "1795",
+      "prev_close": 108.0,
+      "close": 104.5,
+      "ret_pct": -3.24,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2023-10-31",
+      "code": "8476",
+      "prev_close": 63.5,
+      "close": 61.5,
+      "ret_pct": -3.15,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2023-12-19",
+      "code": "6472",
+      "prev_close": 678.0,
+      "close": 657.0,
+      "ret_pct": -3.1,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2016-03-17",
+      "code": "1256",
+      "prev_close": 135.0,
+      "close": 131.0,
+      "ret_pct": -2.96,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2026-07-16",
+      "code": "5236",
+      "prev_close": 156.5,
+      "close": 152.5,
+      "ret_pct": -2.56,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2021-01-19",
+      "code": "6438",
+      "prev_close": 88.8,
+      "close": 87.0,
+      "ret_pct": -2.03,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2019-04-02",
+      "code": "3563",
+      "prev_close": 438.0,
+      "close": 430.0,
+      "ret_pct": -1.83,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2023-12-22",
+      "code": "4736",
+      "prev_close": 163.5,
+      "close": 161.0,
+      "ret_pct": -1.53,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2022-01-19",
+      "code": "1752",
+      "prev_close": 39.55,
+      "close": 38.95,
+      "ret_pct": -1.52,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2016-12-22",
+      "code": "2636",
+      "prev_close": 21.9,
+      "close": 22.2,
+      "ret_pct": 1.37,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2015-05-21",
+      "code": "4912",
+      "prev_close": 85.7,
+      "close": 84.6,
+      "ret_pct": -1.28,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2026-10-27",
+      "code": "2028",
+      "prev_close": 16.55,
+      "close": 16.35,
+      "ret_pct": -1.21,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2026-10-16",
+      "code": "8908",
+      "prev_close": 39.8,
+      "close": 40.2,
+      "ret_pct": 1.01,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2015-09-08",
+      "code": "4927",
+      "prev_close": 37.6,
+      "close": 37.9,
+      "ret_pct": 0.8,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2019-09-17",
+      "code": "2233",
+      "prev_close": 75.9,
+      "close": 75.3,
+      "ret_pct": -0.79,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2022-03-08",
+      "code": "5306",
+      "prev_close": 192.5,
+      "close": 191.0,
+      "ret_pct": -0.78,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2025-07-21",
+      "code": "6589",
+      "prev_close": 66.4,
+      "close": 65.9,
+      "ret_pct": -0.75,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2015-06-24",
+      "code": "4720",
+      "prev_close": 16.05,
+      "close": 16.15,
+      "ret_pct": 0.62,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2021-03-24",
+      "code": "6426",
+      "prev_close": 103.0,
+      "close": 102.5,
+      "ret_pct": -0.49,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2024-07-26",
+      "code": "2365",
+      "prev_close": 64.3,
+      "close": 64.0,
+      "ret_pct": -0.47,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2020-12-23",
+      "code": "1597",
+      "prev_close": 86.0,
+      "close": 85.7,
+      "ret_pct": -0.35,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2016-05-18",
+      "code": "3528",
+      "prev_close": 32.05,
+      "close": 32.15,
+      "ret_pct": 0.31,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2017-10-16",
+      "code": "6024",
+      "prev_close": 48.15,
+      "close": 48.0,
+      "ret_pct": -0.31,
+      "after_twt49u_archive": false
+     },
+     {
+      "date": "2015-01-23",
+      "code": "3416",
+      "prev_close": 63.8,
+      "close": 63.9,
+      "ret_pct": 0.16,
+      "after_twt49u_archive": false
+     }
+    ],
+    "events_traded_twse": 9837,
+    "events_with_zero_change_in_k": 9837,
+    "events_k_change_already_uses_ref": 0,
+    "events_other": 0,
+    "events_zero_change_pct": 100.0,
+    "events_zero_change_by_year": {
+     "2015": 707,
+     "2016": 697,
+     "2017": 744,
+     "2018": 763,
+     "2019": 787,
+     "2020": 791,
+     "2021": 858,
+     "2022": 891,
+     "2023": 879,
+     "2024": 856,
+     "2025": 941,
+     "2026": 923
+    },
+    "events_by_year": {
+     "2015": 707,
+     "2016": 697,
+     "2017": 744,
+     "2018": 763,
+     "2019": 787,
+     "2020": 791,
+     "2021": 858,
+     "2022": 891,
+     "2023": 879,
+     "2024": 856,
+     "2025": 941,
+     "2026": 923
+    }
+   },
+   "after_twt49u_archive": {
+    "archive_last": "2026-10-29",
+    "price_last": "2026-11-19",
+    "repo_last_event_file": "2026-11-20",
+    "n_events_4digit": 6,
+    "n_events_4digit_twse": 6,
+    "events": [
+     {
+      "date": "2026-11-02",
+      "code": "6165",
+      "kind": "息",
+      "pre_close": 47.9,
+      "ref_price": 42.9,
+      "value": 5.0
+     },
+     {
+      "date": "2026-11-04",
+      "code": "8467",
+      "kind": "息",
+      "pre_close": 92.9,
+      "ref_price": 90.9,
+      "value": 2.0
+     },
+     {
+      "date": "2026-11-06",
+      "code": "2414",
+      "kind": "權",
+      "pre_close": 48.3,
+      "ref_price": 48.04,
+      "value": 0.253115
+     },
+     {
+      "date": "2026-11-18",
+      "code": "2344",
+      "kind": "息",
+      "pre_close": 110.5,
+      "ref_price": 108.5,
+      "value": 2.0
+     },
+     {
+      "date": "2026-11-18",
+      "code": "5434",
+      "kind": "權",
+      "pre_close": 478.0,
+      "ref_price": 477.0,
+      "value": 0.992326
+     },
+     {
+      "date": "2026-11-19",
+      "code": "6924",
+      "kind": "權",
+      "pre_close": 134.5,
+      "ref_price": 132.19,
+      "value": 2.307226
+     }
+    ],
+    "n_trading_days_uncovered": 15,
+    "hit_current_holdings": [],
+    "holdings": [
+     "3311",
+     "4938",
+     "2480",
+     "1802",
+     "0050"
+    ],
+    "list_meta_exright": {
+     "on": true,
+     "rule": "cslib.exright_fix_chg（＝data_exright_fix/exr_common.corrected_chg(mode='main')）",
+     "twt49u_dir": "/home/user/-/research/tw_stock_selection/raw/twt49u/twse-exright",
+     "twt49u_last": "2026-10-29",
+     "window": "2025-07-18～2026-11-12",
+     "n_twt49u": 1292,
+     "n_rights_issue_fallback": 4,
+     "n_prev_untraded": 549,
+     "days_after_twt49u_in_window": [
+      "2026-10-30",
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-04",
+      "2026-11-05",
+      "2026-11-06",
+      "2026-11-09",
+      "2026-11-10",
+      "2026-11-11"
+     ],
+     "unverified": []
+    }
+   },
+   "pre2015_xflag": {
+    "note": "2015 前的來源檔（Asoul/tsec）把除權息日的漲跌價差記成 X，沒有參考價；S75／R55 面板把這些日子的漲跌價差設 0＝當日報酬記 0",
+    "xflag_by_year": {
+     "2007": 1054,
+     "2008": 1410,
+     "2009": 1054,
+     "2010": 906,
+     "2011": 1109,
+     "2012": 1188,
+     "2013": 1116,
+     "2014": 1091,
+     "2015": 286
+    },
+    "mean_close_vs_prev_close_pct_by_year": {
+     "2007": -0.877,
+     "2008": -1.404,
+     "2009": -0.388,
+     "2010": 0.018,
+     "2011": -2.071,
+     "2012": -1.14,
+     "2013": -1.542,
+     "2014": -1.078,
+     "2015": -0.51
+    },
+    "mean_gap_minus_market_median_pct_by_year": {
+     "2007": -0.635,
+     "2008": -1.075,
+     "2009": -0.481,
+     "2010": 0.122,
+     "2011": -1.792,
+     "2012": -1.126,
+     "2013": -1.519,
+     "2014": -1.003,
+     "2015": -0.375
+    },
+    "check_2014": {
+     "window": [
+      "2014-02-05",
+      "2014-12-31"
+     ],
+     "n_xflag": 1066,
+     "n_twt49u_in_pre_codes": 656,
+     "n_both": 626,
+     "xflag_found_in_twt49u_pct": 58.72,
+     "twt49u_found_in_xflag_pct": 95.43,
+     "only_xflag": [
+      [
+       "2014-02-05",
+       "1436"
+      ],
+      [
+       "2014-02-05",
+       "2348"
+      ],
+      [
+       "2014-02-06",
+       "2438"
+      ],
+      [
+       "2014-02-06",
+       "2496"
+      ],
+      [
+       "2014-02-07",
+       "3701"
+      ],
+      [
+       "2014-02-13",
+       "1516"
+      ],
+      [
+       "2014-02-13",
+       "2496"
+      ],
+      [
+       "2014-02-14",
+       "2722"
+      ],
+      [
+       "2014-02-14",
+       "3701"
+      ],
+      [
+       "2014-02-17",
+       "2539"
+      ],
+      [
+       "2014-02-20",
+       "1516"
+      ],
+      [
+       "2014-02-20",
+       "2348"
+      ],
+      [
+       "2014-02-21",
+       "1470"
+      ],
+      [
+       "2014-02-21",
+       "2496"
+      ],
+      [
+       "2014-02-24",
+       "2540"
+      ],
+      [
+       "2014-02-24",
+       "3701"
+      ],
+      [
+       "2014-02-25",
+       "1456"
+      ],
+      [
+       "2014-02-25",
+       "2424"
+      ],
+      [
+       "2014-02-25",
+       "5285"
+      ],
+      [
+       "2014-02-26",
+       "3701"
+      ]
+     ],
+     "only_twt49u": [
+      [
+       "2014-02-21",
+       "6283"
+      ],
+      [
+       "2014-04-10",
+       "6226"
+      ],
+      [
+       "2014-04-29",
+       "8033"
+      ],
+      [
+       "2014-07-10",
+       "6214"
+      ],
+      [
+       "2014-07-10",
+       "8210"
+      ],
+      [
+       "2014-07-15",
+       "5533"
+      ],
+      [
+       "2014-07-23",
+       "1304"
+      ],
+      [
+       "2014-07-23",
+       "1305"
+      ],
+      [
+       "2014-07-23",
+       "1308"
+      ],
+      [
+       "2014-07-23",
+       "1463"
+      ],
+      [
+       "2014-07-23",
+       "1809"
+      ],
+      [
+       "2014-07-23",
+       "2849"
+      ],
+      [
+       "2014-07-23",
+       "2901"
+      ],
+      [
+       "2014-07-23",
+       "3032"
+      ],
+      [
+       "2014-07-23",
+       "3501"
+      ],
+      [
+       "2014-07-23",
+       "6412"
+      ],
+      [
+       "2014-07-28",
+       "8103"
+      ],
+      [
+       "2014-07-29",
+       "5706"
+      ],
+      [
+       "2014-07-29",
+       "6205"
+      ],
+      [
+       "2014-07-29",
+       "8021"
+      ]
+     ]
+    },
+    "gap_2007_to_2014_01_15": {
+     "n_xflag_events": 7862,
+     "ref_price_available": 0,
+     "note": "這段只知道哪一天除權息（X 記號），沒有參考價與息值；兩個除權息來源都沒有 2014-01-16 以前的上市資料"
+    }
+   },
+   "engine_exright_info": {
+    "exright_info": {
+     "n_twt49u": 9826,
+     "n_rights_issue_fallback": 11,
+     "n_prev_untraded": 6461,
+     "n_total": 16287,
+     "twt49u_last": "2026-10-29"
+    },
+    "panel_end": "2026-10-22",
+    "T": 2876,
+    "N": 2142
+   },
+   "runtime_s": 8.4,
+   "maxrss_mb": 852
+  },
+  "B4_pre_xflag": {
+   "rule": "X 記號＝來源檔漲跌價差欄是 X（不比價）；面板把這些日子的漲跌價差設 0 → 當日報酬記 0。分類只是啟發式：同一代號同一年出現 ≤3 次視為像除權息",
+   "by_class": {
+    "每年 ≤3 次（像除權息／減資）": {
+     "n": 4772,
+     "n_codes": 802,
+     "mean_gap_pct": -2.872,
+     "mean_abs_gap_pct": 7.585,
+     "n_pool_like": 3491,
+     "pool_like_mean_abs_gap_pct": 6.9,
+     "by_year": {
+      "2007": 553,
+      "2008": 588,
+      "2009": 516,
+      "2010": 592,
+      "2011": 655,
+      "2012": 589,
+      "2013": 624,
+      "2014": 655
+     }
+    },
+    "每年 ≥4 次（不像除權息）": {
+     "n": 3987,
+     "n_codes": 61,
+     "mean_gap_pct": 1.017,
+     "mean_abs_gap_pct": 5.746,
+     "n_pool_like": 3,
+     "pool_like_mean_abs_gap_pct": 4.721,
+     "by_year": {
+      "2007": 481,
+      "2008": 810,
+      "2009": 521,
+      "2010": 293,
+      "2011": 421,
+      "2012": 580,
+      "2013": 462,
+      "2014": 419
+     }
+    }
+   },
+   "pool_like_def": "當日收盤 ≥ 10 元且前 60 日平均成交金額 ≥ 1,000 萬（近似策略股池門檻）",
+   "s75_trades_overlap": {
+    "V_BRIDGE": {
+     "n_trades_pre2015": 192,
+     "n_trades_touching_x": 24,
+     "n_x_cells_held": 24,
+     "by_class": {
+      "每年 ≤3 次（像除權息／減資）": {
+       "n": 24,
+       "sum_gap_pct": -93.93,
+       "mean_gap_pct": -3.914
+      }
+     },
+     "non_exright_like": []
+    },
+    "V_MASK": {
+     "n_trades_pre2015": 146,
+     "n_trades_touching_x": 20,
+     "n_x_cells_held": 26,
+     "by_class": {
+      "每年 ≤3 次（像除權息／減資）": {
+       "n": 26,
+       "sum_gap_pct": -96.03,
+       "mean_gap_pct": -3.693
+      }
+     },
+     "non_exright_like": []
+    }
+   },
+   "note": "交易損益用實際成交價算（cost／proceeds），不受當日報酬記 0 影響；受影響的是逐日淨值、還原價訊號（季線、近高）與持有期間除息少算股利。是否改變 S75／R75 數字要由重跑引擎的稽核員判定"
+  },
+  "B5": {
+   "file": "/home/user/niklavsd/bottleneck-signals/data/processed/tw_revenue.csv",
+   "sha256": "02657e7c415783020f16255d42f66b0d40d69823fa294113557be6f4584a3898",
+   "n_rows": 398585,
+   "first": "2005-01",
+   "last": "2026-09",
+   "n_codes": 2109,
+   "by_market": {
+    "sii": 219913,
+    "otc": 178672
+   },
+   "n_nan": 0,
+   "n_zero": 1617,
+   "n_negative": 665,
+   "n_month_not_first_day": 0,
+   "zero_or_negative_4digit": {
+    "n": 2101,
+    "n_zero": 1436,
+    "n_negative": 665,
+    "n_codes": 166,
+    "by_year": {
+     "2005": 43,
+     "2006": 89,
+     "2007": 104,
+     "2008": 178,
+     "2009": 90,
+     "2010": 72,
+     "2011": 102,
+     "2012": 102,
+     "2013": 98,
+     "2014": 111,
+     "2015": 108,
+     "2016": 99,
+     "2017": 66,
+     "2018": 70,
+     "2019": 77,
+     "2020": 54,
+     "2021": 58,
+     "2022": 145,
+     "2023": 147,
+     "2024": 103,
+     "2025": 111,
+     "2026": 74
+    },
+    "negative_rows": [
+     {
+      "month": "2005-01",
+      "market": "otc",
+      "code": "6015",
+      "name": "宏遠證券",
+      "revenue_k_twd": -20840.0
+     },
+     {
+      "month": "2005-04",
+      "market": "otc",
+      "code": "5501",
+      "name": "金腦科",
+      "revenue_k_twd": -6595.0
+     },
+     {
+      "month": "2005-04",
+      "market": "otc",
+      "code": "5820",
+      "name": "日盛金控",
+      "revenue_k_twd": -138922.0
+     },
+     {
+      "month": "2005-04",
+      "market": "otc",
+      "code": "6020",
+      "name": "大展證",
+      "revenue_k_twd": -8416.0
+     },
+     {
+      "month": "2005-07",
+      "market": "sii",
+      "code": "2885",
+      "name": "復華金",
+      "revenue_k_twd": -581972.0
+     },
+     {
+      "month": "2005-09",
+      "market": "sii",
+      "code": "2885",
+      "name": "復華金",
+      "revenue_k_twd": -118995.0
+     },
+     {
+      "month": "2005-09",
+      "market": "otc",
+      "code": "4108",
+      "name": "懷特新藥",
+      "revenue_k_twd": -124.0
+     },
+     {
+      "month": "2005-09",
+      "market": "otc",
+      "code": "6238",
+      "name": "巨圖科技",
+      "revenue_k_twd": -16493.0
+     },
+     {
+      "month": "2005-09",
+      "market": "otc",
+      "code": "5820",
+      "name": "日盛金控",
+      "revenue_k_twd": -577450.0
+     },
+     {
+      "month": "2005-09",
+      "market": "otc",
+      "code": "6020",
+      "name": "大展證",
+      "revenue_k_twd": -86897.0
+     },
+     {
+      "month": "2005-10",
+      "market": "otc",
+      "code": "6238",
+      "name": "巨圖科技",
+      "revenue_k_twd": -45249.0
+     },
+     {
+      "month": "2005-10",
+      "market": "otc",
+      "code": "5820",
+      "name": "日盛金控",
+      "revenue_k_twd": -714439.0
+     },
+     {
+      "month": "2005-11",
+      "market": "sii",
+      "code": "2885",
+      "name": "復華金",
+      "revenue_k_twd": -700320.0
+     },
+     {
+      "month": "2005-11",
+      "market": "otc",
+      "code": "6238",
+      "name": "巨圖科技",
+      "revenue_k_twd": -61873.0
+     },
+     {
+      "month": "2005-11",
+      "market": "otc",
+      "code": "5820",
+      "name": "日盛金控",
+      "revenue_k_twd": -323287.0
+     },
+     {
+      "month": "2005-12",
+      "market": "sii",
+      "code": "2882",
+      "name": "國泰金",
+      "revenue_k_twd": -6978686.0
+     },
+     {
+      "month": "2005-12",
+      "market": "sii",
+      "code": "2885",
+      "name": "復華金",
+      "revenue_k_twd": -630166.0
+     },
+     {
+      "month": "2005-12",
+      "market": "sii",
+      "code": "2888",
+      "name": "新光金",
+      "revenue_k_twd": -763450.0
+     },
+     {
+      "month": "2005-12",
+      "market": "sii",
+      "code": "2889",
+      "name": "國票金控",
+      "revenue_k_twd": -81011.0
+     },
+     {
+      "month": "2005-12",
+      "market": "sii",
+      "code": "2890",
+      "name": "永豐金控",
+      "revenue_k_twd": -711253.0
+     },
+     {
+      "month": "2005-12",
+      "market": "otc",
+      "code": "4108",
+      "name": "懷特新藥",
+      "revenue_k_twd": -354.0
+     },
+     {
+      "month": "2005-12",
+      "market": "otc",
+      "code": "5820",
+      "name": "日盛金控",
+      "revenue_k_twd": -3530259.0
+     },
+     {
+      "month": "2006-01",
+      "market": "sii",
+      "code": "2479",
+      "name": "和立聯合",
+      "revenue_k_twd": -1520.0
+     },
+     {
+      "month": "2006-01",
+      "market": "sii",
+      "code": "5531",
+      "name": "鄉林建設",
+      "revenue_k_twd": -286.0
+     },
+     {
+      "month": "2006-01",
+      "market": "sii",
+      "code": "2827",
+      "name": "中聯信託",
+      "revenue_k_twd": -2026.0
+     },
+     {
+      "month": "2006-01",
+      "market": "otc",
+      "code": "5810",
+      "name": "寶華商銀",
+      "revenue_k_twd": -152062.0
+     },
+     {
+      "month": "2006-02",
+      "market": "sii",
+      "code": "2827",
+      "name": "中聯信託",
+      "revenue_k_twd": -16728.0
+     },
+     {
+      "month": "2006-02",
+      "market": "otc",
+      "code": "5810",
+      "name": "寶華商銀",
+      "revenue_k_twd": -170997.0
+     },
+     {
+      "month": "2006-02",
+      "market": "otc",
+      "code": "5820",
+      "name": "日盛金控",
+      "revenue_k_twd": -98422.0
+     },
+     {
+      "month": "2006-03",
+      "market": "sii",
+      "code": "2827",
+      "name": "中聯信託",
+      "revenue_k_twd": -110534.0
+     }
+    ],
+    "engine_treatment": "引擎把營收 ≤ 0 當缺值（Rv.where(Rv > 0)）"
+   },
+   "duplicates": {
+    "same_month_market_code_rows": 0,
+    "cross_market_month_code_pairs": 0,
+    "cross_market_value_differs": 0,
+    "cross_market_by_year": {},
+    "cross_market_sample": [],
+    "engine_treatment": "同月同代號留一筆，上市（sii）優先"
+   },
+   "coverage_twse_by_year": {
+    "2007": {
+     "min": 96.03,
+     "median": 97.265,
+     "max": 97.92,
+     "median_ex91": 97.99000000000001,
+     "n_listed_median": 674.5
+    },
+    "2008": {
+     "min": 96.5,
+     "median": 97.6,
+     "max": 98.39,
+     "median_ex91": 98.305,
+     "n_listed_median": 686.0
+    },
+    "2009": {
+     "min": 95.2,
+     "median": 97.555,
+     "max": 98.69,
+     "median_ex91": 98.33500000000001,
+     "n_listed_median": 696.5
+    },
+    "2010": {
+     "min": 95.06,
+     "median": 96.035,
+     "max": 96.61,
+     "median_ex91": 97.41499999999999,
+     "n_listed_median": 707.0
+    },
+    "2011": {
+     "min": 89.97,
+     "median": 96.07,
+     "max": 96.39,
+     "median_ex91": 97.285,
+     "n_listed_median": 723.5
+    },
+    "2012": {
+     "min": 91.26,
+     "median": 94.67500000000001,
+     "max": 95.15,
+     "median_ex91": 95.75999999999999,
+     "n_listed_median": 750.0
+    },
+    "2013": {
+     "min": 87.37,
+     "median": 87.935,
+     "max": 88.19,
+     "median_ex91": 88.86500000000001,
+     "n_listed_median": 762.0
+    },
+    "2014": {
+     "min": 87.15,
+     "median": 87.34,
+     "max": 87.5,
+     "median_ex91": 88.12,
+     "n_listed_median": 790.0
+    },
+    "2015": {
+     "min": 87.67,
+     "median": 87.9,
+     "max": 88.39,
+     "median_ex91": 88.62,
+     "n_listed_median": 869.0
+    },
+    "2016": {
+     "min": 87.44,
+     "median": 87.715,
+     "max": 88.22,
+     "median_ex91": 88.41499999999999,
+     "n_listed_median": 884.0
+    },
+    "2017": {
+     "min": 87.61,
+     "median": 87.74000000000001,
+     "max": 87.89,
+     "median_ex91": 88.375,
+     "n_listed_median": 903.0
+    },
+    "2018": {
+     "min": 87.49,
+     "median": 87.77,
+     "max": 88.27,
+     "median_ex91": 88.35,
+     "n_listed_median": 921.0
+    },
+    "2019": {
+     "min": 88.25,
+     "median": 88.335,
+     "max": 88.6,
+     "median_ex91": 88.905,
+     "n_listed_median": 936.5
+    },
+    "2020": {
+     "min": 88.28,
+     "median": 88.685,
+     "max": 89.33,
+     "median_ex91": 89.155,
+     "n_listed_median": 947.0
+    },
+    "2021": {
+     "min": 89.32,
+     "median": 89.44999999999999,
+     "max": 89.58,
+     "median_ex91": 89.925,
+     "n_listed_median": 955.5
+    },
+    "2022": {
+     "min": 89.54,
+     "median": 90.065,
+     "max": 90.33,
+     "median_ex91": 90.445,
+     "n_listed_median": 968.0
+    },
+    "2023": {
+     "min": 90.23,
+     "median": 90.505,
+     "max": 90.64,
+     "median_ex91": 90.87,
+     "n_listed_median": 981.5
+    },
+    "2024": {
+     "min": 90.49,
+     "median": 90.58,
+     "max": 90.94,
+     "median_ex91": 90.945,
+     "n_listed_median": 1019.5
+    },
+    "2025": {
+     "min": 89.99,
+     "median": 90.55,
+     "max": 90.9,
+     "median_ex91": 90.9,
+     "n_listed_median": 1049.5
+    },
+    "2026": {
+     "min": 90.56,
+     "median": 90.85,
+     "max": 91.06,
+     "median_ex91": 91.19,
+     "n_listed_median": 1082.0
+    }
+   },
+   "coverage_tpex_by_year": {
+    "2015": {
+     "min": 86.33,
+     "median": 86.86500000000001,
+     "max": 87.68
+    },
+    "2016": {
+     "min": 86.8,
+     "median": 87.75,
+     "max": 88.69
+    },
+    "2017": {
+     "min": 88.24,
+     "median": 88.81,
+     "max": 89.47
+    },
+    "2018": {
+     "min": 16.93,
+     "median": 89.39500000000001,
+     "max": 90.56
+    },
+    "2019": {
+     "min": 90.01,
+     "median": 90.78,
+     "max": 91.21
+    },
+    "2020": {
+     "min": 91.2,
+     "median": 92.32,
+     "max": 93.08
+    },
+    "2021": {
+     "min": 92.5,
+     "median": 92.815,
+     "max": 93.38
+    },
+    "2022": {
+     "min": 92.37,
+     "median": 93.07499999999999,
+     "max": 94.05
+    },
+    "2023": {
+     "min": 93.69,
+     "median": 94.07,
+     "max": 94.82
+    },
+    "2024": {
+     "min": 94.74,
+     "median": 94.97,
+     "max": 95.57
+    },
+    "2025": {
+     "min": 94.45,
+     "median": 95.66,
+     "max": 95.99
+    },
+    "2026": {
+     "min": 95.33,
+     "median": 96.04,
+     "max": 96.29
+    }
+   },
+   "hole_months_twse": [
+    {
+     "month": "2011-01",
+     "cov_pct": 89.97,
+     "neighbors_median": 96.09
+    },
+    {
+     "month": "2011-02",
+     "cov_pct": 91.21,
+     "neighbors_median": 96.09
+    },
+    {
+     "month": "2012-01",
+     "cov_pct": 91.26,
+     "neighbors_median": 94.9
+    }
+   ],
+   "hole_months_tpex": [
+    {
+     "month": "2018-10",
+     "cov_pct": 16.93,
+     "neighbors_median": 89.8
+    }
+   ],
+   "hole_rule": "當月涵蓋率 < 前後共 7 個月中位數 − 1.5 個百分點",
+   "row_count_drops": {
+    "sii": [],
+    "otc": [
+     {
+      "month": "2011-01",
+      "n": 588,
+      "prev": 607
+     },
+     {
+      "month": "2013-01",
+      "n": 613,
+      "prev": 659
+     },
+     {
+      "month": "2018-10",
+      "n": 126,
+      "prev": 739
+     }
+    ]
+   },
+   "inner_missing_code_months": {
+    "total": 3579,
+    "by_year": {
+     "2005": 32,
+     "2006": 77,
+     "2007": 108,
+     "2008": 191,
+     "2009": 93,
+     "2010": 82,
+     "2011": 553,
+     "2012": 356,
+     "2013": 156,
+     "2014": 139,
+     "2015": 69,
+     "2016": 92,
+     "2017": 90,
+     "2018": 721,
+     "2019": 125,
+     "2020": 92,
+     "2021": 83,
+     "2022": 131,
+     "2023": 131,
+     "2024": 100,
+     "2025": 108,
+     "2026": 50
+    },
+    "twse_listed_at_that_month_by_year": {
+     "2005": 0,
+     "2006": 0,
+     "2007": 60,
+     "2008": 113,
+     "2009": 50,
+     "2010": 41,
+     "2011": 137,
+     "2012": 56,
+     "2013": 15,
+     "2014": 22,
+     "2015": 6,
+     "2016": 10,
+     "2017": 5,
+     "2018": 13,
+     "2019": 9,
+     "2020": 9,
+     "2021": 6,
+     "2022": 30,
+     "2023": 26,
+     "2024": 30,
+     "2025": 37,
+     "2026": 17
+    }
+   },
+   "revenue_hist": {
+    "meta": {
+     "raw": {
+      "n_files": 425,
+      "missing_local": 0,
+      "first": "2015-01_esb.csv",
+      "last": "2026-10_twse.csv"
+     },
+     "tsd": {
+      "n_files": 425,
+      "missing_local": 424,
+      "first": "2015-01_esb.csv",
+      "last": "2026-10_twse.csv"
+     },
+     "common_blob_diff": [
+      "2026-08_tpex.csv",
+      "2026-08_twse.csv",
+      "2026-09_tpex.csv",
+      "2026-09_twse.csv",
+      "2026-10_tpex.csv",
+      "2026-10_twse.csv"
+     ],
+     "stale_from_raw": [
+      "2026-08_tpex.csv",
+      "2026-08_twse.csv",
+      "2026-09_tpex.csv",
+      "2026-09_twse.csv",
+      "2026-10_tpex.csv"
+     ],
+     "unreadable": []
+    },
+    "months_twse": [
+     "2015-01",
+     "2026-10"
+    ],
+    "n_rows_twse": 140638,
+    "months_not_in_tw_revenue": [
+     "2026-10"
+    ]
+   },
+   "latest_months_from_revenue_hist": {
+    "2026-10": {
+     "n_listed_twse": 1092,
+     "n_with_rev": 1085,
+     "cov_pct": 99.36,
+     "missing": [
+      "6838",
+      "6901",
+      "6919",
+      "7827",
+      "9103",
+      "9110",
+      "9136"
+     ],
+     "source": [
+      "tsd"
+     ]
+    }
+   },
+   "cross_tw_revenue_vs_revenue_hist": {
+    "n_pairs": 129279,
+    "exact_pct": 99.987,
+    "within_1pct_pct": 99.822,
+    "diff_gt_10pct": 13,
+    "by_year": {
+     "2015": {
+      "n": 10112,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2016": {
+      "n": 10251,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2017": {
+      "n": 10414,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2018": {
+      "n": 10575,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2019": {
+      "n": 10718,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2020": {
+      "n": 10879,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2021": {
+      "n": 11027,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2022": {
+      "n": 11259,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2023": {
+      "n": 11537,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2024": {
+      "n": 11700,
+      "exact_pct": 100.0,
+      "diff_gt_1pct": 0
+     },
+     "2025": {
+      "n": 11876,
+      "exact_pct": 99.96,
+      "diff_gt_1pct": 5
+     },
+     "2026": {
+      "n": 8931,
+      "exact_pct": 99.87,
+      "diff_gt_1pct": 12
+     }
+    },
+    "only_in_tw_revenue": 286,
+    "worst": [
+     {
+      "month": "2026-07",
+      "code": "3712",
+      "tw_revenue": 3356888.0,
+      "revenue_hist": 502590.0
+     },
+     {
+      "month": "2025-07",
+      "code": "3041",
+      "tw_revenue": 80778.0,
+      "revenue_hist": 49918.0
+     },
+     {
+      "month": "2026-07",
+      "code": "2392",
+      "tw_revenue": 8941317.0,
+      "revenue_hist": 6089052.0
+     },
+     {
+      "month": "2025-11",
+      "code": "3041",
+      "tw_revenue": 80986.0,
+      "revenue_hist": 57261.0
+     },
+     {
+      "month": "2026-05",
+      "code": "2608",
+      "tw_revenue": 1352465.0,
+      "revenue_hist": 1008535.0
+     },
+     {
+      "month": "2026-03",
+      "code": "2608",
+      "tw_revenue": 1460502.0,
+      "revenue_hist": 1097724.0
+     },
+     {
+      "month": "2025-12",
+      "code": "3041",
+      "tw_revenue": 201596.0,
+      "revenue_hist": 153816.0
+     },
+     {
+      "month": "2026-08",
+      "code": "3712",
+      "tw_revenue": 539558.0,
+      "revenue_hist": 421717.0
+     },
+     {
+      "month": "2026-02",
+      "code": "2608",
+      "tw_revenue": 1059397.0,
+      "revenue_hist": 831476.0
+     },
+     {
+      "month": "2026-06",
+      "code": "2608",
+      "tw_revenue": 1338663.0,
+      "revenue_hist": 1052151.0
+     },
+     {
+      "month": "2026-04",
+      "code": "2608",
+      "tw_revenue": 1310181.0,
+      "revenue_hist": 1048129.0
+     },
+     {
+      "month": "2026-01",
+      "code": "2608",
+      "tw_revenue": 1457978.0,
+      "revenue_hist": 1173560.0
+     },
+     {
+      "month": "2025-10",
+      "code": "3041",
+      "tw_revenue": 106135.0,
+      "revenue_hist": 86224.0
+     },
+     {
+      "month": "2025-09",
+      "code": "3041",
+      "tw_revenue": 161126.0,
+      "revenue_hist": 146640.0
+     },
+     {
+      "month": "2026-09",
+      "code": "6443",
+      "tw_revenue": 96562.0,
+      "revenue_hist": 88430.0
+     }
+    ]
+   },
+   "revenue_hist_2026_10_versions": {
+    "archive_rows": 3,
+    "latest_rows": 1091,
+    "common": 3,
+    "value_changed": 0,
+    "only_latest": 1088
+   },
+   "first_print_vs_revised": {
+    "source": "agents/s39_first_print_revenue/FINDINGS.md（獨立複製成功）",
+    "quote": "回測用更正後月營收、實盤只看得到首次公布值；2024-07～2026-10 用首次公布值重算：標準路徑年化 61.95% → 61.17%（−0.78 個百分點），20 條路徑差中位數 −0.93、最多 −5.21；上市股月 26,074 中 187 筆（0.72%）被更正；2024-06 以前沒有首次公布資料，無法量化",
+    "mixing": "make_list.py：歷史月份讀 tw_revenue.csv（已含更正），當月用官方倉庫 MOPS 彙總表（首次值）→ 同一份名單內歷史用更正值、當月用首次值（S39 已說明）"
+   }
+  },
+  "B6": {
+   "official_list": {
+    "file": "agents/o_infra_v3_rebuild/delist_official.csv",
+    "sha256": "41f51cb7e1aadbf1d28244f26cb6452f3ede20f2fbb594350848ed8f55a1f2bd",
+    "source": "o_infra_v3_rebuild/raw/songdoyouho/delisted_stocks.csv（證交所終止上市公司名單的第三方封存；檔內沒有記載抓取網址）",
+    "n_rows": 256,
+    "first": "2001-01-20",
+    "last": "2024-09-02",
+    "n_4digit_since_2007": 133
+   },
+   "panel": {
+    "n_twse_codes_ever": 1222,
+    "n_gone_from_twse": 130,
+    "n_moved_to_tpex": 1,
+    "n_gone_not_to_tpex": 129,
+    "gone_by_year": {
+     "2007": 14,
+     "2008": 9,
+     "2009": 1,
+     "2010": 13,
+     "2011": 6,
+     "2012": 4,
+     "2013": 4,
+     "2014": 7,
+     "2015": 2,
+     "2016": 7,
+     "2017": 8,
+     "2018": 9,
+     "2019": 7,
+     "2020": 9,
+     "2021": 7,
+     "2022": 10,
+     "2023": 2,
+     "2024": 3,
+     "2025": 3,
+     "2026": 4
+    },
+    "cutoff": "2026-10-05"
+   },
+   "list_vs_panel": {
+    "n_in_both": 120,
+    "n_list_not_in_panel_as_gone": 13,
+    "list_not_in_panel_at_all": [
+     "1107",
+     "2333",
+     "2341",
+     "2343",
+     "2381",
+     "2396",
+     "2410",
+     "2479",
+     "2523",
+     "3053",
+     "3080",
+     "3142"
+    ],
+    "list_in_panel_but_not_gone": [
+     "2432"
+    ],
+    "n_panel_gone_within_list_window_not_in_list": 2,
+    "panel_gone_within_list_window_not_in_list": [
+     "2358",
+     "2443"
+    ],
+    "n_panel_gone_after_list_end": 7,
+    "panel_gone_after_list_end": [
+     [
+      "2888",
+      "2025-07-11"
+     ],
+     [
+      "6288",
+      "2025-08-04"
+     ],
+     [
+      "2809",
+      "2025-09-17"
+     ],
+     [
+      "3454",
+      "2026-03-18"
+     ],
+     [
+      "1589",
+      "2026-04-02"
+     ],
+     [
+      "6806",
+      "2026-06-22"
+     ],
+     [
+      "2867",
+      "2026-08-19"
+     ]
+    ]
+   },
+   "price_coverage_before_delist": {
+    "def_": "官方下市日之前最後一個交易日，距面板最後一列（或最後一個有收盤價日）幾個交易日；0＝涵蓋到最後交易日",
+    "last_row": {
+     "n": 120,
+     "min": 0.0,
+     "p25": 4.0,
+     "median": 6.0,
+     "p75": 8.0,
+     "p90": 67.50000000000013,
+     "max": 175.0
+    },
+    "last_price": {
+     "n": 120,
+     "min": 0.0,
+     "p25": 4.0,
+     "median": 6.0,
+     "p75": 8.0,
+     "p90": 67.50000000000013,
+     "max": 175.0
+    },
+    "n_last_row_gap_gt_5": 73,
+    "n_last_row_gap_lt_0": 0,
+    "worst": [
+     {
+      "code": "2418",
+      "name": "雅新實業",
+      "delist": "2008-01-14",
+      "panel_last": "2007-05-04",
+      "gap_td": 175
+     },
+     {
+      "code": "1729",
+      "name": "必翔實業",
+      "delist": "2018-01-02",
+      "panel_last": "2017-05-17",
+      "gap_td": 159
+     },
+     {
+      "code": "1613",
+      "name": "台一",
+      "delist": "2017-11-21",
+      "panel_last": "2017-04-06",
+      "gap_td": 158
+     },
+     {
+      "code": "1592",
+      "name": "英瑞-KY",
+      "delist": "2022-01-27",
+      "panel_last": "2021-06-15",
+      "gap_td": 157
+     },
+     {
+      "code": "2384",
+      "name": "勝華科技",
+      "delist": "2015-07-07",
+      "panel_last": "2014-11-18",
+      "gap_td": 152
+     },
+     {
+      "code": "6452",
+      "name": "康友-KY",
+      "delist": "2021-04-01",
+      "panel_last": "2020-08-17",
+      "gap_td": 150
+     },
+     {
+      "code": "2499",
+      "name": "東貝",
+      "delist": "2020-11-10",
+      "panel_last": "2020-04-06",
+      "gap_td": 149
+     },
+     {
+      "code": "6172",
+      "name": "互億",
+      "delist": "2022-06-29",
+      "panel_last": "2021-11-17",
+      "gap_td": 146
+     },
+     {
+      "code": "6131",
+      "name": "鈞泰",
+      "delist": "2021-07-05",
+      "panel_last": "2020-11-24",
+      "gap_td": 145
+     },
+     {
+      "code": "2831",
+      "name": "中華商銀",
+      "delist": "2007-06-20",
+      "panel_last": "2007-01-19",
+      "gap_td": 96
+     },
+     {
+      "code": "2841",
+      "name": "台開",
+      "delist": "2022-08-04",
+      "panel_last": "2022-04-06",
+      "gap_td": 83
+     },
+     {
+      "code": "3584",
+      "name": "介面",
+      "delist": "2016-08-03",
+      "panel_last": "2016-04-06",
+      "gap_td": 81
+     },
+     {
+      "code": "1601",
+      "name": "台灣日光燈",
+      "delist": "2007-10-15",
+      "panel_last": "2007-07-09",
+      "gap_td": 66
+     },
+     {
+      "code": "1207",
+      "name": "嘉新食化",
+      "delist": "2007-04-11",
+      "panel_last": "2007-01-04",
+      "gap_td": 59
+     },
+     {
+      "code": "9801",
+      "name": "中國力霸",
+      "delist": "2007-04-11",
+      "panel_last": "2007-01-04",
+      "gap_td": 59
+     }
+    ]
+   },
+   "revenue_coverage_before_last_trade": {
+    "def_": "最後交易月 − 營收檔最後一個有值月份（月數；正常下市前 1～2 個月屬合理，因為最後一兩個月的營收可能不再申報）",
+    "n_gone": 129,
+    "n_no_revenue_at_all": 25,
+    "by_period": {
+     "2007–2012": {
+      "n": 47,
+      "n_no_rev": 4,
+      "gap_months": {
+       "n": 43,
+       "min": 5.0,
+       "p25": 12.5,
+       "median": 13.0,
+       "p75": 13.0,
+       "p90": 22.0,
+       "max": 36.0
+      },
+      "n_gap_le_3": 0,
+      "n_gap_ge_12": 37
+     },
+     "2013–2015H1": {
+      "n": 11,
+      "n_no_rev": 4,
+      "gap_months": {
+       "n": 7,
+       "min": 17.0,
+       "p25": 19.5,
+       "median": 23.0,
+       "p75": 29.5,
+       "p90": 34.2,
+       "max": 36.0
+      },
+      "n_gap_le_3": 0,
+      "n_gap_ge_12": 7
+     },
+     "2015H2–2018": {
+      "n": 26,
+      "n_no_rev": 3,
+      "gap_months": {
+       "n": 23,
+       "min": 34.0,
+       "p25": 41.5,
+       "median": 53.0,
+       "p75": 64.0,
+       "p90": 69.0,
+       "max": 69.0
+      },
+      "n_gap_le_3": 0,
+      "n_gap_ge_12": 23
+     },
+     "2019–": {
+      "n": 45,
+      "n_no_rev": 14,
+      "gap_months": {
+       "n": 31,
+       "min": 73.0,
+       "p25": 95.0,
+       "median": 108.0,
+       "p75": 134.0,
+       "p90": 153.0,
+       "max": 164.0
+      },
+      "n_gap_le_3": 0,
+      "n_gap_ge_12": 31
+     }
+    }
+   },
+   "survivorship_existing_research": [
+    {
+     "source": "agents/o_rev_survivorship/FINDINGS.md",
+     "quote": "補回國內下市公司營收後，排除金融 n10 跨循環年化 28.15% → 27.66%（−0.49 個百分點）；國內缺口覆蓋率只有 39%；極端最壞界限 −4.4 個百分點（舊主策略 v2 口徑，不是現行 E0）"
+    },
+    {
+     "source": "agents/o_delist_rev_backfill_allpit/FINDINGS.md（o18）",
+     "quote": "實際月營收只補回 2013～2018 放回槽的 19.8%；題目最終「待觀察」，存活者偏誤未排除（舊 V7X 口徑）"
+    },
+    {
+     "source": "agents/s55_pre2015_oos/data_inventory.json",
+     "quote": "2008～2012 下市的上市股 34 檔中只有 1 檔營收涵蓋到最後交易前 3 個月內；2013～2015H1 的 11 檔為 0；最後交易月−最後營收月 中位數 13 個月"
+    },
+    {
+     "source": "agents/s75_continuous_2008_2026/FINDINGS.md",
+     "quote": "下市股營收提早斷、2013 起營收檔只有現存公司（存活者偏誤，偏樂觀）"
+    }
+   ]
+  },
+  "B7": {
+   "engine_file": {
+    "path": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv",
+    "sha256": "771fabfbe0a3165cd1729f8023992acff7bb61a16f078fa082f027ae422bcdab",
+    "first": "2003-07-01",
+    "last": "2026-10-22",
+    "n": 5737,
+    "columns": [
+     "date",
+     "adj"
+    ],
+    "note": "只有一欄還原價（含息），沒有原始價、沒有配息明細；檔內沒有記載來源網址"
+   },
+   "forward_copy": {
+    "path": "/home/user/-/research/tw_stock_selection/agents/o_forward_infra_live/raw/finlab/etf_0050.csv",
+    "last": "2026-11-19",
+    "n": 5756
+   },
+   "n_nan": 0,
+   "n_le0": 0,
+   "missing_trading_days": [
+    "2025-06-11",
+    "2025-06-12",
+    "2025-06-13",
+    "2025-06-16",
+    "2025-06-17"
+   ],
+   "extra_non_trading_rows": [
+    {
+     "date": "2026-07-10",
+     "weekday": "Friday",
+     "adj": 832.6179,
+     "prev": 832.6179,
+     "ret_vs_prev_pct": 0.0
+    },
+    {
+     "date": "2026-09-20",
+     "weekday": "Sunday",
+     "adj": 813.9332,
+     "prev": 876.5741,
+     "ret_vs_prev_pct": -7.15
+    },
+    {
+     "date": "2026-10-23",
+     "weekday": "Friday",
+     "adj": 851.1183,
+     "prev": 851.1183,
+     "ret_vs_prev_pct": 0.0
+    }
+   ],
+   "max_abs_daily_ret_pct": 10.0,
+   "n_abs_ret_gt_7pct_before_2015_06": 0,
+   "n_abs_ret_gt_10pct_after": 0,
+   "big_moves": [
+    {
+     "date": "2018-10-11",
+     "ret_pct": -7.03
+    },
+    {
+     "date": "2020-03-20",
+     "ret_pct": 7.95
+    },
+    {
+     "date": "2024-08-05",
+     "ret_pct": -9.13
+    },
+    {
+     "date": "2025-04-07",
+     "ret_pct": -10.0
+    },
+    {
+     "date": "2025-04-10",
+     "ret_pct": 9.99
+    },
+    {
+     "date": "2026-07-31",
+     "ret_pct": 10.0
+    }
+   ],
+   "raw_0050_from_official_k": {
+    "first": "2015-01-05",
+    "last": "2026-11-19",
+    "n": 2889,
+    "n_missing_days": 5,
+    "missing_days": [
+     "2025-06-11",
+     "2025-06-12",
+     "2025-06-13",
+     "2025-06-16",
+     "2025-06-17"
+    ],
+    "n_open_missing": 5
+   },
+   "implied_events_2015_plus": [
+    {
+     "date": "2015-10-26",
+     "kind": "配息",
+     "raw_prev": 65.9,
+     "raw": 64.55,
+     "raw_ret_pct": -2.05,
+     "adj_ret_pct": 1.02,
+     "implied_div": 2.0,
+     "factor": 1.0313
+    },
+    {
+     "date": "2016-07-28",
+     "kind": "配息",
+     "raw_prev": 69.7,
+     "raw": 69.05,
+     "raw_ret_pct": -0.93,
+     "adj_ret_pct": 0.29,
+     "implied_div": 0.85,
+     "factor": 1.0123
+    },
+    {
+     "date": "2017-02-08",
+     "kind": "配息",
+     "raw_prev": 73.3,
+     "raw": 71.75,
+     "raw_ret_pct": -2.11,
+     "adj_ret_pct": 0.21,
+     "implied_div": 1.7,
+     "factor": 1.0237
+    },
+    {
+     "date": "2017-07-31",
+     "kind": "配息",
+     "raw_prev": 82.1,
+     "raw": 81.35,
+     "raw_ret_pct": -0.91,
+     "adj_ret_pct": -0.06,
+     "implied_div": 0.7,
+     "factor": 1.0086
+    },
+    {
+     "date": "2018-01-29",
+     "kind": "配息",
+     "raw_prev": 87.5,
+     "raw": 85.55,
+     "raw_ret_pct": -2.23,
+     "adj_ret_pct": 0.29,
+     "implied_div": 2.2,
+     "factor": 1.0258
+    },
+    {
+     "date": "2018-07-23",
+     "kind": "配息",
+     "raw_prev": 84.65,
+     "raw": 84.55,
+     "raw_ret_pct": -0.12,
+     "adj_ret_pct": 0.71,
+     "implied_div": 0.7,
+     "factor": 1.0083
+    },
+    {
+     "date": "2019-01-22",
+     "kind": "配息",
+     "raw_prev": 76.5,
+     "raw": 74.05,
+     "raw_ret_pct": -3.2,
+     "adj_ret_pct": -0.2,
+     "implied_div": 2.3,
+     "factor": 1.031
+    },
+    {
+     "date": "2019-07-19",
+     "kind": "配息",
+     "raw_prev": 82.7,
+     "raw": 83.0,
+     "raw_ret_pct": 0.36,
+     "adj_ret_pct": 1.22,
+     "implied_div": 0.7,
+     "factor": 1.0085
+    },
+    {
+     "date": "2020-01-31",
+     "kind": "配息",
+     "raw_prev": 92.15,
+     "raw": 89.95,
+     "raw_ret_pct": -2.39,
+     "adj_ret_pct": 0.78,
+     "implied_div": 2.9,
+     "factor": 1.0325
+    },
+    {
+     "date": "2020-07-21",
+     "kind": "配息",
+     "raw_prev": 97.05,
+     "raw": 98.7,
+     "raw_ret_pct": 1.7,
+     "adj_ret_pct": 2.44,
+     "implied_div": 0.7,
+     "factor": 1.0073
+    },
+    {
+     "date": "2021-01-22",
+     "kind": "配息",
+     "raw_prev": 143.0,
+     "raw": 137.45,
+     "raw_ret_pct": -3.88,
+     "adj_ret_pct": -1.79,
+     "implied_div": 3.05,
+     "factor": 1.0218
+    },
+    {
+     "date": "2021-07-21",
+     "kind": "配息",
+     "raw_prev": 137.2,
+     "raw": 136.7,
+     "raw_ret_pct": -0.36,
+     "adj_ret_pct": -0.11,
+     "implied_div": 0.35,
+     "factor": 1.0026
+    },
+    {
+     "date": "2022-01-21",
+     "kind": "配息",
+     "raw_prev": 149.1,
+     "raw": 142.65,
+     "raw_ret_pct": -4.33,
+     "adj_ret_pct": -2.23,
+     "implied_div": 3.2,
+     "factor": 1.0219
+    },
+    {
+     "date": "2022-07-18",
+     "kind": "配息",
+     "raw_prev": 115.5,
+     "raw": 114.2,
+     "raw_ret_pct": -1.13,
+     "adj_ret_pct": 0.44,
+     "implied_div": 1.8,
+     "factor": 1.0158
+    },
+    {
+     "date": "2023-01-30",
+     "kind": "配息",
+     "raw_prev": 118.1,
+     "raw": 120.7,
+     "raw_ret_pct": 2.2,
+     "adj_ret_pct": 4.5,
+     "implied_div": 2.6,
+     "factor": 1.0225
+    },
+    {
+     "date": "2023-07-18",
+     "kind": "配息",
+     "raw_prev": 132.0,
+     "raw": 129.85,
+     "raw_ret_pct": -1.63,
+     "adj_ret_pct": -0.19,
+     "implied_div": 1.9,
+     "factor": 1.0146
+    },
+    {
+     "date": "2024-01-17",
+     "kind": "配息",
+     "raw_prev": 131.65,
+     "raw": 127.45,
+     "raw_ret_pct": -3.19,
+     "adj_ret_pct": -0.93,
+     "implied_div": 3.0,
+     "factor": 1.0233
+    },
+    {
+     "date": "2024-07-16",
+     "kind": "配息",
+     "raw_prev": 196.7,
+     "raw": 196.85,
+     "raw_ret_pct": 0.08,
+     "adj_ret_pct": 0.59,
+     "implied_div": 1.0,
+     "factor": 1.0051
+    },
+    {
+     "date": "2025-01-17",
+     "kind": "配息",
+     "raw_prev": 198.05,
+     "raw": 196.3,
+     "raw_ret_pct": -0.88,
+     "adj_ret_pct": 0.49,
+     "implied_div": 2.7,
+     "factor": 1.0138
+    },
+    {
+     "date": "2025-06-18",
+     "kind": "分割",
+     "raw_prev": 188.65,
+     "raw": 47.57,
+     "raw_ret_pct": -74.78,
+     "adj_ret_pct": 0.86,
+     "implied_div": null,
+     "factor": 4.0
+    },
+    {
+     "date": "2025-07-21",
+     "kind": "配息",
+     "raw_prev": 51.45,
+     "raw": 50.9,
+     "raw_ret_pct": -1.07,
+     "adj_ret_pct": -0.39,
+     "implied_div": 0.35,
+     "factor": 1.0068
+    },
+    {
+     "date": "2026-01-22",
+     "kind": "配息",
+     "raw_prev": 71.85,
+     "raw": 71.8,
+     "raw_ret_pct": -0.07,
+     "adj_ret_pct": 1.34,
+     "implied_div": 1.0,
+     "factor": 1.0141
+    },
+    {
+     "date": "2026-07-21",
+     "kind": "配息",
+     "raw_prev": 99.2,
+     "raw": 102.5,
+     "raw_ret_pct": 3.33,
+     "adj_ret_pct": 3.93,
+     "implied_div": 0.577,
+     "factor": 1.0059
+    }
+   ],
+   "implied_dividend_count_by_year": {
+    "2015": 1,
+    "2016": 1,
+    "2017": 2,
+    "2018": 2,
+    "2019": 2,
+    "2020": 2,
+    "2021": 2,
+    "2022": 2,
+    "2023": 2,
+    "2024": 2,
+    "2025": 2,
+    "2026": 2
+   },
+   "events_0050_twt49u": [
+    {
+     "date": "2014-10-24",
+     "prev_close": 65.05,
+     "ref_price": 63.5,
+     "value": 1.55,
+     "type": "息"
+    },
+    {
+     "date": "2015-10-26",
+     "prev_close": 65.9,
+     "ref_price": 63.9,
+     "value": 2.0,
+     "type": "息"
+    },
+    {
+     "date": "2016-07-28",
+     "prev_close": 69.7,
+     "ref_price": 68.85,
+     "value": 0.85,
+     "type": "息"
+    },
+    {
+     "date": "2017-02-08",
+     "prev_close": 73.3,
+     "ref_price": 71.6,
+     "value": 1.7,
+     "type": "息"
+    },
+    {
+     "date": "2017-07-31",
+     "prev_close": 82.1,
+     "ref_price": 81.4,
+     "value": 0.7,
+     "type": "息"
+    },
+    {
+     "date": "2018-01-29",
+     "prev_close": 87.5,
+     "ref_price": 85.3,
+     "value": 2.2,
+     "type": "息"
+    },
+    {
+     "date": "2018-07-23",
+     "prev_close": 84.65,
+     "ref_price": 83.95,
+     "value": 0.7,
+     "type": "息"
+    },
+    {
+     "date": "2019-01-22",
+     "prev_close": 76.5,
+     "ref_price": 74.2,
+     "value": 2.3,
+     "type": "息"
+    },
+    {
+     "date": "2019-07-19",
+     "prev_close": 82.7,
+     "ref_price": 82.0,
+     "value": 0.7,
+     "type": "息"
+    },
+    {
+     "date": "2020-01-31",
+     "prev_close": 92.15,
+     "ref_price": 89.25,
+     "value": 2.9,
+     "type": "息"
+    },
+    {
+     "date": "2020-07-21",
+     "prev_close": 97.05,
+     "ref_price": 96.35,
+     "value": 0.7,
+     "type": "息"
+    },
+    {
+     "date": "2021-01-22",
+     "prev_close": 143.0,
+     "ref_price": 139.95,
+     "value": 3.05,
+     "type": "息"
+    },
+    {
+     "date": "2021-07-21",
+     "prev_close": 137.2,
+     "ref_price": 136.85,
+     "value": 0.35,
+     "type": "息"
+    },
+    {
+     "date": "2022-01-21",
+     "prev_close": 149.1,
+     "ref_price": 145.9,
+     "value": 3.2,
+     "type": "息"
+    },
+    {
+     "date": "2022-07-18",
+     "prev_close": 115.5,
+     "ref_price": 113.7,
+     "value": 1.8,
+     "type": "息"
+    },
+    {
+     "date": "2023-01-30",
+     "prev_close": 118.1,
+     "ref_price": 115.5,
+     "value": 2.6,
+     "type": "息"
+    },
+    {
+     "date": "2023-07-18",
+     "prev_close": 132.0,
+     "ref_price": 130.1,
+     "value": 1.9,
+     "type": "息"
+    },
+    {
+     "date": "2024-01-17",
+     "prev_close": 131.65,
+     "ref_price": 128.65,
+     "value": 3.0,
+     "type": "息"
+    },
+    {
+     "date": "2024-07-16",
+     "prev_close": 196.7,
+     "ref_price": 195.7,
+     "value": 1.0,
+     "type": "息"
+    },
+    {
+     "date": "2025-01-17",
+     "prev_close": 198.05,
+     "ref_price": 195.35,
+     "value": 2.7,
+     "type": "息"
+    },
+    {
+     "date": "2025-07-21",
+     "prev_close": 51.45,
+     "ref_price": 51.09,
+     "value": 0.36,
+     "type": "息"
+    },
+    {
+     "date": "2026-01-22",
+     "prev_close": 71.85,
+     "ref_price": 70.85,
+     "value": 1.0,
+     "type": "息"
+    },
+    {
+     "date": "2026-07-21",
+     "prev_close": 99.2,
+     "ref_price": 98.6,
+     "value": 0.6,
+     "type": "息"
+    }
+   ],
+   "events_0050_repo": [
+    {
+     "date": "2015-10-26",
+     "sub": "exright",
+     "kind": "息",
+     "value": "2.000000",
+     "ref_price": "63.90"
+    },
+    {
+     "date": "2016-07-28",
+     "sub": "exright",
+     "kind": "息",
+     "value": "0.850000",
+     "ref_price": "68.85"
+    },
+    {
+     "date": "2017-02-08",
+     "sub": "exright",
+     "kind": "息",
+     "value": "1.700000",
+     "ref_price": "71.60"
+    },
+    {
+     "date": "2017-07-31",
+     "sub": "exright",
+     "kind": "息",
+     "value": "0.700000",
+     "ref_price": "81.40"
+    },
+    {
+     "date": "2018-01-29",
+     "sub": "exright",
+     "kind": "息",
+     "value": "2.200000",
+     "ref_price": "85.30"
+    },
+    {
+     "date": "2018-07-23",
+     "sub": "exright",
+     "kind": "息",
+     "value": "0.700000",
+     "ref_price": "83.95"
+    },
+    {
+     "date": "2019-01-22",
+     "sub": "exright",
+     "kind": "息",
+     "value": "2.300000",
+     "ref_price": "74.20"
+    },
+    {
+     "date": "2019-07-19",
+     "sub": "exright",
+     "kind": "息",
+     "value": "0.700000",
+     "ref_price": "82.00"
+    },
+    {
+     "date": "2020-01-31",
+     "sub": "exright",
+     "kind": "息",
+     "value": "2.900000",
+     "ref_price": "89.25"
+    },
+    {
+     "date": "2020-07-21",
+     "sub": "exright",
+     "kind": "息",
+     "value": "0.700000",
+     "ref_price": "96.35"
+    },
+    {
+     "date": "2021-01-22",
+     "sub": "exright",
+     "kind": "息",
+     "value": "3.050000",
+     "ref_price": "139.95"
+    },
+    {
+     "date": "2021-07-21",
+     "sub": "exright",
+     "kind": "息",
+     "value": "0.350000",
+     "ref_price": "136.85"
+    },
+    {
+     "date": "2022-01-21",
+     "sub": "exright",
+     "kind": "息",
+     "value": "3.200000",
+     "ref_price": "145.90"
+    },
+    {
+     "date": "2022-07-18",
+     "sub": "exright",
+     "kind": "息",
+     "value": "1.800000",
+     "ref_price": "113.70"
+    },
+    {
+     "date": "2023-01-30",
+     "sub": "exright",
+     "kind": "息",
+     "value": "2.600000",
+     "ref_price": "115.50"
+    },
+    {
+     "date": "2023-07-18",
+     "sub": "exright",
+     "kind": "息",
+     "value": "1.900000",
+     "ref_price": "130.10"
+    },
+    {
+     "date": "2024-01-17",
+     "sub": "exright",
+     "kind": "息",
+     "value": "3.000000",
+     "ref_price": "128.65"
+    },
+    {
+     "date": "2024-07-16",
+     "sub": "exright",
+     "kind": "息",
+     "value": "1.000000",
+     "ref_price": "195.70"
+    },
+    {
+     "date": "2025-01-17",
+     "sub": "exright",
+     "kind": "息",
+     "value": "2.700000",
+     "ref_price": "195.35"
+    },
+    {
+     "date": "2025-07-21",
+     "sub": "exright",
+     "kind": "息",
+     "value": "0.360000",
+     "ref_price": "51.09"
+    },
+    {
+     "date": "2026-01-22",
+     "sub": "exright",
+     "kind": "息",
+     "value": "1.000000",
+     "ref_price": "70.85"
+    },
+    {
+     "date": "2026-07-21",
+     "sub": "exright",
+     "kind": "息",
+     "value": "0.600000",
+     "ref_price": "98.60"
+    },
+    {
+     "date": "2025-06-18",
+     "sub": "etfsplit",
+     "kind": NaN,
+     "value": NaN,
+     "ref_price": "47.16"
+    }
+   ],
+   "twt49u_0050_count_by_year": {
+    "2014": 1,
+    "2015": 1,
+    "2016": 1,
+    "2017": 2,
+    "2018": 2,
+    "2019": 2,
+    "2020": 2,
+    "2021": 2,
+    "2022": 2,
+    "2023": 2,
+    "2024": 2,
+    "2025": 2,
+    "2026": 2
+   },
+   "twt49u_vs_implied": {
+    "n_twt49u_2015_plus": 22,
+    "n_matched": 21,
+    "n_implied": 22,
+    "implied_not_in_twt49u": [],
+    "rows": [
+     {
+      "date": "2015-10-26",
+      "twt49u_value": 2.0,
+      "implied_div": 2.0,
+      "match": true
+     },
+     {
+      "date": "2016-07-28",
+      "twt49u_value": 0.85,
+      "implied_div": 0.85,
+      "match": true
+     },
+     {
+      "date": "2017-02-08",
+      "twt49u_value": 1.7,
+      "implied_div": 1.7,
+      "match": true
+     },
+     {
+      "date": "2017-07-31",
+      "twt49u_value": 0.7,
+      "implied_div": 0.7,
+      "match": true
+     },
+     {
+      "date": "2018-01-29",
+      "twt49u_value": 2.2,
+      "implied_div": 2.2,
+      "match": true
+     },
+     {
+      "date": "2018-07-23",
+      "twt49u_value": 0.7,
+      "implied_div": 0.7,
+      "match": true
+     },
+     {
+      "date": "2019-01-22",
+      "twt49u_value": 2.3,
+      "implied_div": 2.3,
+      "match": true
+     },
+     {
+      "date": "2019-07-19",
+      "twt49u_value": 0.7,
+      "implied_div": 0.7,
+      "match": true
+     },
+     {
+      "date": "2020-01-31",
+      "twt49u_value": 2.9,
+      "implied_div": 2.9,
+      "match": true
+     },
+     {
+      "date": "2020-07-21",
+      "twt49u_value": 0.7,
+      "implied_div": 0.7,
+      "match": true
+     },
+     {
+      "date": "2021-01-22",
+      "twt49u_value": 3.05,
+      "implied_div": 3.05,
+      "match": true
+     },
+     {
+      "date": "2021-07-21",
+      "twt49u_value": 0.35,
+      "implied_div": 0.35,
+      "match": true
+     },
+     {
+      "date": "2022-01-21",
+      "twt49u_value": 3.2,
+      "implied_div": 3.2,
+      "match": true
+     },
+     {
+      "date": "2022-07-18",
+      "twt49u_value": 1.8,
+      "implied_div": 1.8,
+      "match": true
+     },
+     {
+      "date": "2023-01-30",
+      "twt49u_value": 2.6,
+      "implied_div": 2.6,
+      "match": true
+     },
+     {
+      "date": "2023-07-18",
+      "twt49u_value": 1.9,
+      "implied_div": 1.9,
+      "match": true
+     },
+     {
+      "date": "2024-01-17",
+      "twt49u_value": 3.0,
+      "implied_div": 3.0,
+      "match": true
+     },
+     {
+      "date": "2024-07-16",
+      "twt49u_value": 1.0,
+      "implied_div": 1.0,
+      "match": true
+     },
+     {
+      "date": "2025-01-17",
+      "twt49u_value": 2.7,
+      "implied_div": 2.7,
+      "match": true
+     },
+     {
+      "date": "2025-07-21",
+      "twt49u_value": 0.36,
+      "implied_div": 0.35,
+      "match": true
+     },
+     {
+      "date": "2026-01-22",
+      "twt49u_value": 1.0,
+      "implied_div": 1.0,
+      "match": true
+     },
+     {
+      "date": "2026-07-21",
+      "twt49u_value": 0.6,
+      "implied_div": 0.577,
+      "match": false
+     }
+    ]
+   },
+   "split": {
+    "detected": [
+     {
+      "date": "2025-06-18",
+      "kind": "分割",
+      "raw_prev": 188.65,
+      "raw": 47.57,
+      "raw_ret_pct": -74.78,
+      "adj_ret_pct": 0.86,
+      "implied_div": null,
+      "factor": 4.0
+     }
+    ],
+    "suspension_days_missing_in_adj": [
+     "2025-06-11",
+     "2025-06-12",
+     "2025-06-13",
+     "2025-06-16",
+     "2025-06-17"
+    ],
+    "engine_handling": "cslib.Panel 對 0050 還原價先 ffill（停牌日沿用前值），run_official.py 另呼叫 s19lib.e50_fix_suspension（停牌日開盤＝前一成交收盤）",
+    "adj_continuous_over_split": true
+   },
+   "pre2015": {
+    "dividend_list": "無法驗證：本地沒有 2015 以前的 0050 原始價與配息表（TWT49U 封存只有 2014 的 1 年；還原價無法單獨推回配息）",
+    "twt49u_2014": [
+     {
+      "date": "2014-10-24",
+      "prev_close": 65.05,
+      "ref_price": 63.5,
+      "value": 1.55,
+      "type": "息"
+     }
+    ]
+   },
+   "site_nav_json": {
+    "n": 584,
+    "key": "日期",
+    "first": "2015-07-03",
+    "last": "2026-10-22",
+    "dates_not_trading_days": []
+   },
+   "navs_official": {
+    "sha256": "595f1b69c6b0f9d46e546719eae62050875078f79b6af9bc75ff2dd45423cde8",
+    "first": "2015-07-01",
+    "last": "2026-10-22",
+    "n": 2760,
+    "columns": [
+     "0050",
+     "E0|W10_70",
+     "XT|W10_70",
+     "XT_B11|W10_70"
+    ],
+    "dates_not_in_calendar": [],
+    "calendar_days_missing": [],
+    "n_nan": 0
+   }
+  },
+  "B8": {
+   "now_taipei": "2026-11-20 16:02:07",
+   "expected_last_trading_day_weekday_rule": "2026-11-19",
+   "twii_forward_copy_last": "2026-11-19",
+   "tsd": {
+    "path": "/tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/tsd",
+    "head": "5414b6c836a78bb417754e2ccdfc837e9deb9851 2026-11-19T21:32:32+00:00 revenue_hist: 2026-11-20 05:32 台北",
+    "daily_last": "2026-11-19",
+    "exright_last_file": "2026-11-20",
+    "exright_last_file_blob_local": false
+   },
+   "raw_archive": {
+    "head": "107f90739a3d8647845299f8e8f5330b51332730 2026-11-02T18:48:46+00:00 tri_index: 2026-11-03 02:48 台北",
+    "daily_last": "2026-10-30",
+    "days_behind_tsd": 14,
+    "exright_blobs_local": 0
+   },
+   "site": {
+    "status": {
+     "data_last_day": "2026-11-19",
+     "exright_cover": "2026-11-20",
+     "exright_warning": false,
+     "mtime": "2026-11-20 06:51:50"
+    },
+    "live": {
+     "data_last_day": "2026-11-19",
+     "exright_cover": "2026-11-20",
+     "exright_warning": false,
+     "mtime": "2026-11-20 06:51:50"
+    },
+    "holdings": {
+     "data_last_day": "2026-11-19",
+     "exright_cover": "2026-11-20",
+     "exright_warning": false,
+     "mtime": "2026-11-20 06:51:50"
+    },
+    "nav": {
+     "data_last_day": "2026-11-19",
+     "exright_cover": null,
+     "exright_warning": null,
+     "mtime": "2026-11-20 06:51:50"
+    },
+    "top20": {
+     "data_last_day": "2026-11-19",
+     "exright_cover": null,
+     "exright_warning": null,
+     "mtime": "2026-11-20 06:51:50"
+    },
+    "actions": {
+     "data_last_day": "2026-11-19",
+     "exright_cover": null,
+     "exright_warning": null,
+     "mtime": "2026-11-20 06:51:50"
+    }
+   },
+   "twt49u_archive_last": "2026-10-29",
+   "price_day_is_latest_trading_day": true,
+   "exright_covers_latest_price_day": true,
+   "forward_logs": [
+    {
+     "log": "daily_20261103_0434.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-02T20:14:11+00:00",
+     "finlab_commit_time": "2026-11-02T19:40:12+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": false,
+     "official_fetch_failed": false,
+     "alerts": []
+    },
+    {
+     "log": "daily_20261103_062554.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-02T20:14:11+00:00",
+     "finlab_commit_time": "2026-11-02T19:40:12+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": false,
+     "official_fetch_failed": false,
+     "alerts": []
+    },
+    {
+     "log": "daily_20261103_064942.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-02T22:32:45+00:00",
+     "finlab_commit_time": "2026-11-02T19:40:12+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": false,
+     "official_fetch_failed": false,
+     "alerts": [
+      "【警告】磁碟剩餘 1906MB < 2GB"
+     ]
+    },
+    {
+     "log": "daily_20261103_144952.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-03T05:33:45+00:00",
+     "finlab_commit_time": "2026-11-03T02:48:23+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【警告】磁碟剩餘 1875MB < 2GB",
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    },
+    {
+     "log": "daily_20261103_145020.log",
+     "rc": 4,
+     "screener_commit_time": "2026-11-03T05:33:45+00:00",
+     "finlab_commit_time": "2026-11-03T02:48:23+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": false,
+     "alerts": [
+      "【警告】磁碟剩餘 1874MB < 2GB",
+      "【月營收覆蓋率不足】2026-09 月營收（期限日 2026-10-12，J13）在股池的覆蓋率 100.0%（256/256，門檻 101%；官方補值 0 檔），缺："
+     ]
+    },
+    {
+     "log": "daily_20261104_065109.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-03T20:23:27+00:00",
+     "finlab_commit_time": "2026-11-03T17:13:16+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": false,
+     "official_fetch_failed": false,
+     "alerts": [
+      "【警告】磁碟剩餘 1906MB < 2GB"
+     ]
+    },
+    {
+     "log": "daily_20261105_065018.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-04T20:36:28+00:00",
+     "finlab_commit_time": "2026-11-04T17:24:47+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": false,
+     "official_fetch_failed": false,
+     "alerts": []
+    },
+    {
+     "log": "daily_20261106_065105.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-05T20:51:47+00:00",
+     "finlab_commit_time": "2026-11-05T17:31:58+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": false,
+     "official_fetch_failed": false,
+     "alerts": []
+    },
+    {
+     "log": "daily_20261107_065108.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-06T20:07:59+00:00",
+     "finlab_commit_time": "2026-11-06T16:52:40+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": false,
+     "official_fetch_failed": false,
+     "alerts": []
+    },
+    {
+     "log": "daily_20261108_065008.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-07T08:32:58+00:00",
+     "finlab_commit_time": "2026-11-06T16:52:40+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": false,
+     "official_fetch_failed": false,
+     "alerts": []
+    },
+    {
+     "log": "daily_20261109_065101.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-08T01:32:51+00:00",
+     "finlab_commit_time": "2026-11-06T16:52:40+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    },
+    {
+     "log": "daily_20261110_065032.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-09T20:40:20+00:00",
+     "finlab_commit_time": "2026-11-09T19:57:30+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    },
+    {
+     "log": "daily_20261112_033439.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-11T17:51:43+00:00",
+     "finlab_commit_time": "2026-11-11T14:40:24+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【警告】磁碟剩餘 1416MB < 2GB",
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。",
+      "【警告】以下名單凍結時間晚於成交日 09:00（ts_ok＝false，該月不符前瞻時戳條件）：['j0_202611']"
+     ]
+    },
+    {
+     "log": "daily_20261112_064943.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-11T17:51:43+00:00",
+     "finlab_commit_time": "2026-11-11T14:40:24+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    },
+    {
+     "log": "daily_20261114_135106.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-14T03:28:44+00:00",
+     "finlab_commit_time": "2026-11-13T17:18:54+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【警告】磁碟剩餘 1826MB < 2GB",
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。",
+      "【警告】以下名單凍結時間晚於成交日 09:00（ts_ok＝false，該月不符前瞻時戳條件）：['j2_202611']"
+     ]
+    },
+    {
+     "log": "daily_20261115_065050.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-14T03:28:44+00:00",
+     "finlab_commit_time": "2026-11-13T17:18:54+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【警告】磁碟剩餘 1620MB < 2GB",
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    },
+    {
+     "log": "daily_20261116_065111.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-15T02:01:14+00:00",
+     "finlab_commit_time": "2026-11-13T17:18:54+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【警告】磁碟剩餘 1404MB < 2GB",
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    },
+    {
+     "log": "daily_20261117_065104.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-16T20:17:51+00:00",
+     "finlab_commit_time": "2026-11-16T19:45:57+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    },
+    {
+     "log": "daily_20261118_065044.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-17T21:59:31+00:00",
+     "finlab_commit_time": "2026-11-17T18:42:04+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    },
+    {
+     "log": "daily_20261119_065030.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-18T21:41:42+00:00",
+     "finlab_commit_time": "2026-11-18T18:17:10+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    },
+    {
+     "log": "daily_20261120_064939.log",
+     "rc": 0,
+     "screener_commit_time": "2026-11-19T21:54:58+00:00",
+     "finlab_commit_time": "2026-11-19T18:28:14+00:00",
+     "data_fetch_failed": false,
+     "official_fetch_attempted": true,
+     "official_fetch_failed": true,
+     "alerts": [
+      "【官方月營收抓取失敗】所有來源都失敗（常見原因：網路政策擋下官方主機、代理回 403、官方網站維護）。目錄與 FETCH.json 已保留作為失敗紀錄；請到公開資訊觀測站人工核對月營收。"
+     ]
+    }
+   ],
+   "forward_log_days_missing": [
+    "20261111",
+    "20261113"
+   ],
+   "official_rev_fetch": [
+    {
+     "dir": "20261103T143314+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261103T144954+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261103T145101+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261109T065110+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261110T065045+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261112T033449+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261112T064944+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261114T135111+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261115T065055+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261116T065121+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261117T065122+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261118T065052+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261119T065038+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+     ],
+     "n_files": 2
+    },
+    {
+     "dir": "20261120T064953+0800",
+     "ok_markets": {
+      "twse": false,
+      "tpex": false
+     },
+     "n_requests": 6,
+     "n_ok": 0,
+     "hosts": [
+      "mopsov.twse.com.tw",
+      "openapi.twse.com.tw",
+      "www.tpex.org.tw"
+     ],
+     "errors": [
+      "URLError: <urlopen error Tunnel connection failed: 403 Forbidden "
+     ],
+     "n_files": 2
+    }
+   ],
+   "official_rev_fetch_summary": {
+    "n_attempts": 14,
+    "n_success": 0,
+    "first_attempt": "20261103T143314+0800",
+    "last_attempt": "20261120T064953+0800",
+    "n_distinct_days_failed": 11,
+    "failed_days": [
+     "20261103",
+     "20261109",
+     "20261110",
+     "20261112",
+     "20261114",
+     "20261115",
+     "20261116",
+     "20261117",
+     "20261118",
+     "20261119",
+     "20261120"
+    ],
+    "ever_succeeded": false,
+    "consecutive_failed_attempts_to_latest": 14
+   },
+   "upstream_revenue_hist_2026_10_twse_commits": {
+    "n": 1,
+    "first": "2026-11-19T21:32:32+00:00",
+    "last": "2026-11-19T21:32:32+00:00",
+    "all": [
+     "2026-11-19T21:32:32+00:00"
+    ]
+   },
+   "upstream_daily_commit_times_recent": [
+    "2026-11-19T21:32:32+00:00"
+   ],
+   "revenue_seen_dirs": [
+    "data/meta/revenue_seen/2026-09",
+    "data/meta/revenue_seen/2026-10"
+   ]
+  }
+ }
+}
