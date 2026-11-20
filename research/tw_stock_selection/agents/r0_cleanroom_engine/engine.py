@@ -75,7 +75,11 @@ class Data:
         adj[~np.isfinite(last)] = np.nan
         self.adj = adj; self.traded = traded
         # 0050：含息還原價（收盤）；開盤＝還原收盤×原始開盤／原始收盤
-        self.e_c = self.e_adj
+        # 0050 暫停交易日（2025-06-11～17 分割換發）：估值沿用上次還原收盤；當天不能買賣（e_o＝NaN）
+        ec = self.e_adj.copy()
+        for t in range(1, len(ec)):
+            if not np.isfinite(ec[t]): ec[t] = ec[t - 1]
+        self.e_c = ec
         self.e_o = self.e_adj * self.e_open / self.e_close
         # SURGE（月 × 代號）
         R = self.rev.copy()
@@ -156,7 +160,7 @@ def run(tmp, cfg):
     pos = {}       # code -> dict(sh, entry_date, entry_px, cost)
     pending_sell = set(); pending = None
     navs = []; trades = []; lists = []; log = []; rebal_log = []
-    odd_from = cfg['odd_lot_from']
+    odd_from = cfg['odd_lot_from']; sweep_wait = [False]
 
     def etf_px(t, side):
         p = d.e_o[t]
@@ -167,13 +171,14 @@ def run(tmp, cfg):
     def buy_etf(t, amt):
         nonlocal cash, eu
         if amt <= 0: return
+        if not np.isfinite(d.e_o[t]): sweep_wait[0] = True; return
         px = etf_px(t, 1); u = amt / (px * (1 + fee)); eu += u; cash -= u * px * (1 + fee)
         log.append((d.dates[t], '0050', 'BUY', u, px))
 
     def sell_etf(t, need):
         """賣 0050 換到 need 元現金（扣費稅後），回傳實際拿到的現金。"""
         nonlocal cash, eu, base
-        if need <= 0 or eu <= 0: return 0.0
+        if need <= 0 or eu <= 0 or not np.isfinite(d.e_o[t]): return 0.0
         px = etf_px(t, -1); net = px * (1 - fee - cfg['tax_etf'])
         u = min(eu, need / net); eu -= u; cash += u * net
         if eu < base: base = eu
@@ -231,7 +236,7 @@ def run(tmp, cfg):
                     j = d.ci[c]; o = d.O[t, j]
                     v += p['sh'] * (o if np.isfinite(o) and o > 0 else d.last[t - 1, j])
                 return v
-            p0 = d.e_o[t]
+            p0 = d.e_o[t] if np.isfinite(d.e_o[t]) else d.e_c[t]
             total = cash + eu * p0 + stock_val(); sv = total - base * p0; ratio = sv / total
             reb = None
             if abs(ratio - cfg['sat']) > cfg['band'] + 1e-12:
@@ -262,7 +267,7 @@ def run(tmp, cfg):
                 if np.isfinite(ref) and o >= limit_up(ref) - 1e-9: skipped[c] = 'limit_up'; continue
                 ht = 0.5 * tick_stock(o) if cfg['half_tick'] else 0.0
                 px = o * (1 + slip) + ht
-                avail = cash + eu * etf_px(t, -1) * (1 - fee - cfg['tax_etf'])
+                avail = cash + (eu * etf_px(t, -1) * (1 - fee - cfg['tax_etf']) if np.isfinite(d.e_o[t]) else 0.0)
                 amt = min(target, avail / (1 + fee))
                 if np.isfinite(d.A[t, j]): amt = min(amt, cfg['cap_frac'] * d.A[t, j])
                 unit = 1 if day >= odd_from else 1000
@@ -276,6 +281,7 @@ def run(tmp, cfg):
             lists[-1].update(exec_date=day, bought=bought, skipped=skipped, sold=[c for c in sg['exits'] if c not in pos],
                              deferred=sorted(pending_sell))
         # 4) 閒置現金 ≥ 2 萬買 0050（只在有交易的日子檢查）
+        if sweep_wait[0] and np.isfinite(d.e_o[t]): sweep_wait[0] = False; traded_today = True
         if traded_today and cash >= cfg['sweep_min']: buy_etf(t, cash)
         # 收盤淨值
         sv = 0.0
