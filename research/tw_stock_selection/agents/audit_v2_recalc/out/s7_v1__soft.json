@@ -1,0 +1,30 @@
+{
+ "study": "s7_locked_base",
+ "script": "run.py",
+ "mode": "v1",
+ "tag": "s7_v1",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true,
+  "REDUCE_FIX": false,
+  "E50_SOURCE": "None"
+ },
+ "shim": {
+  "make_signal_ins15_calls": 5,
+  "ins15_masked_rows": 20,
+  "signal_rows_adjusted": 0,
+  "av_family_adjusted": 0
+ },
+ "soft_asserts": [
+  {
+   "line": 82,
+   "msg": "('驗收失敗', {'P0': True, 'A0_W10_70': {'since2019': 0.48756125669507, 'full': 0.34396546396589067, 'ok': False}, 'A1_W10_70': {'nav_identical': True, 'trades_identical': True}, 'A0_WN_70': {'since2019': 0.6366854802798276, 'full': 0.45009728778514946, 'ok': False}, 'A1_WN_70': {'nav_identical': True, 'trades_identical': True}, 'A0_WN_100': {'since2019': 0.7609080438010829, 'full': 0.5277926670765536, 'ok': False}, 'A1_WN_100': {'nav_identical': True, 'trades_identical': True}, 'A2_WN_70': True, 'A2_WN_70L': True})"
+  }
+ ],
+ "peak_mb": 1822,
+ "secs": 88,
+ "panel_exright_fix": true,
+ "panel_reduce_fix": false,
+ "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+}

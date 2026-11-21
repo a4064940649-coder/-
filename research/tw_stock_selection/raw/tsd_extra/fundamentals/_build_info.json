@@ -1,0 +1,345 @@
+{
+ "upstream_repo": "https://github.com/jb7k6295r7-bot/tw-stock-data",
+ "upstream_commit": "f2fa95c0b632d12f8f267208707f3dca822a77af",
+ "files": {
+  "bs_hist_long.parquet": {
+   "source_dir": "data/mops/bs_hist",
+   "source_files": 372,
+   "files_by_type": {
+    "basi_twse": 46,
+    "bd_tpex": 46,
+    "bd_twse": 46,
+    "ci_tpex": 46,
+    "ci_twse": 46,
+    "fh_twse": 46,
+    "ins_twse": 46,
+    "other_tpex": 4,
+    "other_twse": 46
+   },
+   "rows": 1361440,
+   "periods": [
+    "2015Q1",
+    "2026Q2"
+   ],
+   "n_periods": 46,
+   "n_codes": 1973,
+   "duplicate_period_code_account": 0,
+   "companies_with_total_assets_per_period": {
+    "min": 1448,
+    "max": 1972,
+    "first": 1448,
+    "last": 1972
+   },
+   "columns": {
+    "period": "季別 2015Q1",
+    "code": "公司代號",
+    "market": "twse／tpex",
+    "template": "業別表：ci 一般業、basi 銀行、bd 證券、fh 金控、ins 保險、other 其他",
+    "account": "官方簡明表的原始科目名（中文）",
+    "item": "標準化英文代稱（沒對應到的是空值）",
+    "value": "數值；金額單位＝新台幣千元；每股參考淨值＝元；股數欄＝股"
+   },
+   "item_map": {
+    "資產總計": "total_assets",
+    "資產總額": "total_assets",
+    "負債總計": "total_liabilities",
+    "負債總額": "total_liabilities",
+    "權益總計": "equity_total",
+    "權益總額": "equity_total",
+    "歸屬於母公司業主之權益合計": "equity_parent",
+    "歸屬於母公司業主權益合計": "equity_parent",
+    "股本": "share_capital",
+    "流動資產": "current_assets",
+    "非流動資產": "noncurrent_assets",
+    "流動負債": "current_liabilities",
+    "非流動負債": "noncurrent_liabilities",
+    "現金及約當現金": "cash",
+    "資本公積": "capital_surplus",
+    "保留盈餘": "retained_earnings",
+    "保留盈餘（或累積虧損）": "retained_earnings",
+    "其他權益": "other_equity",
+    "庫藏股票": "treasury_stock",
+    "非控制權益": "minority_interest",
+    "每股參考淨值": "bvps_ref",
+    "應付公司債": "bonds_payable",
+    "應付債券": "bonds_payable",
+    "應付金融債券": "bank_debentures_payable",
+    "短期債務": "short_term_debt",
+    "其他借款": "other_borrowings",
+    "應收款項－淨額": "receivables_net",
+    "應收款項": "receivables_net"
+   },
+   "note": "空白格（公司沒有該科目）不產生列。一般業（ci）簡明表只有流動／非流動資產與負債、總額、股本與權益各項；沒有現金、應收、存貨、借款的細項。",
+   "bytes": 6421493,
+   "sha256": "dbab08d4f19bba9194170b0240b92718faea5bb0c51f4e2807db67c47d64047f"
+  },
+  "fs_xbrl.parquet": {
+   "source_dir": "data/meta/fs_xbrl（與 curated/fs_xbrl 同內容）",
+   "source_files": 14,
+   "rows": 112750,
+   "periods": [
+    "2013Q1",
+    "2026Q2"
+   ],
+   "n_periods": 54,
+   "n_codes": 3182,
+   "duplicate_period_code": 0,
+   "columns": [
+    "period",
+    "code",
+    "industry_template",
+    "report",
+    "period_end",
+    "inventories",
+    "accounts_receivable",
+    "accounts_receivable_related",
+    "notes_receivable",
+    "contract_liabilities_current",
+    "contract_liabilities_noncurrent",
+    "cash",
+    "total_assets",
+    "total_equity",
+    "revenue_ytd",
+    "profit_before_tax_ytd",
+    "net_income_ytd",
+    "operating_cash_flow_ytd",
+    "depreciation_ytd",
+    "capex_ytd",
+    "cost_of_sales_ytd",
+    "gross_profit_ytd",
+    "operating_income_ytd",
+    "source_file"
+   ],
+   "non_null_counts": {
+    "inventories": 100510,
+    "accounts_receivable": 104115,
+    "accounts_receivable_related": 46557,
+    "notes_receivable": 76941,
+    "contract_liabilities_current": 48448,
+    "contract_liabilities_noncurrent": 4099,
+    "cash": 112498,
+    "total_assets": 112638,
+    "total_equity": 112637,
+    "revenue_ytd": 108641,
+    "profit_before_tax_ytd": 112631,
+    "net_income_ytd": 112637,
+    "operating_cash_flow_ytd": 112461,
+    "depreciation_ytd": 112345,
+    "capex_ytd": 110536,
+    "cost_of_sales_ytd": 104993,
+    "gross_profit_ytd": 105312,
+    "operating_income_ytd": 108612
+   },
+   "note": "一家一季一列；金額單位＝新台幣元；_ytd 欄是年初至今累計；空白＝XBRL 沒有該科目，不是 0。含未上市櫃的公開發行公司。上游說明見倉庫 curated/fs_xbrl/README.md。",
+   "bytes": 11373577,
+   "sha256": "9eeef9f0341a2de6fd7ef2582af5a4a9fee9fa9fc72090e89c7af8d443a5911e"
+  },
+  "rd_hist.parquet": {
+   "source_dir": "data/mops/rd_hist",
+   "source_files": 54,
+   "rows": 105625,
+   "periods": [
+    "2013Q1",
+    "2026Q2"
+   ],
+   "n_periods": 54,
+   "n_codes": 2957,
+   "duplicate_period_code": 0,
+   "columns": [
+    "code",
+    "period",
+    "report",
+    "alt",
+    "taxonomy",
+    "rd_q",
+    "rd_ytd",
+    "rev_q",
+    "rev_ytd"
+   ],
+   "rows_with_rd_q": 54563,
+   "rows_with_rd_ytd": 82232,
+   "note": "rd_q／rd_ytd＝研發費用單季／累計；rev_q／rev_ytd＝營收；單位＝新台幣元；report cr 合併、ir 個體。",
+   "bytes": 2019939,
+   "sha256": "d65a8162a2c719af430f084900d2ba4ba4279f7bab662e4545f136bcf7e9ffc3"
+  },
+  "filing_dates.parquet": {
+   "source_dir": "data/meta/filing_dates.csv",
+   "rows": 145139,
+   "years": [
+    2013,
+    2026
+   ],
+   "n_codes": 2141,
+   "columns": [
+    "code",
+    "year",
+    "season",
+    "doc_code",
+    "doc_type",
+    "file",
+    "bytes",
+    "uploaded_at",
+    "corrected"
+   ],
+   "uploaded_at_unparseable": 0,
+   "doc_type_counts": {
+    "IFRSs合併財報": 85505,
+    "IFRSs英文版-合併財報": 22420,
+    "IFRSs個體財報": 19182,
+    "IFRSs個別財報": 8196,
+    "IFRSs英文版-個體財報": 7845,
+    "IFRSs英文版-個別財報": 1469,
+    "IFRSs合併財報(重編)": 223,
+    "英文版-母子公司合併報表": 101,
+    "IFRSs個體財報(重編)": 49,
+    "英文版-母公司財報": 38,
+    "關係企業合併報表": 30,
+    "IFRSs個別財報(重編)": 26,
+    "母子公司合併報表": 21,
+    "IFRSs合併財報(第二次重編)": 13,
+    "英文版-關係企業合併報表": 6
+   },
+   "corrected_counts": {
+    "無": 136410
+   },
+   "uploaded_at_range": [
+    "2013-04-19 18:05:19",
+    "2026-09-30 11:37:24"
+   ],
+   "note": "一份上傳文件一列；uploaded_at＝上傳時戳（台北時間，到秒）；corrected＝是否為更正版。同一家同一季可有多列（合併／個體、更正重傳）。",
+   "bytes": 2378955,
+   "sha256": "8056b51a11223fd74264a9847cdeea79e271a7ce91ab5c1e0a67f53376ffd87a"
+  }
+ },
+ "cross_checks": {
+  "bs_total_assets_vs_fin_long": {
+   "compared": 80772,
+   "match_within_1k": 80768,
+   "mismatch": 4,
+   "bs_rows_without_fin_long": 4,
+   "by_template": {
+    "basi": [
+     451,
+     451
+    ],
+    "bd": [
+     300,
+     300
+    ],
+    "ci": [
+     79002,
+     79006
+    ],
+    "fh": [
+     598,
+     598
+    ],
+    "ins": [
+     230,
+     230
+    ],
+    "other": [
+     187,
+     187
+    ]
+   },
+   "mismatch_abs_rel_gt_1pct": 2,
+   "mismatch_sample": [
+    {
+     "period": "2025Q3",
+     "code": "3041",
+     "template": "ci",
+     "value": 4298676.0,
+     "assets": 4086419000.0,
+     "rel": 0.051942054889623446
+    },
+    {
+     "period": "2025Q3",
+     "code": "6111",
+     "template": "ci",
+     "value": 30562500.0,
+     "assets": 29902313000.0,
+     "rel": 0.022078124859438164
+    },
+    {
+     "period": "2025Q2",
+     "code": "6111",
+     "template": "ci",
+     "value": 8273573.0,
+     "assets": 8202809000.0,
+     "rel": 0.008626800892231001
+    },
+    {
+     "period": "2025Q4",
+     "code": "6111",
+     "template": "ci",
+     "value": 29005011.0,
+     "assets": 29035304000.0,
+     "rel": -0.0010433160954678167
+    }
+   ],
+   "note": "bs_hist 千元 對 fin_long 元／1000 四捨五入，容許差 1 千元。fin_long 來自同倉庫 fin_hist（XBRL 整包），bs_hist 來自 MOPS 簡明表：同一官方來源的兩條管道，不是完全獨立。"
+  },
+  "bs_total_assets_vs_fs_xbrl": {
+   "compared": 80774,
+   "match_within_1k": 80770,
+   "mismatch": 4,
+   "mismatch_keys": [
+    "2025Q2_6111",
+    "2025Q3_3041",
+    "2025Q3_6111",
+    "2025Q4_6111"
+   ]
+  },
+  "bs_cash_financials_vs_fs_xbrl": {
+   "compared": 1279,
+   "match_within_1k": 1279
+  },
+  "rd_hist_rev_ytd_vs_fs_xbrl_revenue_ytd": {
+   "compared": 105291,
+   "equal": 105291
+  }
+ },
+ "unmapped_accounts_top": {
+  "預收股款（權益項下）之約當發行股數（單位：股）": 80831,
+  "母公司暨子公司所持有之母公司庫藏股股數（單位：股）": 80414,
+  "待註銷股本股數（單位：股）": 41842,
+  "共同控制下前手權益": 4923,
+  "應付款項": 1279,
+  "其他負債": 1279,
+  "負債準備": 1269,
+  "遞延所得稅資產": 1255,
+  "遞延所得稅負債": 1198,
+  "透過損益按公允價值衡量之金融負債": 1140,
+  "當期所得稅負債": 1068,
+  "透過損益按公允價值衡量之金融資產": 1059,
+  "其他金融資產－淨額": 1059,
+  "不動產及設備－淨額": 1049,
+  "其他資產－淨額": 1049,
+  "附買回票券及債券負債": 1049,
+  "其他金融負債": 1021,
+  "當期所得稅資產": 1004,
+  "無形資產－淨額": 996,
+  "貼現及放款－淨額": 957,
+  "存款及匯款": 957,
+  "租賃負債": 840,
+  "透過其他綜合損益按公允價值衡量之金融資產": 792,
+  "採用權益法之投資－淨額": 786,
+  "按攤銷後成本衡量之債務工具投資": 736,
+  "使用權資產－淨額": 690,
+  "存放央行及拆借金融同業": 598,
+  "應付商業本票－淨額": 598,
+  "歸屬於母公司業主之權益": 598,
+  "附賣回票券及債券投資": 590,
+  "投資性不動產－淨額": 575,
+  "央行及同業融資": 564,
+  "權益─具證券性質之虛擬通貨": 559,
+  "央行及金融同業存款": 552,
+  "母公司暨子公司持有之母公司庫藏股股數（單位：股）": 455,
+  "央行及銀行同業存款": 451,
+  "存放央行及拆借銀行同業": 436,
+  "再保險合約資產－淨額": 409,
+  "附賣回票券及債券投資淨額": 404,
+  "備供出售金融資產－淨額": 359
+ }
+}
