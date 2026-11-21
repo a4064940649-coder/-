@@ -220,6 +220,47 @@
    "R0_現行嚴成本|100萬": 46.7,
    "R0_現行嚴成本|100萬|excess_pp": 17.79
   },
+  "S64": {
+   "bench_since2019": 28.91,
+   "baseline_median": 46.4,
+   "baseline_maxdd": -33.39,
+   "baseline_main": 48.76,
+   "PICK_RAND": {
+    "since2019": 40.06,
+    "d19_pp": -6.0,
+    "ddd_full_pp": 1.74
+   },
+   "STOP_20_6M": {
+    "since2019": 41.49,
+    "d19_pp": -4.76,
+    "ddd_full_pp": -0.4
+   },
+   "SKIP_25": {
+    "since2019": 43.79,
+    "d19_pp": -2.12,
+    "ddd_full_pp": 0.03
+   },
+   "GAP_3": {
+    "since2019": 45.57,
+    "d19_pp": -1.63,
+    "ddd_full_pp": 0.34
+   },
+   "SKIP_10": {
+    "since2019": 45.46,
+    "d19_pp": -0.7,
+    "ddd_full_pp": 0.02
+   },
+   "SKIP_50": {
+    "since2019": 39.88,
+    "d19_pp": -6.13,
+    "ddd_full_pp": -0.9
+   },
+   "GAP_5": {
+    "since2019": 45.91,
+    "d19_pp": -0.24,
+    "ddd_full_pp": 0.04
+   }
+  },
   "S39": {
    "paths_pairs_FPM": {
     "median_pp": -0.929842322570984,
@@ -496,7 +537,6 @@
   }
  },
  "errors": {
-  "S64_v1": "FileNotFoundError(2, 'No such file or directory')",
   "S64_v2": "FileNotFoundError(2, 'No such file or directory')"
  },
  "v1_p4": {
@@ -719,6 +759,47 @@
    "R0_現行嚴成本|10萬|excess_pp": 17.0782,
    "R0_現行嚴成本|100萬": 46.6996,
    "R0_現行嚴成本|100萬|excess_pp": 17.7904
+  },
+  "S64": {
+   "bench_since2019": 28.9092,
+   "baseline_median": 46.4023,
+   "baseline_maxdd": -33.3875,
+   "baseline_main": 48.7562,
+   "PICK_RAND": {
+    "since2019": 40.0608,
+    "d19_pp": -5.9951,
+    "ddd_full_pp": 1.7403
+   },
+   "STOP_20_6M": {
+    "since2019": 41.487,
+    "d19_pp": -4.7628,
+    "ddd_full_pp": -0.4035
+   },
+   "SKIP_25": {
+    "since2019": 43.7914,
+    "d19_pp": -2.121,
+    "ddd_full_pp": 0.0311
+   },
+   "GAP_3": {
+    "since2019": 45.5702,
+    "d19_pp": -1.628,
+    "ddd_full_pp": 0.3352
+   },
+   "SKIP_10": {
+    "since2019": 45.4608,
+    "d19_pp": -0.7049,
+    "ddd_full_pp": 0.025
+   },
+   "SKIP_50": {
+    "since2019": 39.8847,
+    "d19_pp": -6.1341,
+    "ddd_full_pp": -0.9033
+   },
+   "GAP_5": {
+    "since2019": 45.9148,
+    "d19_pp": -0.242,
+    "ddd_full_pp": 0.0429
+   }
   },
   "S39": {
    "paths_pairs_FPM": {
@@ -1008,6 +1089,12 @@
    "n_diff": 0,
    "first": []
   },
+  "S64_v1_results_vs_original": {
+   "n_diff": 1,
+   "first": [
+    "/tax/div_events/off_calendar: 814≠807"
+   ]
+  },
   "S39_v1_results_vs_original": {
    "n_diff": 0,
    "first": []
@@ -1258,6 +1345,28 @@
    "secs": 274,
    "panel_reduce_fix": true,
    "panel_e50_source": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+  },
+  "s64_v1": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": false,
+    "E50_SOURCE": "None"
+   },
+   "self_flags": true,
+   "shim": {
+    "make_signal_ins15_calls": 0,
+    "ins15_masked_rows": 0,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 0,
+   "soft": [],
+   "peak_mb": 1461,
+   "secs": 1954,
+   "panel_reduce_fix": false,
+   "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
   },
   "s7_v1": {
    "flags": {
