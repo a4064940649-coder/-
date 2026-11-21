@@ -1,0 +1,75 @@
+{
+ "file": "inst_tpex.parquet",
+ "bytes": 15466167,
+ "sha256": "9c65cd1e2c312fe017a5fd079f74f4418a4ca455834a56e0169e5cb77cf248a3",
+ "upstream_repo": "https://github.com/jb7k6295r7-bot/tw-stock-data",
+ "upstream_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
+ "source_dir": "data/universe/otcinst",
+ "source_csv_files": 2895,
+ "source_raw_bytes": 77228031,
+ "other_files_in_dir": [],
+ "rows": 1880983,
+ "first_date": "2015-01-05",
+ "last_date": "2026-11-20",
+ "days_with_rows": 2895,
+ "n_codes": 1185,
+ "columns": {
+  "date": "object",
+  "code": "category",
+  "foreign": "int64",
+  "trust": "int64",
+  "dealer": "int64",
+  "total": "int64",
+  "dealer_self": "int64",
+  "dealer_hedge": "int64"
+ },
+ "headers_seen": {
+  "date,stock_id,foreign,trust,dealer,total,dealer_self,dealer_hedge": [
+   "2015-01-05",
+   "2026-11-20",
+   2895
+  ]
+ },
+ "duplicate_date_code_rows": 0,
+ "non_numeric": {},
+ "calendar": "data/universe/daily 的檔名日期（同倉庫的日 K 交易日）",
+ "calendar_days_in_range": 2895,
+ "missing_days": [],
+ "n_missing_days": 0,
+ "empty_files": [],
+ "days_not_in_calendar": [],
+ "rows_per_day": {
+  "min": 179,
+  "median": 657.0,
+  "max": 946,
+  "min_day": "2018-12-22"
+ },
+ "rows_per_year": {
+  "2015": 101687,
+  "2016": 113737,
+  "2017": 122096,
+  "2018": 120532,
+  "2019": 132943,
+  "2020": 152352,
+  "2021": 173896,
+  "2022": 180465,
+  "2023": 182773,
+  "2024": 202835,
+  "2025": 204662,
+  "2026": 193005
+ },
+ "days_per_year": {
+  "2015": 244,
+  "2016": 244,
+  "2017": 246,
+  "2018": 247,
+  "2019": 242,
+  "2020": 245,
+  "2021": 244,
+  "2022": 246,
+  "2023": 239,
+  "2024": 242,
+  "2025": 243,
+  "2026": 213
+ }
+}

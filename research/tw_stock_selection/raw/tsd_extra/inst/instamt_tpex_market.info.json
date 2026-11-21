@@ -1,0 +1,72 @@
+{
+ "file": "instamt_tpex_market.parquet",
+ "bytes": 297450,
+ "sha256": "9d5dd6010b1b24a479645873a926f772217948fa0ca6e897a1226c38c8932bdf",
+ "upstream_repo": "https://github.com/jb7k6295r7-bot/tw-stock-data",
+ "upstream_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
+ "source_dir": "data/universe/otcinstamt",
+ "source_csv_files": 2406,
+ "source_raw_bytes": 1149112,
+ "other_files_in_dir": [
+  "_asked.json"
+ ],
+ "rows": 18232,
+ "first_date": "2017-01-03",
+ "last_date": "2026-11-20",
+ "days_with_rows": 2406,
+ "n_codes": null,
+ "columns": {
+  "date": "object",
+  "investor": "category",
+  "buy": "int64",
+  "sell": "int64",
+  "net": "int64"
+ },
+ "headers_seen": {
+  "date,investor,buy,sell,net": [
+   "2017-01-03",
+   "2026-11-20",
+   2406
+  ]
+ },
+ "duplicate_date_code_rows": null,
+ "non_numeric": {},
+ "calendar": "data/universe/daily 的檔名日期（同倉庫的日 K 交易日）",
+ "calendar_days_in_range": 2407,
+ "missing_days": [
+  "2018-01-12"
+ ],
+ "n_missing_days": 1,
+ "empty_files": [],
+ "days_not_in_calendar": [],
+ "rows_per_day": {
+  "min": 4,
+  "median": 8.0,
+  "max": 8,
+  "min_day": "2017-01-03"
+ },
+ "rows_per_year": {
+  "2017": 984,
+  "2018": 1936,
+  "2019": 1936,
+  "2020": 1960,
+  "2021": 1952,
+  "2022": 1968,
+  "2023": 1912,
+  "2024": 1936,
+  "2025": 1944,
+  "2026": 1704
+ },
+ "days_per_year": {
+  "2017": 246,
+  "2018": 246,
+  "2019": 242,
+  "2020": 245,
+  "2021": 244,
+  "2022": 246,
+  "2023": 239,
+  "2024": 242,
+  "2025": 243,
+  "2026": 213
+ }
+}

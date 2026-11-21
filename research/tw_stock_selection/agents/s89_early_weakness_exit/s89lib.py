@@ -170,3 +170,61 @@ def early_path(P, lg, days=(3, 5, 10)):
             out[f'r{n}'].append(float(g[n - 1]) if ok else np.nan)
             out[f'min{n}'].append(float(g[:n].min()) if ok else np.nan)
     return pd.DataFrame(out, index=lg.index)
+
+
+# ---------------------------------------------------------------- 逐筆對照工具（描述用，不影響淨值）
+def gpath(P, j, e, t):
+    """進場列 e 開盤起到列 t 收盤的含息累計指數（同引擎的 g）。"""
+    g = P.CF[e, j] / P.O[e, j]
+    for u in range(e + 1, t + 1):
+        g *= (1 + P.R[u, j])
+    return float(g)
+
+
+def sell_open(P, j, d):
+    """標記後的賣出列：從 d 起第一個有開盤價且開盤 > 跌停價的列；到資料結束都沒有 → None。"""
+    while d < P.T:
+        o = P.O[d, j]
+        if np.isfinite(o) and o > 0 and not (o <= P.LIMDN[d, j] + 1e-9):
+            return d
+        d += 1
+    return None
+
+
+def gross_at_sell(P, j, e, d):
+    """列 d 開盤賣出的毛報酬（不含成本）＝g(d−1) × 開盤 ÷ 參考價 − 1。"""
+    return gpath(P, j, e, d - 1) * float(P.O[d, j] / P.REF[d, j]) - 1
+
+
+def current_exit(P, S, j, e):
+    """照現行規則（訊號列 X 成立 → 次日開盤賣）抱到出場：回傳 (賣出列或 None＝資料結束仍持有, 毛報酬)。不處理下市。"""
+    ks = np.flatnonzero(S['sigrows'] & S['X'][:, j])
+    ks = ks[ks >= e]
+    d = sell_open(P, j, int(ks[0]) + 1) if len(ks) else None
+    if d is None:
+        return None, gpath(P, j, e, P.T - 1) - 1
+    return d, gross_at_sell(P, j, e, d)
+
+
+def stop_effect(P, S, j, e, n, x, strict, cost, frac=1.0):
+    """單筆、靜態（不考慮資金與名額連動）的「第 n 天觸發就賣」對照：沒觸發回傳 None。
+    回傳 dict：觸發時累計報酬 r_trig、賣出列 ds、賣出毛報酬 g_stop、現行出場列 dc 與毛報酬 g_cur、
+    金額差 d_stock＝成本 × frac ×（g_stop − g_cur）、d_e50＝賣得金額放 0050（開盤到開盤）到現行出場日的報酬、d_total。"""
+    t = e + n - 1
+    dc, g_cur = current_exit(P, S, j, e)
+    last = (dc - 1) if dc is not None else P.T - 1
+    if t > last:
+        return None
+    r = gpath(P, j, e, t) - 1
+    if not ((r < 0) if strict else (r <= -x)):
+        return None
+    if S['sigrows'][t] and S['X'][t, j]:
+        return None                                        # 同一天現行出場優先
+    ds = sell_open(P, j, t + 1)
+    if ds is None or (dc is not None and ds >= dc):
+        return dict(t=int(t), r_trig=r, ds=None, dc=dc, g_stop=g_cur, g_cur=g_cur, d_stock=0.0, d_e50=0.0, d_total=0.0)
+    g_stop = gross_at_sell(P, j, e, ds)
+    e_end = float(P.E50O[dc]) if dc is not None else float(P.E50[P.T - 1])
+    d_stock = cost * frac * (g_stop - g_cur)
+    d_e50 = cost * frac * (1 + g_stop) * (e_end / float(P.E50O[ds]) - 1)
+    return dict(t=int(t), r_trig=r, ds=int(ds), dc=dc, g_stop=g_stop, g_cur=g_cur, d_stock=d_stock, d_e50=d_e50, d_total=d_stock + d_e50)
