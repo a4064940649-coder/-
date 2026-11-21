@@ -33,8 +33,8 @@ if MODE == 'v2':
     ov = pd.concat([old, new], axis=1, keys=['old', 'new']).dropna()
     rr = (ov['new'] / ov['new'].shift(1)) / (ov['old'] / ov['old'].shift(1)) - 1
     info['e50_splice'] = dict(seam=str(seam.date()), scale=k, n_pre=int((sp.index < seam).sum()), n_official=int(len(new)),
-                              first_day_official_daily_ret_differs_from_old=str(rr[rr.abs() > 1e-9].index[0].date()) if (rr.abs() > 1e-9).any() else None,
-                              n_days_daily_ret_differs=int((rr.abs() > 1e-9).sum()))
+                              first_day_daily_ret_differs_over_1e5=str(rr[rr.abs() > 1e-5].index[0].date()) if (rr.abs() > 1e-5).any() else None,   # 兩個檔的小數位數不同，1e-5 以下是四捨五入
+                              n_days_daily_ret_differs_over_1e5=int((rr.abs() > 1e-5).sum()), max_abs_daily_ret_diff_before_2025_07_21=float(rr.loc[:'2025-07-18'].abs().max()))
     cslib.E50_SOURCE = HERE / 'e50_spliced.csv'
     cslib.REDUCE_FIX = True
 P, U = K.load_cont()
@@ -104,7 +104,7 @@ for v in out['versions']:
     cmp['versions'][v]['yearly_changed'] = [dict(year=x['year'], 舊=round(x['strat'] * 100, 2), 新=round(y['strat'] * 100, 2), 舊_0050=round(x['e0050'] * 100, 2), 新_0050=round(y['e0050'] * 100, 2))
                                             for x, y in zip(a['yearly'], n['yearly']) if round(x['strat'], 4) != round(y['strat'], 4) or round(x['e0050'], 4) != round(y['e0050'], 4)]
     cmp['versions'][v]['signals_vs_S75'] = n['signals_vs_S75']
-    cmp['versions'][v]['first_day_nav_differs'] = str(df.index[((df[v] - ref[v]).abs() > 0.005).to_numpy().argmax()].date()) if ((df[v] - ref[v]).abs() > 0.005).any() else None
-cmp['first_day_0050_differs'] = str(df.index[((df['0050'] - ref['0050']).abs() > 0.005).to_numpy().argmax()].date()) if ((df['0050'] - ref['0050']).abs() > 0.005).any() else None
+    cmp['versions'][v]['first_day_nav_differs_over_1e5_rel'] = str(df.index[((df[v] / ref[v] - 1).abs() > 1e-5).to_numpy().argmax()].date()) if ((df[v] / ref[v] - 1).abs() > 1e-5).any() else None
+cmp['first_day_0050_differs_over_1e5_rel'] = str(df.index[((df['0050'] / ref['0050'] - 1).abs() > 1e-5).to_numpy().argmax()].date()) if ((df['0050'] / ref['0050'] - 1).abs() > 1e-5).any() else None
 (HERE / 'compare_old_new.json').write_text(json.dumps(cmp, ensure_ascii=False, indent=1, default=str))
 print('done', out['runtime_s'], 's', out['maxrss_mb'], 'MB')
