@@ -1,0 +1,800 @@
+{
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true,
+  "REDUCE_FIX": false
+ },
+ "official_file_pre_switch": {
+  "path": "research/tw_stock_selection/agents/official_nav/archive_2026-11-21_pre_v2/rerun/res_official.json",
+  "sha256": "779f416ae969a5cc807dab5f20f7465cf3d8e18645a9bbf0808714d9a0a5cec4",
+  "flags": {
+   "EXRIGHT_FIX": true,
+   "DEADLINE_FIX": true,
+   "INS15_MASK": true
+  },
+  "cagr_since2019": 0.4875617247721724,
+  "cagr_full": 0.3439657562340761,
+  "maxdd": -0.32119049020243395,
+  "n_trades_closed": 381
+ },
+ "official_file_now": {
+  "path": "research/tw_stock_selection/agents/official_nav/out/res_official.json",
+  "sha256": "f9d71bc2372c4f7b2518601f58f96db55b760eeeac3e862351e83e9b883dbd0b",
+  "flags": {
+   "EXRIGHT_FIX": true,
+   "DEADLINE_FIX": true,
+   "INS15_MASK": true,
+   "REDUCE_FIX": true,
+   "E50_SOURCE": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+  },
+  "cagr_since2019": 0.4886246519182116,
+  "cagr_full": 0.3446294016617564,
+  "maxdd": -0.3160938700293674,
+  "n_trades_closed": 381
+ },
+ "A0": {
+  "since2019": 0.4875617247721724,
+  "full": 0.3439657562340761,
+  "maxdd": -0.32119049020243395,
+  "n_closed": 381,
+  "gap_since2019_pp": 0.0,
+  "gap_vs_official_now_pp": -0.1062927146039172,
+  "ok": true
+ },
+ "A1": {
+  "max_abs_daily_diff": 0.0019470478657410695,
+  "n_days_diff_gt_1bp": 23,
+  "cagr_engine": 0.2113706686546324,
+  "cagr_mine": 0.21080124053267024
+ },
+ "A2": {
+  "empty_bitwise": true,
+  "all0050_vehicle_max_rel": 1.3322676295501878e-14,
+  "all0050_cost": 0.0,
+  "all0050_nav_max_rel": 3.9968028886505635e-15,
+  "ok": true
+ },
+ "mech_train": {
+  "S_L6_TOP1_W100": {
+   "n_months_train": 78,
+   "n_months_with_tailwind": 22,
+   "held_months_by_code": {
+    "0056": 15,
+    "00733": 5,
+    "00731": 2
+   },
+   "n_switch_months_train": 17,
+   "turnover_train": 17.0,
+   "cost_sum_train": 0.05622391695117963
+  },
+  "S_L6_TOP1_W50": {
+   "n_months_train": 78,
+   "n_months_with_tailwind": 22,
+   "held_months_by_code": {
+    "0056": 15,
+    "00733": 5,
+    "00731": 2
+   },
+   "n_switch_months_train": 29,
+   "turnover_train": 8.58964322362036,
+   "cost_sum_train": 0.02839422254964326
+  },
+  "S_L6_EW_W100": {
+   "n_months_train": 78,
+   "n_months_with_tailwind": 22,
+   "held_months_by_code": {
+    "0056": 17,
+    "00733": 6,
+    "00701": 3,
+    "00878": 5,
+    "00713": 2,
+    "00731": 2
+   },
+   "n_switch_months_train": 21,
+   "turnover_train": 18.26389714306612,
+   "cost_sum_train": 0.0612894229379155
+  },
+  "S_L6_EW_W50": {
+   "n_months_train": 78,
+   "n_months_with_tailwind": 22,
+   "held_months_by_code": {
+    "0056": 17,
+    "00733": 6,
+    "00701": 3,
+    "00878": 5,
+    "00713": 2,
+    "00731": 2
+   },
+   "n_switch_months_train": 29,
+   "turnover_train": 9.182289013660844,
+   "cost_sum_train": 0.030797870719893636
+  },
+  "S_L12_TOP1_W100": {
+   "n_months_train": 72,
+   "n_months_with_tailwind": 25,
+   "held_months_by_code": {
+    "0056": 17,
+    "00733": 8
+   },
+   "n_switch_months_train": 13,
+   "turnover_train": 13.0,
+   "cost_sum_train": 0.04263757805191631
+  },
+  "S_L12_TOP1_W50": {
+   "n_months_train": 72,
+   "n_months_with_tailwind": 25,
+   "held_months_by_code": {
+    "0056": 17,
+    "00733": 8
+   },
+   "n_switch_months_train": 30,
+   "turnover_train": 6.582124976704782,
+   "cost_sum_train": 0.02157353509702372
+  },
+  "S_L12_EW_W100": {
+   "n_months_train": 72,
+   "n_months_with_tailwind": 25,
+   "held_months_by_code": {
+    "0056": 17,
+    "00733": 8,
+    "00713": 2,
+    "00731": 2,
+    "00878": 2
+   },
+   "n_switch_months_train": 14,
+   "turnover_train": 13.750786336872581,
+   "cost_sum_train": 0.045782925541465125
+  },
+  "S_L12_EW_W50": {
+   "n_months_train": 72,
+   "n_months_with_tailwind": 25,
+   "held_months_by_code": {
+    "0056": 17,
+    "00733": 8,
+    "00713": 2,
+    "00731": 2,
+    "00878": 2
+   },
+   "n_switch_months_train": 30,
+   "turnover_train": 6.952627561885429,
+   "cost_sum_train": 0.023125831859643585
+  },
+  "SX_L6_TOP1_W100": {
+   "n_months_train": 78,
+   "n_months_with_tailwind": 31,
+   "held_months_by_code": {
+    "0056": 15,
+    "0052": 8,
+    "00728": 1,
+    "00733": 5,
+    "00891": 2
+   },
+   "n_switch_months_train": 19,
+   "turnover_train": 19.0,
+   "cost_sum_train": 0.0645549528408753
+  },
+  "SX_L6_TOP1_W50": {
+   "n_months_train": 78,
+   "n_months_with_tailwind": 31,
+   "held_months_by_code": {
+    "0056": 15,
+    "0052": 8,
+    "00728": 1,
+    "00733": 5,
+    "00891": 2
+   },
+   "n_switch_months_train": 38,
+   "turnover_train": 9.619347793098314,
+   "cost_sum_train": 0.032646273902804473
+  },
+  "SX_L6_EW_W100": {
+   "n_months_train": 78,
+   "n_months_with_tailwind": 31,
+   "held_months_by_code": {
+    "0056": 17,
+    "0052": 12,
+    "00728": 4,
+    "00733": 6,
+    "00881": 3,
+    "00701": 3,
+    "00878": 5,
+    "00713": 2,
+    "00731": 2,
+    "00891": 2,
+    "00892": 1
+   },
+   "n_switch_months_train": 25,
+   "turnover_train": 19.284582474792828,
+   "cost_sum_train": 0.06588389616618046
+  },
+  "SX_L6_EW_W50": {
+   "n_months_train": 78,
+   "n_months_with_tailwind": 31,
+   "held_months_by_code": {
+    "0056": 17,
+    "0052": 12,
+    "00728": 4,
+    "00733": 6,
+    "00881": 3,
+    "00701": 3,
+    "00878": 5,
+    "00713": 2,
+    "00731": 2,
+    "00891": 2,
+    "00892": 1
+   },
+   "n_switch_months_train": 38,
+   "turnover_train": 9.701131483251347,
+   "cost_sum_train": 0.03312076060058873
+  },
+  "SX_L12_TOP1_W100": {
+   "n_months_train": 72,
+   "n_months_with_tailwind": 34,
+   "held_months_by_code": {
+    "0056": 17,
+    "0052": 9,
+    "00733": 8
+   },
+   "n_switch_months_train": 14,
+   "turnover_train": 14.0,
+   "cost_sum_train": 0.04697314871531232
+  },
+  "SX_L12_TOP1_W50": {
+   "n_months_train": 72,
+   "n_months_with_tailwind": 34,
+   "held_months_by_code": {
+    "0056": 17,
+    "0052": 9,
+    "00733": 8
+   },
+   "n_switch_months_train": 39,
+   "turnover_train": 7.113020411265576,
+   "cost_sum_train": 0.023840148309546363
+  },
+  "SX_L12_EW_W100": {
+   "n_months_train": 72,
+   "n_months_with_tailwind": 34,
+   "held_months_by_code": {
+    "0056": 17,
+    "0052": 17,
+    "00728": 1,
+    "00733": 8,
+    "00713": 2,
+    "00731": 2,
+    "00878": 2,
+    "00881": 1
+   },
+   "n_switch_months_train": 21,
+   "turnover_train": 14.671361147858635,
+   "cost_sum_train": 0.04981291253087549
+  },
+  "SX_L12_EW_W50": {
+   "n_months_train": 72,
+   "n_months_with_tailwind": 34,
+   "held_months_by_code": {
+    "0056": 17,
+    "0052": 17,
+    "00728": 1,
+    "00733": 8,
+    "00713": 2,
+    "00731": 2,
+    "00878": 2,
+    "00881": 1
+   },
+   "n_switch_months_train": 39,
+   "turnover_train": 7.3888240520123905,
+   "cost_sum_train": 0.025048661288669203
+  }
+ },
+ "eligible_count_train_L12": {
+  "S": {
+   "median": 1.0,
+   "min": 1,
+   "max": 5,
+   "n_months": 72
+  },
+  "SX": {
+   "median": 1.0,
+   "min": 1,
+   "max": 7,
+   "n_months": 72
+  }
+ },
+ "etf_info": {
+  "0050": {
+   "n": 2875,
+   "first": "2015-01-05",
+   "last": "2026-10-30",
+   "n_div": 22,
+   "div_sum": 36.31,
+   "splits": [
+    "2025-06-18"
+   ],
+   "unmapped": 0
+  },
+  "0051": {
+   "n": 2880,
+   "first": "2015-01-05",
+   "last": "2026-10-30",
+   "n_div": 11,
+   "div_sum": 17.810000000000002,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00733": {
+   "n": 2059,
+   "first": "2018-05-17",
+   "last": "2026-10-30",
+   "n_div": 14,
+   "div_sum": 15.619,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00894": {
+   "n": 1265,
+   "first": "2021-08-13",
+   "last": "2026-10-30",
+   "n_div": 19,
+   "div_sum": 7.549999999999999,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00921": {
+   "n": 914,
+   "first": "2023-01-13",
+   "last": "2026-10-30",
+   "n_div": 14,
+   "div_sum": 4.945,
+   "splits": [],
+   "unmapped": 0
+  },
+  "0056": {
+   "n": 2880,
+   "first": "2015-01-05",
+   "last": "2026-10-30",
+   "n_div": 22,
+   "div_sum": 26.638,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00701": {
+   "n": 2241,
+   "first": "2017-08-17",
+   "last": "2026-10-30",
+   "n_div": 15,
+   "div_sum": 13.28,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00713": {
+   "n": 2212,
+   "first": "2017-09-27",
+   "last": "2026-10-30",
+   "n_div": 21,
+   "div_sum": 26.310000000000002,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00730": {
+   "n": 2119,
+   "first": "2018-02-08",
+   "last": "2026-10-30",
+   "n_div": 30,
+   "div_sum": 9.66,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00731": {
+   "n": 2077,
+   "first": "2018-04-20",
+   "last": "2026-10-30",
+   "n_div": 18,
+   "div_sum": 32.07,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00742": {
+   "n": 953,
+   "first": "2018-06-22",
+   "last": "2022-05-18",
+   "n_div": 4,
+   "div_sum": 4.05,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00878": {
+   "n": 1528,
+   "first": "2020-07-20",
+   "last": "2026-10-30",
+   "n_div": 24,
+   "div_sum": 9.32,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00900": {
+   "n": 1175,
+   "first": "2021-12-22",
+   "last": "2026-10-30",
+   "n_div": 33,
+   "div_sum": 5.458,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00907": {
+   "n": 1078,
+   "first": "2022-05-24",
+   "last": "2026-10-30",
+   "n_div": 24,
+   "div_sum": 4.1129999999999995,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00915": {
+   "n": 1024,
+   "first": "2022-08-09",
+   "last": "2026-10-30",
+   "n_div": 15,
+   "div_sum": 7.4799999999999995,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00918": {
+   "n": 949,
+   "first": "2022-11-24",
+   "last": "2026-10-30",
+   "n_div": 14,
+   "div_sum": 10.855,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00919": {
+   "n": 974,
+   "first": "2022-10-20",
+   "last": "2026-10-30",
+   "n_div": 14,
+   "div_sum": 9.83,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00929": {
+   "n": 823,
+   "first": "2023-06-09",
+   "last": "2026-10-30",
+   "n_div": 40,
+   "div_sum": 5.65,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00930": {
+   "n": 801,
+   "first": "2023-07-13",
+   "last": "2026-10-30",
+   "n_div": 17,
+   "div_sum": 4.606999999999999,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00932": {
+   "n": 766,
+   "first": "2023-09-01",
+   "last": "2026-10-30",
+   "n_div": 10,
+   "div_sum": 2.94,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00934": {
+   "n": 726,
+   "first": "2023-11-01",
+   "last": "2026-10-30",
+   "n_div": 28,
+   "div_sum": 4.134,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00936": {
+   "n": 721,
+   "first": "2023-11-08",
+   "last": "2026-10-30",
+   "n_div": 31,
+   "div_sum": 2.7300000000000004,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00939": {
+   "n": 635,
+   "first": "2024-03-20",
+   "last": "2026-10-30",
+   "n_div": 27,
+   "div_sum": 1.957,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00940": {
+   "n": 627,
+   "first": "2024-04-01",
+   "last": "2026-10-30",
+   "n_div": 28,
+   "div_sum": 1.19,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00943": {
+   "n": 595,
+   "first": "2024-05-20",
+   "last": "2026-10-30",
+   "n_div": 21,
+   "div_sum": 2.2159999999999997,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00944": {
+   "n": 602,
+   "first": "2024-05-09",
+   "last": "2026-10-30",
+   "n_div": 27,
+   "div_sum": 1.722,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00946": {
+   "n": 602,
+   "first": "2024-05-09",
+   "last": "2026-10-30",
+   "n_div": 27,
+   "div_sum": 1.298,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00961": {
+   "n": 496,
+   "first": "2024-10-15",
+   "last": "2026-10-30",
+   "n_div": 16,
+   "div_sum": 1.48,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00962": {
+   "n": 459,
+   "first": "2024-12-06",
+   "last": "2026-10-30",
+   "n_div": 16,
+   "div_sum": 1.1800000000000002,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00690": {
+   "n": 2336,
+   "first": "2017-03-31",
+   "last": "2026-10-30",
+   "n_div": 19,
+   "div_sum": 19.91,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00905": {
+   "n": 1100,
+   "first": "2022-04-21",
+   "last": "2026-10-30",
+   "n_div": 13,
+   "div_sum": 4.428,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00912": {
+   "n": 1053,
+   "first": "2022-06-29",
+   "last": "2026-10-30",
+   "n_div": 17,
+   "div_sum": 7.7,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00938": {
+   "n": 490,
+   "first": "2024-10-23",
+   "last": "2026-10-30",
+   "n_div": 5,
+   "div_sum": 1.02,
+   "splits": [],
+   "unmapped": 1
+  },
+  "009803": {
+   "n": 399,
+   "first": "2025-03-13",
+   "last": "2026-10-30",
+   "n_div": 5,
+   "div_sum": 2.06,
+   "splits": [],
+   "unmapped": 0
+  },
+  "009808": {
+   "n": 356,
+   "first": "2025-05-16",
+   "last": "2026-10-30",
+   "n_div": 4,
+   "div_sum": 2.031,
+   "splits": [],
+   "unmapped": 1
+  },
+  "0052": {
+   "n": 2875,
+   "first": "2015-01-05",
+   "last": "2026-10-30",
+   "n_div": 11,
+   "div_sum": 34.623999999999995,
+   "splits": [
+    "2025-11-26"
+   ],
+   "unmapped": 0
+  },
+  "0053": {
+   "n": 2880,
+   "first": "2015-01-05",
+   "last": "2026-10-30",
+   "n_div": 11,
+   "div_sum": 17.259999999999998,
+   "splits": [],
+   "unmapped": 0
+  },
+  "0055": {
+   "n": 2880,
+   "first": "2015-01-05",
+   "last": "2026-10-30",
+   "n_div": 11,
+   "div_sum": 8.05,
+   "splits": [],
+   "unmapped": 1
+  },
+  "0059": {
+   "n": 1216,
+   "first": "2015-01-05",
+   "last": "2019-12-20",
+   "n_div": 0,
+   "div_sum": 0.0,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00881": {
+   "n": 1428,
+   "first": "2020-12-10",
+   "last": "2026-10-30",
+   "n_div": 11,
+   "div_sum": 12.5,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00891": {
+   "n": 1319,
+   "first": "2021-05-28",
+   "last": "2026-10-30",
+   "n_div": 20,
+   "div_sum": 8.93,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00892": {
+   "n": 1310,
+   "first": "2021-06-10",
+   "last": "2026-10-30",
+   "n_div": 10,
+   "div_sum": 4.937,
+   "splits": [],
+   "unmapped": 1
+  },
+  "00904": {
+   "n": 1131,
+   "first": "2022-03-07",
+   "last": "2026-10-30",
+   "n_div": 17,
+   "div_sum": 7.050000000000001,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00913": {
+   "n": 1025,
+   "first": "2022-08-08",
+   "last": "2026-10-30",
+   "n_div": 8,
+   "div_sum": 6.699999999999999,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00927": {
+   "n": 826,
+   "first": "2023-06-06",
+   "last": "2026-10-30",
+   "n_div": 14,
+   "div_sum": 9.23,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00935": {
+   "n": 726,
+   "first": "2023-11-01",
+   "last": "2026-10-30",
+   "n_div": 5,
+   "div_sum": 4.98,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00941": {
+   "n": 638,
+   "first": "2024-03-15",
+   "last": "2026-10-30",
+   "n_div": 0,
+   "div_sum": 0.0,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00947": {
+   "n": 579,
+   "first": "2024-06-12",
+   "last": "2026-10-30",
+   "n_div": 7,
+   "div_sum": 2.7800000000000002,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00917": {
+   "n": 1011,
+   "first": "2022-08-26",
+   "last": "2026-10-30",
+   "n_div": 3,
+   "div_sum": 5.79,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00728": {
+   "n": 2079,
+   "first": "2018-04-18",
+   "last": "2026-10-30",
+   "n_div": 14,
+   "div_sum": 12.934000000000001,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00896": {
+   "n": 1241,
+   "first": "2021-09-16",
+   "last": "2026-10-30",
+   "n_div": 18,
+   "div_sum": 8.094999999999999,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00901": {
+   "n": 1180,
+   "first": "2021-12-15",
+   "last": "2026-10-30",
+   "n_div": 4,
+   "div_sum": 4.671,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00920": {
+   "n": 974,
+   "first": "2022-10-20",
+   "last": "2026-10-30",
+   "n_div": 2,
+   "div_sum": 0.246,
+   "splits": [],
+   "unmapped": 0
+  },
+  "00952": {
+   "n": 520,
+   "first": "2024-09-05",
+   "last": "2026-10-30",
+   "n_div": 17,
+   "div_sum": 1.08,
+   "splits": [],
+   "unmapped": 1
+  }
+ },
+ "meta": {
+  "runtime_s": 8.9,
+  "maxrss_mb": 1407
+ }
+}

@@ -1,7 +1,9 @@
 # 產生網站用的回測淨值與逐年報酬 profit.json（build_site_data.py 的 <profit.json> 參數）。
 # 用法：python3 -I -B xq_scripts/site/make_profit.py [<navs.csv.gz> <0050 還原價 csv> <輸出 profit.json>]
-# 預設：xq_scripts/site/navs_official.csv.gz（2026-11-17 起正式數字＝除權息＋期限修正：EXRIGHT_FIX＋DEADLINE_FIX＋INS15_MASK 全開，
-#   research/tw_stock_selection/agents/official_nav/run_official.py 產生；欄位同 navs_exright.csv.gz）、/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv（引擎 P.E50 的來源）、xq_scripts/site/profit.json。
+# 預設：xq_scripts/site/navs_official.csv.gz（2026-11-21 起正式數字＝除權息＋期限修正＋減資復牌修正＋0050 官方含息序列：
+#   EXRIGHT_FIX＋DEADLINE_FIX＋INS15_MASK＋REDUCE_FIX 全開、E50_SOURCE＝官方自建檔，research/tw_stock_selection/agents/official_nav/run_official.py 產生；
+#   欄位同 navs_exright.csv.gz）、research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv（0050 官方含息序列，正式管線 P.E50 的來源；
+#   2026-11-20 以前用的是 /home/user/jonatw/finlab-txd/data/raw/etf_0050.csv，要重現舊圖可當第二個參數給）、xq_scripts/site/profit.json。
 # - 現行策略＝navs 的 E0|W10_70 欄、XQ版＝XT|W10_70 欄（照抄，不改）。
 #   navs_exright.csv.gz 的 XT|W10_70＝XQ 門檻版、換股日用 A10（10 日（含）後第一個交易日的下一個交易日，＝統一後的 20／21／22 號腳本）；
 #   XT_B11|W10_70＝舊腳本換股日 B11（第一個日期 ≥ 11 的交易日），只供對照，本程式不讀。
@@ -17,7 +19,7 @@ import pandas as pd
 
 HERE = '/home/user/-'
 navs_p = sys.argv[1] if len(sys.argv) > 1 else f'{HERE}/xq_scripts/site/navs_official.csv.gz'
-e50_p = sys.argv[2] if len(sys.argv) > 2 else '/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv'
+e50_p = sys.argv[2] if len(sys.argv) > 2 else f'{HERE}/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv'
 out_p = sys.argv[3] if len(sys.argv) > 3 else f'{HERE}/xq_scripts/site/profit.json'
 
 n = pd.read_csv(navs_p, parse_dates=['date']).set_index('date').sort_index()
@@ -50,6 +52,6 @@ for k, s in S.items():
     P[k] = [int(round(float(s.loc[d]))) for d in last_days]
 P['stats'] = {k: {'final': float(s.iloc[-1]), 'cagr': cagr(s, s.index[0]), 'dd': float((s / s.cummax() - 1).min()), 'c19': cagr(s, '2019-01-01')} for k, s in S.items()}
 P['years'] = {k: yearly(s) for k, s in S.items()}
-P['source'] = {'navs': navs_p, '0050': e50_p + '（adj 欄＝含息還原價，研究引擎 P.E50 的來源）', 'program': 'xq_scripts/site/make_profit.py'}
+P['source'] = {'navs': navs_p, '0050': e50_p + '（adj 欄＝含息還原價，正式管線 P.E50 的來源）', 'program': 'xq_scripts/site/make_profit.py'}
 json.dump(P, open(out_p, 'w', encoding='utf-8'), ensure_ascii=False)
 print('ok', out_p, len(dates), dates[0], dates[-1], P['years']['etf'])

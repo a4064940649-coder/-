@@ -172,7 +172,7 @@ def cmd_settle(a):
     D = ml.Data(a.repos, rev_cutoff=cut)
     codes_prev = []
     if os.path.exists(a.state): codes_prev = sorted(set().union(*[set(s["sh"]) for s in LG.read_segments(a.state) if s["月份"] < a.month] or [set()]) - {"0050"})
-    res = ml.compute(D, a.month, exright=True, twt49u_dir=a.twt49u_dir, extra_codes=codes_prev, deadline=True)
+    res = ml.compute(D, a.month, exright=True, twt49u_dir=a.twt49u_dir, extra_codes=codes_prev, deadline=True, reduce=True)   # reduce：2026-11-21 起，同正式回測 REDUCE_FIX
     if res.get("status") != "有訊號": raise SystemExit(f"名單狀態是「{res.get('status')}」：{res.get('reason')}")
     if not res.get("exec_date") or res.get("_ex") is None: raise SystemExit(f"官方日 K 還沒有執行日（訊號日 {res['sig_date']} 的下一個交易日）的資料，不能結算")
     sig, exd, ex, ci = res["sig_date"], res["exec_date"], res["_ex"], res["_ci"]

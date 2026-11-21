@@ -1,0 +1,89 @@
+{
+ "rows": [
+  {
+   "編號": 1,
+   "須知": "一半以上的交易會賠，連續好幾筆不賺是正常的",
+   "依據": "賺錢比例 47.8%；賺錢靠一年 2～3 筆",
+   "重現狀態": "主要數字已獨立重現（R82）",
+   "已獨立重現": "是"
+  },
+  {
+   "編號": 2,
+   "須知": "不要自己提早停利",
+   "依據": "大贏家持有中位數 84 個交易日（一般 22 天）；第一次檢查就賣只有約 +18.7%，抱到規則出場是 +77.7%（不扣成本口徑；扣成本 +17.3%、+75.6%）",
+   "重現狀態": "主要數字已獨立重現（R82）",
+   "已獨立重現": "是"
+  },
+  {
+   "編號": 3,
+   "須知": "照規則出場就好，不必另加停利",
+   "依據": "大贏家出場時拿到最高點（收盤價）的約八成；最大浮盈 ≥50% 的 65 筆裡出場 <20% 的只有 4 筆",
+   "重現狀態": "主要數字已獨立重現（R82）",
+   "已獨立重現": "是"
+  },
+  {
+   "編號": 4,
+   "須知": "每個月都要下單、名單上的都要買",
+   "依據": "進場當下分不出哪筆會是大贏家；每月 10%／25% 機率漏買，全期年化中位數 22.8%／21.8%（照做 23.5%）",
+   "重現狀態": "主要數字已獨立重現（R82）",
+   "已獨立重現": "是"
+  },
+  {
+   "編號": 5,
+   "須知": "漏了可以補買（還在名單上時）",
+   "依據": "完全沒買到這 32 筆（之後也沒補買）年化 13.4%，輸 0050 的 14.6%；只是晚一個月補買約 17.9%",
+   "重現狀態": "主要數字已獨立重現（R82）",
+   "已獨立重現": "是"
+  },
+  {
+   "編號": 6,
+   "須知": "單筆 −20%～−40% 會發生，約每 20 筆 1 筆",
+   "依據": "多半一進場就跌、常成群出現；每檔資金上限讓單筆最重約傷帳戶 2.7%",
+   "重現狀態": "未獨立重現",
+   "已獨立重現": "否"
+  },
+  {
+   "編號": 7,
+   "須知": "別因為已經漲很多就不買",
+   "依據": "近 20 日漲超過 30% 就不買，全期每年少 1.2、2016 年後少 3.2 個百分點",
+   "重現狀態": "未獨立重現",
+   "已獨立重現": "否"
+  }
+ ],
+ "meta": [
+  {
+   "label": "產生程式",
+   "value": "research/tw_stock_selection/agents/eng_v2_candidate_and_site/make_rules.py"
+  },
+  {
+   "label": "標題",
+   "value": "這個策略靠少數大贏家：7 條操作須知"
+  },
+  {
+   "label": "摘要",
+   "value": "2008～2026 連續帳戶 632 筆交易：賺錢比例 47.8%，中位數 −0.7%。報酬率最高的 32 筆（前 5%，每筆 ≥ +57.6%）占選股交易損益的七成（占帳戶總獲利的 47.5%，其餘來自 0050 部位）。"
+  },
+  {
+   "label": "補充",
+   "value": "2019 年後大贏家變多，主要是市場上飆股變多：整個股池「之後 3 期漲超過 50%」的比例 1.97% → 3.75%，買進名單 5.98% → 14.02%，買進名單 ÷ 股池約 3.0 → 3.7 倍（統計上不能說訊號變強）。飆股比例若回到 2019 年前，大贏家筆數預期減半以上。"
+  },
+  {
+   "label": "重現說明",
+   "value": "第 1～5 條的主要數字已由獨立複製（R82）重現；第 6、7 條的數字未獨立重現。都是 2008～2026 歷史回測，不保證未來。"
+  },
+  {
+   "label": "出處",
+   "value": "xq_scripts/README.md 第 32.1 節（S82；R82）。agents/s82_big_winner_dependence/、agents/r82_r83_replicate/。"
+  },
+  {
+   "label": "README 段落標題",
+   "value": "32.1 這個策略靠少數大贏家：7 條操作須知（2026-11-21 新增；S82，主要數字已獨立重現 R82）"
+  },
+  {
+   "label": "make_rules.py",
+   "value": "#!/usr/bin/env python3\n\"\"\"產生網站「照做須知」資料檔 xq_scripts/site/data/rules.json（{rows, meta}）。文字與數字照 xq_scripts/README.md 第 32.1 節。\n每一條的「須知」「依據」必須在 README 第 32.1 節的表格裡逐字找得到（找不到就報錯、不寫檔）；README 改了要重跑。\n用法：python3 -I -B make_rules.py [輸出檔]（預設 xq_scripts/site/data/rules.json）→ 另寫 verify/rules_check.json\"\"\"\nimport sys, json, re\nfrom pathlib import Path\nHERE = Path(__file__).resolve().parent\nREPO = HERE.parents[3]\nREADME = REPO / 'xq_scripts' / 'README.md'\nOUT = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / 'xq_scripts' / 'site' / 'data' / 'rules.json'\nTAG = '（未獨立重現）'\ntxt = README.read_text(encoding='utf-8')\na = txt.index('### 32.1'); b = txt.index('### 32.2')\nsec = txt[a:b]\nhead = sec.split('\\n', 1)[0]\nassert '7 條操作須知' in head and 'R82' in head, head\nrows = []\nfor ln in sec.split('\\n'):\n    m = re.fullmatch(r'\\| (\\d) \\| (.+?) \\| (.+?) \\|', ln.strip())\n    if not m:\n        continue\n    n, rule, basis = int(m.group(1)), m.group(2), m.group(3)\n    unrep = basis.endswith(TAG)\n    rows.append({'編號': n, '須知': rule, '依據': basis[:-len(TAG)] if unrep else basis,\n                 '重現狀態': '未獨立重現' if unrep else '主要數字已獨立重現（R82）', '已獨立重現': '否' if unrep else '是'})\nassert [r['編號'] for r in rows] == list(range(1, 8)), [r['編號'] for r in rows]\nparas = [p.strip() for p in sec.split('\\n') if p.strip() and not p.startswith('|') and not p.startswith('#')]\nintro = paras[0]; bullets = [p[2:] for p in paras if p.startswith('- ')]\nassert intro.startswith('2008～2026 連續帳戶 632 筆交易') and len(bullets) == 2 and bullets[1].startswith('出處'), (intro, bullets)\nmeta = [{'label': '產生程式', 'value': 'research/tw_stock_selection/agents/eng_v2_candidate_and_site/make_rules.py'},\n        {'label': '標題', 'value': '這個策略靠少數大贏家：7 條操作須知'},\n        {'label': '摘要', 'value': intro},\n        {'label': '補充', 'value': bullets[0]},\n        {'label': '重現說明', 'value': '第 1～5 條的主要數字已由獨立複製（R82）重現；第 6、7 條的數字未獨立重現。都是 2008～2026 歷史回測，不保證未來。'},\n        {'label': '出處', 'value': 'xq_scripts/README.md 第 32.1 節（S82；R82）。' + bullets[1].replace('出處：', '').replace('`', '')},\n        {'label': 'README 段落標題', 'value': head.lstrip('# ').strip()},\n        {'label': 'make_rules.py', 'value': Path(__file__).read_text(encoding='utf-8'), 'type': 'code', 'lang': 'python'}]\nchk = dict(n_rows=len(rows), all_rule_text_in_readme=all(r['須知'] in sec for r in rows), all_basis_text_in_readme=all(r['依據'] in sec for r in rows),\n           unreplicated=[r['編號'] for r in rows if r['已獨立重現'] == '否'], intro_in_readme=intro in sec)\nchk['pass'] = bool(chk['n_rows'] == 7 and chk['all_rule_text_in_readme'] and chk['all_basis_text_in_readme'] and chk['unreplicated'] == [6, 7] and chk['intro_in_readme'])\nassert chk['pass'], chk\nOUT.write_text(json.dumps({'rows': rows, 'meta': meta}, ensure_ascii=False, indent=1), encoding='utf-8')\n(HERE / 'verify').mkdir(exist_ok=True)\n(HERE / 'verify' / 'rules_check.json').write_text(json.dumps(chk, ensure_ascii=False, indent=1))\nprint(chk); print(json.dumps(rows, ensure_ascii=False, indent=1))\n",
+   "type": "code",
+   "lang": "python"
+  }
+ ]
+}

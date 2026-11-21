@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """每日回測回歸檢查（數據稽核部）。用法：python3 -I -B daily_check.py <今天 YYYY-MM-DD>
 把正式管線 official_nav/run_official.py 複製到暫存區、輸出改寫到暫存區（不覆蓋正式檔），重跑後核對：
-  2019 起年化 48.76%、全期 34.40%、已出場 381 筆、與 xq_scripts/site/navs_official.csv.gz 逐日差 0、20 條路徑中位數 46.40%；
+  2019 起年化 48.86%、全期 34.46%、已出場 381 筆、與 xq_scripts/site/navs_official.csv.gz 逐日差 0、20 條路徑中位數 46.42%；
+  （2026-11-21 起的基準：正式管線多開減資復牌修正與 0050 官方含息序列；改版前是 48.76%／34.40%／46.40%，見 official_nav/run_official_v1_pre_reduce.py）
   網站 status 總資產＝live 最後一筆、除權息警告、資料最後一天。結果附加到 log.csv。"""
 import sys, json, subprocess, time, re, csv, shutil
 from pathlib import Path
@@ -52,7 +53,7 @@ else:
     row['official_2019_cagr'] = round(c19 * 100, 2)
     row['paths_median'] = round(pmed * 100, 2)
     row['trades'] = '381' if re.search(r'\b381\b', txt) else '?'
-    nums_ok = round(c19 * 100, 2) == 48.76 and round(cfull * 100, 2) == 34.40 and round(pmed * 100, 2) == 46.40 and row['trades'] == '381'
+    nums_ok = round(c19 * 100, 2) == 48.86 and round(cfull * 100, 2) == 34.46 and round(pmed * 100, 2) == 46.42 and row['trades'] == '381'
     note.append('除權息封存到 %s' % res.get('exright_info', {}).get('twt49u_last'))   # 封存每月補檔會讓 exright_info 變，不列入比對；淨值逐日差才是判準
     if not nums_ok: note.append('驗收數字不符 %.4f %.4f %.4f' % (c19, cfull, pmed))
     if not res_same:
