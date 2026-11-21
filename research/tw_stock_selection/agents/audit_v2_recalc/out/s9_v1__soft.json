@@ -1,0 +1,31 @@
+{
+ "study": "s9_signal_timing",
+ "script": "run.py",
+ "mode": "v1",
+ "self_flags": false,
+ "tag": "s9_v1",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true,
+  "REDUCE_FIX": false,
+  "E50_SOURCE": "None"
+ },
+ "shim": {
+  "make_signal_ins15_calls": 74,
+  "ins15_masked_rows": 378,
+  "signal_rows_adjusted": 22,
+  "av_family_adjusted": 0
+ },
+ "soft_asserts": [
+  {
+   "line": 86,
+   "msg": "('驗收失敗', {'P0': True, 'A1_av_identical': True, 'A1_signal_identical': True, 'A0_W10_70': {'since2019': 0.48756125669507, 'full': 0.34396546396589067, 'maxdd': -0.32119049020243395, 'ok': False}, 'A2_W10_70': {'nav_identical': True, 'trades_identical': True}, 'A0_WN_70': {'since2019': 0.6366854802798276, 'full': 0.45009728778514946, 'maxdd': -0.3740850212329486, 'ok': False}, 'A2_WN_70': {'nav_identical': True, 'trades_identical': True}})"
+  }
+ ],
+ "peak_mb": 1364,
+ "secs": 71,
+ "panel_exright_fix": true,
+ "panel_reduce_fix": false,
+ "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+}

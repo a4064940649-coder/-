@@ -1,0 +1,74 @@
+{
+ "file": "marginmkt_twse_market.parquet",
+ "bytes": 216740,
+ "sha256": "15ea3afcbc57bac585f16af9bf0d9d275b38de35254c150a0fb455f7ea259af9",
+ "upstream_repo": "https://github.com/jb7k6295r7-bot/tw-stock-data",
+ "upstream_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
+ "source_dir": "data/universe/marginmkt",
+ "source_csv_files": 2895,
+ "source_raw_bytes": 706012,
+ "other_files_in_dir": [],
+ "rows": 8685,
+ "first_date": "2015-01-05",
+ "last_date": "2026-11-20",
+ "days_with_rows": 2895,
+ "n_codes": null,
+ "columns": {
+  "date": "object",
+  "item": "category",
+  "buy": "int64",
+  "sell": "int64",
+  "repay": "int64",
+  "prev": "int64",
+  "balance": "int64"
+ },
+ "headers_seen": {
+  "date,item,buy,sell,repay,prev,balance": [
+   "2015-01-05",
+   "2026-11-20",
+   2895
+  ]
+ },
+ "duplicate_date_code_rows": null,
+ "non_numeric": {},
+ "calendar": "data/universe/daily 的檔名日期（同倉庫的日 K 交易日）",
+ "calendar_days_in_range": 2895,
+ "missing_days": [],
+ "n_missing_days": 0,
+ "empty_files": [],
+ "days_not_in_calendar": [],
+ "rows_per_day": {
+  "min": 3,
+  "median": 3.0,
+  "max": 3,
+  "min_day": "2015-01-05"
+ },
+ "rows_per_year": {
+  "2015": 732,
+  "2016": 732,
+  "2017": 738,
+  "2018": 741,
+  "2019": 726,
+  "2020": 735,
+  "2021": 732,
+  "2022": 738,
+  "2023": 717,
+  "2024": 726,
+  "2025": 729,
+  "2026": 639
+ },
+ "days_per_year": {
+  "2015": 244,
+  "2016": 244,
+  "2017": 246,
+  "2018": 247,
+  "2019": 242,
+  "2020": 245,
+  "2021": 244,
+  "2022": 246,
+  "2023": 239,
+  "2024": 242,
+  "2025": 243,
+  "2026": 213
+ }
+}

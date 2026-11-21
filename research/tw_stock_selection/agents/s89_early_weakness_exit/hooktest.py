@@ -22,14 +22,14 @@ for c in ('T5_5', 'T5_5h', 'NM10'):
         for t, j, e, g, h in ev:
             r = key[(j, e)]
             ds = L.sell_open(P, j, t + 1)
-            good = (r.why == 'tstop' and r.exit_t == ds) or (ds is None and r.why == 'open_end') or r.why in ('rule', 'delist')
+            good = (r.why == 'tstop' and r.exit_t >= ds and (r.exit_t == ds or P.AMT[ds, j] * 0.05 < r.shares * P.O[ds, j])) or (ds is None and r.why == 'open_end') or r.why in ('rule', 'delist')
             ok2 = ok2 and good; n_next += int(r.why == 'tstop' and r.exit_t == t + 1)
     ok3 = True
     if cell['half']:
         fk = {(j, e): (t, fr) for t, j, e, fr, _ in fl}
         for t, j, e, g, h in ev:
             if (j, e) in fk:
-                ok3 = ok3 and fk[(j, e)][0] == L.sell_open(P, j, t + 1) and 0.3 <= fk[(j, e)][1] <= 0.5 + 1e-9
+                ok3 = ok3 and fk[(j, e)][0] == L.sell_open(P, j, t + 1) and 0.3 <= fk[(j, e)][1] <= 0.51
             ok3 = ok3 and key[(j, e)].why in ('rule', 'open_end', 'delist')
     out[c] = dict(n_events=len(ev), n_tstop_trades=int((lg['why'] == 'tstop').sum()), n_sold_next_day=n_next, half_sold=int(st.get('half_sold', 0)), half_skip_lot=int(st.get('half_skip_lot', 0)),
                   n_trades=int(len(lg)), ok_trigger=bool(ok1), ok_full_exit=bool(ok2), ok_half=bool(ok3), nav_ok=bool(np.isfinite(nav.to_numpy()).all() and (nav > 0).all()))

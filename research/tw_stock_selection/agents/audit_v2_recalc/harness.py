@@ -43,6 +43,10 @@ skip = {'navs.csv.gz', 'trades.csv.gz', 'results.json', 'results_posthoc.json', 
 for f in SRC.iterdir():
     if f.is_file() and (SELF or f.suffix != '.py') and f.name not in skip and not (keep and (DST / f.name).exists()):
         shutil.copy2(f, DST / f.name)
+if SELF:
+    for f in SRC.iterdir():                                  # 空的子資料夾（程式會寫 data/ 等）
+        if f.is_dir() and f.name not in ('__pycache__', 'replicate'):
+            (DST / f.name).mkdir(exist_ok=True)
 for a in argv:
     if a.startswith('--link:'):
         name, tgt = a[len('--link:'):].split('=', 1)

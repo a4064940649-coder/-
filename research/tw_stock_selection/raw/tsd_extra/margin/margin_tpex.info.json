@@ -1,0 +1,81 @@
+{
+ "file": "margin_tpex.parquet",
+ "bytes": 20253970,
+ "sha256": "1536efffb129c40aeea0d75ab1219e921094492ef3719e98764fd4dcf95abc09",
+ "upstream_repo": "https://github.com/jb7k6295r7-bot/tw-stock-data",
+ "upstream_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
+ "source_dir": "data/universe/otcmargin",
+ "source_csv_files": 2895,
+ "source_raw_bytes": 108369849,
+ "other_files_in_dir": [],
+ "rows": 2102504,
+ "first_date": "2015-01-05",
+ "last_date": "2026-11-20",
+ "days_with_rows": 2895,
+ "n_codes": 1055,
+ "columns": {
+  "date": "object",
+  "code": "category",
+  "m_buy": "int64",
+  "m_sell": "int64",
+  "m_balance": "int64",
+  "m_limit": "int64",
+  "s_buy": "int64",
+  "s_sell": "int64",
+  "s_balance": "int64",
+  "m_prev": "int64",
+  "m_ret": "int64",
+  "s_prev": "int64",
+  "s_ret": "int64",
+  "note": "category"
+ },
+ "headers_seen": {
+  "date,stock_id,m_buy,m_sell,m_balance,m_limit,s_buy,s_sell,s_balance,m_prev,m_ret,s_prev,s_ret,note": [
+   "2015-01-05",
+   "2026-11-20",
+   2895
+  ]
+ },
+ "duplicate_date_code_rows": 0,
+ "non_numeric": {},
+ "calendar": "data/universe/daily 的檔名日期（同倉庫的日 K 交易日）",
+ "calendar_days_in_range": 2895,
+ "missing_days": [],
+ "n_missing_days": 0,
+ "empty_files": [],
+ "days_not_in_calendar": [],
+ "rows_per_day": {
+  "min": 571,
+  "median": 749.0,
+  "max": 923,
+  "min_day": "2015-01-23"
+ },
+ "rows_per_year": {
+  "2015": 143082,
+  "2016": 147535,
+  "2017": 153149,
+  "2018": 160455,
+  "2019": 172508,
+  "2020": 183116,
+  "2021": 184415,
+  "2022": 188081,
+  "2023": 185522,
+  "2024": 191863,
+  "2025": 200285,
+  "2026": 192493
+ },
+ "days_per_year": {
+  "2015": 244,
+  "2016": 244,
+  "2017": 246,
+  "2018": 247,
+  "2019": 242,
+  "2020": 245,
+  "2021": 244,
+  "2022": 246,
+  "2023": 239,
+  "2024": 242,
+  "2025": 243,
+  "2026": 213
+ }
+}

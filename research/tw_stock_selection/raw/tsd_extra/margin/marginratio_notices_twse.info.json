@@ -1,0 +1,77 @@
+{
+ "file": "marginratio_notices_twse.parquet",
+ "bytes": 640492,
+ "sha256": "5969caef2b53755b4e133ed6b900cbfa92789125e534eab87d7c3cc4f26135d5",
+ "upstream_repo": "https://github.com/jb7k6295r7-bot/tw-stock-data",
+ "upstream_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
+ "source_dir": "data/universe/marginratio",
+ "source_csv_files": 2895,
+ "source_raw_bytes": 49985090,
+ "other_files_in_dir": [],
+ "rows": 920698,
+ "first_date": "2015-01-05",
+ "last_date": "2026-11-20",
+ "days_with_rows": 2895,
+ "n_codes": 781,
+ "columns": {
+  "date": "object",
+  "code": "category",
+  "name": "category",
+  "reason": "category",
+  "adjust_from": "category",
+  "restore_date": "category",
+  "margin_cut": "Int64",
+  "margin_cum": "Int64",
+  "short_raise": "Int64",
+  "short_cum": "Int64"
+ },
+ "headers_seen": {
+  "date,stock_id,name,reason,adjust_from,restore_date,margin_cut,margin_cum,short_raise,short_cum": [
+   "2015-01-05",
+   "2026-11-20",
+   2895
+  ]
+ },
+ "duplicate_date_code_rows": 737505,
+ "non_numeric": {},
+ "calendar": "data/universe/daily 的檔名日期（同倉庫的日 K 交易日）",
+ "calendar_days_in_range": 2895,
+ "missing_days": [],
+ "n_missing_days": 0,
+ "empty_files": [],
+ "days_not_in_calendar": [],
+ "rows_per_day": {
+  "min": 82,
+  "median": 316.0,
+  "max": 571,
+  "min_day": "2015-06-16"
+ },
+ "rows_per_year": {
+  "2015": 39973,
+  "2016": 59891,
+  "2017": 63282,
+  "2018": 84602,
+  "2019": 94862,
+  "2020": 69889,
+  "2021": 70587,
+  "2022": 93839,
+  "2023": 93447,
+  "2024": 78436,
+  "2025": 95850,
+  "2026": 76040
+ },
+ "days_per_year": {
+  "2015": 244,
+  "2016": 244,
+  "2017": 246,
+  "2018": 247,
+  "2019": 242,
+  "2020": 245,
+  "2021": 244,
+  "2022": 246,
+  "2023": 239,
+  "2024": 242,
+  "2025": 243,
+  "2026": 213
+ }
+}
