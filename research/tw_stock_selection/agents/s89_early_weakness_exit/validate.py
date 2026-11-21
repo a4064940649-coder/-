@@ -8,11 +8,12 @@ import numpy as np, pandas as pd
 HERE = Path(__file__).resolve().parent
 DRY = '--dry' in sys.argv
 sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
-PSHA = sha(HERE / 'PREREG.json')
-assert PSHA == (HERE / 'PREREG.sha256').read_text().split()[0]
-for ln in (HERE / 'code.sha256').read_text().splitlines():
-    h, f = ln.split()
-    assert sha(HERE / f) == h, f'{f} 與登記時不同'
+PSHA = sha(HERE / 'PREREG.json') if (HERE / 'PREREG.json').exists() else None
+if not DRY:                                                 # --dry 可在登記前跑（只跑現行）
+    assert PSHA == (HERE / 'PREREG.sha256').read_text().split()[0]
+    for ln in (HERE / 'code.sha256').read_text().splitlines():
+        h, f = ln.split()
+        assert sha(HERE / f) == h, f'{f} 與登記時不同'
 sys.path.insert(0, str(HERE))
 import s89lib as L
 from s89lib import stlib, s2lib
