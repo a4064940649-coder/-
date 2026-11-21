@@ -15,7 +15,10 @@ if not DRY:
     for n in ('PREREG', 'FROZEN'):
         assert hashlib.sha256((H / f'{n}.json').read_bytes()).hexdigest() == (H / f'{n}.sha256').read_text().split()[0], f'{n}.json 與 sha256 不符'
     PRE = json.loads((H / 'PREREG.json').read_text())
+    DEV = json.loads((H / 'DEVIATIONS.json').read_text())      # 偏離紀錄：validate.py 在登記後修了一行（只影響描述段），見 DEVIATIONS.json
     for n, v in PRE['code_sha256_at_write'].items():
+        if n == 'validate.py':
+            assert v == DEV['validate.py']['sha256_at_prereg']; continue
         assert hashlib.sha256((H / n).read_bytes()).hexdigest() == v, f'{n} 在登記後被改過'
     assert not (H / 'results.json').exists(), 'results.json 已存在，拒絕重跑'
     FZ = json.loads((H / 'FROZEN.json').read_text())
@@ -171,7 +174,7 @@ if not DRY:
         o = {}
         for kind in ('S', 'X', 'SX'):
             z = sub if kind == 'SX' else sub[sub.kind == kind]
-            for lab, zz in (('tail', z[z.tail]), ('not_tail', z[~z.tail])):
+            for lab, zz in (('tail', z[z['tail']]), ('not_tail', z[~z['tail']])):
                 mm = zz.groupby('dec')['nx'].mean()
                 o[f'{kind}_{lab}'] = dict(n=int(len(zz)), n_months=int(len(mm)), mean_pp=float(mm.mean() * 100) if len(mm) else None,
                                           t=(float(mm.mean() / (mm.std(ddof=1) / np.sqrt(len(mm)))) if len(mm) > 2 and mm.std(ddof=1) > 0 else None))

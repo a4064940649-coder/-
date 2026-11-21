@@ -1,0 +1,9 @@
+{
+ "validate.py": {
+  "sha256_at_prereg": "f140069440657e5871c006992f3a3e254159b03ccf2a2ecfced530900cd25083",
+  "what": "驗證程式第一次執行在最後的「ETF 層級描述」段當掉（欄名 tail 與 pandas 方法同名，z.tail 取到方法）；當掉時 results.json 尚未寫出，畫面只印出進度列，沒有看到任何驗證期數字。為了看錯誤訊息又執行一次，同樣在同一行當掉、同樣沒有輸出數字。",
+  "fix": "把 z[z.tail]／z[~z.tail] 改成 z[z['tail']]／z[~z['tail']]（一行）；另把程式碼雜湊檢查改成對 validate.py 核對登記時的雜湊紀錄。判定段（V1～V4）、凍結格、準則一字未動。",
+  "runs": "驗證期完整跑完並寫出結果只有一次（第三次執行）。",
+  "sha256_after_fix": "5bdfb7e0e3e413d95c2cdf689e5f72e110153fe9caa96839aeb1b9a6362f1e7c"
+ }
+}
