@@ -257,6 +257,7 @@ L_MA 前 20 名：
 | 檔案 | 內容 |
 |---|---|
 | `live_surge/make_list.py` | 名單產生器：list、fill、holdings 三個子命令 |
+| `live_surge/make_list_v2.py` | 候選版（2026-11-21）：make_list.py 原樣複製＋ `--reduce-fix`（減資／面額變更恢復買賣日用事件參考價，預設關）。關閉時輸出與 make_list.py 逐位元相同；2026-11 名單開了也完全沒變。線上仍用 make_list.py；採用步驟見 `agents/eng_v2_candidate_and_site/plan.json` |
 | `validate_ref.py` | 驗收第一步：s10lib 重建 E0 訊號與主跑（快取在暫存區，已刪） |
 | `validate.py` | 驗收第二步：V1～V4 → `VALIDATION.json` |
 | `VALIDATION.json` | 驗收結果，含 2025-09、2026-08 明細與 V3 差異分類 |

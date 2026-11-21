@@ -1,0 +1,48 @@
+{
+ "說明": "文件修改建議（工程師不能寫 .md）。每筆的「原文片段」在該檔案中剛好出現一次（產生時已檢查）。新檔 README 的全文在 plan.json「任務一_候選版 → 1_新資料檔」。",
+ "筆數": 7,
+ "patches": [
+  {
+   "檔案": "xq_scripts/site/state/README.md",
+   "原文片段": "；上傳新檔後更新 datasets/<id> 的 source.url 與 updated）",
+   "建議改成": "；上傳新檔後更新 datasets/<id> 的 source.url 與 updated；2026-11-21 的新頁面另需 thermo＝`data/thermo.json`（環境溫度計，`make_thermo.py <輸出> <官方日K倉庫>` 產生，每天重產）、rules＝`data/rules.json`（照做須知 7 條，`agents/eng_v2_candidate_and_site/make_rules.py` 由 README 第 32.1 節產生），要在網站資料庫新增 `datasets/thermo`、`datasets/rules`；頁面在「風險提示」後面多「照做須知」「環境溫度計」兩個區塊，資料集不存在時只顯示「尚無資料」）",
+   "理由": "網站多兩個資料集與兩個區塊，上傳與每日更新步驟要記在同一行"
+  },
+  {
+   "檔案": "xq_scripts/README.md",
+   "原文片段": "- 出處：`agents/s83_environment_thermometer/`、`agents/r82_r83_replicate/`。",
+   "建議改成": "- 出處：`agents/s83_environment_thermometer/`、`agents/r82_r83_replicate/`。\n- 網站「環境溫度計」區塊（2026-11-21 加）：`xq_scripts/site/make_thermo.py` 每天用官方日 K 重算到最新股價日，輸出 `site/data/thermo.json`。2015-05 起由程式計算（算到 2026-10-22 時與研究存檔 138 個月逐月相同）；2008-01～2015-04 官方日 K 不夠，沿用研究存檔。上表的 2026-10-22 欄是當時的資料最後一天；10 月完整月（10-30）是 5.45%／3.14%／16.88%（右尾厚度回到溫，合成仍是熱）；2026-11 到 11-20 是 0.93%／4.24%／21.58%（飆股密度低於冷門檻，合成仍是熱，月份還沒結束）。",
+   "理由": "說明網站讀數的來源、驗證範圍，以及 10-22 與月底讀數不同的原因"
+  },
+  {
+   "檔案": "xq_scripts/README.md",
+   "原文片段": "- 出處：`agents/s82_big_winner_dependence/`、`agents/r82_r83_replicate/`。",
+   "建議改成": "- 出處：`agents/s82_big_winner_dependence/`、`agents/r82_r83_replicate/`。\n- 網站「照做須知」區塊（2026-11-21 加）直接讀上面這張表：`agents/eng_v2_candidate_and_site/make_rules.py` 逐字抽成 `site/data/rules.json`（第 6、7 條標「未獨立重現」）。**這張表的文字或數字有改，要重跑 make_rules.py 並重新上傳。**",
+   "理由": "表格現在是網站資料的來源，改表要記得重產"
+  },
+  {
+   "檔案": "research/tw_stock_selection/agents/s18_live_list/FINDINGS.md",
+   "原文片段": "| `live_surge/make_list.py` | 名單產生器：list、fill、holdings 三個子命令 |",
+   "建議改成": "| `live_surge/make_list.py` | 名單產生器：list、fill、holdings 三個子命令 |\n| `live_surge/make_list_v2.py` | 候選版（2026-11-21）：make_list.py 原樣複製＋ `--reduce-fix`（減資／面額變更恢復買賣日用事件參考價，預設關）。關閉時輸出與 make_list.py 逐位元相同；2026-11 名單開了也完全沒變。線上仍用 make_list.py；採用步驟見 `agents/eng_v2_candidate_and_site/plan.json` |",
+   "理由": "資料夾裡多了一個檔，要說明它不是線上用的"
+  },
+  {
+   "檔案": "xq_scripts/README.md",
+   "原文片段": "修正方案見 `research/tw_stock_selection/agents/eng_audit_fixes_2026-11/plan.json` 第 5 項（改用事件參考價的試算：48.76% → 48.91%）。",
+   "建議改成": "修正方案見 `research/tw_stock_selection/agents/eng_audit_fixes_2026-11/plan.json` 第 5 項（改用事件參考價的試算：48.76% → 48.91%）。2026-11-21 已做成候選版（**尚未採用，正式數字沒有換**）：引擎加了預設關的開關 `cslib.REDUCE_FIX` 與 `cslib.E50_SOURCE`（0050 含息序列改自建），候選管線 `agents/official_nav/run_official_v2.py` 兩項都開是 2019 起 48.86%、全期 34.46%、最大回撤 −31.61%、381 筆、20 條路徑中位數 46.42%，與稽核獨立複製逐日相同；切換步驟見 `agents/eng_v2_candidate_and_site/plan.json`。",
+   "理由": "引擎細節第 3 點補上候選版現況，免得讀者以為還只有方案"
+  },
+  {
+   "檔案": "research/tw_stock_selection/agents/r_fix_e50_reduce/FINDINGS.md",
+   "原文片段": "## 採用清單（若同意）",
+   "建議改成": "## 採用清單（若同意）\n（2026-11-21 工程已備好候選版：新資料檔 `raw/e50_tr_official/`、`raw/twse_reduce/`，cslib 開關，`official_nav/run_official_v2.py`，`live_surge/make_list_v2.py`；逐步切換清單與每一步的驗證見 `agents/eng_v2_candidate_and_site/plan.json`。以下是原清單。）",
+   "理由": "稽核報告的採用清單指到已備好的候選版與切換步驟"
+  },
+  {
+   "檔案": "research/tw_stock_selection/raw/twt49u/README.md",
+   "原文片段": "- 誰在讀：",
+   "建議改成": "- 相關封存（2026-11-21，候選，尚未採用）：`raw/twse_reduce/`（上市減資／面額變更恢復買賣參考價）、`raw/e50_tr_official/`（0050 含息序列，除息事件取自本封存與官方日 K 倉庫的聯集）。\n- 誰在讀：",
+   "理由": "三份事件／序列封存互相指路"
+  }
+ ]
+}

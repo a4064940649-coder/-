@@ -1,0 +1,120 @@
+--- /tmp/claude-0/-home-user/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/v2/index.html.before	2026-11-18 23:27:19.376877637 +0000
++++ xq_scripts/site/index.html	2026-11-21 07:25:01.862374317 +0000
+@@ -116,6 +116,24 @@
+ .mx .pill[hidden], .mx .calcrow[hidden], .mx .fact[hidden] { display: none; }
+ .mx .sumbox { margin: var(--cds-gap-sm) 0 0; padding: var(--cds-pad-sm) var(--cds-pad-md); border-left: 3px solid var(--color-border-line); background: var(--color-bg); border-radius: var(--cds-radius); line-height: 1.7; font-size: var(--cds-font-size-body); overflow-wrap: anywhere; }
+ .mx .warnbox:not([hidden]) + .tw, .mx .tw + .warnbox { margin-top: var(--cds-gap-sm); }
++/* 環境溫度計、照做須知 */
++.mx .pill.hot { color: var(--color-warn); border-color: var(--color-warn); font-weight: var(--cds-font-weight-medium); }
++.mx .pill.cold { color: var(--color-fg-muted); border-style: dashed; }
++.mx .pill.warm { color: var(--color-fg); }
++.mx td.th-hot::after, .mx td.th-cold::after, .mx td.th-warm::after { margin-left: 4px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
++.mx td.th-hot::after { content: "熱"; color: var(--color-warn); }
++.mx td.th-cold::after { content: "冷"; }
++.mx td.th-warm::after { content: "溫"; }
++.mx td.th-partial::after { content: "（未結束）"; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
++.mx .st-th-body, .mx .st-ru-body { display: grid; gap: var(--cds-gap-sm); min-width: 0; }
++.mx .st-th-body[hidden], .mx .st-ru-body[hidden] { display: none; }
++.mx .st-th-body .facts, .mx .st-th-body .note, .mx .st-ru-body .note, .mx .st-ru-body .sumbox { margin-top: 0; }
++.mx .st-th-body h3 { margin: var(--cds-gap-xs) 0 0; }
++.mx ol.rules { margin: 0; padding-left: 1.5em; display: grid; gap: var(--cds-gap-sm); line-height: 1.7; max-width: 80ch; }
++.mx ol.rules .rule-h { display: flex; flex-wrap: wrap; gap: 2px var(--cds-gap-sm); align-items: baseline; }
++.mx ol.rules .rule-h b { overflow-wrap: anywhere; min-width: 0; }
++.mx ol.rules .rule-h .pill { white-space: normal; }
++.mx ol.rules .why { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); overflow-wrap: anywhere; }
+ </style>
+ 
+ <div class="mx">
+@@ -340,6 +358,41 @@
+     <p class="note">出處：研究中心回測（xq_scripts/README.md 第 12、14、15、16 節，底倉衛星操作說明第 1、5 節；嚴成本、只上市、排除創新板）。最差年份由逐年報酬算出。回測不保證未來。</p>
+   </section>
+ 
++  <section class="card" id="rules">
++    <h2>照做須知：這個策略靠少數大贏家</h2>
++    <p class="note st-ru-empty" hidden>尚無資料</p>
++    <p class="note st-ru-err" hidden>無法載入</p>
++    <div class="st-ru-body">
++      <p class="sumbox st-ru-sum" hidden><span data-draw="ru-sum" data-source="rules">—</span></p>
++      <ol class="rules" data-draw="rules" data-source="rules"></ol>
++      <p class="note">每一條後面標了數字有沒有經過獨立重現；標「未獨立重現」的只有原研究算過一次，參考就好。都是歷史回測，不保證未來；這不是投資建議。</p>
++    </div>
++  </section>
++
++  <section class="card" id="thermo">
++    <h2>環境溫度計：現在市場上飆股多不多</h2>
++    <p class="note st-th-empty" hidden>尚無資料</p>
++    <p class="note st-th-err" hidden>無法載入</p>
++    <div class="st-th-body">
++      <p class="warnbox"><b>只描述當下，不能拿來進出場。</b>它不能預告下個月；讀數冷的時候只是把期望放低，不是停掉策略。</p>
++      <div class="facts">
++        <div class="fact"><div class="k">現在的環境（<span data-draw="th-txt" data-source="thermo_now" data-field="月份" data-row="0">—</span>）</div><div class="v"><span class="pill" data-draw="th-st" data-source="thermo_now" data-field="合成狀態" data-row="0">—</span></div><div class="sub">已連續 <span data-draw="th-run" data-source="thermo_now" data-field="連續月數" data-row="0">—</span> 個月<span class="st-th-partial" hidden>（含還沒結束的這個月）</span></div></div>
++        <div class="fact"><div class="k">飆股密度</div><div class="v"><span data-draw="th-val" data-source="thermo_now" data-field="飆股密度%" data-row="0">—</span> <span class="pill" data-draw="th-st" data-source="thermo_now" data-field="飆股密度_狀態" data-row="0">—</span></div><div class="sub">冷 &lt; <span data-draw="th-val" data-source="thermo_now" data-field="飆股密度_冷門檻%" data-row="0">—</span>｜熱 &gt; <span data-draw="th-val" data-source="thermo_now" data-field="飆股密度_熱門檻%" data-row="0">—</span></div></div>
++        <div class="fact"><div class="k">大漲家數比例</div><div class="v"><span data-draw="th-val" data-source="thermo_now" data-field="大漲家數比例%" data-row="0">—</span> <span class="pill" data-draw="th-st" data-source="thermo_now" data-field="大漲家數比例_狀態" data-row="0">—</span></div><div class="sub">冷 &lt; <span data-draw="th-val" data-source="thermo_now" data-field="大漲家數比例_冷門檻%" data-row="0">—</span>｜熱 &gt; <span data-draw="th-val" data-source="thermo_now" data-field="大漲家數比例_熱門檻%" data-row="0">—</span></div></div>
++        <div class="fact"><div class="k">右尾厚度</div><div class="v"><span data-draw="th-val" data-source="thermo_now" data-field="右尾厚度%" data-row="0">—</span> <span class="pill" data-draw="th-st" data-source="thermo_now" data-field="右尾厚度_狀態" data-row="0">—</span></div><div class="sub">冷 &lt; <span data-draw="th-val" data-source="thermo_now" data-field="右尾厚度_冷門檻%" data-row="0">—</span>｜熱 &gt; <span data-draw="th-val" data-source="thermo_now" data-field="右尾厚度_熱門檻%" data-row="0">—</span></div></div>
++        <div class="fact"><div class="k">資料日期（收盤）</div><div class="v" data-draw="th-txt" data-source="thermo_now" data-field="資料日" data-row="0">—</div><div class="sub"><span class="st-th-partial" hidden>這個月還沒結束，月底讀數可能不同</span><span class="st-th-full" hidden>完整月（月底）</span></div></div>
++      </div>
++      <h3>最近 12 個月</h3>
++      <div class="tw">
++        <table data-source="thermo" data-row-key="月份">
++          <thead><tr><th class="l" data-field="月份">月份</th><th class="l" data-field="合成狀態">合成</th><th data-field="飆股密度%">飆股密度</th><th data-field="大漲家數比例%">大漲家數比例</th><th data-field="右尾厚度%">右尾厚度</th></tr></thead>
++          <tbody data-draw="thermo"></tbody>
++        </table>
++      </div>
++      <p class="note">每個月最後一個交易日收盤後算，最新的在最上面；還沒結束的月份只算到資料日期，月底讀數可能不同。股池＝上市、非創新板、60 日均成交值 1,000 萬以上、股價 10 元以上。飆股密度＝近 63 個交易日含息漲幅超過 50% 的檔數比例；大漲家數比例＝近 21 個交易日，每天單日漲幅 6.5% 以上檔數比例的平均；右尾厚度＝近 21 個交易日個股報酬第 95 百分位減中位數。每項高於熱門檻標「熱」、低於冷門檻標「冷」、中間標「溫」；合成＝三項裡至少兩項熱就是熱、至少兩項冷就是冷、其餘是溫。門檻只用 2008～2015 的資料訂。<span class="st-th-hist" hidden><span data-draw="th-hist" data-source="thermo">—</span></span></p>
++    </div>
++  </section>
++
+   <section class="card" id="top20">
+     <h2>本月排名前 20（季線上、依 SURGE）</h2>
+     <div class="tw">
+@@ -671,6 +724,50 @@
+   dash.draw('worst-ret', (el) => { const v = wy('現行策略'); el.textContent = v === null ? '—' : fmt(v, 1) + '%'; });
+   dash.draw('worst-etf', (el) => { const v = wy('0050'); el.textContent = v === null ? '—' : fmt(v, 1) + '%'; });
+ 
++  // ---------- 環境溫度計（資料集 thermo；只描述當下，不能拿來進出場）、照做須知（資料集 rules） ----------
++  dash.calc('thermo_now', { inputs: ['thermo'], title: '環境溫度計：最新一個月', description: '溫度計資料的最後一列（最新月份；月份還沒結束時只算到資料日）',
++    fn: (thermo) => (thermo.length ? [thermo[thermo.length - 1]] : []) });
++  // 資料集狀態：empty＝沒有這個資料集或沒有列；err＝載入失敗；其餘（含載入中）照常畫，缺的值顯示「—」
++  const dsState = (id) => { const s = dash.data(id); if (s.status === 'error') return 'err'; return s.status === 'missing' || (s.status === 'ok' && !(Array.isArray(s.data) && s.data.length)) ? 'empty' : 'ok'; };
++  const thNow = () => { const s = dash.data('thermo_now'); return s.status === 'ok' && Array.isArray(s.data) && s.data[0] ? s.data[0] : null; };
++  const pc2 = (v) => { const n = nv(v); return n === null ? '—' : n.toFixed(2) + '%'; };
++  const thTone = (el, s) => { ['hot', 'cold', 'warm'].forEach((c, i) => el.classList.toggle(c, s === ['熱', '冷', '溫'][i])); };
++  const fieldOf = (el) => el.getAttribute('data-field') || '';
++  dash.onData(() => {
++    const show = (sel, on) => document.querySelectorAll(sel).forEach((el) => { el.hidden = !on; });
++    const th = dsState('thermo'), ru = dsState('rules');
++    show('.mx .st-th-empty', th === 'empty'); show('.mx .st-th-err', th === 'err'); show('.mx .st-th-body', th === 'ok');
++    show('.mx .st-ru-empty', ru === 'empty'); show('.mx .st-ru-err', ru === 'err'); show('.mx .st-ru-body', ru === 'ok');
++    const t = rowsOf('thermo'); const r = t && t.length ? t[t.length - 1] : null; const full = r ? r['完整月'] : null;
++    show('.mx .st-th-partial', full === '否'); show('.mx .st-th-full', full === '是');
++    show('.mx .st-th-hist', th === 'ok' && !!metaOf('thermo', '歷史對照'));
++    show('.mx .st-ru-sum', ru === 'ok' && !!metaOf('rules', '摘要'));
++  });
++  dash.draw('th-txt', (el) => { const r = thNow(); el.textContent = r ? txt(r[fieldOf(el)]) : '—'; });
++  dash.draw('th-val', (el) => { const r = thNow(); el.textContent = r ? pc2(r[fieldOf(el)]) : '—'; });
++  dash.draw('th-st', (el) => { const r = thNow(); const s = r ? txt(r[fieldOf(el)]) : '—'; el.textContent = s; thTone(el, s); });
++  dash.draw('th-run', (el) => { const r = thNow(); const n = r ? nv(r['連續月數']) : null; el.textContent = n === null ? '—' : n.toFixed(0); });
++  dash.draw('th-hist', (el) => { el.textContent = metaOf('thermo', '歷史對照') || '—'; });
++  const thCell = (k) => (v, r, td) => { const s = r[k + '_狀態']; if (s === '熱' || s === '冷' || s === '溫') td.classList.add(s === '熱' ? 'th-hot' : s === '冷' ? 'th-cold' : 'th-warm'); return pc2(v); };
++  dash.draw('thermo', (tb) => fillTable(tb, 'thermo', { key: '月份', list: [
++    ['月份', 'l', (v, r, td) => { if (String(r['完整月']) === '否') td.classList.add('th-partial'); return txt(v); }],
++    ['合成狀態', 'l', (v) => { const sp = mk('span', 'pill', txt(v)); thTone(sp, v); return sp; }],
++    ['飆股密度%', '', thCell('飆股密度')], ['大漲家數比例%', '', thCell('大漲家數比例')], ['右尾厚度%', '', thCell('右尾厚度')]], order: (d) => d.slice(-12).reverse() }));
++  dash.draw('ru-sum', (el) => { el.textContent = metaOf('rules', '摘要') || '—'; });
++  dash.draw('rules', (ol) => {
++    ol.replaceChildren(); const t = rowsOf('rules'); if (!t) return;
++    rank(t, (r) => nv(r['編號']) || 0).forEach((r) => {
++      const where = '編號=' + encodeURIComponent(String(r['編號']));
++      const mark = (el, f) => { el.setAttribute('data-source', 'rules'); el.setAttribute('data-field', f); el.setAttribute('data-where', where); return el; };
++      const li = mk('li'); const head = mk('div', 'rule-h');
++      head.appendChild(mark(mk('b', '', txt(r['須知'])), '須知'));
++      const st = r['重現狀態'];
++      if (st !== null && st !== undefined && st !== '') head.appendChild(mark(mk('span', 'pill ' + (String(r['已獨立重現']) === '否' ? 'plan' : 'hold'), String(st)), '重現狀態'));
++      const why = mk('div', 'why', '依據：'); why.appendChild(mark(mk('span', '', txt(r['依據'])), '依據'));
++      li.append(head, why); ol.appendChild(li);
++    });
++  });
++
+   // ---------- 圖 ----------
+   const P = d3.utcParse('%Y-%m-%d');
+   function placeTip(box, tip, cx, W) { const bw = box.clientWidth, sx = bw / W; tip.hidden = false; const tw = tip.offsetWidth || 160; let left = cx * sx + 12; if (left + tw > bw) left = Math.max(0, cx * sx - tw - 12); tip.style.left = left + 'px'; tip.style.top = '8px'; }

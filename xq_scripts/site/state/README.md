@@ -68,7 +68,7 @@
     - 「本月換股清單」加帳戶股數、成交日、成交價、金額、備註（空值顯示「—」）。
     - 「每檔持股貢獻」（calc `contrib`）改成 損益金額 ÷ 合計列成本金額（起始資金），排除現金／合計列，加總＝累計損益%；舊資料沒有損益金額時退回舊算法。
     - 缺欄位、舊資料或資料集載入失敗時顯示「—」，頁面其他部分照常。在新頁面上傳之前，線上舊頁面配新 holdings 會多出「現金」「合計」兩列、大部分欄是「—」。
-- 網站：https://claude.ai/artifact/BB8g52evYQx8gSKGXyECnk（資料集 status、actions、holdings、top20、nav、yearly、live、risk；2026-11-19 的新頁面另需 trades＝`data/trades.json`，要在網站資料庫新增 `datasets/trades`；上傳新檔後更新 datasets/<id> 的 source.url 與 updated）
+- 網站：https://claude.ai/artifact/BB8g52evYQx8gSKGXyECnk（資料集 status、actions、holdings、top20、nav、yearly、live、risk；2026-11-19 的新頁面另需 trades＝`data/trades.json`，要在網站資料庫新增 `datasets/trades`；上傳新檔後更新 datasets/<id> 的 source.url 與 updated；2026-11-21 的新頁面另需 thermo＝`data/thermo.json`（環境溫度計，`make_thermo.py <輸出> <官方日K倉庫>` 產生，每天重產）、rules＝`data/rules.json`（照做須知 7 條，`agents/eng_v2_candidate_and_site/make_rules.py` 由 README 第 32.1 節產生），要在網站資料庫新增 `datasets/thermo`、`datasets/rules`；頁面在「風險提示」後面多「照做須知」「環境溫度計」兩個區塊，資料集不存在時只顯示「尚無資料」）
 
 ## 2026-11-16 產品擁有者的選擇
 - 目前沒有持股，選 **A：不在月中進場，等 2026-12-11 收盤後的名單，2026-12-14 開盤照名單買進**（從空手開始）。
