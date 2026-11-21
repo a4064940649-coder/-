@@ -1,0 +1,1180 @@
+{
+ "v1": {
+  "S7": {
+   "late1_cost_5cap_median_pp": 3.7,
+   "late2_cost_5cap_median_pp": 6.16,
+   "late1_cost_100w_pp": 3.88,
+   "late2_cost_100w_pp": 6.45,
+   "late2_maxdd": -35.25
+  },
+  "S9": {
+   "late_median": 42.94,
+   "late_p10": 40.17,
+   "late_dd_median": -32.7,
+   "late_dd_p10": -36.4,
+   "ontime_intercept": 46.55,
+   "ontime_slope": -1.08,
+   "A10_paths20_median": 46.4,
+   "A10_paths20_dd_median": -33.39
+  },
+  "S27": {
+   "A_now": 15.04,
+   "E_now": -7.1,
+   "B_now": 33.51,
+   "C_now": -5.37,
+   "C_now_daily": -10.63,
+   "D_now": 9,
+   "thresholds": {
+    "A": -0.08,
+    "B": -0.26,
+    "C": -0.2991,
+    "D": 50,
+    "E": -0.24
+   },
+   "range1y_median": 30.04,
+   "range1y_p10_p90": [
+    0.44,
+    99.37
+   ],
+   "p_lose_1y": 24.18,
+   "false_alarm_5y": {
+    "A": 7.76,
+    "B": 8.08,
+    "C": 8.95,
+    "E": 9.35
+   },
+   "red_false_alarm_5y": 6.63,
+   "any_12m_behind_5y": 97.04,
+   "hist": {
+    "A": {
+     "paths_triggered": 0,
+     "current_median": 0.1145,
+     "current_worst": 0.0671,
+     "worst_value_median": -0.0112,
+     "worst_value_worst": -0.0346
+    },
+    "B": {
+     "paths_triggered": 0,
+     "current_median": 0.3354,
+     "current_worst": 0.2247,
+     "worst_value_median": -0.1328,
+     "worst_value_worst": -0.1534
+    },
+    "C": {
+     "paths_triggered": 0,
+     "current_median": -0.0595,
+     "current_worst": -0.0736,
+     "worst_value_median": -0.2586,
+     "worst_value_worst": -0.2791
+    },
+    "D": {
+     "paths_triggered": 2,
+     "current_median": 9.0,
+     "current_worst": 9,
+     "worst_value_median": 26.0,
+     "worst_value_worst": 50
+    },
+    "E": {
+     "paths_triggered": 0,
+     "current_median": -0.0615,
+     "current_worst": -0.1377,
+     "worst_value_median": -0.1722,
+     "worst_value_worst": -0.1933
+    }
+   }
+  },
+  "S42": {
+   "neutral": 41.79,
+   "neutral_maxdd": -34.81,
+   "neutral_maxdd_p10": -37.53,
+   "neutral_full": 29.23,
+   "half": 36.09,
+   "half_maxdd": -36.65,
+   "conservative": 33.98,
+   "conservative_maxdd": -39.87,
+   "optimistic": 45.42,
+   "optimistic_maxdd": -34.75,
+   "cur_std_since2019": 48.76,
+   "bench_since2019": 28.91,
+   "bench_maxdd": -33.96,
+   "stack": [
+    {
+     "step": "現行回測（除權息修正後，準時、每邊 0.3%）",
+     "since2019_median": 46.4,
+     "d_vs_CUR_pp": 0.0
+    },
+    {
+     "step": "＋S39 首次公布營收（FPM）",
+     "since2019_median": 45.42,
+     "d_vs_CUR_pp": -0.98
+    },
+    {
+     "step": "＋S40 期限前視（ALL）＝COMB",
+     "since2019_median": 45.42,
+     "d_vs_CUR_pp": -0.98
+    },
+    {
+     "step": "＋每邊滑價 0.4%",
+     "since2019_median": 44.52,
+     "d_vs_CUR_pp": -1.89
+    },
+    {
+     "step": "＋每邊滑價 0.5%",
+     "since2019_median": 43.63,
+     "d_vs_CUR_pp": -2.77
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.3%",
+     "since2019_median": 42.56,
+     "d_vs_CUR_pp": -3.85
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.4%",
+     "since2019_median": 41.79,
+     "d_vs_CUR_pp": -4.61
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.5%",
+     "since2019_median": 40.62,
+     "d_vs_CUR_pp": -5.78
+    }
+   ],
+   "paired_effects": {
+    "slip_0.004_vs_0.003_since2019_pp": -0.85,
+    "slip_0.005_vs_0.003_since2019_pp": -1.72,
+    "A11_vs_A10_since2019_pp": -2.34,
+    "A12_vs_A10_since2019_pp": -3.98,
+    "A13_vs_A10_since2019_pp": -4.53,
+    "A15_vs_A10_since2019_pp": -3.14,
+    "CUR_LATE_minus_ON_median_pp": -3.46,
+    "COMB_LATE_minus_ON_median_pp": -2.87
+   },
+   "acceptance": {
+    "A3_A10_av_equal": true,
+    "FPM_rows_before_2024_06_identical": true,
+    "A0": {
+     "since2019": 0.4875617247721724,
+     "full": 0.3439657562340761,
+     "maxdd": -0.32119049020243395,
+     "n_closed": 381,
+     "ok": false
+    },
+    "A1_FPM": {
+     "window_2024_07": 0.6083614189402113,
+     "d_window_pp": -0.7678217193255898,
+     "since2019": 0.4854638720974145,
+     "paths20_window_diff_median_pp": -0.9054454576959858,
+     "s39_reported": {
+      "window": 0.61171,
+      "since2019": 0.48779,
+      "paths_median_pp": -0.9298
+     },
+     "ok": false
+    },
+    "A2_ALL": {
+     "since2019": 0.4875617247721724,
+     "d_since2019_pp": 0.0,
+     "paths20_since2019_diff_median_pp": 0.0,
+     "s40_reported": {
+      "since2019": 0.48756,
+      "paths_median_pp": -0.3459
+     },
+     "ok": false
+    },
+    "A3_COMB_first_nav_diff_date": "2025-06-12",
+    "A3_COMB_identical_before_2019_01_signal": true
+   }
+  },
+  "S42FPM": {
+   "d_window_pp": -0.77,
+   "paths20_window_diff_median_pp": -0.91,
+   "paths20_window_diff_min_pp": -5.16,
+   "paths20_window_diff_max_pp": -0.73,
+   "n_lower": 20,
+   "FPM_window": 60.84
+  },
+  "S46": {
+   "all_paths_median": 40.42,
+   "all_paths_p10": 35.94,
+   "n_all_paths": 900,
+   "current_rank": 1,
+   "current_minus_median_pp": 6.25,
+   "family_median": 40.15,
+   "best": "g10_L20_D10",
+   "current_main_since2019": 48.76,
+   "current_paths_median": 46.4,
+   "current_n_closed": 381
+  },
+  "S62": {
+   "bench_since2019": 28.91,
+   "B_基準|10萬": 43.57,
+   "B_基準|10萬|excess_pp": 14.66,
+   "B_基準|100萬": 45.45,
+   "B_基準|100萬|excess_pp": 16.54,
+   "D_只買整張|10萬": 29.38,
+   "D_只買整張|10萬|excess_pp": 0.47,
+   "D_只買整張|100萬": 41.13,
+   "D_只買整張|100萬|excess_pp": 12.22,
+   "R0_現行嚴成本|10萬": 45.99,
+   "R0_現行嚴成本|10萬|excess_pp": 17.08,
+   "R0_現行嚴成本|100萬": 46.7,
+   "R0_現行嚴成本|100萬|excess_pp": 17.79
+  },
+  "S39": {
+   "paths_pairs_FPM": {
+    "median_pp": -0.929842322570984,
+    "mean_pp": -1.885546725466091,
+    "min_pp": -5.206540584800923,
+    "max_pp": -0.7396088017349811,
+    "n_lower": 20,
+    "n_higher": 0,
+    "n_equal": 0
+   },
+   "window": [
+    "2024-06-28",
+    "2026-10-22"
+   ],
+   "CUR_since2019": 48.99,
+   "CUR_window": 61.95,
+   "FPM_window": 61.17,
+   "d_window_pp": -0.78,
+   "d_maxdd_window_pp": 0.0,
+   "d_since2019_pp": -0.21,
+   "paths_median_cagr": {
+    "CUR": 0.5752452279411595,
+    "FPM": 0.546259276893461,
+    "FPA": 0.548366911848002
+   }
+  }
+ },
+ "v2": {
+  "S7": {
+   "late1_cost_5cap_median_pp": 3.72,
+   "late2_cost_5cap_median_pp": 6.31,
+   "late1_cost_100w_pp": 3.9,
+   "late2_cost_100w_pp": 6.6,
+   "late2_maxdd": -35.25
+  },
+  "S9": {
+   "late_median": 42.96,
+   "late_p10": 40.14,
+   "late_dd_median": -32.41,
+   "late_dd_p10": -36.36,
+   "ontime_intercept": 46.59,
+   "ontime_slope": -1.09,
+   "A10_paths20_median": 46.42,
+   "A10_paths20_dd_median": -33.13
+  },
+  "S27": {
+   "A_now": 15.64,
+   "E_now": -6.82,
+   "B_now": 34.03,
+   "C_now": -5.27,
+   "C_now_daily": -10.58,
+   "D_now": 9,
+   "thresholds": {
+    "A": -0.08,
+    "B": -0.26,
+    "C": -0.2991,
+    "D": 50,
+    "E": -0.24
+   },
+   "range1y_median": 30.01,
+   "range1y_p10_p90": [
+    0.44,
+    99.33
+   ],
+   "p_lose_1y": 24.04,
+   "false_alarm_5y": {
+    "A": 7.52,
+    "B": 7.76,
+    "C": 8.88,
+    "E": 8.96
+   },
+   "red_false_alarm_5y": 6.32,
+   "any_12m_behind_5y": 96.99,
+   "hist": {
+    "A": {
+     "paths_triggered": 0,
+     "current_median": 0.118,
+     "current_worst": 0.0684,
+     "worst_value_median": -0.0112,
+     "worst_value_worst": -0.0347
+    },
+    "B": {
+     "paths_triggered": 0,
+     "current_median": 0.3406,
+     "current_worst": 0.2279,
+     "worst_value_median": -0.129,
+     "worst_value_worst": -0.1458
+    },
+    "C": {
+     "paths_triggered": 0,
+     "current_median": -0.0586,
+     "current_worst": -0.0731,
+     "worst_value_median": -0.2586,
+     "worst_value_worst": -0.2791
+    },
+    "D": {
+     "paths_triggered": 2,
+     "current_median": 9.0,
+     "current_worst": 9,
+     "worst_value_median": 26.0,
+     "worst_value_worst": 50
+    },
+    "E": {
+     "paths_triggered": 0,
+     "current_median": -0.0588,
+     "current_worst": -0.1357,
+     "worst_value_median": -0.1721,
+     "worst_value_worst": -0.1934
+    }
+   }
+  },
+  "S42": {
+   "neutral": 41.71,
+   "neutral_maxdd": -34.6,
+   "neutral_maxdd_p10": -37.27,
+   "neutral_full": 29.22,
+   "half": 36.08,
+   "half_maxdd": -36.57,
+   "conservative": 33.95,
+   "conservative_maxdd": -39.83,
+   "optimistic": 45.37,
+   "optimistic_maxdd": -34.75,
+   "cur_std_since2019": 48.86,
+   "bench_since2019": 28.82,
+   "bench_maxdd": -33.96,
+   "stack": [
+    {
+     "step": "現行回測（除權息修正後，準時、每邊 0.3%）",
+     "since2019_median": 46.42,
+     "d_vs_CUR_pp": 0.0
+    },
+    {
+     "step": "＋S39 首次公布營收（FPM）",
+     "since2019_median": 45.37,
+     "d_vs_CUR_pp": -1.05
+    },
+    {
+     "step": "＋S40 期限前視（ALL）＝COMB",
+     "since2019_median": 45.37,
+     "d_vs_CUR_pp": -1.05
+    },
+    {
+     "step": "＋每邊滑價 0.4%",
+     "since2019_median": 44.46,
+     "d_vs_CUR_pp": -1.96
+    },
+    {
+     "step": "＋每邊滑價 0.5%",
+     "since2019_median": 43.61,
+     "d_vs_CUR_pp": -2.81
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.3%",
+     "since2019_median": 42.52,
+     "d_vs_CUR_pp": -3.9
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.4%",
+     "since2019_median": 41.71,
+     "d_vs_CUR_pp": -4.71
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.5%",
+     "since2019_median": 40.59,
+     "d_vs_CUR_pp": -5.83
+    }
+   ],
+   "paired_effects": {
+    "slip_0.004_vs_0.003_since2019_pp": -0.85,
+    "slip_0.005_vs_0.003_since2019_pp": -1.71,
+    "A11_vs_A10_since2019_pp": -2.49,
+    "A12_vs_A10_since2019_pp": -4.14,
+    "A13_vs_A10_since2019_pp": -4.68,
+    "A15_vs_A10_since2019_pp": -3.29,
+    "CUR_LATE_minus_ON_median_pp": -3.46,
+    "COMB_LATE_minus_ON_median_pp": -2.85
+   },
+   "acceptance": {
+    "A3_A10_av_equal": true,
+    "FPM_rows_before_2024_06_identical": true,
+    "A0": {
+     "since2019": 0.4886246519182116,
+     "full": 0.3446294016617564,
+     "maxdd": -0.3160938700293674,
+     "n_closed": 381,
+     "ok": false
+    },
+    "A1_FPM": {
+     "window_2024_07": 0.6121976443705301,
+     "d_window_pp": -0.7742313191879013,
+     "since2019": 0.4865128511460395,
+     "paths20_window_diff_median_pp": -0.9081560553263812,
+     "s39_reported": {
+      "window": 0.61171,
+      "since2019": 0.48779,
+      "paths_median_pp": -0.9298
+     },
+     "ok": false
+    },
+    "A2_ALL": {
+     "since2019": 0.4886246519182116,
+     "d_since2019_pp": 0.0,
+     "paths20_since2019_diff_median_pp": 0.0,
+     "s40_reported": {
+      "since2019": 0.48756,
+      "paths_median_pp": -0.3459
+     },
+     "ok": false
+    },
+    "A3_COMB_first_nav_diff_date": "2025-06-12",
+    "A3_COMB_identical_before_2019_01_signal": true
+   }
+  },
+  "S42FPM": {
+   "d_window_pp": -0.77,
+   "paths20_window_diff_median_pp": -0.91,
+   "paths20_window_diff_min_pp": -5.16,
+   "paths20_window_diff_max_pp": -0.71,
+   "n_lower": 20,
+   "FPM_window": 61.22
+  }
+ },
+ "errors": {
+  "S64_v1": "FileNotFoundError(2, 'No such file or directory')",
+  "S46_v2": "FileNotFoundError(2, 'No such file or directory')",
+  "S62_v2": "FileNotFoundError(2, 'No such file or directory')",
+  "S64_v2": "FileNotFoundError(2, 'No such file or directory')",
+  "S39_v2": "FileNotFoundError(2, 'No such file or directory')"
+ },
+ "v1_p4": {
+  "S7": {
+   "late1_cost_5cap_median_pp": 3.6969,
+   "late2_cost_5cap_median_pp": 6.1632,
+   "late1_cost_100w_pp": 3.8786,
+   "late2_cost_100w_pp": 6.4523,
+   "late2_maxdd": -35.2521
+  },
+  "S9": {
+   "late_median": 42.9437,
+   "late_p10": 40.1676,
+   "late_dd_median": -32.7009,
+   "late_dd_p10": -36.4009,
+   "ontime_intercept": 46.5538,
+   "ontime_slope": -1.0826,
+   "A10_paths20_median": 46.4022,
+   "A10_paths20_dd_median": -33.3875
+  },
+  "S27": {
+   "A_now": 15.04,
+   "E_now": -7.1,
+   "B_now": 33.51,
+   "C_now": -5.37,
+   "C_now_daily": -10.6261,
+   "D_now": 9,
+   "thresholds": {
+    "A": -0.08,
+    "B": -0.26,
+    "C": -0.2991,
+    "D": 50,
+    "E": -0.24
+   },
+   "range1y_median": 30.04,
+   "range1y_p10_p90": [
+    0.44,
+    99.37
+   ],
+   "p_lose_1y": 24.18,
+   "false_alarm_5y": {
+    "A": 7.76,
+    "B": 8.08,
+    "C": 8.95,
+    "E": 9.35
+   },
+   "red_false_alarm_5y": 6.63,
+   "any_12m_behind_5y": 97.04,
+   "hist": {
+    "A": {
+     "paths_triggered": 0,
+     "current_median": 0.1145,
+     "current_worst": 0.0671,
+     "worst_value_median": -0.0112,
+     "worst_value_worst": -0.0346
+    },
+    "B": {
+     "paths_triggered": 0,
+     "current_median": 0.3354,
+     "current_worst": 0.2247,
+     "worst_value_median": -0.1328,
+     "worst_value_worst": -0.1534
+    },
+    "C": {
+     "paths_triggered": 0,
+     "current_median": -0.0595,
+     "current_worst": -0.0736,
+     "worst_value_median": -0.2586,
+     "worst_value_worst": -0.2791
+    },
+    "D": {
+     "paths_triggered": 2,
+     "current_median": 9.0,
+     "current_worst": 9,
+     "worst_value_median": 26.0,
+     "worst_value_worst": 50
+    },
+    "E": {
+     "paths_triggered": 0,
+     "current_median": -0.0615,
+     "current_worst": -0.1377,
+     "worst_value_median": -0.1722,
+     "worst_value_worst": -0.1933
+    }
+   }
+  },
+  "S42": {
+   "neutral": 41.7924,
+   "neutral_maxdd": -34.8071,
+   "neutral_maxdd_p10": -37.5296,
+   "neutral_full": 29.2301,
+   "half": 36.087,
+   "half_maxdd": -36.6538,
+   "conservative": 33.9808,
+   "conservative_maxdd": -39.867,
+   "optimistic": 45.423,
+   "optimistic_maxdd": -34.7498,
+   "cur_std_since2019": 48.7562,
+   "bench_since2019": 28.9092,
+   "bench_maxdd": -33.957,
+   "stack": [
+    {
+     "step": "現行回測（除權息修正後，準時、每邊 0.3%）",
+     "since2019_median": 46.4023,
+     "d_vs_CUR_pp": 0.0
+    },
+    {
+     "step": "＋S39 首次公布營收（FPM）",
+     "since2019_median": 45.423,
+     "d_vs_CUR_pp": -0.9794
+    },
+    {
+     "step": "＋S40 期限前視（ALL）＝COMB",
+     "since2019_median": 45.423,
+     "d_vs_CUR_pp": -0.9794
+    },
+    {
+     "step": "＋每邊滑價 0.4%",
+     "since2019_median": 44.5157,
+     "d_vs_CUR_pp": -1.8866
+    },
+    {
+     "step": "＋每邊滑價 0.5%",
+     "since2019_median": 43.6284,
+     "d_vs_CUR_pp": -2.774
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.3%",
+     "since2019_median": 42.5559,
+     "d_vs_CUR_pp": -3.8465
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.4%",
+     "since2019_median": 41.7924,
+     "d_vs_CUR_pp": -4.61
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.5%",
+     "since2019_median": 40.6231,
+     "d_vs_CUR_pp": -5.7793
+    }
+   ],
+   "paired_effects": {
+    "slip_0.004_vs_0.003_since2019_pp": -0.8502,
+    "slip_0.005_vs_0.003_since2019_pp": -1.7154,
+    "A11_vs_A10_since2019_pp": -2.342,
+    "A12_vs_A10_since2019_pp": -3.9772,
+    "A13_vs_A10_since2019_pp": -4.5277,
+    "A15_vs_A10_since2019_pp": -3.1354,
+    "CUR_LATE_minus_ON_median_pp": -3.4586,
+    "COMB_LATE_minus_ON_median_pp": -2.8671
+   },
+   "acceptance": {
+    "A3_A10_av_equal": true,
+    "FPM_rows_before_2024_06_identical": true,
+    "A0": {
+     "since2019": 0.4875617247721724,
+     "full": 0.3439657562340761,
+     "maxdd": -0.32119049020243395,
+     "n_closed": 381,
+     "ok": false
+    },
+    "A1_FPM": {
+     "window_2024_07": 0.6083614189402113,
+     "d_window_pp": -0.7678217193255898,
+     "since2019": 0.4854638720974145,
+     "paths20_window_diff_median_pp": -0.9054454576959858,
+     "s39_reported": {
+      "window": 0.61171,
+      "since2019": 0.48779,
+      "paths_median_pp": -0.9298
+     },
+     "ok": false
+    },
+    "A2_ALL": {
+     "since2019": 0.4875617247721724,
+     "d_since2019_pp": 0.0,
+     "paths20_since2019_diff_median_pp": 0.0,
+     "s40_reported": {
+      "since2019": 0.48756,
+      "paths_median_pp": -0.3459
+     },
+     "ok": false
+    },
+    "A3_COMB_first_nav_diff_date": "2025-06-12",
+    "A3_COMB_identical_before_2019_01_signal": true
+   }
+  },
+  "S42FPM": {
+   "d_window_pp": -0.7678,
+   "paths20_window_diff_median_pp": -0.9054,
+   "paths20_window_diff_min_pp": -5.1614,
+   "paths20_window_diff_max_pp": -0.7349,
+   "n_lower": 20,
+   "FPM_window": 60.8361
+  },
+  "S46": {
+   "all_paths_median": 40.4241,
+   "all_paths_p10": 35.9373,
+   "n_all_paths": 900,
+   "current_rank": 1,
+   "current_minus_median_pp": 6.2532,
+   "family_median": 40.1491,
+   "best": "g10_L20_D10",
+   "current_main_since2019": 48.7562,
+   "current_paths_median": 46.4023,
+   "current_n_closed": 381
+  },
+  "S62": {
+   "bench_since2019": 28.9092,
+   "B_基準|10萬": 43.569,
+   "B_基準|10萬|excess_pp": 14.6598,
+   "B_基準|100萬": 45.446,
+   "B_基準|100萬|excess_pp": 16.5368,
+   "D_只買整張|10萬": 29.3753,
+   "D_只買整張|10萬|excess_pp": 0.4661,
+   "D_只買整張|100萬": 41.1327,
+   "D_只買整張|100萬|excess_pp": 12.2235,
+   "R0_現行嚴成本|10萬": 45.9875,
+   "R0_現行嚴成本|10萬|excess_pp": 17.0782,
+   "R0_現行嚴成本|100萬": 46.6996,
+   "R0_現行嚴成本|100萬|excess_pp": 17.7904
+  },
+  "S39": {
+   "paths_pairs_FPM": {
+    "median_pp": -0.929842322570984,
+    "mean_pp": -1.885546725466091,
+    "min_pp": -5.206540584800923,
+    "max_pp": -0.7396088017349811,
+    "n_lower": 20,
+    "n_higher": 0,
+    "n_equal": 0
+   },
+   "window": [
+    "2024-06-28",
+    "2026-10-22"
+   ],
+   "CUR_since2019": 48.9913,
+   "CUR_window": 61.9498,
+   "FPM_window": 61.1714,
+   "d_window_pp": -0.7784,
+   "d_maxdd_window_pp": 0.0,
+   "d_since2019_pp": -0.2126,
+   "paths_median_cagr": {
+    "CUR": 0.5752452279411595,
+    "FPM": 0.546259276893461,
+    "FPA": 0.548366911848002
+   }
+  }
+ },
+ "v2_p4": {
+  "S7": {
+   "late1_cost_5cap_median_pp": 3.722,
+   "late2_cost_5cap_median_pp": 6.3088,
+   "late1_cost_100w_pp": 3.9018,
+   "late2_cost_100w_pp": 6.5981,
+   "late2_maxdd": -35.2521
+  },
+  "S9": {
+   "late_median": 42.9585,
+   "late_p10": 40.1448,
+   "late_dd_median": -32.4072,
+   "late_dd_p10": -36.3576,
+   "ontime_intercept": 46.5874,
+   "ontime_slope": -1.0914,
+   "A10_paths20_median": 46.419,
+   "A10_paths20_dd_median": -33.1323
+  },
+  "S27": {
+   "A_now": 15.64,
+   "E_now": -6.82,
+   "B_now": 34.03,
+   "C_now": -5.27,
+   "C_now_daily": -10.5809,
+   "D_now": 9,
+   "thresholds": {
+    "A": -0.08,
+    "B": -0.26,
+    "C": -0.2991,
+    "D": 50,
+    "E": -0.24
+   },
+   "range1y_median": 30.01,
+   "range1y_p10_p90": [
+    0.44,
+    99.33
+   ],
+   "p_lose_1y": 24.04,
+   "false_alarm_5y": {
+    "A": 7.52,
+    "B": 7.76,
+    "C": 8.88,
+    "E": 8.96
+   },
+   "red_false_alarm_5y": 6.32,
+   "any_12m_behind_5y": 96.99,
+   "hist": {
+    "A": {
+     "paths_triggered": 0,
+     "current_median": 0.118,
+     "current_worst": 0.0684,
+     "worst_value_median": -0.0112,
+     "worst_value_worst": -0.0347
+    },
+    "B": {
+     "paths_triggered": 0,
+     "current_median": 0.3406,
+     "current_worst": 0.2279,
+     "worst_value_median": -0.129,
+     "worst_value_worst": -0.1458
+    },
+    "C": {
+     "paths_triggered": 0,
+     "current_median": -0.0586,
+     "current_worst": -0.0731,
+     "worst_value_median": -0.2586,
+     "worst_value_worst": -0.2791
+    },
+    "D": {
+     "paths_triggered": 2,
+     "current_median": 9.0,
+     "current_worst": 9,
+     "worst_value_median": 26.0,
+     "worst_value_worst": 50
+    },
+    "E": {
+     "paths_triggered": 0,
+     "current_median": -0.0588,
+     "current_worst": -0.1357,
+     "worst_value_median": -0.1721,
+     "worst_value_worst": -0.1934
+    }
+   }
+  },
+  "S42": {
+   "neutral": 41.7132,
+   "neutral_maxdd": -34.6015,
+   "neutral_maxdd_p10": -37.2664,
+   "neutral_full": 29.2196,
+   "half": 36.0764,
+   "half_maxdd": -36.5726,
+   "conservative": 33.947,
+   "conservative_maxdd": -39.8329,
+   "optimistic": 45.3696,
+   "optimistic_maxdd": -34.7498,
+   "cur_std_since2019": 48.8625,
+   "bench_since2019": 28.8207,
+   "bench_maxdd": -33.957,
+   "stack": [
+    {
+     "step": "現行回測（除權息修正後，準時、每邊 0.3%）",
+     "since2019_median": 46.4192,
+     "d_vs_CUR_pp": 0.0
+    },
+    {
+     "step": "＋S39 首次公布營收（FPM）",
+     "since2019_median": 45.3696,
+     "d_vs_CUR_pp": -1.0496
+    },
+    {
+     "step": "＋S40 期限前視（ALL）＝COMB",
+     "since2019_median": 45.3696,
+     "d_vs_CUR_pp": -1.0496
+    },
+    {
+     "step": "＋每邊滑價 0.4%",
+     "since2019_median": 44.4609,
+     "d_vs_CUR_pp": -1.9583
+    },
+    {
+     "step": "＋每邊滑價 0.5%",
+     "since2019_median": 43.6121,
+     "d_vs_CUR_pp": -2.8071
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.3%",
+     "since2019_median": 42.5202,
+     "d_vs_CUR_pp": -3.899
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.4%",
+     "since2019_median": 41.7132,
+     "d_vs_CUR_pp": -4.706
+    },
+    {
+     "step": "COMB＋有時晚 0～4 天＋0.5%",
+     "since2019_median": 40.5896,
+     "d_vs_CUR_pp": -5.8296
+    }
+   ],
+   "paired_effects": {
+    "slip_0.004_vs_0.003_since2019_pp": -0.8458,
+    "slip_0.005_vs_0.003_since2019_pp": -1.7109,
+    "A11_vs_A10_since2019_pp": -2.4926,
+    "A12_vs_A10_since2019_pp": -4.1357,
+    "A13_vs_A10_since2019_pp": -4.6752,
+    "A15_vs_A10_since2019_pp": -3.2949,
+    "CUR_LATE_minus_ON_median_pp": -3.4606,
+    "COMB_LATE_minus_ON_median_pp": -2.8494
+   },
+   "acceptance": {
+    "A3_A10_av_equal": true,
+    "FPM_rows_before_2024_06_identical": true,
+    "A0": {
+     "since2019": 0.4886246519182116,
+     "full": 0.3446294016617564,
+     "maxdd": -0.3160938700293674,
+     "n_closed": 381,
+     "ok": false
+    },
+    "A1_FPM": {
+     "window_2024_07": 0.6121976443705301,
+     "d_window_pp": -0.7742313191879013,
+     "since2019": 0.4865128511460395,
+     "paths20_window_diff_median_pp": -0.9081560553263812,
+     "s39_reported": {
+      "window": 0.61171,
+      "since2019": 0.48779,
+      "paths_median_pp": -0.9298
+     },
+     "ok": false
+    },
+    "A2_ALL": {
+     "since2019": 0.4886246519182116,
+     "d_since2019_pp": 0.0,
+     "paths20_since2019_diff_median_pp": 0.0,
+     "s40_reported": {
+      "since2019": 0.48756,
+      "paths_median_pp": -0.3459
+     },
+     "ok": false
+    },
+    "A3_COMB_first_nav_diff_date": "2025-06-12",
+    "A3_COMB_identical_before_2019_01_signal": true
+   }
+  },
+  "S42FPM": {
+   "d_window_pp": -0.7742,
+   "paths20_window_diff_median_pp": -0.9082,
+   "paths20_window_diff_min_pp": -5.1566,
+   "paths20_window_diff_max_pp": -0.7142,
+   "n_lower": 20,
+   "FPM_window": 61.2198
+  }
+ },
+ "acceptance": {
+  "S7_v1_vs_resync_new": [],
+  "S9_v1_vs_resync_new": [],
+  "S27_v1_vs_resync_new": [],
+  "S42_v1_vs_resync_new": [],
+  "S46_v1_results_vs_original": {
+   "n_diff": 0,
+   "first": []
+  },
+  "S62_v1_results_vs_original": {
+   "n_diff": 0,
+   "first": []
+  },
+  "S39_v1_results_vs_original": {
+   "n_diff": 2,
+   "first": [
+    "/describe_1: 缺",
+    "/paths_trade_diff_100萬: 缺"
+   ]
+  }
+ },
+ "soft": {
+  "s27_v1": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": false,
+    "E50_SOURCE": "None"
+   },
+   "self_flags": false,
+   "shim": {
+    "make_signal_ins15_calls": 0,
+    "ins15_masked_rows": 0,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 0,
+   "soft": [],
+   "peak_mb": 494,
+   "secs": 5,
+   "panel_reduce_fix": null,
+   "panel_e50_source": null
+  },
+  "s27_v2": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": true,
+    "E50_SOURCE": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+   },
+   "self_flags": false,
+   "shim": {
+    "make_signal_ins15_calls": 0,
+    "ins15_masked_rows": 0,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 0,
+   "soft": [],
+   "peak_mb": 494,
+   "secs": 6,
+   "panel_reduce_fix": null,
+   "panel_e50_source": null
+  },
+  "s39_v1": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": false,
+    "INS15_MASK": false,
+    "REDUCE_FIX": false,
+    "E50_SOURCE": "None"
+   },
+   "self_flags": true,
+   "shim": {
+    "make_signal_ins15_calls": 0,
+    "ins15_masked_rows": 0,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 0,
+   "soft": [],
+   "peak_mb": 1402,
+   "secs": 23,
+   "panel_reduce_fix": false,
+   "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+  },
+  "s42_v1": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": false,
+    "E50_SOURCE": "None"
+   },
+   "self_flags": false,
+   "shim": {
+    "make_signal_ins15_calls": 0,
+    "ins15_masked_rows": 0,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 6
+   },
+   "n_soft": 1,
+   "soft": [
+    [
+     116,
+     "'驗收失敗'"
+    ]
+   ],
+   "peak_mb": 1404,
+   "secs": 136,
+   "panel_reduce_fix": false,
+   "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+  },
+  "s42_v2": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": true,
+    "E50_SOURCE": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+   },
+   "self_flags": false,
+   "shim": {
+    "make_signal_ins15_calls": 0,
+    "ins15_masked_rows": 0,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 6
+   },
+   "n_soft": 1,
+   "soft": [
+    [
+     116,
+     "'驗收失敗'"
+    ]
+   ],
+   "peak_mb": 1401,
+   "secs": 138,
+   "panel_reduce_fix": true,
+   "panel_e50_source": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+  },
+  "s46_v1": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": false,
+    "E50_SOURCE": "None"
+   },
+   "self_flags": true,
+   "shim": {
+    "make_signal_ins15_calls": 0,
+    "ins15_masked_rows": 0,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 0,
+   "soft": [],
+   "peak_mb": 1401,
+   "secs": 98,
+   "panel_reduce_fix": false,
+   "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+  },
+  "s62_v1": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": false,
+    "E50_SOURCE": "None"
+   },
+   "self_flags": true,
+   "shim": {
+    "make_signal_ins15_calls": 0,
+    "ins15_masked_rows": 0,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 0,
+   "soft": [],
+   "peak_mb": 1404,
+   "secs": 291,
+   "panel_reduce_fix": false,
+   "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+  },
+  "s7_v1": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": false,
+    "E50_SOURCE": "None"
+   },
+   "self_flags": false,
+   "shim": {
+    "make_signal_ins15_calls": 1,
+    "ins15_masked_rows": 9,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 0,
+   "soft": [],
+   "peak_mb": 1366,
+   "secs": 9,
+   "panel_reduce_fix": false,
+   "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+  },
+  "s7_v2": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": true,
+    "E50_SOURCE": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+   },
+   "self_flags": false,
+   "shim": {
+    "make_signal_ins15_calls": 1,
+    "ins15_masked_rows": 9,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 0,
+   "soft": [],
+   "peak_mb": 1364,
+   "secs": 12,
+   "panel_reduce_fix": true,
+   "panel_e50_source": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+  },
+  "s9_v1": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": false,
+    "E50_SOURCE": "None"
+   },
+   "self_flags": false,
+   "shim": {
+    "make_signal_ins15_calls": 74,
+    "ins15_masked_rows": 378,
+    "signal_rows_adjusted": 22,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 1,
+   "soft": [
+    [
+     86,
+     "('驗收失敗', {'P0': True, 'A1_av_identical': True, 'A1_signal_identical': True, 'A0_W10_70': {'since2019': 0.48756125669507, 'full': 0.34396546396589067, 'maxdd': -0.32119049020243395, 'ok': False}, 'A2_W"
+    ]
+   ],
+   "peak_mb": 1364,
+   "secs": 71,
+   "panel_reduce_fix": false,
+   "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+  },
+  "s9_v2": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": true,
+    "E50_SOURCE": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+   },
+   "self_flags": false,
+   "shim": {
+    "make_signal_ins15_calls": 74,
+    "ins15_masked_rows": 378,
+    "signal_rows_adjusted": 22,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 1,
+   "soft": [
+    [
+     86,
+     "('驗收失敗', {'P0': True, 'A1_av_identical': True, 'A1_signal_identical': True, 'A0_W10_70': {'since2019': 0.4886240351744895, 'full': 0.3446290166508079, 'maxdd': -0.3160938700293674, 'ok': False}, 'A2_W"
+    ]
+   ],
+   "peak_mb": 1360,
+   "secs": 84,
+   "panel_reduce_fix": true,
+   "panel_e50_source": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+  }
+ }
+}

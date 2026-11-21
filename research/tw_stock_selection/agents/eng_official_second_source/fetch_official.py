@@ -3,7 +3,8 @@
 
 只做正常、低頻率的公開資料請求（寫死在程式裡，不能用參數放寬）：
   - 每個網址每次執行最多請求 1 次；只有「連線失敗／逾時／5xx」才重試，最多 2 次，間隔 20 秒。
-  - 同一天（台北日期）對同一個網站總請求數 ≤ 10（含重試；記在 <快照根>/_requests.csv，跨次執行累計）。
+  - 同一天（台北日期）對同一個網站總請求數 ≤ 10（含重試；記在 <快照根>/_requests.csv，跨次執行累計）；
+    證交所主站 www.twse.com.tw（TWT49U、TWTAUU）更嚴：一天 ≤ 4 次、同站間隔 ≥ 20 秒（見 HOST_RULE）。
   - 任兩次請求至少間隔 3 秒（跨次執行也算）。
   - 不跟隨轉址、不偽裝瀏覽器、不換代理、不碰驗證頁：遇到 3xx／403／429／回來的是網頁而不是 JSON，
     記一列「blocked」，當天不再請求那個網站。
@@ -19,6 +20,8 @@
   fetch_official.py exright --start YYYY-MM-DD --end YYYY-MM-DD [--snap-root DIR]
       抓證交所 TWT49U（上市除權除息計算結果表），存快照，轉成封存格式 date,code,prev_close,ref_price,value,type
       （寫到 <快照根>/derived/twt49u/<起>_<迄>.csv）。
+  fetch_official.py reduce --start YYYY-MM-DD --end YYYY-MM-DD [--snap-root DIR]
+      抓證交所 TWTAUU（上市減資恢復買賣參考價），存快照，轉成 date,code,prev_close,ref_price,reason（<快照根>/derived/twtauu/）。
   fetch_official.py probe [--snap-root DIR]
       探查其他官方端點（各 1 次），結果寫 <快照根>/probe/probe_<時間>.json；回應只留前 2000 位元組當樣本。
   fetch_official.py convert-revenue <快照.json.gz> <twse|tpex> <輸出資料夾>      # 離線：不連網
@@ -28,6 +31,7 @@
 """
 import argparse, csv, datetime as dt, gzip, hashlib, io, json, os, re, ssl, sys, time
 import urllib.error, urllib.request
+from decimal import Decimal, ROUND_DOWN
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -36,6 +40,9 @@ SNAP_DEFAULT = HERE.parent.parent / 'raw' / 'official_snapshots'
 UA = 'research-client/1.0'
 MAX_PER_HOST_PER_DAY = 10
 MIN_GAP_SEC = 3.0
+# 證交所主站（www.twse.com.tw）比開放資料站敏感：2026-11-21 實測同一天第 4 次請求（距前一次約 6 分鐘）就被 307 轉到安全頁。
+# 所以這個站另外收緊：一天最多 4 次、同站兩次請求至少隔 20 秒。
+HOST_RULE = {'www.twse.com.tw': dict(max_per_day=4, min_gap=20.0)}
 RETRY_MAX = 2
 RETRY_WAIT_SEC = 20.0
 TIMEOUT = 60
@@ -44,6 +51,7 @@ TPE = dt.timezone(dt.timedelta(hours=8))
 URL_REV = {'twse': 'https://openapi.twse.com.tw/v1/opendata/t187ap05_L',
            'tpex': 'https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap05_O'}
 URL_TWT49U = 'https://www.twse.com.tw/rwd/zh/exRight/TWT49U?response=json&startDate={s}&endDate={e}'
+URL_TWTAUU = 'https://www.twse.com.tw/rwd/zh/reducation/TWTAUU?response=json&startDate={s}&endDate={e}'
 REV_COLS = ['stock_id', 'name', 'period', 'market', '產業別', '當月營收', '上月營收', '去年當月營收', '上月比較增減(%)',
             '去年同月增減(%)', '當月累計營收', '去年累計營收', '前期比較增減(%)']
 REV_SRC = {'產業別': '產業別', '當月營收': '營業收入-當月營收', '上月營收': '營業收入-上月營收', '去年當月營收': '營業收入-去年當月營收',
@@ -125,13 +133,22 @@ class Polite:
             o['used'] += 1; o['blocked'] |= r['result'] == 'blocked'
         return out
 
-    def _wait_gap(self):
+    def _wait_gap(self, host):
         rows = read_csv(self.ledger)
+        ts = lambda r: dt.datetime.strptime(r['utc'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)
+        wait = 0.0
         if rows:
-            last = dt.datetime.strptime(rows[-1]['utc'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)
-            gap = (utcnow() - last).total_seconds()
+            gap = (utcnow() - ts(rows[-1])).total_seconds()
             if 0 <= gap < MIN_GAP_SEC + 1:
-                time.sleep(MIN_GAP_SEC + 1 - gap)
+                wait = MIN_GAP_SEC + 1 - gap
+        same = [r for r in rows if r['host'] == host]
+        hg = HOST_RULE.get(host, {}).get('min_gap', 0)
+        if same and hg:
+            gap = (utcnow() - ts(same[-1])).total_seconds()
+            if 0 <= gap < hg + 1:
+                wait = max(wait, hg + 1 - gap)
+        if wait > 0:
+            time.sleep(wait)
 
     def get(self, url):
         """回傳 dict(ok, status, body, sha256, fetched_utc, result, note)。result：ok／blocked／error／skipped。"""
@@ -144,9 +161,10 @@ class Polite:
             b = self.budget().get(host, dict(used=0, blocked=False))
             if b['blocked']:
                 return last or dict(ok=False, status='', body=b'', result='skipped', note=f'{host} 今天已被擋過，停止請求')
-            if b['used'] >= MAX_PER_HOST_PER_DAY:
-                return last or dict(ok=False, status='', body=b'', result='skipped', note=f'{host} 今天已請求 {b["used"]} 次，達上限 {MAX_PER_HOST_PER_DAY}')
-            self._wait_gap()
+            cap = min(MAX_PER_HOST_PER_DAY, HOST_RULE.get(host, {}).get('max_per_day', MAX_PER_HOST_PER_DAY))
+            if b['used'] >= cap:
+                return last or dict(ok=False, status='', body=b'', result='skipped', note=f'{host} 今天已請求 {b["used"]} 次，達上限 {cap}')
+            self._wait_gap(host)
             t = utcnow(); status = ''; body = b''; note = ''; result = 'error'
             try:
                 req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept': 'application/json'})
@@ -219,12 +237,13 @@ def roc_ym(s):
 
 
 def clean_num(s, pct=False):
-    """只接受數字；其他（空白、'-'、文字）回空字串。百分比固定兩位小數（和倉庫彙總表相同寫法）。"""
+    """只接受數字；其他（空白、'-'、文字）回空字串。百分比固定兩位小數。"""
     s = str(s if s is not None else '').replace(',', '').strip()
     if not re.fullmatch(r'-?\d+(\.\d+)?', s):
         return ''
-    if pct:
-        return f'{float(s):.2f}'
+    if pct:                                        # 倉庫彙總表是「無條件捨去到小數兩位」（17.828→17.82、-19.178→-19.17）
+        q = Decimal(s).quantize(Decimal('0.01'), rounding=ROUND_DOWN)
+        return str(q)                              # 注意：-0.004 會寫成 -0.00，倉庫也是這樣
     return s
 
 
@@ -383,6 +402,62 @@ def do_exright(root, start, end, pol=None):
     return o
 
 
+# ---------------------------------------------------------------- 解析：TWTAUU（上市減資恢復買賣參考價）
+def parse_twtauu(body):
+    """回傳 (rows, info)；rows＝[date,code,prev_close,ref_price,reason]。日期是 '115/08/03' 寫法。"""
+    j = json.loads(body.decode('utf-8-sig'))
+    if not isinstance(j, dict):
+        raise ValueError('回應不是物件')
+    stat = str(j.get('stat', '')); fields = j.get('fields') or []; data = j.get('data') or []
+    info = dict(stat=stat, fields=fields, n_raw=len(data), bad=[])
+    if stat != 'OK' or not fields:
+        info['empty'] = True
+        return [], info
+    need = {'date': '恢復買賣日期', 'code': '股票代號', 'prev_close': '停止買賣前收盤價格', 'ref_price': '恢復買賣參考價', 'reason': '減資原因'}
+    ix = {}
+    for k, name in need.items():
+        if name not in fields:
+            raise ValueError(f'TWTAUU 少了欄位 {name}；實際欄位 {fields}')
+        ix[k] = fields.index(name)
+    rows = []
+    for x in data:
+        try:
+            code = str(x[ix['code']]).strip()
+            if not CODE_RE.match(code):
+                raise ValueError(f'代號 {code[:12]!r}')
+            m = re.fullmatch(r'\s*(\d{2,3})/(\d{1,2})/(\d{1,2})\s*', str(x[ix['date']]))
+            if not m:
+                raise ValueError(f'{code} 日期 {str(x[ix["date"]])[:12]!r}')
+            d = dt.date(int(m.group(1)) + 1911, int(m.group(2)), int(m.group(3))).isoformat()
+            rows.append([d, code, trim_num(x[ix['prev_close']]), trim_num(x[ix['ref_price']]), str(x[ix['reason']]).strip().replace(',', '，')[:20]])
+        except (ValueError, IndexError, TypeError) as e:
+            info['bad'].append(str(e)[:80])
+    rows.sort(key=lambda r: (r[0], r[1]))
+    return rows, info
+
+
+def do_reduce(root, start, end, pol=None):
+    pol = pol or Polite(root)
+    url = URL_TWTAUU.format(s=start.replace('-', ''), e=end.replace('-', '')); res = pol.get(url)
+    o = dict(url=url, status=res.get('status', ''), result=res.get('result'), note=res.get('note', ''), fetched_utc=res.get('fetched_utc', ''), start=start, end=end)
+    tag = f'twtauu_{start}_{end}'
+    if res.get('ok'):
+        try:
+            rows, info = parse_twtauu(res['body'])
+            snap, new = store_snapshot(root, 'reduce', tag, url, res, data_period=f'{start}~{end}', n_rows=len(rows),
+                                       note=(f"stat={info['stat']}" if info.get('empty') else '') + (f" 丟掉 {len(info['bad'])} 列" if info['bad'] else ''))
+            p = Path(root) / 'derived' / 'twtauu' / f'{start}_{end}.csv'; p.parent.mkdir(parents=True, exist_ok=True)
+            with open(p, 'w', newline='', encoding='utf-8') as fh:
+                w = csv.writer(fh, lineterminator='\n'); w.writerow(['date', 'code', 'prev_close', 'ref_price', 'reason']); w.writerows(rows)
+            o.update(n_rows=len(rows), stat=info['stat'], bad=info['bad'][:10], csv=str(p), snapshot=str(snap), new_snapshot=new, sha256=res['sha256'], bytes=len(res['body']))
+        except (ValueError, KeyError, UnicodeDecodeError) as e:
+            o.update(result='parse_error', note=f'解析失敗：{e}'[:300])
+            store_snapshot(root, 'reduce', tag, url, res, note=o['note'])
+    else:
+        store_snapshot(root, 'reduce', tag, url, res)
+    return o
+
+
 PROBES = [
     ('上市每日收盤行情', 'https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL'),
     ('上市財報（綜合損益表，一般業）', 'https://openapi.twse.com.tw/v1/opendata/t187ap06_L_ci'),
@@ -424,6 +499,7 @@ def main():
     sp = ap.add_subparsers(dest='cmd', required=True)
     a = sp.add_parser('revenue'); a.add_argument('--snap-root', default=str(SNAP_DEFAULT)); a.add_argument('--only', default='twse,tpex')
     a = sp.add_parser('exright'); a.add_argument('--snap-root', default=str(SNAP_DEFAULT)); a.add_argument('--start', required=True); a.add_argument('--end', required=True)
+    a = sp.add_parser('reduce'); a.add_argument('--snap-root', default=str(SNAP_DEFAULT)); a.add_argument('--start', required=True); a.add_argument('--end', required=True)
     a = sp.add_parser('probe'); a.add_argument('--snap-root', default=str(SNAP_DEFAULT)); a.add_argument('--start', default=''); a.add_argument('--end', default='')
     a = sp.add_parser('convert-revenue'); a.add_argument('snapshot'); a.add_argument('market', choices=['twse', 'tpex']); a.add_argument('out_dir')
     a = sp.add_parser('convert-exright'); a.add_argument('snapshot'); a.add_argument('out_csv')
@@ -449,6 +525,13 @@ def main():
                   f"{'新快照' if o['new_snapshot'] else '內容未變（不重存）'} {o['snapshot']}；csv {o['csv']}")
         else:
             print(f"TWT49U：沒抓到（{o['result']}，HTTP {o['status']}）{o['note']}")
+        sys.exit(0 if o['result'] == 'ok' else 3)
+    if g.cmd == 'reduce':
+        if not (dre.fullmatch(g.start) and dre.fullmatch(g.end) and g.start <= g.end):
+            sys.exit('--start／--end 要寫 YYYY-MM-DD，且起 ≤ 迄')
+        o = do_reduce(g.snap_root, g.start, g.end)
+        print(f"TWTAUU {g.start}～{g.end}：HTTP {o['status']}，{o['n_rows']} 筆；csv {o['csv']}" if o['result'] == 'ok'
+              else f"TWTAUU：沒抓到（{o['result']}，HTTP {o['status']}）{o['note']}")
         sys.exit(0 if o['result'] == 'ok' else 3)
     if g.cmd == 'probe':
         today = utcnow().astimezone(TPE).date()

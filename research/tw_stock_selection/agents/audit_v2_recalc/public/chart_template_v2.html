@@ -1,0 +1,113 @@
+<title>月營收驚奇 2008–2026 獲利比較</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* 版面：一欄成績單——三張數字卡 → 資產曲線（大跌段加底色）→ 回撤 → 大跌段對照 → 逐年表 → 限制 */
+:root{--bg:#fcfcfb;--t1:#0b0b0b;--t2:#52514e;--t3:#8a8983;--grid:#e6e5e0;--band:#f1efe9;--s1:#2a78d6;--s2:#8a63c9;--s3:#1baf7a;--neg:#d23b3a;--pos:#12805a;
+  --font:system-ui,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#1a1a19;--t1:#f0efec;--t2:#c3c2b7;--t3:#8f8e88;--grid:#33332f;--band:#262624;--s1:#4b94ec;--s2:#a98be0;--s3:#27b584;--neg:#ee7574;--pos:#3fc693}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#1a1a19;--t1:#f0efec;--t2:#c3c2b7;--t3:#8f8e88;--grid:#33332f;--band:#262624;--s1:#4b94ec;--s2:#a98be0;--s3:#27b584;--neg:#ee7574;--pos:#3fc693}
+body{margin:0;background:var(--bg);color:var(--t1);font-family:var(--font);font-size:15px;line-height:1.6}
+main{max-width:980px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:22px;margin:0 0 4px;text-wrap:balance}h2{font-size:16px;margin:28px 0 6px}
+p.sub{color:var(--t2);margin:0 0 16px;font-size:14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0 8px}
+.tile{border:1px solid var(--grid);border-radius:10px;padding:10px 12px;min-width:0}
+.tile .n{font-size:13px;color:var(--t2);display:flex;align-items:center;gap:6px}
+.tile .v{font-size:24px;font-weight:600;margin-top:4px;font-variant-numeric:tabular-nums}.tile .m{font-size:12.5px;color:var(--t2);margin-top:2px}
+.sw{width:12px;height:3px;border-radius:2px;display:inline-block;flex:none}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--t2);margin:6px 0}
+.ctrl button{font:inherit;font-size:13px;padding:5px 10px;border-radius:8px;border:1px solid var(--grid);background:transparent;color:var(--t1);cursor:pointer}
+.ctrl button[aria-pressed="true"]{background:var(--band);font-weight:600}
+.ctrl button:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--t2);margin:4px 0}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.bandkey{width:12px;height:12px;background:var(--band);border:1px solid var(--grid);display:inline-block}
+svg{width:100%;height:auto;display:block}
+.gl{stroke:var(--grid);stroke-width:1}.ax{fill:var(--t3);font-size:11px;font-family:var(--font)}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{padding:6px 8px;border-bottom:1px solid var(--grid);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}th{color:var(--t2);font-weight:600}
+td.neg{color:var(--neg)}td.pos{color:var(--pos)}
+.note{font-size:13.5px;color:var(--t2);margin-top:18px;border-top:1px solid var(--grid);padding-top:12px}
+.note li{margin:4px 0}.note ul{padding-left:18px;margin:6px 0}
+.tip{position:fixed;display:none;pointer-events:none;background:var(--bg);border:1px solid var(--grid);border-radius:8px;padding:8px 10px;font-size:12.5px;box-shadow:0 4px 14px rgba(0,0,0,.12);z-index:5;font-variant-numeric:tabular-nums}
+</style>
+<main>
+<h1>月營收驚奇策略：2008–2026 獲利比較</h1>
+<p class="sub" id="sub"></p>
+<div class="tiles" id="tiles"></div>
+<h2>資產成長（100 萬變多少）</h2>
+<div class="ctrl"><span>縱軸：</span><button id="bLog" aria-pressed="true">對數（看成長速度）</button><button id="bLin" aria-pressed="false">一般（看金額）</button></div>
+<div class="legend" id="lg"></div>
+<div id="c1"></div>
+<h2>回撤（從最高點跌了多少）</h2>
+<div id="c2"></div>
+<h2>大跌段對照（段內從高點到低點）</h2>
+<div class="wrap"><table id="tbb"></table></div>
+<h2>逐年報酬</h2>
+<div class="wrap"><table id="tb"></table></div>
+<div class="note" id="nt"></div>
+<div class="tip" id="tip"></div>
+</main>
+<script>
+const D=/*DATA*/null;
+const S=[{k:"br",n:"月營收驚奇策略",sh:"策略",c:"--s1"},{k:"etf",n:"0050（含息，買了不動）",sh:"0050",c:"--s3"}];
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmtW=v=>v>=1e8?(v/1e8).toFixed(2)+" 億":Math.round(v/1e4).toLocaleString()+" 萬";
+const pct=(v,d=1)=>(v>0?"+":"")+v.toFixed(d)+"%";
+const dates=D.dates.map(s=>new Date(s+"T00:00:00"));
+let logY=true;
+document.getElementById("sub").innerHTML=`同一筆 100 萬，${D.start} 到 ${D.end}，同一個帳戶連續做、中間不重來。研究中心回測（嚴成本；只選上市、排除創新板；0050 底倉 30%＋選股 70%，每檔＝選股資金 ÷ 10，每月營收公布後換股一次）。`;
+document.getElementById("tiles").innerHTML=S.map(s=>{const t=D.stats[s.k];return `<div class="tile"><div class="n"><span class="sw" style="background:var(${s.c})"></span>${s.n}</div><div class="v">${fmtW(t.final)}</div><div class="m">每年 ${(t.cagr*100).toFixed(1)}%｜最大回撤 ${(t.dd*100).toFixed(1)}%</div></div>`}).join("");
+document.getElementById("lg").innerHTML=S.map(s=>`<span><span class="sw" style="background:var(${s.c})"></span>${s.n}</span>`).join("")+`<span><span class="bandkey"></span>大跌段</span>`;
+const tip=document.getElementById("tip");
+function chart(el,series,opt){
+  const W=Math.max(320,el.clientWidth||900),narrow=W<560,H=opt.h,ml=narrow?52:64,mr=narrow?12:opt.mr,mt=12,mb=26,iw=W-ml-mr,ih=H-mt-mb;
+  const t0=+dates[0],t1=+dates[dates.length-1],x=t=>ml+(+t-t0)/(t1-t0)*iw;
+  const all=series.flatMap(s=>s.v);let lo=opt.lo??Math.min(...all),hi=opt.hi??Math.max(...all)*(opt.log?1.25:1.04);
+  const tf=opt.log?(v=>Math.log10(v)):(v=>v);const a=tf(lo),b=tf(hi);const y=v=>mt+ih-(tf(v)-a)/(b-a)*ih;
+  let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${opt.aria}">`;
+  for(const br of D.bears){const xa=x(new Date(br.a+"T00:00:00")),xb=x(new Date(br.b+"T00:00:00"));g+=`<rect x="${xa.toFixed(1)}" y="${mt}" width="${Math.max(2,xb-xa).toFixed(1)}" height="${ih}" fill="${css("--band")}"/>`}
+  for(const tv of opt.ticks(lo,hi)){const yy=y(tv);g+=`<line class="gl" x1="${ml}" x2="${ml+iw}" y1="${yy}" y2="${yy}"/><text class="ax" x="${ml-6}" y="${yy+4}" text-anchor="end">${opt.fmt(tv)}</text>`}
+  const step=narrow?4:2;for(let yr=2008;yr<=2026;yr+=step){const xx=x(new Date(yr,0,1));if(xx>=ml-1)g+=`<text class="ax" x="${Math.max(xx,ml+10)}" y="${H-6}" text-anchor="middle">${yr}</text>`}
+  for(const s of series){let d="";s.v.forEach((v,i)=>{d+=(i?"L":"M")+x(dates[i]).toFixed(1)+","+y(Math.max(v,lo)).toFixed(1)});g+=`<path d="${d}" fill="none" stroke="${css(s.c)}" stroke-width="${s.w||2}" stroke-linejoin="round"/>`}
+  if(opt.label&&!narrow){let ys=series.map(s=>({s,yy:y(s.v[s.v.length-1])})).sort((p,q)=>p.yy-q.yy);for(let i=1;i<ys.length;i++)if(ys[i].yy-ys[i-1].yy<14)ys[i].yy=ys[i-1].yy+14;
+    for(const o of ys)g+=`<text x="${ml+iw+6}" y="${o.yy+4}" style="fill:${css("--t1")};font-size:12px;font-family:var(--font)">${o.s.short} ${opt.fmt(o.s.v[o.s.v.length-1])}</text>`}
+  g+=`<line id="${el.id}h" x1="0" x2="0" y1="${mt}" y2="${mt+ih}" stroke="${css("--t3")}" stroke-width="1" visibility="hidden"/>`;
+  g+=`<rect x="${ml}" y="${mt}" width="${iw}" height="${ih}" fill="transparent" id="${el.id}r"/></svg>`;
+  el.innerHTML=g;
+  const r=document.getElementById(el.id+"r"),hl=document.getElementById(el.id+"h"),svg=el.querySelector("svg");
+  const move=e=>{const p=e.touches?e.touches[0]:e;const bb=svg.getBoundingClientRect();const px=(p.clientX-bb.left)*W/bb.width;const t=t0+(px-ml)/iw*(t1-t0);
+    let lo2=0,hi2=dates.length-1;while(hi2-lo2>1){const m=(lo2+hi2)>>1;(+dates[m]<t)?lo2=m:hi2=m}const i=(t-+dates[lo2]<+dates[hi2]-t)?lo2:hi2;
+    const xx=x(dates[i]);hl.setAttribute("x1",xx);hl.setAttribute("x2",xx);hl.setAttribute("visibility","visible");
+    tip.innerHTML=`<b>${D.dates[i]}</b><br>`+series.map(s=>`<span class="sw" style="background:${css(s.c)}"></span> ${s.short}：${opt.fmt(s.v[i])}`).join("<br>");
+    tip.style.display="block";tip.style.left=Math.max(8,Math.min(p.clientX+14,innerWidth-230))+"px";tip.style.top=Math.max(8,Math.min(p.clientY+14,innerHeight-110))+"px"};
+  const leave=()=>{tip.style.display="none";hl.setAttribute("visibility","hidden")};
+  r.addEventListener("mousemove",move);r.addEventListener("mouseleave",leave);r.addEventListener("touchstart",move,{passive:true});r.addEventListener("touchmove",move,{passive:true});r.addEventListener("touchend",leave);
+}
+function logTicks(lo,hi){const out=[];for(const m of [5e5,1e6,2e6,5e6,1e7,2e7,5e7,1e8])if(m>=lo&&m<=hi)out.push(m);return out}
+function linTicks(lo,hi){const out=[];for(let v=0;v<=hi;v+=1e7)out.push(v);return out}
+function drawAll(){
+  const ser=S.map(s=>({c:s.c,short:s.sh,v:D[s.k],w:s.k=="mk"?1.4:2.2}));
+  chart(document.getElementById("c1"),ser,{h:400,mr:150,log:logY,lo:logY?4e5:0,ticks:logY?logTicks:linTicks,fmt:fmtW,label:true,aria:"策略與 0050 的資產成長曲線，2008 到 2026"});
+  const dd=S.map(s=>{let pk=0;return{c:s.c,short:s.sh,w:s.k=="mk"?1.4:2,v:D[s.k].map(v=>{pk=Math.max(pk,v);return (v/pk-1)*100})}});
+  chart(document.getElementById("c2"),dd,{h:220,mr:20,log:false,lo:-60,hi:0,ticks:()=>[0,-10,-20,-30,-40,-50],fmt:v=>v.toFixed(0)+"%",label:false,aria:"回撤曲線"});
+}
+drawAll();addEventListener("resize",drawAll);
+const bL=document.getElementById("bLog"),bN=document.getElementById("bLin");
+bL.onclick=()=>{logY=true;bL.setAttribute("aria-pressed","true");bN.setAttribute("aria-pressed","false");drawAll()};
+bN.onclick=()=>{logY=false;bN.setAttribute("aria-pressed","true");bL.setAttribute("aria-pressed","false");drawAll()};
+document.getElementById("tbb").innerHTML="<tr><th>大跌段</th><th>策略</th><th>0050</th><th>策略 − 0050</th></tr>"+D.bears.map(b=>{const df=b.s-b.e;return `<tr><td>${b.n}</td><td class="neg">${b.s.toFixed(1)}%</td><td class="neg">${b.e.toFixed(1)}%</td><td class="${df<0?"neg":"pos"}">${df>0?"少跌 ":"多跌 "}${Math.abs(df).toFixed(1)} 個百分點</td></tr>`}).join("");
+const yrs=Object.keys(D.years.br);let win=0;
+document.getElementById("tb").innerHTML="<tr><th>年</th>"+S.map(s=>`<th>${s.sh}</th>`).join("")+"<th>策略 − 0050</th></tr>"+yrs.map(y=>{const lab=y=="2026"?"2026（到 10/22）":y;const c=D.years.br[y],e=D.years.etf[y];const df=c-e;if(df>0)win++;
+  return `<tr><td>${lab}</td>`+S.map(s=>{const v=D.years[s.k][y];return `<td class="${v<0?"neg":""}">${v.toFixed(1)}%</td>`}).join("")+`<td class="${df<0?"neg":"pos"}">${df>0?"+":""}${df.toFixed(1)} 個百分點</td></tr>`}).join("");
+document.getElementById("nt").innerHTML=`<b>看這張圖要知道的事</b><ul>
+<li>超額幾乎全部來自 2019 年以後。2008–2018 這 11 年，策略每年只比 0050 多 1～5 個百分點，統計上不顯著；2011、2012、2014、2016 落後，2012 年輸 11.6 個百分點。${yrs.length} 年裡贏 0050 ${win} 年。</li>
+<li>策略沒有避險能力：大跌時跌幅和 0050 差不多，7 段裡有 4 段跌得比 0050 深。2008 年帳戶腰斬（−49%），到 2009 年 12 月才回到原本的水位。</li>
+<li>2013 年上市公司改用新會計制度，營收改報含子公司的合併數字。這張圖先把每家公司 2012 年以前的營收換算成同一種算法，再照常選股。這個換算方式是 2026 年才訂的（事先登記、沒看報酬），不是當年就有的規則。完全照現行規則、那三年不選股的保守版本，期末是 ${fmtW(D.stats.mk.final)}（每年 ${(D.stats.mk.cagr*100).toFixed(1)}%）。</li>
+<li>這是單一條回測路徑（100 萬、換股日準時）。換 20 種本金與晚 0～3 天下單，策略全期每年的中位數是 22.9%（21.8%～24.3%）。</li>
+<li>2015 年以前的資料較粗：除權息日的報酬以 0 計（偏保守）；已下市公司的營收資料不完整、2013 年起只有現存公司（偏樂觀）；2015 年 6 月前漲跌停是 7%；當年的手續費與流動性比現在差（偏樂觀）；2020 年 10 月前只能買整張，早年常買不起入選股。</li>
+<li>規則是用 2015 年 7 月以後的資料定出來的，那段的數字（每年約 34%）偏樂觀；2008–2015 年沒用來定規則，每年只多約 2 個百分點。對未來比較合理的期待是長期每年 20% 出頭、可能連續好幾年不贏 0050。回測不保證未來，這不是投資建議。</li>
+<li>這份結果只算過一次，尚未由第二位研究員獨立重算。</li></ul>`;
+</script>

@@ -1,0 +1,35 @@
+{
+ "說明": "文件修改建議（工程 eng_official_second_source，2026-11-21）。每筆原文片段在該檔剛好出現一次（產生時已檢查）。程式的修改不在這裡，見 diffs/。",
+ "patches": [
+  {
+   "檔案": "xq_scripts/site/state/README.md",
+   "原文片段": "印出【可以出名單】才往下做；【還不能】先更新倉庫，倉庫真的沒有就走人工備援",
+   "建議改成": "印出【可以出名單】才往下做；【還不能】先更新倉庫。**2026-11-21 起先跑總檢查**：`python3 -I -B research/tw_stock_selection/agents/eng_official_second_source/rebalance_readiness.py --signal-date 2026-12-11 --tsd <官方日K倉庫> --holdings xq_scripts/site/state/holdings_after_2026-11.csv`（一次看日 K、兩來源營收、除權息、減資、每日回測檢查；會向官方公開資料站各請求 1 次）。GitHub 倉庫沒有當月營收、但總檢查說官方快照可用時走官方備援：`official_to_repo.py 2026-11 <新資料夾>` 後，`monthly_rebalance.py plan／settle` 都加 `--extra-repo <新資料夾>`（要先套用 `eng_official_second_source/diffs/monthly_rebalance_extra_repo.diff`）。兩個來源都沒有才走人工備援",
+   "理由": "把換股日總檢查與官方備援接進既有流程說明；原句保留在後面，流程順序不變。"
+  },
+  {
+   "檔案": "research/tw_stock_selection/raw/twt49u/README.md",
+   "原文片段": "11 月以後只有這一個來源。",
+   "建議改成": "11 月以後封存只有這一個來源；**2026-11-21 起有官方第二來源可核對**：證交所 TWT49U（`agents/eng_official_second_source/fetch_official.py exright`，原始回應存 `raw/official_snapshots/exright/`）。已核對 2026-11-01～11-20 共 55 筆、2026-07 整月 425 筆，封存、GitHub 倉庫、官方三方逐欄相同（`eng_official_second_source/crosscheck_2026-11-21.json`）。每日例行會比近 30 日並記在 `agents/audit_daily/source_check_log.csv`。",
+   "理由": "稽核指出 11 月以後單一來源；現在有官方來源逐筆核對過，補上事實與位置。"
+  },
+  {
+   "檔案": "research/tw_stock_selection/raw/twt49u/README.md",
+   "原文片段": "所以用這份第三方鏡像；",
+   "建議改成": "所以用這份第三方鏡像（2026-11-21 更新：環境網路放寬後，證交所 TWT49U 低頻率請求可以連到，但同一天第 4 次請求就被轉到安全頁，一天最多抓 1～3 次；封存來源不變，官方只當核對用）；",
+   "理由": "原句「連不到」已不完全正確；補上實測到的限制，避免後人以為可以大量回補。"
+  },
+  {
+   "檔案": "research/tw_stock_selection/raw/twse_reduce/README.md",
+   "原文片段": "更新：官方日 K 倉庫更新後重跑產生程式。",
+   "建議改成": "更新：官方日 K 倉庫更新後重跑產生程式。第二來源（2026-11-21 起）：證交所 TWTAUU 可用 `agents/eng_official_second_source/fetch_official.py reduce --start … --end …` 抓來核對（不含面額變更）；`rebalance_readiness.py` 第 (d) 項會比。**尚未用完整的官方回應實測逐筆比對**（2026-11-21 只探查過一次、留了欄位與 2 筆樣本，之後主站當天被擋）。",
+   "理由": "減資封存原本沒有第二來源；記下可用的官方端點與還沒驗證完的部分。"
+  },
+  {
+   "檔案": ".gitignore",
+   "原文片段": "research/tw_stock_selection/raw/jb7k6295r7-bot_tw-stock-data/",
+   "建議改成": "research/tw_stock_selection/raw/jb7k6295r7-bot_tw-stock-data/\n# 官方快照的轉檔結果可由快照離線重產（fetch_official.py convert-*），不進版控；原始快照、索引、請求紀錄要進版控\nresearch/tw_stock_selection/raw/official_snapshots/derived/",
+   "理由": "（選用）derived/ 每天多一個除權息 csv，可重產；不想讓版控變大就加這一行。已被提交的 derived 檔要另外 git rm --cached。不加也可以（一年約 5MB）。"
+  }
+ ]
+}

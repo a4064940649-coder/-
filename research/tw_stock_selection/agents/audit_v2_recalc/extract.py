@@ -12,7 +12,8 @@ AG = HERE.parent
 SCR = Path('/tmp/claude-0/-home-user/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/v2recalc')
 RUN = SCR / 'run'
 J = lambda p: json.load(open(p))
-pp = lambda x: round(float(x) * 100, 2)
+ND = 2                                                       # 取數小數位；先用 2 位（和 resync_results.json 比對），再用 4 位存一份（寫網站文字時判斷四捨五入用）
+pp = lambda x: round(float(x) * 100, ND)
 LAG = {'A10': 0.0, 'A11': 0.6201550387596899, 'A12': 1.2945736434108528, 'A13': 1.9767441860465116, 'A15': 3.356589147286822}
 
 
@@ -39,8 +40,8 @@ def deep_diff(a, b, p='', out=None, skip=()):
 def s7(mode):
     r = J(RUN / f's7_{mode}' / 'results.json'); q = J(RUN / f's7_{mode}' / 'results_posthoc.json')['Q7_delay_capitals']['W10_70L']
     c = r['cells']['W10_70L']
-    return dict(late1_cost_5cap_median_pp=round(-q['1']['median_cost_pp'], 2), late2_cost_5cap_median_pp=round(-q['2']['median_cost_pp'], 2),
-                late1_cost_100w_pp=round(-c['delay_cost_pp']['1']['since2019'], 2), late2_cost_100w_pp=round(-c['delay_cost_pp']['2']['since2019'], 2),
+    return dict(late1_cost_5cap_median_pp=round(-q['1']['median_cost_pp'], ND), late2_cost_5cap_median_pp=round(-q['2']['median_cost_pp'], ND),
+                late1_cost_100w_pp=round(-c['delay_cost_pp']['1']['since2019'], ND), late2_cost_100w_pp=round(-c['delay_cost_pp']['2']['since2019'], ND),
                 late2_maxdd=pp(c['delay']['2']['since2019']['maxdd']))
 
 
@@ -53,7 +54,7 @@ def s9(mode):
             xs.append(lag + int(k.split('+')[1])); ys.append(v * 100)
     bb = np.polyfit(xs, ys, 1)
     return dict(late_median=pp(s3['fam2_r19_median']), late_p10=pp(s3['fam2_r19_p10']), late_dd_median=pp(s3['fam2_maxdd_median']),
-                late_dd_p10=pp(s3['fam2_maxdd_p10']), ontime_intercept=round(float(bb[1]), 2), ontime_slope=round(float(bb[0]), 2),
+                late_dd_p10=pp(s3['fam2_maxdd_p10']), ontime_intercept=round(float(bb[1]), ND), ontime_slope=round(float(bb[0]), ND),
                 A10_paths20_median=pp(s3['A10_paths_r19_median']), A10_paths20_dd_median=pp(s3['A10_paths_maxdd_median']))
 
 
@@ -80,15 +81,15 @@ def s42(mode):
                 conservative=m('COMB|0.005|LATE', 'HALF_since2019', 'p10'), conservative_maxdd=m('COMB|0.005|LATE', 'HALF_maxdd_full', 'p10'),
                 optimistic=m('COMB|0.003|ON', 'since2019'), optimistic_maxdd=m('COMB|0.003|ON', 'maxdd_full'),
                 cur_std_since2019=pp(r['acceptance']['A0']['since2019']), bench_since2019=pp(r['bench_0050']['since2019']), bench_maxdd=pp(r['bench_0050']['maxdd_full']),
-                stack=[dict(step=x['step'], since2019_median=pp(x['since2019_median']), d_vs_CUR_pp=round(x['d_vs_CUR_since2019_median_pp'], 2)) for x in r['stack']],
-                paired_effects={k: round(v['median'], 2) if isinstance(v, dict) else round(v, 2) for k, v in r['paired_effects'].items()},
+                stack=[dict(step=x['step'], since2019_median=pp(x['since2019_median']), d_vs_CUR_pp=round(x['d_vs_CUR_since2019_median_pp'], ND)) for x in r['stack']],
+                paired_effects={k: round(v['median'], ND) if isinstance(v, dict) else round(v, ND) for k, v in r['paired_effects'].items()},
                 acceptance=r['acceptance'])
 
 
 def s46(mode):
     f = J(RUN / f's46_{mode}' / 'results.json'); m = f['families']['main45']; c = f['cells']['g10_L20_D10']
     return dict(all_paths_median=pp(m['all_paths_median']), all_paths_p10=pp(m['all_paths_p10']), n_all_paths=m['n_all_paths'], current_rank=m['current_rank'],
-                current_minus_median_pp=round(m['current_minus_median_pp'], 2), family_median=pp(m['family_median']), best=m['best'],
+                current_minus_median_pp=round(m['current_minus_median_pp'], ND), family_median=pp(m['family_median']), best=m['best'],
                 current_main_since2019=pp(c['main']['since2019']), current_paths_median=pp(c['path']['median']), current_n_closed=c['main']['n_closed'])
 
 
@@ -99,7 +100,7 @@ def s62(mode):
         for cap in ('10萬', '100萬'):
             if cap in r['cells'][cid]:
                 v = r['cells'][cid][cap]['summary']['since2019_median']
-                o[f'{k}|{cap}'] = pp(v); o[f'{k}|{cap}|excess_pp'] = round((v - b) * 100, 2)
+                o[f'{k}|{cap}'] = pp(v); o[f'{k}|{cap}|excess_pp'] = round((v - b) * 100, ND)
     return o
 
 
@@ -107,18 +108,26 @@ def s64(mode):
     r = J(RUN / f's64_{mode}' / 'results.json'); sc = r['scenarios']; o = dict(bench_since2019=pp(r['bench_0050']['since2019']), baseline_median=pp(r['baseline']['since2019']),
                                                                            baseline_maxdd=pp(r['baseline']['maxdd_full']), baseline_main=pp(r['baseline']['main']['since2019']))
     for k in ('PICK_RAND', 'STOP_20_6M', 'SKIP_25', 'GAP_3', 'SKIP_10', 'SKIP_50', 'GAP_5'):
-        o[k] = dict(since2019=pp(sc[k]['since2019']), d19_pp=round(sc[k]['d19_pp'], 2), ddd_full_pp=round(sc[k]['ddd_full_pp'], 2))
+        o[k] = dict(since2019=pp(sc[k]['since2019']), d19_pp=round(sc[k]['d19_pp'], ND), ddd_full_pp=round(sc[k]['ddd_full_pp'], ND))
     return o
 
 
 def s39(mode):
     r = J(RUN / f's39_{mode}' / 'results.json'); e = r['engine']
-    return dict(window=e['window'], CUR_since2019=pp(e['standard']['CUR']['since2019']), CUR_window=pp(e['standard']['CUR']['cagr_window']), FPM_window=pp(e['standard']['FPM']['cagr_window']),
-                d_window_pp=round(e['standard']['FPM']['d_cagr_window_pp'], 2), d_maxdd_window_pp=round(e['standard']['FPM']['d_maxdd_window_pp'], 2),
-                d_since2019_pp=round(e['standard']['FPM']['d_since2019_pp'], 2), paths_median_cagr=e['paths_median_cagr'])
+    return dict(paths_pairs_FPM=e['paths_pairs']['FPM']['cagr'], window=e['window'], CUR_since2019=pp(e['standard']['CUR']['since2019']), CUR_window=pp(e['standard']['CUR']['cagr_window']), FPM_window=pp(e['standard']['FPM']['cagr_window']),
+                d_window_pp=round(e['standard']['FPM']['d_cagr_window_pp'], ND), d_maxdd_window_pp=round(e['standard']['FPM']['d_maxdd_window_pp'], ND),
+                d_since2019_pp=round(e['standard']['FPM']['d_since2019_pp'], ND), paths_median_cagr=e['paths_median_cagr'])
 
 
-FUN = dict(S7=s7, S9=s9, S27=s27, S42=s42, S46=s46, S62=s62, S64=s64, S39=s39)
+def s42fpm(mode):
+    """首次公布營收（S39 的做法）在 S42 鏈上的效果：標準路徑視窗差、20 條視窗差中位數與最差。"""
+    r = J(RUN / f's42_{mode}' / 'results.json'); a = r['acceptance']['A1_FPM']; ad = r['additivity_paths20']['since2024_07']
+    return dict(d_window_pp=round(a['d_window_pp'], ND), paths20_window_diff_median_pp=round(a['paths20_window_diff_median_pp'], ND),
+                paths20_window_diff_min_pp=round(ad['COMB_min_pp'], ND), paths20_window_diff_max_pp=round(ad['COMB_max_pp'], ND), n_lower=ad['COMB_n_lower'],
+                FPM_window=pp(a['window_2024_07']))
+
+
+FUN = dict(S7=s7, S9=s9, S27=s27, S42=s42, S42FPM=s42fpm, S46=s46, S62=s62, S64=s64, S39=s39)
 res = dict(v1={}, v2={}, errors={})
 for mode in ('v1', 'v2'):
     for k, f in FUN.items():
@@ -126,13 +135,23 @@ for mode in ('v1', 'v2'):
             res[mode][k] = f(mode)
         except Exception as e:                                # noqa: BLE001
             res['errors'][f'{k}_{mode}'] = repr(e)[:300]
+ND = 4
+for mode in ('v1', 'v2'):
+    res[mode + '_p4'] = {}
+    for k, f in FUN.items():
+        try:
+            res[mode + '_p4'][k] = f(mode)
+        except Exception as e:                                # noqa: BLE001
+            pass
+ND = 2
 # ---- 驗收：v1 重現舊值
 rs = J(AG / 'official_nav' / 'resync' / 'resync_results.json')['new']
 acc = {}
 for k in ('S7', 'S9', 'S27', 'S42'):
     if k in res['v1']:
         acc[f'{k}_v1_vs_resync_new'] = deep_diff(json.loads(json.dumps(res['v1'][k])), rs[k])
-SK = ('runtime_s', 'maxrss_mb', 'run_runtime_s', 'run_maxrss_mb', 'peak_mb', 'secs', 'run_sha256', 'lib_sha256', 'describe_1_runtime_s')
+SK = ('runtime_s', 'maxrss_mb', 'run_runtime_s', 'run_maxrss_mb', 'peak_mb', 'secs', 'run_sha256', 'lib_sha256', 'describe_1_runtime_s',
+      'describe_1', 'paths_trade_diff_100萬')   # 後兩個鍵是 S39 的 describe.py／diag_paths.py 另外寫進 results.json 的，run.py 不產生
 for k, d in (('S46', 's46_momentum_gate_family'), ('S62', 's62_small_capital_retail'), ('S64', 's64_retail_behavior_tax'), ('S39', 's39_first_print_revenue')):
     p = RUN / f'{k.lower()}_v1' / 'results.json'
     if p.exists():

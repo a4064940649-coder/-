@@ -1,0 +1,31 @@
+{
+ "study": "s9_signal_timing",
+ "script": "run.py",
+ "mode": "v2",
+ "self_flags": false,
+ "tag": "s9_v2",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true,
+  "REDUCE_FIX": true,
+  "E50_SOURCE": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+ },
+ "shim": {
+  "make_signal_ins15_calls": 74,
+  "ins15_masked_rows": 378,
+  "signal_rows_adjusted": 22,
+  "av_family_adjusted": 0
+ },
+ "soft_asserts": [
+  {
+   "line": 86,
+   "msg": "('驗收失敗', {'P0': True, 'A1_av_identical': True, 'A1_signal_identical': True, 'A0_W10_70': {'since2019': 0.4886240351744895, 'full': 0.3446290166508079, 'maxdd': -0.3160938700293674, 'ok': False}, 'A2_W10_70': {'nav_identical': True, 'trades_identical': True}, 'A0_WN_70': {'since2019': 0.6396543020704699, 'full': 0.45191467443886446, 'maxdd': -0.3651143808233954, 'ok': False}, 'A2_WN_70': {'nav_identical': True, 'trades_identical': True}})"
+  }
+ ],
+ "peak_mb": 1360,
+ "secs": 84,
+ "panel_exright_fix": true,
+ "panel_reduce_fix": true,
+ "panel_e50_source": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+}

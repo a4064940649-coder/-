@@ -62,6 +62,16 @@ for v, rule in K.VERSIONS.items():
                               final_nav_0050=float(b.iloc[-1]), cagr_0050=K.cagr(b, D0, DE), cagr_0050_since2019=K.cagr(b, D19, DE), maxdd_0050=K.dd_info(b),
                               yearly=K.yearly_table(nav, b), bears=K.bear_block(nav, b),
                               sig_dates=[i['sig_date'] for i in sg['info']], targets=[' '.join(i['targets']) for i in sg['info']])
+    paths = {}                                               # 20 條路徑（圖下方提醒文字的「中位數 22.8%（21.8%～24.3%）」用）
+    for sh in K.SHIFTS:
+        sg2 = sg if sh == 0 else K.signal(P, U, RT, sh)
+        for cap in K.CAPS:
+            n2 = nav if (sh == 0 and cap == 1e6) else K.sim(P, sg2, U, cap)[0]
+            paths[f'{int(cap / 1e4)}萬|+{sh}'] = dict(cagr_full=K.cagr(n2, D0, DE), maxdd=R.maxdd(n2), cagr_since2019=K.cagr(n2, D19, DE))
+    v_ = np.array([q['cagr_full'] for q in paths.values()]); d_ = np.array([q['maxdd'] for q in paths.values()])
+    res['versions'][v]['paths20'] = dict(cagr_full_median=float(np.median(v_)), cagr_full_min=float(v_.min()), cagr_full_max=float(v_.max()),
+                                         maxdd_median=float(np.median(d_)), maxdd_worst=float(d_.min()))
+    res['versions'][v]['paths'] = paths
     NAV[v] = nav; TR.append(lg.drop(columns=['j']).assign(version=v))
     print(v, round(float(nav.iloc[-1])), f"{K.cagr(nav, D0, DE):.4%}", res['versions'][v]['maxdd'], len(x), f'{time.time()-t0:.0f}s', rss(), 'MB', flush=True)
 df = pd.DataFrame({'V_MASK': NAV['V_MASK'], 'V_BRIDGE': NAV['V_BRIDGE'], '0050': bench.reindex(NAV['V_MASK'].index)}).round(2); df.index.name = 'date'

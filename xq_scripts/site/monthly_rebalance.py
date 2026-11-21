@@ -281,13 +281,14 @@ def main():
         p.add_argument("--rev-cutoff", help="補充營收的時點截止（UTC ISO，例如 2026-12-11T14:00:00Z＝台北 22:00）；settle 沒給時沿用訊號日晚上名單的截止")
         p.add_argument("--init-total", type=float, help="第一次、帳戶還沒有持股時：從多少現金開始")
         p.add_argument("--raw", help="研究中心的官方日 K 封存倉庫（預設 make_list.py 的 RAW_DEFAULT）")
+        p.add_argument("--extra-repo", action="append", default=[], help="額外的營收備援小倉庫（官方快照或人工檔轉的；排在最後、同月份覆蓋前面的），可多次")
         p.add_argument("--make-list", default=ML_DEFAULT); p.add_argument("--twt49u-dir", default=TWT49U_DEFAULT)
         p.add_argument("--force", action="store_true", help="settle：已結算過或名單有變時仍然重算並覆蓋")
     a = ap.parse_args()
     a.make_list = os.path.abspath(a.make_list); a.twt49u_dir = os.path.abspath(a.twt49u_dir); a.state = os.path.abspath(a.state); a.lists_dir = os.path.abspath(a.lists_dir)
     a.orders_dir = os.path.abspath(a.orders_dir) if a.orders_dir else os.path.join(os.path.dirname(a.state), "orders")
     raw = a.raw or load("make_list", a.make_list).RAW_DEFAULT
-    a.repos = [raw, a.tsd]
+    a.repos = [raw, a.tsd] + [os.path.abspath(r) for r in a.extra_repo]
     return cmd_plan(a) if a.cmd == "plan" else cmd_settle(a)
 
 

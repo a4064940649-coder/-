@@ -1,0 +1,118 @@
+{
+ "signal_date": "2026-12-11",
+ "signal_month": "2026-12",
+ "rev_month": "2026-11",
+ "today": "2026-11-21",
+ "checked_at_utc": "2026-11-21T12:11:26Z",
+ "rev_cutoff": "2026-12-11T14:00:00Z",
+ "items": {
+  "a_日K": {
+   "last_day": "2026-11-20",
+   "ok": false
+  },
+  "官方端點": {
+   "mode": "本次不連網，用最後一次成功的快照",
+   "status": {},
+   "budget_today": {
+    "openapi.twse.com.tw": {
+     "used": 6,
+     "blocked": false
+    },
+    "www.tpex.org.tw": {
+     "used": 5,
+     "blocked": false
+    },
+    "www.twse.com.tw": {
+     "used": 4,
+     "blocked": true
+    }
+   }
+  },
+  "b_營收": {
+   "rev_month": "2026-11",
+   "official_twse": {
+    "snapshot": "20261121T120207Z_twse.json.gz",
+    "fetched_utc": "2026-11-21T12:09:30Z",
+    "periods": {
+     "2026-10": 1091
+    },
+    "report_dates": {
+     "1151117": 1091
+    },
+    "n": 1091
+   },
+   "official_tpex": {
+    "snapshot": "20261121T120211Z_tpex.json.gz",
+    "fetched_utc": "2026-11-21T12:09:34Z",
+    "periods": {
+     "2026-10": 898
+    },
+    "report_dates": {
+     "1151117": 898
+    },
+    "n": 898
+   },
+   "repo_twse": {
+    "n": 0,
+    "source": "倉庫 HEAD 沒有 data/mops/revenue_hist/2026-11_twse.csv"
+   },
+   "coverage_repo": null,
+   "coverage_official": null,
+   "repo_ready": false,
+   "official_ready": false
+  },
+  "f_名單試算": {
+   "skipped": "日 K 還沒到訊號日或兩來源營收都不能用，名單試算先不做"
+  },
+  "c_除權息": {
+   "window": "2026-11-06～2026-12-11",
+   "compared_window": "2026-11-06～2026-12-11",
+   "archive_last_event": "2026-11-20",
+   "n_archive": 46,
+   "n_repo": 46,
+   "repo_unreadable_days": [],
+   "封存_vs_GitHub": {
+    "n_a": 46,
+    "n_b": 46,
+    "n_same": 46,
+    "only_a": [],
+    "only_b": [],
+    "diff": []
+   },
+   "note": "GitHub 倉庫日 K 還沒到訊號日，倉庫的除權息事件也可能還沒到；等 (a) 過了再看一次"
+  },
+  "d_減資": {
+   "window": "2026-08-13～2026-12-11",
+   "archive_last_event": "2026-11-16",
+   "n_archive": 14,
+   "n_repo": 14,
+   "repo_unreadable_days": [],
+   "封存_vs_GitHub": {
+    "n_a": 14,
+    "n_b": 14,
+    "n_same": 14,
+    "only_a": [],
+    "only_b": [],
+    "diff": []
+   }
+  },
+  "e_每日回測檢查": {
+   "date": "2026-11-21",
+   "result": "PASS",
+   "note": "12s 除權息封存到 2026-11-20"
+  }
+ },
+ "fail": [
+  "(a) GitHub 倉庫日 K 最新到 2026-11-20，還沒到訊號日 2026-12-11（倉庫 commit 時間 2026-11-20T22:43:42+00:00）",
+  "(b) 2026-11 營收兩個來源都還不能用：GitHub＝倉庫 HEAD 沒有 data/mops/revenue_hist/2026-11_twse.csv；官方＝沒有這個月的快照"
+ ],
+ "warn": [
+  "(b) 官方上市營收不能當第二來源：官方端點目前的資料年月是 {'2026-10': 1091}（抓取 2026-11-21T12:09:30Z），不是 2026-11",
+  "(c) 沒有官方 TWT49U 這個期間的快照：除權息只有單一來源（GitHub 倉庫）",
+  "(d) 沒有官方 TWTAUU 這個期間的快照：減資事件只有單一來源（GitHub 倉庫）"
+ ],
+ "tsd_head": "df9a1360a2f8540b64dd063e38b904354bb70dd5",
+ "tsd_head_time": "2026-11-20T22:43:42+00:00",
+ "ready": false,
+ "use_official_backup": false
+}
