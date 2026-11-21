@@ -33,7 +33,7 @@ DEADLINE_FIX = False
 INS15_MASK = False
 REV_DEADLINE_DIR = Path('/home/user/-/research/tw_stock_selection/raw/rev_deadline_exceptions')
 _REV_DL_CACHE = {}
-# 候選修正兩項（2026-11-21 加，opt-in；產品擁有者尚未採用，正式管線 official_nav/run_official.py 沒有開；
+# 修正兩項（2026-11-21 加，opt-in；同日已採用為正式口徑：正式管線 official_nav/run_official.py 有開，2019 起 48.76%→48.86%；
 # 依據 agents/r_fix_e50_reduce/FINDINGS.md、agents/eng_v2_candidate_and_site/）。兩個預設都是「關」：與加這段之前逐位相同。
 # REDUCE_FIX＝True：減資／面額變更恢復買賣日，漲跌價差改成 收盤 − 事件參考價（見 reduce_fix_chg()）。也可用 Panel(reduce_fix=True) 單次指定。
 # E50_SOURCE：0050 含息序列檔（date、adj 兩欄）。None＝現用的 E50_CSV；候選檔＝E50_OFFICIAL_CSV（官方日 K＋除息／分割事件自建）。
