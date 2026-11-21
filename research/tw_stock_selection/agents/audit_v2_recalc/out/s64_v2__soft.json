@@ -1,0 +1,31 @@
+{
+ "study": "s64_retail_behavior_tax",
+ "script": "run.py",
+ "mode": "v2",
+ "self_flags": true,
+ "tag": "s64_v2",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true,
+  "REDUCE_FIX": true,
+  "E50_SOURCE": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+ },
+ "shim": {
+  "make_signal_ins15_calls": 0,
+  "ins15_masked_rows": 0,
+  "signal_rows_adjusted": 0,
+  "av_family_adjusted": 0
+ },
+ "soft_asserts": [
+  {
+   "line": 78,
+   "msg": "'驗收失敗'"
+  }
+ ],
+ "peak_mb": 1463,
+ "secs": 1907,
+ "panel_exright_fix": true,
+ "panel_reduce_fix": true,
+ "panel_e50_source": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+}

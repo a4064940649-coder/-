@@ -509,6 +509,47 @@
    "R0_現行嚴成本|100萬": 46.72,
    "R0_現行嚴成本|100萬|excess_pp": 17.9
   },
+  "S64": {
+   "bench_since2019": 28.82,
+   "baseline_median": 46.42,
+   "baseline_maxdd": -33.13,
+   "baseline_main": 48.86,
+   "PICK_RAND": {
+    "since2019": 40.0,
+    "d19_pp": -6.07,
+    "ddd_full_pp": 1.53
+   },
+   "STOP_20_6M": {
+    "since2019": 41.52,
+    "d19_pp": -4.88,
+    "ddd_full_pp": -0.4
+   },
+   "SKIP_25": {
+    "since2019": 43.81,
+    "d19_pp": -2.12,
+    "ddd_full_pp": -0.06
+   },
+   "GAP_3": {
+    "since2019": 45.52,
+    "d19_pp": -1.74,
+    "ddd_full_pp": -0.15
+   },
+   "SKIP_10": {
+    "since2019": 45.51,
+    "d19_pp": -0.72,
+    "ddd_full_pp": 0.01
+   },
+   "SKIP_50": {
+    "since2019": 39.88,
+    "d19_pp": -6.17,
+    "ddd_full_pp": -1.09
+   },
+   "GAP_5": {
+    "since2019": 45.93,
+    "d19_pp": -0.39,
+    "ddd_full_pp": -0.0
+   }
+  },
   "S39": {
    "paths_pairs_FPM": {
     "median_pp": -0.9327998695551676,
@@ -536,9 +577,7 @@
    }
   }
  },
- "errors": {
-  "S64_v2": "FileNotFoundError(2, 'No such file or directory')"
- },
+ "errors": {},
  "v1_p4": {
   "S7": {
    "late1_cost_5cap_median_pp": 3.6969,
@@ -1049,6 +1088,47 @@
    "R0_現行嚴成本|100萬": 46.7246,
    "R0_現行嚴成本|100萬|excess_pp": 17.9039
   },
+  "S64": {
+   "bench_since2019": 28.8207,
+   "baseline_median": 46.4192,
+   "baseline_maxdd": -33.1323,
+   "baseline_main": 48.8625,
+   "PICK_RAND": {
+    "since2019": 40.0047,
+    "d19_pp": -6.0706,
+    "ddd_full_pp": 1.5294
+   },
+   "STOP_20_6M": {
+    "since2019": 41.5168,
+    "d19_pp": -4.8781,
+    "ddd_full_pp": -0.4035
+   },
+   "SKIP_25": {
+    "since2019": 43.8075,
+    "d19_pp": -2.1237,
+    "ddd_full_pp": -0.058
+   },
+   "GAP_3": {
+    "since2019": 45.5248,
+    "d19_pp": -1.742,
+    "ddd_full_pp": -0.1471
+   },
+   "SKIP_10": {
+    "since2019": 45.5108,
+    "d19_pp": -0.725,
+    "ddd_full_pp": 0.0081
+   },
+   "SKIP_50": {
+    "since2019": 39.8777,
+    "d19_pp": -6.1682,
+    "ddd_full_pp": -1.085
+   },
+   "GAP_5": {
+    "since2019": 45.9295,
+    "d19_pp": -0.3942,
+    "ddd_full_pp": -0.0024
+   }
+  },
   "S39": {
    "paths_pairs_FPM": {
     "median_pp": -0.9327998695551676,
@@ -1098,7 +1178,12 @@
   "S39_v1_results_vs_original": {
    "n_diff": 0,
    "first": []
-  }
+  },
+  "S64_v1_scenarios_baseline_bench_vs_original": {
+   "n_diff": 0,
+   "first": []
+  },
+  "S64_note": "results.json 全檔只差 /tax/div_events/off_calendar（除權息封存中不在面板交易日上的事件數 807→814）：raw/twt49u 封存在原研究（11-17）之後有補檔，補的是面板最後一天（2026-10-22）之後的事件，不影響任何情境數字。"
  },
  "soft": {
   "s27_v1": {
@@ -1367,6 +1452,33 @@
    "secs": 1954,
    "panel_reduce_fix": false,
    "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+  },
+  "s64_v2": {
+   "flags": {
+    "EXRIGHT_FIX": true,
+    "DEADLINE_FIX": true,
+    "INS15_MASK": true,
+    "REDUCE_FIX": true,
+    "E50_SOURCE": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+   },
+   "self_flags": true,
+   "shim": {
+    "make_signal_ins15_calls": 0,
+    "ins15_masked_rows": 0,
+    "signal_rows_adjusted": 0,
+    "av_family_adjusted": 0
+   },
+   "n_soft": 1,
+   "soft": [
+    [
+     78,
+     "'驗收失敗'"
+    ]
+   ],
+   "peak_mb": 1463,
+   "secs": 1907,
+   "panel_reduce_fix": true,
+   "panel_e50_source": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
   },
   "s7_v1": {
    "flags": {

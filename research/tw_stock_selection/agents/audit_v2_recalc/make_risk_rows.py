@@ -42,7 +42,7 @@ SRC_ADD = '；2026-11-21 新口徑重算：agents/audit_v2_recalc/recalc_results
 HOW_RESYNC = '複製 official_nav/resync/harness.py（原研究程式不改、在暫存區執行）：舊口徑＝三個開關、舊 0050 序列；新口徑＝再開 REDUCE_FIX 與 0050 官方含息序列。'
 HOW_SELF = '原研究程式自己開三個開關；在暫存區原樣執行（舊口徑）與只預先加開 REDUCE_FIX、0050 官方含息序列後執行（新口徑＝五個開關）。'
 ok_resync = lambda k: ACC.get(f'{k}_v1_vs_resync_new') == []
-ok_self = lambda k: ACC.get(f'{k}_v1_results_vs_original', {}).get('n_diff') == 0
+ok_self = lambda k: (ACC.get(f'{k}_v1_results_vs_original', {}).get('n_diff') == 0) or (k == 'S64' and ACC.get('S64_v1_scenarios_baseline_bench_vs_original', {}).get('n_diff') == 0)
 OUT = []
 
 
@@ -134,7 +134,7 @@ a46, b46 = A['S46'], B['S46']
 S46HOW = HOW_SELF + 'S46 run.py：45 格 × 20 條＝900 條路徑。'
 assert b46['current_rank'] == 1 and b46['n_all_paths'] == 900
 row('參數挑選後可預期', a46['all_paths_median'], b46['all_paths_median'], 1, ok_self('S46'), S46HOW,
-    [('高出家族中位數 6.25 個百分點', f'高出家族中位數 {f(b46["current_minus_median_pp"], 2)} 個百分點'),
+    [('高出家族中位數 6.25 個百分點（S46，R46 重現）', f'高出家族中位數 {f(b46["current_minus_median_pp"], 2)} 個百分點（S46；R46 重現的是修正前的 6.25）'),
      ('家族 900 條路徑中位數 40.4%，差的情況 35.9%。', f'家族 900 條路徑中位數 {f(b46["all_paths_median"])}%，差的情況 {f(b46["all_paths_p10"])}%。'),
      (N1, f'（2026-11-21 新口徑重算：{f(b46["all_paths_median"], 2)}%／{f(b46["all_paths_p10"], 2)}%、高出 {f(b46["current_minus_median_pp"], 2)}；修正前 {f(a46["all_paths_median"], 2)}%／{f(a46["all_paths_p10"], 2)}%、高出 {f(a46["current_minus_median_pp"], 2)}）')],
     new_value=pyv(b46['all_paths_median']), extra=dict(現行格名次=b46['current_rank'], 家族中位數舊=a46['family_median'], 家族中位數新=b46['family_median'], 高出舊=a46['current_minus_median_pp'], 高出新=b46['current_minus_median_pp'],
@@ -143,21 +143,21 @@ row('參數挑選_差的情況', a46['all_paths_p10'], b46['all_paths_p10'], 1, 
     [(N1, DONE(a46['all_paths_p10'], b46['all_paths_p10'], 2))], new_value=pyv(b46['all_paths_p10']))
 # ---- S64
 a64, b64 = A.get('S64', {}), B.get('S64', {})
-S64HOW = HOW_SELF + 'S64 run.py：20 條路徑、各情境（隨機情境的亂數種子固定）。'
+S64HOW = HOW_SELF + 'S64 run.py：20 條路徑、各情境（隨機情境的亂數種子固定）。舊口徑重跑的情境、照做基準、0050 全部逐位相同；整份結果檔只差一個稅務診斷用的計數（除權息封存後來補檔，不影響情境）。'
 base_a, base_b = a64.get('baseline_median'), b64.get('baseline_median')
 N64 = lambda k: f'（2026-11-21 新口徑重算：逐條相減中位數 {f(-b64[k]["d19_pp"], 2)}、20 條中位數 {f(base_b, 2)}% → {f(b64[k]["since2019"], 2)}%；修正前 {f(-a64[k]["d19_pp"], 2)}、{f(base_a, 2)}% → {f(a64[k]["since2019"], 2)}%）'
 
 
 def r64(name, k, reps):
-    row(name, -a64[k]['d19_pp'], -b64[k]['d19_pp'], 1, ok_self('S64'), S64HOW, reps + [(N1, N64(k))], new_value=pyv(-b64[k]['d19_pp']),
+    row(name, -a64[k]['d19_pp'], -b64[k]['d19_pp'], 1, ok_self('S64'), S64HOW, reps + [('R64 已重現' + N1, 'R64 重現的是修正前的數字' + N64(k))], new_value=pyv(-b64[k]['d19_pp']),
         extra=dict(情境20條中位數舊=a64[k]['since2019'], 情境20條中位數新=b64[k]['since2019'], 照做20條中位數舊=base_a, 照做20條中位數新=base_b,
                    直接相減舊=round(base_a - a64[k]['since2019'], 4), 直接相減新=round(base_b - b64[k]['since2019'], 4), 回撤逐條差中位數舊=a64[k]['ddd_full_pp'], 回撤逐條差中位數新=b64[k]['ddd_full_pp']))
 
 
 if 'S64' in B and 'S64' in A:
     k = 'PICK_RAND'
-    r64('照做_只買一半少', k, [('每年少賺約 6.0 個百分點（20 條路徑逐條相減後取中位數；20 條中位數本身是 46.4% → 40.1%，直接相減是 6.3，兩種算法不同；',
-                                f'每年少賺約 {f(-b64[k]["d19_pp"])} 個百分點（20 條路徑逐條相減後取中位數；20 條中位數本身是 {f(base_b)}% → {f(b64[k]["since2019"])}%，直接相減是 {f(base_b - b64[k]["since2019"])}，兩種算法不同；')])
+    r64('照做_只買一半少', k, [('每年少賺約 6.0 個百分點（20 條路徑逐條相減後取中位數；20 條中位數本身是 46.4% → 40.1%，直接相減是 6.3，兩種算法不同；獨立重現時換一組隨機抽法是 5.8）',
+                                f'每年少賺約 {f(-b64[k]["d19_pp"])} 個百分點（20 條路徑逐條相減後取中位數；20 條中位數本身是 {f(base_b)}% → {f(b64[k]["since2019"])}%，直接相減是 {f(base_b - b64[k]["since2019"])}，兩種算法不同；修正前口徑下獨立重現換一組隨機抽法是 5.8）')])
     k = 'STOP_20_6M'
     r64('照做_回落20%停手少', k, [('每年少賺約 4.8 個百分點（20 條路徑逐條相減後取中位數；20 條中位數本身是 46.4% → 41.5%，直接相減是 4.9，兩種算法不同），而且最大回撤沒有變淺（重現值還略深 0.4 個百分點）。',
                                      f'每年少賺約 {f(-b64[k]["d19_pp"])} 個百分點（20 條路徑逐條相減後取中位數；20 條中位數本身是 {f(base_b)}% → {f(b64[k]["since2019"])}%，直接相減是 {f(base_b - b64[k]["since2019"])}，兩種算法不同），而且最大回撤沒有變淺（逐條差中位數 {f(b64[k]["ddd_full_pp"], 1, True)} 個百分點，負＝更深）。')])
@@ -173,10 +173,10 @@ S62HOW = HOW_SELF + 'S62 run.py：36 格摩擦 × 6 個本金 × 20 條路徑；
 kB, kD = 'B_基準|10萬', 'D_只買整張|10萬'
 N62 = lambda k: f'（2026-11-21 新口徑重算：超額 {f(b62[k + "|excess_pp"], 2)}＝{f(b62[k], 2)}% − 0050 {f(b62["bench_since2019"], 2)}%；修正前 {f(a62[k + "|excess_pp"], 2)}＝{f(a62[k], 2)}% − {f(a62["bench_since2019"], 2)}%（舊 0050 序列））'
 row('小資金_10萬零股超額', a62[kB + '|excess_pp'], b62[kB + '|excess_pp'], 1, ok_self('S62'), S62HOW,
-    [('每年仍比 0050 多約 14.7 個百分點（43.6% 對 0050 的 28.9%）', f'每年仍比 0050 多約 {f(b62[kB + "|excess_pp"])} 個百分點（{f(b62[kB])}% 對 0050 的 {f(b62["bench_since2019"])}%）'), (N1B, N62(kB))],
+    [('每年仍比 0050 多約 14.7 個百分點（43.6% 對 0050 的 28.9%）', f'每年仍比 0050 多約 {f(b62[kB + "|excess_pp"])} 個百分點（{f(b62[kB])}% 對 0050 的 {f(b62["bench_since2019"])}%）'), ('R64 已重現' + N1B, 'R64 重現的是修正前的數字' + N62(kB))],
     new_value=pyv(b62[kB + '|excess_pp']), extra=dict(策略舊=a62[kB], 策略新=b62[kB], 基準舊=a62['bench_since2019'], 基準新=b62['bench_since2019']))
 row('小資金_10萬只買整張超額', a62[kD + '|excess_pp'], b62[kD + '|excess_pp'], 1, ok_self('S62'), S62HOW,
-    [('每年只比 0050 多約 0.5 個百分點（29.4% 對 28.9%）', f'每年只比 0050 多約 {f(b62[kD + "|excess_pp"])} 個百分點（{f(b62[kD])}% 對 {f(b62["bench_since2019"])}%）'), (N1B, N62(kD))],
+    [('每年只比 0050 多約 0.5 個百分點（29.4% 對 28.9%）', f'每年只比 0050 多約 {f(b62[kD + "|excess_pp"])} 個百分點（{f(b62[kD])}% 對 {f(b62["bench_since2019"])}%）'), ('R64 已重現' + N1B, 'R64 重現的是修正前的數字' + N62(kD))],
     new_value=pyv(b62[kD + '|excess_pp']), extra=dict(策略舊=a62[kD], 策略新=b62[kD], 基準舊=a62['bench_since2019'], 基準新=b62['bench_since2019']))
 # ---- R0：不重算
 row('成本_0050也加滑價少', None, None, 1, None, '沒有重算：這一列是清潔室重寫引擎（R0）自己的敏感度；R0 引擎自己處理減資復牌（不讀減資事件檔 raw/twse_reduce）、0050 用舊序列（integrate_o6/data/etf_0050.csv），正式引擎也沒有「0050 買賣加個股滑價」這個開關，所以無法用正式引擎的新口徑重算。',

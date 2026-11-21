@@ -157,6 +157,14 @@ for k, d in (('S46', 's46_momentum_gate_family'), ('S62', 's62_small_capital_ret
     if p.exists():
         dd = deep_diff(J(p), J(AG / d / 'results.json'), skip=SK)
         acc[f'{k}_v1_results_vs_original'] = dict(n_diff=len(dd), first=dd[:8])
+p64 = RUN / 's64_v1' / 'results.json'
+if p64.exists():                                             # S64：風險表用到的部分（情境、照做基準、0050、排名）另外逐位比對
+    x, y = J(p64), J(AG / 's64_retail_behavior_tax' / 'results.json')
+    dd = []
+    for k in ('scenarios', 'baseline', 'bench_0050', 'ranking', 'acceptance', 'panel'):
+        deep_diff(x[k], y[k], '/' + k, dd, SK)
+    acc['S64_v1_scenarios_baseline_bench_vs_original'] = dict(n_diff=len(dd), first=dd[:8])
+    acc['S64_note'] = 'results.json 全檔只差 /tax/div_events/off_calendar（除權息封存中不在面板交易日上的事件數 807→814）：raw/twt49u 封存在原研究（11-17）之後有補檔，補的是面板最後一天（2026-10-22）之後的事件，不影響任何情境數字。'
 res['acceptance'] = acc
 res['soft'] = {p.stem.replace('__soft', ''): dict(flags=J(p)['flags'], self_flags=J(p).get('self_flags'), shim=J(p)['shim'], n_soft=len(J(p)['soft_asserts']),
                                                   soft=[(x['line'], x['msg'][:200]) for x in J(p)['soft_asserts']], peak_mb=J(p)['peak_mb'], secs=J(p)['secs'],
