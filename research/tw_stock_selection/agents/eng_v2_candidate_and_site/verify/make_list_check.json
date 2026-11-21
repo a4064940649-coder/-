@@ -1,0 +1,551 @@
+{
+ "month": "2026-11",
+ "rev_cutoff": "2026-11-11T14:00:00Z",
+ "make_list_sha256": "d979acd8e566289825c877185e19b8a8e5a0aa937c5e616835688285753dd76f",
+ "make_list_v2_sha256": "89ce17d99a666587c33257bd2cd71bb3b3f582752aa20f4ea111e873b0eba7aa",
+ "cases": {
+  "空倉100萬": {
+   "off_identical_files": {
+    ".csv": true,
+    ".json": true,
+    ".md": true
+   },
+   "sig_date": "2026-11-11",
+   "exec_date": "2026-11-12",
+   "data_last_day": "2026-11-20",
+   "top20_codes_now": [
+    "2453",
+    "3209",
+    "3311",
+    "2480",
+    "3715",
+    "3701",
+    "6589",
+    "1802",
+    "5469",
+    "1710",
+    "6108",
+    "9933",
+    "4566",
+    "2340",
+    "4938",
+    "1303",
+    "3617",
+    "3029",
+    "8213",
+    "4736"
+   ],
+   "top20_codes_same": true,
+   "f1_codes_now": [
+    "1802"
+   ],
+   "f1_codes_same": true,
+   "top20_field_diffs": [],
+   "f1_field_diffs": [],
+   "plan_diffs": [],
+   "other_top_level_diffs": [],
+   "meta_diffs_except_reduce": [],
+   "reduce_meta": {
+    "on": true,
+    "rule": "cslib.reduce_fix_chg（候選；上市、當天有成交、在事件表 → 漲跌價差＝收盤 − 事件參考價）",
+    "reduce_csv": "/home/user/-/research/tw_stock_selection/raw/twse_reduce/twse_reduce_events.csv",
+    "window": "2025-07-18～2026-11-12",
+    "n_reduce_parvalue": 34,
+    "reduce_last": "2026-11-16",
+    "cells_in_top20_f1_holdings": []
+   },
+   "reduce_cells_in_window": [
+    {
+     "date": "2025-07-21",
+     "code": "6919",
+     "close": 133.5,
+     "ref_price": 121.5
+    },
+    {
+     "date": "2025-08-25",
+     "code": "2327",
+     "close": 143.0,
+     "ref_price": 136.5
+    },
+    {
+     "date": "2025-09-15",
+     "code": "2101",
+     "close": 44.4,
+     "ref_price": 44.08
+    },
+    {
+     "date": "2025-09-15",
+     "code": "3321",
+     "close": 14.75,
+     "ref_price": 13.93
+    },
+    {
+     "date": "2025-09-30",
+     "code": "6120",
+     "close": 11.5,
+     "ref_price": 11.0
+    },
+    {
+     "date": "2025-10-07",
+     "code": "2352",
+     "close": 35.4,
+     "ref_price": 34.57
+    },
+    {
+     "date": "2025-10-07",
+     "code": "2489",
+     "close": 13.7,
+     "ref_price": 13.73
+    },
+    {
+     "date": "2025-10-07",
+     "code": "2607",
+     "close": 59.0,
+     "ref_price": 60.0
+    },
+    {
+     "date": "2025-10-07",
+     "code": "3057",
+     "close": 13.85,
+     "ref_price": 14.31
+    },
+    {
+     "date": "2025-10-07",
+     "code": "9924",
+     "close": 52.2,
+     "ref_price": 53.5
+    },
+    {
+     "date": "2025-10-20",
+     "code": "2314",
+     "close": 22.9,
+     "ref_price": 24.46
+    },
+    {
+     "date": "2025-11-03",
+     "code": "2832",
+     "close": 47.35,
+     "ref_price": 47.14
+    },
+    {
+     "date": "2025-11-17",
+     "code": "8422",
+     "close": 24.7,
+     "ref_price": 25.0
+    },
+    {
+     "date": "2025-11-24",
+     "code": "1808",
+     "close": 35.35,
+     "ref_price": 37.16
+    },
+    {
+     "date": "2025-11-24",
+     "code": "9927",
+     "close": 66.7,
+     "ref_price": 69.11
+    },
+    {
+     "date": "2025-12-08",
+     "code": "8103",
+     "close": 83.4,
+     "ref_price": 86.11
+    },
+    {
+     "date": "2025-12-22",
+     "code": "3593",
+     "close": 12.3,
+     "ref_price": 13.5
+    },
+    {
+     "date": "2026-01-12",
+     "code": "1414",
+     "close": 18.2,
+     "ref_price": 18.27
+    },
+    {
+     "date": "2026-01-19",
+     "code": "7780",
+     "close": 20.35,
+     "ref_price": 18.5
+    },
+    {
+     "date": "2026-06-29",
+     "code": "2380",
+     "close": 21.5,
+     "ref_price": 23.86
+    },
+    {
+     "date": "2026-08-03",
+     "code": "1459",
+     "close": 12.8,
+     "ref_price": 12.46
+    },
+    {
+     "date": "2026-08-24",
+     "code": "6176",
+     "close": 101.5,
+     "ref_price": 105.06
+    },
+    {
+     "date": "2026-09-07",
+     "code": "1563",
+     "close": 79.5,
+     "ref_price": 84.66
+    },
+    {
+     "date": "2026-09-07",
+     "code": "6949",
+     "close": 67.1,
+     "ref_price": 74.5
+    },
+    {
+     "date": "2026-09-21",
+     "code": "2321",
+     "close": 26.0,
+     "ref_price": 27.61
+    },
+    {
+     "date": "2026-09-21",
+     "code": "3356",
+     "close": 68.6,
+     "ref_price": 68.04
+    },
+    {
+     "date": "2026-09-21",
+     "code": "3591",
+     "close": 25.85,
+     "ref_price": 25.22
+    },
+    {
+     "date": "2026-09-29",
+     "code": "1441",
+     "close": 10.15,
+     "ref_price": 10.13
+    },
+    {
+     "date": "2026-09-29",
+     "code": "6550",
+     "close": 17.4,
+     "ref_price": 19.09
+    },
+    {
+     "date": "2026-10-05",
+     "code": "2601",
+     "close": 6.45,
+     "ref_price": 7.06
+    },
+    {
+     "date": "2026-10-12",
+     "code": "2323",
+     "close": 10.9,
+     "ref_price": 10.88
+    },
+    {
+     "date": "2026-10-19",
+     "code": "4155",
+     "close": 16.1,
+     "ref_price": 14.68
+    },
+    {
+     "date": "2026-10-27",
+     "code": "1516",
+     "close": 25.0,
+     "ref_price": 24.73
+    },
+    {
+     "date": "2026-10-27",
+     "code": "6142",
+     "close": 9.06,
+     "ref_price": 9.47
+    }
+   ],
+   "sells": [],
+   "keeps": [],
+   "buys": [
+    "1802"
+   ],
+   "off_pass": true,
+   "on_changed": false
+  },
+  "策略帳戶（上月回測持股）": {
+   "off_identical_files": {
+    ".csv": true,
+    ".json": true,
+    ".md": true
+   },
+   "sig_date": "2026-11-11",
+   "exec_date": "2026-11-12",
+   "data_last_day": "2026-11-20",
+   "top20_codes_now": [
+    "2453",
+    "3209",
+    "3311",
+    "2480",
+    "3715",
+    "3701",
+    "6589",
+    "1802",
+    "5469",
+    "1710",
+    "6108",
+    "9933",
+    "4566",
+    "2340",
+    "4938",
+    "1303",
+    "3617",
+    "3029",
+    "8213",
+    "4736"
+   ],
+   "top20_codes_same": true,
+   "f1_codes_now": [
+    "1802"
+   ],
+   "f1_codes_same": true,
+   "top20_field_diffs": [],
+   "f1_field_diffs": [],
+   "plan_diffs": [],
+   "other_top_level_diffs": [],
+   "meta_diffs_except_reduce": [],
+   "reduce_meta": {
+    "on": true,
+    "rule": "cslib.reduce_fix_chg（候選；上市、當天有成交、在事件表 → 漲跌價差＝收盤 − 事件參考價）",
+    "reduce_csv": "/home/user/-/research/tw_stock_selection/raw/twse_reduce/twse_reduce_events.csv",
+    "window": "2025-07-18～2026-11-12",
+    "n_reduce_parvalue": 34,
+    "reduce_last": "2026-11-16",
+    "cells_in_top20_f1_holdings": []
+   },
+   "reduce_cells_in_window": [
+    {
+     "date": "2025-07-21",
+     "code": "6919",
+     "close": 133.5,
+     "ref_price": 121.5
+    },
+    {
+     "date": "2025-08-25",
+     "code": "2327",
+     "close": 143.0,
+     "ref_price": 136.5
+    },
+    {
+     "date": "2025-09-15",
+     "code": "2101",
+     "close": 44.4,
+     "ref_price": 44.08
+    },
+    {
+     "date": "2025-09-15",
+     "code": "3321",
+     "close": 14.75,
+     "ref_price": 13.93
+    },
+    {
+     "date": "2025-09-30",
+     "code": "6120",
+     "close": 11.5,
+     "ref_price": 11.0
+    },
+    {
+     "date": "2025-10-07",
+     "code": "2352",
+     "close": 35.4,
+     "ref_price": 34.57
+    },
+    {
+     "date": "2025-10-07",
+     "code": "2489",
+     "close": 13.7,
+     "ref_price": 13.73
+    },
+    {
+     "date": "2025-10-07",
+     "code": "2607",
+     "close": 59.0,
+     "ref_price": 60.0
+    },
+    {
+     "date": "2025-10-07",
+     "code": "3057",
+     "close": 13.85,
+     "ref_price": 14.31
+    },
+    {
+     "date": "2025-10-07",
+     "code": "9924",
+     "close": 52.2,
+     "ref_price": 53.5
+    },
+    {
+     "date": "2025-10-20",
+     "code": "2314",
+     "close": 22.9,
+     "ref_price": 24.46
+    },
+    {
+     "date": "2025-11-03",
+     "code": "2832",
+     "close": 47.35,
+     "ref_price": 47.14
+    },
+    {
+     "date": "2025-11-17",
+     "code": "8422",
+     "close": 24.7,
+     "ref_price": 25.0
+    },
+    {
+     "date": "2025-11-24",
+     "code": "1808",
+     "close": 35.35,
+     "ref_price": 37.16
+    },
+    {
+     "date": "2025-11-24",
+     "code": "9927",
+     "close": 66.7,
+     "ref_price": 69.11
+    },
+    {
+     "date": "2025-12-08",
+     "code": "8103",
+     "close": 83.4,
+     "ref_price": 86.11
+    },
+    {
+     "date": "2025-12-22",
+     "code": "3593",
+     "close": 12.3,
+     "ref_price": 13.5
+    },
+    {
+     "date": "2026-01-12",
+     "code": "1414",
+     "close": 18.2,
+     "ref_price": 18.27
+    },
+    {
+     "date": "2026-01-19",
+     "code": "7780",
+     "close": 20.35,
+     "ref_price": 18.5
+    },
+    {
+     "date": "2026-06-29",
+     "code": "2380",
+     "close": 21.5,
+     "ref_price": 23.86
+    },
+    {
+     "date": "2026-08-03",
+     "code": "1459",
+     "close": 12.8,
+     "ref_price": 12.46
+    },
+    {
+     "date": "2026-08-24",
+     "code": "6176",
+     "close": 101.5,
+     "ref_price": 105.06
+    },
+    {
+     "date": "2026-09-07",
+     "code": "1563",
+     "close": 79.5,
+     "ref_price": 84.66
+    },
+    {
+     "date": "2026-09-07",
+     "code": "6949",
+     "close": 67.1,
+     "ref_price": 74.5
+    },
+    {
+     "date": "2026-09-21",
+     "code": "2321",
+     "close": 26.0,
+     "ref_price": 27.61
+    },
+    {
+     "date": "2026-09-21",
+     "code": "3356",
+     "close": 68.6,
+     "ref_price": 68.04
+    },
+    {
+     "date": "2026-09-21",
+     "code": "3591",
+     "close": 25.85,
+     "ref_price": 25.22
+    },
+    {
+     "date": "2026-09-29",
+     "code": "1441",
+     "close": 10.15,
+     "ref_price": 10.13
+    },
+    {
+     "date": "2026-09-29",
+     "code": "6550",
+     "close": 17.4,
+     "ref_price": 19.09
+    },
+    {
+     "date": "2026-10-05",
+     "code": "2601",
+     "close": 6.45,
+     "ref_price": 7.06
+    },
+    {
+     "date": "2026-10-12",
+     "code": "2323",
+     "close": 10.9,
+     "ref_price": 10.88
+    },
+    {
+     "date": "2026-10-19",
+     "code": "4155",
+     "close": 16.1,
+     "ref_price": 14.68
+    },
+    {
+     "date": "2026-10-27",
+     "code": "1516",
+     "close": 25.0,
+     "ref_price": 24.73
+    },
+    {
+     "date": "2026-10-27",
+     "code": "6142",
+     "close": 9.06,
+     "ref_price": 9.47
+    }
+   ],
+   "sells": [
+    "6213",
+    "2355",
+    "3416",
+    "3037",
+    "2492"
+   ],
+   "keeps": [
+    "3311",
+    "4938",
+    "2480"
+   ],
+   "buys": [
+    "1802"
+   ],
+   "off_pass": true,
+   "on_changed": false
+  }
+ },
+ "vs_published_2026-11": {
+  "top20_same": true,
+  "f1_same": true
+ },
+ "pass_off_identical": true
+}
