@@ -1,0 +1,31 @@
+{
+ "study": "s39_first_print_revenue",
+ "script": "run.py",
+ "mode": "v2",
+ "self_flags": true,
+ "tag": "s39_v2",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": false,
+  "INS15_MASK": false,
+  "REDUCE_FIX": true,
+  "E50_SOURCE": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+ },
+ "shim": {
+  "make_signal_ins15_calls": 0,
+  "ins15_masked_rows": 0,
+  "signal_rows_adjusted": 0,
+  "av_family_adjusted": 0
+ },
+ "soft_asserts": [
+  {
+   "line": 86,
+   "msg": "\"A0 失敗 {'since2019': 0.49099033087426647, 'full': 0.34610584774010844, 'maxdd': -0.31606397573444145, 'n_trades': 381, 'ok': False}\""
+  }
+ ],
+ "peak_mb": 1401,
+ "secs": 21,
+ "panel_exright_fix": true,
+ "panel_reduce_fix": true,
+ "panel_e50_source": "/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv"
+}
