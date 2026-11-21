@@ -33,6 +33,14 @@ DEADLINE_FIX = False
 INS15_MASK = False
 REV_DEADLINE_DIR = Path('/home/user/-/research/tw_stock_selection/raw/rev_deadline_exceptions')
 _REV_DL_CACHE = {}
+# 候選修正兩項（2026-11-21 加，opt-in；產品擁有者尚未採用，正式管線 official_nav/run_official.py 沒有開；
+# 依據 agents/r_fix_e50_reduce/FINDINGS.md、agents/eng_v2_candidate_and_site/）。兩個預設都是「關」：與加這段之前逐位相同。
+# REDUCE_FIX＝True：減資／面額變更恢復買賣日，漲跌價差改成 收盤 − 事件參考價（見 reduce_fix_chg()）。也可用 Panel(reduce_fix=True) 單次指定。
+# E50_SOURCE：0050 含息序列檔（date、adj 兩欄）。None＝現用的 E50_CSV；候選檔＝E50_OFFICIAL_CSV（官方日 K＋除息／分割事件自建）。
+REDUCE_FIX = False
+REDUCE_CSV = Path('/home/user/-/research/tw_stock_selection/raw/twse_reduce/twse_reduce_events.csv')
+E50_SOURCE = None
+E50_OFFICIAL_CSV = Path('/home/user/-/research/tw_stock_selection/raw/e50_tr_official/etf_0050_tr.csv')
 
 
 def sha_bytes(b):
@@ -132,6 +140,30 @@ def exright_fix_chg(IDX, COLS, C, CHG, MK, ev):
     return CHG, info
 
 
+def load_reduce(f=None):
+    """讀減資／面額變更恢復買賣事件封存（raw/twse_reduce；欄位 date、code、prev_close、ref_price、reason）。同日同代號留最後一筆、參考價須 > 0。"""
+    e = pd.read_csv(f or REDUCE_CSV, dtype={'code': str})
+    e['date'] = pd.to_datetime(e['date']); e['ref_price'] = pd.to_numeric(e['ref_price'], errors='coerce')
+    e = e.drop_duplicates(['date', 'code'], keep='last')
+    return e[e['ref_price'] > 0]
+
+
+def reduce_fix_chg(IDX, COLS, C, CHG, MK, ev):
+    """規則 (c)（接在 exright_fix_chg 之後）：上市（MK＝1）、當天有成交、當天在減資／面額變更事件表 → CHG＝收盤 − 事件參考價
+    （蓋掉原值，含規則 (b) 已改的）。官方日 K 在這種日子的漲跌價差是 0（報酬被記成 0），或被規則 (b) 當成一般漲跌。
+    退還的股款視為在恢復買賣日以參考價再投入（和除權息的近似相同）。恢復買賣日當天沒成交、或事件日不是交易日的不處理。
+    回傳（修正後 CHG 複本, 資訊 dict）。只看當日，所以截斷面板前後算結果相同。"""
+    CHG = np.array(CHG, dtype=float, copy=True)
+    di = {d: i for i, d in enumerate(pd.DatetimeIndex(IDX))}; ci = {c: j for j, c in enumerate(COLS)}
+    n = 0
+    for d, c, ref in zip(ev['date'], ev['code'], ev['ref_price']):
+        if d in di and c in ci:
+            t, j = di[d], ci[c]
+            if MK[t, j] == 1 and np.isfinite(C[t, j]) and C[t, j] > 0:
+                CHG[t, j] = C[t, j] - ref; n += 1
+    return CHG, dict(n_reduce_parvalue=n, reduce_last=str(ev['date'].max().date()) if len(ev) else None)
+
+
 def tick(p):
     p = np.asarray(p, float)
     return np.select([p < 10, p < 50, p < 100, p < 500, p < 1000], [0.01, 0.05, 0.1, 0.5, 1.0], 5.0)
@@ -140,7 +172,7 @@ def tick(p):
 class Panel:
     """載入面板並算出訊號與成交需要的全部陣列（列＝交易日，欄＝股票）。"""
 
-    def __init__(self, exright_fix=None):
+    def __init__(self, exright_fix=None, reduce_fix=None):
         """exright_fix：None＝用模組設定 EXRIGHT_FIX（預設 False）；True＝漲跌價差先經 exright_fix_chg() 修正（除權息用 TWT49U 參考價、
         前一日無成交用前一成交收盤），再算參考價 REF、含息報酬 R、漲跌停價。False 時與 2026-11-16 之前逐位相同。"""
         z = np.load(build_panel(), allow_pickle=False)
@@ -153,6 +185,11 @@ class Panel:
         self.exright_info = None
         if self.exright_fix:
             self.CHG, self.exright_info = exright_fix_chg(self.IDX, self.COLS, self.C, self.CHG, self.MK, load_twt49u())
+        # reduce_fix：None＝用模組設定 REDUCE_FIX（預設 False＝不做，逐位同舊版）；True＝減資／面額變更恢復買賣日用事件參考價
+        self.reduce_fix = bool(REDUCE_FIX if reduce_fix is None else reduce_fix)
+        self.reduce_info = None
+        if self.reduce_fix:
+            self.CHG, self.reduce_info = reduce_fix_chg(self.IDX, self.COLS, self.C, self.CHG, self.MK, load_reduce())
         C, O = self.C, self.O
         self.has = np.isfinite(C) & (C > 0)                               # 當日有成交
         self.listed = self.MK > 0                                          # 當日在官方日 K 內（含無成交）
@@ -178,7 +215,8 @@ class Panel:
         tw = pd.read_csv(TWII_CSV, parse_dates=['date']).set_index('date')['close'].sort_index()
         self.IDXC = tw.reindex(self.IDX).ffill().to_numpy()
         self.twii_missing = int(tw.reindex(self.IDX).isna().sum())
-        e = pd.read_csv(E50_CSV, parse_dates=['date']).set_index('date')['adj'].sort_index()
+        self.e50_source = str(E50_SOURCE or E50_CSV)                       # E50_SOURCE＝None（預設）→ 現用檔
+        e = pd.read_csv(self.e50_source, parse_dates=['date']).set_index('date')['adj'].sort_index()
         self.E50 = e.reindex(self.IDX.union(e.index)).ffill().reindex(self.IDX).to_numpy()
         self.e50_missing = int(e.reindex(self.IDX).isna().sum())
         self.ci = {c: j for j, c in enumerate(self.COLS)}
