@@ -1,0 +1,81 @@
+{
+ "B_cand_is_0050_kappa0_maxrel": 6.217248937900877e-15,
+ "A_x1_maxrel": 6.217248937900877e-15,
+ "A_self_kappa0_maxrel": 6.217248937900877e-15,
+ "recompute_DISP_D_A70_valid_cagr_diff": 0.0,
+ "train_vs_validate_same_train_numbers_maxdiff": 0.0,
+ "top5pct_trades_by_exit_year": {
+  "2020": 3,
+  "2021": 4,
+  "2022": 3,
+  "2023": 2,
+  "2024": 2,
+  "2025": 1,
+  "2026": 5
+ },
+ "top5pct_in_train_window_exits": 7,
+ "predictions": {
+  "P1 相關 0.2～0.6": {
+   "PEAD_Q": 0.461,
+   "DISP_D": 0.306,
+   "PULLBACK_P": 0.361,
+   "OTC_SURGE": 0.415
+  },
+  "P2 A 結構年化都低超過 2 點（訓練／驗證 d_cagr）": {
+   "PEAD_Q|A50": [
+    -4.59,
+    -14.18
+   ],
+   "PEAD_Q|A70": [
+    -2.71,
+    -8.61
+   ],
+   "DISP_D|A50": [
+    -1.79,
+    -3.09
+   ],
+   "DISP_D|A70": [
+    -1.0,
+    -1.78
+   ],
+   "PULLBACK_P|A50": [
+    -9.74,
+    -14.71
+   ],
+   "PULLBACK_P|A70": [
+    -5.86,
+    -8.9
+   ],
+   "OTC_SURGE|A50": [
+    -5.04,
+    -13.4
+   ],
+   "OTC_SURGE|A70": [
+    -2.99,
+    -8.03
+   ]
+  },
+  "P3 DISP_D B 訓練合格": {
+   "DISP_D|B50": false,
+   "DISP_D|B100": false
+  },
+  "P4 禁買前 5 趴後各格驗證段年化（現行 27.03）": {
+   "PEAD_Q|A50": 21.85,
+   "PEAD_Q|A70": 23.94,
+   "PEAD_Q|B50": 23.14,
+   "PEAD_Q|B100": 19.09,
+   "DISP_D|A50": 32.24,
+   "DISP_D|A70": 30.18,
+   "DISP_D|B50": 28.72,
+   "DISP_D|B100": 30.16,
+   "PULLBACK_P|A50": 21.34,
+   "PULLBACK_P|A70": 23.66,
+   "PULLBACK_P|B50": 22.95,
+   "PULLBACK_P|B100": 18.6,
+   "OTC_SURGE|A50": 22.52,
+   "OTC_SURGE|A70": 24.41,
+   "OTC_SURGE|B50": 24.02,
+   "OTC_SURGE|B100": 20.55
+  }
+ }
+}
