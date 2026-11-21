@@ -1,0 +1,31 @@
+{
+ "study": "s42_realistic_expectation",
+ "script": "run.py",
+ "mode": "v1",
+ "self_flags": false,
+ "tag": "s42_v1",
+ "flags": {
+  "EXRIGHT_FIX": true,
+  "DEADLINE_FIX": true,
+  "INS15_MASK": true,
+  "REDUCE_FIX": false,
+  "E50_SOURCE": "None"
+ },
+ "shim": {
+  "make_signal_ins15_calls": 0,
+  "ins15_masked_rows": 0,
+  "signal_rows_adjusted": 0,
+  "av_family_adjusted": 6
+ },
+ "soft_asserts": [
+  {
+   "line": 116,
+   "msg": "'驗收失敗'"
+  }
+ ],
+ "peak_mb": 1404,
+ "secs": 136,
+ "panel_exright_fix": true,
+ "panel_reduce_fix": false,
+ "panel_e50_source": "/home/user/jonatw/finlab-txd/data/raw/etf_0050.csv"
+}
