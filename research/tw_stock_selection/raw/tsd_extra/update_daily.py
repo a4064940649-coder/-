@@ -326,23 +326,23 @@ DATASETS = [
                desc='日 K（上市 twse、上櫃 tpex、興櫃 emerging 同一張表）。open／high／low／close 未還原價；volume 成交股數；amount 成交金額（元）；change 漲跌價差；'
                     'limit 漲跌停註記（up／down／flat／空白）；shares 發行股數；transactions 成交筆數；price_basis「無成交」等註記；last_price 興櫃最後成交價。'
                     '原始檔的 key 欄（＝日期_代號）沒存，可由 date、code 還原。'),
-    daily_spec('inst_twse', 'data/universe/inst', INST, '上市' + D_INST + '2012-05-02～2014 來自上游 data/early/inst（2014-12 以前 dealer_self／dealer_hedge 可能空白）。',
-               early='data/early/inst', calendar_from='2015-01-05'),
+    daily_spec('inst_twse', 'data/universe/inst', INST, '上市' + D_INST,
+               early=None),  # 待辦：early='data/early/inst'（2012-05 起）磁碟夠再補
     daily_spec('inst_tpex', 'data/universe/otcinst', INST, '上櫃' + D_INST),
     daily_spec('margin_twse', 'data/universe/margin', MARGIN, '上市' + D_MARGIN),
     daily_spec('margin_tpex', 'data/universe/otcmargin', MARGIN, '上櫃' + D_MARGIN),
     daily_spec('sbl_twse', 'data/universe/sbl', SBL, '上市' + D_SBL),
     daily_spec('sbl_tpex', 'data/universe/otcsbl', SBL, '上櫃' + D_SBL),
-    daily_spec('instamt_twse_market', 'data/universe/instamt', AMT, '上市三大法人買賣金額（全市場合計，不是逐股），單位＝元。investor＝法人類別（各年代名稱不同）。2004-04-07 起（2014 以前來自上游 data/early/instamt）。',
-               part=part_year, early='data/early/instamt', calendar_from='2015-01-05'),
+    daily_spec('instamt_twse_market', 'data/universe/instamt', AMT, '上市三大法人買賣金額（全市場合計，不是逐股），單位＝元。investor＝法人類別（各年代名稱不同）。',
+               part=part_year, early=None),  # 待辦：early='data/early/instamt'
     daily_spec('instamt_tpex_market', 'data/universe/otcinstamt', AMT, '上櫃三大法人買賣金額（全市場合計），單位＝元；2017-01-03 起。', part=part_year, calendar_from='2017-01-03'),
     daily_spec('marginmkt_twse_market', 'data/universe/marginmkt', {'date': D, 'item': S, 'buy': I, 'sell': I, 'repay': I, 'prev': I, 'balance': I},
-               '上市融資融券全市場統計：融資（交易單位）、融券（交易單位）、融資金額（仟元）。2005-01-03 起（2014 以前來自上游 data/early/marginmkt）。',
-               part=part_year, early='data/early/marginmkt', calendar_from='2015-01-05'),
+               '上市融資融券全市場統計：融資（交易單位）、融券（交易單位）、融資金額（仟元）。',
+               part=part_year, early=None),  # 待辦：early='data/early/marginmkt'
     daily_spec('marginratio_notices_twse', 'data/universe/marginratio',
                {'date': D, 'code': S, 'name': S, 'reason': S, 'adjust_from': S, 'restore_date': S, 'margin_cut': I, 'margin_cum': I, 'short_raise': I, 'short_cum': I},
                '上市「調整融資比率／融券保證金成數」公告名單（不是券資比）。同一檔同一天有多列（各原因一列＋合計一列），列的順序同官方檔。', part=part_year, sort=['date']),
-    dict(name='tdcc', kind='table', part=part_day, sort=['date', 'code', 'level'], rowkey=k_date, weekly=True,
+    dict(name='tdcc', enabled=False, kind='table', part=part_day, sort=['date', 'code', 'level'], rowkey=k_date, weekly=True,
          cols={'date': D, 'code': S, 'level': I, 'people': I, 'shares': I, 'pct': 'f32'}, rename={'stock_id': 'code'},
          src=[dict(dir='data/tdcc_hist', pat=r'^\d{4}\.parquet$', srckeys=None, parse=parse_tdcc_hist, bulk=True),
               dict(dir='data/tdcc', pat=r'^\d{4}-\d{2}-\d{2}\.csv$', srckeys=lambda b: [b[:10]])],
@@ -760,6 +760,8 @@ def main():
     results = {}; failed = {}
     for spec in DATASETS:
         if only and spec['name'] not in only:
+            continue
+        if not only and spec.get('enabled') is False:      # 還沒建置的資料集：不指名就不做（免得每日排程突然去抓歷史大檔）
             continue
         try:
             r = (update_raw if spec['kind'] == 'raw' else update_table)(a.repo, out, spec, head, a, log)

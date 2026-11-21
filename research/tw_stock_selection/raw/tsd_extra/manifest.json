@@ -178,7 +178,7 @@
     "trust": "int"
    },
    "days": 2895,
-   "description": "上市三大法人逐股買賣超，單位＝股。foreign 外資、trust 投信、dealer 自營商合計（＝dealer_self 自行買賣＋dealer_hedge 避險）、total 三者合計。2012-05-02～2014 來自上游 data/early/inst（2014-12 以前 dealer_self／dealer_hedge 可能空白）。",
+   "description": "上市三大法人逐股買賣超，單位＝股。foreign 外資、trust 投信、dealer 自營商合計（＝dealer_self 自行買賣＋dealer_hedge 避險）、total 三者合計。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
@@ -191,7 +191,6 @@
    "revised_source_files": 0,
    "rows": 3029426,
    "source_dirs": [
-    "data/early/inst",
     "data/universe/inst"
    ],
    "source_files": 2895
@@ -235,7 +234,7 @@
     "sell": "int"
    },
    "days": 2895,
-   "description": "上市三大法人買賣金額（全市場合計，不是逐股），單位＝元。investor＝法人類別（各年代名稱不同）。2004-04-07 起（2014 以前來自上游 data/early/instamt）。",
+   "description": "上市三大法人買賣金額（全市場合計，不是逐股），單位＝元。investor＝法人類別（各年代名稱不同）。",
    "empty_source_days": [],
    "files": 12,
    "first_key": "2015-01-05",
@@ -248,7 +247,6 @@
    "revised_source_files": 0,
    "rows": 16646,
    "source_dirs": [
-    "data/early/instamt",
     "data/universe/instamt"
    ],
    "source_files": 2895
@@ -337,7 +335,7 @@
     "sell": "int"
    },
    "days": 2895,
-   "description": "上市融資融券全市場統計：融資（交易單位）、融券（交易單位）、融資金額（仟元）。2005-01-03 起（2014 以前來自上游 data/early/marginmkt）。",
+   "description": "上市融資融券全市場統計：融資（交易單位）、融券（交易單位）、融資金額（仟元）。",
    "empty_source_days": [],
    "files": 12,
    "first_key": "2015-01-05",
@@ -350,7 +348,6 @@
    "revised_source_files": 0,
    "rows": 8685,
    "source_dirs": [
-    "data/early/marginmkt",
     "data/universe/marginmkt"
    ],
    "source_files": 2895

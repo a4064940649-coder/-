@@ -1,0 +1,73 @@
+{
+ "task": "把官方資料倉庫 tw-stock-data 裡一直沒抓內容的資料做成自有快照（raw/tsd_extra/），並提供每日增量更新程式",
+ "written_at": "2026-11-21",
+ "upstream_repo": "https://github.com/jb7k6295r7-bot/tw-stock-data",
+ "upstream_commit_built_from": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7（2026-11-21T10:52:58+00:00）",
+ "output_dir": "research/tw_stock_selection/raw/tsd_extra/",
+ "output_manifest": "research/tw_stock_selection/raw/tsd_extra/manifest.json（各資料集欄位說明、涵蓋、列數、缺日；由 update_daily.py 維護）",
+ "programs": {
+  "raw/tsd_extra/update_daily.py": "建置＋每日增量更新（唯一會寫面板的程式）",
+  "raw/tsd_extra/tsd_extra_load.py": "研究程式讀面板用的小工具",
+  "agents/eng_tsd_extra_data/run_bulk.sh": "首次建置：一次一個資料集，開臨時 clone→建→刪，記錄磁碟",
+  "agents/eng_tsd_extra_data/verify_daily.py": "日 K 面板對原始日檔逐欄比對",
+  "agents/eng_tsd_extra_data/crosscheck.py": "法人／融資券／借券對既有第三方來源比對",
+  "agents/eng_tsd_extra_data/tsdlib.py": "git 批次抓取小工具（驗證程式用）",
+  "agents/eng_tsd_extra_data/build_fundamentals.py、build_daily.py、run_dir.sh": "第一輪（單檔版）的程式，已被 update_daily.py 取代，留作紀錄；輸出已刪，摘要在 round1_info/"
+ },
+ "results_files": {
+  "verify_daily.json": "日 K 逐欄驗證結果",
+  "crosscheck.json": "交叉檢查結果",
+  "survey_other_dirs.json": "其餘目錄的檔數與估計大小",
+  "disk_log.tsv": "每步前後磁碟",
+  "round1_info/": "第一輪各面板摘要（列數與本輪一致）"
+ },
+ "fundamentals_crosscheck": {
+  "bs_total_assets_vs_fin_long": {
+   "compared": 80772,
+   "match": 80768,
+   "mismatch": [
+    "2025Q2_6111",
+    "2025Q3_3041",
+    "2025Q3_6111",
+    "2025Q4_6111"
+   ]
+  },
+  "bs_total_assets_vs_fs_xbrl": {
+   "compared": 80774,
+   "match": 80770,
+   "mismatch": [
+    "2025Q2_6111",
+    "2025Q3_3041",
+    "2025Q3_6111",
+    "2025Q4_6111"
+   ]
+  },
+  "fs_xbrl_2330_2024Q1": {
+   "cash": 1698195704000.0,
+   "inventories": 267123339000.0,
+   "accounts_receivable": 201500334000.0,
+   "total_assets": 5787891082000.0
+  }
+ },
+ "acceptance_tests": {
+  "rerun_no_change": "連跑兩次：都印「無新資料」、回傳 0、沒有任何檔被改寫",
+  "truncate_2_days": "硬連結複本截掉最後 2 個日期（57 個檔變動）→ 對上游最新 clone 跑更新 → 2,535 個檔的 sha256 與截掉前全部相同（0 個不同，含 manifest.json）。注意：這次用的是我自己開的臨時 clone，不是每日例行的 tsd（它當時的 HEAD 比面板舊）",
+  "stale_clone": "對每日例行的 tsd（HEAD 2026-11-20T22:43，比面板用的版本舊）跑：印「無新資料——clone 比面板舊，未更新」、回傳 0、沒有寫任何東西",
+  "one_dataset_fails": "開發途中實際發生過：5 類抓檔失敗、3 類照常完成，回傳 1 並逐類印原因",
+  "bad_repo_path": "回傳 1 並印原因",
+  "verify": "update_daily.py --verify：1,880 個檔（面板分檔 sha256＋月營收原檔的 git blob sha）0 個不符"
+ },
+ "not_done": {
+  "tdcc": "集保股權分散：做到 2023 年時磁碟降到 840MB，依指示放棄並刪掉半成品。另外發現按週分檔後體積約 140MB（上游自己的年檔才 66MB），等磁碟有空間時應改成按年分檔或直接存上游年檔。update_daily.py 裡規格已寫好但標成 enabled=False，不指名不會跑",
+  "early_inst": "data/early/inst（上市三大法人逐股 2012-05-02～2014）、early/instamt（2004 起）、early/marginmkt（2005 起）、early/otcmargin（2007-07 起）：有資料、沒抓（磁碟）。程式裡留了 early= 的待辦註記",
+  "borrowings": "短期／長期借款（有息負債）：上游沒有。簡明資產負債表（一般業）只有流動／非流動負債總額；fs_xbrl 也沒抽借款科目。ROIC 仍做不到精確版",
+  "delete_scratch": "暫存區沒有刪任何既有資料夾（無法在不重跑的前提下確認可重建）"
+ },
+ "daily_command": "python3 -I -B research/tw_stock_selection/raw/tsd_extra/update_daily.py /tmp/claude-0/-home-user--/4a4e211a-f98b-5aa5-8802-26f871eea688/scratchpad/tsd",
+ "size": {
+  "total_bytes": 383117673,
+  "files": 2537,
+  "max_single_file_bytes": 1270333,
+  "repo_growth_estimate": "每日類按月分檔：每天會重寫當月那 7 個檔（月底時合計約 3.1MB，平均約 1.6MB）＋幾個小的年檔與索引，估每天新增版控體積約 1.7MB（月初 0.3MB～月底 3.4MB）、一年約 0.4GB；工作目錄一年只多約 40MB。若照原提議按年分檔，每天要重寫約 30MB，一年約 5GB，所以改成按月"
+ }
+}

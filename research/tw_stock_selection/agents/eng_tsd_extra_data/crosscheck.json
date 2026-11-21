@@ -1,0 +1,289 @@
+{
+ "inst_twse_vs_BlackBoxOP_bb_inst": {
+  "period": [
+   "2024-01-02",
+   "2026-10-27"
+  ],
+  "unit": "股",
+  "rows_ours_in_range": 848520,
+  "rows_other": 704438,
+  "matched_keys": 704438,
+  "only_other": 0,
+  "foreign": {
+   "equal": 704438,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "trust": {
+   "equal": 704438,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "dealer": {
+   "equal": 704438,
+   "different": 0,
+   "max_abs_diff": 0.0
+  }
+ },
+ "inst_tpex_vs_BlackBoxOP_bb_inst": {
+  "period": [
+   "2026-09-04",
+   "2026-10-27"
+  ],
+  "unit": "股",
+  "rows_ours_in_range": 29747,
+  "rows_other": 25745,
+  "matched_keys": 25745,
+  "only_other": 0,
+  "foreign": {
+   "equal": 25745,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "trust": {
+   "equal": 25745,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "dealer": {
+   "equal": 25745,
+   "different": 0,
+   "max_abs_diff": 0.0
+  }
+ },
+ "inst_twse_tpex_vs_screener_inst_5y": {
+  "period": [
+   "2021-10-08",
+   "2026-10-07"
+  ],
+  "unit": "張（我們的股數÷1000），容許差 0.0011",
+  "rows_ours_in_range": 2421429,
+  "rows_other": 2421429,
+  "matched_keys": 2421429,
+  "only_other": 0,
+  "foreign": {
+   "equal": 2421429,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "trust": {
+   "equal": 2421429,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "dealer": {
+   "equal": 2421429,
+   "different": 0,
+   "max_abs_diff": 0.0
+  }
+ },
+ "margin_twse_vs_BlackBoxOP_bb_margin": {
+  "period": [
+   "2024-01-02",
+   "2026-10-27"
+  ],
+  "unit": "張",
+  "rows_ours_in_range": 822046,
+  "rows_other": 697222,
+  "matched_keys": 697222,
+  "only_other": 0,
+  "m_balance": {
+   "equal": 697222,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "s_balance": {
+   "equal": 697222,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "m_prev": {
+   "equal": 697222,
+   "different": 0,
+   "max_abs_diff": 0.0
+  }
+ },
+ "margin_tpex_vs_BlackBoxOP_bb_margin": {
+  "period": [
+   "2026-09-04",
+   "2026-10-27"
+  ],
+  "unit": "張",
+  "rows_ours_in_range": 30329,
+  "rows_other": 25659,
+  "matched_keys": 25659,
+  "only_other": 0,
+  "m_balance": {
+   "equal": 25088,
+   "different": 571,
+   "max_abs_diff": 4098.0,
+   "different_days": 1,
+   "sample": [
+    {
+     "date": "2026-09-08",
+     "code": "1264",
+     "m_balance": "7",
+     "m_balance_o": "4"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1294",
+     "m_balance": "156",
+     "m_balance_o": "155"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1336",
+     "m_balance": "2650",
+     "m_balance_o": "2644"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1565",
+     "m_balance": "1266",
+     "m_balance_o": "1200"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1569",
+     "m_balance": "10707",
+     "m_balance_o": "10704"
+    }
+   ],
+   "top_days": {
+    "2026-09-08": 571
+   }
+  },
+  "s_balance": {
+   "equal": 25448,
+   "different": 211,
+   "max_abs_diff": 485.0,
+   "different_days": 1,
+   "sample": [
+    {
+     "date": "2026-09-08",
+     "code": "1569",
+     "s_balance": "42",
+     "s_balance_o": "47"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1584",
+     "s_balance": "38",
+     "s_balance_o": "31"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1591",
+     "s_balance": "13",
+     "s_balance_o": "0"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1815",
+     "s_balance": "0",
+     "s_balance_o": "264"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "2063",
+     "s_balance": "2",
+     "s_balance_o": "1"
+    }
+   ],
+   "top_days": {
+    "2026-09-08": 211
+   }
+  },
+  "m_prev": {
+   "equal": 25092,
+   "different": 567,
+   "max_abs_diff": 3286.0,
+   "different_days": 1,
+   "sample": [
+    {
+     "date": "2026-09-08",
+     "code": "1268",
+     "m_prev": "20",
+     "m_prev_o": "19"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1294",
+     "m_prev": "157",
+     "m_prev_o": "156"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1295",
+     "m_prev": "149",
+     "m_prev_o": "146"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1336",
+     "m_prev": "2657",
+     "m_prev_o": "2650"
+    },
+    {
+     "date": "2026-09-08",
+     "code": "1565",
+     "m_prev": "1291",
+     "m_prev_o": "1266"
+    }
+   ],
+   "top_days": {
+    "2026-09-08": 567
+   }
+  }
+ },
+ "sbl_twse_vs_BlackBoxOP_twt93u": {
+  "period": [
+   "2026-07-30",
+   "2026-10-27"
+  ],
+  "unit": "股",
+  "rows_ours_in_range": 76696,
+  "rows_other": 63141,
+  "matched_keys": 63139,
+  "only_other": 2,
+  "sbl_balance": {
+   "equal": 63139,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "sbl_sell": {
+   "equal": 63139,
+   "different": 0,
+   "max_abs_diff": 0.0
+  },
+  "s_balance": {
+   "equal": 63139,
+   "different": 0,
+   "max_abs_diff": 0.0
+  }
+ },
+ "inst_twse_identities": {
+  "rows": 3029426,
+  "total_eq_sum": 3029426,
+  "dealer_eq_self_plus_hedge": 3029426
+ },
+ "inst_tpex_identities": {
+  "rows": 1880983,
+  "total_eq_sum": 1880983,
+  "dealer_eq_self_plus_hedge": 1880983
+ },
+ "margin_twse_identity_balance": {
+  "rows": 3092181,
+  "m_balance_eq_prev_plus_buy_minus_sell_minus_ret": 3092181
+ },
+ "sbl_twse_identity_balance": {
+  "rows": 3102255,
+  "sbl_balance_eq_prev_plus_sell_minus_return_plus_adj": 3102255
+ },
+ "margin_vs_sbl_short_balance_twse": {
+  "matched": 3091953,
+  "equal_after_x1000": 3091460,
+  "note": "融資融券表的融券餘額（張）×1000 對 借券表裡的融券餘額（股）"
+ }
+}

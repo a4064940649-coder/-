@@ -153,3 +153,11 @@
   - 新區塊「歷次換股紀錄」讀資料集 `trades`（日期＝成交日、動作、代號、名稱、股數＝帳戶股數、成交價、金額、已實現損益、備註；換股序大的在上；超過 30 列收合）。資料集不存在或沒有列時顯示「尚無紀錄」。
   - 還是寫死的地方：「上線後表現（2026-11-12 起）」的標題、圖的起點文字與說明（帳戶起始日不變所以仍正確，但說明裡的「未含除息」是舊文字）。
   - 本機測試：`<暫存>/page_test2/test.js`（單月／演練兩段／預計／假除權息＋缺 trades、缺 meta、舊資料、壞資料，各 1280px 與 400px）。
+
+## 每日例行追加步驟（2026-11-21 起；接在官方日 K 倉庫 tsd 更新之後）
+1. 自有資料快照每日更新：`python3 -I -B research/tw_stock_selection/raw/tsd_extra/update_daily.py <tsd>`（日 K、月營收、法人、融資融券、借券、財報等，存進版控；回傳 0＝成功或無新資料，1＝有類別失敗，失敗只記錄、不影響其他例行）。
+2. 兩來源比對：`python3 -I -B research/tw_stock_selection/agents/eng_official_second_source/daily_source_check.py --tsd <tsd>`（官方月營收與近 30 日除權息對 GitHub 倉庫，結果記到 `research/tw_stock_selection/agents/audit_daily/source_check_log.csv`；**不要另外手動 curl 官方網站**，證交所主站一天第 4 次請求就會被擋）。
+3. 環境溫度計：`python3 -I -B xq_scripts/site/make_thermo.py xq_scripts/site/data/thermo.json <tsd> --check <暫存檔>`，rows 有變就更新網站 datasets/thermo。
+4. 每日回測檢查：`python3 -I -B research/tw_stock_selection/agents/audit_daily/daily_check.py <今天>`（基準 48.86／34.46／381／46.42）。
+5. 磁碟：`df -h /home/user`；可用空間低於 1GB 時不要派會產生大檔的工作，並在回報第一行提醒。大型資料檔不要反覆改寫後提交（版控每次都多存一份）。
+換股日另照 `research/tw_stock_selection/agents/eng_official_second_source/FINDINGS.md`「換股日時程」。
