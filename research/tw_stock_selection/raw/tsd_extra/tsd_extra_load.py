@@ -4,6 +4,8 @@
   from tsd_extra_load import load, load_revenue_file
   df = load('inst_twse', '2015-01-01', '2026-12-31', columns=['date', 'code', 'foreign', 'trust'])
   bs = load('bs_hist')                      # 季資料、事件類不給日期就是全部
+  hold = load('tdcc_summary', '2020-01-01', '2026-12-31')   # 集保彙總（週資料；2025 以前一年一檔、2026 起一月一檔，一樣用日期挑）
+  old = load('inst_twse_early')             # 2015 年以前的資料另開 *_early 資料集，欄位與 2015 後相同，可直接 pd.concat
   txt = load_revenue_file('data/mops/revenue_hist/2026-10_twse.csv')            # 首見版原檔文字
   txt = load_revenue_file('data/mops/revenue_hist/2026-10_twse.csv', 'latest')  # 最新版
 資料集名稱與欄位說明看同資料夾的 manifest.json。

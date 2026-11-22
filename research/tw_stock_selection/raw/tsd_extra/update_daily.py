@@ -5,6 +5,7 @@
   update_daily.py <官方倉庫 clone 路徑> [--out <輸出資料夾，預設＝本檔所在資料夾>]
                   [--only 名稱1,名稱2] [--refresh-bulk] [--allow-older] [--quiet]
   update_daily.py --verify [--out …]            # 只檢查每個面板檔的 sha256 與 SHA256SUMS 是否一致
+  （集保 tdcc／tdcc_summary 是週資料：上游 data/tdcc 出現新一週的檔才會更新，平常印「無新資料」。）
   update_daily.py --truncate N --out <複本>     # 測試用：把「每日／每週」面板截掉最後 N 個日期（只准對複本做）
 
 做法：
@@ -16,7 +17,7 @@
   4. 月營收等「原檔快照」類：第一次看到的版本存 first/，之後內容變了另存 rev/（檔名帶新版 sha），first/ 永不覆蓋。
   5. 每個資料集各自 try：一類失敗不影響其他類；最後有任何一類失敗就回傳代碼 1 並印原因。
 
-輸出結構：<資料集>/<年>/<分檔>.parquet（每日類按月分檔、集保按週、季資料與事件類按年）；
+輸出結構：<資料集>/<年>/<分檔>.parquet（每日類按月分檔；集保 2025 以前按年、2026 起按月；季資料、事件類、小名單類按年）；
   每個年資料夾有 SHA256SUMS、_parts.tsv（各分檔列數與鍵範圍）、_sources.tsv（來源檔→blob sha→列數）；
   根目錄 manifest.json 是總表（涵蓋到哪一天、列數、缺日）。
 回傳代碼：0＝成功（含無新資料）；1＝至少一類失敗；2＝用法錯誤。
@@ -241,12 +242,19 @@ def k_date(t):
 def part_month(k): return k[:4], k[:7]
 def part_day(k): return k[:4], k[:10]
 def part_year(k): return k[:4], k[:4]
+def part_year_then_month(k):
+    """集保用：2025 年以前一年一檔（歷史不再變動）；2026 年起一個月一檔（每週更新只重寫當月那個小檔，版控不會每週多存一份年檔）。"""
+    return (k[:4], k[:4]) if k[:4] <= '2025' else (k[:4], k[:7])
 
 
 def daily_spec(name, src, cols, desc, part=part_month, early=None, **kw):
     srcs = [dict(dir=x, pat=r'^\d{4}-\d{2}-\d{2}\.csv$', srckeys=lambda b: [b[:10]]) for x in ([early] if early else []) + [src]]
     d = dict(name=name, src=srcs, kind='table', cols=cols,
              rename={'stock_id': 'code'}, sort=['date', 'code'] if 'code' in cols else ['date'], rowkey=k_date, part=part, calendar=True, desc=desc)
+    pa_ = kw.pop('parse_all', None)
+    if pa_:
+        for x in srcs:
+            x['parse'] = pa_
     d.update(kw)
     return d
 
@@ -266,6 +274,10 @@ AMT = {'date': D, 'investor': S, 'buy': I, 'sell': I, 'net': I}
 D_INST = '三大法人逐股買賣超，單位＝股。foreign 外資、trust 投信、dealer 自營商合計（＝dealer_self 自行買賣＋dealer_hedge 避險）、total 三者合計。'
 D_MARGIN = ('融資融券逐股，單位＝張（交易單位）。m_＝融資：buy 買進、sell 賣出、ret 現金償還、prev 前日餘額、balance 今日餘額、limit 限額；'
             's_＝融券：sell 賣出、buy 買進（回補）、ret 現券償還、prev 前日餘額、balance 今日餘額。note＝官方註記（O 停止融資、X 停止融券等）。券資比＝s_balance÷m_balance，自己算。')
+PER = {'date': D, 'code': S, 'close': 'f32', 'yield_pct': 'f32', 'dividend_year': I, 'per': 'f32', 'pbr': 'f32', 'fs_quarter': S}
+D_PER = ('每日本益比、殖利率、股價淨值比（官方算好的）：close 收盤價（多數年份上游沒給，是空值，請用 daily 的 close）、yield_pct 殖利率 %、'
+         'dividend_year 股利所屬年度（民國年）、per 本益比（虧損或無法計算＝空值）、pbr 股價淨值比、fs_quarter 所用財報年季（民國年，上市寫 115/3、上櫃寫 115Q3；早年是空值）。'
+         '數值以 32 位元浮點存，讀出後請四捨五入到小數 2 位。')
 D_SBL = ('信用額度總量管制餘額表，單位＝股。s_＝融券（同融資融券表、乘 1000）；sbl_＝借券賣出：prev 前日餘額、sell 當日賣出、return 當日還券、adj 當日調整、'
          'balance 當日餘額（＝借券賣出餘額）、limit 次一營業日可限額。')
 
@@ -312,6 +324,72 @@ def parse_tdcc_hist(body, path, spec):
                      'people': t.column('people').cast(pa.int64()), 'shares': t.column('shares').cast(pa.int64()), 'pct': t.column('pct').cast(pa.float32())})
 
 
+TDCC_COLS = {'date': D, 'code': S, 'level': I, 'people': I, 'shares': I, 'pct': 'f32'}
+TDCC_SUM_COLS = {'date': D, 'code': S, 'holders': I, 'shares_total': I, 'pct_ge400': 'f32', 'pct_ge1000': 'f32', 'pct_lt10': 'f32',
+                 'holders_ge400': I, 'holders_ge1000': I, 'holders_lt10': I}
+
+
+def tdcc_summarize(t):
+    """集保長表（每檔 17 列）→ 每週每檔一列的彙總。比例一律用股數自己算（不依賴上游的 pct 欄，2017-07-21 那週沒有 pct）。"""
+    df = pd.DataFrame({'date': t.column('date').cast(pa.int32()).to_numpy(), 'code': t.column('code').to_pandas(),
+                       'level': t.column('level').to_numpy(zero_copy_only=False), 'people': t.column('people').to_pandas(), 'shares': t.column('shares').to_pandas()})
+    if df.duplicated(['date', 'code', 'level']).any():
+        raise ValueError('集保來源同一週同一檔同一級距有重複列')
+
+    def agg(mask, col):
+        return df[mask].groupby(['date', 'code'], sort=True)[col].sum(min_count=1)
+    lv = df['level']
+    g = pd.DataFrame({'holders': agg(lv == 17, 'people'), 'shares_total': agg(lv == 17, 'shares'),
+                      's400': agg(lv.between(12, 15), 'shares'), 's1000': agg(lv == 15, 'shares'), 's10': agg(lv.between(1, 3), 'shares'),
+                      'holders_ge400': agg(lv.between(12, 15), 'people'), 'holders_ge1000': agg(lv == 15, 'people'), 'holders_lt10': agg(lv.between(1, 3), 'people')})
+    g = g.reset_index()
+    tot = g['shares_total'].astype('float64').where(g['shares_total'] > 0)
+    arr = {'date': pa.array(g['date'].to_numpy(dtype='int32'), pa.int32()).cast(pa.date32()), 'code': pa.array(g['code'].to_numpy(dtype=object), pa.string())}
+    for c in ('holders', 'shares_total', 'holders_ge400', 'holders_ge1000', 'holders_lt10'):
+        v = g[c].to_numpy(dtype='float64', na_value=np.nan); m = np.isnan(v)
+        arr[c] = pa.array(np.where(m, 0, v).astype('int64'), mask=m, type=pa.int64())
+    for c, sc in (('pct_ge400', 's400'), ('pct_ge1000', 's1000'), ('pct_lt10', 's10')):
+        v = np.round((g[sc].astype('float64') / tot * 100).to_numpy(dtype='float64', na_value=np.nan), 3); m = np.isnan(v)
+        arr[c] = pa.array(v.astype('float32'), mask=m, type=pa.float32())
+    return pa.table({c: arr[c] for c in TDCC_SUM_COLS})
+
+
+def parse_tdcc_hist_sum(body, path, spec):
+    return tdcc_summarize(parse_tdcc_hist(body, path, spec))
+
+
+def parse_tdcc_csv_sum(body, path, spec):
+    return tdcc_summarize(csv_table(body, path, dict(cols=TDCC_COLS, rename={'stock_id': 'code'})))
+
+
+def parse_stophalt(body, path, spec):
+    """停止買賣名單：上游把官方「原因」欄的換行原樣寫進 csv 又沒加引號，一般 csv 讀法會斷錯列。
+    這裡自己切：以「日期,」開頭的行才是新的一列，其餘行接回上一列的原因欄（換行保留為 \n）。"""
+    lines = body.decode('utf-8-sig').replace('\r\n', '\n').split('\n')
+    if lines[0].strip() != 'date,stock_id,name,market,halt_since,rule,reason':
+        raise ValueError('%s 表頭不是預期的停止買賣格式：%r' % (path, lines[0]))
+    recs = []
+    for ln in lines[1:]:
+        if re.match(r'^\d{4}-\d{2}-\d{2},', ln):
+            f = ln.split(',', 6)
+            if len(f) != 7:
+                raise ValueError('%s 有一列欄位數不足：%r' % (path, ln))
+            recs.append(f)
+        elif ln.strip():
+            if not recs:
+                raise ValueError('%s 第一筆資料前有看不懂的內容' % path)
+            recs[-1][6] += '\n' + ln
+    cols = list(zip(*recs)) if recs else [[]] * 7
+    return pa.table({'date': pa.array([datetime.date.fromisoformat(x) for x in cols[0]], pa.date32()),
+                     **{c: pa.array([x.strip() for x in cols[i]], pa.string()) for i, c in ((1, 'code'), (2, 'name'), (3, 'market'), (4, 'halt_since'), (5, 'rule'), (6, 'reason'))}})
+
+
+def fix_early_otcmargin(df, path):
+    """早年上櫃融資融券：2008-01-25 那一天上游的 m_limit（融資限額）欄放的是帶小數的別種數字（不是張數）→ 整天的 m_limit 改成空值，不硬湊。"""
+    if df['m_limit'].str.contains('.', regex=False).any():
+        df['m_limit'] = ''
+
+
 def norm_kind(df, path):
     if 'type' in df.columns:
         df['kind_raw'] = df['type']
@@ -342,14 +420,50 @@ DATASETS = [
     daily_spec('marginratio_notices_twse', 'data/universe/marginratio',
                {'date': D, 'code': S, 'name': S, 'reason': S, 'adjust_from': S, 'restore_date': S, 'margin_cut': I, 'margin_cum': I, 'short_raise': I, 'short_cum': I},
                '上市「調整融資比率／融券保證金成數」公告名單（不是券資比）。同一檔同一天有多列（各原因一列＋合計一列），列的順序同官方檔。', part=part_year, sort=['date']),
-    dict(name='tdcc', enabled=False, kind='table', part=part_day, sort=['date', 'code', 'level'], rowkey=k_date, weekly=True,
-         cols={'date': D, 'code': S, 'level': I, 'people': I, 'shares': I, 'pct': 'f32'}, rename={'stock_id': 'code'},
+    dict(name='tdcc', kind='table', part=part_year_then_month, sort=['date', 'code', 'level'], rowkey=k_date, weekly=True,
+         cols=TDCC_COLS, rename={'stock_id': 'code'},
          src=[dict(dir='data/tdcc_hist', pat=r'^\d{4}\.parquet$', srckeys=None, parse=parse_tdcc_hist, bulk=True),
               dict(dir='data/tdcc', pat=r'^\d{4}-\d{2}-\d{2}\.csv$', srckeys=lambda b: [b[:10]])],
          desc='集保股權分散表（每週一份、每檔 17 列）。level 1～15＝持股分級（1：1～999 股、2：1,000～5,000、3：5,001～10,000、4：～15,000、5：～20,000、6：～30,000、'
               '7：～40,000、8：～50,000、9：～100,000、10：～200,000、11：～400,000、12：～600,000、13：～800,000、14：～1,000,000、15：1,000,001 股以上）、'
-              '16＝差異數調整、17＝合計。people 人數、shares 股數、pct 占集保庫存比例（%；2017-07-21 那一週上游沒有此欄）。'
-              '常用：400 張以上大戶＝level 12～15 的 pct 合計；散戶（<10 張）＝level 1～3；股東人數＝level 17 的 people。'),
+              '16＝差異數調整（少數 ETF 等才不是 0）、17＝合計（股數＝1～15 級加總 − 差異數調整）。people 人數、shares 股數、pct 占集保庫存比例（%；2017-07-21 那一週上游沒有此欄）。'
+              '常用：400 張以上大戶＝level 12～15 的 pct 合計；散戶（<10 張）＝level 1～3；股東人數＝level 17 的 people。'
+              '分檔：2025 年以前一年一檔、2026 年起一個月一檔。date＝集保資料日（通常是週五，遇假日是該週最後營業日）；官方約在下週一前後才公布，回測請至少延後到下一個交易日才使用。'
+              '現成彙總見 tdcc_summary。'),
+    dict(name='tdcc_summary', kind='table', part=part_year_then_month, sort=['date', 'code'], rowkey=k_date, weekly=True, cols=TDCC_SUM_COLS,
+         src=[dict(dir='data/tdcc_hist', pat=r'^\d{4}\.parquet$', srckeys=None, parse=parse_tdcc_hist_sum, bulk=True),
+              dict(dir='data/tdcc', pat=r'^\d{4}-\d{2}-\d{2}\.csv$', srckeys=lambda b: [b[:10]], parse=parse_tdcc_csv_sum)],
+         desc='集保股權分散的精簡彙總（由 tdcc 同一批來源檔算出，每週每檔一列）：holders 股東總人數（合計列的人數）、shares_total 集保庫存總股數、'
+              'pct_ge400 持股 400 張以上（400,001 股以上，level 12～15）占比 %、pct_ge1000 持股 1,000 張以上（level 15）占比 %、'
+              'pct_lt10 持股 10 張以下（1～10,000 股，level 1～3）占比 %；holders_ge400／holders_ge1000／holders_lt10 是對應的人數。'
+              '占比＝該級距股數÷合計股數×100，四捨五入到小數 3 位，用股數自己算（不用上游 pct 欄）。使用時點同 tdcc：資料日之後至少延後一個交易日。'),
+    daily_spec('breadth_twse', 'data/universe/breadth', {'date': D, 'up': I, 'down': I, 'flat': I, 'limit_up': I, 'limit_down': I},
+               '上市每日漲跌家數（官方統計，只算上市股票）：up 上漲、down 下跌、flat 持平、limit_up 漲停、limit_down 跌停（漲跌停家數已包含在 up／down 裡）。'
+               '用 daily 自己算四碼普通股的漲跌家數，相關係數 1.00，但多數日子會差 1～3 家（官方統計範圍略有不同），不要當成逐家精確值。', part=part_year),
+    daily_spec('chtm_tpex', 'data/universe/chtm',
+               {'date': D, 'code': S, 'name': S, 'changed': I, 'split_auction': I, 'managed': I, 'match_cycle_min': I, 'halted': I, 'fin_watch': I},
+               '上櫃「變更交易方法／分盤集合競價／管理股票」每日名單（櫃買中心；在名單上才有列；上市的對應名單是 fulldelivery_twse）：changed 變更交易方法、split_auction 分盤交易、managed 管理股票、'
+               'match_cycle_min 分盤撮合間隔（分鐘）、halted 停止買賣、fin_watch 財務面警示註記；1＝是、0＝否。'
+               '同一檔同一天偶有兩列（例：3520 在 2019-01-02～07 一列 halted=0、一列 halted=1），原樣保留。', part=part_year),
+    daily_spec('fulldelivery_twse', 'data/universe/fulldelivery', {'date': D, 'code': S, 'name': S, 'split_auction': I},
+               '上市全額交割股每日名單（在名單上才有列）；split_auction 1＝同時分盤交易。', part=part_year),
+    daily_spec('tib_twse', 'data/universe/tib', {'date': D, 'code': S, 'name': S}, '臺灣創新板每日掛牌名單（2022-09-22 起；在名單上才有列）。',
+               part=part_year, calendar_from='2022-09-22'),
+    daily_spec('stophalt', 'data/universe/stophalt', {'date': D, 'code': S, 'name': S, 'market': S, 'halt_since': S, 'rule': S, 'reason': S},
+               '停止買賣股票每日名單（上游 2026-09-11 才開始收，沒有更早的歷史）：market 市場、halt_since 停止買賣起始日、rule 依據條款、reason 原因全文。'
+               '原因欄內的換行保留。', part=part_year, calendar_from='2026-09-11', parse_all=parse_stophalt),
+    daily_spec('per_twse', 'data/universe/per', PER, '上市' + D_PER),
+    daily_spec('per_tpex', 'data/universe/otcper', PER, '上櫃' + D_PER),
+    daily_spec('inst_twse_early', 'data/early/inst', INST, '【2015 年以前】上市' + D_INST + '2012-05-02～2014-12-31；欄位同 inst_twse，可直接上下相接。'
+               '注意：2014-12-01 以前官方沒有拆自營商自行買賣／避險，dealer_self、dealer_hedge 是空值。', calendar=False),
+    daily_spec('instamt_twse_market_early', 'data/early/instamt', AMT, '【2015 年以前】上市三大法人買賣金額（全市場合計），單位＝元；2004-04-07～2014-12-31；'
+               '欄位同 instamt_twse_market。investor 名稱各年代不同（外資→外資及陸資；自營商後來拆自行買賣／避險）。', part=part_year, calendar=False),
+    daily_spec('marginmkt_twse_market_early', 'data/early/marginmkt', {'date': D, 'item': S, 'buy': I, 'sell': I, 'repay': I, 'prev': I, 'balance': I},
+               '【2015 年以前】上市融資融券全市場統計；2005-01-03～2014-12-31；欄位同 marginmkt_twse_market。', part=part_year, calendar=False),
+    daily_spec('margin_tpex_early', 'data/early/otcmargin', MARGIN, '【2015 年以前】上櫃' + D_MARGIN + '2007-07-02～2014-12-31；欄位同 margin_tpex。'
+               '2008-01-25 那天上游的融資限額欄內容有誤，m_limit 存成空值。note 欄早年的代碼寫法與 2015 後不同（原樣保留）。', calendar=False, check=fix_early_otcmargin),
+    daily_spec('per_twse_early', 'data/early/per', PER, '【2015 年以前】上市' + D_PER + '2012-01-02～2014-12-31；欄位同 per_twse。', calendar=False),
+    daily_spec('per_tpex_early', 'data/early/otcper', PER, '【2015 年以前】上櫃' + D_PER + '2012-01-02～2014-12-31；欄位同 per_tpex。', calendar=False),
     dict(name='bs_hist', kind='table', part=part_year, sort=['period', 'code', 'template'], weekly=False,
          rowkey=lambda t: [a + '_' + b + '_' + c for a, b, c in zip(t.column('period').to_pylist(), t.column('template').to_pylist(), t.column('market').to_pylist())],
          cols={'period': S, 'code': S, 'market': S, 'template': S, 'account': S, 'item': S, 'value': F},

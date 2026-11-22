@@ -1,0 +1,740 @@
+{
+ "what": "第二輪（2026-11-22）：把上次沒做的類別補進 raw/tsd_extra/，沿用同一支 update_daily.py。欄位說明看 raw/tsd_extra/manifest.json 各資料集的 description；交叉檢查全文看本資料夾 crosscheck_round2.json。",
+ "upstream_commit": "9170986b1d32168cd6bcf9448dd95006d38c3105（2026-11-21T20:09:02+00:00）",
+ "new_datasets": {
+  "tdcc": {
+   "first_key": "2017-07-21",
+   "last_key": "2026-11-20",
+   "rows": 21756600,
+   "files": 20,
+   "bytes": 136318262,
+   "max_file_bytes": 19275005,
+   "source_dirs": [
+    "data/tdcc_hist",
+    "data/tdcc"
+   ],
+   "days": null,
+   "missing_days_vs_daily_calendar": null
+  },
+  "tdcc_summary": {
+   "first_key": "2017-07-21",
+   "last_key": "2026-11-20",
+   "rows": 1279800,
+   "files": 20,
+   "bytes": 21421033,
+   "max_file_bytes": 2962852,
+   "source_dirs": [
+    "data/tdcc_hist",
+    "data/tdcc"
+   ],
+   "days": null,
+   "missing_days_vs_daily_calendar": null
+  },
+  "breadth_twse": {
+   "first_key": "2015-01-05",
+   "last_key": "2026-11-20",
+   "rows": 2895,
+   "files": 12,
+   "bytes": 51648,
+   "max_file_bytes": 4531,
+   "source_dirs": [
+    "data/universe/breadth"
+   ],
+   "days": 2895,
+   "missing_days_vs_daily_calendar": []
+  },
+  "chtm_tpex": {
+   "first_key": "2015-01-05",
+   "last_key": "2026-11-20",
+   "rows": 94877,
+   "files": 12,
+   "bytes": 96233,
+   "max_file_bytes": 9785,
+   "source_dirs": [
+    "data/universe/chtm"
+   ],
+   "days": 2895,
+   "missing_days_vs_daily_calendar": []
+  },
+  "fulldelivery_twse": {
+   "first_key": "2015-01-05",
+   "last_key": "2026-11-20",
+   "rows": 54139,
+   "files": 12,
+   "bytes": 41737,
+   "max_file_bytes": 4630,
+   "source_dirs": [
+    "data/universe/fulldelivery"
+   ],
+   "days": 2895,
+   "missing_days_vs_daily_calendar": []
+  },
+  "tib_twse": {
+   "first_key": "2022-09-22",
+   "last_key": "2026-11-20",
+   "rows": 15442,
+   "files": 5,
+   "bytes": 11583,
+   "max_file_bytes": 2999,
+   "source_dirs": [
+    "data/universe/tib"
+   ],
+   "days": 1008,
+   "missing_days_vs_daily_calendar": []
+  },
+  "stophalt": {
+   "first_key": "2026-09-11",
+   "last_key": "2026-11-17",
+   "rows": 43,
+   "files": 1,
+   "bytes": 4468,
+   "max_file_bytes": 4468,
+   "source_dirs": [
+    "data/universe/stophalt"
+   ],
+   "days": 43,
+   "missing_days_vs_daily_calendar": [
+    "2026-11-18",
+    "2026-11-19",
+    "2026-11-20"
+   ]
+  },
+  "per_twse": {
+   "first_key": "2015-01-05",
+   "last_key": "2026-11-20",
+   "rows": 2757425,
+   "files": 143,
+   "bytes": 18351471,
+   "max_file_bytes": 179227,
+   "source_dirs": [
+    "data/universe/per"
+   ],
+   "days": 2895,
+   "missing_days_vs_daily_calendar": []
+  },
+  "per_tpex": {
+   "first_key": "2015-01-05",
+   "last_key": "2026-11-20",
+   "rows": 2260644,
+   "files": 143,
+   "bytes": 11310364,
+   "max_file_bytes": 103850,
+   "source_dirs": [
+    "data/universe/otcper"
+   ],
+   "days": 2895,
+   "missing_days_vs_daily_calendar": []
+  },
+  "inst_twse_early": {
+   "first_key": "2012-05-02",
+   "last_key": "2014-12-31",
+   "rows": 528919,
+   "files": 32,
+   "bytes": 3898286,
+   "max_file_bytes": 180133,
+   "source_dirs": [
+    "data/early/inst"
+   ],
+   "days": null,
+   "missing_days_vs_daily_calendar": null
+  },
+  "instamt_twse_market_early": {
+   "first_key": "2004-04-07",
+   "last_key": "2014-12-31",
+   "rows": 10712,
+   "files": 11,
+   "bytes": 218134,
+   "max_file_bytes": 20628,
+   "source_dirs": [
+    "data/early/instamt"
+   ],
+   "days": null,
+   "missing_days_vs_daily_calendar": null
+  },
+  "marginmkt_twse_market_early": {
+   "first_key": "2005-01-03",
+   "last_key": "2014-12-31",
+   "rows": 7452,
+   "files": 10,
+   "bytes": 201019,
+   "max_file_bytes": 20436,
+   "source_dirs": [
+    "data/early/marginmkt"
+   ],
+   "days": null,
+   "missing_days_vs_daily_calendar": null
+  },
+  "margin_tpex_early": {
+   "first_key": "2007-07-02",
+   "last_key": "2014-12-31",
+   "rows": 863296,
+   "files": 90,
+   "bytes": 12587086,
+   "max_file_bytes": 183317,
+   "source_dirs": [
+    "data/early/otcmargin"
+   ],
+   "days": null,
+   "missing_days_vs_daily_calendar": null
+  },
+  "per_twse_early": {
+   "first_key": "2012-01-02",
+   "last_key": "2014-12-31",
+   "rows": 608588,
+   "files": 36,
+   "bytes": 2953755,
+   "max_file_bytes": 98835,
+   "source_dirs": [
+    "data/early/per"
+   ],
+   "days": null,
+   "missing_days_vs_daily_calendar": null
+  },
+  "per_tpex_early": {
+   "first_key": "2012-01-02",
+   "last_key": "2014-12-31",
+   "rows": 474822,
+   "files": 36,
+   "bytes": 2335257,
+   "max_file_bytes": 77393,
+   "source_dirs": [
+    "data/early/otcper"
+   ],
+   "days": null,
+   "missing_days_vs_daily_calendar": null
+  }
+ },
+ "new_bytes_total": 209800336,
+ "max_single_file_bytes": 19275005,
+ "design_notes": [
+  "集保 tdcc／tdcc_summary：2025 年以前一年一檔（最大 19.3MB）、2026 年起一個月一檔——因為每週更新會重寫當期檔，按月才不會每週在版控多存一份年檔。",
+  "集保歷史來自上游 data/tdcc_hist（年檔，只在首次建置讀；上游之後改寫年檔不會自動重抓，要加 --refresh-bulk）；每週新資料來自 data/tdcc 的週檔，有新檔才更新。",
+  "tdcc_summary 的占比用股數自己算（四捨五入到小數 3 位），不依賴上游 pct 欄（2017、2018 的 10 週沒有 pct）。",
+  "集保合計列股數＝1～15 級加總 − 第 16 級「差異數調整」（已驗證 0 筆例外）；第 16 級不為 0 的有 19118 檔週（多為 ETF）。",
+  "chtm 實際是「上櫃」名單（代號全部在上櫃日 K 找得到、上市找不到），所以資料集叫 chtm_tpex。",
+  "stophalt 上游 csv 的原因欄有未加引號的換行，另寫專用切列程式；上游只從 2026-09-11 開始收，且 2026-11-18～20 沒有檔。",
+  "早年上櫃融資融券 2008-01-25 那天上游 m_limit 欄內容有誤（帶小數），整天 m_limit 存空值，其餘欄照收。",
+  "2015 年前資料另開 *_early 資料集（不動既有資料集的檔案），欄位名稱與順序同 2015 後，可直接上下相接。上游 data/early/otcinst（早年上櫃法人）是空的，沒得做；早年上市逐股融資融券上游沒有。",
+  "另外順手做了 per_twse_early／per_tpex_early（2012～2014 的本益比等，約 5MB）。"
+ ],
+ "crosschecks_summary": {
+  "tdcc": {
+   "weeks": 390,
+   "coverage": "2017-07-21 只有 1 週；2018-11-02～12-28；2019-06-28 起連續",
+   "big_gaps": [
+    [
+     "2017-07-21",
+     "2018-11-02",
+     469
+    ],
+    [
+     "2018-12-28",
+     "2019-06-28",
+     182
+    ]
+   ],
+   "suspected_missing_weeks": [
+    "2020-06-19",
+    "2022-11-04",
+    "2023-10-20"
+   ],
+   "other_gaps_are_holidays": true,
+   "every_stock_week_has_levels_1_to_17": true,
+   "duplicate_rows": 0,
+   "people_sum_eq_total_exceptions": 0,
+   "pct_vs_shares_ratio_max_abs_diff": 0.01,
+   "total_shares_vs_daily_issued_shares": [
+    {
+     "year": "2020",
+     "matched_stock_weeks": 85796,
+     "median_ratio": 1.0,
+     "share_within_2pct": 0.9769,
+     "share_within_10pct": 0.9936,
+     "holders_le_0": 0,
+     "median_holders": 11871.0,
+     "pct_out_of_0_100": 0,
+     "tdcc_weeks_not_trading_day": [
+      "2020-01-22",
+      "2020-09-26"
+     ]
+    },
+    {
+     "year": "2023",
+     "matched_stock_weeks": 77041,
+     "median_ratio": 1.0,
+     "share_within_2pct": 0.9676,
+     "share_within_10pct": 0.9917,
+     "holders_le_0": 0,
+     "median_holders": 15964.0,
+     "pct_out_of_0_100": 0,
+     "tdcc_weeks_not_trading_day": [
+      "2023-01-07",
+      "2023-01-19",
+      "2023-02-04",
+      "2023-02-18",
+      "2023-03-25",
+      "2023-06-17",
+      "2023-09-23"
+     ]
+    },
+    {
+     "year": "2026",
+     "matched_stock_weeks": 88399,
+     "median_ratio": 1.0,
+     "share_within_2pct": 0.9737,
+     "share_within_10pct": 0.9938,
+     "holders_le_0": 0,
+     "median_holders": 20723.0,
+     "pct_out_of_0_100": 0,
+     "tdcc_weeks_not_trading_day": [
+      "2026-02-13"
+     ]
+    }
+   ],
+   "example_2330": {
+    "date": "2026-11-20",
+    "code": "2330",
+    "holders": 3329043.0,
+    "shares_total": 25932370067.0,
+    "pct_ge400": 86.913,
+    "pct_ge1000": 84.146,
+    "pct_lt10": 6.349,
+    "holders_ge400": 2609.0,
+    "holders_ge1000": 1469.0,
+    "holders_lt10": 3278245.0
+   }
+  },
+  "breadth": {
+   "up_down_vs_daily_common_stocks": {
+    "up": {
+     "exact_days_share": 0.1323,
+     "within_3_share": 0.8563,
+     "median_abs_diff": 2.0,
+     "corr": 1.0
+    },
+    "down": {
+     "exact_days_share": 0.0898,
+     "within_3_share": 0.8166,
+     "median_abs_diff": 2.0,
+     "corr": 1.0
+    },
+    "flat": {
+     "exact_days_share": 0.0111,
+     "within_3_share": 0.1748,
+     "median_abs_diff": 7.0,
+     "corr": 0.9738
+    },
+    "limit_up": {
+     "exact_days_share": 0.0701,
+     "within_3_share": 0.3637,
+     "median_abs_diff": 5.0,
+     "corr": 0.7806
+    },
+    "limit_down": {
+     "exact_days_share": 0.1661,
+     "within_3_share": 0.7658,
+     "median_abs_diff": 2.0,
+     "corr": 0.7374
+    }
+   },
+   "limit_counts_vs_close_at_limit_price": {
+    "limit_up": {
+     "exact_days_share": 0.8464,
+     "within_3_share": 0.9968,
+     "corr": 0.9996
+    },
+    "limit_down": {
+     "exact_days_share": 0.9146,
+     "within_3_share": 0.9982,
+     "corr": 0.9999
+    }
+   },
+   "note": "漲跌家數與自己用日 K 算的相關 1.00，但完全相同的日子只有約一成（多數差 1～3 家，官方範圍略不同，沒找到完全對上的定義）；漲跌停家數用「收盤＝漲跌停價」算，85%／91% 的日子完全相同。日 K 的 limit 欄是別的定義（數量少很多），不能拿來對。"
+  },
+  "lists": {
+   "chtm_tpex": {
+    "rows": 94877,
+    "first": "2015-01-05",
+    "last": "2026-11-20",
+    "dup": 4,
+    "codes": 297,
+    "share_rows_found_in_daily_same_market_same_day": 0.9058,
+    "median_rows_per_day": 35.0,
+    "not_halted_rows_found_in_daily_tpex_share": 1.0,
+    "halted_rows_share": 0.0942
+   },
+   "fulldelivery_twse": {
+    "rows": 54139,
+    "first": "2015-01-05",
+    "last": "2026-11-20",
+    "dup": 0,
+    "codes": 185,
+    "share_rows_found_in_daily_same_market_same_day": 0.9739,
+    "median_rows_per_day": 20.0
+   },
+   "tib_twse": {
+    "rows": 15442,
+    "first": "2022-09-22",
+    "last": "2026-11-20",
+    "dup": 0,
+    "codes": 37,
+    "share_rows_found_in_daily_same_market_same_day": 1.0,
+    "median_rows_per_day": 18.0
+   },
+   "stophalt": {
+    "rows": 43,
+    "first": "2026-09-11",
+    "last": "2026-11-17",
+    "dup": 0,
+    "codes": 1,
+    "share_rows_found_in_daily_same_market_same_day": 0.0,
+    "median_rows_per_day": 1.0
+   }
+  },
+  "per": {
+   "per_twse": {
+    "rows": 2757425,
+    "null_share": {
+     "close": 0.1743,
+     "yield_pct": 0.0,
+     "dividend_year": 0.1743,
+     "per": 0.192,
+     "pbr": 0.0002
+    },
+    "close_vs_daily_close": {
+     "n": 2269365,
+     "share_equal": 1.0
+    },
+    "share_rows_found_in_daily": 0.9963,
+    "yield_x_close_vs_cash_dividend_events": [
+     {
+      "date": "2016-12-30",
+      "stocks": 552,
+      "share_match": 1.0,
+      "dividend_year_mode": null
+     },
+     {
+      "date": "2017-12-29",
+      "stocks": 588,
+      "share_match": 1.0,
+      "dividend_year_mode": 105.0
+     },
+     {
+      "date": "2018-12-28",
+      "stocks": 601,
+      "share_match": 1.0,
+      "dividend_year_mode": 106.0
+     },
+     {
+      "date": "2019-12-31",
+      "stocks": 637,
+      "share_match": 0.9906,
+      "dividend_year_mode": 107.0
+     },
+     {
+      "date": "2020-12-31",
+      "stocks": 630,
+      "share_match": 0.9841,
+      "dividend_year_mode": 108.0
+     },
+     {
+      "date": "2021-12-30",
+      "stocks": 667,
+      "share_match": 0.9745,
+      "dividend_year_mode": 109.0
+     },
+     {
+      "date": "2022-12-30",
+      "stocks": 698,
+      "share_match": 0.9742,
+      "dividend_year_mode": 110.0
+     },
+     {
+      "date": "2023-12-29",
+      "stocks": 698,
+      "share_match": 0.9685,
+      "dividend_year_mode": 111.0
+     },
+     {
+      "date": "2024-12-31",
+      "stocks": 696,
+      "share_match": 0.9756,
+      "dividend_year_mode": 112.0
+     },
+     {
+      "date": "2025-12-31",
+      "stocks": 733,
+      "share_match": 0.9673,
+      "dividend_year_mode": 113.0
+     }
+    ]
+   },
+   "per_tpex": {
+    "rows": 2260644,
+    "null_share": {
+     "close": 1.0,
+     "yield_pct": 0.0,
+     "dividend_year": 0.0,
+     "per": 0.2766,
+     "pbr": 0.0003
+    },
+    "close_vs_daily_close": {
+     "n": 0,
+     "share_equal": null
+    },
+    "share_rows_found_in_daily": 0.9771,
+    "yield_x_close_vs_cash_dividend_events": [
+     {
+      "date": "2016-12-30",
+      "stocks": 373,
+      "share_match": 0.9893,
+      "dividend_year_mode": 104.0
+     },
+     {
+      "date": "2017-12-29",
+      "stocks": 380,
+      "share_match": 0.9974,
+      "dividend_year_mode": 105.0
+     },
+     {
+      "date": "2018-12-28",
+      "stocks": 396,
+      "share_match": 1.0,
+      "dividend_year_mode": 106.0
+     },
+     {
+      "date": "2019-12-31",
+      "stocks": 435,
+      "share_match": 0.9885,
+      "dividend_year_mode": 107.0
+     },
+     {
+      "date": "2020-12-31",
+      "stocks": 430,
+      "share_match": 0.9814,
+      "dividend_year_mode": 108.0
+     },
+     {
+      "date": "2021-12-30",
+      "stocks": 442,
+      "share_match": 0.9615,
+      "dividend_year_mode": 109.0
+     },
+     {
+      "date": "2022-12-30",
+      "stocks": 459,
+      "share_match": 0.9564,
+      "dividend_year_mode": 110.0
+     },
+     {
+      "date": "2023-12-29",
+      "stocks": 464,
+      "share_match": 0.9655,
+      "dividend_year_mode": 111.0
+     },
+     {
+      "date": "2024-12-31",
+      "stocks": 456,
+      "share_match": 0.9627,
+      "dividend_year_mode": 112.0
+     },
+     {
+      "date": "2025-12-31",
+      "stocks": 496,
+      "share_match": 0.9536,
+      "dividend_year_mode": 113.0
+     }
+    ]
+   }
+  },
+  "per_note": "殖利率抽查：各年最後交易日「殖利率×日 K 收盤」對「當年只配現金的除息金額合計」（上市用 raw/twt49u、上櫃用 otc_exright），容許 0.03 元或 1%。相符 95%～100%；不符多半是一年配多次或官方用的股利年度不同。",
+  "early": {
+   "inst_twse_early": {
+    "rows": 528919,
+    "first": "2012-05-02",
+    "last": "2014-12-31",
+    "days": 666,
+    "dup": 0,
+    "same_column_names_and_order_as_later": true,
+    "missing_days_vs_early_daily_calendar": [],
+    "days_not_in_early_daily_calendar": [],
+    "boundary": {
+     "early_last": "2014-12-31",
+     "later_first": "2015-01-05",
+     "codes_early_last_day": 864,
+     "codes_later_first_day": 863,
+     "codes_in_both": 861
+    },
+    "total_eq_foreign_trust_dealer_share": 1.0,
+    "first_day_with_dealer_split": "2014-12-01",
+    "note_sign_check": "逐股表沒有價格，無法換算金額；僅以 2014-12 各日「外資買賣超股數合計」與金額表外資淨額的符號一致率粗查",
+    "foreign_net_shares_vs_net_amount_sign_agree_2014": 0.8871,
+    "corr_2014": 0.929
+   },
+   "instamt_twse_market_early": {
+    "rows": 10712,
+    "first": "2004-04-07",
+    "last": "2014-12-31",
+    "days": 2672,
+    "dup": 0,
+    "same_column_names_and_order_as_later": true,
+    "missing_days_vs_early_daily_calendar": [],
+    "days_not_in_early_daily_calendar": [],
+    "boundary": {
+     "early_last": "2014-12-31",
+     "later_first": "2015-01-05",
+     "investors_early_last": [
+      "合計",
+      "外資及陸資",
+      "投信",
+      "自營商(自行買賣)",
+      "自營商(避險)"
+     ],
+     "investors_later_first": [
+      "合計",
+      "外資及陸資",
+      "投信",
+      "自營商(自行買賣)",
+      "自營商(避險)"
+     ]
+    },
+    "investor_names_by_first_date": {
+     "合計": "2004-04-07",
+     "外資": "2004-04-07",
+     "投信": "2004-04-07",
+     "自營商": "2004-04-07",
+     "外資及陸資": "2009-05-04",
+     "自營商(自行買賣)": "2014-12-01",
+     "自營商(避險)": "2014-12-01"
+    },
+    "total_row_eq_sum_of_others_share": 1.0
+   },
+   "marginmkt_twse_market_early": {
+    "rows": 7452,
+    "first": "2005-01-03",
+    "last": "2014-12-31",
+    "days": 2484,
+    "dup": 0,
+    "same_column_names_and_order_as_later": true,
+    "missing_days_vs_early_daily_calendar": [],
+    "days_not_in_early_daily_calendar": [],
+    "boundary": {
+     "early_last": "2014-12-31",
+     "later_first": "2015-01-05",
+     "items": [
+      "融券(交易單位)",
+      "融資(交易單位)",
+      "融資金額(仟元)"
+     ],
+     "balance_vs_next_prev_rel_diff": {
+      "融券(交易單位)": 0.0,
+      "融資(交易單位)": 0.001162,
+      "融資金額(仟元)": 0.001397
+     }
+    },
+    "typical_abs_rel_diff_balance_vs_next_day_prev_p50_p99": [
+     2e-06,
+     0.00275
+    ],
+    "note": "官方的「前日餘額」常與前一日「今日餘額」差一點（事後調整），2015 後的資料也是這樣，不是銜接問題",
+    "internal_balance_eq_next_day_prev_share": 0.2262
+   },
+   "margin_tpex_early": {
+    "rows": 863296,
+    "first": "2007-07-02",
+    "last": "2014-12-31",
+    "days": 1870,
+    "dup": 0,
+    "same_column_names_and_order_as_later": true,
+    "missing_days_vs_early_daily_calendar": [],
+    "days_not_in_early_daily_calendar": [],
+    "boundary": {
+     "early_last": "2014-12-31",
+     "later_first": "2015-01-05",
+     "codes_early_last_day": 571,
+     "codes_later_first_day": 572,
+     "codes_in_both": 571,
+     "m_balance_eq_next_m_prev_share": 1.0,
+     "s_balance_eq_next_s_prev_share": 1.0
+    },
+    "internal_m_balance_eq_next_day_m_prev_share": 0.9902
+   },
+   "per_twse_early": {
+    "rows": 608588,
+    "first": "2012-01-02",
+    "last": "2014-12-31",
+    "days": 744,
+    "dup": 0,
+    "same_column_names_and_order_as_later": true,
+    "missing_days_vs_early_daily_calendar": [],
+    "days_not_in_early_daily_calendar": [],
+    "boundary": {
+     "early_last": "2014-12-31",
+     "later_first": "2015-01-05",
+     "codes_early_last_day": 852,
+     "codes_later_first_day": 852,
+     "codes_in_both": 852,
+     "median_abs_pbr_change": 0.01,
+     "pbr_corr": 0.9996,
+     "yield_corr": 0.9998
+    }
+   },
+   "per_tpex_early": {
+    "rows": 474822,
+    "first": "2012-01-02",
+    "last": "2014-12-31",
+    "days": 744,
+    "dup": 0,
+    "same_column_names_and_order_as_later": true,
+    "missing_days_vs_early_daily_calendar": [],
+    "days_not_in_early_daily_calendar": [],
+    "boundary": {
+     "early_last": "2014-12-31",
+     "later_first": "2015-01-05",
+     "codes_early_last_day": 665,
+     "codes_later_first_day": 681,
+     "codes_in_both": 665,
+     "median_abs_pbr_change": 0.01,
+     "pbr_corr": 0.9999,
+     "yield_corr": 0.9997
+    }
+   }
+  }
+ },
+ "acceptance": {
+  "truncate_2_dates_then_update": "複本截掉每個每日／每週資料集最後 2 個日期（集保是最後 2 週）→ 117 個檔改變 → 重跑更新 → 3,489 個資料與索引檔 sha256 全部相同（只有 manifest.json 的「最後變動 commit」欄不同，屬預期）",
+  "rerun": "再跑一次：無新資料、0 個檔變動",
+  "verify": "--verify：2,463 個檔 0 不符（上一輪 1,880 個檔仍全符）",
+  "real_folder": "正式資料夾用同一上游版本跑完整更新：全部「無新資料」，既有資料集檔案與更新前逐位元相同",
+  "peak_memory_mb": 1783,
+  "note": "集保是用「截掉最後 2 週再由週檔補回」驗的；還沒遇過真正新一週出檔的情境。"
+ },
+ "disk": {
+  "before_mb_free": 2582,
+  "lowest_mb_free": 1796,
+  "after_mb_free": 2377,
+  "raw_tsd_extra_before_mb": 372,
+  "raw_tsd_extra_after_mb": 577
+ },
+ "not_done": [
+  "上櫃早年法人逐股（data/early/otcinst 上游是空的）",
+  "早年日 K（data/early/daily，原始 330MB；本專案已有 raw/pre2015，未列入本次任務）",
+  "早年除權息／減資（data/early/exright、reduce；未列入本次任務，約 2MB，要的話很快）",
+  "data/universe/capital、etfsplit、esb、holiday 等零星小目錄（未列入本次任務）"
+ ],
+ "git_growth_estimate": "新增類別每天約多 0.3MB（per 兩個月檔重寫）、每週再多約 1.5～2.5MB（集保當月檔＋彙總）；一年約 0.15～0.2GB。",
+ "risks": [
+  "全部是上游 2026-11-21 版本的內容，不是當時版本；本益比／殖利率是官方當日算好的值，但上游是否事後重抓過無從得知。",
+  "集保 2019-06-28 以前幾乎沒有資料，另疑似缺 3 週；資料日（多為週五）之後官方才公布，回測要延後使用。",
+  "per 的 close 欄上市 17% 空、上櫃全空；dividend_year 上市 2017 以前多為空。數值存 32 位元浮點，讀後請 round(2)。",
+  "breadth 的漲跌家數與日 K 自算差 1～3 家，定義沒完全對上。",
+  "位元組相同的前提仍是 pyarrow 26.0.0。"
+ ],
+ "files": {
+  "crosscheck": "crosscheck_round2.py／crosscheck_round2.json",
+  "build_wrapper": "run_round2.sh",
+  "manifest_register": "register_manifest_round2.py",
+  "early_calendar": "early_daily_calendar.txt（上游 data/early/daily 的日期清單，用來查早年缺日）",
+  "disk_log": "disk_log.tsv"
+ }
+}
