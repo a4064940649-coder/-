@@ -1,0 +1,185 @@
+{
+ "build": {
+  "rows": 3345358,
+  "dup": 0,
+  "per_null": 659495,
+  "per_le0": 0,
+  "pbr_null": 646,
+  "close_null": 1089232,
+  "days": 3620,
+  "first": "2012-01-02",
+  "last": "2026-10-22",
+  "rows_in_panel_cols": 3339486,
+  "panel_days_without_val": []
+ },
+ "spot_check": {
+  "note": "官方值 ÷ 自估值。自估淨值比＝日 K 收盤 ÷ 資產負債表每股參考淨值（假設用當季已公告的最新一季）；自估本益比＝日 K 收盤 ÷（近四季合併淨利 ÷ 當日發行股數）。自估本益比用的是合併總淨利（含少數股權）與當日股數，和官方用的歸屬母公司每股盈餘有口徑差，只看量級。",
+  "by_year": {
+   "2016": {
+    "pbr": {
+     "n": 57,
+     "median_ratio": 1.0,
+     "within_5pct": 1.0,
+     "within_25pct": 1.0,
+     "within_x2": 1.0,
+     "min": 0.992140504939627,
+     "max": 1.0032173913043476
+    },
+    "per": {
+     "n": 59,
+     "median_ratio": 1.0007594718178425,
+     "within_5pct": 0.7627118644067796,
+     "within_25pct": 0.9152542372881356,
+     "within_x2": 0.9661016949152542,
+     "min": 0.9309940075622528,
+     "max": 4.028015578973642
+    }
+   },
+   "2019": {
+    "pbr": {
+     "n": 57,
+     "median_ratio": 0.9999999999999999,
+     "within_5pct": 1.0,
+     "within_25pct": 1.0,
+     "within_x2": 1.0,
+     "min": 0.9932754342431763,
+     "max": 1.005
+    },
+    "per": {
+     "n": 59,
+     "median_ratio": 1.0004460555288264,
+     "within_5pct": 0.559322033898305,
+     "within_25pct": 0.8305084745762712,
+     "within_x2": 0.9830508474576272,
+     "min": 0.6085749045638323,
+     "max": 2.8017585972340227
+    }
+   },
+   "2022": {
+    "pbr": {
+     "n": 58,
+     "median_ratio": 1.000439888337469,
+     "within_5pct": 1.0,
+     "within_25pct": 1.0,
+     "within_x2": 1.0,
+     "min": 0.9939175257731957,
+     "max": 1.0084330484330484
+    },
+    "per": {
+     "n": 60,
+     "median_ratio": 1.004329394200278,
+     "within_5pct": 0.6333333333333333,
+     "within_25pct": 0.9166666666666666,
+     "within_x2": 0.9666666666666667,
+     "min": 0.19385265588502068,
+     "max": 2.461310662341667
+    }
+   }
+  },
+  "all": {
+   "pbr": {
+    "n": 172,
+    "median_ratio": 1.0000689004076924,
+    "within_5pct": 1.0,
+    "within_25pct": 1.0,
+    "within_x2": 1.0,
+    "min": 0.992140504939627,
+    "max": 1.0084330484330484
+   },
+   "per": {
+    "n": 178,
+    "median_ratio": 1.0011767863894656,
+    "within_5pct": 0.651685393258427,
+    "within_25pct": 0.8876404494382022,
+    "within_x2": 0.9719101123595506,
+    "min": 0.19385265588502068,
+    "max": 4.028015578973642
+   }
+  },
+  "dates": [
+   "2016-06-15",
+   "2016-09-19",
+   "2016-12-15",
+   "2019-06-17",
+   "2019-09-16",
+   "2019-12-16",
+   "2022-06-15",
+   "2022-09-15",
+   "2022-12-15"
+  ],
+  "fs_quarter_values": {
+   "2016-06-15": "",
+   "2016-09-19": "",
+   "2016-12-15": "",
+   "2019-06-17": "108/1",
+   "2019-09-16": "108/2",
+   "2019-12-16": "108/3",
+   "2022-06-15": "111/1",
+   "2022-09-15": "111/2",
+   "2022-12-15": "111/3"
+  }
+ },
+ "coverage_trades": {
+  "n_all": 389,
+  "has_row": 389,
+  "has_pbr": 389,
+  "has_yld": 389,
+  "per_positive": 334,
+  "per_null_or_loss": 55,
+  "yld_zero": 71,
+  "has_per3y": 318,
+  "signal_days": 129,
+  "signal_days_with_val_file": 129,
+  "shift3_days_with_val_file": 129
+ },
+ "coverage_universe": {
+  "2015": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.9082337513740413
+  },
+  "2016": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.9080596738151887
+  },
+  "2017": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.8792637468968854
+  },
+  "2018": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.9047375026496444
+  },
+  "2019": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.9111659280855202
+  },
+  "2020": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.8792231356174094
+  },
+  "2021": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.8948339341178784
+  },
+  "2022": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.9160298128590677
+  },
+  "2023": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.8778022878251707
+  },
+  "2024": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.8389736023065837
+  },
+  "2025": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.8387876068626895
+  },
+  "2026": {
+   "frac_univ_with_row": 1.0,
+   "frac_univ_per_positive": 0.8256701910940186
+  }
+ }
+}
