@@ -1,0 +1,143 @@
+{
+ "rows_2019on": 1253717,
+ "dup": 0,
+ "weeks": 380,
+ "first": "2019-06-28",
+ "last": "2026-11-20",
+ "continuous_from": "2019-06-28",
+ "gaps_ge10d_since_2019_06_28": [
+  {
+   "date": "2020-06-24",
+   "prev": "2020-06-12",
+   "gap_days": 12
+  },
+  {
+   "date": "2021-02-20",
+   "prev": "2021-02-09",
+   "gap_days": 11
+  },
+  {
+   "date": "2022-02-11",
+   "prev": "2022-01-28",
+   "gap_days": 14
+  },
+  {
+   "date": "2022-11-11",
+   "prev": "2022-10-28",
+   "gap_days": 14
+  },
+  {
+   "date": "2023-02-04",
+   "prev": "2023-01-19",
+   "gap_days": 16
+  },
+  {
+   "date": "2023-10-27",
+   "prev": "2023-10-13",
+   "gap_days": 14
+  },
+  {
+   "date": "2024-02-17",
+   "prev": "2024-02-07",
+   "gap_days": 10
+  },
+  {
+   "date": "2025-02-08",
+   "prev": "2025-01-24",
+   "gap_days": 15
+  },
+  {
+   "date": "2026-02-26",
+   "prev": "2026-02-13",
+   "gap_days": 13
+  }
+ ],
+ "weekday_counts": {
+  "1": 1,
+  "2": 9,
+  "3": 25,
+  "4": 332,
+  "5": 13
+ },
+ "missing_week_rule": "「N 週前」＝資料日 ≤ 最新一筆資料日 − 7N 天的最新一筆；缺週自動用再前一週。連續下降用相鄰兩筆可得資料比。",
+ "signal_days": {
+  "cons": {
+   "n": 87,
+   "first": "2019-08-13",
+   "last": "2026-10-13",
+   "age_days_min": 7,
+   "age_days_median": 11.0,
+   "age_days_max": 18,
+   "span4_days": [
+    28,
+    29,
+    30,
+    32,
+    33,
+    34,
+    35,
+    36,
+    43
+   ],
+   "span8_days": [
+    56,
+    57,
+    58,
+    60,
+    61,
+    62,
+    63,
+    68,
+    71
+   ],
+   "n_sigdays_no_8w_history": 1,
+   "targets": 368,
+   "targets_with_dB4": 368,
+   "targets_with_dB8": 367,
+   "targets_with_dH4": 368
+  },
+  "loose": {
+   "n": 87,
+   "first": "2019-08-13",
+   "last": "2026-10-13",
+   "age_days_min": 2,
+   "age_days_median": 5.0,
+   "age_days_max": 14,
+   "span4_days": [
+    28,
+    29,
+    30,
+    32,
+    33,
+    34,
+    35,
+    42
+   ],
+   "span8_days": [
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    68
+   ],
+   "n_sigdays_no_8w_history": 1,
+   "targets": 368,
+   "targets_with_dB4": 368,
+   "targets_with_dB8": 367,
+   "targets_with_dH4": 368
+  }
+ },
+ "trades_since_2019_08": {
+  "n_all": 294,
+  "n_closed": 286,
+  "with_dB4": 294,
+  "with_dB8": 294,
+  "with_dH4": 294,
+  "missing_dB8": [],
+  "missing": []
+ }
+}
