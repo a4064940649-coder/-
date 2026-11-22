@@ -522,7 +522,7 @@
    "source_files": 2895
   },
   "marginmkt_twse_market_early": {
-   "bytes": 201019,
+   "bytes": 220030,
    "columns": {
     "balance": "int",
     "buy": "int",
@@ -533,19 +533,19 @@
     "sell": "int"
    },
    "description": "【2015 年以前】上市融資融券全市場統計；2005-01-03～2014-12-31；欄位同 marginmkt_twse_market。",
-   "files": 10,
-   "first_key": "2005-01-03",
-   "last_change_commit": "9170986b1d32168cd6bcf9448dd95006d38c3105",
-   "last_change_commit_time": "2026-11-21T20:09:02+00:00",
+   "files": 11,
+   "first_key": "2004-02-11",
+   "last_change_commit": "d4d21c287d00843298f4f0f97d854e0badb671b4",
+   "last_change_commit_time": "2026-11-22T20:23:08+00:00",
    "last_key": "2014-12-31",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 20436,
    "revised_source_files": 0,
-   "rows": 7452,
+   "rows": 8136,
    "source_dirs": [
     "data/early/marginmkt"
    ],
-   "source_files": 2484
+   "source_files": 2712
   },
   "marginratio_notices_twse": {
    "bytes": 475398,
@@ -1012,7 +1012,7 @@
    "source_files": 1008
   }
  },
- "total_bytes": 589596693,
+ "total_bytes": 589615704,
  "update_command": "python3 -I -B research/tw_stock_selection/raw/tsd_extra/update_daily.py <官方倉庫 clone 路徑>",
  "upstream_repo": "https://github.com/jb7k6295r7-bot/tw-stock-data",
  "what": "官方資料倉庫 tw-stock-data 的自有快照；由 update_daily.py 建置與每日增量更新",
