@@ -161,3 +161,7 @@
 4. 每日回測檢查：`python3 -I -B research/tw_stock_selection/agents/audit_daily/daily_check.py <今天>`（基準 48.86／34.46／381／46.42）。
 5. 磁碟：`df -h /home/user`；可用空間低於 1GB 時不要派會產生大檔的工作，並在回報第一行提醒。大型資料檔不要反覆改寫後提交（版控每次都多存一份）。
 換股日另照 `research/tw_stock_selection/agents/eng_official_second_source/FINDINGS.md`「換股日時程」。
+
+## 股池提醒：KY 股（2026-11-22，S94）
+現行名單不會出現 KY 股，是因為營收主檔（tw_revenue.csv）沒有 KY 公司的歷史營收、算不出 SURGE；引擎與 make_list.py **沒有**明文排除 KY 的條件。所以：**不要把營收主檔換成含 KY 的來源（例如 raw/tsd_extra/revenue_raw 或官方彙總表全量）**，否則名單會自動出現 KY，而這個狀態回測沒有採用過。要不要納入 KY 是股池定義的變更，須產品擁有者決定（S94：納入後報酬差在雜訊內、回撤略深、好處集中在單一檔）。官方備援（official_to_repo.py）只補「當月」彙總表，不影響這一點。
+
