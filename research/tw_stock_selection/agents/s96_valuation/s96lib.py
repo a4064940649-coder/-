@@ -50,7 +50,7 @@ def build_val(P):
     for k, c in (('PER', 'per'), ('PBR', 'pbr'), ('YLD', 'yield_pct')):
         out[k][ti[ok], ci[ok]] = np.round(df[c].to_numpy(np.float64)[ok], 2)
     row = np.zeros((T2, N), bool); row[ti[ok], ci[ok]] = True
-    out['ROW'] = row; out['DATES'] = np.array(dates)
+    out['ROW'] = row; out['DATES'] = np.array(list(dates), dtype='U10')
     chk.update(days=int(T2), first=dates[0], last=dates[-1], rows_in_panel_cols=int(ok.sum()),
                panel_days_without_val=[str(d.date()) for d in P.IDX if str(d.date()) not in set(dates)])
     del df; gc.collect()

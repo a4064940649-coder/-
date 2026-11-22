@@ -61,6 +61,9 @@ for c in CFG:
                  paired_median_pp=float(np.median(d)), npos=int((d > 0).sum()), n_ge025=int((d >= 0.25).sum()), paired_min_pp=float(d.min()), paired_max_pp=float(d.max()),
                  paired_dd_median_pp=float(np.median(dd)), y1618_median_pp=float(np.median(d1)), y1921_median_pp=float(np.median(d2)), **REC.get(c, {}))
     res['summary'][c] = o
+    if DRY:
+        print(c, {k: v for k, v in o.items() if k in ('n_removed', 'n_added', 'n_orig', 'n_months')}, flush=True)   # 試跑不印任何報酬數字（登記前不偷看）
+        continue
     print(c, {k: (round(v, 4) if isinstance(v, float) else v) for k, v in o.items() if k in ('train_median', 'train_dd_median', 'median_minus_cur_pp', 'paired_median_pp', 'npos', 'n_ge025', 'y1618_median_pp', 'y1921_median_pp', 'n_removed', 'n_added', 'n_orig')}, flush=True)
 if DRY:
     print('DRY OK', round(time.time() - t_all), 's', rss(), 'MB'); sys.exit(0)
