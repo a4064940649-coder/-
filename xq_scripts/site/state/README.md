@@ -165,3 +165,12 @@
 ## 股池提醒：KY 股（2026-11-22，S94）
 現行名單不會出現 KY 股，是因為營收主檔（tw_revenue.csv）沒有 KY 公司的歷史營收、算不出 SURGE；引擎與 make_list.py **沒有**明文排除 KY 的條件。所以：**不要把營收主檔換成含 KY 的來源（例如 raw/tsd_extra/revenue_raw 或官方彙總表全量）**，否則名單會自動出現 KY，而這個狀態回測沒有採用過。要不要納入 KY 是股池定義的變更，須產品擁有者決定（S94：納入後報酬差在雜訊內、回撤略深、好處集中在單一檔）。官方備援（official_to_repo.py）只補「當月」彙總表，不影響這一點。
 
+
+## 每日試算「今天若是換股日會買賣什麼」（2026-11-24 起，產品擁有者要求新增；第 12 個資料集 preview）
+- 每天在 build_site_data.py 之後跑：
+  `python3 -I -B xq_scripts/site/preview_today.py <訊號月份> xq_scripts/site/state/holdings_after_<最近一次換股月>.csv <cash_after 檔內現金> <底倉股數> xq_scripts/site/data/preview.json --repo research/tw_stock_selection/raw/jb7k6295r7-bot_tw-stock-data --repo <tsd>`
+  - 〈訊號月份〉＝最新一期「已到齊」月營收的下一個月（11 月營收到齊前都用 2026-11＝10 月營收；12/11 之後改 2026-12）。
+  - 2026-11 這一段：持股檔 holdings_after_2026-11.csv、現金 12126、底倉 1995。
+- 做法：沿用 make_list.py 的 compute／plan，只把訊號日換成資料最後一天（不改 make_list.py）。金額與股數是持股檔口徑（未乘網站的帳戶換算倍數），網頁只顯示動作、名次、分數、漲幅、距季線、收盤、原因。
+- rows 有變就上傳並更新 datasets/preview；每日回報要列出試算買進、試算賣出各幾檔與代號。
+- **這只是試算，不是名單**：回報與網頁都要寫明不要照表下單；真正只看每月訊號日收盤，那天會改用新一期營收。

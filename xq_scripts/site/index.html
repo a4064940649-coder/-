@@ -294,6 +294,17 @@
     <p class="note">季線＝60 日均線（還原收盤口徑）；季線價位是把季線換算成今天的股價，距季線％＝最新收盤相對季線的距離，負數＝已在季線下。名次：訊號日名次是本月名單當天的排名，月內不變；試算名次是用同一份營收、最新股價重排，季線下的股票不列入排名。「目前狀態」是「若今天就是訊號日」的試算，不是賣出訊號；下次檢查日會改用新月份營收重新排名，結果可能不同。</p>
   </section>
 
+  <section class="card" id="preview">
+    <h2>試算：如果今天就是換股日，會買什麼、賣什麼</h2>
+    <div class="tw">
+      <table data-source="preview" data-row-key="動作,代號">
+        <thead><tr><th class="l" data-field="動作">動作</th><th class="l" data-field="代號">代號</th><th class="l" data-field="名稱">名稱</th><th data-field="名次">名次</th><th data-field="SURGE">SURGE</th><th data-field="前20日漲幅%">前 20 日漲幅 %</th><th data-field="距季線%">距季線 %</th><th data-field="收盤">收盤</th><th class="l" data-field="原因">原因</th><th class="l" data-field="基準日">基準日</th></tr></thead>
+        <tbody data-draw="preview"></tbody>
+      </table>
+    </div>
+    <p class="note">每天用最新收盤價、最新一期已到齊的月營收重算一次，把「基準日」當成訊號日。<b>只是試算，不是名單，不要照這張表下單</b>：策略只在每月訊號日收盤後決定買賣，那天會改用新一期營收重新排名，結果可能完全不同。平常跌破季線不賣。</p>
+  </section>
+
   <section class="card" id="actions">
     <h2>本月換股清單（<span class="st-settled">成交紀錄</span><span class="st-plan" hidden>預計下單</span>）<span class="pill plan st-plan" hidden>預計（尚未成交）</span></h2>
     <p class="warnbox st-plan" hidden>名單狀態：<b data-draw="list-state" data-source="status" data-field="名單狀態" data-row="0">—</b>（尚未成交）。<span data-draw="list-note" data-source="status" data-field="名單說明" data-row="0">—</span>。下表的成交日是預計日期，成交價與金額要等執行日開盤後才有；備註裡的金額是用訊號日收盤估的。</p>
@@ -561,6 +572,10 @@
   dash.draw('top20', (tb) => fillTable(tb, 'top20', { key: '代號', list: [
     ['名次', '', (v) => fmt(v, 0)], ['代號', 'l'], ['名稱', 'l'], ['SURGE', '', (v) => fmt(v, 2)], ['前20日漲幅%', '', (v) => fmt(v, 1)], ['距季線%', '', (v) => fmt(v, 1)], ['收盤', '', (v) => fmt(v, 2)], ['入選', 'l']] },
     (tr, r) => { if (r['入選'] === '是') tr.className = 'pick'; }));
+  dash.draw('preview', (tb) => fillTable(tb, 'preview', { key: '動作,代號', list: [
+    ['動作', 'l', (v) => { const sp = pill(v === '試算買進' ? '買進' : v === '試算賣出' ? '賣出' : v); sp.textContent = txt(v); return sp; }], ['代號', 'l'], ['名稱', 'l'], ['名次', '', (v) => nv(v) === null ? '—' : fmt(v, 0)],
+    ['SURGE', '', (v) => nv(v) === null ? '—' : fmt(v, 2)], ['前20日漲幅%', '', (v) => nv(v) === null ? '—' : fmt(v, 1)], ['距季線%', '', (v) => nv(v) === null ? '—' : fmt(v, 1)],
+    ['收盤', '', (v) => nv(v) === null ? '—' : fmt(v, 2)], ['原因', 'l', txt], ['基準日', 'l', txt]] }));
   dash.draw('yearly', (tb) => fillTable(tb, 'yearly', { key: '年', list: [
     ['年', 'l'], ['現行策略', '', pct], ['XQ版', '', pct], ['0050', '', pct]] }));
 
