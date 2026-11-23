@@ -1,7 +1,7 @@
 {
  "datasets": {
   "breadth_twse": {
-   "bytes": 51648,
+   "bytes": 51650,
    "columns": {
     "date": "date",
     "down": "int",
@@ -10,23 +10,23 @@
     "limit_up": "int",
     "up": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上市每日漲跌家數（官方統計，只算上市股票）：up 上漲、down 下跌、flat 持平、limit_up 漲停、limit_down 跌停（漲跌停家數已包含在 up／down 裡）。用 daily 自己算四碼普通股的漲跌家數，相關係數 1.00，但多數日子會差 1～3 家（官方統計範圍略有不同），不要當成逐家精確值。",
    "empty_source_days": [],
    "files": 12,
    "first_key": "2015-01-05",
-   "last_change_commit": "9170986b1d32168cd6bcf9448dd95006d38c3105",
-   "last_change_commit_time": "2026-11-21T20:09:02+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 4531,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 2895,
+   "rows": 2896,
    "source_dirs": [
     "data/universe/breadth"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "bs_hist": {
    "bytes": 6687336,
@@ -55,7 +55,7 @@
    "source_files": 372
   },
   "chtm_tpex": {
-   "bytes": 96233,
+   "bytes": 96229,
    "columns": {
     "changed": "int",
     "code": "str",
@@ -67,26 +67,26 @@
     "name": "str",
     "split_auction": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上櫃「變更交易方法／分盤集合競價／管理股票」每日名單（櫃買中心；在名單上才有列；上市的對應名單是 fulldelivery_twse）：changed 變更交易方法、split_auction 分盤交易、managed 管理股票、match_cycle_min 分盤撮合間隔（分鐘）、halted 停止買賣、fin_watch 財務面警示註記；1＝是、0＝否。同一檔同一天偶有兩列（例：3520 在 2019-01-02～07 一列 halted=0、一列 halted=1），原樣保留。",
    "empty_source_days": [],
    "files": 12,
    "first_key": "2015-01-05",
-   "last_change_commit": "9170986b1d32168cd6bcf9448dd95006d38c3105",
-   "last_change_commit_time": "2026-11-21T20:09:02+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 9785,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 94877,
+   "rows": 94897,
    "source_dirs": [
     "data/universe/chtm"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "daily": {
-   "bytes": 129181411,
+   "bytes": 129248457,
    "columns": {
     "amount": "int",
     "change": "float",
@@ -105,23 +105,23 @@
     "transactions": "int",
     "volume": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "日 K（上市 twse、上櫃 tpex、興櫃 emerging 同一張表）。open／high／low／close 未還原價；volume 成交股數；amount 成交金額（元）；change 漲跌價差；limit 漲跌停註記（up／down／flat／空白）；shares 發行股數；transactions 成交筆數；price_basis「無成交」等註記；last_price 興櫃最後成交價。原始檔的 key 欄（＝日期_代號）沒存，可由 date、code 還原。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 1270333,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 5753923,
+   "rows": 5756713,
    "source_dirs": [
     "data/universe/daily"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "filing_dates": {
    "bytes": 2203680,
@@ -195,33 +195,33 @@
    "source_files": 14
   },
   "fulldelivery_twse": {
-   "bytes": 41737,
+   "bytes": 41738,
    "columns": {
     "code": "str",
     "date": "date",
     "name": "str",
     "split_auction": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上市全額交割股每日名單（在名單上才有列）；split_auction 1＝同時分盤交易。",
    "empty_source_days": [],
    "files": 12,
    "first_key": "2015-01-05",
-   "last_change_commit": "9170986b1d32168cd6bcf9448dd95006d38c3105",
-   "last_change_commit_time": "2026-11-21T20:09:02+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 4630,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 54139,
+   "rows": 54149,
    "source_dirs": [
     "data/universe/fulldelivery"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "inst_tpex": {
-   "bytes": 17160695,
+   "bytes": 17172256,
    "columns": {
     "code": "str",
     "date": "date",
@@ -232,26 +232,26 @@
     "total": "int",
     "trust": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上櫃三大法人逐股買賣超，單位＝股。foreign 外資、trust 投信、dealer 自營商合計（＝dealer_self 自行買賣＋dealer_hedge 避險）、total 三者合計。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 272301,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 1880983,
+   "rows": 1881905,
    "source_dirs": [
     "data/universe/otcinst"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "inst_twse": {
-   "bytes": 38368447,
+   "bytes": 38392131,
    "columns": {
     "code": "str",
     "date": "date",
@@ -262,23 +262,23 @@
     "total": "int",
     "trust": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上市三大法人逐股買賣超，單位＝股。foreign 外資、trust 投信、dealer 自營商合計（＝dealer_self 自行買賣＋dealer_hedge 避險）、total 三者合計。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 521107,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 3029426,
+   "rows": 3030796,
    "source_dirs": [
     "data/universe/inst"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "inst_twse_early": {
    "bytes": 3898286,
@@ -308,7 +308,7 @@
    "source_files": 666
   },
   "instamt_tpex_market": {
-   "bytes": 279923,
+   "bytes": 280052,
    "columns": {
     "buy": "int",
     "date": "date",
@@ -316,28 +316,28 @@
     "net": "int",
     "sell": "int"
    },
-   "days": 2406,
+   "days": 2407,
    "description": "上櫃三大法人買賣金額（全市場合計），單位＝元；2017-01-03 起。",
    "empty_source_days": [],
    "files": 10,
    "first_key": "2017-01-03",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 29656,
    "missing_days_vs_daily_calendar": [
     "2018-01-12"
    ],
    "revised_source_files": 0,
-   "rows": 18232,
+   "rows": 18240,
    "source_dirs": [
     "data/universe/otcinstamt"
    ],
-   "source_files": 2406
+   "source_files": 2407
   },
   "instamt_twse_market": {
-   "bytes": 325555,
+   "bytes": 325667,
    "columns": {
     "buy": "int",
     "date": "date",
@@ -345,23 +345,23 @@
     "net": "int",
     "sell": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上市三大法人買賣金額（全市場合計，不是逐股），單位＝元。investor＝法人類別（各年代名稱不同）。",
    "empty_source_days": [],
    "files": 12,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 30026,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 16646,
+   "rows": 16652,
    "source_dirs": [
     "data/universe/instamt"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "instamt_twse_market_early": {
    "bytes": 218134,
@@ -388,7 +388,7 @@
    "source_files": 2672
   },
   "margin_tpex": {
-   "bytes": 23478579,
+   "bytes": 23486788,
    "columns": {
     "code": "str",
     "date": "date",
@@ -405,23 +405,23 @@
     "s_ret": "int",
     "s_sell": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上櫃融資融券逐股，單位＝張（交易單位）。m_＝融資：buy 買進、sell 賣出、ret 現金償還、prev 前日餘額、balance 今日餘額、limit 限額；s_＝融券：sell 賣出、buy 買進（回補）、ret 現券償還、prev 前日餘額、balance 今日餘額。note＝官方註記（O 停止融資、X 停止融券等）。券資比＝s_balance÷m_balance，自己算。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 213739,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 2102504,
+   "rows": 2103427,
    "source_dirs": [
     "data/universe/otcmargin"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "margin_tpex_early": {
    "bytes": 12587086,
@@ -457,7 +457,7 @@
    "source_files": 1870
   },
   "margin_twse": {
-   "bytes": 44181655,
+   "bytes": 44201119,
    "columns": {
     "code": "str",
     "date": "date",
@@ -474,26 +474,26 @@
     "s_ret": "int",
     "s_sell": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上市融資融券逐股，單位＝張（交易單位）。m_＝融資：buy 買進、sell 賣出、ret 現金償還、prev 前日餘額、balance 今日餘額、limit 限額；s_＝融券：sell 賣出、buy 買進（回補）、ret 現券償還、prev 前日餘額、balance 今日餘額。note＝官方註記（O 停止融資、X 停止融券等）。券資比＝s_balance÷m_balance，自己算。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 381813,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 3092181,
+   "rows": 3093492,
    "source_dirs": [
     "data/universe/margin"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "marginmkt_twse_market": {
-   "bytes": 233325,
+   "bytes": 233435,
    "columns": {
     "balance": "int",
     "buy": "int",
@@ -503,23 +503,23 @@
     "repay": "int",
     "sell": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上市融資融券全市場統計：融資（交易單位）、融券（交易單位）、融資金額（仟元）。",
    "empty_source_days": [],
    "files": 12,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 19824,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 8685,
+   "rows": 8688,
    "source_dirs": [
     "data/universe/marginmkt"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "marginmkt_twse_market_early": {
    "bytes": 220030,
@@ -548,7 +548,7 @@
    "source_files": 2712
   },
   "marginratio_notices_twse": {
-   "bytes": 475398,
+   "bytes": 475707,
    "columns": {
     "adjust_from": "str",
     "code": "str",
@@ -561,26 +561,26 @@
     "short_cum": "int",
     "short_raise": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上市「調整融資比率／融券保證金成數」公告名單（不是券資比）。同一檔同一天有多列（各原因一列＋合計一列），列的順序同官方檔。",
    "empty_source_days": [],
    "files": 12,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
-   "max_file_bytes": 50400,
+   "max_file_bytes": 50709,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 920698,
+   "rows": 921109,
    "source_dirs": [
     "data/universe/marginratio"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "otc_exright": {
-   "bytes": 296256,
+   "bytes": 296279,
    "columns": {
     "code": "str",
     "date": "date",
@@ -595,17 +595,17 @@
    "description": "上櫃除權息事件，欄位比照上市封存（date, code, prev_close 前收, ref_price 除權息參考價, value 權值＋息值, type 權／息／權息）。type 已去掉「除」字以對齊上市封存寫法，原字在 kind_raw；open_base 開盤競價基準；source 上游取得管道（exDailyQ＝櫃買中心；finmind＝第三方補的早年資料）。",
    "files": 19,
    "first_key": "2008-01-10",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-24",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 26464,
    "revised_source_files": 0,
-   "rows": 13383,
+   "rows": 13385,
    "source_dirs": [
     "data/universe/otcexright"
    ],
-   "source_files": 2420
+   "source_files": 2421
   },
   "otc_parvalue": {
    "bytes": 13717,
@@ -664,7 +664,7 @@
    "source_files": 237
   },
   "per_tpex": {
-   "bytes": 11310364,
+   "bytes": 11314075,
    "columns": {
     "close": "f32",
     "code": "str",
@@ -675,23 +675,23 @@
     "per": "f32",
     "yield_pct": "f32"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上櫃每日本益比、殖利率、股價淨值比（官方算好的）：close 收盤價（多數年份上游沒給，是空值，請用 daily 的 close）、yield_pct 殖利率 %、dividend_year 股利所屬年度（民國年）、per 本益比（虧損或無法計算＝空值）、pbr 股價淨值比、fs_quarter 所用財報年季（民國年，上市寫 115/3、上櫃寫 115Q3；早年是空值）。數值以 32 位元浮點存，讀出後請四捨五入到小數 2 位。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
-   "last_change_commit": "9170986b1d32168cd6bcf9448dd95006d38c3105",
-   "last_change_commit_time": "2026-11-21T20:09:02+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 103850,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 2260644,
+   "rows": 2261538,
    "source_dirs": [
     "data/universe/otcper"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "per_tpex_early": {
    "bytes": 2335257,
@@ -721,7 +721,7 @@
    "source_files": 744
   },
   "per_twse": {
-   "bytes": 18351471,
+   "bytes": 18358119,
    "columns": {
     "close": "f32",
     "code": "str",
@@ -732,23 +732,23 @@
     "per": "f32",
     "yield_pct": "f32"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上市每日本益比、殖利率、股價淨值比（官方算好的）：close 收盤價（多數年份上游沒給，是空值，請用 daily 的 close）、yield_pct 殖利率 %、dividend_year 股利所屬年度（民國年）、per 本益比（虧損或無法計算＝空值）、pbr 股價淨值比、fs_quarter 所用財報年季（民國年，上市寫 115/3、上櫃寫 115Q3；早年是空值）。數值以 32 位元浮點存，讀出後請四捨五入到小數 2 位。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
-   "last_change_commit": "9170986b1d32168cd6bcf9448dd95006d38c3105",
-   "last_change_commit_time": "2026-11-21T20:09:02+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 179227,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 2757425,
+   "rows": 2758513,
    "source_dirs": [
     "data/universe/per"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "per_twse_early": {
    "bytes": 2953755,
@@ -806,11 +806,11 @@
    "source_files": 54
   },
   "revenue_raw": {
-   "bytes": 21066157,
+   "bytes": 21172450,
    "description": "月營收彙總表的原檔快照（逐位元保存、gzip）。first/＝本快照第一次看到的版本（永不覆蓋）；rev/＝之後每次內容變動的版本（檔名帶該版 blob sha 前 12 碼）；_index.tsv 記每個來源檔的首見版、最新版與看到時的上游 commit。revenue_hist＝2015 起各月各市場彙總（千元）；revenue＝最近幾個月含出表日期的原始表；early/revenue＝2003～2014；meta/revenue_seen＝上游自己記的「各公司營收首次出現時點」分批檔。",
-   "files_with_revisions": 0,
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
+   "files_with_revisions": 3,
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
    "layout": "first/<來源路徑去掉 data/>.gz；rev/<同上>.<blob sha 前 12 碼>.gz；_index.tsv",
    "source_dirs": [
     "data/mops/revenue_hist",
@@ -819,10 +819,10 @@
     "data/meta/revenue_seen"
    ],
    "source_files": 741,
-   "stored_files": 741
+   "stored_files": 744
   },
   "sbl_tpex": {
-   "bytes": 27094875,
+   "bytes": 27105068,
    "columns": {
     "code": "str",
     "date": "date",
@@ -840,26 +840,26 @@
     "sbl_return": "int",
     "sbl_sell": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上櫃信用額度總量管制餘額表，單位＝股。s_＝融券（同融資融券表、乘 1000）；sbl_＝借券賣出：prev 前日餘額、sell 當日賣出、return 當日還券、adj 當日調整、balance 當日餘額（＝借券賣出餘額）、limit 次一營業日可限額。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 303217,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 2163822,
+   "rows": 2164757,
    "source_dirs": [
     "data/universe/otcsbl"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "sbl_twse": {
-   "bytes": 56060376,
+   "bytes": 56085443,
    "columns": {
     "code": "str",
     "date": "date",
@@ -877,23 +877,23 @@
     "sbl_return": "int",
     "sbl_sell": "int"
    },
-   "days": 2895,
+   "days": 2896,
    "description": "上市信用額度總量管制餘額表，單位＝股。s_＝融券（同融資融券表、乘 1000）；sbl_＝借券賣出：prev 前日餘額、sell 當日賣出、return 當日還券、adj 當日調整、balance 當日餘額（＝借券賣出餘額）、limit 次一營業日可限額。",
    "empty_source_days": [],
    "files": 143,
    "first_key": "2015-01-05",
-   "last_change_commit": "f8f3351c852a350a6c04ce91dcac2a3a84d607d7",
-   "last_change_commit_time": "2026-11-21T10:52:58+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
    "max_file_bytes": 548198,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 3102255,
+   "rows": 3103569,
    "source_dirs": [
     "data/universe/sbl"
    ],
-   "source_files": 2895
+   "source_files": 2896
   },
   "stophalt": {
    "bytes": 4468,
@@ -919,7 +919,8 @@
    "missing_days_vs_daily_calendar": [
     "2026-11-18",
     "2026-11-19",
-    "2026-11-20"
+    "2026-11-20",
+    "2026-11-23"
    ],
    "revised_source_files": 0,
    "rows": 43,
@@ -987,32 +988,32 @@
    "source_files": 22
   },
   "tib_twse": {
-   "bytes": 11583,
+   "bytes": 11598,
    "columns": {
     "code": "str",
     "date": "date",
     "name": "str"
    },
-   "days": 1008,
+   "days": 1009,
    "description": "臺灣創新板每日掛牌名單（2022-09-22 起；在名單上才有列）。",
    "empty_source_days": [],
    "files": 5,
    "first_key": "2022-09-22",
-   "last_change_commit": "9170986b1d32168cd6bcf9448dd95006d38c3105",
-   "last_change_commit_time": "2026-11-21T20:09:02+00:00",
-   "last_key": "2026-11-20",
+   "last_change_commit": "10d74aacf0a5d3aba27aeafc2096b569f361acd6",
+   "last_change_commit_time": "2026-11-23T22:40:15+00:00",
+   "last_key": "2026-11-23",
    "layout": "<年>/<分檔>.parquet；每年資料夾有 SHA256SUMS、_parts.tsv、_sources.tsv",
-   "max_file_bytes": 2999,
+   "max_file_bytes": 3014,
    "missing_days_vs_daily_calendar": [],
    "revised_source_files": 0,
-   "rows": 15442,
+   "rows": 15473,
    "source_dirs": [
     "data/universe/tib"
    ],
-   "source_files": 1008
+   "source_files": 1009
   }
  },
- "total_bytes": 589615704,
+ "total_bytes": 589898277,
  "update_command": "python3 -I -B research/tw_stock_selection/raw/tsd_extra/update_daily.py <官方倉庫 clone 路徑>",
  "upstream_repo": "https://github.com/jb7k6295r7-bot/tw-stock-data",
  "what": "官方資料倉庫 tw-stock-data 的自有快照；由 update_daily.py 建置與每日增量更新",
