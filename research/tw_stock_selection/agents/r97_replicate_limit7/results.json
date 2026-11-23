@@ -1,0 +1,1239 @@
+{
+ "id": "R97",
+ "date": "2026-11-23",
+ "結論": "重現成功：S97 的 7% 修正數字全部重現（標準路徑期末金額、筆數逐項相同）；修正幅度在路徑雜訊內。",
+ "基準重現": {
+  "target": {
+   "cagr": 0.235577,
+   "final_nav": 53392744,
+   "n_all": 632,
+   "maxdd": -0.4921
+  },
+  "got": {
+   "cagr": 0.2355774131175732,
+   "final_nav": 53392744.32350159,
+   "n_all": 632,
+   "n_closed": 624,
+   "maxdd": {
+    "maxdd": -0.4921181877742651,
+    "peak": "2008-05-19",
+    "trough": "2008-10-27",
+    "recovered": "2009-12-09"
+   }
+  },
+  "nav_same_index": true,
+  "nav_max_abs_diff_vs_v2": 0.0,
+  "trades_same_as_v2": true,
+  "my_10pct_limit_formula_vs_engine": {
+   "limup_max_abs_diff": 0.0,
+   "limdn_max_abs_diff": 0.0
+  },
+  "passed": true
+ },
+ "實作": {
+  "判定位置": [
+   "cslib.py 第 208～209 行：Panel.__init__ 算 LIMUP／LIMDN，固定 REF×1.10／REF×0.90（全期間同一個 10%）",
+   "s10lib.py simulate_s10：買進「o >= P.LIMUP[t, j] - 1e-9 → blk_limup、不買不遞補」；賣出「o <= P.LIMDN[t, j] + 1e-9 → sell_defer_limdn、順延」；rebalance() 減碼也跳過開盤 ≤ 跌停的持股",
+   "s75lib.py 沒有重算漲跌停（只有 limit7_diag 做事後統計、不改結果）"
+  ],
+  "改法": "外掛：run_r97.py 載入面板後，只在記憶體覆寫 P.LIMUP[:2084]、P.LIMDN[:2084]（2084＝2015-06-01 的列號；之前各列用 7%，2015-06-01 起原值不動）；沒有改任何既有檔。",
+  "公式": "漲停＝floor(REF×1.07÷tick + 1e-9)×tick；跌停＝ceil(REF×0.93÷tick − 1e-9)×tick；tick 取「未取整的漲跌停價」所在級距（<10：0.01；10～<50：0.05；50～<100：0.1；100～<500：0.5；500～<1000：1；≥1000：5）",
+  "與引擎寫法差異": "級距、取整方向、1e-9 容差與 cslib 完全相同（自寫 10% 版對引擎 LIMUP／LIMDN 全面板逐格差 0）；唯一差別是 2015-06-01 前的百分比。",
+  "參考價": "REF＝收盤−漲跌價差（cslib 第 199～207 行）。2014 起除權息日用 TWT49U 參考價（EXRIGHT_FIX）；減資復牌事件檔 2015-08-24 起才有（REDUCE_FIX）；2014 以前除權息日原始檔漲跌價差＝0 → REF＝當日收盤（不是除權息參考價），這一段沒有事件參考價可用。",
+  "lim7_cells_changed": {
+   "limup": 1667769,
+   "limdn": 1667769
+  }
+ },
+ "比對": [
+  {
+   "item": "全期年化 %",
+   "r97_base": 23.5577,
+   "r97_lim7": 23.5017,
+   "s97_base": 23.5577,
+   "s97_lim7": 23.5017,
+   "diff_lim7_r97_minus_s97": 0.0,
+   "within_0_3": true
+  },
+  {
+   "item": "2008～2015 年中年化 %（2008-01-02→2015-06-30）",
+   "r97_base": 7.3187,
+   "r97_lim7": 6.7364,
+   "s97_base": 7.3187,
+   "s97_lim7": 6.7364,
+   "diff_lim7_r97_minus_s97": 0.0,
+   "within_0_3": true
+  },
+  {
+   "item": "2015-07 起年化 %（S97 定義：基底 2015-06-30 收盤）",
+   "r97_base": 35.6407,
+   "r97_lim7": 36.0275,
+   "s97_base": 35.6407,
+   "s97_lim7": 36.0275,
+   "diff_lim7_r97_minus_s97": 0.0,
+   "within_0_3": true
+  },
+  {
+   "item": "2015-07 起年化 %（v2 正式定義：基底 2015-07-01 收盤；S97 無此口徑，沿用上列比）",
+   "r97_base": 35.506,
+   "r97_lim7": 35.8654,
+   "s97_base": 35.6407,
+   "s97_lim7": 36.0275,
+   "diff_lim7_r97_minus_s97": -0.1621,
+   "within_0_3": true
+  },
+  {
+   "item": "2019 起年化 %（基底 2018-12-28）",
+   "r97_base": 49.437,
+   "r97_lim7": 49.5156,
+   "s97_base": 49.437,
+   "s97_lim7": 49.5156,
+   "diff_lim7_r97_minus_s97": 0.0,
+   "within_0_3": true
+  },
+  {
+   "item": "最大回撤 %",
+   "r97_base": -49.2118,
+   "r97_lim7": -49.9106,
+   "s97_base": -49.2118,
+   "s97_lim7": -49.9106,
+   "diff_lim7_r97_minus_s97": 0.0,
+   "within_0_3": true
+  },
+  {
+   "item": "期末金額（100 萬起）",
+   "r97_base": 53392744,
+   "r97_lim7": 52939143,
+   "s97_base": 53392744,
+   "s97_lim7": 52939143,
+   "diff_lim7_r97_minus_s97": 0,
+   "within_0_3": true
+  },
+  {
+   "item": "已出場筆數",
+   "r97_base": 624,
+   "r97_lim7": 619,
+   "s97_base": 624,
+   "s97_lim7": 619,
+   "diff_lim7_r97_minus_s97": 0,
+   "within_0_3": true
+  },
+  {
+   "item": "全部筆數（含期末未平倉 8）",
+   "r97_base": 632,
+   "r97_lim7": 627,
+   "s97_base": 632,
+   "s97_lim7": 627,
+   "diff_lim7_r97_minus_s97": 0,
+   "within_0_3": true
+  },
+  {
+   "item": "開盤鎖漲停不買次數（全期）",
+   "r97_base": 4,
+   "r97_lim7": 11,
+   "s97_base": 4,
+   "s97_lim7": 11,
+   "diff_lim7_r97_minus_s97": 0,
+   "within_0_3": true
+  },
+  {
+   "item": "開盤鎖跌停順延賣次數（全期）",
+   "r97_base": 0,
+   "r97_lim7": 0,
+   "s97_base": 0,
+   "s97_lim7": 0,
+   "diff_lim7_r97_minus_s97": 0,
+   "within_0_3": true
+  }
+ ],
+ "全部在0_3pp內且結論相同": true,
+ "修正後": {
+  "cagr": 0.23501691470454178,
+  "cagr_2008_2015H1": 0.06736445179612405,
+  "cagr_since2015_07_base0701": 0.3586543452746287,
+  "cagr_since2015_07_base0630": 0.3602752136547742,
+  "cagr_since2019": 0.49515588944226496,
+  "maxdd": {
+   "maxdd": -0.4991061968672189,
+   "peak": "2008-05-19",
+   "trough": "2008-11-20",
+   "recovered": "2009-12-31"
+  },
+  "final_nav": 52939143.42481164,
+  "n_closed": 619,
+  "n_all": 627,
+  "win_rate": 0.481421647819063,
+  "years_win": 14,
+  "years_lose": 5,
+  "cagr_0050": 0.14540017944133665,
+  "final_nav_0050": 12841213.926646138
+ },
+ "基準": {
+  "cagr": 0.2355774131175732,
+  "cagr_2008_2015H1": 0.07318703752434774,
+  "cagr_since2015_07_base0701": 0.35505986077221463,
+  "cagr_since2015_07_base0630": 0.3564065256046094,
+  "cagr_since2019": 0.49437036918034405,
+  "maxdd": {
+   "maxdd": -0.4921181877742651,
+   "peak": "2008-05-19",
+   "trough": "2008-10-27",
+   "recovered": "2009-12-09"
+  },
+  "final_nav": 53392744.32350159,
+  "n_closed": 624,
+  "n_all": 632,
+  "win_rate": 0.4807692307692308,
+  "years_win": 14,
+  "years_lose": 5
+ },
+ "逐年": [
+  {
+   "year": 2008,
+   "base_pct": -36.6,
+   "lim7_pct": -37.57,
+   "diff_pp": -0.97,
+   "e0050_pct": -42.04,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2009,
+   "base_pct": 85.11,
+   "lim7_pct": 83.73,
+   "diff_pp": -1.38,
+   "e0050_pct": 75.0,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2010,
+   "base_pct": 18.73,
+   "lim7_pct": 18.45,
+   "diff_pp": -0.28,
+   "e0050_pct": 13.13,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2011,
+   "base_pct": -17.93,
+   "lim7_pct": -18.0,
+   "diff_pp": -0.07,
+   "e0050_pct": -15.81,
+   "base_win": false,
+   "lim7_win": false
+  },
+  {
+   "year": 2012,
+   "base_pct": 0.32,
+   "lim7_pct": 1.77,
+   "diff_pp": 1.45,
+   "e0050_pct": 11.92,
+   "base_win": false,
+   "lim7_win": false
+  },
+  {
+   "year": 2013,
+   "base_pct": 19.78,
+   "lim7_pct": 19.98,
+   "diff_pp": 0.2,
+   "e0050_pct": 11.68,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2014,
+   "base_pct": 14.27,
+   "lim7_pct": 14.8,
+   "diff_pp": 0.53,
+   "e0050_pct": 16.66,
+   "base_win": false,
+   "lim7_win": false
+  },
+  {
+   "year": 2015,
+   "base_pct": -2.77,
+   "lim7_pct": -3.76,
+   "diff_pp": -0.99,
+   "e0050_pct": -6.28,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2016,
+   "base_pct": 17.5,
+   "lim7_pct": 17.61,
+   "diff_pp": 0.11,
+   "e0050_pct": 19.65,
+   "base_win": false,
+   "lim7_win": false
+  },
+  {
+   "year": 2017,
+   "base_pct": 23.23,
+   "lim7_pct": 23.38,
+   "diff_pp": 0.15,
+   "e0050_pct": 18.14,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2018,
+   "base_pct": 4.55,
+   "lim7_pct": 4.64,
+   "diff_pp": 0.09,
+   "e0050_pct": -4.94,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2019,
+   "base_pct": 30.26,
+   "lim7_pct": 30.78,
+   "diff_pp": 0.52,
+   "e0050_pct": 33.52,
+   "base_win": false,
+   "lim7_win": false
+  },
+  {
+   "year": 2020,
+   "base_pct": 106.6,
+   "lim7_pct": 106.5,
+   "diff_pp": -0.1,
+   "e0050_pct": 31.14,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2021,
+   "base_pct": 45.5,
+   "lim7_pct": 45.62,
+   "diff_pp": 0.12,
+   "e0050_pct": 21.92,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2022,
+   "base_pct": -17.4,
+   "lim7_pct": -17.41,
+   "diff_pp": -0.0,
+   "e0050_pct": -21.37,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2023,
+   "base_pct": 56.67,
+   "lim7_pct": 56.66,
+   "diff_pp": -0.01,
+   "e0050_pct": 27.52,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2024,
+   "base_pct": 65.67,
+   "lim7_pct": 65.67,
+   "diff_pp": -0.0,
+   "e0050_pct": 48.64,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2025,
+   "base_pct": 56.91,
+   "lim7_pct": 56.89,
+   "diff_pp": -0.01,
+   "e0050_pct": 36.86,
+   "base_win": true,
+   "lim7_win": true
+  },
+  {
+   "year": 2026,
+   "base_pct": 75.4,
+   "lim7_pct": 75.4,
+   "diff_pp": 0.0,
+   "e0050_pct": 66.26,
+   "base_win": true,
+   "lim7_win": true
+  }
+ ],
+ "勝負年數": {
+  "base": [
+   14,
+   5
+  ],
+  "lim7": [
+   14,
+   5
+  ],
+  "輸的年份_base": [
+   2011,
+   2012,
+   2014,
+   2016,
+   2019
+  ],
+  "輸的年份_lim7": [
+   2011,
+   2012,
+   2014,
+   2016,
+   2019
+  ]
+ },
+ "受影響交易": {
+  "直接_名單開盤等於7pct漲停": [
+   {
+    "code": "2478",
+    "date": "2008-03-12",
+    "ohlc_source": "raw/pre2015",
+    "list_month": "2008-02",
+    "prev_date": "2008-03-11",
+    "prev_close": 31.55,
+    "xflag": 0,
+    "raw_change": 2.2,
+    "open": 33.75,
+    "high": 33.75,
+    "low": 33.75,
+    "close": 33.75,
+    "volume": 935987,
+    "tick_at_7pct": 0.05,
+    "raw_7pct": 33.7585,
+    "limup7_hand": 33.75,
+    "limdn7_hand": 29.35,
+    "tick_at_10pct": 0.05,
+    "limup10_hand": 34.7,
+    "limdn10_hand": 28.4,
+    "engine_ref": 31.55,
+    "engine_limup7": 33.75,
+    "engine_limup10": 34.7,
+    "ref_matches_prev_close": true,
+    "open_ge_limup7": true,
+    "open_ge_limup10": false,
+    "locked_all_day": true,
+    "close_at_limup7": true,
+    "next_date": "2008-03-13",
+    "next_open": 36.1,
+    "next_open_vs_open_pct": 6.96,
+    "base_handling": "買進 2000 股，成本 67780，2008-04-14 出場（rule），報酬 -6.84%，損益 -4636",
+    "base_ret_pct": -6.84,
+    "base_pnl": -4636,
+    "lim7_handling": "開盤價＝7% 漲停價 → 不買、不遞補",
+    "spot_checked": null
+   },
+   {
+    "code": "2013",
+    "date": "2008-05-14",
+    "ohlc_source": "raw/pre2015",
+    "list_month": "2008-04",
+    "prev_date": "2008-05-13",
+    "prev_close": 24.85,
+    "xflag": 0,
+    "raw_change": 1.7,
+    "open": 26.55,
+    "high": 26.55,
+    "low": 26.55,
+    "close": 26.55,
+    "volume": 1787707,
+    "tick_at_7pct": 0.05,
+    "raw_7pct": 26.5895,
+    "limup7_hand": 26.55,
+    "limdn7_hand": 23.15,
+    "tick_at_10pct": 0.05,
+    "limup10_hand": 27.3,
+    "limdn10_hand": 22.4,
+    "engine_ref": 24.85,
+    "engine_limup7": 26.55,
+    "engine_limup10": 27.3,
+    "ref_matches_prev_close": true,
+    "open_ge_limup7": true,
+    "open_ge_limup10": false,
+    "locked_all_day": true,
+    "close_at_limup7": true,
+    "next_date": "2008-05-15",
+    "next_open": 28.4,
+    "next_open_vs_open_pct": 6.97,
+    "base_handling": "買進 2000 股，成本 53331，2008-07-14 出場（rule），報酬 -16.26%，損益 -8670",
+    "base_ret_pct": -16.26,
+    "base_pnl": -8670,
+    "lim7_handling": "開盤價＝7% 漲停價 → 不買、不遞補",
+    "spot_checked": null
+   },
+   {
+    "code": "1516",
+    "date": "2008-10-15",
+    "ohlc_source": "raw/pre2015",
+    "list_month": "2008-09",
+    "prev_date": "2008-10-14",
+    "prev_close": 15.2,
+    "xflag": 0,
+    "raw_change": 1.05,
+    "open": 16.25,
+    "high": 16.25,
+    "low": 16.25,
+    "close": 16.25,
+    "volume": 1197988,
+    "tick_at_7pct": 0.05,
+    "raw_7pct": 16.264,
+    "limup7_hand": 16.25,
+    "limdn7_hand": 14.15,
+    "tick_at_10pct": 0.05,
+    "limup10_hand": 16.7,
+    "limdn10_hand": 13.7,
+    "engine_ref": 15.2,
+    "engine_limup7": 16.25,
+    "engine_limup10": 16.7,
+    "ref_matches_prev_close": true,
+    "open_ge_limup7": true,
+    "open_ge_limup10": false,
+    "locked_all_day": true,
+    "close_at_limup7": true,
+    "next_date": "2008-10-16",
+    "next_open": 17.35,
+    "next_open_vs_open_pct": 6.77,
+    "base_handling": "買進 3000 股，成本 48991，2009-01-13 出場（rule），報酬 5.11%，損益 2502",
+    "base_ret_pct": 5.11,
+    "base_pnl": 2502,
+    "lim7_handling": "開盤價＝7% 漲停價 → 不買、不遞補",
+    "spot_checked": null
+   },
+   {
+    "code": "6120",
+    "date": "2009-05-13",
+    "ohlc_source": "raw/pre2015",
+    "list_month": "2009-04",
+    "prev_date": "2009-05-12",
+    "prev_close": 17.2,
+    "xflag": 0,
+    "raw_change": 1.2,
+    "open": 18.4,
+    "high": 18.4,
+    "low": 18.4,
+    "close": 18.4,
+    "volume": 2928952,
+    "tick_at_7pct": 0.05,
+    "raw_7pct": 18.404,
+    "limup7_hand": 18.4,
+    "limdn7_hand": 16.0,
+    "tick_at_10pct": 0.05,
+    "limup10_hand": 18.9,
+    "limdn10_hand": 15.5,
+    "engine_ref": 17.2,
+    "engine_limup7": 18.4,
+    "engine_limup10": 18.9,
+    "ref_matches_prev_close": true,
+    "open_ge_limup7": true,
+    "open_ge_limup10": false,
+    "locked_all_day": true,
+    "close_at_limup7": true,
+    "next_date": "2009-05-14",
+    "next_open": 19.0,
+    "next_open_vs_open_pct": 3.26,
+    "base_handling": "買進 3000 股，成本 55463，2009-06-12 出場（rule），報酬 8.43%，損益 4675",
+    "base_ret_pct": 8.43,
+    "base_pnl": 4675,
+    "lim7_handling": "開盤價＝7% 漲停價 → 不買、不遞補",
+    "spot_checked": null
+   },
+   {
+    "code": "3406",
+    "date": "2010-09-14",
+    "ohlc_source": "raw/pre2015",
+    "list_month": "2010-08",
+    "prev_date": "2010-09-13",
+    "prev_close": 146.5,
+    "xflag": 0,
+    "raw_change": 10.0,
+    "open": 156.5,
+    "high": 156.5,
+    "low": 156.5,
+    "close": 156.5,
+    "volume": 665640,
+    "tick_at_7pct": 0.5,
+    "raw_7pct": 156.755,
+    "limup7_hand": 156.5,
+    "limdn7_hand": 136.5,
+    "tick_at_10pct": 0.5,
+    "limup10_hand": 161.0,
+    "limdn10_hand": 132.0,
+    "engine_ref": 146.5,
+    "engine_limup7": 156.5,
+    "engine_limup10": 161.0,
+    "ref_matches_prev_close": true,
+    "open_ge_limup7": true,
+    "open_ge_limup10": false,
+    "locked_all_day": true,
+    "close_at_limup7": true,
+    "next_date": "2010-09-15",
+    "next_open": 167.0,
+    "next_open_vs_open_pct": 6.71,
+    "base_handling": "未買（其他原因：整張／資金門檻等）",
+    "base_ret_pct": null,
+    "base_pnl": null,
+    "lim7_handling": "開盤價＝7% 漲停價 → 不買、不遞補",
+    "spot_checked": null
+   },
+   {
+    "code": "8201",
+    "date": "2012-03-14",
+    "ohlc_source": "raw/pre2015",
+    "list_month": "2012-02",
+    "prev_date": "2012-03-13",
+    "prev_close": 24.4,
+    "xflag": 0,
+    "raw_change": 1.0,
+    "open": 26.1,
+    "high": 26.1,
+    "low": 24.75,
+    "close": 25.4,
+    "volume": 7184684,
+    "tick_at_7pct": 0.05,
+    "raw_7pct": 26.108,
+    "limup7_hand": 26.1,
+    "limdn7_hand": 22.7,
+    "tick_at_10pct": 0.05,
+    "limup10_hand": 26.8,
+    "limdn10_hand": 22.0,
+    "engine_ref": 24.4,
+    "engine_limup7": 26.1,
+    "engine_limup10": 26.8,
+    "ref_matches_prev_close": true,
+    "open_ge_limup7": true,
+    "open_ge_limup10": false,
+    "locked_all_day": false,
+    "close_at_limup7": false,
+    "next_date": "2012-03-15",
+    "next_open": 25.6,
+    "next_open_vs_open_pct": -1.92,
+    "base_handling": "買進 3000 股，成本 78641，2012-04-12 出場（rule），報酬 -20.50%，損益 -16119",
+    "base_ret_pct": -20.5,
+    "base_pnl": -16119,
+    "lim7_handling": "開盤價＝7% 漲停價 → 不買、不遞補",
+    "spot_checked": null
+   },
+   {
+    "code": "4426",
+    "date": "2015-04-14",
+    "ohlc_source": "official_panel",
+    "list_month": "2015-03",
+    "prev_date": "2015-04-13",
+    "prev_close": 98.7,
+    "xflag": -1,
+    "raw_change": 6.8,
+    "open": 105.5,
+    "high": 105.5,
+    "low": 105.5,
+    "close": 105.5,
+    "volume": 569895,
+    "tick_at_7pct": 0.5,
+    "raw_7pct": 105.609,
+    "limup7_hand": 105.5,
+    "limdn7_hand": 91.8,
+    "tick_at_10pct": 0.5,
+    "limup10_hand": 108.5,
+    "limdn10_hand": 88.9,
+    "engine_ref": 98.7,
+    "engine_limup7": 105.5,
+    "engine_limup10": 108.5,
+    "ref_matches_prev_close": true,
+    "open_ge_limup7": true,
+    "open_ge_limup10": false,
+    "locked_all_day": true,
+    "close_at_limup7": true,
+    "next_date": "2015-04-15",
+    "next_open": 112.5,
+    "next_open_vs_open_pct": 6.64,
+    "base_handling": "買進 1000 股，成本 106109，2015-08-12 出場（rule），報酬 7.45%，損益 7907",
+    "base_ret_pct": 7.45,
+    "base_pnl": 7907,
+    "lim7_handling": "開盤價＝7% 漲停價 → 不買、不遞補",
+    "spot_checked": null
+   }
+  ],
+  "直接摘要": {
+   "n": 7,
+   "n_bought_in_base": 6,
+   "base_pnl_sum": -14341,
+   "base_ret_mean_pct": -3.768333333333334,
+   "n_locked_all_day": 6,
+   "all_hand_equals_engine": true
+  },
+  "用原始前收獨立重算": {
+   "n": 275,
+   "n_no_open": 0,
+   "n_open_ge_limup7": 7,
+   "locked": [
+    [
+     "2478",
+     "2008-03-12",
+     31.55,
+     33.75,
+     33.75,
+     true
+    ],
+    [
+     "2013",
+     "2008-05-14",
+     24.85,
+     26.55,
+     26.55,
+     true
+    ],
+    [
+     "1516",
+     "2008-10-15",
+     15.2,
+     16.25,
+     16.25,
+     true
+    ],
+    [
+     "6120",
+     "2009-05-13",
+     17.2,
+     18.4,
+     18.4,
+     true
+    ],
+    [
+     "3406",
+     "2010-09-14",
+     146.5,
+     156.5,
+     156.5,
+     true
+    ],
+    [
+     "8201",
+     "2012-03-14",
+     24.4,
+     26.1,
+     26.1,
+     false
+    ],
+    [
+     "4426",
+     "2015-04-14",
+     98.7,
+     105.5,
+     105.5,
+     true
+    ]
+   ],
+   "engine_ref_differs_from_prev_close": []
+  },
+  "交易清單差異": {
+   "n_base": 632,
+   "n_lim7": 627,
+   "n_same_key": 625,
+   "only_in_base": [
+    {
+     "code": "2478",
+     "ent_date": "2008-03-12",
+     "exit_date": "2008-04-14",
+     "shares": 2000,
+     "cost": 67780,
+     "ret_pct": -6.84,
+     "pnl": -4636,
+     "why": "rule"
+    },
+    {
+     "code": "2013",
+     "ent_date": "2008-05-14",
+     "exit_date": "2008-07-14",
+     "shares": 2000,
+     "cost": 53331,
+     "ret_pct": -16.26,
+     "pnl": -8670,
+     "why": "rule"
+    },
+    {
+     "code": "1516",
+     "ent_date": "2008-10-15",
+     "exit_date": "2009-01-13",
+     "shares": 3000,
+     "cost": 48991,
+     "ret_pct": 5.11,
+     "pnl": 2502,
+     "why": "rule"
+    },
+    {
+     "code": "6120",
+     "ent_date": "2009-05-13",
+     "exit_date": "2009-06-12",
+     "shares": 3000,
+     "cost": 55463,
+     "ret_pct": 8.43,
+     "pnl": 4675,
+     "why": "rule"
+    },
+    {
+     "code": "2462",
+     "ent_date": "2009-06-12",
+     "exit_date": "2009-07-14",
+     "shares": 2000,
+     "cost": 61659,
+     "ret_pct": -4.68,
+     "pnl": -2887,
+     "why": "rule"
+    },
+    {
+     "code": "8201",
+     "ent_date": "2012-03-14",
+     "exit_date": "2012-04-12",
+     "shares": 3000,
+     "cost": 78641,
+     "ret_pct": -20.5,
+     "pnl": -16119,
+     "why": "rule"
+    },
+    {
+     "code": "4426",
+     "ent_date": "2015-04-14",
+     "exit_date": "2015-08-12",
+     "shares": 1000,
+     "cost": 106109,
+     "ret_pct": 7.45,
+     "pnl": 7907,
+     "why": "rule"
+    }
+   ],
+   "only_in_lim7": [
+    {
+     "code": "1516",
+     "ent_date": "2008-11-12",
+     "exit_date": "2009-01-13",
+     "shares": 2000,
+     "cost": 38585,
+     "ret_pct": -11.05,
+     "pnl": -4262,
+     "why": "rule"
+    },
+    {
+     "code": "1233",
+     "ent_date": "2010-03-12",
+     "exit_date": "2010-04-14",
+     "shares": 1000,
+     "cost": 40666,
+     "ret_pct": 7.81,
+     "pnl": 3174,
+     "why": "rule"
+    }
+   ],
+   "same_key_diff_shares_or_exit": {
+    "n": 274,
+    "n_pre_cut": 9,
+    "n_exit_date_differs": 0,
+    "first": "2009-09-14",
+    "pre_cut_examples": [
+     {
+      "code": "1309",
+      "ent_date": "2009-09-14",
+      "shares_base": 6000,
+      "shares_lim7": 5000
+     },
+     {
+      "code": "2493",
+      "ent_date": "2009-10-14",
+      "shares_base": 6000,
+      "shares_lim7": 5000
+     },
+     {
+      "code": "2850",
+      "ent_date": "2010-04-14",
+      "shares_base": 3000,
+      "shares_lim7": 2000
+     },
+     {
+      "code": "8101",
+      "ent_date": "2010-12-14",
+      "shares_base": 7000,
+      "shares_lim7": 6000
+     },
+     {
+      "code": "1417",
+      "ent_date": "2012-02-14",
+      "shares_base": 8000,
+      "shares_lim7": 7000
+     },
+     {
+      "code": "9934",
+      "ent_date": "2012-08-14",
+      "shares_base": 4000,
+      "shares_lim7": 3000
+     },
+     {
+      "code": "2401",
+      "ent_date": "2012-09-12",
+      "shares_base": 8000,
+      "shares_lim7": 7000
+     },
+     {
+      "code": "2547",
+      "ent_date": "2013-01-14",
+      "shares_base": 3000,
+      "shares_lim7": 2000
+     },
+     {
+      "code": "1536",
+      "ent_date": "2014-06-12",
+      "shares_base": 2000,
+      "shares_lim7": 1000
+     }
+    ]
+   },
+   "same_key_identical": 351
+  },
+  "賣出": {
+   "sell_defer_limdn_base": 0,
+   "sell_defer_limdn_lim7": 0,
+   "說明": "標準路徑 2015-06-01 前 198 筆賣出，沒有任何一筆開盤 ≤ 7% 跌停價；賣出端 0 筆受影響"
+  }
+ },
+ "paths20": {
+  "base_median": {
+   "cagr_full": 0.22870818826625128,
+   "maxdd": -0.5023064217530553,
+   "cagr_2008_2015H1": 0.07918480995473576,
+   "cagr_since2019": 0.46614383888956124
+  },
+  "lim7_median": {
+   "cagr_full": 0.22764721530279397,
+   "maxdd": -0.5010996505809333,
+   "cagr_2008_2015H1": 0.07488779870052831,
+   "cagr_since2019": 0.4664576097408636
+  },
+  "base_range": [
+   0.21823234073706677,
+   0.24286747155716415
+  ],
+  "lim7_range": [
+   0.21323563671821155,
+   0.2384041014947822
+  ],
+  "paired_lim7_minus_base_pp": {
+   "cagr_full": {
+    "median": -0.08593512821125637,
+    "min": -0.5172357801468408,
+    "max": 0.32501796881962974,
+    "n_neg": 14,
+    "n_pos": 6
+   },
+   "cagr_2008_2015H1": {
+    "median": -0.2133826798887184,
+    "min": -1.4059507921587056,
+    "max": 0.17461751494747269,
+    "n_neg": 18,
+    "n_pos": 2
+   },
+   "maxdd": {
+    "median": -0.014008528744174908,
+    "min": -0.6988009092953829,
+    "max": 0.4686953360222401,
+    "n_neg": 10,
+    "n_pos": 9
+   }
+  },
+  "blk_limup_total": [
+   75,
+   170
+  ],
+  "sell_defer_limdn_total": [
+   10,
+   64
+  ]
+ },
+ "制度切換日_資料驗證": {
+  "說明": "原始日 K（raw/pre2015）每天全市場 最高÷前收−1 的 99.9 百分位、最低÷前收−1 的 0.1 百分位（排除除權息日）",
+  "pre_2015_06_01": {
+   "days": 2083,
+   "max_up": 0.1109815538407431,
+   "days_up_over_7_1pct": 58,
+   "min_dn": -0.15731414320343098,
+   "days_dn_below_7_1pct": 61
+  },
+  "from_2015_06_01_to_06_30": {
+   "days": 21,
+   "max_up": 0.10345160209316212,
+   "first_day_up_over_7_1pct": "2015-06-01",
+   "min_dn": -0.1327020257826888
+  },
+  "last_week_before": [
+   [
+    "2015-05-25",
+    0.0694,
+    -0.0698
+   ],
+   [
+    "2015-05-26",
+    0.0698,
+    -0.0686
+   ],
+   [
+    "2015-05-27",
+    0.07,
+    -0.0696
+   ],
+   [
+    "2015-05-28",
+    0.07,
+    -0.069
+   ],
+   [
+    "2015-05-29",
+    0.0698,
+    -0.0695
+   ],
+   [
+    "2015-06-01",
+    0.0996,
+    -0.0995
+   ],
+   [
+    "2015-06-02",
+    0.0999,
+    -0.0995
+   ],
+   [
+    "2015-06-03",
+    0.1,
+    -0.099
+   ],
+   [
+    "2015-06-04",
+    0.1035,
+    -0.1
+   ],
+   [
+    "2015-06-05",
+    0.0986,
+    -0.1018
+   ]
+  ]
+ },
+ "跌幅減半_2008_10": {
+  "資料": [
+   [
+    "2008-10-02",
+    668,
+    137,
+    12,
+    11
+   ],
+   [
+    "2008-10-03",
+    669,
+    342,
+    2,
+    5
+   ],
+   [
+    "2008-10-06",
+    669,
+    467,
+    35,
+    107
+   ],
+   [
+    "2008-10-07",
+    667,
+    430,
+    11,
+    11
+   ],
+   [
+    "2008-10-08",
+    665,
+    607,
+    16,
+    302
+   ],
+   [
+    "2008-10-09",
+    665,
+    403,
+    16,
+    130
+   ],
+   [
+    "2008-10-13",
+    666,
+    0,
+    342,
+    0
+   ],
+   [
+    "2008-10-14",
+    666,
+    0,
+    6,
+    0
+   ],
+   [
+    "2008-10-15",
+    667,
+    0,
+    94,
+    0
+   ],
+   [
+    "2008-10-16",
+    663,
+    0,
+    353,
+    0
+   ],
+   [
+    "2008-10-17",
+    664,
+    0,
+    186,
+    0
+   ],
+   [
+    "2008-10-20",
+    662,
+    0,
+    90,
+    0
+   ],
+   [
+    "2008-10-21",
+    663,
+    0,
+    51,
+    0
+   ],
+   [
+    "2008-10-22",
+    663,
+    0,
+    188,
+    0
+   ],
+   [
+    "2008-10-23",
+    658,
+    0,
+    354,
+    0
+   ],
+   [
+    "2008-10-24",
+    657,
+    1,
+    439,
+    1
+   ],
+   [
+    "2008-10-27",
+    660,
+    635,
+    5,
+    405
+   ],
+   [
+    "2008-10-28",
+    660,
+    619,
+    9,
+    37
+   ],
+   [
+    "2008-10-29",
+    661,
+    249,
+    9,
+    90
+   ],
+   [
+    "2008-10-30",
+    664,
+    133,
+    1,
+    1
+   ],
+   [
+    "2008-10-31",
+    662,
+    149,
+    2,
+    3
+   ],
+   [
+    "2008-11-03",
+    663,
+    122,
+    5,
+    5
+   ],
+   [
+    "2008-11-04",
+    666,
+    345,
+    19,
+    22
+   ],
+   [
+    "2008-11-05",
+    664,
+    93,
+    11,
+    10
+   ]
+  ],
+  "欄位": "日期、檔數、最低<−3.6% 檔數、收盤在 −3.3%～−3.6% 檔數、收盤<−6.6% 檔數",
+  "結論": "2008-10-13～2008-10-24 共 10 個交易日，全市場沒有任何一檔最低價低於前收 −3.6%（10-24 有 1 檔例外）→ 當時跌停是 3.5%，引擎沒有這條規則",
+  "lim7h_情境": "run_r97.py lim7h：這 10 天跌停改 3.5% → 標準路徑逐日與 lim7 完全相同；20 條路徑未跑",
+  "lim7h_final": 52939143.42481164,
+  "lim7h_rows": [
+   "2008-10-13",
+   "2008-10-24",
+   10
+  ]
+ },
+ "除權息日成交": {
+  "說明": "2015-06-01 前成交落在原始檔 xflag＝1（除權息／減資）日的筆數；這些日子引擎 REF＝當日收盤",
+  "rows": [
+   [
+    "1535",
+    "2008-07-14",
+    "S",
+    41.2,
+    43.0,
+    46.0,
+    40.0,
+    1,
+    43.3,
+    0.0
+   ],
+   [
+    "2457",
+    "2010-10-21",
+    "S",
+    61.8,
+    47.9,
+    51.2,
+    44.55,
+    1,
+    59.4,
+    0.0
+   ]
+  ],
+  "data_panel補格代號成交": {
+   "n": 20,
+   "n_inside_7pct": 20,
+   "n_at_limit": 0
+  }
+ },
+ "resources": {
+  "maxrss_mb": 1338,
+  "runtime_s": {
+   "base": 5.3,
+   "lim7": 5.7
+  }
+ }
+}
