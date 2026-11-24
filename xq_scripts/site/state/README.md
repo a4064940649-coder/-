@@ -174,3 +174,11 @@
 - 做法：沿用 make_list.py 的 compute／plan，只把訊號日換成資料最後一天（不改 make_list.py）。金額與股數是持股檔口徑（未乘網站的帳戶換算倍數），網頁只顯示動作、名次、分數、漲幅、距季線、收盤、原因。
 - rows 有變就上傳並更新 datasets/preview；每日回報要列出試算買進、試算賣出各幾檔與代號。
 - **這只是試算，不是名單**：回報與網頁都要寫明不要照表下單；真正只看每月訊號日收盤，那天會改用新一期營收。
+
+## 盤後選股表（2026-11-24 起，產品擁有者要求新增；第 13 個資料集 screener）
+- 每天在 update_daily.py（tsd_extra）之後跑：
+  `python3 -I -B xq_scripts/site/make_screener.py xq_scripts/site/data/screener.json --repo research/tw_stock_selection/raw/jb7k6295r7-bot_tw-stock-data --repo <tsd> --month <和 preview_today.py 同一個訊號月份>`
+  回傳碼 1＝策略欄位與 make_list 不一致（前 20 名比對失敗），當天不要上傳，回報第一行寫明。
+- 內容：上市＋上櫃四碼普通股約 1,200 檔、35 欄（價量、位置、均線、量、估值、法人、信用、策略）；20 日均成交值 < 500 萬、創新板、當日無成交者不列。沒有當沖比（無資料）；外資持股是月底資料；上櫃沒有 SURGE。
+- rows 有變就上傳並更新 datasets/screener（檔案約 0.8MB）。tsd_extra 某類沒更新到基準日時該組欄位整組空值、meta 有「警告」，回報要提。
+- 頁面區塊 id="screener"（環境溫度計之後）；漲跌顏色沿用頁面既有 pos／neg。抽查紀錄：state/screener_spot_check.csv（5 檔 × 32 欄全部相符）。

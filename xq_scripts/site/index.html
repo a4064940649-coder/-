@@ -134,6 +134,17 @@
 .mx ol.rules .rule-h b { overflow-wrap: anywhere; min-width: 0; }
 .mx ol.rules .rule-h .pill { white-space: normal; }
 .mx ol.rules .why { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); overflow-wrap: anywhere; }
+/* 盤後選股表 */
+.mx .sc-table th[data-sort] { cursor: pointer; user-select: none; }
+.mx .sc-table th[data-sort]:hover, .mx .sc-table th[aria-sort] { color: var(--color-fg); }
+.mx .sc-table th[aria-sort="ascending"]::after { content: " ▲"; }
+.mx .sc-table th[aria-sort="descending"]::after { content: " ▼"; }
+.mx .sc-table th:first-child, .mx .sc-table td:first-child { position: sticky; left: 0; background: var(--color-panel); z-index: 1; }
+.mx .sc-bar .btn[aria-pressed="true"] { border-color: var(--color-fg); box-shadow: inset 0 0 0 1px var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+.mx .sc-bar .calcin { width: 12em; }
+.mx .st-sc-body { display: grid; gap: var(--cds-gap-sm); min-width: 0; }
+.mx .st-sc-body[hidden], .mx .sc-more[hidden] { display: none; }
+.mx .st-sc-body .calcrow, .mx .st-sc-body .note { margin: 0; }
 </style>
 
 <div class="mx">
@@ -401,6 +412,34 @@
         </table>
       </div>
       <p class="note">每個月最後一個交易日收盤後算，最新的在最上面；還沒結束的月份只算到資料日期，月底讀數可能不同。股池＝上市、非創新板、60 日均成交值 1,000 萬以上、股價 10 元以上。飆股密度＝近 63 個交易日含息漲幅超過 50% 的檔數比例；大漲家數比例＝近 21 個交易日，每天單日漲幅 6.5% 以上檔數比例的平均；右尾厚度＝近 21 個交易日個股報酬第 95 百分位減中位數。每項高於熱門檻標「熱」、低於冷門檻標「冷」、中間標「溫」；合成＝三項裡至少兩項熱就是熱、至少兩項冷就是冷、其餘是溫。門檻只用 2008～2015 的資料訂。<span class="st-th-hist" hidden><span data-draw="th-hist" data-source="thermo">—</span></span></p>
+    </div>
+  </section>
+
+  <section class="card" id="screener">
+    <h2>盤後選股表（每日收盤後更新）</h2>
+    <p class="note st-sc-empty" hidden>尚無資料</p>
+    <p class="note st-sc-err" hidden>無法載入</p>
+    <div class="st-sc-body">
+      <div class="calcrow sc-bar">
+        <input id="sc-q" class="calcin" type="search" placeholder="搜尋代號或名稱" aria-label="搜尋代號或名稱" autocomplete="off">
+        <button type="button" class="btn sc-f" data-f="ma" aria-pressed="false">站上季線</button>
+        <button type="button" class="btn sc-f" data-f="fb" aria-pressed="false">外資連買 ≥ 3 天</button>
+        <button type="button" class="btn sc-f" data-f="tb" aria-pressed="false">投信連買 ≥ 3 天</button>
+        <button type="button" class="btn sc-f" data-f="vr" aria-pressed="false">均量比 ≥ 1.5</button>
+        <button type="button" class="btn sc-f" data-f="hi" aria-pressed="false">近 52 週新高（距高 ≤ 3%）</button>
+        <button type="button" class="btn sc-f" data-f="top" aria-pressed="false">策略前 20 名</button>
+        <button type="button" class="btn" id="sc-reset">清除條件</button>
+      </div>
+      <p class="note">資料日期（收盤）<span data-draw="sc-asof" data-source="screener">—</span>｜符合 <b data-draw="sc-n" data-source="screener">—</b> 檔（全部 <span data-draw="sc-all" data-source="screener">—</span> 檔），目前顯示 <span data-draw="sc-shown" data-source="screener">—</span> 列。點欄位標題可排序，再點一次反向；篩選條件可複選（同時符合才列出）。</p>
+      <div class="tw">
+        <table class="sc-table" data-source="screener" data-row-key="代號">
+          <thead><tr><th class="l" data-field="代號" data-sort="t">代號</th><th class="l" data-field="名稱" data-sort="t">名稱</th><th class="l" data-field="市場" data-sort="t">市場</th><th class="l" data-field="產業" data-sort="t">產業</th><th data-field="收盤" data-sort="n">收盤</th><th data-field="漲幅%" data-sort="n">漲幅 %</th><th data-field="昨漲%" data-sort="n">昨漲 %</th><th data-field="5日漲幅%" data-sort="n">5 日漲幅 %</th><th data-field="20日漲幅%" data-sort="n">20 日漲幅 %</th><th data-field="成交值億" data-sort="n" aria-sort="descending">成交值（億）</th><th data-field="距52週高%" data-sort="n">距 52 週高 %</th><th data-field="距52週低%" data-sort="n">距 52 週低 %</th><th data-field="位階" data-sort="n">位階</th><th data-field="乖離月線%" data-sort="n">乖離月線 %</th><th data-field="乖離季線%" data-sort="n">乖離季線 %</th><th data-field="乖離年線%" data-sort="n">乖離年線 %</th><th data-field="月線斜率%" data-sort="n">月線斜率 %</th><th data-field="布林帶寬%" data-sort="n">布林帶寬 %</th><th data-field="均量比" data-sort="n">均量比</th><th data-field="週轉率%" data-sort="n">週轉率 %</th><th data-field="本益比" data-sort="n">本益比</th><th data-field="殖利率%" data-sort="n">殖利率 %</th><th data-field="股價淨值比" data-sort="n">股價淨值比</th><th data-field="外資連買" data-sort="n">外資連買（天）</th><th data-field="投信連買" data-sort="n">投信連買（天）</th><th data-field="外資5日張" data-sort="n">外資 5 日（張）</th><th data-field="投信5日張" data-sort="n">投信 5 日（張）</th><th data-field="外資持股%" data-sort="n">外資持股 %</th><th data-field="融資5日增減%" data-sort="n">融資 5 日增減 %</th><th data-field="券資比%" data-sort="n">券資比 %</th><th data-field="SURGE" data-sort="n">SURGE</th><th class="l" data-field="站上季線" data-sort="t">站上季線</th><th data-field="策略名次" data-sort="a">策略名次</th><th class="l" data-field="入選" data-sort="t">入選</th></tr></thead>
+          <tbody data-draw="screener"></tbody>
+        </table>
+      </div>
+      <div class="calcrow sc-more" hidden><button type="button" class="btn" id="sc-more">顯示更多（再 50 列）</button></div>
+      <p class="note"><b>這是盤後資料，每個交易日收盤後更新一次，不是即時報價，也不是買賣建議。</b>策略只在每月訊號日收盤後決定買賣；表裡的 SURGE、策略名次、入選是把資料日期當成訊號日、用 <span data-draw="sc-rev" data-source="screener">—</span> 月營收的試算，訊號日會改用新一期營收重排。範圍：上市＋上櫃普通股，不含 ETF、權證、特別股、存託憑證、創新板、興櫃；當天沒成交或近 20 日平均成交值不到 500 萬元的不列。</p>
+      <p class="note">欄位：漲幅＝當日收盤對參考價（除權息日用除權息參考價）；5 日、20 日漲幅與均線都用還原價（含股利）。距 52 週高／低＝收盤對近 250 個交易日最高／最低價的距離，位階＝收盤在這段高低區間的位置（0 最低、100 最高）。乖離月線／季線／年線＝收盤對 20／60／240 日均線的距離；月線斜率＝20 日均線近 5 日的變化；布林帶寬＝20 日、2 倍標準差的上下軌距離 ÷ 中軌。均量比＝當日成交量 ÷ 20 日均量；週轉率＝當日成交量 ÷ 發行股數。本益比、殖利率、股價淨值比是交易所每日公布值。外資／投信連買＝連續買超天數（負數是連續賣超），5 日＝近 5 個交易日買賣超合計。外資持股是月底資料（<span data-draw="sc-fh" data-source="screener">—</span>），不是每日。融資 5 日增減＝融資餘額對 5 個交易日前；券資比＝融券餘額 ÷ 融資餘額。SURGE＝月營收驚奇分數（上櫃暫時沒有）；策略名次＝上市股池裡站上季線、依 SURGE 排的名次；入選＝前 10 名且 20 日漲幅超過 10%。「—」＝沒有資料。</p>
     </div>
   </section>
 
@@ -1062,6 +1101,63 @@
   document.querySelectorAll('.mx #h-clear').forEach((btn) => btn.addEventListener('click', () => {
     document.querySelectorAll('.mx input[data-code], .mx #h-e50, .mx #h-base, .mx #h-cash').forEach((el) => { el.value = ''; });
     persist(); HOLD_DRAWS.forEach((n) => dash.draw(n));
+  }));
+  // ---------- 盤後選股表 ----------
+  const SC_STEP = 50, SC_UP = 'pos', SC_DN = 'neg'; // 漲跌顏色沿用頁面既有的 pos／neg（和損益欄同一套）
+  const sc = { key: '成交值億', dir: -1, kind: 'n', q: '', f: {}, limit: SC_STEP };
+  const SC_F = { ma: (r) => r['站上季線'] === '是', fb: (r) => (nv(r['外資連買']) || 0) >= 3, tb: (r) => (nv(r['投信連買']) || 0) >= 3,
+    vr: (r) => (nv(r['均量比']) || 0) >= 1.5, hi: (r) => nv(r['距52週高%']) !== null && nv(r['距52週高%']) >= -3, top: (r) => nv(r['策略名次']) !== null && nv(r['策略名次']) <= 20 };
+  const scTxt = (v) => (v === null || v === undefined) ? '' : String(v);
+  function scView() {
+    const all = rowsOf('screener') || [];
+    const q = sc.q.trim().toLowerCase(); const on = Object.keys(SC_F).filter((k) => sc.f[k]);
+    const hit = all.filter((r) => on.every((k) => SC_F[k](r)) && (!q || scTxt(r['代號']).toLowerCase().indexOf(q) >= 0 || scTxt(r['名稱']).toLowerCase().indexOf(q) >= 0));
+    const k = sc.key, d = sc.dir, isT = sc.kind === 't';
+    const val = (r) => { if (isT) { const s = scTxt(r[k]); return s === '' ? null : s; } return nv(r[k]); };
+    const rows = hit.map((r, i) => [val(r), i, r]).sort((a, b) => { // 缺值永遠排最後；同值維持原順序
+      if (a[0] === null || b[0] === null) return (a[0] === null ? 1 : 0) - (b[0] === null ? 1 : 0) || a[1] - b[1];
+      const c = isT ? (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0) : a[0] - b[0]; return c * d || a[1] - b[1]; }).map((x) => x[2]);
+    return { all: all.length, n: rows.length, rows: rows.slice(0, sc.limit) };
+  }
+  const scNum = (d) => (v) => { const n = nv(v); return n === null ? '—' : n.toFixed(d); };
+  const scSig = (d) => (v, r, td) => { const n = nv(v); if (n !== null && n !== 0) td.classList.add(n > 0 ? SC_UP : SC_DN); return n === null ? '—' : (n > 0 ? '+' : '') + n.toFixed(d); };
+  const scSInt = (v, r, td) => { const n = nv(v); if (n !== null && n !== 0) td.classList.add(n > 0 ? SC_UP : SC_DN); return n === null ? '—' : (n > 0 ? '+' : '') + Math.round(n).toLocaleString('zh-TW'); };
+  const SC_DRAWS = ['screener', 'sc-n', 'sc-all', 'sc-shown'];
+  const scRedraw = () => { SC_DRAWS.forEach((n) => dash.draw(n)); const v = scView(); document.querySelectorAll('.mx .sc-more').forEach((el) => { el.hidden = v.n <= v.rows.length; }); };
+  dash.draw('screener', (tb) => fillTable(tb, 'screener', { key: '代號', list: [
+    ['代號', 'l', txt], ['名稱', 'l', txt], ['市場', 'l', txt], ['產業', 'l', txt], ['收盤', '', scNum(2)], ['漲幅%', '', scSig(2)], ['昨漲%', '', scSig(2)], ['5日漲幅%', '', scSig(1)], ['20日漲幅%', '', scSig(1)], ['成交值億', '', scNum(2)],
+    ['距52週高%', '', scNum(1)], ['距52週低%', '', scNum(1)], ['位階', '', scNum(0)], ['乖離月線%', '', scSig(1)], ['乖離季線%', '', scSig(1)], ['乖離年線%', '', scSig(1)], ['月線斜率%', '', scSig(2)], ['布林帶寬%', '', scNum(1)], ['均量比', '', scNum(2)], ['週轉率%', '', scNum(2)],
+    ['本益比', '', scNum(2)], ['殖利率%', '', scNum(2)], ['股價淨值比', '', scNum(2)], ['外資連買', '', scSig(0)], ['投信連買', '', scSig(0)], ['外資5日張', '', scSInt], ['投信5日張', '', scSInt], ['外資持股%', '', scNum(2)], ['融資5日增減%', '', scSig(1)], ['券資比%', '', scNum(1)],
+    ['SURGE', '', scNum(2)], ['站上季線', 'l', txt], ['策略名次', '', scNum(0)], ['入選', 'l', txt]], order: () => scView().rows },
+    (tr, r) => { if (r['入選'] === '是') tr.className = 'pick'; }));
+  dash.draw('sc-n', (el) => { el.textContent = rowsOf('screener') ? String(scView().n) : '—'; });
+  dash.draw('sc-all', (el) => { el.textContent = rowsOf('screener') ? String(scView().all) : '—'; });
+  dash.draw('sc-shown', (el) => { el.textContent = rowsOf('screener') ? String(scView().rows.length) : '—'; });
+  dash.draw('sc-asof', (el) => { const r = rowsOf('screener'); el.textContent = metaOf('screener', '基準日') || (r && r[0] ? txt(r[0]['基準日']) : '—'); });
+  dash.draw('sc-rev', (el) => { el.textContent = metaOf('screener', '營收月份') || '最新一期'; });
+  dash.draw('sc-fh', (el) => { el.textContent = metaOf('screener', '外資持股資料日') || '—'; });
+  dash.onData(() => {
+    const s = dsState('screener'); const show = (sel, on) => document.querySelectorAll(sel).forEach((el) => { el.hidden = !on; });
+    show('.mx .st-sc-empty', s === 'empty'); show('.mx .st-sc-err', s === 'err'); show('.mx .st-sc-body', s === 'ok');
+    const v = scView(); show('.mx .sc-more', v.n > v.rows.length);
+  });
+  document.querySelectorAll('.mx .sc-table th[data-sort]').forEach((th) => th.addEventListener('click', () => {
+    const k = th.getAttribute('data-field'), kind = th.getAttribute('data-sort'); // n＝數字（先大到小）、a＝數字（先小到大）、t＝文字（先小到大）
+    if (sc.key === k) sc.dir = -sc.dir; else { sc.key = k; sc.kind = kind === 't' ? 't' : 'n'; sc.dir = kind === 'n' ? -1 : 1; }
+    sc.limit = SC_STEP;
+    document.querySelectorAll('.mx .sc-table th[data-sort]').forEach((o) => { if (o === th) o.setAttribute('aria-sort', sc.dir > 0 ? 'ascending' : 'descending'); else o.removeAttribute('aria-sort'); });
+    scRedraw();
+  }));
+  document.querySelectorAll('.mx .sc-f').forEach((btn) => btn.addEventListener('click', () => {
+    const k = btn.getAttribute('data-f'); sc.f[k] = !sc.f[k]; btn.setAttribute('aria-pressed', sc.f[k] ? 'true' : 'false'); sc.limit = SC_STEP; scRedraw();
+  }));
+  document.querySelectorAll('.mx #sc-q').forEach((el) => el.addEventListener('input', () => { sc.q = el.value || ''; sc.limit = SC_STEP; scRedraw(); }));
+  document.querySelectorAll('.mx #sc-more').forEach((btn) => btn.addEventListener('click', () => { sc.limit += SC_STEP; scRedraw(); }));
+  document.querySelectorAll('.mx #sc-reset').forEach((btn) => btn.addEventListener('click', () => {
+    sc.q = ''; sc.f = {}; sc.limit = SC_STEP;
+    document.querySelectorAll('.mx #sc-q').forEach((el) => { el.value = ''; });
+    document.querySelectorAll('.mx .sc-f').forEach((b) => { b.setAttribute('aria-pressed', 'false'); });
+    scRedraw();
   }));
 })();
 </script>
