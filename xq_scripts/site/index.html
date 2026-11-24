@@ -21,8 +21,9 @@
 .mx .pill.sell { color: var(--color-bad); border-color: var(--color-bad); }
 .mx .pill.hold { color: var(--color-fg-muted); }
 .mx tr.pick td { font-weight: var(--cds-font-weight-medium); }
-.mx .neg { color: var(--color-bad); }
-.mx .pos { color: var(--color-ok); }
+/* 台股習慣：漲（正數）紅、跌（負數）綠 */
+.mx .neg { color: var(--color-ok); }
+.mx .pos { color: var(--color-bad); }
 .mx .note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; margin: var(--cds-gap-sm) 0 0; max-width: 75ch; }
 .mx .chartbox { position: relative; min-height: 320px; }
 .mx .chartbox.small { min-height: 200px; }
@@ -108,8 +109,8 @@
 /* 跨月換股：預計標籤、已實現列、未買進、依資料隱藏的欄 */
 .mx .pill.plan { color: var(--color-warn); border-color: var(--color-warn); font-weight: var(--cds-font-weight-medium); }
 .mx h2 .pill { vertical-align: middle; margin-left: 6px; }
-.mx tr.cash td.neg { color: var(--color-bad); }
-.mx tr.cash td.pos { color: var(--color-ok); }
+.mx tr.cash td.neg { color: var(--color-ok); }
+.mx tr.cash td.pos { color: var(--color-bad); }
 .mx tr.skip td, .mx .swapgrid li.skip, .mx .swapgrid li.skip .nm { color: var(--color-fg-muted); }
 .mx .swapgrid li.skip { border-style: dashed; }
 .mx table.no-real .c-real, .mx table.one-seg .c-mtd { display: none; }
@@ -927,7 +928,7 @@
     svg.insert('line', ':first-child').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 0).attr('y2', H).style('stroke', 'var(--cds-chart-axis)');
     const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; box.appendChild(tip);
     g.append('rect').attr('x', (r) => Math.min(x(0), x(r['貢獻']))).attr('width', (r) => Math.max(1, Math.abs(x(r['貢獻']) - x(0)))).attr('y', 2).attr('height', bh - 4).attr('rx', 2)
-      .style('fill', (r) => r['貢獻'] >= 0 ? 'var(--color-ok)' : 'var(--color-bad)');
+      .style('fill', (r) => r['貢獻'] >= 0 ? 'var(--color-bad)' : 'var(--color-ok)');
     g.append('text').attr('y', bh / 2 + 4).attr('x', (r) => r['貢獻'] >= 0 ? x(r['貢獻']) + 4 : x(r['貢獻']) - 4).attr('text-anchor', (r) => r['貢獻'] >= 0 ? 'start' : 'end')
       .text((r) => (r['貢獻'] > 0 ? '+' : '') + r['貢獻'].toFixed(2));
     g.append('rect').attr('x', 0).attr('width', W).attr('height', bh + gap).attr('y', -gap / 2).attr('fill', 'transparent')
