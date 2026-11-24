@@ -182,3 +182,7 @@
 - 內容：上市＋上櫃四碼普通股約 1,200 檔、35 欄（價量、位置、均線、量、估值、法人、信用、策略）；20 日均成交值 < 500 萬、創新板、當日無成交者不列。沒有當沖比（無資料）；外資持股是月底資料；上櫃沒有 SURGE。
 - rows 有變就上傳並更新 datasets/screener（檔案約 0.8MB）。tsd_extra 某類沒更新到基準日時該組欄位整組空值、meta 有「警告」，回報要提。
 - 頁面區塊 id="screener"（環境溫度計之後）；漲跌顏色沿用頁面既有 pos／neg。抽查紀錄：state/screener_spot_check.csv（5 檔 × 32 欄全部相符）。
+
+## 容器被重置時（2026-11-25 發生過）
+雲端環境閒置後會被回收，/home/user 以外與未進版控的東西都會消失（外部資料倉庫、暫存的日 K 倉庫、pip 套件、面板快取）。症狀：daily_step0 報 pyarrow 找不到、daily_check 報 BrokenPipe、tsd 資料夾不存在。
+處理：先跑 `bash research/tw_stock_selection/restore_env.sh`（約 5～10 分鐘），再照每日例行。重建面板後 daily_check 可能因 res_official.json 的 N（面板股票檔數，隨上游快照變）不同而標 FAIL，但四項數字與逐日淨值差為 0 才是判準；此時回報要照實寫「數字相符、N 不同」。

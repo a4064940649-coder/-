@@ -22,3 +22,13 @@ grep -v '^#' "$HERE/data_sources.txt" | while read -r path commit url; do
   fi
   echo "完成 $path"
 done
+
+# 3.（2026-11-25 加）容器重置後每日例行還需要的東西：Python 套件、官方日 K 倉庫的兩份本機複本。
+pip install -q pyarrow scipy statsmodels openpyxl 2>/dev/null || echo "注意：pip 安裝失敗"
+TSD="$S/tsd"
+[ -d "$TSD/.git" ] || git clone -q --filter=blob:none --no-checkout --depth=1 https://github.com/jb7k6295r7-bot/tw-stock-data "$TSD" || echo "clone 失敗 tsd"
+RAWK="$HERE/raw/jb7k6295r7-bot_tw-stock-data"
+[ -d "$RAWK/.git" ] || git clone -q --filter=blob:none --no-checkout --depth=1 https://github.com/jb7k6295r7-bot/tw-stock-data "$RAWK" || echo "clone 失敗 raw"
+# 正式引擎（cslib）用 GIT_NO_LAZY_FETCH 讀日 K，所以要先把 data/universe/daily 的內容一次取回本機
+git -C "$RAWK" ls-tree HEAD data/universe/daily/ | awk '{print $3}' | git -C "$RAWK" -c fetch.negotiationAlgorithm=noop fetch origin --no-tags --no-write-fetch-head --recurse-submodules=no --filter=blob:none --stdin >/dev/null 2>&1 || echo "注意：日 K 內容取回失敗"
+echo "還原完成；接著照 xq_scripts/site/state/README.md 跑每日例行"
