@@ -1,0 +1,1934 @@
+{
+ "mode": "v3",
+ "date": "2026-11-25",
+ "說明": "v2 口徑 ＋ 漲跌幅照當時制度：2015-06-01 以前 7%；2008-10-13～10-24 跌幅 3.5%；2015-06-01 起 10%（引擎原值）。只在記憶體覆寫 P.LIMUP／P.LIMDN。",
+ "info": {
+  "reduce_fix": true,
+  "reduce_info": {
+   "n_reduce_parvalue": 311,
+   "reduce_last": "2026-11-16"
+  },
+  "e50_source": "/home/user/-/research/tw_stock_selection/agents/s75_continuous_2008_2026/v2_2026-11-21/e50_spliced.csv",
+  "e50_missing": 5,
+  "panel": {
+   "T": 4865,
+   "N": 1222
+  },
+  "limit_override": {
+   "engine_10pct_formula_recheck": "limits(REF,10%) 與引擎 LIMUP／LIMDN 全面板逐格相同",
+   "cut_row": 2084,
+   "cut_date": "2015-06-01",
+   "rows_7pct": [
+    0,
+    2083
+   ],
+   "dates_7pct": [
+    "2007-01-02",
+    "2015-05-29"
+   ],
+   "sim_first_row": 247,
+   "sim_rows_7pct": [
+    247,
+    2083
+   ],
+   "n_sim_rows_7pct": 1837,
+   "rows_dn_3_5pct": [
+    438,
+    447
+   ],
+   "dates_dn_3_5pct": [
+    "2008-10-13",
+    "2008-10-24"
+   ],
+   "n_rows_dn_3_5pct": 10,
+   "cells_changed_7pct": {
+    "limup": 1667769,
+    "limdn": 1667769,
+    "finite_cells": 1668996
+   },
+   "cells_changed_3_5pct_vs_7pct": 7162,
+   "rows_from_cut_unchanged": true
+  },
+  "data_check": {
+   "250 個交易日（切換日前）對 7%": {
+    "n_traded": 214934,
+    "close_above_limup": 11,
+    "close_at_limup": 3096,
+    "close_below_limdn": 17,
+    "close_at_limdn": 1146
+   },
+   "250 個交易日（切換日起）對 7%": {
+    "n_traded": 221959,
+    "close_above_limup": 3404,
+    "close_at_limup": 276,
+    "close_below_limdn": 2523,
+    "close_at_limdn": 192
+   },
+   "250 個交易日（切換日起）對 10%": {
+    "n_traded": 221959,
+    "close_above_limup": 5,
+    "close_at_limup": 1809,
+    "close_below_limdn": 6,
+    "close_at_limdn": 867
+   },
+   "切換日前後各 3 天對 7%": {
+    "2015-05-27": {
+     "n_traded": 880,
+     "close_above_limup": 1,
+     "close_at_limup": 19,
+     "close_below_limdn": 0,
+     "close_at_limdn": 0
+    },
+    "2015-05-28": {
+     "n_traded": 879,
+     "close_above_limup": 0,
+     "close_at_limup": 23,
+     "close_below_limdn": 0,
+     "close_at_limdn": 1
+    },
+    "2015-05-29": {
+     "n_traded": 882,
+     "close_above_limup": 0,
+     "close_at_limup": 14,
+     "close_below_limdn": 0,
+     "close_at_limdn": 1
+    },
+    "2015-06-01": {
+     "n_traded": 876,
+     "close_above_limup": 20,
+     "close_at_limup": 1,
+     "close_below_limdn": 3,
+     "close_at_limdn": 0
+    },
+    "2015-06-02": {
+     "n_traded": 881,
+     "close_above_limup": 14,
+     "close_at_limup": 1,
+     "close_below_limdn": 4,
+     "close_at_limdn": 0
+    },
+    "2015-06-03": {
+     "n_traded": 882,
+     "close_above_limup": 10,
+     "close_at_limup": 0,
+     "close_below_limdn": 8,
+     "close_at_limdn": 2
+    }
+   },
+   "2008-10 跌幅減半前後逐日（對 3.5% 跌停／7% 跌停）": {
+    "2008-10-07": {
+     "in_window": false,
+     "vs_3_5pct": {
+      "n_traded": 671,
+      "close_below_limdn": 59,
+      "close_at_limdn": 10
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 6
+     }
+    },
+    "2008-10-08": {
+     "in_window": false,
+     "vs_3_5pct": {
+      "n_traded": 669,
+      "close_below_limdn": 504,
+      "close_at_limdn": 11
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 262
+     }
+    },
+    "2008-10-09": {
+     "in_window": false,
+     "vs_3_5pct": {
+      "n_traded": 668,
+      "close_below_limdn": 267,
+      "close_at_limdn": 11
+     },
+     "vs_7pct": {
+      "close_below_limdn": 1,
+      "close_at_limdn": 118
+     }
+    },
+    "2008-10-13": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 669,
+      "close_below_limdn": 0,
+      "close_at_limdn": 405
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-14": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 673,
+      "close_below_limdn": 0,
+      "close_at_limdn": 8
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-15": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 668,
+      "close_below_limdn": 1,
+      "close_at_limdn": 110
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-16": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 667,
+      "close_below_limdn": 1,
+      "close_at_limdn": 411
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-17": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 665,
+      "close_below_limdn": 0,
+      "close_at_limdn": 216
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-20": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 666,
+      "close_below_limdn": 1,
+      "close_at_limdn": 101
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-21": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 668,
+      "close_below_limdn": 3,
+      "close_at_limdn": 61
+     },
+     "vs_7pct": {
+      "close_below_limdn": 2,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-22": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 666,
+      "close_below_limdn": 1,
+      "close_at_limdn": 219
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-23": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 662,
+      "close_below_limdn": 1,
+      "close_at_limdn": 410
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-24": {
+     "in_window": true,
+     "vs_3_5pct": {
+      "n_traded": 662,
+      "close_below_limdn": 3,
+      "close_at_limdn": 539
+     },
+     "vs_7pct": {
+      "close_below_limdn": 1,
+      "close_at_limdn": 0
+     }
+    },
+    "2008-10-27": {
+     "in_window": false,
+     "vs_3_5pct": {
+      "n_traded": 663,
+      "close_below_limdn": 524,
+      "close_at_limdn": 4
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 395
+     }
+    },
+    "2008-10-28": {
+     "in_window": false,
+     "vs_3_5pct": {
+      "n_traded": 664,
+      "close_below_limdn": 96,
+      "close_at_limdn": 8
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 35
+     }
+    },
+    "2008-10-29": {
+     "in_window": false,
+     "vs_3_5pct": {
+      "n_traded": 667,
+      "close_below_limdn": 158,
+      "close_at_limdn": 11
+     },
+     "vs_7pct": {
+      "close_below_limdn": 0,
+      "close_at_limdn": 87
+     }
+    }
+   }
+  }
+ },
+ "v2_base_check": {
+  "nav_same_shape": true,
+  "nav_max_abs_diff": 0.0,
+  "trades_same": {
+   "V_MASK": true,
+   "V_BRIDGE": true
+  },
+  "results_same": {
+   "V_MASK": true,
+   "V_BRIDGE": true
+  },
+  "pass": true
+ },
+ "r97_acceptance": {
+  "lim7": {
+   "items": {
+    "cagr": {
+     "mine": 0.23501691470454178,
+     "r97": 0.23501691470454178,
+     "same": true
+    },
+    "cagr_2008_2015H1": {
+     "mine": 0.06736445179612405,
+     "r97": 0.06736445179612405,
+     "same": true
+    },
+    "cagr_since2019": {
+     "mine": 0.49515588944226496,
+     "r97": 0.49515588944226496,
+     "same": true
+    },
+    "final_nav": {
+     "mine": 52939143.42481164,
+     "r97": 52939143.42481164,
+     "same": true
+    },
+    "n_closed": {
+     "mine": 619,
+     "r97": 619,
+     "same": true
+    },
+    "n_all": {
+     "mine": 627,
+     "r97": 627,
+     "same": true
+    },
+    "win_rate": {
+     "mine": 0.481421647819063,
+     "r97": 0.481421647819063,
+     "same": true
+    },
+    "years_win": {
+     "mine": 14,
+     "r97": 14,
+     "same": true
+    },
+    "years_lose": {
+     "mine": 5,
+     "r97": 5,
+     "same": true
+    },
+    "cagr_since2015_07": {
+     "mine": 0.3586543452746287,
+     "r97": 0.3586543452746287,
+     "same": true
+    },
+    "maxdd": {
+     "mine": {
+      "maxdd": -0.4991061968672189,
+      "peak": "2008-05-19",
+      "trough": "2008-11-20",
+      "recovered": "2009-12-31"
+     },
+     "r97": {
+      "maxdd": -0.4991061968672189,
+      "peak": "2008-05-19",
+      "trough": "2008-11-20",
+      "recovered": "2009-12-31"
+     },
+     "same": true
+    }
+   },
+   "nav_same_index": true,
+   "nav_max_abs_diff_vs_r97_lim7": 0.0,
+   "trades_same_as_r97_lim7": true,
+   "pass": true
+  },
+  "v3": {
+   "items": {
+    "cagr": {
+     "mine": 0.23501691470454178,
+     "r97": 0.23501691470454178,
+     "same": true
+    },
+    "cagr_2008_2015H1": {
+     "mine": 0.06736445179612405,
+     "r97": 0.06736445179612405,
+     "same": true
+    },
+    "cagr_since2019": {
+     "mine": 0.49515588944226496,
+     "r97": 0.49515588944226496,
+     "same": true
+    },
+    "final_nav": {
+     "mine": 52939143.42481164,
+     "r97": 52939143.42481164,
+     "same": true
+    },
+    "n_closed": {
+     "mine": 619,
+     "r97": 619,
+     "same": true
+    },
+    "n_all": {
+     "mine": 627,
+     "r97": 627,
+     "same": true
+    },
+    "win_rate": {
+     "mine": 0.481421647819063,
+     "r97": 0.481421647819063,
+     "same": true
+    },
+    "years_win": {
+     "mine": 14,
+     "r97": 14,
+     "same": true
+    },
+    "years_lose": {
+     "mine": 5,
+     "r97": 5,
+     "same": true
+    },
+    "cagr_since2015_07": {
+     "mine": 0.3586543452746287,
+     "r97": 0.3586543452746287,
+     "same": true
+    },
+    "maxdd": {
+     "mine": {
+      "maxdd": -0.4991061968672189,
+      "peak": "2008-05-19",
+      "trough": "2008-11-20",
+      "recovered": "2009-12-31"
+     },
+     "r97": {
+      "maxdd": -0.4991061968672189,
+      "peak": "2008-05-19",
+      "trough": "2008-11-20",
+      "recovered": "2009-12-31"
+     },
+     "same": true
+    }
+   },
+   "nav_same_index": true,
+   "nav_max_abs_diff_vs_r97_lim7": 0.0,
+   "trades_same_as_r97_lim7": true,
+   "pass": true
+  },
+  "v3_vs_r97_lim7h": {
+   "final_nav": [
+    52939143.42481164,
+    52939143.42481164
+   ],
+   "cagr": [
+    0.23501691470454178,
+    0.23501691470454178
+   ],
+   "same": true
+  },
+  "paths20_lim7_vs_r97": {
+   "n_paths": 20,
+   "same_keys": true,
+   "max_abs_cagr_diff": 0.0,
+   "max_abs_maxdd_diff": 0.0,
+   "counts_same": true,
+   "median_mine": 0.22764721530279397,
+   "median_r97": {
+    "cagr_full": 0.22764721530279397,
+    "maxdd": -0.5010996505809333,
+    "cagr_2008_2015H1": 0.07488779870052831,
+    "cagr_since2019": 0.4664576097408636
+   },
+   "pass": true
+  },
+  "target": {
+   "cagr_pct": 23.5017,
+   "maxdd_pct": -49.9106,
+   "final_nav": 52939143,
+   "n_closed": 619
+  },
+  "target_hit": true,
+  "pass": true
+ },
+ "half_limit_effect": {
+  "V_MASK": {
+   "std_path_identical_daily": true,
+   "n_paths_changed": 5,
+   "paths_changed": [
+    "60萬|+1",
+    "80萬|+1",
+    "100萬|+1",
+    "150萬|+1",
+    "200萬|+1"
+   ],
+   "paths20_lim7": {
+    "cagr_full_median": 0.2092081392298034,
+    "cagr_full_min": 0.19943035152629185,
+    "cagr_full_max": 0.2240119164012926,
+    "maxdd_median": -0.5010996505809333,
+    "maxdd_worst": -0.5332076935963946
+   },
+   "paths20_v3": {
+    "cagr_full_median": 0.20921726817352715,
+    "cagr_full_min": 0.19789841699707367,
+    "cagr_full_max": 0.2240119164012926,
+    "maxdd_median": -0.49997662438154755,
+    "maxdd_worst": -0.5332076935963946
+   },
+   "by_path": {
+    "60萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.2189052212110949,
+     "cagr_v3": 0.2189052212110949,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "80萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.21498591831669067,
+     "cagr_v3": 0.21498591831669067,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "100萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.21532309978107245,
+     "cagr_v3": 0.21532309978107245,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "150萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.22275348427510688,
+     "cagr_v3": 0.22275348427510688,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "200萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.2240119164012926,
+     "cagr_v3": 0.2240119164012926,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "60萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 1797687.201171741,
+     "cagr_lim7": 0.20339730176836146,
+     "cagr_v3": 0.19789841699707367,
+     "sell_defer_limdn_lim7": 4,
+     "sell_defer_limdn_v3": 6
+    },
+    "80萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 392524.97602531686,
+     "cagr_lim7": 0.20579582248227624,
+     "cagr_v3": 0.20661298408901896,
+     "sell_defer_limdn_lim7": 4,
+     "sell_defer_limdn_v3": 6
+    },
+    "100萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 82242.55861466378,
+     "cagr_lim7": 0.20341615313863626,
+     "cagr_v3": 0.20326994775246954,
+     "sell_defer_limdn_lim7": 4,
+     "sell_defer_limdn_v3": 6
+    },
+    "150萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 715381.8843879402,
+     "cagr_lim7": 0.20921469652018,
+     "cagr_v3": 0.2099667490361392,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 7
+    },
+    "200萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 74841.0658261478,
+     "cagr_lim7": 0.20929119422394415,
+     "cagr_v3": 0.20923295440762746,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 7
+    },
+    "60萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.20443047619453103,
+     "cagr_v3": 0.20443047619453103,
+     "sell_defer_limdn_lim7": 2,
+     "sell_defer_limdn_v3": 2
+    },
+    "80萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.2052154618816997,
+     "cagr_v3": 0.2052154618816997,
+     "sell_defer_limdn_lim7": 2,
+     "sell_defer_limdn_v3": 2
+    },
+    "100萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.19943035152629185,
+     "cagr_v3": 0.19943035152629185,
+     "sell_defer_limdn_lim7": 3,
+     "sell_defer_limdn_v3": 3
+    },
+    "150萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.20739941218935587,
+     "cagr_v3": 0.20739941218935587,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 5
+    },
+    "200萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.21535678706220174,
+     "cagr_v3": 0.21535678706220174,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 5
+    },
+    "60萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.20920158193942684,
+     "cagr_v3": 0.20920158193942684,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "80萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.20832091611183512,
+     "cagr_v3": 0.20832091611183512,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "100萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.20127995878762706,
+     "cagr_v3": 0.20127995878762706,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "150萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.21096334649856252,
+     "cagr_v3": 0.21096334649856252,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "200萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.21052881772032905,
+     "cagr_v3": 0.21052881772032905,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    }
+   },
+   "std_exits_in_window_lim7": [
+    {
+     "code": "2356",
+     "exit_date": "2008-10-15",
+     "open": 14.25,
+     "limdn_3_5": 14.05,
+     "limdn_7": 13.55,
+     "open_at_3_5_limdn": false
+    },
+    {
+     "code": "6269",
+     "exit_date": "2008-10-15",
+     "open": 16.2,
+     "limdn_3_5": 15.3,
+     "limdn_7": 14.75,
+     "open_at_3_5_limdn": false
+    },
+    {
+     "code": "3380",
+     "exit_date": "2008-10-15",
+     "open": 22.0,
+     "limdn_3_5": 21.5,
+     "limdn_7": 20.700000000000003,
+     "open_at_3_5_limdn": false
+    }
+   ],
+   "std_exits_in_window_v3": [
+    {
+     "code": "2356",
+     "exit_date": "2008-10-15",
+     "open": 14.25,
+     "limdn_3_5": 14.05,
+     "limdn_7": 13.55,
+     "open_at_3_5_limdn": false
+    },
+    {
+     "code": "6269",
+     "exit_date": "2008-10-15",
+     "open": 16.2,
+     "limdn_3_5": 15.3,
+     "limdn_7": 14.75,
+     "open_at_3_5_limdn": false
+    },
+    {
+     "code": "3380",
+     "exit_date": "2008-10-15",
+     "open": 22.0,
+     "limdn_3_5": 21.5,
+     "limdn_7": 20.700000000000003,
+     "open_at_3_5_limdn": false
+    }
+   ]
+  },
+  "V_BRIDGE": {
+   "std_path_identical_daily": true,
+   "n_paths_changed": 5,
+   "paths_changed": [
+    "60萬|+1",
+    "80萬|+1",
+    "100萬|+1",
+    "150萬|+1",
+    "200萬|+1"
+   ],
+   "paths20_lim7": {
+    "cagr_full_median": 0.22764721530279397,
+    "cagr_full_min": 0.21323563671821155,
+    "cagr_full_max": 0.2384041014947822,
+    "maxdd_median": -0.5010996505809333,
+    "maxdd_worst": -0.5332076935963946
+   },
+   "paths20_v3": {
+    "cagr_full_median": 0.2269045541473168,
+    "cagr_full_min": 0.21323563671821155,
+    "cagr_full_max": 0.2384041014947822,
+    "maxdd_median": -0.49997662438154755,
+    "maxdd_worst": -0.5332076935963946
+   },
+   "by_path": {
+    "60萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.2350537673872608,
+     "cagr_v3": 0.2350537673872608,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "80萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.23660211506380024,
+     "cagr_v3": 0.23660211506380024,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "100萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.23501691470454178,
+     "cagr_v3": 0.23501691470454178,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "150萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.2384041014947822,
+     "cagr_v3": 0.2384041014947822,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "200萬|+0": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.23769511375569574,
+     "cagr_v3": 0.23769511375569574,
+     "sell_defer_limdn_lim7": 0,
+     "sell_defer_limdn_v3": 0
+    },
+    "60萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 167784.87953776866,
+     "cagr_lim7": 0.21846329368314654,
+     "cagr_v3": 0.21807889214111387,
+     "sell_defer_limdn_lim7": 4,
+     "sell_defer_limdn_v3": 6
+    },
+    "80萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 758741.7087581158,
+     "cagr_lim7": 0.21872094004264864,
+     "cagr_v3": 0.22002197362554,
+     "sell_defer_limdn_lim7": 4,
+     "sell_defer_limdn_v3": 6
+    },
+    "100萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 1806095.928949222,
+     "cagr_lim7": 0.2287960301948937,
+     "cagr_v3": 0.22656676712130697,
+     "sell_defer_limdn_lim7": 4,
+     "sell_defer_limdn_v3": 6
+    },
+    "150萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 799473.7213566452,
+     "cagr_lim7": 0.22649840041069425,
+     "cagr_v3": 0.22724234117332665,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 7
+    },
+    "200萬|+1": {
+     "n_days_differ": 4424,
+     "first_day_differs": "2008-10-16",
+     "max_abs_diff": 9283.71036673896,
+     "cagr_lim7": 0.2290815036421785,
+     "cagr_v3": 0.22908088011444927,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 7
+    },
+    "60萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.21968016020009395,
+     "cagr_v3": 0.21968016020009395,
+     "sell_defer_limdn_lim7": 2,
+     "sell_defer_limdn_v3": 2
+    },
+    "80萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.22375902476355147,
+     "cagr_v3": 0.22375902476355147,
+     "sell_defer_limdn_lim7": 2,
+     "sell_defer_limdn_v3": 2
+    },
+    "100萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.22168017136480334,
+     "cagr_v3": 0.22168017136480334,
+     "sell_defer_limdn_lim7": 3,
+     "sell_defer_limdn_v3": 3
+    },
+    "150萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.2335233225543527,
+     "cagr_v3": 0.2335233225543527,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 5
+    },
+    "200萬|+2": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.23576025976054615,
+     "cagr_v3": 0.23576025976054615,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 5
+    },
+    "60萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.21323563671821155,
+     "cagr_v3": 0.21323563671821155,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 5
+    },
+    "80萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.22018668611307146,
+     "cagr_v3": 0.22018668611307146,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 5
+    },
+    "100萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.2204819390543531,
+     "cagr_v3": 0.2204819390543531,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 5
+    },
+    "150萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.22413523393779533,
+     "cagr_v3": 0.22413523393779533,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 5
+    },
+    "200萬|+3": {
+     "n_days_differ": 0,
+     "first_day_differs": null,
+     "max_abs_diff": 0.0,
+     "cagr_lim7": 0.2309548706704705,
+     "cagr_v3": 0.2309548706704705,
+     "sell_defer_limdn_lim7": 5,
+     "sell_defer_limdn_v3": 5
+    }
+   },
+   "std_exits_in_window_lim7": [
+    {
+     "code": "2356",
+     "exit_date": "2008-10-15",
+     "open": 14.25,
+     "limdn_3_5": 14.05,
+     "limdn_7": 13.55,
+     "open_at_3_5_limdn": false
+    },
+    {
+     "code": "6269",
+     "exit_date": "2008-10-15",
+     "open": 16.2,
+     "limdn_3_5": 15.3,
+     "limdn_7": 14.75,
+     "open_at_3_5_limdn": false
+    },
+    {
+     "code": "3380",
+     "exit_date": "2008-10-15",
+     "open": 22.0,
+     "limdn_3_5": 21.5,
+     "limdn_7": 20.700000000000003,
+     "open_at_3_5_limdn": false
+    }
+   ],
+   "std_exits_in_window_v3": [
+    {
+     "code": "2356",
+     "exit_date": "2008-10-15",
+     "open": 14.25,
+     "limdn_3_5": 14.05,
+     "limdn_7": 13.55,
+     "open_at_3_5_limdn": false
+    },
+    {
+     "code": "6269",
+     "exit_date": "2008-10-15",
+     "open": 16.2,
+     "limdn_3_5": 15.3,
+     "limdn_7": 14.75,
+     "open_at_3_5_limdn": false
+    },
+    {
+     "code": "3380",
+     "exit_date": "2008-10-15",
+     "open": 22.0,
+     "limdn_3_5": 21.5,
+     "limdn_7": 20.700000000000003,
+     "open_at_3_5_limdn": false
+    }
+   ]
+  }
+ },
+ "versions": {
+  "V_MASK": {
+   "final_nav": 39129688.03846498,
+   "cagr": 0.21532309978107245,
+   "maxdd": {
+    "maxdd": -0.4991061968672189,
+    "peak": "2008-05-19",
+    "trough": "2008-11-20",
+    "recovered": "2009-12-31"
+   },
+   "cagr_since2019": 0.4942182689621979,
+   "cagr_since2015_07": 0.3451464526029857,
+   "cagr_2008_2015H1": 0.04116782427647481,
+   "n_closed": 531,
+   "n_all": 539,
+   "win_rate": 0.4783427495291902,
+   "final_nav_0050": 12841213.926646138,
+   "cagr_0050": 0.14540017944133665,
+   "maxdd_0050": {
+    "maxdd": -0.5238283034613551,
+    "peak": "2008-05-19",
+    "trough": "2008-11-20",
+    "recovered": "2010-12-03"
+   },
+   "cagr_0050_since2019": 0.2882066249416422,
+   "cagr_0050_since2015_07": 0.21079556558879609,
+   "cagr_0050_2008_2015H1": 0.05203449914615166,
+   "yearly": [
+    {
+     "year": 2008,
+     "strat": -0.3756985323775828,
+     "e0050": -0.4204355845714044,
+     "diff_pp": 4.473705219382163
+    },
+    {
+     "year": 2009,
+     "strat": 0.8373341060793424,
+     "e0050": 0.7499574695309648,
+     "diff_pp": 8.737663654837768
+    },
+    {
+     "year": 2010,
+     "strat": 0.18451940177065573,
+     "e0050": 0.13127596758668592,
+     "diff_pp": 5.324343418396982
+    },
+    {
+     "year": 2011,
+     "strat": -0.180012120551709,
+     "e0050": -0.15813542112967005,
+     "diff_pp": -2.187669942203896
+    },
+    {
+     "year": 2012,
+     "strat": 0.017664121806624244,
+     "e0050": 0.11924627384824205,
+     "diff_pp": -10.158215204161781
+    },
+    {
+     "year": 2013,
+     "strat": 0.09497340179725589,
+     "e0050": 0.11676163189656386,
+     "diff_pp": -2.178823009930797
+    },
+    {
+     "year": 2014,
+     "strat": 0.08547598998421191,
+     "e0050": 0.1666404920010789,
+     "diff_pp": -8.116450201686698
+    },
+    {
+     "year": 2015,
+     "strat": -0.08736382945010535,
+     "e0050": -0.06280604939102963,
+     "diff_pp": -2.455778005907572
+    },
+    {
+     "year": 2016,
+     "strat": 0.15725303803381596,
+     "e0050": 0.1964842757714964,
+     "diff_pp": -3.9231237737680447
+    },
+    {
+     "year": 2017,
+     "strat": 0.2113141763047337,
+     "e0050": 0.18138874239106406,
+     "diff_pp": 2.992543391366964
+    },
+    {
+     "year": 2018,
+     "strat": -0.01679359630541366,
+     "e0050": -0.04938498943668035,
+     "diff_pp": 3.259139313126669
+    },
+    {
+     "year": 2019,
+     "strat": 0.3033052418413591,
+     "e0050": 0.3352114527176173,
+     "diff_pp": -3.1906210876258223
+    },
+    {
+     "year": 2020,
+     "strat": 1.0387879140492986,
+     "e0050": 0.3113903691522062,
+     "diff_pp": 72.73975448970924
+    },
+    {
+     "year": 2021,
+     "strat": 0.47442753384359215,
+     "e0050": 0.21923260965920655,
+     "diff_pp": 25.51949241843856
+    },
+    {
+     "year": 2022,
+     "strat": -0.1762317131833303,
+     "e0050": -0.2137467162023854,
+     "diff_pp": 3.751500301905508
+    },
+    {
+     "year": 2023,
+     "strat": 0.5687878078737161,
+     "e0050": 0.2751520190384438,
+     "diff_pp": 29.363578883527232
+    },
+    {
+     "year": 2024,
+     "strat": 0.6538378682666819,
+     "e0050": 0.4864399482353643,
+     "diff_pp": 16.73979200313176
+    },
+    {
+     "year": 2025,
+     "strat": 0.5718813224554389,
+     "e0050": 0.3685887558571568,
+     "diff_pp": 20.32925665982821
+    },
+    {
+     "year": 2026,
+     "strat": 0.7538600546376697,
+     "e0050": 0.6626297259520906,
+     "diff_pp": 9.123032868557912
+    }
+   ],
+   "years_win": 12,
+   "years_lose": 7,
+   "years_lost": [
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2019
+   ],
+   "paths20": {
+    "cagr_full_median": 0.20921726817352715,
+    "cagr_full_min": 0.19789841699707367,
+    "cagr_full_max": 0.2240119164012926,
+    "maxdd_median": -0.49997662438154755,
+    "maxdd_worst": -0.5332076935963946
+   },
+   "paths": {
+    "60萬|+0": {
+     "cagr_full": 0.2189052212110949,
+     "maxdd": -0.49427604369758105,
+     "cagr_since2019": 0.4853344536623423,
+     "final_nav": 24813730.295303673,
+     "n_all": 501,
+     "blk_limup": 10,
+     "sell_defer_limdn": 0
+    },
+    "80萬|+0": {
+     "cagr_full": 0.21498591831669067,
+     "maxdd": -0.4873340399598872,
+     "cagr_since2019": 0.4890678642931561,
+     "final_nav": 31140844.78783901,
+     "n_all": 528,
+     "blk_limup": 10,
+     "sell_defer_limdn": 0
+    },
+    "100萬|+0": {
+     "cagr_full": 0.21532309978107245,
+     "maxdd": -0.4991061968672189,
+     "cagr_since2019": 0.4942182689621979,
+     "final_nav": 39129688.03846498,
+     "n_all": 539,
+     "blk_limup": 10,
+     "sell_defer_limdn": 0
+    },
+    "150萬|+0": {
+     "cagr_full": 0.22275348427510688,
+     "maxdd": -0.4907722339864967,
+     "cagr_since2019": 0.49711455645942393,
+     "final_nav": 65822383.726294175,
+     "n_all": 564,
+     "blk_limup": 10,
+     "sell_defer_limdn": 0
+    },
+    "200萬|+0": {
+     "cagr_full": 0.2240119164012926,
+     "maxdd": -0.4937400706622469,
+     "cagr_since2019": 0.49721064033279694,
+     "final_nav": 89477241.36508971,
+     "n_all": 577,
+     "blk_limup": 10,
+     "sell_defer_limdn": 0
+    },
+    "60萬|+1": {
+     "cagr_full": 0.19789841699707367,
+     "maxdd": -0.5013952689323706,
+     "cagr_since2019": 0.4595145911442289,
+     "final_nav": 17894773.020422205,
+     "n_all": 509,
+     "blk_limup": 11,
+     "sell_defer_limdn": 6
+    },
+    "80萬|+1": {
+     "cagr_full": 0.20661298408901896,
+     "maxdd": -0.47841082626497966,
+     "cagr_since2019": 0.46657135665441607,
+     "final_nav": 27343782.95194562,
+     "n_all": 548,
+     "blk_limup": 11,
+     "sell_defer_limdn": 6
+    },
+    "100萬|+1": {
+     "cagr_full": 0.20326994775246954,
+     "maxdd": -0.5005111304901338,
+     "cagr_since2019": 0.47054390838839866,
+     "final_nav": 32442308.295320082,
+     "n_all": 561,
+     "blk_limup": 11,
+     "sell_defer_limdn": 6
+    },
+    "150萬|+1": {
+     "cagr_full": 0.2099667490361392,
+     "maxdd": -0.49778678396847653,
+     "cagr_since2019": 0.47733391906706113,
+     "final_nav": 54016502.10568538,
+     "n_all": 590,
+     "blk_limup": 11,
+     "sell_defer_limdn": 7
+    },
+    "200萬|+1": {
+     "cagr_full": 0.20923295440762746,
+     "maxdd": -0.5008588814909507,
+     "cagr_since2019": 0.4794959567292907,
+     "final_nav": 71205113.10670283,
+     "n_all": 596,
+     "blk_limup": 11,
+     "sell_defer_limdn": 7
+    },
+    "60萬|+2": {
+     "cagr_full": 0.20443047619453103,
+     "maxdd": -0.5141867962417532,
+     "cagr_since2019": 0.43526712762255704,
+     "final_nav": 19821449.397616353,
+     "n_all": 518,
+     "blk_limup": 4,
+     "sell_defer_limdn": 2
+    },
+    "80萬|+2": {
+     "cagr_full": 0.2052154618816997,
+     "maxdd": -0.5021774482833143,
+     "cagr_since2019": 0.43455420699407044,
+     "final_nav": 26754372.695249893,
+     "n_all": 557,
+     "blk_limup": 4,
+     "sell_defer_limdn": 2
+    },
+    "100萬|+2": {
+     "cagr_full": 0.19943035152629185,
+     "maxdd": -0.5220959731288773,
+     "cagr_since2019": 0.4391232372066616,
+     "final_nav": 30550036.673012994,
+     "n_all": 565,
+     "blk_limup": 4,
+     "sell_defer_limdn": 3
+    },
+    "150萬|+2": {
+     "cagr_full": 0.20739941218935587,
+     "maxdd": -0.5264818476528397,
+     "cagr_since2019": 0.43363331055741994,
+     "final_nav": 51901586.47123197,
+     "n_all": 594,
+     "blk_limup": 4,
+     "sell_defer_limdn": 5
+    },
+    "200萬|+2": {
+     "cagr_full": 0.21535678706220174,
+     "maxdd": -0.5332076935963946,
+     "cagr_since2019": 0.45033764557634237,
+     "final_nav": 78300175.85636866,
+     "n_all": 600,
+     "blk_limup": 4,
+     "sell_defer_limdn": 5
+    },
+    "60萬|+3": {
+     "cagr_full": 0.20920158193942684,
+     "maxdd": -0.4966700005983682,
+     "cagr_since2019": 0.4621073231218873,
+     "final_nav": 21351115.294838544,
+     "n_all": 526,
+     "blk_limup": 5,
+     "sell_defer_limdn": 0
+    },
+    "80萬|+3": {
+     "cagr_full": 0.20832091611183512,
+     "maxdd": -0.4836101310388866,
+     "cagr_since2019": 0.45701907858258517,
+     "final_nav": 28080808.19867128,
+     "n_all": 558,
+     "blk_limup": 5,
+     "sell_defer_limdn": 0
+    },
+    "100萬|+3": {
+     "cagr_full": 0.20127995878762706,
+     "maxdd": -0.49944211827296126,
+     "cagr_since2019": 0.4584945595477865,
+     "final_nav": 31448144.496969357,
+     "n_all": 569,
+     "blk_limup": 5,
+     "sell_defer_limdn": 0
+    },
+    "150萬|+3": {
+     "cagr_full": 0.21096334649856252,
+     "maxdd": -0.5062934639575234,
+     "cagr_since2019": 0.4652452125610411,
+     "final_nav": 54859254.75662704,
+     "n_all": 605,
+     "blk_limup": 5,
+     "sell_defer_limdn": 0
+    },
+    "200萬|+3": {
+     "cagr_full": 0.21052881772032905,
+     "maxdd": -0.5144984527222936,
+     "cagr_since2019": 0.4660690602390183,
+     "final_nav": 72653713.23799527,
+     "n_all": 613,
+     "blk_limup": 5,
+     "sell_defer_limdn": 0
+    }
+   },
+   "limit_counts_std": {
+    "blk_limup": 10,
+    "sell_defer_limdn": 0,
+    "sell_defer_noopen": 10,
+    "n_buy": 539
+   },
+   "list_open_at_7pct_limup_pre_cut": [
+    {
+     "month": "2008-02",
+     "date": "2008-03-12",
+     "code": "2478",
+     "ref": 31.55,
+     "open": 33.75,
+     "close": 33.75,
+     "limup_7": 33.75,
+     "limup_10": 34.7,
+     "lock_10": false
+    },
+    {
+     "month": "2008-04",
+     "date": "2008-05-14",
+     "code": "2013",
+     "ref": 24.85,
+     "open": 26.55,
+     "close": 26.55,
+     "limup_7": 26.55,
+     "limup_10": 27.3,
+     "lock_10": false
+    },
+    {
+     "month": "2008-09",
+     "date": "2008-10-15",
+     "code": "1516",
+     "ref": 15.2,
+     "open": 16.25,
+     "close": 16.25,
+     "limup_7": 16.25,
+     "limup_10": 16.7,
+     "lock_10": false
+    },
+    {
+     "month": "2009-04",
+     "date": "2009-05-13",
+     "code": "6120",
+     "ref": 17.2,
+     "open": 18.4,
+     "close": 18.4,
+     "limup_7": 18.400000000000002,
+     "limup_10": 18.900000000000002,
+     "lock_10": false
+    },
+    {
+     "month": "2010-08",
+     "date": "2010-09-14",
+     "code": "3406",
+     "ref": 146.5,
+     "open": 156.5,
+     "close": 156.5,
+     "limup_7": 156.5,
+     "limup_10": 161.0,
+     "lock_10": false
+    },
+    {
+     "month": "2012-02",
+     "date": "2012-03-14",
+     "code": "8201",
+     "ref": 24.4,
+     "open": 26.1,
+     "close": 25.4,
+     "limup_7": 26.1,
+     "limup_10": 26.8,
+     "lock_10": false
+    }
+   ],
+   "top5pct": {
+    "n_all": 539,
+    "win_rate_all": 0.4749536178107607,
+    "mean_ret": 0.07102864035880233,
+    "median_ret": -0.007659149002312238,
+    "pnl_sum_all": 26101447.417705335,
+    "nav_gain": 38129688.03846498,
+    "ceil": {
+     "n_top": 27,
+     "threshold_ret": 0.6036121369964058,
+     "pnl_top": 17331342.631266322,
+     "share_of_trade_pnl": 0.6639992929859512,
+     "share_of_nav_gain": 0.4545367015272346
+    },
+    "round": {
+     "n_top": 27,
+     "threshold_ret": 0.6036121369964058,
+     "pnl_top": 17331342.631266322,
+     "share_of_trade_pnl": 0.6639992929859512,
+     "share_of_nav_gain": 0.4545367015272346
+    }
+   },
+   "signals_vs_S75": {
+    "n_months": 189,
+    "n_months_old": 189,
+    "sig_dates_same": true,
+    "months_targets_differ": []
+   },
+   "signals_same_as_v2_run": true
+  },
+  "V_BRIDGE": {
+   "final_nav": 52939143.42481164,
+   "cagr": 0.23501691470454178,
+   "maxdd": {
+    "maxdd": -0.4991061968672189,
+    "peak": "2008-05-19",
+    "trough": "2008-11-20",
+    "recovered": "2009-12-31"
+   },
+   "cagr_since2019": 0.49515588944226496,
+   "cagr_since2015_07": 0.3586543452746287,
+   "cagr_2008_2015H1": 0.06736445179612405,
+   "n_closed": 619,
+   "n_all": 627,
+   "win_rate": 0.481421647819063,
+   "final_nav_0050": 12841213.926646138,
+   "cagr_0050": 0.14540017944133665,
+   "maxdd_0050": {
+    "maxdd": -0.5238283034613551,
+    "peak": "2008-05-19",
+    "trough": "2008-11-20",
+    "recovered": "2010-12-03"
+   },
+   "cagr_0050_since2019": 0.2882066249416422,
+   "cagr_0050_since2015_07": 0.21079556558879609,
+   "cagr_0050_2008_2015H1": 0.05203449914615166,
+   "yearly": [
+    {
+     "year": 2008,
+     "strat": -0.3756985323775828,
+     "e0050": -0.4204355845714044,
+     "diff_pp": 4.473705219382163
+    },
+    {
+     "year": 2009,
+     "strat": 0.8373341060793424,
+     "e0050": 0.7499574695309648,
+     "diff_pp": 8.737663654837768
+    },
+    {
+     "year": 2010,
+     "strat": 0.18451940177065573,
+     "e0050": 0.13127596758668592,
+     "diff_pp": 5.324343418396982
+    },
+    {
+     "year": 2011,
+     "strat": -0.180012120551709,
+     "e0050": -0.15813542112967005,
+     "diff_pp": -2.187669942203896
+    },
+    {
+     "year": 2012,
+     "strat": 0.017664121806624244,
+     "e0050": 0.11924627384824205,
+     "diff_pp": -10.158215204161781
+    },
+    {
+     "year": 2013,
+     "strat": 0.19977594331456494,
+     "e0050": 0.11676163189656386,
+     "diff_pp": 8.301431141800109
+    },
+    {
+     "year": 2014,
+     "strat": 0.14797249882892394,
+     "e0050": 0.1666404920010789,
+     "diff_pp": -1.866799317215495
+    },
+    {
+     "year": 2015,
+     "strat": -0.03756168957319084,
+     "e0050": -0.06280604939102963,
+     "diff_pp": 2.524435981783879
+    },
+    {
+     "year": 2016,
+     "strat": 0.17610280000516587,
+     "e0050": 0.1964842757714964,
+     "diff_pp": -2.0381475766330537
+    },
+    {
+     "year": 2017,
+     "strat": 0.23380287334293315,
+     "e0050": 0.18138874239106406,
+     "diff_pp": 5.241413095186909
+    },
+    {
+     "year": 2018,
+     "strat": 0.04639758107686753,
+     "e0050": -0.04938498943668035,
+     "diff_pp": 9.578257051354788
+    },
+    {
+     "year": 2019,
+     "strat": 0.3077786553156301,
+     "e0050": 0.3352114527176173,
+     "diff_pp": -2.743279740198723
+    },
+    {
+     "year": 2020,
+     "strat": 1.0650153894047185,
+     "e0050": 0.3113903691522062,
+     "diff_pp": 75.36250202525123
+    },
+    {
+     "year": 2021,
+     "strat": 0.45619237157995385,
+     "e0050": 0.21923260965920655,
+     "diff_pp": 23.69597619207473
+    },
+    {
+     "year": 2022,
+     "strat": -0.1740590573183567,
+     "e0050": -0.2137467162023854,
+     "diff_pp": 3.96876588840287
+    },
+    {
+     "year": 2023,
+     "strat": 0.5665593998784999,
+     "e0050": 0.2751520190384438,
+     "diff_pp": 29.140738084005612
+    },
+    {
+     "year": 2024,
+     "strat": 0.6567258240412179,
+     "e0050": 0.4864399482353643,
+     "diff_pp": 17.028587580585363
+    },
+    {
+     "year": 2025,
+     "strat": 0.5689304153403691,
+     "e0050": 0.3685887558571568,
+     "diff_pp": 20.034165948321238
+    },
+    {
+     "year": 2026,
+     "strat": 0.7539675046386078,
+     "e0050": 0.6626297259520906,
+     "diff_pp": 9.133777868651727
+    }
+   ],
+   "years_win": 14,
+   "years_lose": 5,
+   "years_lost": [
+    2011,
+    2012,
+    2014,
+    2016,
+    2019
+   ],
+   "paths20": {
+    "cagr_full_median": 0.2269045541473168,
+    "cagr_full_min": 0.21323563671821155,
+    "cagr_full_max": 0.2384041014947822,
+    "maxdd_median": -0.49997662438154755,
+    "maxdd_worst": -0.5332076935963946
+   },
+   "paths": {
+    "60萬|+0": {
+     "cagr_full": 0.2350537673872608,
+     "maxdd": -0.49427604369758105,
+     "cagr_since2019": 0.49438806535230917,
+     "final_nav": 31781313.11747381,
+     "n_all": 578,
+     "blk_limup": 11,
+     "sell_defer_limdn": 0
+    },
+    "80萬|+0": {
+     "cagr_full": 0.23660211506380024,
+     "maxdd": -0.4873340399598872,
+     "cagr_since2019": 0.49513417333982357,
+     "final_nav": 43385236.58083084,
+     "n_all": 612,
+     "blk_limup": 11,
+     "sell_defer_limdn": 0
+    },
+    "100萬|+0": {
+     "cagr_full": 0.23501691470454178,
+     "maxdd": -0.4991061968672189,
+     "cagr_since2019": 0.49515588944226496,
+     "final_nav": 52939143.42481164,
+     "n_all": 627,
+     "blk_limup": 11,
+     "sell_defer_limdn": 0
+    },
+    "150萬|+0": {
+     "cagr_full": 0.2384041014947822,
+     "maxdd": -0.4907722339864967,
+     "cagr_since2019": 0.4929073155924204,
+     "final_nav": 83605442.76017481,
+     "n_all": 656,
+     "blk_limup": 11,
+     "sell_defer_limdn": 0
+    },
+    "200萬|+0": {
+     "cagr_full": 0.23769511375569574,
+     "maxdd": -0.4937400706622469,
+     "cagr_since2019": 0.488630771849077,
+     "final_nav": 110279996.42780808,
+     "n_all": 659,
+     "blk_limup": 11,
+     "sell_defer_limdn": 0
+    },
+    "60萬|+1": {
+     "cagr_full": 0.21807889214111387,
+     "maxdd": -0.5013952689323706,
+     "cagr_since2019": 0.47177685843805484,
+     "final_nav": 24499320.262266636,
+     "n_all": 597,
+     "blk_limup": 13,
+     "sell_defer_limdn": 6
+    },
+    "80萬|+1": {
+     "cagr_full": 0.22002197362554,
+     "maxdd": -0.47841082626497966,
+     "cagr_since2019": 0.46732620537314307,
+     "final_nav": 33659623.903077036,
+     "n_all": 636,
+     "blk_limup": 13,
+     "sell_defer_limdn": 6
+    },
+    "100萬|+1": {
+     "cagr_full": 0.22656676712130697,
+     "maxdd": -0.5005111304901338,
+     "cagr_since2019": 0.48152037746700205,
+     "final_nav": 46527542.08428863,
+     "n_all": 654,
+     "blk_limup": 13,
+     "sell_defer_limdn": 6
+    },
+    "150萬|+1": {
+     "cagr_full": 0.22724234117332665,
+     "maxdd": -0.49778678396847653,
+     "cagr_since2019": 0.48197269727789616,
+     "final_nav": 70517676.39851114,
+     "n_all": 684,
+     "blk_limup": 13,
+     "sell_defer_limdn": 7
+    },
+    "200萬|+1": {
+     "cagr_full": 0.22908088011444927,
+     "maxdd": -0.5008588814909507,
+     "cagr_since2019": 0.48166326427433015,
+     "final_nav": 96707805.94727583,
+     "n_all": 689,
+     "blk_limup": 13,
+     "sell_defer_limdn": 7
+    },
+    "60萬|+2": {
+     "cagr_full": 0.21968016020009395,
+     "maxdd": -0.5141867962417532,
+     "cagr_since2019": 0.4448624978877791,
+     "final_nav": 25112055.095868353,
+     "n_all": 604,
+     "blk_limup": 5,
+     "sell_defer_limdn": 2
+    },
+    "80萬|+2": {
+     "cagr_full": 0.22375902476355147,
+     "maxdd": -0.5021774482833143,
+     "cagr_since2019": 0.4356965356147322,
+     "final_nav": 35652105.03504259,
+     "n_all": 652,
+     "blk_limup": 5,
+     "sell_defer_limdn": 2
+    },
+    "100萬|+2": {
+     "cagr_full": 0.22168017136480334,
+     "maxdd": -0.5220959731288773,
+     "cagr_since2019": 0.4329149277434967,
+     "final_nav": 43162935.26665449,
+     "n_all": 668,
+     "blk_limup": 5,
+     "sell_defer_limdn": 3
+    },
+    "150萬|+2": {
+     "cagr_full": 0.2335233225543527,
+     "maxdd": -0.5264818476528397,
+     "cagr_since2019": 0.4489367188729749,
+     "final_nav": 77622233.96020079,
+     "n_all": 684,
+     "blk_limup": 5,
+     "sell_defer_limdn": 5
+    },
+    "200萬|+2": {
+     "cagr_full": 0.23576025976054615,
+     "maxdd": -0.5332076935963946,
+     "cagr_since2019": 0.4500725572058093,
+     "final_nav": 107083026.02898517,
+     "n_all": 693,
+     "blk_limup": 5,
+     "sell_defer_limdn": 5
+    },
+    "60萬|+3": {
+     "cagr_full": 0.21323563671821155,
+     "maxdd": -0.4966700005983682,
+     "cagr_since2019": 0.4596301391428128,
+     "final_nav": 22731024.390263595,
+     "n_all": 605,
+     "blk_limup": 5,
+     "sell_defer_limdn": 5
+    },
+    "80萬|+3": {
+     "cagr_full": 0.22018668611307146,
+     "maxdd": -0.4836101310388866,
+     "cagr_since2019": 0.4628280841267256,
+     "final_nav": 33745175.91250815,
+     "n_all": 653,
+     "blk_limup": 5,
+     "sell_defer_limdn": 5
+    },
+    "100萬|+3": {
+     "cagr_full": 0.2204819390543531,
+     "maxdd": -0.49944211827296126,
+     "cagr_since2019": 0.4615083478491939,
+     "final_nav": 42373808.04784666,
+     "n_all": 673,
+     "blk_limup": 5,
+     "sell_defer_limdn": 5
+    },
+    "150萬|+3": {
+     "cagr_full": 0.22413523393779533,
+     "maxdd": -0.5062934639575234,
+     "cagr_since2019": 0.46643476177217336,
+     "final_nav": 67235176.58590484,
+     "n_all": 701,
+     "blk_limup": 5,
+     "sell_defer_limdn": 5
+    },
+    "200萬|+3": {
+     "cagr_full": 0.2309548706704705,
+     "maxdd": -0.5144984527222936,
+     "cagr_since2019": 0.4627564131957498,
+     "final_nav": 99518369.19305837,
+     "n_all": 709,
+     "blk_limup": 5,
+     "sell_defer_limdn": 5
+    }
+   },
+   "limit_counts_std": {
+    "blk_limup": 11,
+    "sell_defer_limdn": 0,
+    "sell_defer_noopen": 10,
+    "n_buy": 627
+   },
+   "list_open_at_7pct_limup_pre_cut": [
+    {
+     "month": "2008-02",
+     "date": "2008-03-12",
+     "code": "2478",
+     "ref": 31.55,
+     "open": 33.75,
+     "close": 33.75,
+     "limup_7": 33.75,
+     "limup_10": 34.7,
+     "lock_10": false
+    },
+    {
+     "month": "2008-04",
+     "date": "2008-05-14",
+     "code": "2013",
+     "ref": 24.85,
+     "open": 26.55,
+     "close": 26.55,
+     "limup_7": 26.55,
+     "limup_10": 27.3,
+     "lock_10": false
+    },
+    {
+     "month": "2008-09",
+     "date": "2008-10-15",
+     "code": "1516",
+     "ref": 15.2,
+     "open": 16.25,
+     "close": 16.25,
+     "limup_7": 16.25,
+     "limup_10": 16.7,
+     "lock_10": false
+    },
+    {
+     "month": "2009-04",
+     "date": "2009-05-13",
+     "code": "6120",
+     "ref": 17.2,
+     "open": 18.4,
+     "close": 18.4,
+     "limup_7": 18.400000000000002,
+     "limup_10": 18.900000000000002,
+     "lock_10": false
+    },
+    {
+     "month": "2010-08",
+     "date": "2010-09-14",
+     "code": "3406",
+     "ref": 146.5,
+     "open": 156.5,
+     "close": 156.5,
+     "limup_7": 156.5,
+     "limup_10": 161.0,
+     "lock_10": false
+    },
+    {
+     "month": "2012-02",
+     "date": "2012-03-14",
+     "code": "8201",
+     "ref": 24.4,
+     "open": 26.1,
+     "close": 25.4,
+     "limup_7": 26.1,
+     "limup_10": 26.8,
+     "lock_10": false
+    },
+    {
+     "month": "2015-03",
+     "date": "2015-04-14",
+     "code": "4426",
+     "ref": 98.7,
+     "open": 105.5,
+     "close": 105.5,
+     "limup_7": 105.5,
+     "limup_10": 108.5,
+     "lock_10": false
+    }
+   ],
+   "top5pct": {
+    "n_all": 627,
+    "win_rate_all": 0.4784688995215311,
+    "mean_ret": 0.06998700154274998,
+    "median_ret": -0.007088510524357106,
+    "pnl_sum_all": 35496677.3062568,
+    "nav_gain": 51939143.42481164,
+    "ceil": {
+     "n_top": 32,
+     "threshold_ret": 0.5761741029506171,
+     "pnl_top": 24697710.83363234,
+     "share_of_trade_pnl": 0.6957752868119578,
+     "share_of_nav_gain": 0.47551247874130503
+    },
+    "round": {
+     "n_top": 31,
+     "threshold_ret": 0.5801805083156475,
+     "pnl_top": 24665321.05032224,
+     "share_of_trade_pnl": 0.6948628131448974,
+     "share_of_nav_gain": 0.4748888684702387
+    }
+   },
+   "signals_vs_S75": {
+    "n_months": 225,
+    "n_months_old": 225,
+    "sig_dates_same": true,
+    "months_targets_differ": []
+   },
+   "signals_same_as_v2_run": true
+  }
+ },
+ "runtime_s": 26.2,
+ "maxrss_mb": 1340
+}
