@@ -26,11 +26,13 @@ for ln in sec.split('\n'):
 assert [r['編號'] for r in rows] == list(range(1, 8)), [r['編號'] for r in rows]
 paras = [p.strip() for p in sec.split('\n') if p.strip() and not p.startswith('|') and not p.startswith('#')]
 intro = paras[0]; bullets = [p[2:] for p in paras if p.startswith('- ')]
-assert intro.startswith('2008～2026 連續帳戶 632 筆交易') and len(bullets) == 2 and bullets[1].startswith('出處'), (intro, bullets)
+assert intro.startswith('2008～2026 連續帳戶 627 筆交易') and len(bullets) >= 2 and bullets[1].startswith('出處'), (intro, bullets)   # 2026-11-26：632 → 627（S75 v3）；== 2 → >= 2（README 該節後來多了一點「網站區塊」說明，原程式已跑不過）
+note = [p for p in paras if p.startswith('口徑註記')]; assert len(note) == 1, note   # 2026-11-26 加：v3 口徑註記
 meta = [{'label': '產生程式', 'value': 'research/tw_stock_selection/agents/eng_v2_candidate_and_site/make_rules.py'},
         {'label': '標題', 'value': '這個策略靠少數大贏家：7 條操作須知'},
         {'label': '摘要', 'value': intro},
         {'label': '補充', 'value': bullets[0]},
+        {'label': '口徑註記', 'value': note[0]},
         {'label': '重現說明', 'value': '第 1～5 條的主要數字已由獨立複製（R82）重現；第 6、7 條的數字未獨立重現。都是 2008～2026 歷史回測，不保證未來。'},
         {'label': '出處', 'value': 'xq_scripts/README.md 第 32.1 節（S82；R82）。' + bullets[1].replace('出處：', '').replace('`', '')},
         {'label': 'README 段落標題', 'value': head.lstrip('# ').strip()},
