@@ -1,0 +1,61 @@
+{
+ "written_at": "2026-11-27T19:52:46",
+ "PREREG_sha256": "52c3366842d5b275f1af5c16fa576abbc7e84374b6ee5b5d0b99acea30561804",
+ "selection": {
+  "K1": {
+   "order": [
+    "K1|rebal|all|none",
+    "K1|rebal|all|ret20neg",
+    "K1|rebal|large150|ret20neg",
+    "K1|ma60|large150|ret20neg",
+    "K1|ma60|all|none",
+    "K1|rebal|large150|none",
+    "K1|ma60|all|ret20neg",
+    "K1|ma60|large150|none"
+   ],
+   "frozen": "K1|rebal|all|none",
+   "T0": false
+  },
+  "K2": {
+   "order": [
+    "K2|v20M|slope5|short_small",
+    "K2|v100M|slope5|short_small",
+    "K2|v20M|slope5|short_large150",
+    "K2|v100M|slope1|short_small",
+    "K2|v20M|slope1|short_small",
+    "K2|v100M|slope5|short_large150",
+    "K2|v100M|slope1|short_large150",
+    "K2|v20M|slope1|short_large150"
+   ],
+   "frozen": "K2|v20M|slope5|short_small",
+   "T0": true
+  },
+  "K3": {
+   "order": [
+    "K3|T90|f20",
+    "K3|T120|f20",
+    "K3|T90|f10",
+    "K3|T120|f10"
+   ],
+   "frozen": "K3|T90|f20",
+   "T0": false
+  }
+ },
+ "frozen_params": {
+  "K1": {
+   "exit": "rebal",
+   "univ": "all",
+   "filt": "none"
+  },
+  "K2": {
+   "thr": 20000000.0,
+   "w": 5,
+   "short_univ": "small"
+  },
+  "K3": {
+   "tenor": 90,
+   "f": 0.2
+  }
+ },
+ "note": "凍結後 validate.py 只跑一次；不換格、不換題。T0 不過者驗證期只描述，判定必為不通過。"
+}
