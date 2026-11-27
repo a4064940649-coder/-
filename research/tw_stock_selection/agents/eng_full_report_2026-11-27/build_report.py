@@ -1119,7 +1119,7 @@ _LAZY_JS = """<script>
 
 def harden_html(html):
     import re
-    js = PLOTLY_LOCAL.read_text(encoding='utf-8')
+    js = PLOTLY_LOCAL.read_text(encoding='utf-8').replace('\ufffd', '\\ufffd')   # 4 處皆在 JS 字串常值內，跳脫後等價
     tag = f'<script src="{PLOTLY_CDN}"></script>'
     assert html.count(tag) == 1
     n = html.count('Plotly.newPlot(')
