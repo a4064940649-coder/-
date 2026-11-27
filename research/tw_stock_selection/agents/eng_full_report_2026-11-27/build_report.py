@@ -1267,9 +1267,9 @@ def build_html(c):
 <li><a href="#ch1">第一章 · 總覽</a></li>
 <li><a href="#ch2">第二章 · 策略邏輯</a></li>
 <li><a href="#ch3">第三章 · 績效統計</a></li>
-<li><a href="#ch4">第四章 · 視覺化分析</a></li>
+<li><a href="#ch4">第四章 · 視覺化分析 (4 互動圖)</a></li>
 <li><a href="#ch5">第五章 · 蒙地卡羅模擬</a></li>
-<li><a href="#ch6">第六章 · 滾動報酬分析</a></li>
+<li><a href="#ch6">第六章 · 滾動報酬分析 (Rolling Returns)</a></li>
 <li><a href="#ch7">第七章 · 風險管理</a></li>
 <li><a href="#ch8">第八章 · 實單 SOP</a></li>
 </ol>
