@@ -1093,6 +1093,42 @@ def cell_class(judge):
     return 'warn'  # △ 也用 warn 樣式（規格書原文）
 
 
+
+# ---- 修正（2026-11-27，使用者回報部分圖空白）：
+# 1) plotly.js 2.35.2 直接內嵌（不依賴 CDN，離線／擋外部腳本的檢視器也能畫）
+# 2) 每張圖進入畫面才繪製，並 try/catch；失敗時在圖框內顯示錯誤訊息，不再一片空白
+# 3) 日期字串去掉 T00:00:00.000000000，減少檔案大小
+PLOTLY_LOCAL = Path(__file__).resolve().parent / 'plotly-2.35.2.min.js'
+_LAZY_JS = """<script>
+(function(){
+  var q=[];
+  function draw(a){
+    try{ var r=Plotly.newPlot.apply(Plotly,a); if(r&&r.catch){r.catch(function(e){fail(a[0],e);});} }
+    catch(e){ fail(a[0],e); }
+  }
+  function fail(id,e){ var d=document.getElementById(id); if(d){ d.innerHTML='<div style="padding:20px;color:#e74c3c">圖表載入失敗：'+(e&&e.message?e.message:e)+'（請改用電腦版 Chrome／Edge 開啟）</div>'; } }
+  window.__plot=function(){
+    var a=arguments, el=document.getElementById(a[0]);
+    if(!window.Plotly){ fail(a[0],'Plotly 未載入'); return; }
+    if(!el||!('IntersectionObserver' in window)){ draw(a); return; }
+    var io=new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ io.disconnect(); draw(a); } }); },{rootMargin:'600px 0px'});
+    io.observe(el);
+  };
+})();
+</script>"""
+
+def harden_html(html):
+    import re
+    js = PLOTLY_LOCAL.read_text(encoding='utf-8')
+    tag = f'<script src="{PLOTLY_CDN}"></script>'
+    assert html.count(tag) == 1
+    n = html.count('Plotly.newPlot(')
+    assert n == 16, n
+    html = html.replace('Plotly.newPlot(', 'window.__plot(')
+    html = html.replace('T00:00:00.000000000', '')
+    html = html.replace(tag, '<script>' + js.replace('</script', '<\\/script') + '</script>' + _LAZY_JS)
+    return html
+
 def main(eng=None):
     eng = eng or run_engine()
     res = build_res(eng); lg = eng['lg']; chk = eng['chk']
@@ -1195,6 +1231,7 @@ def main(eng=None):
     OUT_JSON.write_text(json.dumps(jclean(out), ensure_ascii=False, indent=1), encoding='utf-8')
 
     html = build_html(locals())  # 含 ctrl
+    html = harden_html(html)
     OUT_HTML.write_text(html, encoding='utf-8')
     shutil.copyfile(OUT_HTML, OUT_COPY)
     print(f'  → {OUT_HTML.name}  ({OUT_HTML.stat().st_size / 1024:.0f} KB)；複製到 {OUT_COPY}', flush=True)
@@ -1854,7 +1891,7 @@ N/A（本策略只做多，沒有空單）
 <a href="#" class="back-top" title="回到頂部">↑</a>
 <p class="footer">
 {strategy_name} 完整報告 | 樣本期間 {start_date} ~ {end_date}<br>
-依「策略完整報告 — 框架規格書」產出（股票月頻長多改編版）；Plotly 2.35.2 由 cdnjs 載入（改編：規格為 cdn.plot.ly，同版本）；重現：python3 -I -B build_report.py
+依「策略完整報告 — 框架規格書」產出（股票月頻長多改編版）；Plotly 2.35.2 直接內嵌於檔案（改編：規格為 CDN 載入，同版本；內嵌後離線也能顯示）；重現：python3 -I -B build_report.py
 </p>
 </body></html>"""
 
