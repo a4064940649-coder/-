@@ -1,0 +1,1861 @@
+{
+ "assumptions": {
+  "fee_app": 20.0,
+  "fee_mail_if_win": 50.0,
+  "refund_fee": 0,
+  "sell_cost": 0.004425,
+  "sell_price": "撥券日（上市櫃日）開盤價；另報收盤、均價",
+  "freeze_window": "[申購結束日, 抽籤日+1 營業日] 全額（價款+20+50）；中籤者另以 p×價款 占用到賣出日+2 營業日",
+  "e50_roundtrip": 0.00385,
+  "e50_roundtrip_disc": 0.0017980000000000001,
+  "e50_days_out": 7,
+  "e50_excess_over_deposit": 0.1,
+  "decision_price": "現增：申購結束日前一交易日收盤（日 K）；IPO：CSV 興櫃價（申購結束日收盤，輕微前視）",
+  "win_prob": "官方實際中籤率（事後值，但只當期望值的機率，不用來篩選）"
+ },
+ "coverage": {
+  "rows_csv": 965,
+  "rows_drawn_with_px": 951,
+  "rows_with_sell_price": 951,
+  "missing_sell": [],
+  "undrawn_excluded": 10,
+  "sell_lag_gt3d": 0
+ },
+ "recheck_original": {
+  "rows_valid": 925,
+  "avg_ret_pct": 31.5,
+  "share_profitable_pct": 98.2,
+  "avg_ev_per_app": 171.0,
+  "sum_ev_by_year": {
+   "2020": 575,
+   "2021": 19486,
+   "2022": 24809,
+   "2023": 14150,
+   "2024": 23248,
+   "2025": 46903,
+   "2026": 28644
+  },
+  "note": "原 ipo_lottery_ev.py 的取消判定字串（Y/是）對不到 CSV 的「取消申購」，但這 3 列承銷價為空已被排除，不影響結果；14 列 2026-09 未抽籤（中籤率 0）被當成 −20 元計入。"
+ },
+ "yearly_by_policy": [
+  {
+   "policy": "P0_全部申購",
+   "year": 2020,
+   "n_apps": 107,
+   "fees_20": 2140.0,
+   "exp_wins": 9.15,
+   "gross_EV_sum_p_gain": 4911.0,
+   "net_EV": 2771.0,
+   "net_EV_orig_basis": 575.0,
+   "top3_share_of_gross": 1.17,
+   "sim_p10": -10595.0,
+   "sim_median": -5269.0,
+   "sim_p90": 27859.0,
+   "sim_prob_neg": 0.684,
+   "breaks_n": 7,
+   "exp_break_wins": 4.72
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2021,
+   "n_apps": 142,
+   "fees_20": 2840.0,
+   "exp_wins": 5.8,
+   "gross_EV_sum_p_gain": 35738.0,
+   "net_EV": 32898.0,
+   "net_EV_orig_basis": 19486.0,
+   "top3_share_of_gross": 0.45,
+   "sim_p10": 3454.0,
+   "sim_median": 12550.0,
+   "sim_p90": 95565.0,
+   "sim_prob_neg": 0.016,
+   "breaks_n": 7,
+   "exp_break_wins": 2.27
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2022,
+   "n_apps": 132,
+   "fees_20": 2640.0,
+   "exp_wins": 12.15,
+   "gross_EV_sum_p_gain": 2129.0,
+   "net_EV": -511.0,
+   "net_EV_orig_basis": 24809.0,
+   "top3_share_of_gross": 3.7,
+   "sim_p10": -40655.0,
+   "sim_median": 1821.0,
+   "sim_p90": 24499.0,
+   "sim_prob_neg": 0.441,
+   "breaks_n": 13,
+   "exp_break_wins": 6.57
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2023,
+   "n_apps": 137,
+   "fees_20": 2740.0,
+   "exp_wins": 3.17,
+   "gross_EV_sum_p_gain": 12153.0,
+   "net_EV": 9413.0,
+   "net_EV_orig_basis": 14150.0,
+   "top3_share_of_gross": 0.28,
+   "sim_p10": -6896.0,
+   "sim_median": 647.0,
+   "sim_p90": 31753.0,
+   "sim_prob_neg": 0.472,
+   "breaks_n": 3,
+   "exp_break_wins": 0.88
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2024,
+   "n_apps": 167,
+   "fees_20": 3340.0,
+   "exp_wins": 5.93,
+   "gross_EV_sum_p_gain": 23067.0,
+   "net_EV": 19727.0,
+   "net_EV_orig_basis": 23248.0,
+   "top3_share_of_gross": 0.31,
+   "sim_p10": -9244.0,
+   "sim_median": 2798.0,
+   "sim_p90": 80663.0,
+   "sim_prob_neg": 0.444,
+   "breaks_n": 15,
+   "exp_break_wins": 3.45
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2025,
+   "n_apps": 159,
+   "fees_20": 3180.0,
+   "exp_wins": 5.71,
+   "gross_EV_sum_p_gain": 57102.0,
+   "net_EV": 53922.0,
+   "net_EV_orig_basis": 46903.0,
+   "top3_share_of_gross": 0.53,
+   "sim_p10": -2476.0,
+   "sim_median": 8046.0,
+   "sim_p90": 121247.0,
+   "sim_prob_neg": 0.194,
+   "breaks_n": 12,
+   "exp_break_wins": 1.14
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2026,
+   "n_apps": 107,
+   "fees_20": 2140.0,
+   "exp_wins": 4.21,
+   "gross_EV_sum_p_gain": 18570.0,
+   "net_EV": 16430.0,
+   "net_EV_orig_basis": 28844.0,
+   "top3_share_of_gross": 0.38,
+   "sim_p10": -6514.0,
+   "sim_median": 764.0,
+   "sim_p90": 35197.0,
+   "sim_prob_neg": 0.473,
+   "breaks_n": 16,
+   "exp_break_wins": 2.46
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2020,
+   "n_apps": 86,
+   "fees_20": 1720.0,
+   "exp_wins": 1.76,
+   "gross_EV_sum_p_gain": 13264.0,
+   "net_EV": 11544.0,
+   "net_EV_orig_basis": 8924.0,
+   "top3_share_of_gross": 0.41,
+   "sim_p10": -1720.0,
+   "sim_median": 3254.0,
+   "sim_p90": 37042.0,
+   "sim_prob_neg": 0.236,
+   "breaks_n": 2,
+   "exp_break_wins": 0.01
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2021,
+   "n_apps": 121,
+   "fees_20": 2420.0,
+   "exp_wins": 1.85,
+   "gross_EV_sum_p_gain": 19383.0,
+   "net_EV": 16963.0,
+   "net_EV_orig_basis": 17860.0,
+   "top3_share_of_gross": 0.34,
+   "sim_p10": -2420.0,
+   "sim_median": 4607.0,
+   "sim_p90": 50459.0,
+   "sim_prob_neg": 0.289,
+   "breaks_n": 0,
+   "exp_break_wins": 0.0
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2022,
+   "n_apps": 117,
+   "fees_20": 2340.0,
+   "exp_wins": 4.82,
+   "gross_EV_sum_p_gain": 15967.0,
+   "net_EV": 13627.0,
+   "net_EV_orig_basis": 22138.0,
+   "top3_share_of_gross": 0.23,
+   "sim_p10": -584.0,
+   "sim_median": 7515.0,
+   "sim_p90": 30717.0,
+   "sim_prob_neg": 0.148,
+   "breaks_n": 3,
+   "exp_break_wins": 1.1
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2023,
+   "n_apps": 127,
+   "fees_20": 2540.0,
+   "exp_wins": 1.75,
+   "gross_EV_sum_p_gain": 10578.0,
+   "net_EV": 8038.0,
+   "net_EV_orig_basis": 13664.0,
+   "top3_share_of_gross": 0.16,
+   "sim_p10": -2540.0,
+   "sim_median": 1334.0,
+   "sim_p90": 24419.0,
+   "sim_prob_neg": 0.416,
+   "breaks_n": 1,
+   "exp_break_wins": 0.03
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2024,
+   "n_apps": 149,
+   "fees_20": 2980.0,
+   "exp_wins": 2.42,
+   "gross_EV_sum_p_gain": 20896.0,
+   "net_EV": 17916.0,
+   "net_EV_orig_basis": 24313.0,
+   "top3_share_of_gross": 0.26,
+   "sim_p10": -2980.0,
+   "sim_median": 4471.0,
+   "sim_p90": 59954.0,
+   "sim_prob_neg": 0.311,
+   "breaks_n": 6,
+   "exp_break_wins": 0.34
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2025,
+   "n_apps": 138,
+   "fees_20": 2760.0,
+   "exp_wins": 2.86,
+   "gross_EV_sum_p_gain": 46901.0,
+   "net_EV": 44141.0,
+   "net_EV_orig_basis": 49976.0,
+   "top3_share_of_gross": 0.57,
+   "sim_p10": -1727.0,
+   "sim_median": 5676.0,
+   "sim_p90": 70061.0,
+   "sim_prob_neg": 0.227,
+   "breaks_n": 5,
+   "exp_break_wins": 0.29
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2026,
+   "n_apps": 94,
+   "fees_20": 1880.0,
+   "exp_wins": 1.9,
+   "gross_EV_sum_p_gain": 18032.0,
+   "net_EV": 16152.0,
+   "net_EV_orig_basis": 25130.0,
+   "top3_share_of_gross": 0.4,
+   "sim_p10": -2313.0,
+   "sim_median": 769.0,
+   "sim_p90": 25053.0,
+   "sim_prob_neg": 0.453,
+   "breaks_n": 10,
+   "exp_break_wins": 0.6
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2020,
+   "n_apps": 75,
+   "fees_20": 1500.0,
+   "exp_wins": 0.91,
+   "gross_EV_sum_p_gain": 7721.0,
+   "net_EV": 6221.0,
+   "net_EV_orig_basis": 7252.0,
+   "top3_share_of_gross": 0.22,
+   "sim_p10": -1500.0,
+   "sim_median": -421.0,
+   "sim_p90": 14530.0,
+   "sim_prob_neg": 0.534,
+   "breaks_n": 2,
+   "exp_break_wins": 0.01
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2021,
+   "n_apps": 105,
+   "fees_20": 2100.0,
+   "exp_wins": 1.37,
+   "gross_EV_sum_p_gain": 13122.0,
+   "net_EV": 11022.0,
+   "net_EV_orig_basis": 13402.0,
+   "top3_share_of_gross": 0.21,
+   "sim_p10": -2100.0,
+   "sim_median": 2434.0,
+   "sim_p90": 30247.0,
+   "sim_prob_neg": 0.376,
+   "breaks_n": 0,
+   "exp_break_wins": 0.0
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2022,
+   "n_apps": 99,
+   "fees_20": 1980.0,
+   "exp_wins": 1.62,
+   "gross_EV_sum_p_gain": 12803.0,
+   "net_EV": 10823.0,
+   "net_EV_orig_basis": 17222.0,
+   "top3_share_of_gross": 0.23,
+   "sim_p10": -1980.0,
+   "sim_median": 4426.0,
+   "sim_p90": 27746.0,
+   "sim_prob_neg": 0.294,
+   "breaks_n": 1,
+   "exp_break_wins": 0.09
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2023,
+   "n_apps": 117,
+   "fees_20": 2340.0,
+   "exp_wins": 1.03,
+   "gross_EV_sum_p_gain": 10023.0,
+   "net_EV": 7683.0,
+   "net_EV_orig_basis": 12869.0,
+   "top3_share_of_gross": 0.17,
+   "sim_p10": -2340.0,
+   "sim_median": 1047.0,
+   "sim_p90": 23912.0,
+   "sim_prob_neg": 0.426,
+   "breaks_n": 1,
+   "exp_break_wins": 0.03
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2024,
+   "n_apps": 131,
+   "fees_20": 2620.0,
+   "exp_wins": 1.81,
+   "gross_EV_sum_p_gain": 18650.0,
+   "net_EV": 16030.0,
+   "net_EV_orig_basis": 22453.0,
+   "top3_share_of_gross": 0.28,
+   "sim_p10": -2620.0,
+   "sim_median": 2951.0,
+   "sim_p90": 51314.0,
+   "sim_prob_neg": 0.296,
+   "breaks_n": 4,
+   "exp_break_wins": 0.11
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2025,
+   "n_apps": 115,
+   "fees_20": 2300.0,
+   "exp_wins": 1.2,
+   "gross_EV_sum_p_gain": 43978.0,
+   "net_EV": 41678.0,
+   "net_EV_orig_basis": 47162.0,
+   "top3_share_of_gross": 0.61,
+   "sim_p10": -2300.0,
+   "sim_median": 2852.0,
+   "sim_p90": 66167.0,
+   "sim_prob_neg": 0.389,
+   "breaks_n": 3,
+   "exp_break_wins": 0.09
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2026,
+   "n_apps": 88,
+   "fees_20": 1760.0,
+   "exp_wins": 1.6,
+   "gross_EV_sum_p_gain": 17498.0,
+   "net_EV": 15738.0,
+   "net_EV_orig_basis": 24292.0,
+   "top3_share_of_gross": 0.41,
+   "sim_p10": -2010.0,
+   "sim_median": 142.0,
+   "sim_p90": 24196.0,
+   "sim_prob_neg": 0.493,
+   "breaks_n": 9,
+   "exp_break_wins": 0.44
+  }
+ ],
+ "freeze_by_policy": [
+  {
+   "policy": "P0_全部申購",
+   "year": 2020,
+   "max_frozen": 783352.0,
+   "max_date": "2020-12-18",
+   "p95_frozen": 378278.0,
+   "mean_frozen": 115575.0,
+   "days_with_freeze_pct": 75.9,
+   "max_single_lot": 498000.0,
+   "median_lot": 45000.0
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2021,
+   "max_frozen": 925070.0,
+   "max_date": "2021-10-08",
+   "p95_frozen": 491786.0,
+   "mean_frozen": 168018.0,
+   "days_with_freeze_pct": 84.0,
+   "max_single_lot": 718000.0,
+   "median_lot": 46000.0
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2022,
+   "max_frozen": 939973.0,
+   "max_date": "2022-03-07",
+   "p95_frozen": 458249.0,
+   "mean_frozen": 161412.0,
+   "days_with_freeze_pct": 89.8,
+   "max_single_lot": 760000.0,
+   "median_lot": 41500.0
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2023,
+   "max_frozen": 825155.0,
+   "max_date": "2023-03-28",
+   "p95_frozen": 582510.0,
+   "mean_frozen": 163178.0,
+   "days_with_freeze_pct": 86.6,
+   "max_single_lot": 660000.0,
+   "median_lot": 45000.0
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2024,
+   "max_frozen": 910705.0,
+   "max_date": "2024-12-02",
+   "p95_frozen": 645480.0,
+   "mean_frozen": 231429.0,
+   "days_with_freeze_pct": 84.7,
+   "max_single_lot": 508000.0,
+   "median_lot": 59000.0
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2025,
+   "max_frozen": 1983498.0,
+   "max_date": "2025-11-19",
+   "p95_frozen": 842899.0,
+   "mean_frozen": 271112.0,
+   "days_with_freeze_pct": 87.2,
+   "max_single_lot": 1495000.0,
+   "median_lot": 53000.0
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2026,
+   "max_frozen": 1209498.0,
+   "max_date": "2026-03-20",
+   "p95_frozen": 698252.0,
+   "mean_frozen": 194196.0,
+   "days_with_freeze_pct": 75.8,
+   "max_single_lot": 780000.0,
+   "median_lot": 50000.0
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2020,
+   "max_frozen": 691234.0,
+   "max_date": "2020-12-18",
+   "p95_frozen": 308456.0,
+   "mean_frozen": 88550.0,
+   "days_with_freeze_pct": 68.2,
+   "max_single_lot": 498000.0,
+   "median_lot": 45750.0
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2021,
+   "max_frozen": 925070.0,
+   "max_date": "2021-10-08",
+   "p95_frozen": 470557.0,
+   "mean_frozen": 139035.0,
+   "days_with_freeze_pct": 78.3,
+   "max_single_lot": 718000.0,
+   "median_lot": 41000.0
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2022,
+   "max_frozen": 930622.0,
+   "max_date": "2022-03-07",
+   "p95_frozen": 443892.0,
+   "mean_frozen": 136653.0,
+   "days_with_freeze_pct": 83.7,
+   "max_single_lot": 760000.0,
+   "median_lot": 41000.0
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2023,
+   "max_frozen": 807052.0,
+   "max_date": "2023-03-28",
+   "p95_frozen": 515192.0,
+   "mean_frozen": 150832.0,
+   "days_with_freeze_pct": 84.5,
+   "max_single_lot": 660000.0,
+   "median_lot": 45000.0
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2024,
+   "max_frozen": 785565.0,
+   "max_date": "2024-12-02",
+   "p95_frozen": 643376.0,
+   "mean_frozen": 210435.0,
+   "days_with_freeze_pct": 82.2,
+   "max_single_lot": 508000.0,
+   "median_lot": 60000.0
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2025,
+   "max_frozen": 1980050.0,
+   "max_date": "2025-11-19",
+   "p95_frozen": 839896.0,
+   "mean_frozen": 236574.0,
+   "days_with_freeze_pct": 81.5,
+   "max_single_lot": 1495000.0,
+   "median_lot": 53000.0
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2026,
+   "max_frozen": 1193906.0,
+   "max_date": "2026-03-20",
+   "p95_frozen": 514350.0,
+   "mean_frozen": 158479.0,
+   "days_with_freeze_pct": 73.2,
+   "max_single_lot": 780000.0,
+   "median_lot": 50250.0
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2020,
+   "max_frozen": 624750.0,
+   "max_date": "2020-12-18",
+   "p95_frozen": 299479.0,
+   "mean_frozen": 78894.0,
+   "days_with_freeze_pct": 61.6,
+   "max_single_lot": 498000.0,
+   "median_lot": 46000.0
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2021,
+   "max_frozen": 647116.0,
+   "max_date": "2021-01-15",
+   "p95_frozen": 403449.0,
+   "mean_frozen": 111361.0,
+   "days_with_freeze_pct": 75.8,
+   "max_single_lot": 432000.0,
+   "median_lot": 40000.0
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2022,
+   "max_frozen": 928465.0,
+   "max_date": "2022-03-07",
+   "p95_frozen": 437512.0,
+   "mean_frozen": 121644.0,
+   "days_with_freeze_pct": 78.9,
+   "max_single_lot": 760000.0,
+   "median_lot": 41000.0
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2023,
+   "max_frozen": 805728.0,
+   "max_date": "2023-03-28",
+   "p95_frozen": 471363.0,
+   "mean_frozen": 144701.0,
+   "days_with_freeze_pct": 83.3,
+   "max_single_lot": 660000.0,
+   "median_lot": 45000.0
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2024,
+   "max_frozen": 785565.0,
+   "max_date": "2024-12-02",
+   "p95_frozen": 487055.0,
+   "mean_frozen": 181146.0,
+   "days_with_freeze_pct": 81.4,
+   "max_single_lot": 508000.0,
+   "median_lot": 60000.0
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2025,
+   "max_frozen": 1699980.0,
+   "max_date": "2025-11-19",
+   "p95_frozen": 835216.0,
+   "mean_frozen": 214339.0,
+   "days_with_freeze_pct": 74.5,
+   "max_single_lot": 1495000.0,
+   "median_lot": 56500.0
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2026,
+   "max_frozen": 1189888.0,
+   "max_date": "2026-03-20",
+   "p95_frozen": 514350.0,
+   "mean_frozen": 150359.0,
+   "days_with_freeze_pct": 71.2,
+   "max_single_lot": 780000.0,
+   "median_lot": 50000.0
+  }
+ ],
+ "cash_pool_sim": [
+  {
+   "cash_pool": 100000,
+   "priority": "ret_dec",
+   "year": 2020,
+   "n_apps": 50,
+   "net_EV": 4414.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -5586.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "ret_dec",
+   "year": 2021,
+   "n_apps": 65,
+   "net_EV": 3921.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -6079.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "ret_dec",
+   "year": 2022,
+   "n_apps": 64,
+   "net_EV": 3516.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -6484.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "ret_dec",
+   "year": 2023,
+   "n_apps": 71,
+   "net_EV": 3709.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -6291.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "ret_dec",
+   "year": 2024,
+   "n_apps": 67,
+   "net_EV": 4962.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -5038.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "ret_dec",
+   "year": 2025,
+   "n_apps": 63,
+   "net_EV": 5528.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -4472.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "ret_dec",
+   "year": 2026,
+   "n_apps": 49,
+   "net_EV": 3071.0,
+   "opp_cost_if_pool_else_in_0050": 7500.0,
+   "EV_minus_opp": -4429.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "dec_amt",
+   "year": 2020,
+   "n_apps": 49,
+   "net_EV": 4258.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -5742.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "dec_amt",
+   "year": 2021,
+   "n_apps": 65,
+   "net_EV": 3921.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -6079.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "dec_amt",
+   "year": 2022,
+   "n_apps": 64,
+   "net_EV": 3494.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -6506.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "dec_amt",
+   "year": 2023,
+   "n_apps": 69,
+   "net_EV": 3556.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -6444.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "dec_amt",
+   "year": 2024,
+   "n_apps": 67,
+   "net_EV": 4993.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -5007.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "dec_amt",
+   "year": 2025,
+   "n_apps": 63,
+   "net_EV": 5026.0,
+   "opp_cost_if_pool_else_in_0050": 10000.0,
+   "EV_minus_opp": -4974.0
+  },
+  {
+   "cash_pool": 100000,
+   "priority": "dec_amt",
+   "year": 2026,
+   "n_apps": 49,
+   "net_EV": 3112.0,
+   "opp_cost_if_pool_else_in_0050": 7500.0,
+   "EV_minus_opp": -4388.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "ret_dec",
+   "year": 2020,
+   "n_apps": 72,
+   "net_EV": 8940.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -11060.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "ret_dec",
+   "year": 2021,
+   "n_apps": 97,
+   "net_EV": 7234.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -12766.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "ret_dec",
+   "year": 2022,
+   "n_apps": 89,
+   "net_EV": 8579.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -11421.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "ret_dec",
+   "year": 2023,
+   "n_apps": 104,
+   "net_EV": 5591.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -14409.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "ret_dec",
+   "year": 2024,
+   "n_apps": 96,
+   "net_EV": 8983.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -11017.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "ret_dec",
+   "year": 2025,
+   "n_apps": 93,
+   "net_EV": 7624.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -12376.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "ret_dec",
+   "year": 2026,
+   "n_apps": 71,
+   "net_EV": 5556.0,
+   "opp_cost_if_pool_else_in_0050": 15000.0,
+   "EV_minus_opp": -9444.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "dec_amt",
+   "year": 2020,
+   "n_apps": 72,
+   "net_EV": 8940.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -11060.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "dec_amt",
+   "year": 2021,
+   "n_apps": 97,
+   "net_EV": 7174.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -12826.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "dec_amt",
+   "year": 2022,
+   "n_apps": 89,
+   "net_EV": 8744.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -11256.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "dec_amt",
+   "year": 2023,
+   "n_apps": 101,
+   "net_EV": 5570.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -14430.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "dec_amt",
+   "year": 2024,
+   "n_apps": 94,
+   "net_EV": 9004.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -10996.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "dec_amt",
+   "year": 2025,
+   "n_apps": 91,
+   "net_EV": 7211.0,
+   "opp_cost_if_pool_else_in_0050": 20000.0,
+   "EV_minus_opp": -12789.0
+  },
+  {
+   "cash_pool": 200000,
+   "priority": "dec_amt",
+   "year": 2026,
+   "n_apps": 71,
+   "net_EV": 5597.0,
+   "opp_cost_if_pool_else_in_0050": 15000.0,
+   "EV_minus_opp": -9403.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "ret_dec",
+   "year": 2020,
+   "n_apps": 76,
+   "net_EV": 9987.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -20013.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "ret_dec",
+   "year": 2021,
+   "n_apps": 105,
+   "net_EV": 10093.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -19907.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "ret_dec",
+   "year": 2022,
+   "n_apps": 104,
+   "net_EV": 9804.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -20196.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "ret_dec",
+   "year": 2023,
+   "n_apps": 113,
+   "net_EV": 5836.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -24164.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "ret_dec",
+   "year": 2024,
+   "n_apps": 119,
+   "net_EV": 10032.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -19968.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "ret_dec",
+   "year": 2025,
+   "n_apps": 108,
+   "net_EV": 9658.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -20342.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "ret_dec",
+   "year": 2026,
+   "n_apps": 79,
+   "net_EV": 10182.0,
+   "opp_cost_if_pool_else_in_0050": 22500.0,
+   "EV_minus_opp": -12318.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "dec_amt",
+   "year": 2020,
+   "n_apps": 76,
+   "net_EV": 9987.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -20013.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "dec_amt",
+   "year": 2021,
+   "n_apps": 105,
+   "net_EV": 10102.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -19898.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "dec_amt",
+   "year": 2022,
+   "n_apps": 104,
+   "net_EV": 9804.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -20196.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "dec_amt",
+   "year": 2023,
+   "n_apps": 112,
+   "net_EV": 5869.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -24131.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "dec_amt",
+   "year": 2024,
+   "n_apps": 117,
+   "net_EV": 10580.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -19420.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "dec_amt",
+   "year": 2025,
+   "n_apps": 107,
+   "net_EV": 9175.0,
+   "opp_cost_if_pool_else_in_0050": 30000.0,
+   "EV_minus_opp": -20825.0
+  },
+  {
+   "cash_pool": 300000,
+   "priority": "dec_amt",
+   "year": 2026,
+   "n_apps": 79,
+   "net_EV": 10182.0,
+   "opp_cost_if_pool_else_in_0050": 22500.0,
+   "EV_minus_opp": -12318.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "ret_dec",
+   "year": 2020,
+   "n_apps": 80,
+   "net_EV": 11313.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -38687.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "ret_dec",
+   "year": 2021,
+   "n_apps": 118,
+   "net_EV": 11858.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -38142.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "ret_dec",
+   "year": 2022,
+   "n_apps": 114,
+   "net_EV": 12212.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -37788.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "ret_dec",
+   "year": 2023,
+   "n_apps": 123,
+   "net_EV": 6976.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -43024.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "ret_dec",
+   "year": 2024,
+   "n_apps": 140,
+   "net_EV": 14991.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -35009.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "ret_dec",
+   "year": 2025,
+   "n_apps": 126,
+   "net_EV": 12492.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -37508.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "ret_dec",
+   "year": 2026,
+   "n_apps": 88,
+   "net_EV": 11291.0,
+   "opp_cost_if_pool_else_in_0050": 37500.0,
+   "EV_minus_opp": -26209.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "dec_amt",
+   "year": 2020,
+   "n_apps": 80,
+   "net_EV": 11313.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -38687.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "dec_amt",
+   "year": 2021,
+   "n_apps": 118,
+   "net_EV": 11858.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -38142.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "dec_amt",
+   "year": 2022,
+   "n_apps": 114,
+   "net_EV": 12212.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -37788.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "dec_amt",
+   "year": 2023,
+   "n_apps": 123,
+   "net_EV": 6976.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -43024.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "dec_amt",
+   "year": 2024,
+   "n_apps": 140,
+   "net_EV": 14991.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -35009.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "dec_amt",
+   "year": 2025,
+   "n_apps": 125,
+   "net_EV": 12426.0,
+   "opp_cost_if_pool_else_in_0050": 50000.0,
+   "EV_minus_opp": -37574.0
+  },
+  {
+   "cash_pool": 500000,
+   "priority": "dec_amt",
+   "year": 2026,
+   "n_apps": 88,
+   "net_EV": 11291.0,
+   "opp_cost_if_pool_else_in_0050": 37500.0,
+   "EV_minus_opp": -26209.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "ret_dec",
+   "year": 2020,
+   "n_apps": 86,
+   "net_EV": 11544.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -88456.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "ret_dec",
+   "year": 2021,
+   "n_apps": 121,
+   "net_EV": 16963.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -83037.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "ret_dec",
+   "year": 2022,
+   "n_apps": 117,
+   "net_EV": 13627.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -86373.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "ret_dec",
+   "year": 2023,
+   "n_apps": 127,
+   "net_EV": 8038.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -91962.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "ret_dec",
+   "year": 2024,
+   "n_apps": 149,
+   "net_EV": 17916.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -82084.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "ret_dec",
+   "year": 2025,
+   "n_apps": 135,
+   "net_EV": 18621.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -81379.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "ret_dec",
+   "year": 2026,
+   "n_apps": 93,
+   "net_EV": 14230.0,
+   "opp_cost_if_pool_else_in_0050": 75000.0,
+   "EV_minus_opp": -60770.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "dec_amt",
+   "year": 2020,
+   "n_apps": 86,
+   "net_EV": 11544.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -88456.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "dec_amt",
+   "year": 2021,
+   "n_apps": 121,
+   "net_EV": 16963.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -83037.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "dec_amt",
+   "year": 2022,
+   "n_apps": 117,
+   "net_EV": 13627.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -86373.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "dec_amt",
+   "year": 2023,
+   "n_apps": 127,
+   "net_EV": 8038.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -91962.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "dec_amt",
+   "year": 2024,
+   "n_apps": 149,
+   "net_EV": 17916.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -82084.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "dec_amt",
+   "year": 2025,
+   "n_apps": 135,
+   "net_EV": 18621.0,
+   "opp_cost_if_pool_else_in_0050": 100000.0,
+   "EV_minus_opp": -81379.0
+  },
+  {
+   "cash_pool": 1000000,
+   "priority": "dec_amt",
+   "year": 2026,
+   "n_apps": 93,
+   "net_EV": 14230.0,
+   "opp_cost_if_pool_else_in_0050": 75000.0,
+   "EV_minus_opp": -60770.0
+  }
+ ],
+ "fund_by_selling_0050": [
+  {
+   "policy": "P0_全部申購",
+   "year": 2020,
+   "net_EV": 2771.0,
+   "e50_roundtrip_cost_if_each_app_funded": 24615.0,
+   "e50_cost_disc_plus_out_of_market": 23757.0,
+   "apps_with_EV_below_e50_cost_pct": 84.1
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2021,
+   "net_EV": 32898.0,
+   "e50_roundtrip_cost_if_each_app_funded": 36478.0,
+   "e50_cost_disc_plus_out_of_market": 35206.0,
+   "apps_with_EV_below_e50_cost_pct": 85.9
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2022,
+   "net_EV": -511.0,
+   "e50_roundtrip_cost_if_each_app_funded": 35073.0,
+   "e50_cost_disc_plus_out_of_market": 33851.0,
+   "apps_with_EV_below_e50_cost_pct": 84.8
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2023,
+   "net_EV": 9413.0,
+   "e50_roundtrip_cost_if_each_app_funded": 36750.0,
+   "e50_cost_disc_plus_out_of_market": 35469.0,
+   "apps_with_EV_below_e50_cost_pct": 88.3
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2024,
+   "net_EV": 19727.0,
+   "e50_roundtrip_cost_if_each_app_funded": 51948.0,
+   "e50_cost_disc_plus_out_of_market": 50137.0,
+   "apps_with_EV_below_e50_cost_pct": 85.6
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2025,
+   "net_EV": 53922.0,
+   "e50_roundtrip_cost_if_each_app_funded": 61524.0,
+   "e50_cost_disc_plus_out_of_market": 59379.0,
+   "apps_with_EV_below_e50_cost_pct": 82.4
+  },
+  {
+   "policy": "P0_全部申購",
+   "year": 2026,
+   "net_EV": 16430.0,
+   "e50_roundtrip_cost_if_each_app_funded": 35918.0,
+   "e50_cost_disc_plus_out_of_market": 34666.0,
+   "apps_with_EV_below_e50_cost_pct": 85.0
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2020,
+   "net_EV": 11544.0,
+   "e50_roundtrip_cost_if_each_app_funded": 20233.0,
+   "e50_cost_disc_plus_out_of_market": 19528.0,
+   "apps_with_EV_below_e50_cost_pct": 82.6
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2021,
+   "net_EV": 16963.0,
+   "e50_roundtrip_cost_if_each_app_funded": 31611.0,
+   "e50_cost_disc_plus_out_of_market": 30509.0,
+   "apps_with_EV_below_e50_cost_pct": 88.4
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2022,
+   "net_EV": 13627.0,
+   "e50_roundtrip_cost_if_each_app_funded": 31673.0,
+   "e50_cost_disc_plus_out_of_market": 30569.0,
+   "apps_with_EV_below_e50_cost_pct": 85.5
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2023,
+   "net_EV": 8038.0,
+   "e50_roundtrip_cost_if_each_app_funded": 34314.0,
+   "e50_cost_disc_plus_out_of_market": 33118.0,
+   "apps_with_EV_below_e50_cost_pct": 90.6
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2024,
+   "net_EV": 17916.0,
+   "e50_roundtrip_cost_if_each_app_funded": 47826.0,
+   "e50_cost_disc_plus_out_of_market": 46159.0,
+   "apps_with_EV_below_e50_cost_pct": 87.9
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2025,
+   "net_EV": 44141.0,
+   "e50_roundtrip_cost_if_each_app_funded": 54438.0,
+   "e50_cost_disc_plus_out_of_market": 52540.0,
+   "apps_with_EV_below_e50_cost_pct": 85.5
+  },
+  {
+   "policy": "P1_決策價差≥5%",
+   "year": 2026,
+   "net_EV": 16152.0,
+   "e50_roundtrip_cost_if_each_app_funded": 29907.0,
+   "e50_cost_disc_plus_out_of_market": 28864.0,
+   "apps_with_EV_below_e50_cost_pct": 86.2
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2020,
+   "net_EV": 6221.0,
+   "e50_roundtrip_cost_if_each_app_funded": 18144.0,
+   "e50_cost_disc_plus_out_of_market": 17512.0,
+   "apps_with_EV_below_e50_cost_pct": 84.0
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2021,
+   "net_EV": 11022.0,
+   "e50_roundtrip_cost_if_each_app_funded": 25446.0,
+   "e50_cost_disc_plus_out_of_market": 24559.0,
+   "apps_with_EV_below_e50_cost_pct": 89.5
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2022,
+   "net_EV": 10823.0,
+   "e50_roundtrip_cost_if_each_app_funded": 28800.0,
+   "e50_cost_disc_plus_out_of_market": 27796.0,
+   "apps_with_EV_below_e50_cost_pct": 86.9
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2023,
+   "net_EV": 7683.0,
+   "e50_roundtrip_cost_if_each_app_funded": 33007.0,
+   "e50_cost_disc_plus_out_of_market": 31857.0,
+   "apps_with_EV_below_e50_cost_pct": 91.5
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2024,
+   "net_EV": 16030.0,
+   "e50_roundtrip_cost_if_each_app_funded": 41292.0,
+   "e50_cost_disc_plus_out_of_market": 39852.0,
+   "apps_with_EV_below_e50_cost_pct": 88.5
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2025,
+   "net_EV": 41678.0,
+   "e50_roundtrip_cost_if_each_app_funded": 49464.0,
+   "e50_cost_disc_plus_out_of_market": 47740.0,
+   "apps_with_EV_below_e50_cost_pct": 88.7
+  },
+  {
+   "policy": "P2_決策價差≥10%",
+   "year": 2026,
+   "net_EV": 15738.0,
+   "e50_roundtrip_cost_if_each_app_funded": 28449.0,
+   "e50_cost_disc_plus_out_of_market": 27458.0,
+   "apps_with_EV_below_e50_cost_pct": 86.4
+  }
+ ],
+ "price_risk": {
+  "IPO": {
+   "drift_end_to_open": {
+    "n": 282,
+    "mean": -0.0912,
+    "median": -0.0868,
+    "p05": -0.241,
+    "p25": -0.1465,
+    "p75": -0.0375,
+    "p95": 0.0672,
+    "share_neg": 0.851
+   },
+   "drift_lottery_to_open": {
+    "n": 6,
+    "mean": 0.03,
+    "median": 0.0728,
+    "p05": -0.1129,
+    "p25": -0.0234,
+    "p75": 0.102,
+    "p95": 0.1106,
+    "share_neg": 0.333
+   },
+   "ret_end_basis": {
+    "n": 282,
+    "mean": 0.5101,
+    "median": 0.3958,
+    "p05": 0.1306,
+    "p25": 0.2721,
+    "p75": 0.608,
+    "p95": 1.1834,
+    "share_neg": 0.0
+   },
+   "ret_open": {
+    "n": 304,
+    "mean": 0.3938,
+    "median": 0.2731,
+    "p05": -0.0003,
+    "p25": 0.1384,
+    "p75": 0.5175,
+    "p95": 1.1846,
+    "share_neg": 0.053
+   },
+   "ret_close": {
+    "n": 304,
+    "mean": 0.4293,
+    "median": 0.2809,
+    "p05": 0.0021,
+    "p25": 0.1519,
+    "p75": 0.5477,
+    "p95": 1.3604,
+    "share_neg": 0.049
+   },
+   "ret_vwap": {
+    "n": 304,
+    "mean": 0.4048,
+    "median": 0.2705,
+    "p05": -0.0029,
+    "p25": 0.1391,
+    "p75": 0.5205,
+    "p95": 1.2118,
+    "share_neg": 0.053
+   },
+   "break_open_pct": 5.26,
+   "break_close_pct": 4.93,
+   "net_loss_pct": 6.91,
+   "avg_loss_when_break_ret": -0.0306,
+   "avg_loss_when_break_NT": -3755.0,
+   "worst5": [
+    [
+     "112/10/13",
+     "達發",
+     "6526",
+     "434.84",
+     "542.0",
+     "410.0",
+     "1.75",
+     "-26704.25"
+    ],
+    [
+     "113/06/12",
+     "共信-KY",
+     "6617",
+     "141.16",
+     "160.5",
+     "130.5",
+     "2.63",
+     "-11287.462500000009"
+    ],
+    [
+     "114/11/12",
+     "東方風能",
+     "7786",
+     "168.0",
+     "189.0",
+     "159.0",
+     "2.77",
+     "-9753.575000000012"
+    ],
+    [
+     "115/07/22",
+     "大鵬科",
+     "7689",
+     "180.53",
+     "202.0",
+     "172.0",
+     "2.06",
+     "-9341.100000000006"
+    ],
+    [
+     "113/06/06",
+     "大武山",
+     "6952",
+     "57.13",
+     "68.5",
+     "50.2",
+     "0.9",
+     "-7202.135000000002"
+    ]
+   ]
+  },
+  "現增": {
+   "drift_end_to_open": {
+    "n": 633,
+    "mean": -0.0203,
+    "median": -0.0256,
+    "p05": -0.1304,
+    "p25": -0.0642,
+    "p75": 0.0083,
+    "p95": 0.1064,
+    "share_neg": 0.684
+   },
+   "drift_lottery_to_open": {
+    "n": 633,
+    "mean": -0.0154,
+    "median": -0.0214,
+    "p05": -0.1058,
+    "p25": -0.0526,
+    "p75": 0.0095,
+    "p95": 0.1122,
+    "share_neg": 0.689
+   },
+   "ret_end_basis": {
+    "n": 633,
+    "mean": 0.2253,
+    "median": 0.175,
+    "p05": 0.0214,
+    "p25": 0.0833,
+    "p75": 0.3031,
+    "p95": 0.598,
+    "share_neg": 0.017
+   },
+   "ret_open": {
+    "n": 647,
+    "mean": 0.1932,
+    "median": 0.14,
+    "p05": -0.0195,
+    "p25": 0.0492,
+    "p75": 0.2768,
+    "p95": 0.5624,
+    "share_neg": 0.088
+   },
+   "ret_close": {
+    "n": 647,
+    "mean": 0.1983,
+    "median": 0.1417,
+    "p05": -0.0267,
+    "p25": 0.0514,
+    "p75": 0.285,
+    "p95": 0.5853,
+    "share_neg": 0.1
+   },
+   "ret_vwap": {
+    "n": 647,
+    "mean": 0.1968,
+    "median": 0.1375,
+    "p05": -0.0198,
+    "p25": 0.0486,
+    "p75": 0.2829,
+    "p95": 0.5664,
+    "share_neg": 0.094
+   },
+   "break_open_pct": 8.81,
+   "break_close_pct": 10.05,
+   "net_loss_pct": 12.67,
+   "avg_loss_when_break_ret": -0.0381,
+   "avg_loss_when_break_NT": -2225.0,
+   "worst5": [
+    [
+     "111/06/28",
+     "高端疫苗",
+     "6547",
+     "220.0",
+     "226.0",
+     "177.5",
+     "27.45",
+     "-43335.4375"
+    ],
+    [
+     "113/07/29",
+     "東哥遊艇",
+     "8478",
+     "335.0",
+     "364.5",
+     "303.5",
+     "1.05",
+     "-32892.98749999999"
+    ],
+    [
+     "109/03/23",
+     "百德",
+     "4563",
+     "40.0",
+     "34.05",
+     "33.25",
+     "100.0",
+     "-6947.1312499999985"
+    ],
+    [
+     "114/03/26",
+     "德晉",
+     "3466",
+     "50.0",
+     "52.0",
+     "43.65",
+     "8.12",
+     "-6593.151250000003"
+    ],
+    [
+     "112/08/24",
+     "和潤企業乙特",
+     "6592B",
+     "100.0",
+     NaN,
+     "94.0",
+     "22.43",
+     "-6465.949999999997"
+    ]
+   ]
+  },
+  "P1_篩選後": {
+   "n": 832,
+   "break_open_pct": 3.25,
+   "net_loss_pct": 4.81,
+   "exp_loss_wins_per_year": 0.351
+  },
+  "決策價差<5%的列": {
+   "n": 83,
+   "avg_win_rate_pct": 26.67,
+   "net_loss_pct": 57.8,
+   "sum_ev": -11629.0
+  }
+ },
+ "multi_win_tail": {
+  "2020": {
+   "sim_p01": -1720.0,
+   "sim_min": -4170.0,
+   "sum_neg_if_all_neg_win": -6543.0
+  },
+  "2021": {
+   "sim_p01": -2420.0,
+   "sim_min": -2420.0,
+   "sum_neg_if_all_neg_win": -2420.0
+  },
+  "2022": {
+   "sim_p01": -1532.0,
+   "sim_min": -2052.0,
+   "sum_neg_if_all_neg_win": -3540.0
+  },
+  "2023": {
+   "sim_p01": -25819.0,
+   "sim_min": -29244.0,
+   "sum_neg_if_all_neg_win": -29472.0
+  },
+  "2024": {
+   "sim_p01": -14267.0,
+   "sim_min": -47160.0,
+   "sum_neg_if_all_neg_win": -56376.0
+  },
+  "2025": {
+   "sim_p01": -7534.0,
+   "sim_min": -14335.0,
+   "sum_neg_if_all_neg_win": -18400.0
+  },
+  "2026": {
+   "sim_p01": -9150.0,
+   "sim_min": -15588.0,
+   "sum_neg_if_all_neg_win": -23484.0
+  }
+ },
+ "same_E_date_count": {
+  "max": 6,
+  "mean": 1.42
+ },
+ "main_table": [
+  {
+   "year": 2020,
+   "n_apps": 86,
+   "exp_wins": 1.76,
+   "gross_EV_sum_p_gain": 13264.0,
+   "fees_20": 1720.0,
+   "net_EV": 11544.0,
+   "sim_p10": -1720.0,
+   "sim_median": 3254.0,
+   "sim_p90": 37042.0,
+   "sim_prob_neg": 0.236,
+   "max_frozen": 691234.0,
+   "p95_frozen": 308456.0,
+   "mean_frozen": 88550.0,
+   "max_single_lot": 498000.0,
+   "P0_net_EV": 2771.0,
+   "P0_orig_basis": 575.0
+  },
+  {
+   "year": 2021,
+   "n_apps": 121,
+   "exp_wins": 1.85,
+   "gross_EV_sum_p_gain": 19383.0,
+   "fees_20": 2420.0,
+   "net_EV": 16963.0,
+   "sim_p10": -2420.0,
+   "sim_median": 4607.0,
+   "sim_p90": 50459.0,
+   "sim_prob_neg": 0.289,
+   "max_frozen": 925070.0,
+   "p95_frozen": 470557.0,
+   "mean_frozen": 139035.0,
+   "max_single_lot": 718000.0,
+   "P0_net_EV": 32898.0,
+   "P0_orig_basis": 19486.0
+  },
+  {
+   "year": 2022,
+   "n_apps": 117,
+   "exp_wins": 4.82,
+   "gross_EV_sum_p_gain": 15967.0,
+   "fees_20": 2340.0,
+   "net_EV": 13627.0,
+   "sim_p10": -584.0,
+   "sim_median": 7515.0,
+   "sim_p90": 30717.0,
+   "sim_prob_neg": 0.148,
+   "max_frozen": 930622.0,
+   "p95_frozen": 443892.0,
+   "mean_frozen": 136653.0,
+   "max_single_lot": 760000.0,
+   "P0_net_EV": -511.0,
+   "P0_orig_basis": 24809.0
+  },
+  {
+   "year": 2023,
+   "n_apps": 127,
+   "exp_wins": 1.75,
+   "gross_EV_sum_p_gain": 10578.0,
+   "fees_20": 2540.0,
+   "net_EV": 8038.0,
+   "sim_p10": -2540.0,
+   "sim_median": 1334.0,
+   "sim_p90": 24419.0,
+   "sim_prob_neg": 0.416,
+   "max_frozen": 807052.0,
+   "p95_frozen": 515192.0,
+   "mean_frozen": 150832.0,
+   "max_single_lot": 660000.0,
+   "P0_net_EV": 9413.0,
+   "P0_orig_basis": 14150.0
+  },
+  {
+   "year": 2024,
+   "n_apps": 149,
+   "exp_wins": 2.42,
+   "gross_EV_sum_p_gain": 20896.0,
+   "fees_20": 2980.0,
+   "net_EV": 17916.0,
+   "sim_p10": -2980.0,
+   "sim_median": 4471.0,
+   "sim_p90": 59954.0,
+   "sim_prob_neg": 0.311,
+   "max_frozen": 785565.0,
+   "p95_frozen": 643376.0,
+   "mean_frozen": 210435.0,
+   "max_single_lot": 508000.0,
+   "P0_net_EV": 19727.0,
+   "P0_orig_basis": 23248.0
+  },
+  {
+   "year": 2025,
+   "n_apps": 138,
+   "exp_wins": 2.86,
+   "gross_EV_sum_p_gain": 46901.0,
+   "fees_20": 2760.0,
+   "net_EV": 44141.0,
+   "sim_p10": -1727.0,
+   "sim_median": 5676.0,
+   "sim_p90": 70061.0,
+   "sim_prob_neg": 0.227,
+   "max_frozen": 1980050.0,
+   "p95_frozen": 839896.0,
+   "mean_frozen": 236574.0,
+   "max_single_lot": 1495000.0,
+   "P0_net_EV": 53922.0,
+   "P0_orig_basis": 46903.0
+  },
+  {
+   "year": 2026,
+   "n_apps": 94,
+   "exp_wins": 1.9,
+   "gross_EV_sum_p_gain": 18032.0,
+   "fees_20": 1880.0,
+   "net_EV": 16152.0,
+   "sim_p10": -2313.0,
+   "sim_median": 769.0,
+   "sim_p90": 25053.0,
+   "sim_prob_neg": 0.453,
+   "max_frozen": 1193906.0,
+   "p95_frozen": 514350.0,
+   "mean_frozen": 158479.0,
+   "max_single_lot": 780000.0,
+   "P0_net_EV": 16430.0,
+   "P0_orig_basis": 28844.0
+  }
+ ],
+ "summary_2020_2025_P1": {
+  "median_net_EV": 15295.0,
+  "worst_year": 2023,
+  "worst_net_EV": 8038.0,
+  "mean_net_EV": 18705.0
+ }
+}
